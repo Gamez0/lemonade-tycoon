@@ -21,7 +21,7 @@ export class BuySupplies extends Phaser.GameObjects.Container {
         this.tabUI.on('tabSelected', this.onTabSelected, this);
         this.selectedTabIndex = 0; // Initialize selectedTabIndex
 
-        this.buyLemonUI = new BuyLemon(scene, 0, 100, 0, 2);
+        this.buyLemonUI = new BuyLemon(scene, 0, 100, 12, 4.8);
         this.tempUI = new BuyLemon(scene, 0, 100, 0, 2);
         
 
