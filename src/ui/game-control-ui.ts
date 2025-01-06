@@ -1,6 +1,14 @@
 import { BuySupplies } from "./buy-supplies";
 import { TabUI } from "./tab-ui";
 
+
+const SUPPLIES_LIMIT = {
+    LEMON: 100,
+    SUGAR: 100,
+    ICE: 1000,
+    CUP: 1000
+}
+
 export class GameControlUI extends Phaser.GameObjects.Container {
     tabUI: TabUI;
     selectedTabIndex: number;
