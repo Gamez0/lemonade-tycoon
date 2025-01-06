@@ -1,29 +1,23 @@
 import Phaser from 'phaser';
+import { Supplies } from '../models/supplies';
 
 export class SupplyStatusUI extends Phaser.GameObjects.Container {
-    private lemon: number;
-    private sugar: number;
-    private ice: number;
-    private cup: number;
+    private supplies: Supplies;
 
-    constructor(scene: Phaser.Scene, x: number, y: number, lemon: number, sugar: number, ice: number, cup: number) {
+    constructor(scene: Phaser.Scene, x: number, y: number, supplies: Supplies) {
         super(scene, x, y);
 
-        this.lemon = lemon;
-        this.sugar = sugar;
-        this.ice = ice;
-        this.cup = cup;
-
+        this.supplies = supplies;
         this.renderInventory();
         scene.add.existing(this);
     }
 
     private renderInventory() {
         const items = [
-            { label: 'Lemon: ', value: this.lemon },
-            { label: 'Sugar: ', value: this.sugar },
-            { label: 'Ice: ', value: this.ice },
-            { label: 'Cup: ', value: this.cup }
+            { label: 'Lemon: ', value: this.supplies.lemon },
+            { label: 'Sugar: ', value: this.supplies.sugar },
+            { label: 'Ice: ', value: this.supplies.ice },
+            { label: 'Cup: ', value: this.supplies.cup }
         ];
 
         let xPosition = 0; // Starting y position
@@ -42,11 +36,12 @@ export class SupplyStatusUI extends Phaser.GameObjects.Container {
         });
     }
 
+    // CHECK: 이게 public이어야 하는지 확인
     public updateSupplies(lemon: number, sugar: number, ice: number, cup: number) {
-        this.lemon = lemon;
-        this.sugar = sugar;
-        this.ice = ice;
-        this.cup = cup;
+        this.supplies.lemon = lemon;
+        this.supplies.sugar = sugar;
+        this.supplies.ice = ice;
+        this.supplies.cup = cup;
         this.removeAll(true); // Remove all current text elements
         this.renderInventory(); // Re-render the inventory with updated values
     }
