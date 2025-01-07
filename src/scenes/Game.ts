@@ -12,7 +12,7 @@ export class Game extends Scene {
     private supplies: Supplies;
     supplyStatusContainer: SupplyStatusContainer;
     budgetContainer: BudgetContainer;
-    gameControlUI: GameControlUI;
+    gameControlUI: GameControlUI; // REFEACTOR: Change to ...Container
       
 
     constructor() {
