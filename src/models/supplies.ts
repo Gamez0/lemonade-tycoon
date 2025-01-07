@@ -19,7 +19,7 @@ export class Supplies extends Phaser.Events.EventEmitter {
 
     setLemon(value: number) {
         this._lemon = value;
-        this.emit('lemonAmountChanged', this._lemon);
+        this.emit('lemonChanged', this._lemon);
     }
 
     get sugar(): number {
@@ -28,7 +28,7 @@ export class Supplies extends Phaser.Events.EventEmitter {
 
     setSugar(value: number) {
         this._sugar = value;
-        this.emit('sugarAmountChanged', this._sugar);
+        this.emit('sugarChanged', this._sugar);
     }
 
     get ice(): number {
@@ -37,7 +37,7 @@ export class Supplies extends Phaser.Events.EventEmitter {
 
     setIce(value: number) {
         this._ice = value;
-        this.emit('iceAmountChanged', this._ice);
+        this.emit('iceChanged', this._ice);
     }
 
     get cup(): number {
@@ -46,6 +46,6 @@ export class Supplies extends Phaser.Events.EventEmitter {
 
     setCup(value: number) {
         this._cup = value;
-        this.emit('cupAmountChanged', this._cup);
+        this.emit('cupChanged', this._cup);
     }
 }
