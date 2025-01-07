@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { Supplies } from '../models/supplies';
 
-export class SupplyStatusUI extends Phaser.GameObjects.Container {
+export class SupplyStatusContainer extends Phaser.GameObjects.Container {
     private supplies: Supplies;
 
     constructor(scene: Phaser.Scene, x: number, y: number, supplies: Supplies) {
