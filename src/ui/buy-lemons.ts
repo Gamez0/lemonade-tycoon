@@ -1,45 +1,36 @@
-import { BuyItem } from "./buy-item";
+import { ItemPurchaseContainer } from "./item-purchase-container";
 
 export class BuyLemons extends Phaser.GameObjects.Container {
-    buy12lemons: BuyItem;
-    buy24lemons: BuyItem;
-    buy48lemons: BuyItem;
-    private totalPrice: number;
+    firstOption: ItemPurchaseContainer;
+    secondOption: ItemPurchaseContainer;
+    thirdOption: ItemPurchaseContainer;
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y);
-        this.totalPrice = 0;
-        
+
         const itemName = "lemons";
         
-        this.buy12lemons = new BuyItem(scene, 0, 0, itemName, 12, 4.8);
-        this.buy24lemons = new BuyItem(scene, 0, 50, itemName, 24, 7.2);
-        this.buy48lemons = new BuyItem(scene, 0, 100, itemName, 48, 9.6);
+        this.firstOption = new ItemPurchaseContainer(scene, 0, 0, itemName, 12, 4.8);
+        this.secondOption = new ItemPurchaseContainer(scene, 0, 50, itemName, 24, 7.2);
+        this.thirdOption = new ItemPurchaseContainer(scene, 0, 100, itemName, 48, 9.6);
 
-        this.buy12lemons.on('update', this.updateTotal, this);
-        this.buy24lemons.on('update', this.updateTotal, this);
-        this.buy48lemons.on('update', this.updateTotal, this);
-
-        this.add([this.buy12lemons, this.buy24lemons, this.buy48lemons]);
+        this.add([this.firstOption, this.secondOption, this.thirdOption]);
         scene.add.existing(this);
     }
 
-    private updateTotal() {
-        this.totalPrice = this.buy12lemons.getTotalPrice() + this.buy24lemons.getTotalPrice() + this.buy48lemons.getTotalPrice();
-    }
 
     public getTotalPrice() {
-        return this.totalPrice;
+        return this.firstOption.getTotalPrice() + this.secondOption.getTotalPrice() + this.thirdOption.getTotalPrice();
     };
 
     // get how many lemons are bought
     public getAmount() {
-        return this.buy12lemons.getAmount() + this.buy24lemons.getAmount() + this.buy48lemons.getAmount();
+        return this.firstOption.getAmount() + this.secondOption.getAmount() + this.thirdOption.getAmount();
     }
 
     public reset() {
-        this.buy12lemons.reset();
-        this.buy24lemons.reset();
-        this.buy48lemons.reset();
+        this.firstOption.reset();
+        this.secondOption.reset();
+        this.thirdOption.reset();
     }
 }
