@@ -1,8 +1,5 @@
 import { TextButton } from "./TextButton";
-import { BuyCups } from "./buy-cups";
-import { BuyIce } from "./buy-ice";
-import { BuyLemons } from "./buy-lemons";
-import { BuySugar } from "./buy-sugar";
+import { BuyLemons, BuySugar, BuyIce, BuyCups } from "./buy-items";
 import { SuppliesTotalAmount, SuppliesTotalPrice } from "./game-control-ui";
 import { TabUI } from "./tab-ui";
 
