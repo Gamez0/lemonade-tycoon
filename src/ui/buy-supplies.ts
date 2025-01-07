@@ -1,3 +1,4 @@
+import { TextButton } from "./TextButton";
 import { BuyCups } from "./buy-cups";
 import { BuyIce } from "./buy-ice";
 import { BuyLemons } from "./buy-lemons";
@@ -14,11 +15,13 @@ export class BuySupplies extends Phaser.GameObjects.Container {
     private buyIceUI: BuyIce;
     private buyCupsUI: BuyCups;
     private purchaseSupplies: Function;
+    private buyButton: TextButton;
 
     constructor(scene: Phaser.Scene, x: number, y: number, purchaseSupplies: Function) {
         super(scene, x, y);
         this.title = scene.add.text(0, 0, 'Buy Supplies', { fontSize: '24px' });
         this.description = scene.add.text(0, 25, 'Select the supplies you want to buy', { fontSize: '16px' });
+        
 
         this.tabUI = new TabUI(scene, 0, 50, ['Lemons', 'Sugar', 'Ice', 'Cups']);
         this.tabUI.on('tabSelected', this.onTabSelected, this);
@@ -29,9 +32,13 @@ export class BuySupplies extends Phaser.GameObjects.Container {
         this.buyIceUI = new BuyIce(scene, 0, 100);
         this.buyCupsUI = new BuyCups(scene, 0, 100);
 
+        this.buyButton = new TextButton(scene, 250, 260, 'Buy');
+        this.buyButton.setInteractive();
+        this.buyButton.on('pointerdown', this.onBuyButtonClicked, this);
+
         this.purchaseSupplies = purchaseSupplies;
 
-        this.add([this.title, this.description, this.tabUI, this.buyLemonUI, this.buySugarUI, this.buyIceUI, this.buyCupsUI]);
+        this.add([this.title, this.description, this.buyButton, this.tabUI, this.buyLemonUI, this.buySugarUI, this.buyIceUI, this.buyCupsUI]);
         scene.add.existing(this);
         this.updateUI();
     }
@@ -49,7 +56,7 @@ export class BuySupplies extends Phaser.GameObjects.Container {
         const sugarTotal = this.buySugarUI.getTotal();
         const iceTotal = this.buyIceUI.getTotal();
         const cupsTotal = this.buyCupsUI.getTotal();
-
+        console.log('buy button clicked', lemonTotal, sugarTotal, iceTotal, cupsTotal);
         this.purchaseSupplies(lemonTotal, sugarTotal, iceTotal, cupsTotal);
 
         // 구매했을 때
