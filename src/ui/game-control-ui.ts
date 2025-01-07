@@ -1,5 +1,5 @@
 import { Supplies } from "../models/supplies";
-import { BuySupplies } from "./buy-supplies";
+import { BuySuppliesContainer } from "./buy-supplies-container";
 import { TabUI } from "./tab-ui";
 
 
@@ -27,7 +27,7 @@ export interface SuppliesTotalAmount {
 export class GameControlUI extends Phaser.GameObjects.Container {
     tabUI: TabUI;
     selectedTabIndex: number;
-    buySuppliesUI: BuySupplies;
+    buySuppliesContainer: BuySuppliesContainer;
     recipeUI: Phaser.GameObjects.Container;
     private getBudgetAmount: () => number;
     private setBudgetAmount: (value: number) => void;
@@ -46,7 +46,7 @@ export class GameControlUI extends Phaser.GameObjects.Container {
 
         
         // TODO: 이친구 한테 구매할 수 있는 기능을 전달해줘야 함
-        this.buySuppliesUI = new BuySupplies(scene, 50, 125, this.purchaseSupplies);
+        this.buySuppliesContainer = new BuySuppliesContainer(scene, 50, 125, this.purchaseSupplies);
         
         scene.add.existing(this);
         this.updateUI();
@@ -97,12 +97,12 @@ export class GameControlUI extends Phaser.GameObjects.Container {
         this.supplies.setIce(this.supplies.ice + iceTotalAmount);
         this.supplies.setCup(this.supplies.cup + cupsTotalAmount);
 
-        this.buySuppliesUI.reset();
+        this.buySuppliesContainer.reset();
     }
 
     updateUI() {
         // Hide all UI elements
-        this.buySuppliesUI.setVisible(false);
+        this.buySuppliesContainer.setVisible(false);
         // this.RecipeUI.setVisible(false);
 
         // Show UI elements based on selected tab
@@ -111,7 +111,7 @@ export class GameControlUI extends Phaser.GameObjects.Container {
                 this.recipeUI.setVisible(true);
                 break;
             case 6:
-                this.buySuppliesUI.setVisible(true);
+                this.buySuppliesContainer.setVisible(true);
                 break;
             default:
                 break;

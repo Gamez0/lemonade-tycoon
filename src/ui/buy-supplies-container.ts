@@ -3,7 +3,7 @@ import { BuyLemons, BuySugar, BuyIce, BuyCups } from "./buy-items";
 import { SuppliesTotalAmount, SuppliesTotalPrice } from "./game-control-ui";
 import { TabUI } from "./tab-ui";
 
-export class BuySupplies extends Phaser.GameObjects.Container {
+export class BuySuppliesContainer extends Phaser.GameObjects.Container {
     private title: Phaser.GameObjects.Text;
     private description: Phaser.GameObjects.Text;
     tabUI: TabUI;
