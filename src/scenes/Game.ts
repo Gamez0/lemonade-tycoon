@@ -1,6 +1,6 @@
 import { Scene } from 'phaser';
 import { SupplyStatusUI } from '../ui/supply-status-ui';
-import { BudgetUI } from '../ui/budget-ui';
+import { BudgetContainer } from '../ui/budget-container';
 import { GameControlUI } from '../ui/game-control-ui';
 import { Supplies } from '../models/supplies';
 import { Budget } from '../models/budget';
@@ -11,7 +11,7 @@ export class Game extends Scene {
     private budget: Budget;
     private supplies: Supplies;
     supplyStatusUI: SupplyStatusUI;
-    budgetUI: BudgetUI;
+    budgetContainer: BudgetContainer;
     gameControlUI: GameControlUI;
       
 
@@ -30,7 +30,7 @@ export class Game extends Scene {
         this.background.setAlpha(0.5);
 
         this.supplyStatusUI = new SupplyStatusUI(this, 50, 25, this.supplies);
-        this.budgetUI = new BudgetUI(this, 924, 50, this.budget);
+        this.budgetContainer = new BudgetContainer(this, 924, 50, this.budget);
         this.gameControlUI = new GameControlUI(this, 50, 75, this.budget.getAmount, this.budget.setAmount , this.supplies);
     }
 }

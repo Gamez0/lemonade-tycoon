@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { Budget } from '../models/budget';
 
-export class BudgetUI extends Phaser.GameObjects.Container {
+export class BudgetContainer extends Phaser.GameObjects.Container {
     private budget: Budget;
     private budgetText: Phaser.GameObjects.Text;
 
