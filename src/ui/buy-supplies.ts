@@ -46,12 +46,7 @@ export class BuySupplies extends Phaser.GameObjects.Container {
         this.updateUI();
     }
 
-    // TODO: buy button 만들어야 함
-
     onBuyButtonClicked() {
-        // check selected items
-        
-
         const totalPrice: SuppliesTotalPrice = {
             lemonTotalPrice: this.buyLemonUI.getTotalPrice(),
             sugarTotalPrice: this.buySugarUI.getTotalPrice(),
@@ -67,10 +62,6 @@ export class BuySupplies extends Phaser.GameObjects.Container {
         }
 
         this.purchaseSupplies(totalPrice, totalAmount);
-
-        // 구매했을 때
-
-        // 구매가 안됐을 때
     }
 
     updateUI() {
