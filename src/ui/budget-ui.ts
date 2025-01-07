@@ -26,6 +26,6 @@ export class BudgetUI extends Phaser.GameObjects.Container {
     }
 
     public updateBudget(budget: number) {
-        this.budgetText.setText(`Budget: ${budget}`);
+        this.budgetText.setText(`Budget: ${budget.toFixed(2)}`);
     }
 }
