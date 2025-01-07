@@ -1,4 +1,3 @@
-import { Budget } from "../models/budget";
 import { Supplies } from "../models/supplies";
 import { BuySupplies } from "./buy-supplies";
 import { TabUI } from "./tab-ui";
@@ -16,16 +15,19 @@ export class GameControlUI extends Phaser.GameObjects.Container {
     selectedTabIndex: number;
     buySuppliesUI: BuySupplies;
     recipeUI: Phaser.GameObjects.Container;
-    private budget: Budget;
+    private getBudgetAmount: () => number;
+    private setBudgetAmount: (value: number) => void;
     private supplies: Supplies;
     
-    constructor(scene: Phaser.Scene, x: number, y: number, budget:Budget, supplies:Supplies) {
+    constructor(scene: Phaser.Scene, x: number, y: number, getBudgetAmount:() => number, setBudgetAmount:(value: number) => void, supplies:Supplies) {
         super(scene, x, y);
         this.tabUI = new TabUI(scene, 50, 75 ,[
             'Results', 'Rent', 'Upgrades', 'Staff', 'Marketing', 'Recipe', 'Supplies']);
         this.tabUI.on('tabSelected', this.onTabSelected, this);
         this.selectedTabIndex = 0; // Initialize selectedTabIndex
-        this.budget = budget;
+        
+        this.getBudgetAmount = getBudgetAmount;
+        this.setBudgetAmount = setBudgetAmount;
         this.supplies = supplies;
 
         
@@ -42,11 +44,13 @@ export class GameControlUI extends Phaser.GameObjects.Container {
     }
 
     // TODO: need better name for this function
-    private purchaseSupplies (lemonTotal: number, sugarTotal: number, iceTotal: number, cupsTotal: number) {
+    private purchaseSupplies = (lemonTotal: number, sugarTotal: number, iceTotal: number, cupsTotal: number) => {
         // receive the total amount of each item by parameter
 
+        const currentBudget: number = this.getBudgetAmount();
+
         // check the total is not higher than the budget
-        if(lemonTotal + sugarTotal + iceTotal + cupsTotal > this.budget.amount) {
+        if(lemonTotal + sugarTotal + iceTotal + cupsTotal > currentBudget) {
             // if it is, show an alert message
             alert("You don't have enough budget to buy all the supplies");
             return;
@@ -70,11 +74,13 @@ export class GameControlUI extends Phaser.GameObjects.Container {
             return;
         }
         // if it is not, update the budget and the total amount of each item
-        this.budget.amount -= lemonTotal + sugarTotal + iceTotal + cupsTotal;
-        this.supplies.lemon += lemonTotal;
-        this.supplies.sugar += sugarTotal;
-        this.supplies.ice += iceTotal;
-        this.supplies.cup += cupsTotal;
+        const newAmount = currentBudget - (lemonTotal + sugarTotal + iceTotal + cupsTotal);
+        this.setBudgetAmount(newAmount);
+
+        this.supplies.setLemon(this.supplies.lemon + lemonTotal);
+        this.supplies.setSugar(this.supplies.sugar + sugarTotal);
+        this.supplies.setIce(this.supplies.ice + iceTotal);
+        this.supplies.setCup(this.supplies.cup + cupsTotal);
     }
 
     updateUI() {

@@ -30,8 +30,8 @@ export class Game extends Scene {
         this.background.setAlpha(0.5);
 
         this.supplyStatusUI = new SupplyStatusUI(this, 50, 25, this.supplies);
-        this.budgetUI = new BudgetUI(this, 924, 50, this.budget.amount);
-        this.gameControlUI = new GameControlUI(this, 50, 75, this.budget, this.supplies);
+        this.budgetUI = new BudgetUI(this, 924, 50, this.budget);
+        this.gameControlUI = new GameControlUI(this, 50, 75, this.budget.getAmount, this.budget.setAmount , this.supplies);
     }
 }
 
