@@ -10,6 +10,20 @@ const SUPPLIES_LIMIT = {
     CUP: 1000
 }
 
+export interface SuppliesTotalPrice {
+    lemonTotalPrice: number;
+    sugarTotalPrice: number;
+    iceTotalPrice: number;
+    cupsTotalPrice: number;
+}
+
+export interface SuppliesTotalAmount {
+    lemonTotalAmount: number;
+    sugarTotalAmount: number;
+    iceTotalAmount: number;
+    cupsTotalAmount: number;
+}
+
 export class GameControlUI extends Phaser.GameObjects.Container {
     tabUI: TabUI;
     selectedTabIndex: number;
@@ -44,43 +58,46 @@ export class GameControlUI extends Phaser.GameObjects.Container {
     }
 
     // TODO: need better name for this function
-    private purchaseSupplies = (lemonTotal: number, sugarTotal: number, iceTotal: number, cupsTotal: number) => {
-        // receive the total amount of each item by parameter
 
+    
+
+    private purchaseSupplies = (totalPrice: SuppliesTotalPrice, totalAmount: SuppliesTotalAmount) => {
+        const { lemonTotalPrice, sugarTotalPrice, iceTotalPrice, cupsTotalPrice } = totalPrice;
+        const { lemonTotalAmount, sugarTotalAmount, iceTotalAmount, cupsTotalAmount } = totalAmount;
         const currentBudget: number = this.getBudgetAmount();
 
-        // check the total is not higher than the budget
-        if(lemonTotal + sugarTotal + iceTotal + cupsTotal > currentBudget) {
-            // if it is, show an alert message
+        const totalCost = lemonTotalPrice + sugarTotalPrice + iceTotalPrice + cupsTotalPrice;
+        if (totalCost > currentBudget) {
             alert("You don't have enough budget to buy all the supplies");
             return;
         }
 
-        // if it is not check the limit of each item and show an alert message if it is higher than the limit
-        if(lemonTotal + this.supplies.lemon > SUPPLIES_LIMIT.LEMON) {
-            alert("You can't have more than 100 lemons");
+        const exceedsLimit = (amount: number, limit: number, itemName: string) => {
+            if (amount > limit) {
+                alert(`You can't have more than ${limit} ${itemName}`);
+                return true;
+            }
+            return false;
+        };
+
+        if (
+            exceedsLimit(lemonTotalAmount + this.supplies.lemon, SUPPLIES_LIMIT.LEMON, 'lemons') ||
+            exceedsLimit(sugarTotalAmount + this.supplies.sugar, SUPPLIES_LIMIT.SUGAR, 'sugars') ||
+            exceedsLimit(iceTotalAmount + this.supplies.ice, SUPPLIES_LIMIT.ICE, 'ices') ||
+            exceedsLimit(cupsTotalAmount + this.supplies.cup, SUPPLIES_LIMIT.CUP, 'cups')
+        ) {
             return;
         }
-        if(sugarTotal + this.supplies.sugar > SUPPLIES_LIMIT.SUGAR) {
-            alert("You can't have more than 100 sugars");
-            return;
-        }
-        if(iceTotal + this.supplies.ice > SUPPLIES_LIMIT.ICE) {
-            alert("You can't have more than 1000 ices");
-            return;
-        }
-        if(cupsTotal + this.supplies.cup > SUPPLIES_LIMIT.CUP) {
-            alert("You can't have more than 1000 cups");
-            return;
-        }
-        // if it is not, update the budget and the total amount of each item
-        const newAmount = currentBudget - (lemonTotal + sugarTotal + iceTotal + cupsTotal);
+
+        const newAmount = currentBudget - totalCost;
         this.setBudgetAmount(newAmount);
 
-        this.supplies.setLemon(this.supplies.lemon + lemonTotal);
-        this.supplies.setSugar(this.supplies.sugar + sugarTotal);
-        this.supplies.setIce(this.supplies.ice + iceTotal);
-        this.supplies.setCup(this.supplies.cup + cupsTotal);
+        this.supplies.setLemon(this.supplies.lemon + lemonTotalAmount);
+        this.supplies.setSugar(this.supplies.sugar + sugarTotalAmount);
+        this.supplies.setIce(this.supplies.ice + iceTotalAmount);
+        this.supplies.setCup(this.supplies.cup + cupsTotalAmount);
+
+        this.buySuppliesUI.reset();
     }
 
     updateUI() {

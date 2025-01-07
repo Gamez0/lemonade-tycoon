@@ -9,6 +9,29 @@ export class SupplyStatusUI extends Phaser.GameObjects.Container {
 
         this.supplies = supplies;
         this.renderInventory();
+
+        // TODO: each event listener should render only the text element that has changed
+        this.supplies.on('lemonChanged', (lemon: number) => {
+            this.removeAll(true); // Remove all current text elements
+            this.renderInventory(); // Re-render the inventory with updated values
+        });
+
+        this.supplies.on('sugarChanged', (sugar: number) => {
+            this.removeAll(true); // Remove all current text elements
+            this.renderInventory(); // Re-render the inventory with updated values
+        });
+
+        this.supplies.on('iceChanged', (ice: number) => {
+            this.removeAll(true); // Remove all current text elements
+            this.renderInventory(); // Re-render the inventory with updated values
+        });
+
+        this.supplies.on('cupChanged', (cup: number) => {
+            this.removeAll(true); // Remove all current text elements
+            this.renderInventory(); // Re-render the inventory with updated values
+        });
+
+
         scene.add.existing(this);
     }
 
@@ -37,12 +60,12 @@ export class SupplyStatusUI extends Phaser.GameObjects.Container {
     }
 
     // CHECK: 이게 public이어야 하는지 확인
-    public updateSupplies(lemon: number, sugar: number, ice: number, cup: number) {
-        this.supplies.lemon = lemon;
-        this.supplies.sugar = sugar;
-        this.supplies.ice = ice;
-        this.supplies.cup = cup;
-        this.removeAll(true); // Remove all current text elements
-        this.renderInventory(); // Re-render the inventory with updated values
-    }
+    // public updateSupplies(lemon: number, sugar: number, ice: number, cup: number) {
+    //     this.supplies.lemon = lemon;
+    //     this.supplies.sugar = sugar;
+    //     this.supplies.ice = ice;
+    //     this.supplies.cup = cup;
+    //     this.removeAll(true); // Remove all current text elements
+    //     this.renderInventory(); // Re-render the inventory with updated values
+    // }
 }

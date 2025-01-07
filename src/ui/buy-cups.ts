@@ -17,7 +17,17 @@ export class BuyCups extends Phaser.GameObjects.Container {
         scene.add.existing(this);
     }
 
-    public getTotal() {
+    public getTotalPrice() {
         return this.firstOption.getTotalPrice() + this.secondOption.getTotalPrice() + this.thirdOption.getTotalPrice();
     };
+
+    public getAmount() {
+        return this.firstOption.getAmount() + this.secondOption.getAmount() + this.thirdOption.getAmount();
+    }
+
+    public reset() {
+        this.firstOption.reset();
+        this.secondOption.reset();
+        this.thirdOption.reset();
+    }
 }

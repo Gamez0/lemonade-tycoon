@@ -17,10 +17,17 @@ export class BuySugar extends Phaser.GameObjects.Container {
         scene.add.existing(this);
     }
 
-    public getTotal() {
+    public getTotalPrice() {
         return this.firstOption.getTotalPrice() + this.secondOption.getTotalPrice() + this.thirdOption.getTotalPrice();
     };
-}
 
-// ice 50 1 200 3 500 5
-// cups 75 1 225 2.35 400 3.75
+    public getAmount() {
+        return this.firstOption.getAmount() + this.secondOption.getAmount() + this.thirdOption.getAmount();
+    }
+
+    public reset() {
+        this.firstOption.reset();
+        this.secondOption.reset();
+        this.thirdOption.reset();
+    }
+}

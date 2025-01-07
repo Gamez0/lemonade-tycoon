@@ -3,6 +3,7 @@ import { BuyCups } from "./buy-cups";
 import { BuyIce } from "./buy-ice";
 import { BuyLemons } from "./buy-lemons";
 import { BuySugar } from "./buy-sugar";
+import { SuppliesTotalAmount, SuppliesTotalPrice } from "./game-control-ui";
 import { TabUI } from "./tab-ui";
 
 export class BuySupplies extends Phaser.GameObjects.Container {
@@ -14,10 +15,10 @@ export class BuySupplies extends Phaser.GameObjects.Container {
     private buySugarUI: BuySugar;
     private buyIceUI: BuyIce;
     private buyCupsUI: BuyCups;
-    private purchaseSupplies: Function;
+    private purchaseSupplies: (totalPrice: SuppliesTotalPrice, totalAmount: SuppliesTotalAmount) => void;
     private buyButton: TextButton;
 
-    constructor(scene: Phaser.Scene, x: number, y: number, purchaseSupplies: Function) {
+    constructor(scene: Phaser.Scene, x: number, y: number, purchaseSupplies: (totalPrice: SuppliesTotalPrice, totalAmount: SuppliesTotalAmount) => void) {
         super(scene, x, y);
         this.title = scene.add.text(0, 0, 'Buy Supplies', { fontSize: '24px' });
         this.description = scene.add.text(0, 25, 'Select the supplies you want to buy', { fontSize: '16px' });
@@ -52,12 +53,23 @@ export class BuySupplies extends Phaser.GameObjects.Container {
 
     onBuyButtonClicked() {
         // check selected items
-        const lemonTotal = this.buyLemonUI.getTotal();
-        const sugarTotal = this.buySugarUI.getTotal();
-        const iceTotal = this.buyIceUI.getTotal();
-        const cupsTotal = this.buyCupsUI.getTotal();
-        console.log('buy button clicked', lemonTotal, sugarTotal, iceTotal, cupsTotal);
-        this.purchaseSupplies(lemonTotal, sugarTotal, iceTotal, cupsTotal);
+        
+
+        const totalPrice: SuppliesTotalPrice = {
+            lemonTotalPrice: this.buyLemonUI.getTotalPrice(),
+            sugarTotalPrice: this.buySugarUI.getTotalPrice(),
+            iceTotalPrice: this.buyIceUI.getTotalPrice(),
+            cupsTotalPrice: this.buyCupsUI.getTotalPrice()
+        }
+
+        const totalAmount: SuppliesTotalAmount = {
+            lemonTotalAmount: this.buyLemonUI.getAmount(),
+            sugarTotalAmount: this.buySugarUI.getAmount(),
+            iceTotalAmount: this.buyIceUI.getAmount(),
+            cupsTotalAmount: this.buyCupsUI.getAmount()
+        }
+
+        this.purchaseSupplies(totalPrice, totalAmount);
 
         // 구매했을 때
 
@@ -87,5 +99,13 @@ export class BuySupplies extends Phaser.GameObjects.Container {
             default:
                 break;
         }
+    }
+
+    // Reset all the values
+    reset() {
+        this.buyLemonUI.reset();
+        this.buySugarUI.reset();
+        this.buyIceUI.reset();
+        this.buyCupsUI.reset();
     }
 }

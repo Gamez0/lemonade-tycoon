@@ -9,12 +9,14 @@ export class BuyItem extends Phaser.GameObjects.Container {
     private bundlesToBuyText: Phaser.GameObjects.Text;
     private price: number;
     private totalPrice: number;
+    private perBundle: number;
 
 
     constructor(scene: Phaser.Scene, x: number, y: number, itemName: string, perBundle: number, price: number) {
         super(scene, x, y);
         this.price = price;
         this.totalPrice = 0;
+        this.perBundle = perBundle;
 
         this.subtractButton = new TextButton(scene, 0, 0, '-', { fontSize: '24px' });
         this.subtractButton.setInteractive();
@@ -75,5 +77,17 @@ export class BuyItem extends Phaser.GameObjects.Container {
 
     public getTotalPrice() {
         return this.totalPrice;
+    }
+
+    // get the total amount of the item
+    public getAmount() {
+        return this.bundlesToBuy * this.perBundle;
+    }
+
+    public reset() {
+        this.bundlesToBuy = 0;
+        this.updateTotalPrice();
+        this.bundlesToBuyText.setText(this.bundlesToBuy.toString());
+        this.updateButtonVisibility();
     }
 }

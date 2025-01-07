@@ -4,11 +4,11 @@ export class BuyLemons extends Phaser.GameObjects.Container {
     buy12lemons: BuyItem;
     buy24lemons: BuyItem;
     buy48lemons: BuyItem;
-    private total: number;
+    private totalPrice: number;
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y);
-        this.total = 0;
+        this.totalPrice = 0;
         
         const itemName = "lemons";
         
@@ -25,11 +25,21 @@ export class BuyLemons extends Phaser.GameObjects.Container {
     }
 
     private updateTotal() {
-        this.total = this.buy12lemons.getTotalPrice() + this.buy24lemons.getTotalPrice() + this.buy48lemons.getTotalPrice();
-        console.log(this.total);
+        this.totalPrice = this.buy12lemons.getTotalPrice() + this.buy24lemons.getTotalPrice() + this.buy48lemons.getTotalPrice();
     }
 
-    public getTotal() {
-        return this.total;
+    public getTotalPrice() {
+        return this.totalPrice;
     };
+
+    // get how many lemons are bought
+    public getAmount() {
+        return this.buy12lemons.getAmount() + this.buy24lemons.getAmount() + this.buy48lemons.getAmount();
+    }
+
+    public reset() {
+        this.buy12lemons.reset();
+        this.buy24lemons.reset();
+        this.buy48lemons.reset();
+    }
 }
