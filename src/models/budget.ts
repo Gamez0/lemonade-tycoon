@@ -14,6 +14,6 @@ export class Budget extends Phaser.Events.EventEmitter{
 
     setAmount = (value: number) => {
         this._amount = value;
-        this.emit('budgetAmountChanged', this._amount);
+        this.emit('change', this._amount);
     }
 }
