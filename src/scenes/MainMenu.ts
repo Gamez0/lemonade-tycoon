@@ -18,7 +18,7 @@ export class MainMenu extends Scene {
     // Create method to set up the scene's content
     create() {
         // TEMP: 계속 클릭하기 귀찮아서 바로 게임으로 넘어가게 수정
-        this.scene.start('preperation');
+        this.scene.start('preparation');
         // Add a background image at coordinates (512, 384) with the key 'background'
         this.background = this.add.image(512, 384, 'background');
 
