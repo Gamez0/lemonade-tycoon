@@ -1,6 +1,6 @@
 import { TextButton } from "./TextButton";
 import { BuyLemons, BuySugar, BuyIce, BuyCups } from "./buy-items";
-import { SuppliesTotalAmount, SuppliesTotalPrice } from "./game-control-ui";
+import { SuppliesTotalAmount, SuppliesTotalPrice } from "./game-control-container";
 import { TabUI } from "./tab-ui";
 
 export class BuySuppliesContainer extends Phaser.GameObjects.Container {

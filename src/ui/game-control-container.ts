@@ -1,3 +1,4 @@
+import { Budget } from "../models/budget";
 import { Supplies } from "../models/supplies";
 import { BuySuppliesContainer } from "./buy-supplies-container";
 import { TabUI } from "./tab-ui";
@@ -24,24 +25,22 @@ export interface SuppliesTotalAmount {
     cupsTotalAmount: number;
 }
 
-export class GameControlUI extends Phaser.GameObjects.Container {
+export class GameControlContainer extends Phaser.GameObjects.Container {
     tabUI: TabUI;
     selectedTabIndex: number;
     buySuppliesContainer: BuySuppliesContainer;
     recipeUI: Phaser.GameObjects.Container;
-    private getBudgetAmount: () => number;
-    private setBudgetAmount: (value: number) => void;
+    budget: Budget;
     private supplies: Supplies;
     
-    constructor(scene: Phaser.Scene, x: number, y: number, getBudgetAmount:() => number, setBudgetAmount:(value: number) => void, supplies:Supplies) {
+    constructor(scene: Phaser.Scene, x: number, y: number, budget: Budget, supplies:Supplies) {
         super(scene, x, y);
         this.tabUI = new TabUI(scene, 50, 75 ,[
             'Results', 'Rent', 'Upgrades', 'Staff', 'Marketing', 'Recipe', 'Supplies']);
         this.tabUI.on('tabSelected', this.onTabSelected, this);
         this.selectedTabIndex = 0; // Initialize selectedTabIndex
         
-        this.getBudgetAmount = getBudgetAmount;
-        this.setBudgetAmount = setBudgetAmount;
+        this.budget = budget;
         this.supplies = supplies;
 
         
@@ -64,7 +63,7 @@ export class GameControlUI extends Phaser.GameObjects.Container {
     private purchaseSupplies = (totalPrice: SuppliesTotalPrice, totalAmount: SuppliesTotalAmount) => {
         const { lemonTotalPrice, sugarTotalPrice, iceTotalPrice, cupsTotalPrice } = totalPrice;
         const { lemonTotalAmount, sugarTotalAmount, iceTotalAmount, cupsTotalAmount } = totalAmount;
-        const currentBudget: number = this.getBudgetAmount();
+        const currentBudget: number = this.budget.getAmount();
 
         const totalCost = lemonTotalPrice + sugarTotalPrice + iceTotalPrice + cupsTotalPrice;
         if (totalCost > currentBudget) {
@@ -90,7 +89,7 @@ export class GameControlUI extends Phaser.GameObjects.Container {
         }
 
         const newAmount = currentBudget - totalCost;
-        this.setBudgetAmount(newAmount);
+        this.budget.setAmount(newAmount);
 
         this.supplies.setLemon(this.supplies.lemon + lemonTotalAmount);
         this.supplies.setSugar(this.supplies.sugar + sugarTotalAmount);
