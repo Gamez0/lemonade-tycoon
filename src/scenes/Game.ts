@@ -1,7 +1,7 @@
 import { Scene } from 'phaser';
 import { SupplyStatusContainer } from '../ui/supply-status-container';
 import { BudgetContainer } from '../ui/budget-container';
-import { GameControlUI } from '../ui/game-control-ui';
+import { GameControlContainer } from '../ui/game-control-container';
 import { Supplies } from '../models/supplies';
 import { Budget } from '../models/budget';
 
@@ -12,7 +12,7 @@ export class Game extends Scene {
     private supplies: Supplies;
     supplyStatusContainer: SupplyStatusContainer;
     budgetContainer: BudgetContainer;
-    gameControlUI: GameControlUI; // REFEACTOR: Change to ...Container
+    gameControlUI: GameControlContainer;
       
 
     constructor() {
@@ -31,7 +31,7 @@ export class Game extends Scene {
 
         this.supplyStatusContainer = new SupplyStatusContainer(this, 50, 25, this.supplies);
         this.budgetContainer = new BudgetContainer(this, 924, 50, this.budget);
-        this.gameControlUI = new GameControlUI(this, 50, 75, this.budget.getAmount, this.budget.setAmount , this.supplies);
+        this.gameControlUI = new GameControlContainer(this, 50, 75, this.budget , this.supplies);
     }
 }
 
