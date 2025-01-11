@@ -7,6 +7,15 @@ import { Preloader } from './scenes/Preloader';
 
 import { Game, Types } from "phaser";
 
+// Catch global errors and display them in an alert so users can report the issue.
+window.onerror = function (message, source, lineno, colno, error) {
+    console.error(error);
+    // const errorString = `Received unhandled error. Open browser console and click OK to see details.\nError: ${message}\nSource: ${source}\nLine: ${lineno}\nColumn: ${colno}\nStack: ${error.stack}`;
+    //alert(errorString);
+    // Avoids logging the error a second time.
+    return true;
+  };
+
 //  Find out more information about the Game Config at:
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
 const config: Types.Core.GameConfig = {
