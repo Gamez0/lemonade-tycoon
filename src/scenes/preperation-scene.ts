@@ -5,7 +5,7 @@ import { GameControlContainer } from '../ui/game-control-container';
 import { Supplies } from '../models/supplies';
 import { Budget } from '../models/budget';
 
-export class Game extends Scene {
+export class PreperationScene extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
     background: Phaser.GameObjects.Image;
     private budget: Budget;
@@ -16,7 +16,7 @@ export class Game extends Scene {
       
 
     constructor() {
-        super('Game');
+        super('preperation');
         this.budget = new Budget(100);
         this.supplies = new Supplies(0,0,0,0);
         

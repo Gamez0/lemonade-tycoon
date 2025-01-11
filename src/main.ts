@@ -1,5 +1,5 @@
 import { Boot } from './scenes/Boot';
-import { Game as MainGame } from './scenes/Game';
+import { PreperationScene as MainGame } from './scenes/preperation-scene';
 import { TicTacToe as TestGame } from './scenes/TicTacToe';
 import { GameOver } from './scenes/GameOver';
 import { MainMenu } from './scenes/MainMenu';
