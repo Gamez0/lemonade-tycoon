@@ -16,6 +16,13 @@ window.onerror = function (message, source, lineno, colno, error) {
     return true;
   };
 
+// Catch global promise rejections and display them in an alert so users can report the issue.
+window.addEventListener("unhandledrejection", (event) => {
+    // const errorString = `Received unhandled promise rejection. Open browser console and click OK to see details.\nReason: ${event.reason}`;
+    console.error(event.reason);
+    //alert(errorString);
+});
+
 //  Find out more information about the Game Config at:
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
 const config: Types.Core.GameConfig = {
