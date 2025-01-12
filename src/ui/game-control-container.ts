@@ -1,15 +1,8 @@
+import { SUPPLIES_LIMIT } from "../constants";
 import { Budget } from "../models/budget";
 import { Supplies } from "../models/supplies";
 import { BuySuppliesContainer } from "./buy-supplies-container";
 import { TabUI } from "./tab-ui";
-
-
-const SUPPLIES_LIMIT = {
-    LEMON: 100,
-    SUGAR: 100,
-    ICE: 1000,
-    CUP: 1000
-}
 
 export interface SuppliesTotalPrice {
     lemonTotalPrice: number;
