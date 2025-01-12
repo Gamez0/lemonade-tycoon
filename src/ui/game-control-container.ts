@@ -2,6 +2,7 @@ import { SUPPLIES_LIMIT } from "../constants";
 import { Budget } from "../models/budget";
 import { Supplies } from "../models/supplies";
 import { BuySuppliesContainer } from "./buy-supplies-container";
+import { ReceipeContainer } from "./receipe-container";
 import { TabUI } from "./tab-ui";
 
 export interface SuppliesTotalPrice {
@@ -18,11 +19,11 @@ export interface SuppliesTotalAmount {
     cupsTotalAmount: number;
 }
 
-export class GameControlContainer extends Phaser.GameObjects.Container {
+export class GameControlContainer extends Phaser.GameObjects.Container { // TODO: need better name for this class
     tabUI: TabUI;
     selectedTabIndex: number;
     buySuppliesContainer: BuySuppliesContainer;
-    recipeUI: Phaser.GameObjects.Container;
+    receipeContainer: ReceipeContainer;
     budget: Budget;
     private supplies: Supplies;
     
@@ -35,10 +36,9 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
         
         this.budget = budget;
         this.supplies = supplies;
-
         
-        // TODO: 이친구 한테 구매할 수 있는 기능을 전달해줘야 함
         this.buySuppliesContainer = new BuySuppliesContainer(scene, 50, 125, this.purchaseSupplies);
+        this.receipeContainer = new ReceipeContainer(scene, 50, 125);
         
         scene.add.existing(this);
         this.updateUI();
@@ -48,10 +48,6 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
         this.selectedTabIndex = tabIndex;
         this.updateUI();
     }
-
-    // TODO: need better name for this function
-
-    
 
     private purchaseSupplies = (totalPrice: SuppliesTotalPrice, totalAmount: SuppliesTotalAmount) => {
         const { lemonTotalPrice, sugarTotalPrice, iceTotalPrice, cupsTotalPrice } = totalPrice;
@@ -95,12 +91,12 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
     updateUI() {
         // Hide all UI elements
         this.buySuppliesContainer.setVisible(false);
-        // this.RecipeUI.setVisible(false);
+        this.receipeContainer.setVisible(false);
 
         // Show UI elements based on selected tab
         switch(this.selectedTabIndex) {
-            case 1:
-                this.recipeUI.setVisible(true);
+            case 5:
+                this.receipeContainer.setVisible(true);
                 break;
             case 6:
                 this.buySuppliesContainer.setVisible(true);
