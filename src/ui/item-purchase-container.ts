@@ -1,3 +1,5 @@
+import { MinusButton } from "./minus-button";
+import { PlusButton } from "./plus-button";
 import { TextButton } from "./text-button";
 
 export class ItemPurchaseContainer extends Phaser.GameObjects.Container {
@@ -18,7 +20,7 @@ export class ItemPurchaseContainer extends Phaser.GameObjects.Container {
         this.totalPrice = 0;
         this.perBundle = perBundle;
 
-        this.subtractButton = new TextButton(scene, 0, 0, '-', { fontSize: '24px' });
+        this.subtractButton = new MinusButton(scene, 0, 0);
         this.subtractButton.setInteractive();
         this.subtractButton.on('pointerdown', this.onSubtractButtonClicked, this);
 
@@ -27,7 +29,7 @@ export class ItemPurchaseContainer extends Phaser.GameObjects.Container {
 
         this.bundlesToBuyText = scene.add.text(250, 0, '0', { fontSize: '24px' });
 
-        this.addButton = new TextButton(scene, 300, 0, '+', { fontSize: '24px' });
+        this.addButton = new PlusButton(scene, 300, 0);
         this.addButton.setInteractive();
         this.addButton.on('pointerdown', this.onAddButtonClicked, this);
         
