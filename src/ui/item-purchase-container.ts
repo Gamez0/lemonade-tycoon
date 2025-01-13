@@ -1,4 +1,4 @@
-import { TextButton } from "./TextButton";
+import { TextButton } from "./text-button";
 
 export class ItemPurchaseContainer extends Phaser.GameObjects.Container {
     private addButton: TextButton;

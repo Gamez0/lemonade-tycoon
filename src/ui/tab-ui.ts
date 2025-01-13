@@ -1,4 +1,4 @@
-import { TextButton } from "./TextButton";
+import { TextButton } from "./text-button";
 
 export class TabUI extends Phaser.GameObjects.Container {
     private buttonStyle: Phaser.Types.GameObjects.Text.TextStyle;
