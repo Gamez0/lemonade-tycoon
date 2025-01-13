@@ -2,7 +2,7 @@ import { SUPPLIES_LIMIT } from "../constants";
 import { Budget } from "../models/budget";
 import { Supplies } from "../models/supplies";
 import { BuySuppliesContainer } from "./buy-supplies-container";
-import { ReceipeContainer } from "./receipe-container";
+import { RecipeContainer } from "./recipe-container";
 import { TabUI } from "./tab-ui";
 
 export interface SuppliesTotalPrice {
@@ -23,7 +23,7 @@ export class GameControlContainer extends Phaser.GameObjects.Container { // TODO
     tabUI: TabUI;
     selectedTabIndex: number;
     buySuppliesContainer: BuySuppliesContainer;
-    receipeContainer: ReceipeContainer;
+    receipeContainer: RecipeContainer;
     budget: Budget;
     private supplies: Supplies;
     
@@ -38,7 +38,7 @@ export class GameControlContainer extends Phaser.GameObjects.Container { // TODO
         this.supplies = supplies;
         
         this.buySuppliesContainer = new BuySuppliesContainer(scene, 50, 125, this.purchaseSupplies);
-        this.receipeContainer = new ReceipeContainer(scene, 50, 125);
+        this.receipeContainer = new RecipeContainer(scene, 50, 125);
         
         scene.add.existing(this);
         this.updateUI();
