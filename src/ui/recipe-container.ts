@@ -1,4 +1,5 @@
 import { Recipe } from "../models/recipe";
+import { Supplies } from "../models/supplies";
 import { MinusButton } from "./minus-button";
 import { PlusButton } from "./plus-button";
 
@@ -15,13 +16,14 @@ export class RecipeContainer extends Phaser.GameObjects.Container {
     private lemonText: Phaser.GameObjects.Text;
     private sugarText: Phaser.GameObjects.Text;
     private iceText: Phaser.GameObjects.Text;
+    private supplies: Supplies;
 
-    constructor(scene: Phaser.Scene, x: number, y: number) {
+    constructor(scene: Phaser.Scene, x: number, y: number, supplies: Supplies) {
         super(scene, x, y);
         this.title = scene.add.text(0, 0, 'Recipe', { fontSize: '24px' });
         this.description = scene.add.text(0, 25, 'Tweak your recipe according to the temperature, adding more \nice when needed. \nAlways keep a good balance between all ingredients.', { fontSize: '16px' });
-        
-        this.loadRecipe();
+        this.supplies = supplies;
+        this.recipe = new Recipe(1, 1, 1, this.supplies);
 
         this.createLemonControls(scene);
         this.createSugarControls(scene);
@@ -104,9 +106,5 @@ export class RecipeContainer extends Phaser.GameObjects.Container {
                 }
                 break;
         }
-    }
-
-    private loadRecipe() {
-        this.recipe = new Recipe(1, 1, 1);
     }
 }

@@ -18,7 +18,7 @@ export class PreparationScene extends Scene {
     constructor() {
         super('preparation');
         this.budget = new Budget(100);
-        this.supplies = new Supplies(0,0,0,0);
+        this.supplies = new Supplies(0, 0, 0, 0, 0, 0, 0, 0);
         
     }
 

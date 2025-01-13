@@ -23,7 +23,7 @@ export class GameControlContainer extends Phaser.GameObjects.Container { // TODO
     tabUI: TabUI;
     selectedTabIndex: number;
     buySuppliesContainer: BuySuppliesContainer;
-    receipeContainer: RecipeContainer;
+    recipeContainer: RecipeContainer;
     budget: Budget;
     private supplies: Supplies;
     
@@ -38,7 +38,7 @@ export class GameControlContainer extends Phaser.GameObjects.Container { // TODO
         this.supplies = supplies;
         
         this.buySuppliesContainer = new BuySuppliesContainer(scene, 50, 125, this.purchaseSupplies);
-        this.receipeContainer = new RecipeContainer(scene, 50, 125);
+        this.recipeContainer = new RecipeContainer(scene, 50, 125, this.supplies);
         
         scene.add.existing(this);
         this.updateUI();
@@ -80,10 +80,10 @@ export class GameControlContainer extends Phaser.GameObjects.Container { // TODO
         const newAmount = currentBudget - totalCost;
         this.budget.setAmount(newAmount);
 
-        this.supplies.setLemon(this.supplies.lemon + lemonTotalAmount);
-        this.supplies.setSugar(this.supplies.sugar + sugarTotalAmount);
-        this.supplies.setIce(this.supplies.ice + iceTotalAmount);
-        this.supplies.setCup(this.supplies.cup + cupsTotalAmount);
+        this.supplies.lemon = this.supplies.lemon + lemonTotalAmount;
+        this.supplies.sugar = this.supplies.sugar + sugarTotalAmount;
+        this.supplies.ice = this.supplies.ice + iceTotalAmount;
+        this.supplies.cup = this.supplies.cup + cupsTotalAmount;
 
         this.buySuppliesContainer.reset();
     }
@@ -91,12 +91,12 @@ export class GameControlContainer extends Phaser.GameObjects.Container { // TODO
     updateUI() {
         // Hide all UI elements
         this.buySuppliesContainer.setVisible(false);
-        this.receipeContainer.setVisible(false);
+        this.recipeContainer.setVisible(false);
 
         // Show UI elements based on selected tab
         switch(this.selectedTabIndex) {
             case 5:
-                this.receipeContainer.setVisible(true);
+                this.recipeContainer.setVisible(true);
                 break;
             case 6:
                 this.buySuppliesContainer.setVisible(true);
