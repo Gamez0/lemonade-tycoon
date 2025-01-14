@@ -80,10 +80,10 @@ export class GameControlContainer extends Phaser.GameObjects.Container { // TODO
         const newAmount = currentBudget - totalCost;
         this.budget.setAmount(newAmount);
 
-        this.supplies.lemon = this.supplies.lemon + lemonTotalAmount;
-        this.supplies.sugar = this.supplies.sugar + sugarTotalAmount;
-        this.supplies.ice = this.supplies.ice + iceTotalAmount;
-        this.supplies.cup = this.supplies.cup + cupsTotalAmount;
+        this.supplies.lemon += lemonTotalAmount;
+        this.supplies.sugar += sugarTotalAmount;
+        this.supplies.ice += iceTotalAmount;
+        this.supplies.cup += cupsTotalAmount;
 
         this.buySuppliesContainer.reset();
     }
