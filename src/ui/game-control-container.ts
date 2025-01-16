@@ -3,6 +3,7 @@ import { Budget } from "../models/budget";
 import { Supplies } from "../models/supplies";
 import { BuySuppliesContainer } from "./buy-supplies-container";
 import { RecipeContainer } from "./recipe-container";
+import { RentContainer } from "./rent-container";
 import { TabUI } from "./tab-ui";
 
 export interface SuppliesTotalPrice {
@@ -22,6 +23,7 @@ export interface SuppliesTotalAmount {
 export class GameControlContainer extends Phaser.GameObjects.Container { // TODO: need better name for this class
     tabUI: TabUI;
     selectedTabIndex: number;
+    rentContainer: RentContainer;
     buySuppliesContainer: BuySuppliesContainer;
     recipeContainer: RecipeContainer;
     budget: Budget;
@@ -37,6 +39,7 @@ export class GameControlContainer extends Phaser.GameObjects.Container { // TODO
         this.budget = budget;
         this.supplies = supplies;
         
+        this.rentContainer = new RentContainer(scene, 50, 125);
         this.buySuppliesContainer = new BuySuppliesContainer(scene, 50, 125, this.purchaseSupplies);
         this.recipeContainer = new RecipeContainer(scene, 50, 125, this.supplies);
         
@@ -90,11 +93,15 @@ export class GameControlContainer extends Phaser.GameObjects.Container { // TODO
 
     updateUI() {
         // Hide all UI elements
+        // this.rentContainer.setVisible(false);
         this.buySuppliesContainer.setVisible(false);
         this.recipeContainer.setVisible(false);
 
         // Show UI elements based on selected tab
         switch(this.selectedTabIndex) {
+            case 1:
+                // this.rentContainer.setVisible(true);
+                break;
             case 5:
                 this.recipeContainer.setVisible(true);
                 break;
