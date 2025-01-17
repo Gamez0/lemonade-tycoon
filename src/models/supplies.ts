@@ -4,10 +4,12 @@ export class Supplies extends Phaser.Events.EventEmitter {
     private _sugar: number;
     private _ice: number;
     private _cup: number;
+    // TODO: 구매할 때마다 평단가 업데이트
     private _lemonAveragePrice: number;
     private _sugarAveragePrice: number;
     private _iceAveragePrice: number;
     private _cupAveragePrice: number;
+
 
     constructor(lemon: number, sugar: number, ice: number, cup: number, lemonAveragePrice: number, sugarAveragePrice: number, iceAveragePrice: number, cupAveragePrice: number) {
         super();
