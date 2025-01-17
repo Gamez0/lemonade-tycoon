@@ -17,6 +17,8 @@ export class RecipeContainer extends Phaser.GameObjects.Container {
     private sugarText: Phaser.GameObjects.Text;
     private iceText: Phaser.GameObjects.Text;
     private supplies: Supplies;
+    private cupsPerPitcherText: Phaser.GameObjects.Text;
+    private costPerCupText: Phaser.GameObjects.Text;
 
     constructor(scene: Phaser.Scene, x: number, y: number, supplies: Supplies) {
         super(scene, x, y);
@@ -29,11 +31,20 @@ export class RecipeContainer extends Phaser.GameObjects.Container {
         this.createSugarControls(scene);
         this.createIceControls(scene);
 
+        this.cupsPerPitcherText = scene.add.text(50, 250, 'Cups per pitcher: ' + this.recipe.cupsPerPitcher.toString(), { fontSize: '24px' });
+        this.costPerCupText = scene.add.text(50, 300, 'Cost per cup: $' + this.recipe.costPerCup.toFixed(2), { fontSize: '24px' });
+
+        this.recipe.on('change', (recipe: Recipe) => {
+            this.cupsPerPitcherText.setText('Cups per pitcher: ' + recipe.cupsPerPitcher.toString());
+            this.costPerCupText.setText('Cost per cup: $' + recipe.costPerCup.toFixed(2));
+        });
+
         this.add([
             this.title, this.description,
             this.lemonPlusButton, this.lemonMinusButton, this.lemonText,
             this.sugarPlusButton, this.sugarMinusButton, this.sugarText,
-            this.icePlusButton, this.iceMinusButton, this.iceText
+            this.icePlusButton, this.iceMinusButton, this.iceText,
+            this.cupsPerPitcherText, this.costPerCupText
         ]);
         scene.add.existing(this);
     }
