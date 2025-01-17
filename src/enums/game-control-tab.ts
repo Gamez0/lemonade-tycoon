@@ -5,5 +5,5 @@ export enum GameControlTab {
     Staff,
     Marketing,
     Recipe,
-    Supplies
+    Supplies,
 }

@@ -1,6 +1,9 @@
 import { TextButton } from "./text-button";
 import { BuyLemons, BuySugar, BuyIce, BuyCups } from "./buy-items";
-import { SuppliesTotalAmount, SuppliesTotalPrice } from "./game-control-container";
+import {
+    SuppliesTotalAmount,
+    SuppliesTotalPrice,
+} from "./game-control-container";
 import { TabUI } from "./tab-ui";
 
 export class BuySuppliesContainer extends Phaser.GameObjects.Container {
@@ -12,17 +15,37 @@ export class BuySuppliesContainer extends Phaser.GameObjects.Container {
     private buySugarUI: BuySugar;
     private buyIceUI: BuyIce;
     private buyCupsUI: BuyCups;
-    private purchaseSupplies: (totalPrice: SuppliesTotalPrice, totalAmount: SuppliesTotalAmount) => void;
+    private purchaseSupplies: (
+        totalPrice: SuppliesTotalPrice,
+        totalAmount: SuppliesTotalAmount,
+    ) => void;
     private buyButton: TextButton;
 
-    constructor(scene: Phaser.Scene, x: number, y: number, purchaseSupplies: (totalPrice: SuppliesTotalPrice, totalAmount: SuppliesTotalAmount) => void) {
+    constructor(
+        scene: Phaser.Scene,
+        x: number,
+        y: number,
+        purchaseSupplies: (
+            totalPrice: SuppliesTotalPrice,
+            totalAmount: SuppliesTotalAmount,
+        ) => void,
+    ) {
         super(scene, x, y);
-        this.title = scene.add.text(0, 0, 'Buy Supplies', { fontSize: '24px' });
-        this.description = scene.add.text(0, 25, 'Select the supplies you want to buy', { fontSize: '16px' });
-        
+        this.title = scene.add.text(0, 0, "Buy Supplies", { fontSize: "24px" });
+        this.description = scene.add.text(
+            0,
+            25,
+            "Select the supplies you want to buy",
+            { fontSize: "16px" },
+        );
 
-        this.tabUI = new TabUI(scene, 0, 50, ['Lemons', 'Sugar', 'Ice', 'Cups']);
-        this.tabUI.on('tabSelected', this.onTabSelected, this);
+        this.tabUI = new TabUI(scene, 0, 50, [
+            "Lemons",
+            "Sugar",
+            "Ice",
+            "Cups",
+        ]);
+        this.tabUI.on("tabSelected", this.onTabSelected, this);
         this.selectedTabIndex = 0; // Initialize selectedTabIndex
 
         this.buyLemonUI = new BuyLemons(scene, 0, 100);
@@ -30,13 +53,22 @@ export class BuySuppliesContainer extends Phaser.GameObjects.Container {
         this.buyIceUI = new BuyIce(scene, 0, 100);
         this.buyCupsUI = new BuyCups(scene, 0, 100);
 
-        this.buyButton = new TextButton(scene, 250, 260, 'Buy');
+        this.buyButton = new TextButton(scene, 250, 260, "Buy");
         this.buyButton.setInteractive();
-        this.buyButton.on('pointerdown', this.onBuyButtonClicked, this);
+        this.buyButton.on("pointerdown", this.onBuyButtonClicked, this);
 
         this.purchaseSupplies = purchaseSupplies;
 
-        this.add([this.title, this.description, this.buyButton, this.tabUI, this.buyLemonUI, this.buySugarUI, this.buyIceUI, this.buyCupsUI]);
+        this.add([
+            this.title,
+            this.description,
+            this.buyButton,
+            this.tabUI,
+            this.buyLemonUI,
+            this.buySugarUI,
+            this.buyIceUI,
+            this.buyCupsUI,
+        ]);
         scene.add.existing(this);
         this.updateUI();
     }
@@ -51,15 +83,15 @@ export class BuySuppliesContainer extends Phaser.GameObjects.Container {
             lemonTotalPrice: this.buyLemonUI.getTotalPrice(),
             sugarTotalPrice: this.buySugarUI.getTotalPrice(),
             iceTotalPrice: this.buyIceUI.getTotalPrice(),
-            cupsTotalPrice: this.buyCupsUI.getTotalPrice()
-        }
+            cupsTotalPrice: this.buyCupsUI.getTotalPrice(),
+        };
 
         const totalAmount: SuppliesTotalAmount = {
             lemonTotalAmount: this.buyLemonUI.getAmount(),
             sugarTotalAmount: this.buySugarUI.getAmount(),
             iceTotalAmount: this.buyIceUI.getAmount(),
-            cupsTotalAmount: this.buyCupsUI.getAmount()
-        }
+            cupsTotalAmount: this.buyCupsUI.getAmount(),
+        };
 
         this.purchaseSupplies(totalPrice, totalAmount);
     }
@@ -71,7 +103,7 @@ export class BuySuppliesContainer extends Phaser.GameObjects.Container {
         this.buyIceUI.setVisible(false);
         this.buyCupsUI.setVisible(false);
 
-        switch(this.selectedTabIndex) {
+        switch (this.selectedTabIndex) {
             case 0:
                 this.buyLemonUI.setVisible(true);
                 break;

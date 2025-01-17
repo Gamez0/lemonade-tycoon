@@ -1,9 +1,9 @@
-import { Boot } from './scenes/Boot';
-import { PreparationScene as MainGame } from './scenes/preparation-scene';
-import { TicTacToe as TestGame } from './scenes/TicTacToe';
-import { GameOver } from './scenes/GameOver';
-import { MainMenu } from './scenes/MainMenu';
-import { Preloader } from './scenes/Preloader';
+import { Boot } from "./scenes/Boot";
+import { PreparationScene as MainGame } from "./scenes/preparation-scene";
+import { TicTacToe as TestGame } from "./scenes/TicTacToe";
+import { GameOver } from "./scenes/GameOver";
+import { MainMenu } from "./scenes/MainMenu";
+import { Preloader } from "./scenes/Preloader";
 
 import { Game, Types } from "phaser";
 
@@ -14,7 +14,7 @@ window.onerror = function (message, source, lineno, colno, error) {
     //alert(errorString);
     // Avoids logging the error a second time.
     return true;
-  };
+};
 
 // Catch global promise rejections and display them in an alert so users can report the issue.
 window.addEventListener("unhandledrejection", (event) => {
@@ -29,20 +29,13 @@ const config: Types.Core.GameConfig = {
     type: Phaser.AUTO,
     width: 1024,
     height: 768,
-    parent: 'game-container',
-    backgroundColor: '#028af8',
+    parent: "game-container",
+    backgroundColor: "#028af8",
     scale: {
         mode: Phaser.Scale.FIT,
-        autoCenter: Phaser.Scale.CENTER_BOTH
+        autoCenter: Phaser.Scale.CENTER_BOTH,
     },
-    scene: [
-        Boot,
-        Preloader,
-        MainMenu,
-        MainGame,
-        TestGame,
-        GameOver
-    ]
+    scene: [Boot, Preloader, MainMenu, MainGame, TestGame, GameOver],
 };
 
 export default new Game(config);

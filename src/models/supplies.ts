@@ -10,8 +10,16 @@ export class Supplies extends Phaser.Events.EventEmitter {
     private _iceAveragePrice: number;
     private _cupAveragePrice: number;
 
-
-    constructor(lemon: number, sugar: number, ice: number, cup: number, lemonAveragePrice: number, sugarAveragePrice: number, iceAveragePrice: number, cupAveragePrice: number) {
+    constructor(
+        lemon: number,
+        sugar: number,
+        ice: number,
+        cup: number,
+        lemonAveragePrice: number,
+        sugarAveragePrice: number,
+        iceAveragePrice: number,
+        cupAveragePrice: number,
+    ) {
         super();
         this._lemon = lemon;
         this._sugar = sugar;
@@ -29,7 +37,7 @@ export class Supplies extends Phaser.Events.EventEmitter {
 
     set lemon(value: number) {
         this._lemon = value;
-        this.emit('lemonChanged', this._lemon);
+        this.emit("lemonChanged", this._lemon);
     }
 
     get sugar(): number {
@@ -38,7 +46,7 @@ export class Supplies extends Phaser.Events.EventEmitter {
 
     set sugar(value: number) {
         this._sugar = value;
-        this.emit('sugarChanged', this._sugar);
+        this.emit("sugarChanged", this._sugar);
     }
 
     get ice(): number {
@@ -47,7 +55,7 @@ export class Supplies extends Phaser.Events.EventEmitter {
 
     set ice(value: number) {
         this._ice = value;
-        this.emit('iceChanged', this._ice);
+        this.emit("iceChanged", this._ice);
     }
 
     get cup(): number {
@@ -56,7 +64,7 @@ export class Supplies extends Phaser.Events.EventEmitter {
 
     set cup(value: number) {
         this._cup = value;
-        this.emit('cupChanged', this._cup);
+        this.emit("cupChanged", this._cup);
     }
 
     get lemonAveragePrice(): number {

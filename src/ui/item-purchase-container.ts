@@ -13,8 +13,14 @@ export class ItemPurchaseContainer extends Phaser.GameObjects.Container {
     private totalPrice: number;
     private perBundle: number;
 
-
-    constructor(scene: Phaser.Scene, x: number, y: number, itemName: string, perBundle: number, price: number) {
+    constructor(
+        scene: Phaser.Scene,
+        x: number,
+        y: number,
+        itemName: string,
+        perBundle: number,
+        price: number,
+    ) {
         super(scene, x, y);
         this.price = price;
         this.totalPrice = 0;
@@ -22,20 +28,39 @@ export class ItemPurchaseContainer extends Phaser.GameObjects.Container {
 
         this.subtractButton = new MinusButton(scene, 0, 0);
         this.subtractButton.setInteractive();
-        this.subtractButton.on('pointerdown', this.onSubtractButtonClicked, this);
+        this.subtractButton.on(
+            "pointerdown",
+            this.onSubtractButtonClicked,
+            this,
+        );
 
-        this.perBundleText = scene.add.text(50, 0, perBundle.toString() + " " + itemName, { fontSize: '24px' });
-        this.priceText = scene.add.text(50, 25,  price.toFixed(2) + ' $', { fontSize: '24px' });
+        this.perBundleText = scene.add.text(
+            50,
+            0,
+            perBundle.toString() + " " + itemName,
+            { fontSize: "24px" },
+        );
+        this.priceText = scene.add.text(50, 25, price.toFixed(2) + " $", {
+            fontSize: "24px",
+        });
 
-        this.bundlesToBuyText = scene.add.text(250, 0, '0', { fontSize: '24px' });
+        this.bundlesToBuyText = scene.add.text(250, 0, "0", {
+            fontSize: "24px",
+        });
 
         this.addButton = new PlusButton(scene, 300, 0);
         this.addButton.setInteractive();
-        this.addButton.on('pointerdown', this.onAddButtonClicked, this);
-        
+        this.addButton.on("pointerdown", this.onAddButtonClicked, this);
+
         this.bundlesToBuy = 0;
-        
-        this.add([this.subtractButton, this.perBundleText, this.addButton, this.priceText, this.bundlesToBuyText]);
+
+        this.add([
+            this.subtractButton,
+            this.perBundleText,
+            this.addButton,
+            this.priceText,
+            this.bundlesToBuyText,
+        ]);
         scene.add.existing(this);
     }
 
@@ -47,7 +72,7 @@ export class ItemPurchaseContainer extends Phaser.GameObjects.Container {
     }
 
     private onSubtractButtonClicked() {
-        if(this.bundlesToBuy === 0){
+        if (this.bundlesToBuy === 0) {
             return;
         }
         this.bundlesToBuy -= 1;
@@ -74,7 +99,7 @@ export class ItemPurchaseContainer extends Phaser.GameObjects.Container {
 
     private updateTotalPrice() {
         this.totalPrice = this.bundlesToBuy * this.price;
-        this.emit('update');
+        this.emit("update");
     }
 
     public getTotalPrice() {
