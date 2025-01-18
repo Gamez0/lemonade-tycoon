@@ -5,59 +5,23 @@ class BuyItems extends Phaser.GameObjects.Container {
     secondOption: ItemPurchaseContainer;
     thirdOption: ItemPurchaseContainer;
 
-    constructor(
-        scene: Phaser.Scene,
-        x: number,
-        y: number,
-        itemName: string,
-        prices: number[],
-        amounts: number[],
-    ) {
+    constructor(scene: Phaser.Scene, x: number, y: number, itemName: string, prices: number[], amounts: number[]) {
         super(scene, x, y);
 
-        this.firstOption = new ItemPurchaseContainer(
-            scene,
-            0,
-            0,
-            itemName,
-            amounts[0],
-            prices[0],
-        );
-        this.secondOption = new ItemPurchaseContainer(
-            scene,
-            0,
-            50,
-            itemName,
-            amounts[1],
-            prices[1],
-        );
-        this.thirdOption = new ItemPurchaseContainer(
-            scene,
-            0,
-            100,
-            itemName,
-            amounts[2],
-            prices[2],
-        );
+        this.firstOption = new ItemPurchaseContainer(scene, 0, 0, itemName, amounts[0], prices[0]);
+        this.secondOption = new ItemPurchaseContainer(scene, 0, 50, itemName, amounts[1], prices[1]);
+        this.thirdOption = new ItemPurchaseContainer(scene, 0, 100, itemName, amounts[2], prices[2]);
 
         this.add([this.firstOption, this.secondOption, this.thirdOption]);
         scene.add.existing(this);
     }
 
     public getTotalPrice() {
-        return (
-            this.firstOption.getTotalPrice() +
-            this.secondOption.getTotalPrice() +
-            this.thirdOption.getTotalPrice()
-        );
+        return this.firstOption.getTotalPrice() + this.secondOption.getTotalPrice() + this.thirdOption.getTotalPrice();
     }
 
     public getAmount() {
-        return (
-            this.firstOption.getAmount() +
-            this.secondOption.getAmount() +
-            this.thirdOption.getAmount()
-        );
+        return this.firstOption.getAmount() + this.secondOption.getAmount() + this.thirdOption.getAmount();
     }
 
     public reset() {

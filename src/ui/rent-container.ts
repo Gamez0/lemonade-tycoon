@@ -18,13 +18,10 @@ export class RentContainer extends Phaser.GameObjects.Container {
             color: "white",
             fontSize: "24px",
         });
-        this.description = new Phaser.GameObjects.Text(
-            scene,
-            0,
-            30,
-            "Choose a location",
-            { color: "white", fontSize: "16px" },
-        );
+        this.description = new Phaser.GameObjects.Text(scene, 0, 30, "Choose a location", {
+            color: "white",
+            fontSize: "16px",
+        });
 
         this.nextButton = new TextButton(scene, 100, 60, "Next");
         this.nextButton.setInteractive();
@@ -65,13 +62,7 @@ export class RentContainer extends Phaser.GameObjects.Container {
         this.locations = [suburb, park];
         this.currentLocationIndex = 0;
 
-        this.add([
-            this.title,
-            this.description,
-            this.nextButton,
-            this.previousButton,
-            this.rentButton,
-        ]);
+        this.add([this.title, this.description, this.nextButton, this.previousButton, this.rentButton]);
 
         scene.add.existing(this);
     }

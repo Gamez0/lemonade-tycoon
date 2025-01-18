@@ -24,13 +24,7 @@ export class TabUI extends Phaser.GameObjects.Container {
         const gap = 10; // Gap between text elements
 
         items.forEach((item, index) => {
-            const button = new TextButton(
-                this.scene,
-                xPosition,
-                yPosition,
-                item,
-                this.buttonStyle,
-            ).setInteractive();
+            const button = new TextButton(this.scene, xPosition, yPosition, item, this.buttonStyle).setInteractive();
             button.setPosition(xPosition, yPosition);
             button.setOrigin(0, 0);
             button.on("pointerdown", () => {

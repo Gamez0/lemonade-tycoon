@@ -9,12 +9,7 @@ export class BudgetContainer extends Phaser.GameObjects.Container {
         super(scene, x, y);
 
         this.budget = budget;
-        this.budgetText = this.createText(
-            scene,
-            "Budget: ",
-            budget.getAmount(),
-            0,
-        );
+        this.budgetText = this.createText(scene, "Budget: ", budget.getAmount(), 0);
         this.add(this.budgetText);
 
         this.budget.on("change", this.updateBudget, this);
@@ -22,12 +17,7 @@ export class BudgetContainer extends Phaser.GameObjects.Container {
         scene.add.existing(this);
     }
 
-    private createText(
-        scene: Phaser.Scene,
-        label: string,
-        value: number,
-        yOffset: number,
-    ): Phaser.GameObjects.Text {
+    private createText(scene: Phaser.Scene, label: string, value: number, yOffset: number): Phaser.GameObjects.Text {
         return scene.add
             .text(0, yOffset, `${label}${value}`, {
                 fontFamily: "Arial Black",

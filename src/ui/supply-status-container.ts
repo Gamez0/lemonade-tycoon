@@ -47,19 +47,14 @@ export class SupplyStatusContainer extends Phaser.GameObjects.Container {
         const gap = 50; // Gap between text elements
 
         items.forEach((item) => {
-            const text = this.scene.add.text(
-                xPosition,
-                yPosition,
-                item.label + item.value,
-                {
-                    fontFamily: "Arial Black",
-                    fontSize: 20,
-                    color: "#ffffff",
-                    stroke: "#000000",
-                    strokeThickness: 4,
-                    align: "center",
-                },
-            );
+            const text = this.scene.add.text(xPosition, yPosition, item.label + item.value, {
+                fontFamily: "Arial Black",
+                fontSize: 20,
+                color: "#ffffff",
+                stroke: "#000000",
+                strokeThickness: 4,
+                align: "center",
+            });
             text.setOrigin(0, 0);
             this.add(text);
             xPosition += text.width + gap; // Update y position for the next text element

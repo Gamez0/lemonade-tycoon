@@ -27,19 +27,8 @@ export class PreparationScene extends Scene {
         this.background = this.add.image(512, 384, "background");
         this.background.setAlpha(0.5);
 
-        this.supplyStatusContainer = new SupplyStatusContainer(
-            this,
-            50,
-            25,
-            this.supplies,
-        );
+        this.supplyStatusContainer = new SupplyStatusContainer(this, 50, 25, this.supplies);
         this.budgetContainer = new BudgetContainer(this, 924, 50, this.budget);
-        this.gameControlUI = new GameControlContainer(
-            this,
-            50,
-            75,
-            this.budget,
-            this.supplies,
-        );
+        this.gameControlUI = new GameControlContainer(this, 50, 75, this.budget, this.supplies);
     }
 }

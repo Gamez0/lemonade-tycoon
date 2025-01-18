@@ -30,13 +30,7 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
     budget: Budget;
     private supplies: Supplies;
 
-    constructor(
-        scene: Phaser.Scene,
-        x: number,
-        y: number,
-        budget: Budget,
-        supplies: Supplies,
-    ) {
+    constructor(scene: Phaser.Scene, x: number, y: number, budget: Budget, supplies: Supplies) {
         super(scene, x, y);
         this.tabUI = new TabUI(scene, 50, 75, [
             "Results",
@@ -54,18 +48,8 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
         this.supplies = supplies;
 
         this.rentContainer = new RentContainer(scene, 50, 125);
-        this.buySuppliesContainer = new BuySuppliesContainer(
-            scene,
-            50,
-            125,
-            this.purchaseSupplies,
-        );
-        this.recipeContainer = new RecipeContainer(
-            scene,
-            50,
-            125,
-            this.supplies,
-        );
+        this.buySuppliesContainer = new BuySuppliesContainer(scene, 50, 125, this.purchaseSupplies);
+        this.recipeContainer = new RecipeContainer(scene, 50, 125, this.supplies);
 
         scene.add.existing(this);
         this.updateUI();
@@ -76,36 +60,18 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
         this.updateUI();
     }
 
-    private purchaseSupplies = (
-        totalPrice: SuppliesTotalPrice,
-        totalAmount: SuppliesTotalAmount,
-    ) => {
-        const {
-            lemonTotalPrice,
-            sugarTotalPrice,
-            iceTotalPrice,
-            cupsTotalPrice,
-        } = totalPrice;
-        const {
-            lemonTotalAmount,
-            sugarTotalAmount,
-            iceTotalAmount,
-            cupsTotalAmount,
-        } = totalAmount;
+    private purchaseSupplies = (totalPrice: SuppliesTotalPrice, totalAmount: SuppliesTotalAmount) => {
+        const { lemonTotalPrice, sugarTotalPrice, iceTotalPrice, cupsTotalPrice } = totalPrice;
+        const { lemonTotalAmount, sugarTotalAmount, iceTotalAmount, cupsTotalAmount } = totalAmount;
         const currentBudget: number = this.budget.getAmount();
 
-        const totalCost =
-            lemonTotalPrice + sugarTotalPrice + iceTotalPrice + cupsTotalPrice;
+        const totalCost = lemonTotalPrice + sugarTotalPrice + iceTotalPrice + cupsTotalPrice;
         if (totalCost > currentBudget) {
             alert("You don't have enough budget to buy all the supplies");
             return;
         }
 
-        const exceedsLimit = (
-            amount: number,
-            limit: number,
-            itemName: string,
-        ) => {
+        const exceedsLimit = (amount: number, limit: number, itemName: string) => {
             if (amount > limit) {
                 alert(`You can't have more than ${limit} ${itemName}`);
                 return true;
@@ -114,26 +80,10 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
         };
 
         if (
-            exceedsLimit(
-                lemonTotalAmount + this.supplies.lemon,
-                SUPPLIES_LIMIT.LEMON,
-                "lemons",
-            ) ||
-            exceedsLimit(
-                sugarTotalAmount + this.supplies.sugar,
-                SUPPLIES_LIMIT.SUGAR,
-                "sugars",
-            ) ||
-            exceedsLimit(
-                iceTotalAmount + this.supplies.ice,
-                SUPPLIES_LIMIT.ICE,
-                "ices",
-            ) ||
-            exceedsLimit(
-                cupsTotalAmount + this.supplies.cup,
-                SUPPLIES_LIMIT.CUP,
-                "cups",
-            )
+            exceedsLimit(lemonTotalAmount + this.supplies.lemon, SUPPLIES_LIMIT.LEMON, "lemons") ||
+            exceedsLimit(sugarTotalAmount + this.supplies.sugar, SUPPLIES_LIMIT.SUGAR, "sugars") ||
+            exceedsLimit(iceTotalAmount + this.supplies.ice, SUPPLIES_LIMIT.ICE, "ices") ||
+            exceedsLimit(cupsTotalAmount + this.supplies.cup, SUPPLIES_LIMIT.CUP, "cups")
         ) {
             return;
         }
@@ -151,14 +101,14 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
 
     updateUI() {
         // Hide all UI elements
-        // this.rentContainer.setVisible(false);
+        this.rentContainer.setVisible(false);
         this.buySuppliesContainer.setVisible(false);
         this.recipeContainer.setVisible(false);
 
         // Show UI elements based on selected tab
         switch (this.selectedTabIndex) {
             case 1:
-                // this.rentContainer.setVisible(true);
+                this.rentContainer.setVisible(true);
                 break;
             case 5:
                 this.recipeContainer.setVisible(true);
