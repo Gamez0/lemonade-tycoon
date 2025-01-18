@@ -1,6 +1,5 @@
 import { Boot } from "./scenes/Boot";
 import { PreparationScene as MainGame } from "./scenes/preparation-scene";
-import { TicTacToe as TestGame } from "./scenes/TicTacToe";
 import { GameOver } from "./scenes/GameOver";
 import { MainMenu } from "./scenes/MainMenu";
 import { Preloader } from "./scenes/Preloader";
@@ -35,7 +34,7 @@ const config: Types.Core.GameConfig = {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
     },
-    scene: [Boot, Preloader, MainMenu, MainGame, TestGame, GameOver],
+    scene: [Boot, Preloader, MainMenu, MainGame, GameOver],
 };
 
 export default new Game(config);
