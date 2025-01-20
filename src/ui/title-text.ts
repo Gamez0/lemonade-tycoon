@@ -11,7 +11,7 @@ export class TitleText extends Phaser.GameObjects.Text {
             fontSize: "24px",
             color: "#ffffff",
         };
-        super(scene, x, y, text, style ?? defaultStyle);
+        super(scene, x, y, text, { ...defaultStyle, ...style });
         scene.add.existing(this);
     }
 }
