@@ -20,6 +20,13 @@ export class PreparationScene extends Scene {
         this.supplies = new Supplies(0, 0, 0, 0, 0, 0, 0, 0);
     }
 
+    preload() {
+        this.load.image("lemon", "assets/lemon-32.png");
+        this.load.image("ice", "assets/ice-32.png");
+        this.load.image("sugar", "assets/sugar-32.png");
+        this.load.image("cup", "assets/cup-32.png");
+    }
+
     create() {
         this.camera = this.cameras.main;
         this.camera.setBackgroundColor(0x00ff00);
