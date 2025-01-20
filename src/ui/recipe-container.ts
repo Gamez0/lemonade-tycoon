@@ -14,8 +14,11 @@ export class RecipeContainer extends Phaser.GameObjects.Container {
     private icePlusButton: PlusButton;
     private iceMinusButton: MinusButton;
     private lemonText: Phaser.GameObjects.Text;
+    private lemonImage: Phaser.GameObjects.Image;
     private sugarText: Phaser.GameObjects.Text;
+    private sugarImage: Phaser.GameObjects.Image;
     private iceText: Phaser.GameObjects.Text;
+    private iceImage: Phaser.GameObjects.Image;
     private supplies: Supplies;
     private cupsPerPitcherText: Phaser.GameObjects.Text;
     private costPerCupText: Phaser.GameObjects.Text;
@@ -56,12 +59,15 @@ export class RecipeContainer extends Phaser.GameObjects.Container {
             this.description,
             this.lemonPlusButton,
             this.lemonMinusButton,
+            this.lemonImage,
             this.lemonText,
             this.sugarPlusButton,
             this.sugarMinusButton,
+            this.sugarImage,
             this.sugarText,
             this.icePlusButton,
             this.iceMinusButton,
+            this.iceImage,
             this.iceText,
             this.cupsPerPitcherText,
             this.costPerCupText,
@@ -73,8 +79,9 @@ export class RecipeContainer extends Phaser.GameObjects.Container {
         this.lemonMinusButton = new MinusButton(scene, 0, 100);
         this.lemonMinusButton.setInteractive();
         this.lemonMinusButton.on("pointerdown", () => this.decreaseIngredient("lemon"), this);
-        this.lemonText = scene.add.text(50, 100, "Lem   " + this.recipe.lemon.toString(), { fontSize: "24px" });
-        this.lemonPlusButton = new PlusButton(scene, 200, 100);
+        this.lemonImage = scene.add.image(60, 110, "lemon");
+        this.lemonText = scene.add.text(100, 100, this.recipe.lemon.toString(), { fontSize: "24px" });
+        this.lemonPlusButton = new PlusButton(scene, 150, 100);
         this.lemonPlusButton.setInteractive();
         this.lemonPlusButton.on("pointerdown", () => this.increaseIngredient("lemon"), this);
     }
@@ -83,8 +90,9 @@ export class RecipeContainer extends Phaser.GameObjects.Container {
         this.sugarMinusButton = new MinusButton(scene, 0, 150);
         this.sugarMinusButton.setInteractive();
         this.sugarMinusButton.on("pointerdown", () => this.decreaseIngredient("sugar"), this);
-        this.sugarText = scene.add.text(50, 150, "Sug   " + this.recipe.sugar.toString(), { fontSize: "24px" });
-        this.sugarPlusButton = new PlusButton(scene, 200, 150);
+        this.sugarImage = scene.add.image(60, 160, "sugar");
+        this.sugarText = scene.add.text(100, 150, this.recipe.sugar.toString(), { fontSize: "24px" });
+        this.sugarPlusButton = new PlusButton(scene, 150, 150);
         this.sugarPlusButton.setInteractive();
         this.sugarPlusButton.on("pointerdown", () => this.increaseIngredient("sugar"), this);
     }
@@ -93,8 +101,9 @@ export class RecipeContainer extends Phaser.GameObjects.Container {
         this.iceMinusButton = new MinusButton(scene, 0, 200);
         this.iceMinusButton.setInteractive();
         this.iceMinusButton.on("pointerdown", () => this.decreaseIngredient("ice"), this);
-        this.iceText = scene.add.text(50, 200, "Ice   " + this.recipe.ice.toString(), { fontSize: "24px" });
-        this.icePlusButton = new PlusButton(scene, 200, 200);
+        this.iceImage = scene.add.image(60, 210, "ice");
+        this.iceText = scene.add.text(100, 200, this.recipe.ice.toString(), { fontSize: "24px" });
+        this.icePlusButton = new PlusButton(scene, 150, 200);
         this.icePlusButton.setInteractive();
         this.icePlusButton.on("pointerdown", () => this.increaseIngredient("ice"), this);
     }
@@ -103,15 +112,15 @@ export class RecipeContainer extends Phaser.GameObjects.Container {
         switch (ingredient) {
             case "lemon":
                 this.recipe.lemon += 1;
-                this.lemonText.setText("Lem   " + this.recipe.lemon.toString());
+                this.lemonText.setText(this.recipe.lemon.toString());
                 break;
             case "sugar":
                 this.recipe.sugar += 1;
-                this.sugarText.setText("Sug   " + this.recipe.sugar.toString());
+                this.sugarText.setText(this.recipe.sugar.toString());
                 break;
             case "ice":
                 this.recipe.ice += 1;
-                this.iceText.setText("Ice   " + this.recipe.ice.toString());
+                this.iceText.setText(this.recipe.ice.toString());
                 break;
         }
     }
@@ -121,19 +130,19 @@ export class RecipeContainer extends Phaser.GameObjects.Container {
             case "lemon":
                 if (this.recipe.lemon > 1) {
                     this.recipe.lemon -= 1;
-                    this.lemonText.setText("Lem   " + this.recipe.lemon.toString());
+                    this.lemonText.setText(this.recipe.lemon.toString());
                 }
                 break;
             case "sugar":
                 if (this.recipe.sugar > 1) {
                     this.recipe.sugar -= 1;
-                    this.sugarText.setText("Sug   " + this.recipe.sugar.toString());
+                    this.sugarText.setText(this.recipe.sugar.toString());
                 }
                 break;
             case "ice":
                 if (this.recipe.ice > 1) {
                     this.recipe.ice -= 1;
-                    this.iceText.setText("Ice   " + this.recipe.ice.toString());
+                    this.iceText.setText(this.recipe.ice.toString());
                 }
                 break;
         }
