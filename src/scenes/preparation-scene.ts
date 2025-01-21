@@ -27,6 +27,8 @@ export class PreparationScene extends Scene {
         this.load.image("cup", "assets/cup-32.png");
         this.load.image("plus", "assets/plus.svg");
         this.load.image("minus", "assets/minus.svg");
+        this.load.image("cup-16", "assets/cup-16.png");
+        this.load.image("recipe-16", "assets/recipe-16.png");
     }
 
     create() {
