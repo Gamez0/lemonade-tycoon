@@ -6,6 +6,8 @@ import { Preloader } from "./scenes/Preloader";
 
 import { Game, Types } from "phaser";
 
+import WebFont from "webfontloader";
+
 // Catch global errors and display them in an alert so users can report the issue.
 window.onerror = function (message, source, lineno, colno, error) {
     console.error(error);
@@ -21,6 +23,12 @@ window.addEventListener("unhandledrejection", (event) => {
     console.error(event.reason);
     //alert(errorString);
 });
+
+WebFont.load({
+    google: {
+        families: ["Play"],
+    },
+})
 
 //  Find out more information about the Game Config at:
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
