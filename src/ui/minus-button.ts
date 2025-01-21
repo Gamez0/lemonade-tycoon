@@ -3,5 +3,6 @@ export class MinusButton extends Phaser.GameObjects.Image {
         super(scene, x, y, "minus");
         this.setInteractive();
         this.scale = 0.45;
+        this.setOrigin(0, 0);
     }
 }

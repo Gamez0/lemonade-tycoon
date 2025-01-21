@@ -3,5 +3,6 @@ export class PlusButton extends Phaser.GameObjects.Image {
         super(scene, x, y, "plus");
         this.setInteractive();
         this.scale = 0.45;
+        this.setOrigin(0, 0);
     }
 }
