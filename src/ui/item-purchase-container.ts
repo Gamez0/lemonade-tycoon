@@ -1,10 +1,9 @@
 import { MinusButton } from "./minus-button";
 import { PlusButton } from "./plus-button";
-import { TextButton } from "./text-button";
 
 export class ItemPurchaseContainer extends Phaser.GameObjects.Container {
-    private addButton: TextButton;
-    private subtractButton: TextButton;
+    private plusButton: PlusButton;
+    private minusButton: MinusButton;
     private perBundleText: Phaser.GameObjects.Text;
     private priceText: Phaser.GameObjects.Text;
     private bundlesToBuy: number;
@@ -19,9 +18,8 @@ export class ItemPurchaseContainer extends Phaser.GameObjects.Container {
         this.totalPrice = 0;
         this.perBundle = perBundle;
 
-        this.subtractButton = new MinusButton(scene, 0, 0);
-        this.subtractButton.setInteractive();
-        this.subtractButton.on("pointerdown", this.onSubtractButtonClicked, this);
+        this.minusButton = new MinusButton(scene, 0, 0);
+        this.minusButton.on("pointerdown", this.onMinusButtonClicked, this);
 
         this.perBundleText = scene.add.text(50, 0, perBundle.toString() + " " + itemName, { fontSize: "24px" });
         this.priceText = scene.add.text(50, 25, price.toFixed(2) + " $", {
@@ -32,24 +30,23 @@ export class ItemPurchaseContainer extends Phaser.GameObjects.Container {
             fontSize: "24px",
         });
 
-        this.addButton = new PlusButton(scene, 300, 0);
-        this.addButton.setInteractive();
-        this.addButton.on("pointerdown", this.onAddButtonClicked, this);
+        this.plusButton = new PlusButton(scene, 300, 0);
+        this.plusButton.on("pointerdown", this.onPlusButtonClicked, this);
 
         this.bundlesToBuy = 0;
 
-        this.add([this.subtractButton, this.perBundleText, this.addButton, this.priceText, this.bundlesToBuyText]);
+        this.add([this.minusButton, this.perBundleText, this.plusButton, this.priceText, this.bundlesToBuyText]);
         scene.add.existing(this);
     }
 
-    private onAddButtonClicked() {
+    private onPlusButtonClicked() {
         this.bundlesToBuy += 1;
         this.updateTotalPrice();
         this.bundlesToBuyText.setText(this.bundlesToBuy.toString());
         this.updateButtonVisibility();
     }
 
-    private onSubtractButtonClicked() {
+    private onMinusButtonClicked() {
         if (this.bundlesToBuy === 0) {
             return;
         }
@@ -61,18 +58,18 @@ export class ItemPurchaseContainer extends Phaser.GameObjects.Container {
 
     // function calls to update the visibility of the add and subtract buttons
     private updateButtonVisibility() {
-        this.updateAddButtonVisibility();
-        this.updateSubtractButtonVisibility();
+        this.updatePlusButtonVisibility();
+        this.updateMinusButtonVisibility();
     }
 
     // when bundlesToBuy is 10, the add button should be hidden
-    private updateAddButtonVisibility() {
-        this.addButton.setVisible(this.bundlesToBuy < 10);
+    private updatePlusButtonVisibility() {
+        this.plusButton.setVisible(this.bundlesToBuy < 10);
     }
 
     // when bundlesToBuy is 0, the subtract button should be hidden
-    private updateSubtractButtonVisibility() {
-        this.subtractButton.setVisible(this.bundlesToBuy > 0);
+    private updateMinusButtonVisibility() {
+        this.minusButton.setVisible(this.bundlesToBuy > 0);
     }
 
     private updateTotalPrice() {
