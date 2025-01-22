@@ -32,7 +32,7 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
 
     constructor(scene: Phaser.Scene, x: number, y: number, budget: Budget, supplies: Supplies) {
         super(scene, x, y);
-        this.preparationTabContainer = new PreparationTabContainer(scene, 15, 0);
+        this.preparationTabContainer = new PreparationTabContainer(scene, 0, 0);
 
         this.preparationTabContainer.on("tabSelected", this.onTabSelected, this);
         this.selectedTabIndex = 0; // Initialize selectedTabIndex
@@ -40,9 +40,9 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
         this.budget = budget;
         this.supplies = supplies;
 
-        this.rentContainer = new RentContainer(scene, -10, 75);
-        this.buySuppliesContainer = new BuySuppliesContainer(scene, -10, 75, this.purchaseSupplies);
-        this.recipeContainer = new RecipeContainer(scene, -10, 75, this.supplies);
+        this.rentContainer = new RentContainer(scene, -24, 64);
+        this.buySuppliesContainer = new BuySuppliesContainer(scene, -24, 64, this.purchaseSupplies);
+        this.recipeContainer = new RecipeContainer(scene, -24, 64, this.supplies);
 
         this.add([this.preparationTabContainer, this.rentContainer, this.buySuppliesContainer, this.recipeContainer]);
         scene.add.existing(this);
