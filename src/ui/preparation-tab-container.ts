@@ -3,7 +3,7 @@ export class PreparationTabContainer extends Phaser.GameObjects.Container {
         super(scene, x, y);
 
         // Create tab items
-        const gap = 10; // Define a fixed gap value
+        const gap = 4; // Define a fixed gap value
         let currentX = 0;
 
         const results = new TabItem(scene, currentX, 0, "results");
@@ -96,7 +96,7 @@ class TabItem extends Phaser.GameObjects.Container {
         this.image.y = -this.text.height / 2 - 10; // Adjust the spacing as needed
         this.text.y = this.image.height / 2 + 10; // Adjust the spacing as needed
 
-        const padding = 10;
+        const padding = 8;
         const backgroundWidth = Math.max(this.text.width, this.image.width) + padding * 2;
         const backgroundHeight = this.text.height + this.image.height + padding * 4;
         this.background = new Phaser.GameObjects.Rectangle(scene, 0, 0, backgroundWidth, backgroundHeight, 0x73cb21);
