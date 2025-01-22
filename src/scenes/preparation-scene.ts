@@ -29,6 +29,13 @@ export class PreparationScene extends Scene {
         this.load.image("minus", "assets/minus.svg");
         this.load.image("cup-16", "assets/cup-16.png");
         this.load.image("recipe-16", "assets/recipe-16.png");
+        this.load.image("marketing-32", "assets/marketing-32.png");
+        this.load.image("recipe-32", "assets/recipe-32.png");
+        this.load.image("rent-32", "assets/rent-32.png");
+        this.load.image("results-32", "assets/results-32.png");
+        this.load.image("staff-32", "assets/staff-32.png");
+        this.load.image("supplies-32", "assets/supplies-32.png");
+        this.load.image("upgrades-32", "assets/upgrades-32.png");
     }
 
     create() {
@@ -39,7 +46,7 @@ export class PreparationScene extends Scene {
         this.background.setAlpha(0.5);
 
         this.supplyStatusContainer = new SupplyStatusContainer(this, 50, 25, this.supplies);
-        this.budgetContainer = new BudgetContainer(this, 924, 25, this.budget);
-        this.gameControlUI = new GameControlContainer(this, 50, 75, this.budget, this.supplies);
+        this.budgetContainer = new BudgetContainer(this, 924, 16, this.budget);
+        this.gameControlUI = new GameControlContainer(this, 50, 125, this.budget, this.supplies);
     }
 }
