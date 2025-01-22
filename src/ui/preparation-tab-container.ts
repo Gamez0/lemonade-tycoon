@@ -83,7 +83,7 @@ class TabItem extends Phaser.GameObjects.Container {
         // Create text and image objects
         this.text = new Phaser.GameObjects.Text(scene, 0, 0, _text, {
             fontFamily: "Arial",
-            fontSize: "16px",
+            fontSize: "14px",
             color: "#ffffff",
         });
         this.image = new Phaser.GameObjects.Image(scene, 0, 0, _image);
