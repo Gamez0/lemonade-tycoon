@@ -2,6 +2,7 @@ import { TextButton } from "./text-button";
 import { BuyLemons, BuySugar, BuyIce, BuyCups } from "./buy-items";
 import { SuppliesTotalAmount, SuppliesTotalPrice } from "./game-control-container";
 import { TabUI } from "./tab-ui";
+import { TitleText } from "./title-text";
 
 export class BuySuppliesContainer extends Phaser.GameObjects.Container {
     private title: Phaser.GameObjects.Text;
@@ -19,10 +20,10 @@ export class BuySuppliesContainer extends Phaser.GameObjects.Container {
         scene: Phaser.Scene,
         x: number,
         y: number,
-        purchaseSupplies: (totalPrice: SuppliesTotalPrice, totalAmount: SuppliesTotalAmount) => void,
+        purchaseSupplies: (totalPrice: SuppliesTotalPrice, totalAmount: SuppliesTotalAmount) => void
     ) {
         super(scene, x, y);
-        this.title = scene.add.text(0, 0, "Buy Supplies", { fontSize: "24px" });
+        this.title = new TitleText(scene, 0, 0, "Buy Supplies");
         this.description = scene.add.text(0, 25, "Select the supplies you want to buy", { fontSize: "16px" });
 
         this.tabUI = new TabUI(scene, 0, 50, ["Lemons", "Sugar", "Ice", "Cups"]);

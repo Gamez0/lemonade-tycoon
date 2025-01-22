@@ -1,5 +1,6 @@
 import { Location } from "../models/location";
 import { LocationCarouselWithRentButton } from "./location-carousel-with-rent-button";
+import { TitleText } from "./title-text";
 
 export class RentContainer extends Phaser.GameObjects.Container {
     private title: Phaser.GameObjects.Text;
@@ -10,10 +11,7 @@ export class RentContainer extends Phaser.GameObjects.Container {
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y);
 
-        this.title = new Phaser.GameObjects.Text(scene, 0, 0, "Locations", {
-            color: "white",
-            fontSize: "24px",
-        });
+        this.title = new TitleText(scene, 0, 0, "Locations");
         this.description = new Phaser.GameObjects.Text(scene, 0, 30, "Choose a location", {
             color: "white",
             fontSize: "16px",
