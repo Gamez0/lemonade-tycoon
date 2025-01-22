@@ -2,9 +2,9 @@ import { SUPPLIES_LIMIT } from "../constants";
 import { Budget } from "../models/budget";
 import { Supplies } from "../models/supplies";
 import { BuySuppliesContainer } from "./buy-supplies-container";
+import { PreparationTabContainer } from "./preparation-tab-container";
 import { RecipeContainer } from "./recipe-container";
 import { RentContainer } from "./rent-container";
-import { TabUI } from "./tab-ui";
 
 export interface SuppliesTotalPrice {
     lemonTotalPrice: number;
@@ -22,7 +22,7 @@ export interface SuppliesTotalAmount {
 
 export class GameControlContainer extends Phaser.GameObjects.Container {
     // TODO: need better name for this class
-    tabUI: TabUI;
+    preparationTabContainer: PreparationTabContainer;
     selectedTabIndex: number;
     rentContainer: RentContainer;
     buySuppliesContainer: BuySuppliesContainer;
@@ -32,25 +32,19 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
 
     constructor(scene: Phaser.Scene, x: number, y: number, budget: Budget, supplies: Supplies) {
         super(scene, x, y);
-        this.tabUI = new TabUI(scene, 50, 75, [
-            "Results",
-            "Rent",
-            "Upgrades",
-            "Staff",
-            "Marketing",
-            "Recipe",
-            "Supplies",
-        ]);
-        this.tabUI.on("tabSelected", this.onTabSelected, this);
+        this.preparationTabContainer = new PreparationTabContainer(scene, 15, 0);
+
+        this.preparationTabContainer.on("tabSelected", this.onTabSelected, this);
         this.selectedTabIndex = 0; // Initialize selectedTabIndex
 
         this.budget = budget;
         this.supplies = supplies;
 
-        this.rentContainer = new RentContainer(scene, 50, 125);
-        this.buySuppliesContainer = new BuySuppliesContainer(scene, 50, 125, this.purchaseSupplies);
-        this.recipeContainer = new RecipeContainer(scene, 50, 125, this.supplies);
+        this.rentContainer = new RentContainer(scene, -10, 75);
+        this.buySuppliesContainer = new BuySuppliesContainer(scene, -10, 75, this.purchaseSupplies);
+        this.recipeContainer = new RecipeContainer(scene, -10, 75, this.supplies);
 
+        this.add([this.preparationTabContainer, this.rentContainer, this.buySuppliesContainer, this.recipeContainer]);
         scene.add.existing(this);
         this.updateUI();
     }
