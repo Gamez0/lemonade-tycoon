@@ -46,7 +46,7 @@ export class PreparationScene extends Scene {
 
         this.supplyStatusContainer = new SupplyStatusContainer(this, 50, 25, this.supplies);
         this.budgetContainer = new BudgetContainer(this, 924, 16, this.budget);
-        this.gameControlUI = new GameControlContainer(this, 50, 125, this.budget, this.supplies);
+        this.gameControlUI = new GameControlContainer(this, 0, 125, this.budget, this.supplies);
         this.startButton = new TextButton(this, 410, 700, "START GAME");
     }
 }
