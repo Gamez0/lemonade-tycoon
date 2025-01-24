@@ -1,13 +1,15 @@
 import { TextButton } from "./text-button";
 import { BuyLemons, BuySugar, BuyIce, BuyCups } from "./buy-items";
 import { SuppliesTotalAmount, SuppliesTotalPrice } from "./game-control-container";
-import { TabUI } from "./tab-ui";
 import { TitleText } from "./title-text";
 
 export class BuySuppliesContainer extends Phaser.GameObjects.Container {
     private title: Phaser.GameObjects.Text;
     private description: Phaser.GameObjects.Text;
-    tabUI: TabUI;
+    lemonImage: Phaser.GameObjects.Image;
+    sugarImage: Phaser.GameObjects.Image;
+    iceImage: Phaser.GameObjects.Image;
+    cupImage: Phaser.GameObjects.Image;
     selectedTabIndex: number;
     private buyLemonUI: BuyLemons;
     private buySugarUI: BuySugar;
@@ -26,8 +28,32 @@ export class BuySuppliesContainer extends Phaser.GameObjects.Container {
         this.title = new TitleText(scene, 0, 0, "Buy Supplies");
         this.description = scene.add.text(0, 25, "Select the supplies you want to buy", { fontSize: "16px" });
 
-        this.tabUI = new TabUI(scene, 0, 50, ["Lemons", "Sugar", "Ice", "Cups"]);
-        this.tabUI.on("tabSelected", this.onTabSelected, this);
+        // image buttons
+        this.lemonImage = scene.add.image(0, 50, "lemon");
+        this.lemonImage.setOrigin(0, 0);
+        // TODO: this.lemonImage.setSize(50, 50);
+        this.lemonImage.setInteractive();
+        this.lemonImage.on("pointerdown", () => {
+            this.onTabSelected(0);
+        });
+        this.sugarImage = scene.add.image(100, 50, "sugar");
+        this.sugarImage.setOrigin(0, 0);
+        this.sugarImage.setInteractive();
+        this.sugarImage.on("pointerdown", () => {
+            this.onTabSelected(1);
+        });
+        this.iceImage = scene.add.image(200, 50, "ice");
+        this.iceImage.setOrigin(0, 0);
+        this.iceImage.setInteractive();
+        this.iceImage.on("pointerdown", () => {
+            this.onTabSelected(2);
+        });
+        this.cupImage = scene.add.image(300, 50, "cup");
+        this.cupImage.setOrigin(0, 0);
+        this.cupImage.setInteractive();
+        this.cupImage.on("pointerdown", () => {
+            this.onTabSelected(3);
+        });
         this.selectedTabIndex = 0; // Initialize selectedTabIndex
 
         this.buyLemonUI = new BuyLemons(scene, 0, 100);
@@ -44,8 +70,11 @@ export class BuySuppliesContainer extends Phaser.GameObjects.Container {
         this.add([
             this.title,
             this.description,
+            this.lemonImage,
+            this.sugarImage,
+            this.iceImage,
+            this.cupImage,
             this.buyButton,
-            this.tabUI,
             this.buyLemonUI,
             this.buySugarUI,
             this.buyIceUI,
