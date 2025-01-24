@@ -4,6 +4,7 @@ import { BudgetContainer } from "../ui/budget-container";
 import { GameControlContainer } from "../ui/game-control-container";
 import { Supplies } from "../models/supplies";
 import { Budget } from "../models/budget";
+import { TextButton } from "../ui/text-button";
 
 export class PreparationScene extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
@@ -13,6 +14,7 @@ export class PreparationScene extends Scene {
     supplyStatusContainer: SupplyStatusContainer;
     budgetContainer: BudgetContainer;
     gameControlUI: GameControlContainer;
+    startButton: TextButton;
 
     constructor() {
         super("preparation");
@@ -40,13 +42,11 @@ export class PreparationScene extends Scene {
 
     create() {
         this.camera = this.cameras.main;
-        this.camera.setBackgroundColor(0x00ff00);
-
-        this.background = this.add.image(512, 384, "background");
-        this.background.setAlpha(0.5);
+        this.camera.setBackgroundColor("rgb(24, 174, 49)");
 
         this.supplyStatusContainer = new SupplyStatusContainer(this, 50, 25, this.supplies);
         this.budgetContainer = new BudgetContainer(this, 924, 16, this.budget);
         this.gameControlUI = new GameControlContainer(this, 50, 125, this.budget, this.supplies);
+        this.startButton = new TextButton(this, 410, 700, "START GAME");
     }
 }
