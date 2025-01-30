@@ -50,8 +50,7 @@ export class PreparationScene extends Scene {
         this.startButton = new TextButton(this, 410, 700, "START GAME");
         this.startButton.setInteractive();
         this.startButton.on("pointerdown", () => {
-            console.log("Starting game");
-            this.scene.start("day", {
+            this.scene.switch("day", {
                 budget: this.budget,
                 supplies: this.supplies,
             });

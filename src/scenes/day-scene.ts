@@ -16,7 +16,9 @@ export class DayScene extends Scene {
         this.camera.setBackgroundColor("rgb(24, 174, 49)");
         this.skipButton = new TextButton(this, 410, 700, "SKIP");
         this.skipButton.on("pointerdown", () => {
-            this.scene.start("preparation");
+            this.scene.switch("preparation");
+
+            // TODO: selling scene 도 있네;;; 둘중 하나만 남기자.
         });
     }
 }
