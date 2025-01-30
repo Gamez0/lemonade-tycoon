@@ -33,8 +33,8 @@ export class RecipeContainer extends Phaser.GameObjects.Container {
         this.description = scene.add.text(
             0,
             25,
-            "Tweak your recipe according to the temperature, adding more \nice when needed. \nAlways keep a good balance between all ingredients.",
-            { fontSize: "16px" },
+            "Tweak your recipe according to the temperature, \nadding more ice when needed. Always keep a good \nbalance between all ingredients.",
+            { fontSize: "16px" }
         );
         this.supplies = supplies;
         this.recipe = new Recipe(1, 1, 1, this.supplies);
@@ -52,7 +52,7 @@ export class RecipeContainer extends Phaser.GameObjects.Container {
             250,
             100,
             "Cups per pitcher: \n" + this.recipe.cupsPerPitcher.toString(),
-            { fontSize: "16px" },
+            { fontSize: "16px" }
         );
         this.costPerCupText = scene.add.text(250, 150, "Cost per cup:\n" + this.recipe.costPerCup.toFixed(2) + " $", {
             fontSize: "16px",
