@@ -3,6 +3,7 @@ import { PreparationScene as MainGame } from "./scenes/preparation-scene";
 import { GameOver } from "./scenes/GameOver";
 import { MainMenu } from "./scenes/MainMenu";
 import { Preloader } from "./scenes/Preloader";
+import { DayScene } from "./scenes/day-scene";
 
 import { Game, Types } from "phaser";
 
@@ -28,7 +29,7 @@ WebFont.load({
     google: {
         families: ["Play"],
     },
-})
+});
 
 //  Find out more information about the Game Config at:
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
@@ -42,7 +43,7 @@ const config: Types.Core.GameConfig = {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
     },
-    scene: [Boot, Preloader, MainMenu, MainGame, GameOver],
+    scene: [Boot, Preloader, MainMenu, MainGame, GameOver, DayScene],
 };
 
 export default new Game(config);
