@@ -35,13 +35,13 @@ export class PreparationTabContainer extends Phaser.GameObjects.Container {
         recipe.setSize(recipe.getContainerWidth(), recipe.getContainerHeight());
         supplies.setSize(supplies.getContainerWidth(), supplies.getContainerHeight());
 
-        results.setInteractive();
-        rent.setInteractive();
-        upgrades.setInteractive();
-        staff.setInteractive();
-        marketing.setInteractive();
-        recipe.setInteractive();
-        supplies.setInteractive();
+        results.setInteractive({ useHandCursor: true });
+        rent.setInteractive({ useHandCursor: true });
+        upgrades.setInteractive({ useHandCursor: true });
+        staff.setInteractive({ useHandCursor: true });
+        marketing.setInteractive({ useHandCursor: true });
+        recipe.setInteractive({ useHandCursor: true });
+        supplies.setInteractive({ useHandCursor: true });
 
         results.on("pointerdown", () => {
             this.emit("tabSelected", 0);
