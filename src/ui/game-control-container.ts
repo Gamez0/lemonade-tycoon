@@ -2,9 +2,13 @@ import { SUPPLIES_LIMIT } from "../constants";
 import { Budget } from "../models/budget";
 import { Supplies } from "../models/supplies";
 import { BuySuppliesContainer } from "./buy-supplies-container";
+import { MarketingContainer } from "./marketing-container";
 import { PreparationTabContainer } from "./preparation-tab-container";
 import { RecipeContainer } from "./recipe-container";
 import { RentContainer } from "./rent-container";
+import { ResultsContainer } from "./results-container";
+import { StaffContainer } from "./staff-container";
+import { UpgradesContainer } from "./upgrades-container";
 
 export interface SuppliesTotalPrice {
     lemonTotalPrice: number;
@@ -24,7 +28,11 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
     // TODO: need better name for this class
     preparationTabContainer: PreparationTabContainer;
     selectedTabIndex: number;
+    resultsContainer: ResultsContainer;
     rentContainer: RentContainer;
+    upgradesContainer: UpgradesContainer;
+    staffContainer: StaffContainer;
+    marketingContainer: MarketingContainer;
     buySuppliesContainer: BuySuppliesContainer;
     recipeContainer: RecipeContainer;
     budget: Budget;
@@ -43,7 +51,11 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
         this.budget = budget;
         this.supplies = supplies;
 
+        this.resultsContainer = new ResultsContainer(scene, marginLeft + padding, 64);
         this.rentContainer = new RentContainer(scene, marginLeft + padding, 64);
+        this.upgradesContainer = new UpgradesContainer(scene, marginLeft + padding, 64);
+        this.staffContainer = new StaffContainer(scene, marginLeft + padding, 64);
+        this.marketingContainer = new MarketingContainer(scene, marginLeft + padding, 64);
         this.buySuppliesContainer = new BuySuppliesContainer(scene, marginLeft + padding, 64, this.purchaseSupplies);
         this.recipeContainer = new RecipeContainer(scene, marginLeft + padding, 64, this.supplies);
 
@@ -52,7 +64,11 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
         this.add([
             this.tabItemsBackgroundContainer,
             this.preparationTabContainer,
+            this.resultsContainer,
             this.rentContainer,
+            this.upgradesContainer,
+            this.staffContainer,
+            this.marketingContainer,
             this.buySuppliesContainer,
             this.recipeContainer,
         ]);
@@ -106,14 +122,30 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
 
     updateUI() {
         // Hide all UI elements
+        this.resultsContainer.setVisible(false);
         this.rentContainer.setVisible(false);
+        this.upgradesContainer.setVisible(false);
+        this.staffContainer.setVisible(false);
+        this.marketingContainer.setVisible(false);
         this.buySuppliesContainer.setVisible(false);
         this.recipeContainer.setVisible(false);
 
         // Show UI elements based on selected tab
         switch (this.selectedTabIndex) {
+            case 0:
+                this.resultsContainer.setVisible(true);
+                break;
             case 1:
                 this.rentContainer.setVisible(true);
+                break;
+            case 2:
+                this.upgradesContainer.setVisible(true);
+                break;
+            case 3:
+                this.staffContainer.setVisible(true);
+                break;
+            case 4:
+                this.marketingContainer.setVisible(true);
                 break;
             case 5:
                 this.recipeContainer.setVisible(true);
