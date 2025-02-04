@@ -30,11 +30,7 @@ export class LocationCarouselWithRentButton extends Phaser.GameObjects.Container
         this.previousButton.setInteractive();
         this.previousButton.on("pointerdown", () => {
             this.seekingLocationIndex = (this.seekingLocationIndex - 1 + LOCATIONS_DATA.length) % LOCATIONS_DATA.length;
-            this.title.setText(LOCATIONS_DATA[this.seekingLocationIndex].title);
-            this.description.setText(LOCATIONS_DATA[this.seekingLocationIndex].shortDescription);
-            this.popularity.setText(`Popularity: ${rentedLocation.getPopularity(this.seekingLocationIndex)}`);
-            this.satisfaction.setText(`Satisfaction: ${rentedLocation.getSatisfaction(this.seekingLocationIndex)}`);
-            this.price.setText(`${LOCATIONS_DATA[this.seekingLocationIndex].price.toFixed(2)} $`);
+            this.updateUI(rentedLocation);
         });
 
         this.title = new Phaser.GameObjects.Text(scene, 225, 5, LOCATIONS_DATA[this.seekingLocationIndex].title, {
@@ -90,18 +86,15 @@ export class LocationCarouselWithRentButton extends Phaser.GameObjects.Container
         this.nextButton.setInteractive();
         this.nextButton.on("pointerdown", () => {
             this.seekingLocationIndex = (this.seekingLocationIndex + 1) % LOCATIONS_DATA.length;
-            // update UI
-            this.title.setText(LOCATIONS_DATA[this.seekingLocationIndex].title);
-            this.description.setText(LOCATIONS_DATA[this.seekingLocationIndex].shortDescription);
-            this.popularity.setText(`Popularity: ${rentedLocation.getPopularity(this.seekingLocationIndex)}`);
-            this.satisfaction.setText(`Satisfaction: ${rentedLocation.getSatisfaction(this.seekingLocationIndex)}`);
-            this.price.setText(`${LOCATIONS_DATA[this.seekingLocationIndex].price.toFixed(2)} $`);
+            this.updateUI(rentedLocation);
         });
 
-        this.rentButton = new TextButton(scene, 360, 240, "RENT");
+        this.rentButton = new TextButton(scene, 360, 240, "RENT", this.seekingLocationIndex === rentedLocation.getCurrentLocationKey());
+        
         this.rentButton.setInteractive();
         this.rentButton.on("pointerdown", () => {
             rentedLocation.setCurrentLocationKey(this.seekingLocationIndex);
+            this.updateRentButton(rentedLocation);
         });
 
         this.add([
@@ -117,5 +110,25 @@ export class LocationCarouselWithRentButton extends Phaser.GameObjects.Container
             this.rentButton,
         ]);
         scene.add.existing(this);
+    }
+
+    private updateUI (rentedLocation: RentedLocation) {
+        this.title.setText(LOCATIONS_DATA[this.seekingLocationIndex].title);
+        this.description.setText(LOCATIONS_DATA[this.seekingLocationIndex].shortDescription);
+        this.popularity.setText(`Popularity: ${rentedLocation.getPopularity(this.seekingLocationIndex)}`);
+        this.satisfaction.setText(`Satisfaction: ${rentedLocation.getSatisfaction(this.seekingLocationIndex)}`);
+        this.price.setText(`${LOCATIONS_DATA[this.seekingLocationIndex].price.toFixed(2)} $`);
+        this.updateRentButton(rentedLocation);
+    }
+
+    private updateRentButton (rentedLocation: RentedLocation) {
+        this.rentButton.destroy();
+        this.rentButton = new TextButton(this.scene, 360, 240, "RENT", this.seekingLocationIndex === rentedLocation.getCurrentLocationKey());
+        this.rentButton.setInteractive();
+        this.rentButton.on("pointerdown", () => {
+            rentedLocation.setCurrentLocationKey(this.seekingLocationIndex);
+            this.updateRentButton(rentedLocation);
+        });
+        this.add(this.rentButton);
     }
 }
