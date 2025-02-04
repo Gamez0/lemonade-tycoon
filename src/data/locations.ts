@@ -21,7 +21,7 @@ const PARK:LocationData = {
 
 const DOWNTOWN:LocationData = {
   title: "Downtown",
-  shortDescription: "Now it's time to get serious",
+  shortDescription: "Now it's time to get \nserious",
   description: "Lots of customers with money to spend means you can hit the big bucks in the downtown area... just make sure you have the proper equipment: businessmen with their busy schedules simply hate waiting in line.",
   price: 30,
 }
