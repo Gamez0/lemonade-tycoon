@@ -5,12 +5,14 @@ import { GameControlContainer } from "../ui/game-control-container";
 import { Supplies } from "../models/supplies";
 import { Budget } from "../models/budget";
 import { TextButton } from "../ui/text-button";
+import { RentedLocation } from "../models/location";
 
 export class PreparationScene extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
     background: Phaser.GameObjects.Image;
     private budget: Budget;
     private supplies: Supplies;
+    private rentedLocation: RentedLocation;
     supplyStatusContainer: SupplyStatusContainer;
     budgetContainer: BudgetContainer;
     gameControlUI: GameControlContainer;
@@ -20,6 +22,7 @@ export class PreparationScene extends Scene {
         super("preparation");
         this.budget = new Budget(100);
         this.supplies = new Supplies(0, 0, 0, 0, 0, 0, 0, 0);
+        this.rentedLocation = new RentedLocation();
     }
 
     preload() {
@@ -46,7 +49,7 @@ export class PreparationScene extends Scene {
 
         this.supplyStatusContainer = new SupplyStatusContainer(this, 50, 25, this.supplies);
         this.budgetContainer = new BudgetContainer(this, 924, 16, this.budget);
-        this.gameControlUI = new GameControlContainer(this, 0, 125, this.budget, this.supplies);
+        this.gameControlUI = new GameControlContainer(this, 0, 125, this.budget, this.supplies, this.rentedLocation);
         this.startButton = new TextButton(this, 410, 700, "START GAME");
         this.startButton.setInteractive();
         this.startButton.on("pointerdown", () => {

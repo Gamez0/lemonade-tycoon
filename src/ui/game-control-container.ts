@@ -1,5 +1,6 @@
 import { SUPPLIES_LIMIT } from "../constants";
 import { Budget } from "../models/budget";
+import { RentedLocation } from "../models/location";
 import { Supplies } from "../models/supplies";
 import { BuySuppliesContainer } from "./buy-supplies-container";
 import { MarketingContainer } from "./marketing-container";
@@ -39,7 +40,7 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
     private supplies: Supplies;
     tabItemsBackgroundContainer: Phaser.GameObjects.Rectangle;
 
-    constructor(scene: Phaser.Scene, x: number, y: number, budget: Budget, supplies: Supplies) {
+    constructor(scene: Phaser.Scene, x: number, y: number, budget: Budget, supplies: Supplies, rentedLocation: RentedLocation) {
         super(scene, x, y);
         const marginLeft = 16;
         const padding = 16;
@@ -52,7 +53,7 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
         this.supplies = supplies;
 
         this.resultsContainer = new ResultsContainer(scene, marginLeft + padding, 64);
-        this.rentContainer = new RentContainer(scene, marginLeft + padding, 64);
+        this.rentContainer = new RentContainer(scene, marginLeft + padding, 64, rentedLocation);
         this.upgradesContainer = new UpgradesContainer(scene, marginLeft + padding, 64);
         this.staffContainer = new StaffContainer(scene, marginLeft + padding, 64);
         this.marketingContainer = new MarketingContainer(scene, marginLeft + padding, 64);

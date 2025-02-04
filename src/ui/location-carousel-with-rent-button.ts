@@ -1,52 +1,24 @@
-import { Location } from "../models/location";
+import { LOCATIONS_DATA } from "../data/locations";
+import { RentedLocation } from "../models/location";
 import { TextButton } from "./text-button";
 import { TitleText } from "./title-text";
 
-const suburb = new Location(
-    "The Suburbs",
-    "Your very own \nneighborhood!",
-    "Is there a better place to start your Lemonade empire than your very own neighborhood? Don't expect a lot of customers here, but the free rent and popularity bonus will help you test the ups and downs of the business without too much risk.",
-    0,
-    0,
-    0,
-);
-const park = new Location(
-    "The Park",
-    "Kids love lemonade!",
-    "With a decent customer base and a fairly cheap daily rent, the park is a nice place to start expanding your business. Kids just can't resist a cool glass of lemonade, so long as you keep the price in their range.",
-    10,
-    0,
-    0,
-);
-
-const downTown = new Location(
-    "Downtown",
-    "Now it's time to get serious",
-    "Lots of customers with money to spend means you can hit the big bucks in the downtown area... just make sure you have the proper equipment: businessmen with their busy schedules simply hate waiting in line.",
-    30,
-    0,
-    0,
-);
-
-const locations = [suburb, park, downTown];
-
 export class LocationCarouselWithRentButton extends Phaser.GameObjects.Container {
     private title: Phaser.GameObjects.Text;
-    private imageAreaTodo: Phaser.GameObjects.Rectangle;
+    private imageAreaTodo: Phaser.GameObjects.Rectangle;  // TODO: Image Button 이 필요하다.
     private description: Phaser.GameObjects.Text;
     private popularity: Phaser.GameObjects.Text;
     private satisfaction: Phaser.GameObjects.Text;
     private price: TitleText;
-    private nextButton: TextButton; // TODO: Image Button 이 필요하다.
+    private nextButton: TextButton;
     private previousButton: TextButton;
     private seekingLocationIndex: number;
-    private locations: Location[];
     private background: Phaser.GameObjects.Rectangle;
+    private rentButton: TextButton;
 
-    constructor(scene: Phaser.Scene, x: number, y: number) {
+    constructor(scene: Phaser.Scene, x: number, y: number, rentedLocation: RentedLocation) {
         super(scene, x, y);
 
-        this.locations = locations;
         this.seekingLocationIndex = 0;
         
         const backgroundWidth = 360;
@@ -57,16 +29,15 @@ export class LocationCarouselWithRentButton extends Phaser.GameObjects.Container
         this.previousButton = new TextButton(scene, 30, 30, "<");
         this.previousButton.setInteractive();
         this.previousButton.on("pointerdown", () => {
-            this.seekingLocationIndex = (this.seekingLocationIndex - 1 + this.locations.length) % this.locations.length;
-            // update UI
-            this.title.setText(this.locations[this.seekingLocationIndex].getName());
-            this.description.setText(this.locations[this.seekingLocationIndex].getShortDescription());
-            this.popularity.setText(`Popularity: ${this.locations[this.seekingLocationIndex].getPopularity()}`);
-            this.satisfaction.setText(`Satisfaction: ${this.locations[this.seekingLocationIndex].getSatisfaction()}`);
-            this.price.setText(`${this.locations[this.seekingLocationIndex].getPrice().toFixed(2)} $`);
+            this.seekingLocationIndex = (this.seekingLocationIndex - 1 + LOCATIONS_DATA.length) % LOCATIONS_DATA.length;
+            this.title.setText(LOCATIONS_DATA[this.seekingLocationIndex].title);
+            this.description.setText(LOCATIONS_DATA[this.seekingLocationIndex].shortDescription);
+            this.popularity.setText(`Popularity: ${rentedLocation.getPopularity(this.seekingLocationIndex)}`);
+            this.satisfaction.setText(`Satisfaction: ${rentedLocation.getSatisfaction(this.seekingLocationIndex)}`);
+            this.price.setText(`${LOCATIONS_DATA[this.seekingLocationIndex].price.toFixed(2)} $`);
         });
 
-        this.title = new Phaser.GameObjects.Text(scene, 225, 5, this.locations[this.seekingLocationIndex].getName(), {
+        this.title = new Phaser.GameObjects.Text(scene, 225, 5, LOCATIONS_DATA[this.seekingLocationIndex].title, {
             color: "white",
             fontSize: "16px",
         });
@@ -79,7 +50,7 @@ export class LocationCarouselWithRentButton extends Phaser.GameObjects.Container
             scene,
             225,
             35,
-            this.locations[this.seekingLocationIndex].getShortDescription(),
+            LOCATIONS_DATA[this.seekingLocationIndex].shortDescription,
             {
                 color: "white",
                 fontSize: "12px",
@@ -90,7 +61,7 @@ export class LocationCarouselWithRentButton extends Phaser.GameObjects.Container
             scene,
             55,
             100,
-            `Popularity: ${this.locations[this.seekingLocationIndex].getPopularity()}`,
+            `Popularity: ${rentedLocation.getPopularity(this.seekingLocationIndex)}`,
             {
                 color: "white",
                 fontSize: "12px",
@@ -101,7 +72,7 @@ export class LocationCarouselWithRentButton extends Phaser.GameObjects.Container
             scene,
             55,
             150,
-            `Satisfaction: ${this.locations[this.seekingLocationIndex].getSatisfaction()}`,
+            `Satisfaction: ${rentedLocation.getSatisfaction(this.seekingLocationIndex)}`,
             {
                 color: "white",
                 fontSize: "12px",
@@ -112,19 +83,25 @@ export class LocationCarouselWithRentButton extends Phaser.GameObjects.Container
             scene,
             245,
             130,
-            `${this.locations[this.seekingLocationIndex].getPrice().toFixed(2)} $`,
+            `${LOCATIONS_DATA[this.seekingLocationIndex].price.toFixed(2)} $`,
         );
 
         this.nextButton = new TextButton(scene, 420, 30, ">");
         this.nextButton.setInteractive();
         this.nextButton.on("pointerdown", () => {
-            this.seekingLocationIndex = (this.seekingLocationIndex + 1) % this.locations.length;
+            this.seekingLocationIndex = (this.seekingLocationIndex + 1) % LOCATIONS_DATA.length;
             // update UI
-            this.title.setText(this.locations[this.seekingLocationIndex].getName());
-            this.description.setText(this.locations[this.seekingLocationIndex].getShortDescription());
-            this.popularity.setText(`Popularity: ${this.locations[this.seekingLocationIndex].getPopularity()}`);
-            this.satisfaction.setText(`Satisfaction: ${this.locations[this.seekingLocationIndex].getSatisfaction()}`);
-            this.price.setText(`${this.locations[this.seekingLocationIndex].getPrice().toFixed(2)} $`);
+            this.title.setText(LOCATIONS_DATA[this.seekingLocationIndex].title);
+            this.description.setText(LOCATIONS_DATA[this.seekingLocationIndex].shortDescription);
+            this.popularity.setText(`Popularity: ${rentedLocation.getPopularity(this.seekingLocationIndex)}`);
+            this.satisfaction.setText(`Satisfaction: ${rentedLocation.getSatisfaction(this.seekingLocationIndex)}`);
+            this.price.setText(`${LOCATIONS_DATA[this.seekingLocationIndex].price.toFixed(2)} $`);
+        });
+
+        this.rentButton = new TextButton(scene, 360, 240, "RENT");
+        this.rentButton.setInteractive();
+        this.rentButton.on("pointerdown", () => {
+            rentedLocation.setCurrentLocationKey(this.seekingLocationIndex);
         });
 
         this.add([
@@ -137,6 +114,7 @@ export class LocationCarouselWithRentButton extends Phaser.GameObjects.Container
             this.popularity,
             this.satisfaction,
             this.price,
+            this.rentButton,
         ]);
         scene.add.existing(this);
     }
