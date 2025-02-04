@@ -1,33 +1,37 @@
 export class TextButton extends Phaser.GameObjects.Container {
+    private startButton: Phaser.GameObjects.Text;
+    private emptyButton: Phaser.GameObjects.Rectangle;
+    private buttonWithRadius: Phaser.GameObjects.Graphics;
+
     constructor(
         scene: Phaser.Scene,
         x: number,
         y: number,
         text: string,
+        isDisabled: boolean = false,
         style?: Phaser.Types.GameObjects.Text.TextStyle,
-        isDisabled: boolean = false
     ) {
         super(scene, x, y);
 
         // Create the button background
 
         // Create the text
-        const startButton = new Phaser.GameObjects.Text(scene, 0, 0, text, { ...defaultStyle(isDisabled), ...style });
-        startButton.setOrigin(0.5); // Center the text
-        const textWidth = startButton.width;
-        const textHeight = startButton.height;
+        this.startButton = new Phaser.GameObjects.Text(scene, 0, 0, text, { ...defaultStyle(isDisabled), ...style });
+        this.startButton.setOrigin(0.5); // Center the text
+        const textWidth = this.startButton.width;
+        const textHeight = this.startButton.height;
 
-        const emptyButton = new Phaser.GameObjects.Rectangle(scene, 0, 0, textWidth + 16, textHeight + 32, 0x000000, 0);
-        emptyButton.setOrigin(0.5);
-        emptyButton.setInteractive({ useHandCursor: !isDisabled });
-        emptyButton.on("pointerdown", () => {
+        this.emptyButton = new Phaser.GameObjects.Rectangle(scene, 0, 0, textWidth + 16, textHeight + 32, 0x000000, 0);
+        this.emptyButton.setOrigin(0.5);
+        this.emptyButton.setInteractive({ useHandCursor: !isDisabled });
+        this.emptyButton.on("pointerdown", () => {
             if (isDisabled) return;
             this.emit("pointerdown");
         });
 
-        const buttonWithRadius = this.createRoundedBackground(textWidth, textHeight);
+        this.buttonWithRadius = this.createRoundedBackground(textWidth, textHeight);
 
-        this.add([buttonWithRadius, startButton, emptyButton]);
+        this.add([this.buttonWithRadius, this.emptyButton, this.startButton]);
         scene.add.existing(this);
     }
 
@@ -43,6 +47,12 @@ export class TextButton extends Phaser.GameObjects.Container {
         graphics.fillRoundedRect(-width / 2, -height / 2, width, height, radius);
 
         return graphics;
+    }
+
+    public destory() {
+        this.startButton.destroy();
+        this.emptyButton.destroy();
+        this.buttonWithRadius.destroy();
     }
 }
 
