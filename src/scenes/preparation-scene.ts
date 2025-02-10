@@ -6,6 +6,8 @@ import { Supplies } from "../models/supplies";
 import { Budget } from "../models/budget";
 import { TextButton } from "../ui/text-button";
 import { RentedLocation } from "../models/location";
+import WeatherNewsContainer from "../ui/weather-news-container";
+import { TemperatureByTime, WeatherForecast } from "../types/weather-forecast";
 
 export class PreparationScene extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
@@ -17,6 +19,7 @@ export class PreparationScene extends Scene {
     budgetContainer: BudgetContainer;
     gameControlUI: GameControlContainer;
     startButton: TextButton;
+    weatherNewsContainer: WeatherNewsContainer;
 
     constructor() {
         super("preparation");
@@ -41,6 +44,10 @@ export class PreparationScene extends Scene {
         this.load.image("staff-32", "assets/staff-32.png");
         this.load.image("supplies-32", "assets/supplies-32.png");
         this.load.image("upgrades-32", "assets/upgrades-32.png");
+        this.load.image("sunny-24", "assets/sunny-24.png");
+        this.load.image("cloudy-24", "assets/cloudy-24.png");
+        this.load.image("rainy-24", "assets/rainy-24.png");
+        this.load.image("little-cloudy-24", "assets/little-cloudy-24.png");
     }
 
     create() {
@@ -49,7 +56,8 @@ export class PreparationScene extends Scene {
 
         this.supplyStatusContainer = new SupplyStatusContainer(this, 50, 25, this.supplies);
         this.budgetContainer = new BudgetContainer(this, 924, 16, this.budget);
-        this.gameControlUI = new GameControlContainer(this, 0, 125, this.budget, this.supplies, this.rentedLocation);
+        this.gameControlUI = new GameControlContainer(this, 0, 144, this.budget, this.supplies, this.rentedLocation);
+        this.weatherNewsContainer = new WeatherNewsContainer(this, 512, 64, this.getDate(), this.getWeatherForecast({isCelsius: true}), this.getNews(), true);
         this.startButton = new TextButton(this, 410, 700, "START GAME");
         this.startButton.setInteractive();
         this.startButton.on("pointerdown", () => {
@@ -58,5 +66,43 @@ export class PreparationScene extends Scene {
                 supplies: this.supplies,
             });
         });
+    }
+
+    getDate(): {year: number, month: number, day: number} {
+        const date = new Date();
+        return {
+            year: date.getFullYear(),
+            month: date.getMonth() + 1,
+            day: date.getDate(),
+        };
+    }
+
+    getNews(): string {
+        return "Today's news: Sunny day. \nPerfect day for selling lemonade!";
+    }
+
+    getWeatherForecast({isCelsius}: {isCelsius: boolean}):WeatherForecast {
+        const temperatureByTime: TemperatureByTime = this.generateTemperatureByTime(isCelsius);
+        return {
+            temperatureByTime,
+            morning: 'sunny',
+            afternoon: 'sunny',
+            evening: 'sunny',
+            isCelsius,
+        };
+    }
+
+    generateTemperatureByTime(isCelsius: boolean):TemperatureByTime {
+        const temperatureByTime = {} as TemperatureByTime;
+        for(let i = 0; i < 24; i++) {
+            // generate random temperature
+            const temperature = Math.floor(Math.random() * 30) + 10;
+            temperatureByTime[i as keyof TemperatureByTime] = isCelsius ? temperature : this.changeTemperatureToFahrenheit(temperature);
+        }
+        return temperatureByTime;
+    }
+
+    changeTemperatureToFahrenheit(temperature: number):number {
+        return Math.round((temperature * 9/5) + 32);
     }
 }
