@@ -89,6 +89,7 @@ export class RecipeContainer extends Phaser.GameObjects.Container {
     private createLemonControls(scene: Phaser.Scene) {
         this.lemonMinusButton = new MinusButton(scene, 30, 100);
         this.lemonMinusButton.on("pointerdown", () => this.decreaseIngredient("lemon"), this);
+        this.lemonMinusButton.setVisible(this.recipe.lemon > 1);
         this.lemonImage = scene.add.image(110, 120, "lemon");
         this.lemonText = new TitleText(scene, 150, 110, this.recipe.lemon.toString());
         this.lemonPlusButton = new PlusButton(scene, 180, 100);
@@ -98,6 +99,7 @@ export class RecipeContainer extends Phaser.GameObjects.Container {
     private createSugarControls(scene: Phaser.Scene) {
         this.sugarMinusButton = new MinusButton(scene, 30, 150);
         this.sugarMinusButton.on("pointerdown", () => this.decreaseIngredient("sugar"), this);
+        this.sugarMinusButton.setVisible(this.recipe.sugar > 1);
         this.sugarImage = scene.add.image(110, 170, "sugar");
         this.sugarText = new TitleText(scene, 150, 160, this.recipe.sugar.toString());
         this.sugarPlusButton = new PlusButton(scene, 180, 150);
@@ -107,6 +109,7 @@ export class RecipeContainer extends Phaser.GameObjects.Container {
     private createIceControls(scene: Phaser.Scene) {
         this.iceMinusButton = new MinusButton(scene, 30, 220);
         this.iceMinusButton.on("pointerdown", () => this.decreaseIngredient("ice"), this);
+        this.iceMinusButton.setVisible(this.recipe.ice > 1);
         this.iceImage = scene.add.image(110, 240, "ice");
         this.iceText = new TitleText(scene, 150, 230, this.recipe.ice.toString());
         this.icePlusButton = new PlusButton(scene, 180, 220);
@@ -118,14 +121,17 @@ export class RecipeContainer extends Phaser.GameObjects.Container {
             case "lemon":
                 this.recipe.lemon += 1;
                 this.lemonText.setText(this.recipe.lemon.toString());
+                this.lemonMinusButton.setVisible(true);
                 break;
             case "sugar":
                 this.recipe.sugar += 1;
                 this.sugarText.setText(this.recipe.sugar.toString());
+                this.sugarMinusButton.setVisible(true);
                 break;
             case "ice":
                 this.recipe.ice += 1;
                 this.iceText.setText(this.recipe.ice.toString());
+                this.iceMinusButton.setVisible(true);
                 break;
         }
     }
@@ -137,17 +143,32 @@ export class RecipeContainer extends Phaser.GameObjects.Container {
                     this.recipe.lemon -= 1;
                     this.lemonText.setText(this.recipe.lemon.toString());
                 }
+                if (this.recipe.lemon === 1) {
+                    this.lemonMinusButton.setVisible(false);
+                } else {
+                    this.lemonMinusButton.setVisible(true);
+                }
                 break;
             case "sugar":
                 if (this.recipe.sugar > 1) {
                     this.recipe.sugar -= 1;
                     this.sugarText.setText(this.recipe.sugar.toString());
                 }
+                if (this.recipe.sugar === 1) {
+                    this.sugarMinusButton.setVisible(false);
+                } else {
+                    this.sugarMinusButton.setVisible(true);
+                }
                 break;
             case "ice":
                 if (this.recipe.ice > 1) {
                     this.recipe.ice -= 1;
                     this.iceText.setText(this.recipe.ice.toString());
+                }
+                if (this.recipe.ice === 1) {
+                    this.iceMinusButton.setVisible(false);
+                } else {
+                    this.iceMinusButton.setVisible(true);
                 }
                 break;
         }

@@ -20,6 +20,7 @@ export class ItemPurchaseContainer extends Phaser.GameObjects.Container {
 
         this.minusButton = new MinusButton(scene, 0, 0);
         this.minusButton.on("pointerdown", this.onMinusButtonClicked, this);
+        this.minusButton.setVisible(false);
 
         this.perBundleText = scene.add.text(50, 0, perBundle.toString() + " " + itemName, { fontSize: "24px" });
         this.priceText = scene.add.text(50, 25, price.toFixed(2) + " $", {
