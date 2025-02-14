@@ -19,6 +19,18 @@ export class DayScene extends Scene {
     create() {
         this.camera = this.cameras.main;
         this.camera.setBackgroundColor("rgb(24, 174, 49)");
+
+        const map = this.make.tilemap({ key: "park-map" });
+        const tileset = map.addTilesetImage("tilemap_packed", "tiles");
+
+        if (tileset) {
+            map.createLayer("Tile Layer 1", tileset);
+            map.createLayer("Tile Layer 2", tileset);
+            map.createLayer("Tile Layer 3", tileset);
+        } else {
+            console.error("Failed to load tileset");
+        }
+
         this.skipButton = new TextButton(this, 410, 700, "SKIP");
         this.skipButton.on("pointerdown", () => {
             this.scene.switch("preparation");
