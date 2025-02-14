@@ -69,6 +69,20 @@ export class PreparationScene extends Scene {
             this.getNews(),
             true
         );
+
+        const map = this.make.tilemap({ key: "park-map" });
+        const tileset = map.addTilesetImage("tilemap_packed", "tiles");
+
+        if (tileset) {
+            const mapX = 515;
+            const mapY = 194;
+            map.createLayer("Tile Layer 1", tileset)?.setPosition(mapX, mapY);
+            map.createLayer("Tile Layer 2", tileset)?.setPosition(mapX, mapY);
+            map.createLayer("Tile Layer 3", tileset)?.setPosition(mapX, mapY);
+        } else {
+            console.error("Failed to load tileset");
+        }
+
         this.startButton = new TextButton(this, 410, 700, "START GAME");
         this.startButton.setInteractive();
         this.startButton.on("pointerdown", () => {
