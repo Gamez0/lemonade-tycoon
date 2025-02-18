@@ -8,6 +8,7 @@ import { TextButton } from "../ui/text-button";
 import { RentedLocation } from "../models/location";
 import WeatherNewsContainer from "../ui/weather-news-container";
 import { TemperatureByTime, WeatherForecast } from "../types/weather-forecast";
+import { changeTemperatureToFahrenheit } from "../utils";
 
 export class PreparationScene extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
@@ -57,6 +58,9 @@ export class PreparationScene extends Scene {
         this.camera = this.cameras.main;
         this.camera.setBackgroundColor("rgb(24, 174, 49)");
 
+        const weatherForecast = this.getWeatherForecast({ isCelsius: true });
+        const news = this.getNews();
+
         this.supplyStatusContainer = new SupplyStatusContainer(this, 50, 25, this.supplies);
         this.budgetContainer = new BudgetContainer(this, 924, 16, this.budget);
         this.gameControlUI = new GameControlContainer(this, 0, 144, this.budget, this.supplies, this.rentedLocation);
@@ -65,8 +69,8 @@ export class PreparationScene extends Scene {
             512,
             64,
             this.getDate(),
-            this.getWeatherForecast({ isCelsius: true }),
-            this.getNews(),
+            weatherForecast,
+            news,
             true
         );
 
@@ -89,6 +93,8 @@ export class PreparationScene extends Scene {
             this.scene.switch("day", {
                 budget: this.budget,
                 supplies: this.supplies,
+                weatherForecast,
+                news,
             });
         });
     }
@@ -124,12 +130,8 @@ export class PreparationScene extends Scene {
             const temperature = Math.floor(Math.random() * 30) + 10;
             temperatureByTime[i as keyof TemperatureByTime] = isCelsius
                 ? temperature
-                : this.changeTemperatureToFahrenheit(temperature);
+                : changeTemperatureToFahrenheit(temperature);
         }
         return temperatureByTime;
-    }
-
-    changeTemperatureToFahrenheit(temperature: number): number {
-        return Math.round((temperature * 9) / 5 + 32);
     }
 }
