@@ -1,28 +1,28 @@
 export class Customer extends Phaser.Events.EventEmitter {
     private _character: Phaser.GameObjects.Sprite;
-    private _paitence: number;
+    private _patient: number;
 
     // 아예 비싸면 줄에 서지 않음
     // 줄에 서있으면 patience가 줄어듬
     // patience가 0이 되면 줄에서 나감
 
-    constructor(character: Phaser.GameObjects.Sprite, paitence: number) {
+    constructor(character: Phaser.GameObjects.Sprite, patient: number) {
         super();
         this._character = character;
-        this._paitence = paitence;
+        this._patient = patient;
     }
 
     getCharacter = (): Phaser.GameObjects.Sprite => {
         return this._character;
     };
 
-    getPaitence = (): number => {
-        return this._paitence;
+    getPatient = (): number => {
+        return this._patient;
     };
 
-    setPaitence = (value: number) => {
-        this._paitence = value;
-        this.emit("change", this._paitence);
+    setPatient = (value: number) => {
+        this._patient = value;
+        this.emit("change", this._patient);
     };
 
     setCharacter = (value: Phaser.GameObjects.Sprite) => {
