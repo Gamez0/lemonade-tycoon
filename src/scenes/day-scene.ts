@@ -1,14 +1,30 @@
 import { Scene } from "phaser";
 import { TextButton } from "../ui/text-button";
+import { Atmosphere, Time, WeatherForecast } from "../types/weather-forecast";
+import { Customer } from "../models/customer";
+import { changeTemperatureToFahrenheit } from "../utils";
+import { Budget } from "../models/budget";
+import { Supplies } from "../models/supplies";
 
 export class DayScene extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
     skipButton: TextButton;
     kid: Phaser.GameObjects.Sprite;
     test: Phaser.GameObjects.Sprite;
+    budget: Budget;
+    supplies: Supplies;
+    weatherForecast: WeatherForecast;
+    news: string;
 
     constructor() {
         super("day");
+    }
+
+    init(data: { budget: Budget; supplies: Supplies; weatherForecast: WeatherForecast; news: string }) {
+        this.budget = data.budget;
+        this.supplies = data.supplies;
+        this.weatherForecast = data.weatherForecast;
+        this.news = data.news;
     }
 
     preload() {
@@ -43,6 +59,8 @@ export class DayScene extends Scene {
         this.skipButton.on("pointerdown", () => {
             this.scene.switch("preparation");
         });
+
+        const customerList = this.getCustomerList(this.weatherForecast);
 
         this.test = this.add.sprite(100, 100, "characters", 4);
 
@@ -156,5 +174,51 @@ export class DayScene extends Scene {
         //         }
         //     },
         // });
+    }
+
+    getCustomerList(weatherForecast: WeatherForecast) {
+        const { morning, afternoon, evening, temperatureByTime, isCelsius } = weatherForecast;
+        const customerList: { [key: number]: Customer[] } = {};
+        for (let i = 8; i <= 19; i++) {
+            const atmosphere = i < 12 ? morning : i < 18 ? afternoon : evening;
+            const celsiusTemperature = isCelsius
+                ? temperatureByTime[i as Time]
+                : changeTemperatureToFahrenheit(temperatureByTime[i as Time]);
+            customerList[i] = this.makeCustomerListByTime(i, celsiusTemperature, atmosphere);
+        }
+        return customerList;
+    }
+
+    private makeCustomerListByTime(time: number, celsiusTemperature: number, atmosphere: Atmosphere) {
+        // TODO: location should be added to paramters
+        const customerList = [];
+        const customerCount = this.setCustomerCount(time, celsiusTemperature, atmosphere);
+        for (let i = 0; i < customerCount; i++) {
+            const character = this.add.sprite(100, 300, "characters", 4);
+            const newCustomer = new Customer(character, 10);
+            customerList.push(newCustomer);
+        }
+        return customerList;
+    }
+
+    private setCustomerCount(time: number, celsiusTemperature: number, atmosphere: Atmosphere) {
+        let defaultCount = 2;
+        if (time >= 12 && time < 18) {
+            // if time is morning, customer count is low
+            // if time is afternoon, customer count is high
+            // if time is evening, customer count is low
+            defaultCount *= 2;
+        }
+        if (celsiusTemperature > 25) {
+            // if temperature is high, customer count is high
+            // if temperature is low, customer count is low
+            defaultCount *= 2;
+        }
+        if (atmosphere === "sunny") {
+            // if atmosphere is sunny, customer count is high
+            // if atmosphere is rainy, customer count is low
+            defaultCount *= 2;
+        }
+        return defaultCount;
     }
 }
