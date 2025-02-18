@@ -62,7 +62,29 @@ export class DayScene extends Scene {
 
         const customerList = this.getCustomerList(this.weatherForecast);
 
-        this.test = this.add.sprite(100, 100, "characters", 4);
+        const movePath = new Phaser.Curves.Path(515 + 16, 194 + 16);
+        movePath.lineTo(515 + 16 * 11, 194 + 16); // 오른쪽으로 이동
+        movePath.lineTo(515 + 16 * 11, 194 + 16 * 12); // 아래쪽으로 이동
+
+        const npc = this.add.follower(movePath, 515 + 16, 194 + 16, "characters", 4);
+
+        const animations = ["walk-right-1", "walk-down-1"];
+        let currentSegment = 0;
+
+        npc.startFollow({
+            duration: 3000, // 전체 경로를 도는 시간 (ms)
+            onUpdate: () => {
+                const progress = npc.pathTween.progress;
+                const segmentProgress = (progress * animations.length) % 1;
+                if (segmentProgress < 0.01) {
+                    currentSegment = Math.floor(progress * animations.length);
+                    npc.play(animations[currentSegment], true);
+                }
+            },
+            onComplete: () => {
+                npc.play("stand-right-1", true);
+            },
+        });
 
         for (let i = 0; i < 12; i++) {
             this.anims.create({
@@ -103,9 +125,13 @@ export class DayScene extends Scene {
                 frameRate: 6,
                 repeat: -1,
             });
-        }
 
-        this.test.play("walk-left-0", true);
+            this.anims.create({
+                key: `stand-right-${i}`,
+                // just standing to the right
+                frames: [{ key: "characters", frame: i * 12 + 2 }],
+            });
+        }
 
         // this.anims.create({
         //     key: "stand-front",
