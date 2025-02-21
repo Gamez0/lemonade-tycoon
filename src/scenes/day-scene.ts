@@ -6,15 +6,35 @@ import { changeTemperatureToFahrenheit } from "../utils";
 import { Budget } from "../models/budget";
 import { Supplies } from "../models/supplies";
 
+const MAP_POSITION = { x: 515, y: 194 };
+const MAP_SIZE = { width: 480, height: 384 };
+
+interface MapPosition {
+    x: number;
+    y: number;
+}
+
+interface PathPoint {
+    x: number;
+    y: number;
+}
+
+interface PathObject {
+    x: number;
+    y: number;
+    polyline: { x: number; y: number }[];
+    properties: { name: string; type: string; value: string }[];
+}
+
 export class DayScene extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
     skipButton: TextButton;
-    kid: Phaser.GameObjects.Sprite;
-    test: Phaser.GameObjects.Sprite;
     budget: Budget;
     supplies: Supplies;
     weatherForecast: WeatherForecast;
     news: string;
+    pathPoints: { x: number; y: number }[];
+    queue: Customer[] = [];
 
     constructor() {
         super("day");
@@ -28,10 +48,6 @@ export class DayScene extends Scene {
     }
 
     preload() {
-        for (let i = 1; i <= 12; i++) {
-            this.load.image(`kid-girl-${i}`, `assets/characters/kid-girl/kid-girl-${i}.png`);
-        }
-
         this.load.spritesheet("characters", "assets/characters/characters.png", {
             frameWidth: 16,
             frameHeight: 16,
@@ -46,11 +62,9 @@ export class DayScene extends Scene {
         const tileset = map.addTilesetImage("tilemap_packed", "tiles");
 
         if (tileset) {
-            const mapX = 515;
-            const mapY = 194;
-            map.createLayer("Tile Layer 1", tileset)?.setPosition(mapX, mapY);
-            map.createLayer("Tile Layer 2", tileset)?.setPosition(mapX, mapY);
-            map.createLayer("Tile Layer 3", tileset)?.setPosition(mapX, mapY);
+            map.createLayer("Tile Layer 1", tileset)?.setPosition(MAP_POSITION.x, MAP_POSITION.y);
+            map.createLayer("Tile Layer 2", tileset)?.setPosition(MAP_POSITION.x, MAP_POSITION.y);
+            map.createLayer("Tile Layer 3", tileset)?.setPosition(MAP_POSITION.x, MAP_POSITION.y);
         } else {
             console.error("Failed to load tileset");
         }
@@ -62,30 +76,17 @@ export class DayScene extends Scene {
 
         const customerList = this.getCustomerList(this.weatherForecast);
 
-        const movePath = new Phaser.Curves.Path(515 + 16, 194 + 16);
-        movePath.lineTo(515 + 16 * 11, 194 + 16); // 오른쪽으로 이동
-        movePath.lineTo(515 + 16 * 11, 194 + 16 * 12); // 아래쪽으로 이동
+        const enterObjectLayer = map.getObjectLayer("Npc Enter Path");
+        const exitObjectLayer = map.getObjectLayer("Npc Exit Path");
 
-        const npc = this.add.follower(movePath, 515 + 16, 194 + 16, "characters", 4);
+        if (enterObjectLayer) {
+            this.enterMap(4, MAP_POSITION, enterObjectLayer);
+        }
 
-        const animations = ["walk-right-1", "walk-down-1"];
-        let currentSegment = 0;
+        this.createAnimation();
+    }
 
-        npc.startFollow({
-            duration: 3000, // 전체 경로를 도는 시간 (ms)
-            onUpdate: () => {
-                const progress = npc.pathTween.progress;
-                const segmentProgress = (progress * animations.length) % 1;
-                if (segmentProgress < 0.01) {
-                    currentSegment = Math.floor(progress * animations.length);
-                    npc.play(animations[currentSegment], true);
-                }
-            },
-            onComplete: () => {
-                npc.play("stand-right-1", true);
-            },
-        });
-
+    createAnimation() {
         for (let i = 0; i < 12; i++) {
             this.anims.create({
                 key: `stand-front-${i}`,
@@ -132,74 +133,6 @@ export class DayScene extends Scene {
                 frames: [{ key: "characters", frame: i * 12 + 2 }],
             });
         }
-
-        // this.anims.create({
-        //     key: "stand-front",
-        //     frames: [{ key: "kid-girl-1" }],
-        //     frameRate: 10,
-        // });
-        // this.anims.create({
-        //     key: "stand-back",
-        //     frames: [{ key: "kid-girl-2" }],
-        //     frameRate: 10,
-        // });
-        // this.anims.create({
-        //     key: "stand-right",
-        //     frames: [{ key: "kid-girl-3" }],
-        //     frameRate: 10,
-        // });
-        // this.anims.create({
-        //     key: "stand-left",
-        //     frames: [{ key: "kid-girl-4" }],
-        //     frameRate: 10,
-        // });
-
-        // this.anims.create({
-        //     key: "walk-down",
-        //     frames: [{ key: "kid-girl-5" }, { key: "kid-girl-6" }],
-        //     frameRate: 6,
-        //     repeat: -1,
-        // });
-
-        // this.anims.create({
-        //     key: "walk-up",
-        //     frames: [{ key: "kid-girl-7" }, { key: "kid-girl-8" }],
-        //     frameRate: 6,
-        //     repeat: -1,
-        // });
-
-        // this.anims.create({
-        //     key: "walk-right",
-        //     frames: [{ key: "kid-girl-9" }, { key: "kid-girl-10" }],
-        //     frameRate: 6,
-        //     repeat: -1,
-        // });
-
-        // this.anims.create({
-        //     key: "walk-left",
-        //     frames: [{ key: "kid-girl-11" }, { key: "kid-girl-12" }],
-        //     frameRate: 6,
-        //     repeat: -1,
-        // });
-
-        // this.kid = this.add.sprite(100, 300, "kid-girl-1");
-
-        // this.tweens.add({
-        //     targets: this.kid,
-        //     x: 500,
-        //     duration: 3000,
-        //     ease: "Linear",
-        //     repeat: -1,
-        //     yoyo: true,
-
-        //     onUpdate: (tweens) => {
-        //         if (tweens.elapsed % 6000 < 3000) {
-        //             this.kid.play("walk-right", true);
-        //         } else if (tweens.elapsed % 6000 >= 3000) {
-        //             this.kid.play("walk-left", true);
-        //         }
-        //     },
-        // });
     }
 
     getCustomerList(weatherForecast: WeatherForecast) {
@@ -246,5 +179,108 @@ export class DayScene extends Scene {
             defaultCount *= 2;
         }
         return defaultCount;
+    }
+
+    enterMap(characterIndex: number, mapPosition: MapPosition, enterObjectLayer: Phaser.Tilemaps.ObjectLayer) {
+        const enterPaths = enterObjectLayer.objects.filter((obj) => obj.name.startsWith("enter")) as PathObject[];
+
+        const enterPath = enterPaths[Math.floor(Math.random() * enterPaths.length)];
+        const initDirection = enterPath.properties.find((prop) => prop.name === "initDirection")?.value ?? "right";
+        const initDirectionIndex = ["down", "up", "right", "left"].indexOf(initDirection);
+
+        if (!enterPath || !enterPath.polyline) {
+            console.error("NPC path or polyline missing in Tiled.");
+            return;
+        }
+
+        this.pathPoints = enterPath.polyline.map((point) => ({
+            x: enterPath.x + point.x + mapPosition.x,
+            y: enterPath.y + point.y + mapPosition.y,
+        }));
+
+        // Create NPC sprite at the first point of the path
+        const npc = this.add.sprite(
+            this.pathPoints[0].x,
+            this.pathPoints[0].y,
+            "characters",
+            characterIndex * 12 + initDirectionIndex
+        );
+
+        // Start the path-following animation
+        if (npc) {
+            this.followPath(characterIndex, npc, this.pathPoints);
+        }
+    }
+
+    leaveMap(characterIndex: number, mapPosition: MapPosition, exitObjectLayer: Phaser.Tilemaps.ObjectLayer) {
+        const exitPaths = exitObjectLayer.objects.filter((obj) => obj.name.startsWith("exit")) as PathObject[];
+        const exitPath = exitPaths[Math.floor(Math.random() * exitPaths.length)];
+        if (!exitPath || !exitPath.polyline) {
+            console.error("NPC path or polyline missing in Tiled.");
+            return;
+        }
+
+        this.pathPoints = exitPath.polyline.map((point) => ({
+            x: exitPath.x + point.x + mapPosition.x, // Add offset based on polyline's origin
+            y: exitPath.y + point.y + mapPosition.y, // Same for the y position
+        }));
+
+        // Create NPC sprite at the first point of the path
+        const npc = this.add.sprite(this.pathPoints[0].x, this.pathPoints[0].y, "characters", characterIndex * 12);
+
+        // Start the path-following animation
+        if (npc) {
+            this.followPath(characterIndex, npc, this.pathPoints, true);
+        }
+    }
+
+    followPath(
+        characterIndex: number,
+        sprite: Phaser.GameObjects.Sprite,
+        pathPoints: PathPoint[],
+        destroyAfterComplete: boolean = false,
+        loopPath: boolean = false
+    ) {
+        let index = 0;
+
+        const moveToNextPoint = () => {
+            if (index >= pathPoints.length) {
+                if (destroyAfterComplete) {
+                    sprite.destroy(); // Destroy NPC after completing the path
+                }
+                if (loopPath) {
+                    index = 0;
+                } else {
+                    return;
+                }
+
+                // index = 0; // Loop back to the beginning if you want continuous movement
+            }
+            const currentPoint = pathPoints[index - 1] || sprite;
+
+            const nextPoint = pathPoints[index++];
+
+            // Determine direction
+            if (nextPoint.x > currentPoint.x) {
+                sprite.play(`walk-right-${characterIndex}`);
+            } else if (nextPoint.x < currentPoint.x) {
+                sprite.play(`walk-left-${characterIndex}`);
+            } else if (nextPoint.y > currentPoint.y) {
+                sprite.play(`walk-down-${characterIndex}`);
+            } else if (nextPoint.y < currentPoint.y) {
+                sprite.play(`walk-up-${characterIndex}`);
+            }
+
+            this.tweens.add({
+                targets: sprite,
+                x: nextPoint.x,
+                y: nextPoint.y,
+                duration: 1000,
+                ease: "Linear",
+                onComplete: moveToNextPoint, // Move to next point after this tween completes
+            });
+        };
+
+        moveToNextPoint(); // Start movement
     }
 }
