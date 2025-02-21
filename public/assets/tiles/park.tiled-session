@@ -1,0 +1,60 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "park.tmx",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "park.json": {
+            "scale": 1.78125,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 239.71929824561403,
+                "y": 239.71929824561403
+            }
+        },
+        "park.json#path": {
+            "scaleInDock": 1
+        },
+        "park.json#tilemap_packed": {
+            "scaleInDock": 1
+        },
+        "park.tmx": {
+            "scale": 2,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 214.5,
+                "y": 123
+            }
+        },
+        "park.tmx#path": {
+            "scaleInDock": 1
+        },
+        "park.tmx#tilemap_packed": {
+            "scaleInDock": 1
+        }
+    },
+    "last.exportedFilePath": "C:/Users/dobin/Documents/Projects/lemonade-tycoon/public/assets/tiles",
+    "last.imagePath": "C:/Users/dobin/Documents/Projects/lemonade-tycoon/public/assets/tiles",
+    "map.height": 24,
+    "map.lastUsedExportFilter": "All Files (*)",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "openFiles": [
+        "park.tmx"
+    ],
+    "project": "park.tiled-project",
+    "recentFiles": [
+        "park.tmx",
+        "park.json"
+    ],
+    "tileset.embedInMap": true,
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}
