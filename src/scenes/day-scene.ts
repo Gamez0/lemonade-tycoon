@@ -5,6 +5,7 @@ import { Customer } from "../models/customer";
 import { changeTemperatureToFahrenheit } from "../utils";
 import { Budget } from "../models/budget";
 import { Supplies } from "../models/supplies";
+import _Date from "../models/_date";
 
 const MAP_POSITION = { x: 515, y: 194 };
 const MAP_SIZE = { width: 480, height: 384 };
@@ -33,18 +34,20 @@ export class DayScene extends Scene {
     supplies: Supplies;
     weatherForecast: WeatherForecast;
     news: string;
+    _date: _Date;
     pathPoints: { x: number; y: number }[];
     queue: Customer[] = [];
 
-    constructor() {
-        super("day");
+    constructor(key: string) {
+        super({ key });
     }
 
-    init(data: { budget: Budget; supplies: Supplies; weatherForecast: WeatherForecast; news: string }) {
+    init(data: { budget: Budget; supplies: Supplies; weatherForecast: WeatherForecast; news: string; _date: _Date }) {
         this.budget = data.budget;
         this.supplies = data.supplies;
         this.weatherForecast = data.weatherForecast;
         this.news = data.news;
+        this._date = data._date;
     }
 
     preload() {
@@ -71,7 +74,13 @@ export class DayScene extends Scene {
 
         this.skipButton = new TextButton(this, 960, 700, "SKIP");
         this.skipButton.on("pointerdown", () => {
-            this.scene.switch("preparation");
+            this.scene.switch("preparation", {
+                budget: this.budget,
+                supplies: this.supplies,
+                weatherForecast: this.weatherForecast,
+                news: this.news,
+                _date: this._date.getNextDay(),
+            });
         });
 
         const customerList = this.getCustomerList(this.weatherForecast);
