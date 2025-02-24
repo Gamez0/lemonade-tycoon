@@ -6,6 +6,12 @@ import { changeTemperatureToFahrenheit } from "../utils";
 import { Budget } from "../models/budget";
 import { Supplies } from "../models/supplies";
 import _Date from "../models/_date";
+import { SupplyStatusContainer } from "../ui/supply-status-container";
+import { BudgetContainer } from "../ui/budget-container";
+import { GameControlContainer } from "../ui/game-control-container";
+import WeatherNewsContainer from "../ui/weather-news-container";
+import MapContainer from "../ui/map-container";
+import { RentedLocation } from "../models/location";
 
 const MAP_POSITION = { x: 515, y: 194 };
 const MAP_SIZE = { width: 480, height: 384 };
@@ -29,12 +35,18 @@ interface PathObject {
 
 export class DayScene extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
+    supplyStatusContainer: SupplyStatusContainer;
+    budgetContainer: BudgetContainer;
+    gameControlUI: GameControlContainer;
+    weatherNewsContainer: WeatherNewsContainer;
+    mapContainer: MapContainer;
     skipButton: TextButton;
     budget: Budget;
     supplies: Supplies;
     weatherForecast: WeatherForecast;
     news: string;
     _date: _Date;
+    rentedLocation: RentedLocation;
     pathPoints: { x: number; y: number }[];
     queue: Customer[] = [];
 
@@ -42,12 +54,20 @@ export class DayScene extends Scene {
         super({ key });
     }
 
-    init(data: { budget: Budget; supplies: Supplies; weatherForecast: WeatherForecast; news: string; _date: _Date }) {
+    init(data: {
+        budget: Budget;
+        supplies: Supplies;
+        weatherForecast: WeatherForecast;
+        news: string;
+        _date: _Date;
+        rentedLocation: RentedLocation;
+    }) {
         this.budget = data.budget;
         this.supplies = data.supplies;
         this.weatherForecast = data.weatherForecast;
         this.news = data.news;
         this._date = data._date;
+        this.rentedLocation = data.rentedLocation;
     }
 
     preload() {
@@ -61,18 +81,24 @@ export class DayScene extends Scene {
         this.camera = this.cameras.main;
         this.camera.setBackgroundColor("rgb(24, 174, 49)");
 
+        this.supplyStatusContainer = new SupplyStatusContainer(this, 50, 25, this.supplies);
+        this.budgetContainer = new BudgetContainer(this, 924, 16, this.budget);
+        this.gameControlUI = new GameControlContainer(this, 0, 144, this.budget, this.supplies, this.rentedLocation);
+        this.weatherNewsContainer = new WeatherNewsContainer(
+            this,
+            512,
+            64,
+            this._date,
+            this.weatherForecast,
+            this.news,
+            true
+        );
+
         const map = this.make.tilemap({ key: "park-map" });
         const tileset = map.addTilesetImage("tilemap_packed", "tiles");
+        this.mapContainer = new MapContainer(this, 512, 194, map, tileset, this.rentedLocation);
 
-        if (tileset) {
-            map.createLayer("Tile Layer 1", tileset)?.setPosition(MAP_POSITION.x, MAP_POSITION.y);
-            map.createLayer("Tile Layer 2", tileset)?.setPosition(MAP_POSITION.x, MAP_POSITION.y);
-            map.createLayer("Tile Layer 3", tileset)?.setPosition(MAP_POSITION.x, MAP_POSITION.y);
-        } else {
-            console.error("Failed to load tileset");
-        }
-
-        this.skipButton = new TextButton(this, 960, 700, "SKIP");
+        this.skipButton = new TextButton(this, 950, 555, "SKIP");
         this.skipButton.on("pointerdown", () => {
             this.scene.switch("preparation", {
                 budget: this.budget,
@@ -89,6 +115,14 @@ export class DayScene extends Scene {
         const exitObjectLayer = map.getObjectLayer("Npc Exit Path");
 
         if (enterObjectLayer) {
+            for (let i = 0; i < 12; i++) {
+                const temp = customerList[i];
+                if (temp) {
+                    for (let j = 0; j < temp.length; j++) {
+                        this.enterMap(customerList[i][j].getCharacterIndex(), MAP_POSITION, enterObjectLayer);
+                    }
+                }
+            }
             this.enterMap(4, MAP_POSITION, enterObjectLayer);
         }
 
@@ -162,8 +196,9 @@ export class DayScene extends Scene {
         const customerList = [];
         const customerCount = this.setCustomerCount(time, celsiusTemperature, atmosphere);
         for (let i = 0; i < customerCount; i++) {
-            const character = this.add.sprite(100, 300, "characters", 4);
-            const newCustomer = new Customer(character, 10);
+            // FIX ME: 이부분 때문에 화면에 케릭터가 떠 있음
+            const characterIndex = Math.floor(Math.random() * 19);
+            const newCustomer = new Customer(characterIndex, 10);
             customerList.push(newCustomer);
         }
         return customerList;
