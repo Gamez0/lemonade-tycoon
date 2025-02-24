@@ -90,6 +90,7 @@ export class PreparationScene extends Scene {
                 weatherForecast,
                 news,
                 _date: this._date,
+                rentedLocation: this.rentedLocation,
             });
             // Start the new scene
             this.scene.start(`day-${this._date.getDateString()}`);
