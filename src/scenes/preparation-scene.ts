@@ -60,7 +60,7 @@ export class PreparationScene extends Scene {
         this.budget = data.budget ?? new Budget(100);
         this.supplies = data.supplies ?? new Supplies(0, 0, 0, 0, 0, 0, 0, 0);
         this.rentedLocation = data.rentedLocation ?? new RentedLocation();
-        this._date = data._date ?? new _Date(2025, 2, 24);
+        this._date = data._date ?? new _Date(2025, 7, 1);
     }
 
     create() {
