@@ -33,6 +33,10 @@ interface PathObject {
     properties: { name: string; type: string; value: string }[];
 }
 
+interface CustomerListByHour {
+    [key: number]: Customer[];
+}
+
 export class DayScene extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
     supplyStatusContainer: SupplyStatusContainer;
@@ -49,6 +53,16 @@ export class DayScene extends Scene {
     rentedLocation: RentedLocation;
     pathPoints: { x: number; y: number }[];
     queue: Customer[] = [];
+
+    enterObjectLayer: Phaser.Tilemaps.ObjectLayer | null;
+
+    timerEvent: Phaser.Time.TimerEvent;
+    enterIntervalDuration: Phaser.Time.TimerEvent;
+    queueIntervalDuration: Phaser.Time.TimerEvent;
+
+    isAnimationCreated: boolean = false;
+
+    customerListByHour: CustomerListByHour;
 
     constructor(key: string) {
         super({ key });
@@ -100,47 +114,74 @@ export class DayScene extends Scene {
 
         this.skipButton = new TextButton(this, 950, 555, "SKIP");
         this.skipButton.on("pointerdown", () => {
-            this.scene.switch("preparation", {
-                budget: this.budget,
-                supplies: this.supplies,
-                weatherForecast: this.weatherForecast,
-                news: this.news,
-                _date: this._date.getNextDay(),
-            });
+            this.switchToPreparationScene();
         });
 
-        const customerList = this.getCustomerList(this.weatherForecast);
+        this.customerListByHour = this.getCustomerList(this.weatherForecast);
 
-        const enterObjectLayer = map.getObjectLayer("Npc Enter Path");
+        this.enterObjectLayer = map.getObjectLayer("Npc Enter Path");
         const exitObjectLayer = map.getObjectLayer("Npc Exit Path");
 
-        if (enterObjectLayer) {
-            for (let i = 0; i < 12; i++) {
-                const temp = customerList[i];
-                if (temp) {
-                    for (let j = 0; j < temp.length; j++) {
-                        this.enterMap(customerList[i][j].getCharacterIndex(), MAP_POSITION, enterObjectLayer);
-                    }
-                }
-            }
-            this.enterMap(4, MAP_POSITION, enterObjectLayer);
+        if (!this.isAnimationCreated) {
+            this.createAnimation();
+            this.isAnimationCreated = true;
         }
 
-        this.createAnimation();
+        const timerDuration = 12 * 6 * 1000; // 12시간 * 6초 * 1000ms
+
+        this.timerEvent = this.time.addEvent({
+            delay: timerDuration, // Duration in milliseconds
+            callback: this.switchToPreparationScene, // Function to call when the timer ends
+            callbackScope: this, // Scope in which to call the function
+            loop: false,
+        });
+
+        const enterIntervalDuration = 1000;
+
+        this.enterIntervalDuration = this.time.addEvent({
+            delay: enterIntervalDuration,
+            callback: this.enterCustomerToMap,
+            callbackScope: this,
+            loop: true,
+        });
+
+        const queueIntervalDuration = 1000;
+
+        this.queueIntervalDuration = this.time.addEvent({
+            delay: queueIntervalDuration,
+            callback: this.updateCustomerQueue,
+            callbackScope: this,
+            loop: true,
+        });
+    }
+
+    enterCustomerToMap() {
+        const elapsedTime = this.timerEvent.getElapsed();
+        const enterIndex = Math.floor(elapsedTime / 1000 / 6) + 8;
+
+        if (this.enterObjectLayer) {
+            const customerListByHour = this.customerListByHour[enterIndex];
+            if (!customerListByHour || !customerListByHour.length) return;
+            const characterIndex = customerListByHour[0].getCharacterIndex();
+            this.enterMap(characterIndex, MAP_POSITION, this.enterObjectLayer);
+            customerListByHour.shift();
+        }
+    }
+
+    updateCustomerQueue() {}
+
+    switchToPreparationScene() {
+        this.scene.switch("preparation", {
+            budget: this.budget,
+            supplies: this.supplies,
+            weatherForecast: this.weatherForecast,
+            news: this.news,
+            _date: this._date.getNextDay(),
+        });
     }
 
     createAnimation() {
-        for (let i = 0; i < 12; i++) {
-            this.anims.create({
-                key: `stand-front-${i}`,
-                frames: this.anims.generateFrameNumbers("characters", { start: i * 12 + 0, end: i * 12 + 1 }),
-            });
-
-            this.anims.create({
-                key: `stand-back-${i}`,
-                frames: this.anims.generateFrameNumbers("characters", { start: i * 12 + 2, end: i * 12 + 3 }),
-            });
-
+        for (let i = 0; i < 20; i++) {
             this.anims.create({
                 key: `walk-down-${i}`,
                 frames: this.anims.generateFrameNumbers("characters", { start: i * 12 + 4, end: i * 12 + 5 }),
@@ -168,12 +209,6 @@ export class DayScene extends Scene {
                 frames: this.anims.generateFrameNumbers("characters", { start: i * 12 + 10, end: i * 12 + 11 }),
                 frameRate: 6,
                 repeat: -1,
-            });
-
-            this.anims.create({
-                key: `stand-right-${i}`,
-                // just standing to the right
-                frames: [{ key: "characters", frame: i * 12 + 2 }],
             });
         }
     }
