@@ -12,6 +12,19 @@ import { changeTemperatureToFahrenheit } from "../utils";
 import MapContainer from "../ui/map-container";
 import { DayScene } from "./day-scene";
 import _Date from "../models/_date";
+import { Recipe } from "../models/recipe";
+import Price from "../models/price";
+
+export interface GameData {
+    budget: Budget;
+    supplies: Supplies;
+    weatherForecast: WeatherForecast;
+    news: string;
+    _date: _Date;
+    rentedLocation: RentedLocation;
+    recipe: Recipe;
+    price: Price;
+}
 
 export class PreparationScene extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
@@ -20,6 +33,8 @@ export class PreparationScene extends Scene {
     private supplies: Supplies;
     private rentedLocation: RentedLocation;
     private _date: _Date;
+    private recipe: Recipe;
+    private price: Price;
     supplyStatusContainer: SupplyStatusContainer;
     budgetContainer: BudgetContainer;
     gameControlUI: GameControlContainer;
@@ -56,11 +71,20 @@ export class PreparationScene extends Scene {
         this.load.tilemapTiledJSON("park-map", "assets/tiles/park.json");
     }
 
-    init(data: { budget: Budget; supplies: Supplies; rentedLocation: RentedLocation; _date: _Date }) {
+    init(data: {
+        budget: Budget;
+        supplies: Supplies;
+        rentedLocation: RentedLocation;
+        _date: _Date;
+        recipe: Recipe;
+        price: Price;
+    }) {
         this.budget = data.budget ?? new Budget(100);
         this.supplies = data.supplies ?? new Supplies(0, 0, 0, 0, 0, 0, 0, 0);
         this.rentedLocation = data.rentedLocation ?? new RentedLocation();
         this._date = data._date ?? new _Date(2025, 7, 1);
+        this.recipe = data.recipe ?? new Recipe(1, 1, 1, this.supplies);
+        this.price = data.price ?? new Price(1);
     }
 
     create() {
@@ -72,7 +96,15 @@ export class PreparationScene extends Scene {
 
         this.supplyStatusContainer = new SupplyStatusContainer(this, 50, 25, this.supplies);
         this.budgetContainer = new BudgetContainer(this, 924, 16, this.budget);
-        this.gameControlUI = new GameControlContainer(this, 0, 144, this.budget, this.supplies, this.rentedLocation);
+        this.gameControlUI = new GameControlContainer(
+            this,
+            0,
+            144,
+            this.budget,
+            this.supplies,
+            this.rentedLocation,
+            this.recipe
+        );
         this.weatherNewsContainer = new WeatherNewsContainer(this, 512, 64, this._date, weatherForecast, news, true);
         const map = this.make.tilemap({ key: "park-map" });
         const tileset = map.addTilesetImage("tilemap_packed", "tiles");
@@ -91,7 +123,9 @@ export class PreparationScene extends Scene {
                 news,
                 _date: this._date,
                 rentedLocation: this.rentedLocation,
-            });
+                recipe: this.recipe,
+            } as GameData);
+
             // Start the new scene
             this.scene.start(`day-${this._date.getDateString()}`);
         });

@@ -1,6 +1,7 @@
 import { SUPPLIES_LIMIT } from "../constants";
 import { Budget } from "../models/budget";
 import { RentedLocation } from "../models/location";
+import { Recipe } from "../models/recipe";
 import { Supplies } from "../models/supplies";
 import { BuySuppliesContainer } from "./buy-supplies-container";
 import { MarketingContainer } from "./marketing-container";
@@ -40,7 +41,15 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
     private supplies: Supplies;
     tabItemsBackgroundContainer: Phaser.GameObjects.Rectangle;
 
-    constructor(scene: Phaser.Scene, x: number, y: number, budget: Budget, supplies: Supplies, rentedLocation: RentedLocation) {
+    constructor(
+        scene: Phaser.Scene,
+        x: number,
+        y: number,
+        budget: Budget,
+        supplies: Supplies,
+        rentedLocation: RentedLocation,
+        recipe: Recipe
+    ) {
         super(scene, x, y);
         const marginLeft = 16;
         const padding = 16;
@@ -58,7 +67,7 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
         this.staffContainer = new StaffContainer(scene, marginLeft + padding, 64);
         this.marketingContainer = new MarketingContainer(scene, marginLeft + padding, 64);
         this.buySuppliesContainer = new BuySuppliesContainer(scene, marginLeft + padding, 64, this.purchaseSupplies);
-        this.recipeContainer = new RecipeContainer(scene, marginLeft + padding, 64, this.supplies);
+        this.recipeContainer = new RecipeContainer(scene, marginLeft + padding, 64, this.supplies, recipe);
 
         this.tabItemsBackgroundContainer = scene.add.rectangle(marginLeft, 50, 488, 384, 0x009631, 1);
         this.tabItemsBackgroundContainer.setOrigin(0, 0);

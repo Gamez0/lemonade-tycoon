@@ -12,6 +12,9 @@ import { GameControlContainer } from "../ui/game-control-container";
 import WeatherNewsContainer from "../ui/weather-news-container";
 import MapContainer from "../ui/map-container";
 import { RentedLocation } from "../models/location";
+import { Recipe } from "../models/recipe";
+import { GameData } from "./preparation-scene";
+import Price from "../models/price";
 
 const MAP_POSITION = { x: 515, y: 194 };
 const MAP_SIZE = { width: 480, height: 384 };
@@ -45,12 +48,17 @@ export class DayScene extends Scene {
     weatherNewsContainer: WeatherNewsContainer;
     mapContainer: MapContainer;
     skipButton: TextButton;
+
+    // Game Data
     budget: Budget;
     supplies: Supplies;
     weatherForecast: WeatherForecast;
     news: string;
     _date: _Date;
     rentedLocation: RentedLocation;
+    recipe: Recipe;
+    price: Price;
+
     pathPoints: { x: number; y: number }[];
     queue: Customer[] = [];
 
@@ -68,20 +76,15 @@ export class DayScene extends Scene {
         super({ key });
     }
 
-    init(data: {
-        budget: Budget;
-        supplies: Supplies;
-        weatherForecast: WeatherForecast;
-        news: string;
-        _date: _Date;
-        rentedLocation: RentedLocation;
-    }) {
+    init(data: GameData) {
         this.budget = data.budget;
         this.supplies = data.supplies;
         this.weatherForecast = data.weatherForecast;
         this.news = data.news;
         this._date = data._date;
         this.rentedLocation = data.rentedLocation;
+        this.recipe = data.recipe;
+        this.price = data.price;
     }
 
     preload() {
@@ -97,7 +100,15 @@ export class DayScene extends Scene {
 
         this.supplyStatusContainer = new SupplyStatusContainer(this, 50, 25, this.supplies);
         this.budgetContainer = new BudgetContainer(this, 924, 16, this.budget);
-        this.gameControlUI = new GameControlContainer(this, 0, 144, this.budget, this.supplies, this.rentedLocation);
+        this.gameControlUI = new GameControlContainer(
+            this,
+            0,
+            144,
+            this.budget,
+            this.supplies,
+            this.rentedLocation,
+            this.recipe
+        );
         this.weatherNewsContainer = new WeatherNewsContainer(
             this,
             512,
@@ -174,10 +185,12 @@ export class DayScene extends Scene {
         this.scene.switch("preparation", {
             budget: this.budget,
             supplies: this.supplies,
-            weatherForecast: this.weatherForecast,
+            rentedLocation: this.rentedLocation,
             news: this.news,
             _date: this._date.getNextDay(),
-        });
+            recipe: this.recipe,
+            price: this.price,
+        } as GameData);
     }
 
     createAnimation() {
