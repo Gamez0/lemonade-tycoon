@@ -51,8 +51,11 @@ export class PreparationScene extends Scene {
     weatherNewsContainer: WeatherNewsContainer;
     mapContainer: MapContainer;
 
-    constructor() {
-        super("preparation");
+    private sceneKey: string;
+
+    constructor(key: string) {
+        super({ key });
+        this.sceneKey = key;
     }
 
     preload() {
@@ -130,9 +133,10 @@ export class PreparationScene extends Scene {
                 price: this.price,
             };
             this.scene.add(`day-${this._date.getDateString()}`, dayScene, true, data);
-
-            // Start the new scene
             this.scene.start(`day-${this._date.getDateString()}`);
+            this.scene.get(this.sceneKey).sys.shutdown();
+            this.scene.stop(this.sceneKey);
+            this.scene.remove(this.sceneKey);
         });
     }
 
