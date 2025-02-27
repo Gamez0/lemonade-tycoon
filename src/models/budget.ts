@@ -16,4 +16,8 @@ export class Budget extends Phaser.Events.EventEmitter {
         this._amount = value;
         this.emit("change", this._amount);
     }
+
+    getAmountString() {
+        return this._amount.toFixed(2);
+    }
 }

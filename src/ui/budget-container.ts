@@ -10,7 +10,7 @@ export class BudgetContainer extends Phaser.GameObjects.Container {
         super(scene, x, y);
 
         this.budget = budget;
-        this.budgetText = new TitleText(scene, 0, 12, budget.amount.toString());
+        this.budgetText = new TitleText(scene, 0, 12, budget.getAmountString());
 
         this.budget.on("change", this.updateBudgetText, this);
 
@@ -21,7 +21,7 @@ export class BudgetContainer extends Phaser.GameObjects.Container {
     }
 
     private updateBudgetText() {
-        this.budgetText.setText(this.budget.amount.toString());
+        this.budgetText.setText(this.budget.getAmountString());
     }
 
     private onSceneShutdown() {
