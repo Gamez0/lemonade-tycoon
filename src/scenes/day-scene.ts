@@ -15,10 +15,15 @@ import { RentedLocation } from "../models/location";
 import { Recipe } from "../models/recipe";
 import { GameData } from "./preparation-scene";
 import Price from "../models/price";
+import CustomerQueue from "../models/customerQueue";
 
 const MAP_POSITION = { x: 515, y: 194 };
 const MAP_SIZE = { width: 480, height: 384 };
+const LEMONADE_STAND_POSITION = { x: 512 + 188, y: 194 + 200 };
 
+const CHARACTER_SPRITE_SIZE = 16;
+const TOTAL_CHARACTER_SPRITES = 20;
+const TOTAL_CHARACTER_POSITION = 12;
 interface MapPosition {
     x: number;
     y: number;
@@ -60,7 +65,7 @@ export class DayScene extends Scene {
     price: Price;
 
     pathPoints: { x: number; y: number }[];
-    queue: Customer[] = [];
+    customerQueue: CustomerQueue;
 
     enterObjectLayer: Phaser.Tilemaps.ObjectLayer | null;
     exitObjectLayer: Phaser.Tilemaps.ObjectLayer | null;
@@ -90,8 +95,8 @@ export class DayScene extends Scene {
 
     preload() {
         this.load.spritesheet("characters", "assets/characters/characters.png", {
-            frameWidth: 16,
-            frameHeight: 16,
+            frameWidth: CHARACTER_SPRITE_SIZE,
+            frameHeight: CHARACTER_SPRITE_SIZE,
         });
     }
 
@@ -128,6 +133,23 @@ export class DayScene extends Scene {
         this.skipButton = new TextButton(this, 950, 555, "SKIP");
         this.skipButton.on("pointerdown", () => {
             this.switchToPreparationScene();
+        });
+
+        this.customerQueue = new CustomerQueue();
+        this.customerQueue.on("change", (queue: CustomerQueue) => {
+            // TODO: draw customer queue
+            queue.forEach((customer, index) => {
+                let customerSpriteFrame = customer.getCharacterIndex() * TOTAL_CHARACTER_POSITION;
+                if (index === 0) {
+                    customerSpriteFrame += 2;
+                }
+                this.add.sprite(
+                    LEMONADE_STAND_POSITION.x,
+                    LEMONADE_STAND_POSITION.y - index * CHARACTER_SPRITE_SIZE,
+                    "characters",
+                    customerSpriteFrame
+                );
+            });
         });
 
         this.customerListByHour = this.getCustomerList(this.weatherForecast);
@@ -196,7 +218,7 @@ export class DayScene extends Scene {
     }
 
     createAnimation() {
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < TOTAL_CHARACTER_SPRITES; i++) {
             this.anims.create({
                 key: `walk-down-${i}`,
                 frames: this.anims.generateFrameNumbers("characters", { start: i * 12 + 4, end: i * 12 + 5 }),
@@ -327,7 +349,12 @@ export class DayScene extends Scene {
         // if popular
         // if weather is good
         // if time is good
-        this.queue.push(customer);
+        if (this.customerQueue.length >= 5) {
+            this.customerLeaveTheMap(customer);
+            return;
+        }
+
+        this.customerQueue.enqueue(customer);
         // else
         // leaveMap()
     }
