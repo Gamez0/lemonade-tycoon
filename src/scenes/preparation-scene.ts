@@ -15,13 +15,22 @@ import _Date from "../models/_date";
 import { Recipe } from "../models/recipe";
 import Price from "../models/price";
 
-export interface GameData {
+export interface GameDataFromPreparationScene {
     budget: Budget;
     supplies: Supplies;
     weatherForecast: WeatherForecast;
     news: string;
     _date: _Date;
     rentedLocation: RentedLocation;
+    recipe: Recipe;
+    price: Price;
+}
+
+export interface GameDataFromDayScene {
+    budget: Budget;
+    supplies: Supplies;
+    rentedLocation: RentedLocation;
+    _date: _Date;
     recipe: Recipe;
     price: Price;
 }
@@ -71,14 +80,7 @@ export class PreparationScene extends Scene {
         this.load.tilemapTiledJSON("park-map", "assets/tiles/park.json");
     }
 
-    init(data: {
-        budget: Budget;
-        supplies: Supplies;
-        rentedLocation: RentedLocation;
-        _date: _Date;
-        recipe: Recipe;
-        price: Price;
-    }) {
+    init(data: GameDataFromDayScene) {
         this.budget = data.budget ?? new Budget(100);
         this.supplies = data.supplies ?? new Supplies(0, 0, 0, 0, 0, 0, 0, 0);
         this.rentedLocation = data.rentedLocation ?? new RentedLocation();
@@ -117,7 +119,7 @@ export class PreparationScene extends Scene {
             // Create a new instance of the DayScene
             const dayScene = new DayScene(`day-${this._date.getDateString()}`);
             // // Add the new instance to the scene manager
-            const data: GameData = {
+            const data: GameDataFromPreparationScene = {
                 budget: this.budget,
                 supplies: this.supplies,
                 weatherForecast,
