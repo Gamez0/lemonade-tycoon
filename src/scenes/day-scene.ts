@@ -63,6 +63,7 @@ export class DayScene extends Scene {
     queue: Customer[] = [];
 
     enterObjectLayer: Phaser.Tilemaps.ObjectLayer | null;
+    exitObjectLayer: Phaser.Tilemaps.ObjectLayer | null;
 
     timerEvent: Phaser.Time.TimerEvent;
     enterIntervalDuration: Phaser.Time.TimerEvent;
@@ -104,6 +105,7 @@ export class DayScene extends Scene {
             this,
             0,
             144,
+            this.price,
             this.budget,
             this.supplies,
             this.rentedLocation,
@@ -131,7 +133,7 @@ export class DayScene extends Scene {
         this.customerListByHour = this.getCustomerList(this.weatherForecast);
 
         this.enterObjectLayer = map.getObjectLayer("Npc Enter Path");
-        const exitObjectLayer = map.getObjectLayer("Npc Exit Path");
+        this.exitObjectLayer = map.getObjectLayer("Npc Exit Path");
 
         if (!this.isAnimationCreated) {
             this.createAnimation();
@@ -151,7 +153,7 @@ export class DayScene extends Scene {
 
         this.enterIntervalDuration = this.time.addEvent({
             delay: enterIntervalDuration,
-            callback: this.enterCustomerToMap,
+            callback: this.customerEnterTheMap,
             callbackScope: this,
             loop: true,
         });
@@ -166,7 +168,7 @@ export class DayScene extends Scene {
         });
     }
 
-    enterCustomerToMap() {
+    customerEnterTheMap() {
         const elapsedTime = this.timerEvent.getElapsed();
         const enterIndex = Math.floor(elapsedTime / 1000 / 6) + 8;
 
@@ -174,7 +176,7 @@ export class DayScene extends Scene {
             const customerListByHour = this.customerListByHour[enterIndex];
             if (!customerListByHour || !customerListByHour.length) return;
             const characterIndex = customerListByHour[0].getCharacterIndex();
-            this.enterMap(characterIndex, MAP_POSITION, this.enterObjectLayer);
+            this.followEnterPath(characterIndex, MAP_POSITION, this.enterObjectLayer, customerListByHour[0]);
             customerListByHour.shift();
         }
     }
@@ -273,7 +275,12 @@ export class DayScene extends Scene {
         return defaultCount;
     }
 
-    enterMap(characterIndex: number, mapPosition: MapPosition, enterObjectLayer: Phaser.Tilemaps.ObjectLayer) {
+    followEnterPath(
+        characterIndex: number,
+        mapPosition: MapPosition,
+        enterObjectLayer: Phaser.Tilemaps.ObjectLayer,
+        customer: Customer
+    ) {
         const enterPaths = enterObjectLayer.objects.filter((obj) => obj.name.startsWith("enter")) as PathObject[];
 
         const enterPath = enterPaths[Math.floor(Math.random() * enterPaths.length)];
@@ -300,11 +307,37 @@ export class DayScene extends Scene {
 
         // Start the path-following animation
         if (npc) {
-            this.followPath(characterIndex, npc, this.pathPoints);
+            this.followPath({
+                characterIndex,
+                sprite: npc,
+                pathPoints: this.pathPoints,
+                shouldDestroySpriteAfterComplete: true,
+                onComplete: this.checkLemonadeStand.bind(this, customer),
+            });
         }
     }
 
-    leaveMap(characterIndex: number, mapPosition: MapPosition, exitObjectLayer: Phaser.Tilemaps.ObjectLayer) {
+    checkLemonadeStand(customer: Customer) {
+        if (this.price.amount > 2) {
+            this.customerLeaveTheMap(customer);
+            return;
+        }
+        // TODO
+        // if queue is not too long
+        // if popular
+        // if weather is good
+        // if time is good
+        this.queue.push(customer);
+        // else
+        // leaveMap()
+    }
+
+    customerLeaveTheMap(customer: Customer) {
+        if (!this.exitObjectLayer) return;
+        this.followExitPath(customer.getCharacterIndex(), MAP_POSITION, this.exitObjectLayer);
+    }
+
+    followExitPath(characterIndex: number, mapPosition: MapPosition, exitObjectLayer: Phaser.Tilemaps.ObjectLayer) {
         const exitPaths = exitObjectLayer.objects.filter((obj) => obj.name.startsWith("exit")) as PathObject[];
         const exitPath = exitPaths[Math.floor(Math.random() * exitPaths.length)];
         if (!exitPath || !exitPath.polyline) {
@@ -322,23 +355,42 @@ export class DayScene extends Scene {
 
         // Start the path-following animation
         if (npc) {
-            this.followPath(characterIndex, npc, this.pathPoints, true);
+            this.followPath({
+                characterIndex,
+                sprite: npc,
+                pathPoints: this.pathPoints,
+                loopPath: false,
+                shouldDestroySpriteAfterComplete: true,
+            });
         }
     }
 
-    followPath(
-        characterIndex: number,
-        sprite: Phaser.GameObjects.Sprite,
-        pathPoints: PathPoint[],
-        destroyAfterComplete: boolean = false,
-        loopPath: boolean = false
-    ) {
+    destroySprite(sprite: Phaser.GameObjects.Sprite) {
+        sprite.destroy();
+    }
+
+    followPath({
+        characterIndex,
+        sprite,
+        pathPoints,
+        onComplete,
+        loopPath = false,
+        shouldDestroySpriteAfterComplete = false,
+    }: {
+        characterIndex: number;
+        sprite: Phaser.GameObjects.Sprite;
+        pathPoints: PathPoint[];
+        onComplete?: (characterIndex: number) => void;
+        loopPath?: boolean;
+        shouldDestroySpriteAfterComplete: boolean;
+    }) {
         let index = 0;
 
         const moveToNextPoint = () => {
             if (index >= pathPoints.length) {
-                if (destroyAfterComplete) {
-                    sprite.destroy(); // Destroy NPC after completing the path
+                onComplete?.call(this, characterIndex);
+                if (shouldDestroySpriteAfterComplete) {
+                    sprite.destroy();
                 }
                 if (loopPath) {
                     index = 0;

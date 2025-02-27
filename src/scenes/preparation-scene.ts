@@ -100,6 +100,7 @@ export class PreparationScene extends Scene {
             this,
             0,
             144,
+            this.price,
             this.budget,
             this.supplies,
             this.rentedLocation,
@@ -116,7 +117,7 @@ export class PreparationScene extends Scene {
             // Create a new instance of the DayScene
             const dayScene = new DayScene(`day-${this._date.getDateString()}`);
             // // Add the new instance to the scene manager
-            this.scene.add(`day-${this._date.getDateString()}`, dayScene, true, {
+            const data: GameData = {
                 budget: this.budget,
                 supplies: this.supplies,
                 weatherForecast,
@@ -124,7 +125,9 @@ export class PreparationScene extends Scene {
                 _date: this._date,
                 rentedLocation: this.rentedLocation,
                 recipe: this.recipe,
-            } as GameData);
+                price: this.price,
+            };
+            this.scene.add(`day-${this._date.getDateString()}`, dayScene, true, data);
 
             // Start the new scene
             this.scene.start(`day-${this._date.getDateString()}`);

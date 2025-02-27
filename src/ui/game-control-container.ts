@@ -1,6 +1,7 @@
 import { SUPPLIES_LIMIT } from "../constants";
 import { Budget } from "../models/budget";
 import { RentedLocation } from "../models/location";
+import Price from "../models/price";
 import { Recipe } from "../models/recipe";
 import { Supplies } from "../models/supplies";
 import { BuySuppliesContainer } from "./buy-supplies-container";
@@ -45,6 +46,7 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
         scene: Phaser.Scene,
         x: number,
         y: number,
+        price: Price,
         budget: Budget,
         supplies: Supplies,
         rentedLocation: RentedLocation,
@@ -65,7 +67,7 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
         this.rentContainer = new RentContainer(scene, marginLeft + padding, 64, rentedLocation);
         this.upgradesContainer = new UpgradesContainer(scene, marginLeft + padding, 64);
         this.staffContainer = new StaffContainer(scene, marginLeft + padding, 64);
-        this.marketingContainer = new MarketingContainer(scene, marginLeft + padding, 64);
+        this.marketingContainer = new MarketingContainer(scene, marginLeft + padding, 64, price);
         this.buySuppliesContainer = new BuySuppliesContainer(scene, marginLeft + padding, 64, this.purchaseSupplies);
         this.recipeContainer = new RecipeContainer(scene, marginLeft + padding, 64, this.supplies, recipe);
 
