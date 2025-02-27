@@ -13,9 +13,10 @@ import WeatherNewsContainer from "../ui/weather-news-container";
 import MapContainer from "../ui/map-container";
 import { RentedLocation } from "../models/location";
 import { Recipe } from "../models/recipe";
-import { GameData } from "./preparation-scene";
+import { GameDataFromDayScene, GameDataFromPreparationScene, PreparationScene } from "./preparation-scene";
 import Price from "../models/price";
 import CustomerQueue from "../models/customerQueue";
+import LemonadePitcher from "../models/lemonadePitcher";
 
 const MAP_POSITION = { x: 515, y: 194 };
 const MAP_SIZE = { width: 480, height: 384 };
@@ -24,6 +25,8 @@ const LEMONADE_STAND_POSITION = { x: 512 + 188, y: 194 + 200 };
 const CHARACTER_SPRITE_SIZE = 16;
 const TOTAL_CHARACTER_SPRITES = 20;
 const TOTAL_CHARACTER_POSITION = 12;
+
+const AVERAGE_CUSTOMER_PAITENCE = 5;
 interface MapPosition {
     x: number;
     y: number;
@@ -64,6 +67,9 @@ export class DayScene extends Scene {
     recipe: Recipe;
     price: Price;
 
+    // Temporary Game Data
+    lemonadePitcher: LemonadePitcher = new LemonadePitcher(0);
+
     pathPoints: { x: number; y: number }[];
     customerQueue: CustomerQueue;
 
@@ -73,16 +79,20 @@ export class DayScene extends Scene {
     timerEvent: Phaser.Time.TimerEvent;
     enterIntervalDuration: Phaser.Time.TimerEvent;
     queueIntervalDuration: Phaser.Time.TimerEvent;
+    customerQueueSprites: Map<Customer, Phaser.GameObjects.Sprite> = new Map();
 
     isAnimationCreated: boolean = false;
 
     customerListByHour: CustomerListByHour;
 
+    sceneKey: string;
+
     constructor(key: string) {
         super({ key });
+        this.sceneKey = key;
     }
 
-    init(data: GameData) {
+    init(data: GameDataFromPreparationScene) {
         this.budget = data.budget;
         this.supplies = data.supplies;
         this.weatherForecast = data.weatherForecast;
@@ -132,24 +142,20 @@ export class DayScene extends Scene {
 
         this.skipButton = new TextButton(this, 950, 555, "SKIP");
         this.skipButton.on("pointerdown", () => {
+            this._date.setToNextDay();
             this.switchToPreparationScene();
         });
 
+        // this.makeLemonade();
+        this.lemonadePitcher.on("change", (amount: number) => {
+            if (amount > 0) return;
+            this.makeLemonade();
+        });
+
         this.customerQueue = new CustomerQueue();
-        this.customerQueue.on("change", (queue: CustomerQueue) => {
+        this.customerQueue.on("change", () => {
             // TODO: draw customer queue
-            queue.forEach((customer, index) => {
-                let customerSpriteFrame = customer.getCharacterIndex() * TOTAL_CHARACTER_POSITION;
-                if (index === 0) {
-                    customerSpriteFrame += 2;
-                }
-                this.add.sprite(
-                    LEMONADE_STAND_POSITION.x,
-                    LEMONADE_STAND_POSITION.y - index * CHARACTER_SPRITE_SIZE,
-                    "characters",
-                    customerSpriteFrame
-                );
-            });
+            this.drawCustomerQueue();
         });
 
         this.customerListByHour = this.getCustomerList(this.weatherForecast);
@@ -190,6 +196,28 @@ export class DayScene extends Scene {
         });
     }
 
+    makeLemonade() {
+        // check if there are enough supplies
+        if (
+            this.supplies.lemon < this.recipe.lemon ||
+            this.supplies.sugar < this.recipe.sugar ||
+            this.supplies.ice < this.recipe.ice ||
+            this.supplies.cup < 1
+        ) {
+            alert("You don't have enough supplies to make lemonade.");
+            return;
+        }
+
+        // decrease supplies
+        this.supplies.lemon -= this.recipe.lemon;
+        this.supplies.sugar -= this.recipe.sugar;
+        this.supplies.ice -= this.recipe.ice;
+
+        // fill lemonade pitcher
+        // need delay because it takes time to make lemonade. just delay the process left below
+        this.time.delayedCall(2000, () => (this.lemonadePitcher.amount += this.recipe.cupsPerPitcher), [], this);
+    }
+
     customerEnterTheMap() {
         const elapsedTime = this.timerEvent.getElapsed();
         const enterIndex = Math.floor(elapsedTime / 1000 / 6) + 8;
@@ -203,18 +231,60 @@ export class DayScene extends Scene {
         }
     }
 
-    updateCustomerQueue() {}
+    updateCustomerQueue() {
+        // TODO: decrease customer's patience
+        this.customerQueue.forEach((customer) => {
+            customer.decreasePatience();
+            if (customer.getPatience() <= 0) {
+                // remove customer from queue
+                this.customerQueue.removeCustomer(customer);
+                this.drawCustomerQueue();
+                // TODO: customer leave the map
+                this.customerLeaveTheMap(customer);
+            }
+        });
+    }
+
+    drawCustomerQueue() {
+        // Remove all current sprites if exists
+        if (this.customerQueueSprites.size > 0) {
+            this.customerQueueSprites.forEach((sprite) => {
+                sprite.destroy();
+            });
+        }
+
+        // Redraw the queue
+        this.customerQueue.forEach((customer, index) => {
+            let customerSpriteFrame = customer.getCharacterIndex() * TOTAL_CHARACTER_POSITION;
+            if (index === 0) {
+                customerSpriteFrame += 2;
+            }
+            const sprite = this.add.sprite(
+                LEMONADE_STAND_POSITION.x,
+                LEMONADE_STAND_POSITION.y - index * CHARACTER_SPRITE_SIZE,
+                "characters",
+                customerSpriteFrame
+            );
+            this.customerQueueSprites.set(customer, sprite);
+        });
+    }
 
     switchToPreparationScene() {
-        this.scene.switch("preparation", {
+        const preparationScene = new PreparationScene(`preparation-${this._date.getDateString()}`);
+        const data: GameDataFromDayScene = {
             budget: this.budget,
             supplies: this.supplies,
             rentedLocation: this.rentedLocation,
-            news: this.news,
-            _date: this._date.getNextDay(),
+            _date: this._date,
             recipe: this.recipe,
             price: this.price,
-        } as GameData);
+        };
+        this.scene.add(`preparation-${this._date.getDateString()}`, preparationScene, true, data);
+        this.scene.start(`preparation-${this._date.getDateString()}`);
+
+        this.scene.get(this.scene.key).sys.shutdown();
+        this.scene.stop(this.scene.key);
+        this.scene.remove(this.scene.key);
     }
 
     createAnimation() {
@@ -270,7 +340,7 @@ export class DayScene extends Scene {
         for (let i = 0; i < customerCount; i++) {
             // FIX ME: 이부분 때문에 화면에 케릭터가 떠 있음
             const characterIndex = Math.floor(Math.random() * 19);
-            const newCustomer = new Customer(characterIndex, 10);
+            const newCustomer = new Customer(characterIndex, AVERAGE_CUSTOMER_PAITENCE);
             customerList.push(newCustomer);
         }
         return customerList;
