@@ -19,10 +19,10 @@ export class Recipe extends Phaser.Events.EventEmitter {
         this.supplies = supplies;
 
         this._cupsPerPitcher = PITCHER_PER_ICE[ice];
-        this._costPerCup = this.calculateCostPerCup(lemon, sugar);
+        this._costPerCup = this.getCostPerCup(lemon, sugar);
     }
 
-    private calculateCostPerCup(lemon: number, sugar: number): number {
+    private getCostPerCup(lemon: number, sugar: number): number {
         const lemonCost = lemon * this.supplies.lemonAveragePrice;
         const sugarCost = sugar * this.supplies.sugarAveragePrice;
         const cupCost = this.supplies.cup;
@@ -37,7 +37,7 @@ export class Recipe extends Phaser.Events.EventEmitter {
 
     set lemon(value: number) {
         this._lemon = value;
-        this._costPerCup = this.calculateCostPerCup(value, this._sugar);
+        this._costPerCup = this.getCostPerCup(value, this._sugar);
         this.emit("change", this);
     }
 
@@ -47,7 +47,7 @@ export class Recipe extends Phaser.Events.EventEmitter {
 
     set sugar(value: number) {
         this._sugar = value;
-        this._costPerCup = this.calculateCostPerCup(this._lemon, value);
+        this._costPerCup = this.getCostPerCup(this._lemon, value);
         this.emit("change", this);
     }
 
@@ -58,7 +58,7 @@ export class Recipe extends Phaser.Events.EventEmitter {
     set ice(value: number) {
         this._ice = value;
         this._cupsPerPitcher = PITCHER_PER_ICE[value];
-        this._costPerCup = this.calculateCostPerCup(this._lemon, this._sugar);
+        this._costPerCup = this.getCostPerCup(this._lemon, this._sugar);
         this.emit("change", this);
     }
 
