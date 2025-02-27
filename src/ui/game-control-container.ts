@@ -96,7 +96,7 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
     private purchaseSupplies = (totalPrice: SuppliesTotalPrice, totalAmount: SuppliesTotalAmount) => {
         const { lemonTotalPrice, sugarTotalPrice, iceTotalPrice, cupsTotalPrice } = totalPrice;
         const { lemonTotalAmount, sugarTotalAmount, iceTotalAmount, cupsTotalAmount } = totalAmount;
-        const currentBudget: number = this.budget.getAmount();
+        const currentBudget: number = this.budget.amount;
 
         const totalCost = lemonTotalPrice + sugarTotalPrice + iceTotalPrice + cupsTotalPrice;
         if (totalCost > currentBudget) {
@@ -122,7 +122,7 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
         }
 
         const newAmount = currentBudget - totalCost;
-        this.budget.setAmount(newAmount);
+        this.budget.amount = newAmount;
 
         this.supplies.lemon += lemonTotalAmount;
         this.supplies.sugar += sugarTotalAmount;
