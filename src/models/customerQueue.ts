@@ -36,6 +36,14 @@ export default class CustomerQueue extends Phaser.Events.EventEmitter {
         }
     }
 
+    removeCustomer(customer: Customer) {
+        const index = this._queue.indexOf(customer);
+        if (index !== -1) {
+            this._queue.splice(index, 1);
+            this.emit("change", this._queue);
+        }
+    }
+
     [Symbol.iterator]() {
         return this._queue[Symbol.iterator]();
     }
