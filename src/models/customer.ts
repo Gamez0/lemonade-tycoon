@@ -29,4 +29,9 @@ export class Customer extends Phaser.Events.EventEmitter {
         this._patience = value;
         this.emit("change", this._patience);
     };
+
+    decreasePatience = () => {
+        this._patience -= 1;
+        this.emit("change", this._patience);
+    };
 }
