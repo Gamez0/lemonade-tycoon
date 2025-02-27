@@ -31,27 +31,19 @@ export class SupplyStatusContainer extends Phaser.GameObjects.Container {
         this.cupText = new TitleText(scene, 330, 0, this.supplies.cup.toString());
 
         this.supplies.on("lemonChanged", (lemon: number) => {
-            this.lemonText.destroy();
-            this.lemonText = new TitleText(this.scene, 30, 0, this.supplies.lemon.toString());
-            this.add(this.lemonText);
+            this.lemonText.setText(lemon.toString());
         });
 
         this.supplies.on("sugarChanged", (sugar: number) => {
-            this.sugarText.destroy();
-            this.sugarText = new TitleText(this.scene, 130, 0, this.supplies.sugar.toString());
-            this.add(this.sugarText);
+            this.sugarText.setText(sugar.toString());
         });
 
         this.supplies.on("iceChanged", (ice: number) => {
-            this.iceText.destroy();
-            this.iceText = new TitleText(this.scene, 230, 0, this.supplies.ice.toString());
-            this.add(this.iceText);
+            this.iceText.setText(ice.toString());
         });
 
         this.supplies.on("cupChanged", (cup: number) => {
-            this.cupText.destroy();
-            this.cupText = new TitleText(this.scene, 330, 0, this.supplies.cup.toString());
-            this.add(this.cupText);
+            this.cupText.setText(cup.toString());
         });
 
         this.add([
@@ -65,5 +57,14 @@ export class SupplyStatusContainer extends Phaser.GameObjects.Container {
             this.cupText,
         ]);
         scene.add.existing(this);
+
+        scene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.onSceneShutdown, this);
+    }
+
+    private onSceneShutdown() {
+        this.supplies.off("lemonChanged");
+        this.supplies.off("sugarChanged");
+        this.supplies.off("iceChanged");
+        this.supplies.off("cupChanged");
     }
 }
