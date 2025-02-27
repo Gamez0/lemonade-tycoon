@@ -52,4 +52,9 @@ export default class _Date extends Phaser.Events.EventEmitter {
         this.setMonth(month);
         this.setDay(day);
     };
+
+    setToNextDay = () => {
+        const nextDay = this.getNextDay();
+        this.setDate(nextDay.year, nextDay.month, nextDay.day);
+    };
 }
