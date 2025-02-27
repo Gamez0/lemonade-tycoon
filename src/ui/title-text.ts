@@ -4,7 +4,7 @@ export class TitleText extends Phaser.GameObjects.Text {
         x: number,
         y: number,
         text: string,
-        style?: Phaser.Types.GameObjects.Text.TextStyle,
+        style?: Phaser.Types.GameObjects.Text.TextStyle
     ) {
         const defaultStyle: Phaser.Types.GameObjects.Text.TextStyle = {
             fontSize: "24px",
