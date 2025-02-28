@@ -1,6 +1,6 @@
 import { Scene } from "phaser";
 import { TextButton } from "../ui/text-button";
-import { Atmosphere, Time, WeatherForecast } from "../types/weather-forecast";
+import { Atmosphere, Time } from "../types/weather-forecast";
 import { Customer } from "../models/customer";
 import { changeTemperatureToFahrenheit } from "../utils";
 import { Budget } from "../models/budget";
@@ -17,6 +17,7 @@ import { GameDataFromDayScene, GameDataFromPreparationScene, PreparationScene } 
 import Price from "../models/price";
 import CustomerQueue from "../models/customerQueue";
 import LemonadePitcher from "../models/lemonadePitcher";
+import WeatherForecast from "../types/weather-forecast";
 
 const MAP_POSITION = { x: 515, y: 194 };
 const MAP_SIZE = { width: 480, height: 384 };
@@ -26,7 +27,10 @@ const CHARACTER_SPRITE_SIZE = 16;
 const TOTAL_CHARACTER_SPRITES = 20;
 const TOTAL_CHARACTER_POSITION = 12;
 
-const AVERAGE_CUSTOMER_PAITENCE = 5;
+const AVERAGE_CUSTOMER_PATIENCE = 5;
+
+const LEMONADE_MAKE_DELAY = 3000;
+const LEMONADE_SALE_DELAY = 1000;
 interface MapPosition {
     x: number;
     y: number;
@@ -79,6 +83,8 @@ export class DayScene extends Scene {
     timerEvent: Phaser.Time.TimerEvent;
     enterIntervalDuration: Phaser.Time.TimerEvent;
     queueIntervalDuration: Phaser.Time.TimerEvent;
+    sellIntervalDuration: Phaser.Time.TimerEvent;
+
     customerQueueSprites: Map<Customer, Phaser.GameObjects.Sprite> = new Map();
 
     isAnimationCreated: boolean = false;
@@ -146,7 +152,8 @@ export class DayScene extends Scene {
             this.switchToPreparationScene();
         });
 
-        // this.makeLemonade();
+        this.makeLemonade();
+
         this.lemonadePitcher.on("change", (amount: number) => {
             if (amount > 0) return;
             this.makeLemonade();
@@ -154,7 +161,6 @@ export class DayScene extends Scene {
 
         this.customerQueue = new CustomerQueue();
         this.customerQueue.on("change", () => {
-            // TODO: draw customer queue
             this.drawCustomerQueue();
         });
 
@@ -194,6 +200,13 @@ export class DayScene extends Scene {
             callbackScope: this,
             loop: true,
         });
+
+        this.sellIntervalDuration = this.time.addEvent({
+            delay: LEMONADE_SALE_DELAY,
+            callback: this.sellLemonade,
+            callbackScope: this,
+            loop: true,
+        });
     }
 
     makeLemonade() {
@@ -215,7 +228,28 @@ export class DayScene extends Scene {
 
         // fill lemonade pitcher
         // need delay because it takes time to make lemonade. just delay the process left below
-        this.time.delayedCall(2000, () => (this.lemonadePitcher.amount += this.recipe.cupsPerPitcher), [], this);
+        this.time.delayedCall(
+            LEMONADE_MAKE_DELAY,
+            () => (this.lemonadePitcher.amount += this.recipe.cupsPerPitcher),
+            [],
+            this
+        );
+    }
+
+    sellLemonade() {
+        if (this.lemonadePitcher.amount <= 0) return;
+        if (this.customerQueue.length <= 0) return;
+
+        const customer = this.customerQueue.dequeue() as Customer;
+        // decrease lemonade pitcher
+        this.lemonadePitcher.decrease();
+
+        // increase budget
+        this.budget.amount += this.price.amount;
+
+        // dequeue the first customer
+        this.customerLeaveTheMap(customer);
+        // play exit customer animation
     }
 
     customerEnterTheMap() {
@@ -340,7 +374,7 @@ export class DayScene extends Scene {
         for (let i = 0; i < customerCount; i++) {
             // FIX ME: 이부분 때문에 화면에 케릭터가 떠 있음
             const characterIndex = Math.floor(Math.random() * 19);
-            const newCustomer = new Customer(characterIndex, AVERAGE_CUSTOMER_PAITENCE);
+            const newCustomer = new Customer(characterIndex, AVERAGE_CUSTOMER_PATIENCE);
             customerList.push(newCustomer);
         }
         return customerList;
@@ -410,23 +444,60 @@ export class DayScene extends Scene {
     }
 
     checkLemonadeStand(customer: Customer) {
-        if (this.price.amount > 2) {
-            this.customerLeaveTheMap(customer);
-            return;
-        }
-        // TODO
-        // if queue is not too long
-        // if popular
-        // if weather is good
-        // if time is good
-        if (this.customerQueue.length >= 5) {
+        if (this.supplies.isOutOfSupplies(this.recipe)) {
+            // if out of supplies
             this.customerLeaveTheMap(customer);
             return;
         }
 
-        this.customerQueue.enqueue(customer);
-        // else
-        // leaveMap()
+        if (this.price.amount > 2) {
+            // if price is high
+            this.customerLeaveTheMap(customer);
+            return;
+        }
+
+        if (this.customerQueue.length >= 5) {
+            // if queue is not too long
+            this.customerLeaveTheMap(customer);
+            return;
+        }
+        // TODO
+        // if popular
+        // if weather is good
+        // if time is good
+
+        const weatherPoint = this.isVeryHot() ? 30 : this.isHot() ? 15 : this.isCold() ? -15 : 0;
+        // TODO: add popularity to the point
+        const enQueuePoint = Math.floor(Math.random() * 100 + weatherPoint);
+        if (enQueuePoint > 50) {
+            this.customerQueue.enqueue(customer);
+        } else {
+            this.customerLeaveTheMap(customer);
+        }
+    }
+
+    isVeryHot() {
+        const elapsedTime = this.timerEvent.getElapsed();
+        const timeIndex = Math.floor(elapsedTime / 1000 / 6) + 8;
+
+        const temperature = this.weatherForecast.temperatureByTime[timeIndex as Time];
+        return temperature > 30;
+    }
+
+    isHot() {
+        const elapsedTime = this.timerEvent.getElapsed();
+        const timeIndex = Math.floor(elapsedTime / 1000 / 6) + 8;
+
+        const temperature = this.weatherForecast.temperatureByTime[timeIndex as Time];
+        return temperature > 25;
+    }
+
+    isCold() {
+        const elapsedTime = this.timerEvent.getElapsed();
+        const timeIndex = Math.floor(elapsedTime / 1000 / 6) + 8;
+
+        const temperature = this.weatherForecast.temperatureByTime[timeIndex as Time];
+        return temperature < 20;
     }
 
     customerLeaveTheMap(customer: Customer) {
