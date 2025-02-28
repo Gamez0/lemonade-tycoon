@@ -2,7 +2,7 @@
 // idea: work time control. (can have break time)
 
 import _Date from "../models/_date";
-import { Atmosphere, WeatherForecast } from "../types/weather-forecast";
+import WeatherForecast, { Atmosphere } from "../types/weather-forecast";
 
 // TODO: selling scene 에선 isPreparationScene 이 false 로 들어옴, 그에 맞는 UI 를 보여주도록 수정
 export default class WeatherNewsContainer extends Phaser.GameObjects.Container {

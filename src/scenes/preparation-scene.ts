@@ -7,7 +7,7 @@ import { Budget } from "../models/budget";
 import { TextButton } from "../ui/text-button";
 import { RentedLocation } from "../models/location";
 import WeatherNewsContainer from "../ui/weather-news-container";
-import { TemperatureByTime, WeatherForecast } from "../types/weather-forecast";
+import WeatherForecast, { TemperatureByTime } from "../types/weather-forecast";
 import { changeTemperatureToFahrenheit } from "../utils";
 import MapContainer from "../ui/map-container";
 import { DayScene } from "./day-scene";
@@ -146,13 +146,8 @@ export class PreparationScene extends Scene {
 
     getWeatherForecast({ isCelsius }: { isCelsius: boolean }): WeatherForecast {
         const temperatureByTime: TemperatureByTime = this.generateTemperatureByTime(isCelsius);
-        return {
-            temperatureByTime,
-            morning: "sunny",
-            afternoon: "sunny",
-            evening: "sunny",
-            isCelsius,
-        };
+        const newWeatherForecast = new WeatherForecast(temperatureByTime, "sunny", "sunny", "sunny", isCelsius);
+        return newWeatherForecast;
     }
 
     generateTemperatureByTime(isCelsius: boolean): TemperatureByTime {
