@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import type { Recipe } from "./recipe";
 export class Supplies extends Phaser.Events.EventEmitter {
     private _lemon: number;
     private _sugar: number;
@@ -18,7 +19,7 @@ export class Supplies extends Phaser.Events.EventEmitter {
         lemonAveragePrice: number,
         sugarAveragePrice: number,
         iceAveragePrice: number,
-        cupAveragePrice: number,
+        cupAveragePrice: number
     ) {
         super();
         this._lemon = lemon;
@@ -97,5 +98,9 @@ export class Supplies extends Phaser.Events.EventEmitter {
 
     set cupAveragePrice(value: number) {
         this._cupAveragePrice = value;
+    }
+
+    isOutOfSupplies(recipe: Recipe): boolean {
+        return this._lemon < recipe.lemon || this._sugar < recipe.sugar || this._ice < recipe.ice || this._cup < 1;
     }
 }
