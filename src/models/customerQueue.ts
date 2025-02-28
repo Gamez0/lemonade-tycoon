@@ -29,10 +29,16 @@ export default class CustomerQueue extends Phaser.Events.EventEmitter {
         }
     }
 
-    dequeue() {
+    peak(): Customer | undefined {
         if (this._queue.length > 0) {
-            this._queue.shift();
+            return this._queue[0];
+        }
+    }
+
+    dequeue(): Customer | undefined {
+        if (this._queue.length > 0) {
             this.emit("change", this._queue);
+            return this._queue.shift();
         }
     }
 
