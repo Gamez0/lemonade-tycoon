@@ -14,4 +14,8 @@ export default class LemonadePitcher extends Phaser.Events.EventEmitter {
         this._amount = amount;
         this.emit("change", this._amount);
     }
+
+    decrease() {
+        this.amount -= 1;
+    }
 }
