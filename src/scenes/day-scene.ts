@@ -114,13 +114,15 @@ export class DayScene extends Scene {
             frameWidth: CHARACTER_SPRITE_SIZE,
             frameHeight: CHARACTER_SPRITE_SIZE,
         });
+
+        this.load.image("lemonade-pitcher", "assets/lemonade-pitcher-32.png");
     }
 
     create() {
         this.camera = this.cameras.main;
         this.camera.setBackgroundColor("rgb(24, 174, 49)");
 
-        this.supplyStatusContainer = new SupplyStatusContainer(this, 50, 25, this.supplies);
+        this.supplyStatusContainer = new SupplyStatusContainer(this, 50, 25, this.supplies, this.lemonadePitcher);
         this.budgetContainer = new BudgetContainer(this, 924, 16, this.budget);
         this.gameControlUI = new GameControlContainer(
             this,

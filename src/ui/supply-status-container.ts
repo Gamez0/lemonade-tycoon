@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { Supplies } from "../models/supplies";
 import { TitleText } from "./title-text";
+import LemonadePitcher from "../models/lemonadePitcher";
 
 export class SupplyStatusContainer extends Phaser.GameObjects.Container {
     private supplies: Supplies;
@@ -12,11 +13,15 @@ export class SupplyStatusContainer extends Phaser.GameObjects.Container {
     private iceText: TitleText;
     private cupImage: Phaser.GameObjects.Image;
     private cupText: TitleText;
+    private lemonadePitcher: LemonadePitcher | undefined;
+    private lemonadePitcherImage: Phaser.GameObjects.Image;
+    private lemonadePitcherText: TitleText;
 
-    constructor(scene: Phaser.Scene, x: number, y: number, supplies: Supplies) {
+    constructor(scene: Phaser.Scene, x: number, y: number, supplies: Supplies, lemonadePitcher?: LemonadePitcher) {
         super(scene, x, y);
 
         this.supplies = supplies;
+        this.lemonadePitcher = lemonadePitcher;
 
         this.lemonImage = scene.add.image(0, 12, "lemon");
         this.lemonText = new TitleText(scene, 30, 0, this.supplies.lemon.toString());
@@ -29,6 +34,15 @@ export class SupplyStatusContainer extends Phaser.GameObjects.Container {
 
         this.cupImage = scene.add.image(300, 12, "cup");
         this.cupText = new TitleText(scene, 330, 0, this.supplies.cup.toString());
+
+        if (this.lemonadePitcher) {
+            this.lemonadePitcherImage = scene.add.image(400, 12, "lemonade-pitcher");
+            this.lemonadePitcherText = new TitleText(scene, 430, 0, this.lemonadePitcher.amount.toString());
+            this.lemonadePitcher.on("change", (amount: number) => {
+                this.lemonadePitcherText.setText(amount.toString());
+            });
+            this.add([this.lemonadePitcherImage, this.lemonadePitcherText]);
+        }
 
         this.supplies.on("lemonChanged", (lemon: number) => {
             this.lemonText.setText(lemon.toString());
@@ -66,5 +80,6 @@ export class SupplyStatusContainer extends Phaser.GameObjects.Container {
         this.supplies.off("sugarChanged");
         this.supplies.off("iceChanged");
         this.supplies.off("cupChanged");
+        this.lemonadePitcher?.off("change");
     }
 }
