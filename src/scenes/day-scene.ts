@@ -1,14 +1,36 @@
 import { Scene } from "phaser";
 import { TextButton } from "../ui/text-button";
-import { Atmosphere, Time, WeatherForecast } from "../types/weather-forecast";
+import { Atmosphere, Time } from "../types/weather-forecast";
 import { Customer } from "../models/customer";
 import { changeTemperatureToFahrenheit } from "../utils";
 import { Budget } from "../models/budget";
 import { Supplies } from "../models/supplies";
+import _Date from "../models/_date";
+import { SupplyStatusContainer } from "../ui/supply-status-container";
+import { BudgetContainer } from "../ui/budget-container";
+import { GameControlContainer } from "../ui/game-control-container";
+import WeatherNewsContainer from "../ui/weather-news-container";
+import MapContainer from "../ui/map-container";
+import { RentedLocation } from "../models/location";
+import { Recipe } from "../models/recipe";
+import { GameDataFromDayScene, GameDataFromPreparationScene, PreparationScene } from "./preparation-scene";
+import Price from "../models/price";
+import CustomerQueue from "../models/customerQueue";
+import LemonadePitcher from "../models/lemonadePitcher";
+import WeatherForecast from "../types/weather-forecast";
 
 const MAP_POSITION = { x: 515, y: 194 };
 const MAP_SIZE = { width: 480, height: 384 };
+const LEMONADE_STAND_POSITION = { x: 512 + 188, y: 194 + 200 };
 
+const CHARACTER_SPRITE_SIZE = 16;
+const TOTAL_CHARACTER_SPRITES = 20;
+const TOTAL_CHARACTER_POSITION = 12;
+
+const AVERAGE_CUSTOMER_PATIENCE = 5;
+
+const LEMONADE_MAKE_DELAY = 3000;
+const LEMONADE_SALE_DELAY = 1000;
 interface MapPosition {
     x: number;
     y: number;
@@ -26,78 +48,283 @@ interface PathObject {
     properties: { name: string; type: string; value: string }[];
 }
 
+interface CustomerListByHour {
+    [key: number]: Customer[];
+}
+
 export class DayScene extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
+    supplyStatusContainer: SupplyStatusContainer;
+    budgetContainer: BudgetContainer;
+    gameControlUI: GameControlContainer;
+    weatherNewsContainer: WeatherNewsContainer;
+    mapContainer: MapContainer;
     skipButton: TextButton;
+
+    // Game Data
     budget: Budget;
     supplies: Supplies;
     weatherForecast: WeatherForecast;
     news: string;
-    pathPoints: { x: number; y: number }[];
-    queue: Customer[] = [];
+    _date: _Date;
+    rentedLocation: RentedLocation;
+    recipe: Recipe;
+    price: Price;
 
-    constructor() {
-        super("day");
+    // Temporary Game Data
+    lemonadePitcher: LemonadePitcher = new LemonadePitcher(0);
+
+    pathPoints: { x: number; y: number }[];
+    customerQueue: CustomerQueue;
+
+    enterObjectLayer: Phaser.Tilemaps.ObjectLayer | null;
+    exitObjectLayer: Phaser.Tilemaps.ObjectLayer | null;
+
+    timerEvent: Phaser.Time.TimerEvent;
+    enterIntervalDuration: Phaser.Time.TimerEvent;
+    queueIntervalDuration: Phaser.Time.TimerEvent;
+    sellIntervalDuration: Phaser.Time.TimerEvent;
+
+    customerQueueSprites: Map<Customer, Phaser.GameObjects.Sprite> = new Map();
+
+    isAnimationCreated: boolean = false;
+
+    customerListByHour: CustomerListByHour;
+
+    sceneKey: string;
+
+    constructor(key: string) {
+        super({ key });
+        this.sceneKey = key;
     }
 
-    init(data: { budget: Budget; supplies: Supplies; weatherForecast: WeatherForecast; news: string }) {
+    init(data: GameDataFromPreparationScene) {
         this.budget = data.budget;
         this.supplies = data.supplies;
         this.weatherForecast = data.weatherForecast;
         this.news = data.news;
+        this._date = data._date;
+        this.rentedLocation = data.rentedLocation;
+        this.recipe = data.recipe;
+        this.price = data.price;
     }
 
     preload() {
         this.load.spritesheet("characters", "assets/characters/characters.png", {
-            frameWidth: 16,
-            frameHeight: 16,
+            frameWidth: CHARACTER_SPRITE_SIZE,
+            frameHeight: CHARACTER_SPRITE_SIZE,
         });
+
+        this.load.image("lemonade-pitcher", "assets/lemonade-pitcher-32.png");
     }
 
     create() {
         this.camera = this.cameras.main;
         this.camera.setBackgroundColor("rgb(24, 174, 49)");
 
+        this.supplyStatusContainer = new SupplyStatusContainer(this, 50, 25, this.supplies, this.lemonadePitcher);
+        this.budgetContainer = new BudgetContainer(this, 924, 16, this.budget);
+        this.gameControlUI = new GameControlContainer(
+            this,
+            0,
+            144,
+            this.price,
+            this.budget,
+            this.supplies,
+            this.rentedLocation,
+            this.recipe
+        );
+        this.weatherNewsContainer = new WeatherNewsContainer(
+            this,
+            512,
+            64,
+            this._date,
+            this.weatherForecast,
+            this.news,
+            true
+        );
+
         const map = this.make.tilemap({ key: "park-map" });
         const tileset = map.addTilesetImage("tilemap_packed", "tiles");
+        this.mapContainer = new MapContainer(this, 512, 194, map, tileset, this.rentedLocation);
 
-        if (tileset) {
-            map.createLayer("Tile Layer 1", tileset)?.setPosition(MAP_POSITION.x, MAP_POSITION.y);
-            map.createLayer("Tile Layer 2", tileset)?.setPosition(MAP_POSITION.x, MAP_POSITION.y);
-            map.createLayer("Tile Layer 3", tileset)?.setPosition(MAP_POSITION.x, MAP_POSITION.y);
-        } else {
-            console.error("Failed to load tileset");
-        }
-
-        this.skipButton = new TextButton(this, 960, 700, "SKIP");
+        this.skipButton = new TextButton(this, 950, 555, "SKIP");
         this.skipButton.on("pointerdown", () => {
-            this.scene.switch("preparation");
+            this._date.setToNextDay();
+            this.switchToPreparationScene();
         });
 
-        const customerList = this.getCustomerList(this.weatherForecast);
+        this.makeLemonade();
 
-        const enterObjectLayer = map.getObjectLayer("Npc Enter Path");
-        const exitObjectLayer = map.getObjectLayer("Npc Exit Path");
+        this.lemonadePitcher.on("change", (amount: number) => {
+            if (amount > 0) return;
+            this.makeLemonade();
+        });
 
-        if (enterObjectLayer) {
-            this.enterMap(4, MAP_POSITION, enterObjectLayer);
+        this.customerQueue = new CustomerQueue();
+        this.customerQueue.on("change", () => {
+            this.drawCustomerQueue();
+        });
+
+        this.customerListByHour = this.getCustomerList(this.weatherForecast);
+
+        this.enterObjectLayer = map.getObjectLayer("Npc Enter Path");
+        this.exitObjectLayer = map.getObjectLayer("Npc Exit Path");
+
+        if (!this.isAnimationCreated) {
+            this.createAnimation();
+            this.isAnimationCreated = true;
         }
 
-        this.createAnimation();
+        const timerDuration = 12 * 6 * 1000; // 12시간 * 6초 * 1000ms
+
+        this.timerEvent = this.time.addEvent({
+            delay: timerDuration, // Duration in milliseconds
+            callback: this.switchToPreparationScene, // Function to call when the timer ends
+            callbackScope: this, // Scope in which to call the function
+            loop: false,
+        });
+
+        const enterIntervalDuration = 1000;
+
+        this.enterIntervalDuration = this.time.addEvent({
+            delay: enterIntervalDuration,
+            callback: this.customerEnterTheMap,
+            callbackScope: this,
+            loop: true,
+        });
+
+        const queueIntervalDuration = 1000;
+
+        this.queueIntervalDuration = this.time.addEvent({
+            delay: queueIntervalDuration,
+            callback: this.updateCustomerQueue,
+            callbackScope: this,
+            loop: true,
+        });
+
+        this.sellIntervalDuration = this.time.addEvent({
+            delay: LEMONADE_SALE_DELAY,
+            callback: this.sellLemonade,
+            callbackScope: this,
+            loop: true,
+        });
+    }
+
+    makeLemonade() {
+        // check if there are enough supplies
+        if (
+            this.supplies.lemon < this.recipe.lemon ||
+            this.supplies.sugar < this.recipe.sugar ||
+            this.supplies.ice < this.recipe.ice ||
+            this.supplies.cup < 1
+        ) {
+            alert("You don't have enough supplies to make lemonade.");
+            return;
+        }
+
+        // decrease supplies
+        this.supplies.lemon -= this.recipe.lemon;
+        this.supplies.sugar -= this.recipe.sugar;
+        this.supplies.ice -= this.recipe.ice;
+
+        // fill lemonade pitcher
+        // need delay because it takes time to make lemonade. just delay the process left below
+        this.time.delayedCall(
+            LEMONADE_MAKE_DELAY,
+            () => (this.lemonadePitcher.amount += this.recipe.cupsPerPitcher),
+            [],
+            this
+        );
+    }
+
+    sellLemonade() {
+        if (this.lemonadePitcher.amount <= 0) return;
+        if (this.customerQueue.length <= 0) return;
+
+        const customer = this.customerQueue.dequeue() as Customer;
+        // decrease lemonade pitcher
+        this.lemonadePitcher.decrease();
+
+        // increase budget
+        this.budget.amount += this.price.amount;
+
+        // dequeue the first customer
+        this.customerLeaveTheMap(customer);
+        // play exit customer animation
+    }
+
+    customerEnterTheMap() {
+        const elapsedTime = this.timerEvent.getElapsed();
+        const enterIndex = Math.floor(elapsedTime / 1000 / 6) + 8;
+
+        if (this.enterObjectLayer) {
+            const customerListByHour = this.customerListByHour[enterIndex];
+            if (!customerListByHour || !customerListByHour.length) return;
+            const characterIndex = customerListByHour[0].getCharacterIndex();
+            this.followEnterPath(characterIndex, MAP_POSITION, this.enterObjectLayer, customerListByHour[0]);
+            customerListByHour.shift();
+        }
+    }
+
+    updateCustomerQueue() {
+        // TODO: decrease customer's patience
+        this.customerQueue.forEach((customer) => {
+            customer.decreasePatience();
+            if (customer.getPatience() <= 0) {
+                // remove customer from queue
+                this.customerQueue.removeCustomer(customer);
+                this.drawCustomerQueue();
+                // TODO: customer leave the map
+                this.customerLeaveTheMap(customer);
+            }
+        });
+    }
+
+    drawCustomerQueue() {
+        // Remove all current sprites if exists
+        if (this.customerQueueSprites.size > 0) {
+            this.customerQueueSprites.forEach((sprite) => {
+                sprite.destroy();
+            });
+        }
+
+        // Redraw the queue
+        this.customerQueue.forEach((customer, index) => {
+            let customerSpriteFrame = customer.getCharacterIndex() * TOTAL_CHARACTER_POSITION;
+            if (index === 0) {
+                customerSpriteFrame += 2;
+            }
+            const sprite = this.add.sprite(
+                LEMONADE_STAND_POSITION.x,
+                LEMONADE_STAND_POSITION.y - index * CHARACTER_SPRITE_SIZE,
+                "characters",
+                customerSpriteFrame
+            );
+            this.customerQueueSprites.set(customer, sprite);
+        });
+    }
+
+    switchToPreparationScene() {
+        const preparationScene = new PreparationScene(`preparation-${this._date.getDateString()}`);
+        const data: GameDataFromDayScene = {
+            budget: this.budget,
+            supplies: this.supplies,
+            rentedLocation: this.rentedLocation,
+            _date: this._date,
+            recipe: this.recipe,
+            price: this.price,
+        };
+        this.scene.add(`preparation-${this._date.getDateString()}`, preparationScene, true, data);
+        this.scene.start(`preparation-${this._date.getDateString()}`);
+
+        this.scene.get(this.scene.key).sys.shutdown();
+        this.scene.stop(this.scene.key);
+        this.scene.remove(this.scene.key);
     }
 
     createAnimation() {
-        for (let i = 0; i < 12; i++) {
-            this.anims.create({
-                key: `stand-front-${i}`,
-                frames: this.anims.generateFrameNumbers("characters", { start: i * 12 + 0, end: i * 12 + 1 }),
-            });
-
-            this.anims.create({
-                key: `stand-back-${i}`,
-                frames: this.anims.generateFrameNumbers("characters", { start: i * 12 + 2, end: i * 12 + 3 }),
-            });
-
+        for (let i = 0; i < TOTAL_CHARACTER_SPRITES; i++) {
             this.anims.create({
                 key: `walk-down-${i}`,
                 frames: this.anims.generateFrameNumbers("characters", { start: i * 12 + 4, end: i * 12 + 5 }),
@@ -126,12 +353,6 @@ export class DayScene extends Scene {
                 frameRate: 6,
                 repeat: -1,
             });
-
-            this.anims.create({
-                key: `stand-right-${i}`,
-                // just standing to the right
-                frames: [{ key: "characters", frame: i * 12 + 2 }],
-            });
         }
     }
 
@@ -153,8 +374,9 @@ export class DayScene extends Scene {
         const customerList = [];
         const customerCount = this.setCustomerCount(time, celsiusTemperature, atmosphere);
         for (let i = 0; i < customerCount; i++) {
-            const character = this.add.sprite(100, 300, "characters", 4);
-            const newCustomer = new Customer(character, 10);
+            // FIX ME: 이부분 때문에 화면에 케릭터가 떠 있음
+            const characterIndex = Math.floor(Math.random() * 19);
+            const newCustomer = new Customer(characterIndex, AVERAGE_CUSTOMER_PATIENCE);
             customerList.push(newCustomer);
         }
         return customerList;
@@ -181,7 +403,12 @@ export class DayScene extends Scene {
         return defaultCount;
     }
 
-    enterMap(characterIndex: number, mapPosition: MapPosition, enterObjectLayer: Phaser.Tilemaps.ObjectLayer) {
+    followEnterPath(
+        characterIndex: number,
+        mapPosition: MapPosition,
+        enterObjectLayer: Phaser.Tilemaps.ObjectLayer,
+        customer: Customer
+    ) {
         const enterPaths = enterObjectLayer.objects.filter((obj) => obj.name.startsWith("enter")) as PathObject[];
 
         const enterPath = enterPaths[Math.floor(Math.random() * enterPaths.length)];
@@ -208,11 +435,79 @@ export class DayScene extends Scene {
 
         // Start the path-following animation
         if (npc) {
-            this.followPath(characterIndex, npc, this.pathPoints);
+            this.followPath({
+                characterIndex,
+                sprite: npc,
+                pathPoints: this.pathPoints,
+                shouldDestroySpriteAfterComplete: true,
+                onComplete: this.checkLemonadeStand.bind(this, customer),
+            });
         }
     }
 
-    leaveMap(characterIndex: number, mapPosition: MapPosition, exitObjectLayer: Phaser.Tilemaps.ObjectLayer) {
+    checkLemonadeStand(customer: Customer) {
+        if (this.supplies.isOutOfSupplies(this.recipe)) {
+            // if out of supplies
+            this.customerLeaveTheMap(customer);
+            return;
+        }
+
+        if (this.price.amount > 2) {
+            // if price is high
+            this.customerLeaveTheMap(customer);
+            return;
+        }
+
+        if (this.customerQueue.length >= 5) {
+            // if queue is not too long
+            this.customerLeaveTheMap(customer);
+            return;
+        }
+        // TODO
+        // if popular
+        // if weather is good
+        // if time is good
+
+        const weatherPoint = this.isVeryHot() ? 30 : this.isHot() ? 15 : this.isCold() ? -15 : 0;
+        // TODO: add popularity to the point
+        const enQueuePoint = Math.floor(Math.random() * 100 + weatherPoint);
+        if (enQueuePoint > 50) {
+            this.customerQueue.enqueue(customer);
+        } else {
+            this.customerLeaveTheMap(customer);
+        }
+    }
+
+    isVeryHot() {
+        const elapsedTime = this.timerEvent.getElapsed();
+        const timeIndex = Math.floor(elapsedTime / 1000 / 6) + 8;
+
+        const temperature = this.weatherForecast.temperatureByTime[timeIndex as Time];
+        return temperature > 30;
+    }
+
+    isHot() {
+        const elapsedTime = this.timerEvent.getElapsed();
+        const timeIndex = Math.floor(elapsedTime / 1000 / 6) + 8;
+
+        const temperature = this.weatherForecast.temperatureByTime[timeIndex as Time];
+        return temperature > 25;
+    }
+
+    isCold() {
+        const elapsedTime = this.timerEvent.getElapsed();
+        const timeIndex = Math.floor(elapsedTime / 1000 / 6) + 8;
+
+        const temperature = this.weatherForecast.temperatureByTime[timeIndex as Time];
+        return temperature < 20;
+    }
+
+    customerLeaveTheMap(customer: Customer) {
+        if (!this.exitObjectLayer) return;
+        this.followExitPath(customer.getCharacterIndex(), MAP_POSITION, this.exitObjectLayer);
+    }
+
+    followExitPath(characterIndex: number, mapPosition: MapPosition, exitObjectLayer: Phaser.Tilemaps.ObjectLayer) {
         const exitPaths = exitObjectLayer.objects.filter((obj) => obj.name.startsWith("exit")) as PathObject[];
         const exitPath = exitPaths[Math.floor(Math.random() * exitPaths.length)];
         if (!exitPath || !exitPath.polyline) {
@@ -230,23 +525,42 @@ export class DayScene extends Scene {
 
         // Start the path-following animation
         if (npc) {
-            this.followPath(characterIndex, npc, this.pathPoints, true);
+            this.followPath({
+                characterIndex,
+                sprite: npc,
+                pathPoints: this.pathPoints,
+                loopPath: false,
+                shouldDestroySpriteAfterComplete: true,
+            });
         }
     }
 
-    followPath(
-        characterIndex: number,
-        sprite: Phaser.GameObjects.Sprite,
-        pathPoints: PathPoint[],
-        destroyAfterComplete: boolean = false,
-        loopPath: boolean = false
-    ) {
+    destroySprite(sprite: Phaser.GameObjects.Sprite) {
+        sprite.destroy();
+    }
+
+    followPath({
+        characterIndex,
+        sprite,
+        pathPoints,
+        onComplete,
+        loopPath = false,
+        shouldDestroySpriteAfterComplete = false,
+    }: {
+        characterIndex: number;
+        sprite: Phaser.GameObjects.Sprite;
+        pathPoints: PathPoint[];
+        onComplete?: (characterIndex: number) => void;
+        loopPath?: boolean;
+        shouldDestroySpriteAfterComplete: boolean;
+    }) {
         let index = 0;
 
         const moveToNextPoint = () => {
             if (index >= pathPoints.length) {
-                if (destroyAfterComplete) {
-                    sprite.destroy(); // Destroy NPC after completing the path
+                onComplete?.call(this, characterIndex);
+                if (shouldDestroySpriteAfterComplete) {
+                    sprite.destroy();
                 }
                 if (loopPath) {
                     index = 0;

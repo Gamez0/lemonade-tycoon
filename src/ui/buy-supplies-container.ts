@@ -39,7 +39,7 @@ export class BuySuppliesContainer extends Phaser.GameObjects.Container {
         this.lemonImage.setSize(64, 64);
         this.lemonImageBackground = scene.add.rectangle(16, 50, 64, 50, 0x008229, 1);
         this.lemonImageBackground.setOrigin(0, 0);
-        this.lemonImage.setInteractive();
+        this.lemonImage.setInteractive({ useHandCursor: true });
         this.lemonImage.on("pointerdown", () => {
             this.onTabSelected(0);
         });
@@ -48,7 +48,7 @@ export class BuySuppliesContainer extends Phaser.GameObjects.Container {
         this.sugarImage.setSize(64, 64);
         this.sugarImageBackground = scene.add.rectangle(120 - 4, 50, 64, 50, 0x008229, 1);
         this.sugarImageBackground.setOrigin(0, 0);
-        this.sugarImage.setInteractive();
+        this.sugarImage.setInteractive({ useHandCursor: true });
         this.sugarImage.on("pointerdown", () => {
             this.onTabSelected(1);
         });
@@ -57,7 +57,7 @@ export class BuySuppliesContainer extends Phaser.GameObjects.Container {
         this.iceImage.setSize(64, 64);
         this.iceImageBackground = scene.add.rectangle(240 - 4, 50, 64, 50, 0x008229, 1);
         this.iceImageBackground.setOrigin(0, 0);
-        this.iceImage.setInteractive();
+        this.iceImage.setInteractive({ useHandCursor: true });
         this.iceImage.on("pointerdown", () => {
             this.onTabSelected(2);
         });
@@ -66,7 +66,7 @@ export class BuySuppliesContainer extends Phaser.GameObjects.Container {
         this.cupImage.setSize(64, 64);
         this.cupImageBackground = scene.add.rectangle(360 - 4, 50, 64, 50, 0x008229, 1);
         this.cupImageBackground.setOrigin(0, 0);
-        this.cupImage.setInteractive();
+        this.cupImage.setInteractive({ useHandCursor: true });
         this.cupImage.on("pointerdown", () => {
             this.onTabSelected(3);
         });

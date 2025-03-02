@@ -27,7 +27,7 @@ export class RecipeContainer extends Phaser.GameObjects.Container {
     private recipeImage: Phaser.GameObjects.Image;
     private cupImage: Phaser.GameObjects.Image;
 
-    constructor(scene: Phaser.Scene, x: number, y: number, supplies: Supplies) {
+    constructor(scene: Phaser.Scene, x: number, y: number, supplies: Supplies, recipe: Recipe) {
         super(scene, x, y);
         this.title = new TitleText(scene, 0, 0, "Recipe");
         this.description = scene.add.text(
@@ -37,7 +37,7 @@ export class RecipeContainer extends Phaser.GameObjects.Container {
             { fontSize: "16px" }
         );
         this.supplies = supplies;
-        this.recipe = new Recipe(1, 1, 1, this.supplies);
+        this.recipe = recipe;
 
         this.recipeImage = scene.add.image(0, 100, "recipe-16");
         this.recipeImage.setOrigin(0, 0);

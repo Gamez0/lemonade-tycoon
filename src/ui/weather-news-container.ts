@@ -1,13 +1,8 @@
 // work time: 8:00 am - 20:00 pm (12 hours)
 // idea: work time control. (can have break time)
 
-import { Atmosphere, WeatherForecast } from "../types/weather-forecast";
-
-interface Date {
-    year: number;
-    month: number;
-    day: number;
-}
+import _Date from "../models/_date";
+import WeatherForecast, { Atmosphere } from "../types/weather-forecast";
 
 // TODO: selling scene 에선 isPreparationScene 이 false 로 들어옴, 그에 맞는 UI 를 보여주도록 수정
 export default class WeatherNewsContainer extends Phaser.GameObjects.Container {
@@ -23,7 +18,7 @@ export default class WeatherNewsContainer extends Phaser.GameObjects.Container {
         scene: Phaser.Scene,
         x: number,
         y: number,
-        date: Date,
+        _date: _Date,
         weatherForecast: WeatherForecast,
         news: string,
         isPreparationScene?: boolean
@@ -32,7 +27,7 @@ export default class WeatherNewsContainer extends Phaser.GameObjects.Container {
 
         const padding = 16;
 
-        this.date = scene.add.text(0 + padding, 0 + padding, this.getDate(date), { fontSize: "16px" });
+        this.date = scene.add.text(0 + padding, 0 + padding, _date.getDateString(), { fontSize: "16px" });
         this.news = scene.add.text(244, 32 + padding, news, { fontSize: "12px" });
         this.todayTemperature = scene.add.text(0 + padding, 24 + padding, this.getTodayTemperature(weatherForecast), {
             fontSize: "16px",
@@ -70,13 +65,10 @@ export default class WeatherNewsContainer extends Phaser.GameObjects.Container {
         scene.add.existing(this);
     }
 
-    getDate(date: Date): string {
-        return `Year ${date.year} Month ${date.month} Day ${date.day}`;
-    }
-
     getTodayTemperature(weatherForecast: WeatherForecast): string {
-        // return `${this.getLowestTemperature(weatherForecast)}${weatherForecast.isCelsius ? 'C' : 'F'} - ${this.getHighestTemperature(weatherForecast)}${weatherForecast.isCelsius ? 'C' : 'F'}`;
-        return `${weatherForecast.temperatureByTime}${weatherForecast.isCelsius ? "C" : "F"}`;
+        return `${this.getLowestTemperature(weatherForecast)}${
+            weatherForecast.isCelsius ? "C" : "F"
+        } - ${this.getHighestTemperature(weatherForecast)}${weatherForecast.isCelsius ? "C" : "F"}`;
     }
 
     getLowestTemperature(weatherForecast: WeatherForecast): number {

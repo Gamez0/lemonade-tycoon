@@ -1,4 +1,5 @@
 import { Scene, GameObjects } from "phaser";
+import { PreparationScene } from "./preparation-scene";
 
 // Define the MainMenu class that extends Phaser's Scene class
 export class MainMenu extends Scene {
@@ -18,6 +19,9 @@ export class MainMenu extends Scene {
     // Create method to set up the scene's content
     create() {
         // TEMP: 계속 클릭하기 귀찮아서 바로 게임으로 넘어가게 수정
+        const preparationScene = new PreparationScene("preparation");
+        this.scene.add("preparation", preparationScene, true);
+
         this.scene.start("preparation");
         // Add a background image at coordinates (512, 384) with the key 'background'
         this.background = this.add.image(512, 384, "background");

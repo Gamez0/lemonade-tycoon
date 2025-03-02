@@ -7,8 +7,33 @@ import { Budget } from "../models/budget";
 import { TextButton } from "../ui/text-button";
 import { RentedLocation } from "../models/location";
 import WeatherNewsContainer from "../ui/weather-news-container";
-import { TemperatureByTime, WeatherForecast, tempRanges } from "../types/weather-forecast";
+import WeatherForecast, { TemperatureByTime, tempRanges } from "../types/weather-forecast";
 import { changeTemperatureToFahrenheit } from "../utils";
+import MapContainer from "../ui/map-container";
+import { DayScene } from "./day-scene";
+import _Date from "../models/_date";
+import { Recipe } from "../models/recipe";
+import Price from "../models/price";
+
+export interface GameDataFromPreparationScene {
+    budget: Budget;
+    supplies: Supplies;
+    weatherForecast: WeatherForecast;
+    news: string;
+    _date: _Date;
+    rentedLocation: RentedLocation;
+    recipe: Recipe;
+    price: Price;
+}
+
+export interface GameDataFromDayScene {
+    budget: Budget;
+    supplies: Supplies;
+    rentedLocation: RentedLocation;
+    _date: _Date;
+    recipe: Recipe;
+    price: Price;
+}
 
 export class PreparationScene extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
@@ -16,17 +41,21 @@ export class PreparationScene extends Scene {
     private budget: Budget;
     private supplies: Supplies;
     private rentedLocation: RentedLocation;
+    private _date: _Date;
+    private recipe: Recipe;
+    private price: Price;
     supplyStatusContainer: SupplyStatusContainer;
     budgetContainer: BudgetContainer;
     gameControlUI: GameControlContainer;
     startButton: TextButton;
     weatherNewsContainer: WeatherNewsContainer;
+    mapContainer: MapContainer;
 
-    constructor() {
-        super("preparation");
-        this.budget = new Budget(100);
-        this.supplies = new Supplies(0, 0, 0, 0, 0, 0, 0, 0);
-        this.rentedLocation = new RentedLocation();
+    private sceneKey: string;
+
+    constructor(key: string) {
+        super({ key });
+        this.sceneKey = key;
     }
 
     preload() {
@@ -54,6 +83,15 @@ export class PreparationScene extends Scene {
         this.load.tilemapTiledJSON("park-map", "assets/tiles/park.json");
     }
 
+    init(data: GameDataFromDayScene) {
+        this.budget = data.budget ?? new Budget(100);
+        this.supplies = data.supplies ?? new Supplies(0, 0, 0, 0, 0, 0, 0, 0);
+        this.rentedLocation = data.rentedLocation ?? new RentedLocation();
+        this._date = data._date ?? new _Date(2025, 7, 1);
+        this.recipe = data.recipe ?? new Recipe(1, 1, 1, this.supplies);
+        this.price = data.price ?? new Price(1);
+    }
+
     create() {
         this.camera = this.cameras.main;
         this.camera.setBackgroundColor("rgb(24, 174, 49)");
@@ -63,49 +101,43 @@ export class PreparationScene extends Scene {
 
         this.supplyStatusContainer = new SupplyStatusContainer(this, 50, 25, this.supplies);
         this.budgetContainer = new BudgetContainer(this, 924, 16, this.budget);
-        this.gameControlUI = new GameControlContainer(this, 0, 144, this.budget, this.supplies, this.rentedLocation);
-        this.weatherNewsContainer = new WeatherNewsContainer(
+        this.gameControlUI = new GameControlContainer(
             this,
-            512,
-            64,
-            this.getDate(),
-            weatherForecast,
-            news,
-            true
+            0,
+            144,
+            this.price,
+            this.budget,
+            this.supplies,
+            this.rentedLocation,
+            this.recipe
         );
-
+        this.weatherNewsContainer = new WeatherNewsContainer(this, 512, 64, this._date, weatherForecast, news, true);
         const map = this.make.tilemap({ key: "park-map" });
         const tileset = map.addTilesetImage("tilemap_packed", "tiles");
-
-        if (tileset) {
-            const mapX = 515;
-            const mapY = 194;
-            map.createLayer("Tile Layer 1", tileset)?.setPosition(mapX, mapY);
-            map.createLayer("Tile Layer 2", tileset)?.setPosition(mapX, mapY);
-            map.createLayer("Tile Layer 3", tileset)?.setPosition(mapX, mapY);
-        } else {
-            console.error("Failed to load tileset");
-        }
+        this.mapContainer = new MapContainer(this, 512, 194, map, tileset, this.rentedLocation);
 
         this.startButton = new TextButton(this, 410, 700, "START GAME");
         this.startButton.setInteractive();
         this.startButton.on("pointerdown", () => {
-            this.scene.switch("day", {
+            // Create a new instance of the DayScene
+            const dayScene = new DayScene(`day-${this._date.getDateString()}`);
+            // // Add the new instance to the scene manager
+            const data: GameDataFromPreparationScene = {
                 budget: this.budget,
                 supplies: this.supplies,
                 weatherForecast,
                 news,
-            });
+                _date: this._date,
+                rentedLocation: this.rentedLocation,
+                recipe: this.recipe,
+                price: this.price,
+            };
+            this.scene.add(`day-${this._date.getDateString()}`, dayScene, true, data);
+            this.scene.start(`day-${this._date.getDateString()}`);
+            this.scene.get(this.sceneKey).sys.shutdown();
+            this.scene.stop(this.sceneKey);
+            this.scene.remove(this.sceneKey);
         });
-    }
-
-    getDate(): { year: number; month: number; day: number } {
-        const date = new Date();
-        return {
-            year: date.getFullYear(),
-            month: date.getMonth() + 1,
-            day: date.getDate(),
-        };
     }
 
     getNews(): string {
@@ -121,6 +153,9 @@ export class PreparationScene extends Scene {
             evening: "sunny",
             isCelsius,
         };
+        // const temperatureByTime: TemperatureByTime = this.generateTemperatureByTime(isCelsius);
+        // const newWeatherForecast = new WeatherForecast(temperatureByTime, "sunny", "sunny", "sunny", isCelsius);
+        // return newWeatherForecast;
     }
 
     generateTemperatureByTime(isCelsius: boolean): number {
@@ -133,7 +168,7 @@ export class PreparationScene extends Scene {
         //     ? temperature
         //     : changeTemperatureToFahrenheit(temperature);
         // }
-        const month = this.getDate().month;
+        const month = this._date.getMonth();
         const temperature = getTemperature(month);
         return isCelsius ? temperature : changeTemperatureToFahrenheit(temperature);
     }

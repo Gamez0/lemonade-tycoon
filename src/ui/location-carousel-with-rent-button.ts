@@ -5,7 +5,7 @@ import { TitleText } from "./title-text";
 
 export class LocationCarouselWithRentButton extends Phaser.GameObjects.Container {
     private title: Phaser.GameObjects.Text;
-    private imageAreaTodo: Phaser.GameObjects.Rectangle;  // TODO: Image Button 이 필요하다.
+    private imageAreaTodo: Phaser.GameObjects.Rectangle; // TODO: Image Button 이 필요하다.
     private description: Phaser.GameObjects.Text;
     private popularity: Phaser.GameObjects.Text;
     private satisfaction: Phaser.GameObjects.Text;
@@ -20,7 +20,7 @@ export class LocationCarouselWithRentButton extends Phaser.GameObjects.Container
         super(scene, x, y);
 
         this.seekingLocationIndex = 0;
-        
+
         const backgroundWidth = 360;
         const backgroundHeight = 180;
         this.background = scene.add.rectangle(45, 0, backgroundWidth, backgroundHeight, 0x008229, 1);
@@ -50,7 +50,7 @@ export class LocationCarouselWithRentButton extends Phaser.GameObjects.Container
             {
                 color: "white",
                 fontSize: "12px",
-            },
+            }
         );
 
         this.popularity = new Phaser.GameObjects.Text(
@@ -61,7 +61,7 @@ export class LocationCarouselWithRentButton extends Phaser.GameObjects.Container
             {
                 color: "white",
                 fontSize: "12px",
-            },
+            }
         );
 
         this.satisfaction = new Phaser.GameObjects.Text(
@@ -72,15 +72,10 @@ export class LocationCarouselWithRentButton extends Phaser.GameObjects.Container
             {
                 color: "white",
                 fontSize: "12px",
-            },
+            }
         );
 
-        this.price = new TitleText(
-            scene,
-            245,
-            130,
-            `${LOCATIONS_DATA[this.seekingLocationIndex].price.toFixed(2)} $`,
-        );
+        this.price = new TitleText(scene, 245, 130, `${LOCATIONS_DATA[this.seekingLocationIndex].price.toFixed(2)} $`);
 
         this.nextButton = new TextButton(scene, 420, 30, ">");
         this.nextButton.setInteractive();
@@ -89,8 +84,14 @@ export class LocationCarouselWithRentButton extends Phaser.GameObjects.Container
             this.updateUI(rentedLocation);
         });
 
-        this.rentButton = new TextButton(scene, 360, 240, "RENT", this.seekingLocationIndex === rentedLocation.getCurrentLocationKey());
-        
+        this.rentButton = new TextButton(
+            scene,
+            360,
+            240,
+            "RENT",
+            this.seekingLocationIndex === rentedLocation.getCurrentLocationKey()
+        );
+
         this.rentButton.setInteractive();
         this.rentButton.on("pointerdown", () => {
             rentedLocation.setCurrentLocationKey(this.seekingLocationIndex);
@@ -112,7 +113,7 @@ export class LocationCarouselWithRentButton extends Phaser.GameObjects.Container
         scene.add.existing(this);
     }
 
-    private updateUI (rentedLocation: RentedLocation) {
+    private updateUI(rentedLocation: RentedLocation) {
         this.title.setText(LOCATIONS_DATA[this.seekingLocationIndex].title);
         this.description.setText(LOCATIONS_DATA[this.seekingLocationIndex].shortDescription);
         this.popularity.setText(`Popularity: ${rentedLocation.getPopularity(this.seekingLocationIndex)}`);
@@ -121,9 +122,15 @@ export class LocationCarouselWithRentButton extends Phaser.GameObjects.Container
         this.updateRentButton(rentedLocation);
     }
 
-    private updateRentButton (rentedLocation: RentedLocation) {
+    private updateRentButton(rentedLocation: RentedLocation) {
         this.rentButton.destroy();
-        this.rentButton = new TextButton(this.scene, 360, 240, "RENT", this.seekingLocationIndex === rentedLocation.getCurrentLocationKey());
+        this.rentButton = new TextButton(
+            this.scene,
+            360,
+            240,
+            "RENT",
+            this.seekingLocationIndex === rentedLocation.getCurrentLocationKey()
+        );
         this.rentButton.setInteractive();
         this.rentButton.on("pointerdown", () => {
             rentedLocation.setCurrentLocationKey(this.seekingLocationIndex);

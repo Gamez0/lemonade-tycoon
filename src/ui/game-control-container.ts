@@ -1,6 +1,8 @@
 import { SUPPLIES_LIMIT } from "../constants";
 import { Budget } from "../models/budget";
 import { RentedLocation } from "../models/location";
+import Price from "../models/price";
+import { Recipe } from "../models/recipe";
 import { Supplies } from "../models/supplies";
 import { BuySuppliesContainer } from "./buy-supplies-container";
 import { MarketingContainer } from "./marketing-container";
@@ -40,7 +42,16 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
     private supplies: Supplies;
     tabItemsBackgroundContainer: Phaser.GameObjects.Rectangle;
 
-    constructor(scene: Phaser.Scene, x: number, y: number, budget: Budget, supplies: Supplies, rentedLocation: RentedLocation) {
+    constructor(
+        scene: Phaser.Scene,
+        x: number,
+        y: number,
+        price: Price,
+        budget: Budget,
+        supplies: Supplies,
+        rentedLocation: RentedLocation,
+        recipe: Recipe
+    ) {
         super(scene, x, y);
         const marginLeft = 16;
         const padding = 16;
@@ -56,9 +67,9 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
         this.rentContainer = new RentContainer(scene, marginLeft + padding, 64, rentedLocation);
         this.upgradesContainer = new UpgradesContainer(scene, marginLeft + padding, 64);
         this.staffContainer = new StaffContainer(scene, marginLeft + padding, 64);
-        this.marketingContainer = new MarketingContainer(scene, marginLeft + padding, 64);
+        this.marketingContainer = new MarketingContainer(scene, marginLeft + padding, 64, price);
         this.buySuppliesContainer = new BuySuppliesContainer(scene, marginLeft + padding, 64, this.purchaseSupplies);
-        this.recipeContainer = new RecipeContainer(scene, marginLeft + padding, 64, this.supplies);
+        this.recipeContainer = new RecipeContainer(scene, marginLeft + padding, 64, this.supplies, recipe);
 
         this.tabItemsBackgroundContainer = scene.add.rectangle(marginLeft, 50, 488, 384, 0x009631, 1);
         this.tabItemsBackgroundContainer.setOrigin(0, 0);
@@ -85,7 +96,7 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
     private purchaseSupplies = (totalPrice: SuppliesTotalPrice, totalAmount: SuppliesTotalAmount) => {
         const { lemonTotalPrice, sugarTotalPrice, iceTotalPrice, cupsTotalPrice } = totalPrice;
         const { lemonTotalAmount, sugarTotalAmount, iceTotalAmount, cupsTotalAmount } = totalAmount;
-        const currentBudget: number = this.budget.getAmount();
+        const currentBudget: number = this.budget.amount;
 
         const totalCost = lemonTotalPrice + sugarTotalPrice + iceTotalPrice + cupsTotalPrice;
         if (totalCost > currentBudget) {
@@ -111,7 +122,7 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
         }
 
         const newAmount = currentBudget - totalCost;
-        this.budget.setAmount(newAmount);
+        this.budget.amount = newAmount;
 
         this.supplies.lemon += lemonTotalAmount;
         this.supplies.sugar += sugarTotalAmount;
