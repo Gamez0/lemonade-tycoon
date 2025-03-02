@@ -18,7 +18,7 @@ export default class WeatherNewsContainer extends Phaser.GameObjects.Container {
         scene: Phaser.Scene,
         x: number,
         y: number,
-        date: _Date,
+        _date: _Date,
         weatherForecast: WeatherForecast,
         news: string,
         isPreparationScene?: boolean
@@ -27,7 +27,7 @@ export default class WeatherNewsContainer extends Phaser.GameObjects.Container {
 
         const padding = 16;
 
-        this.date = scene.add.text(0 + padding, 0 + padding, date.getDateString(), { fontSize: "16px" });
+        this.date = scene.add.text(0 + padding, 0 + padding, _date.getDateString(), { fontSize: "16px" });
         this.news = scene.add.text(244, 32 + padding, news, { fontSize: "12px" });
         this.todayTemperature = scene.add.text(0 + padding, 24 + padding, this.getTodayTemperature(weatherForecast), {
             fontSize: "16px",
