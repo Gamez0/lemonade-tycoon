@@ -84,6 +84,8 @@ export class RecipeContainer extends Phaser.GameObjects.Container {
             this.cupImage,
         ]);
         scene.add.existing(this);
+
+        scene.events.on("shutdown", this.onSceneShutdown, this);
     }
 
     private createLemonControls(scene: Phaser.Scene) {
@@ -172,5 +174,9 @@ export class RecipeContainer extends Phaser.GameObjects.Container {
                 }
                 break;
         }
+    }
+
+    private onSceneShutdown() {
+        this.recipe.off("change");
     }
 }
