@@ -18,6 +18,9 @@ import Price from "../models/price";
 import CustomerQueue from "../models/customerQueue";
 import LemonadePitcher from "../models/lemonadePitcher";
 import WeatherForecast from "../types/weather-forecast";
+import PerformanceContainer from "../ui/performance-container";
+import ReviewContainer from "../ui/review-container";
+import Result from "../models/result";
 
 const MAP_POSITION = { x: 515, y: 194 };
 const MAP_SIZE = { width: 480, height: 384 };
@@ -57,6 +60,8 @@ export class DayScene extends Scene {
     supplyStatusContainer: SupplyStatusContainer;
     budgetContainer: BudgetContainer;
     gameControlUI: GameControlContainer;
+    performanceContainer: PerformanceContainer;
+    reviewContainer: ReviewContainer;
     weatherNewsContainer: WeatherNewsContainer;
     mapContainer: MapContainer;
     skipButton: TextButton;
@@ -73,6 +78,7 @@ export class DayScene extends Scene {
 
     // Temporary Game Data
     lemonadePitcher: LemonadePitcher = new LemonadePitcher(0);
+    todayResult: Result = new Result(0, 0);
 
     pathPoints: { x: number; y: number }[];
     customerQueue: CustomerQueue;
@@ -124,16 +130,8 @@ export class DayScene extends Scene {
 
         this.supplyStatusContainer = new SupplyStatusContainer(this, 50, 25, this.supplies, this.lemonadePitcher);
         this.budgetContainer = new BudgetContainer(this, 924, 16, this.budget);
-        this.gameControlUI = new GameControlContainer(
-            this,
-            0,
-            144,
-            this.price,
-            this.budget,
-            this.supplies,
-            this.rentedLocation,
-            this.recipe
-        );
+        this.performanceContainer = new PerformanceContainer(this, 0, 194, this.todayResult);
+        this.reviewContainer = new ReviewContainer(this, 0, 500);
         this.weatherNewsContainer = new WeatherNewsContainer(
             this,
             512,
@@ -249,6 +247,10 @@ export class DayScene extends Scene {
         // increase budget
         this.budget.amount += this.price.amount;
 
+        // increase today's result
+        this.todayResult.increaseCupsSold();
+        this.todayResult.addProfit(this.price.amount);
+
         // dequeue the first customer
         this.customerLeaveTheMap(customer);
         // play exit customer animation
@@ -314,6 +316,7 @@ export class DayScene extends Scene {
             _date: this._date,
             recipe: this.recipe,
             price: this.price,
+            todayResult: this.todayResult,
         };
         this.scene.add(`preparation-${this._date.getDateString()}`, preparationScene, true, data);
         this.scene.start(`preparation-${this._date.getDateString()}`);

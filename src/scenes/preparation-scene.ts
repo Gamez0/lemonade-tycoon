@@ -14,6 +14,7 @@ import { DayScene } from "./day-scene";
 import _Date from "../models/_date";
 import { Recipe } from "../models/recipe";
 import Price from "../models/price";
+import Result from "../models/result";
 
 export interface GameDataFromPreparationScene {
     budget: Budget;
@@ -33,6 +34,7 @@ export interface GameDataFromDayScene {
     _date: _Date;
     recipe: Recipe;
     price: Price;
+    todayResult: Result;
 }
 
 export class PreparationScene extends Scene {
@@ -44,6 +46,7 @@ export class PreparationScene extends Scene {
     private _date: _Date;
     private recipe: Recipe;
     private price: Price;
+    private yesterdayResult?: Result;
     supplyStatusContainer: SupplyStatusContainer;
     budgetContainer: BudgetContainer;
     gameControlUI: GameControlContainer;
@@ -90,6 +93,7 @@ export class PreparationScene extends Scene {
         this._date = data._date ?? new _Date(2025, 7, 1);
         this.recipe = data.recipe ?? new Recipe(1, 1, 1, this.supplies);
         this.price = data.price ?? new Price(1);
+        this.yesterdayResult = data.todayResult;
     }
 
     create() {
