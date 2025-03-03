@@ -152,7 +152,7 @@ export class DayScene extends Scene {
             this.switchToPreparationScene();
         });
 
-        this.makeLemonade();
+        this.makeLemonade({ disableDelay: true });
 
         this.lemonadePitcher.on("change", (amount: number) => {
             if (amount > 0) return;
@@ -209,7 +209,7 @@ export class DayScene extends Scene {
         });
     }
 
-    makeLemonade() {
+    makeLemonade({ disableDelay }: { disableDelay?: boolean } = { disableDelay: false }) {
         // check if there are enough supplies
         if (
             this.supplies.lemon < this.recipe.lemon ||
@@ -217,7 +217,6 @@ export class DayScene extends Scene {
             this.supplies.ice < this.recipe.ice ||
             this.supplies.cup < 1
         ) {
-            alert("You don't have enough supplies to make lemonade.");
             return;
         }
 
@@ -228,9 +227,16 @@ export class DayScene extends Scene {
 
         // fill lemonade pitcher
         // need delay because it takes time to make lemonade. just delay the process left below
+        if (disableDelay) {
+            this.lemonadePitcher.amount += this.recipe.cupsPerPitcher;
+            return;
+        }
+
         this.time.delayedCall(
             LEMONADE_MAKE_DELAY,
-            () => (this.lemonadePitcher.amount += this.recipe.cupsPerPitcher),
+            () => {
+                this.lemonadePitcher.amount += this.recipe.cupsPerPitcher;
+            },
             [],
             this
         );
@@ -239,10 +245,12 @@ export class DayScene extends Scene {
     sellLemonade() {
         if (this.lemonadePitcher.amount <= 0) return;
         if (this.customerQueue.length <= 0) return;
+        if (this.supplies.cup <= 0) return;
 
         const customer = this.customerQueue.dequeue() as Customer;
         // decrease lemonade pitcher
         this.lemonadePitcher.decrease();
+        this.supplies.cup -= 1;
 
         // increase budget
         this.budget.amount += this.price.amount;
@@ -275,7 +283,6 @@ export class DayScene extends Scene {
     }
 
     updateCustomerQueue() {
-        // TODO: decrease customer's patience
         this.customerQueue.forEach((customer) => {
             customer.decreasePatience();
             if (customer.getPatience() <= 0) {
