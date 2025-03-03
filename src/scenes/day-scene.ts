@@ -224,7 +224,7 @@ export class DayScene extends Scene {
         // decrease supplies
         this.supplies.lemon -= this.recipe.lemon;
         this.supplies.sugar -= this.recipe.sugar;
-        this.supplies.ice -= this.recipe.ice;
+        this.supplies.ice -= this.recipe.ice * this.recipe.cupsPerPitcher;
 
         // fill lemonade pitcher
         // need delay because it takes time to make lemonade. just delay the process left below
