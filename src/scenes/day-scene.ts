@@ -19,8 +19,9 @@ import CustomerQueue from "../models/customerQueue";
 import LemonadePitcher from "../models/lemonadePitcher";
 import WeatherForecast from "../types/weather-forecast";
 import PerformanceContainer from "../ui/performance-container";
-import ReviewContainer from "../ui/review-container";
 import Result from "../models/result";
+import { getTooExpensiveReview, getTooLongQueueReview } from "../data/reviewText";
+import Reviews, { Review } from "../models/reviews";
 
 const MAP_POSITION = { x: 515, y: 194 };
 const MAP_SIZE = { width: 480, height: 384 };
@@ -61,7 +62,6 @@ export class DayScene extends Scene {
     budgetContainer: BudgetContainer;
     gameControlUI: GameControlContainer;
     performanceContainer: PerformanceContainer;
-    reviewContainer: ReviewContainer;
     weatherNewsContainer: WeatherNewsContainer;
     mapContainer: MapContainer;
     skipButton: TextButton;
@@ -79,6 +79,7 @@ export class DayScene extends Scene {
     // Temporary Game Data
     lemonadePitcher: LemonadePitcher = new LemonadePitcher(0);
     todayResult: Result = new Result(0, 0);
+    reviews: Reviews = new Reviews();
 
     pathPoints: { x: number; y: number }[];
     customerQueue: CustomerQueue;
@@ -130,8 +131,7 @@ export class DayScene extends Scene {
 
         this.supplyStatusContainer = new SupplyStatusContainer(this, 50, 25, this.supplies, this.lemonadePitcher);
         this.budgetContainer = new BudgetContainer(this, 924, 16, this.budget);
-        this.performanceContainer = new PerformanceContainer(this, 0, 194, this.todayResult);
-        this.reviewContainer = new ReviewContainer(this, 0, 500);
+        this.performanceContainer = new PerformanceContainer(this, 0, 194, this.todayResult, this.reviews);
         this.weatherNewsContainer = new WeatherNewsContainer(
             this,
             512,
@@ -254,6 +254,11 @@ export class DayScene extends Scene {
         // dequeue the first customer
         this.customerLeaveTheMap(customer);
         // play exit customer animation
+
+        // customer leaves review
+        const { text: reviewText, star } = this.recipe.getReview(this.price, this.weatherForecast);
+        const review = new Review(customer.getCharacterIndex(), reviewText, star);
+        this.reviews.addReview(review);
     }
 
     customerEnterTheMap() {
@@ -274,6 +279,9 @@ export class DayScene extends Scene {
         this.customerQueue.forEach((customer) => {
             customer.decreasePatience();
             if (customer.getPatience() <= 0) {
+                // customer leaves review
+                const review = new Review(customer.getCharacterIndex(), getTooLongQueueReview(), 0);
+                this.reviews.addReview(review);
                 // remove customer from queue
                 this.customerQueue.removeCustomer(customer);
                 this.drawCustomerQueue();
@@ -449,7 +457,7 @@ export class DayScene extends Scene {
     }
 
     checkLemonadeStand(customer: Customer) {
-        if (this.supplies.isOutOfSupplies(this.recipe)) {
+        if (this.supplies.isOutOfSupplies(this.recipe) && this.lemonadePitcher.amount === 0) {
             // if out of supplies
             this.customerLeaveTheMap(customer);
             return;
@@ -458,12 +466,17 @@ export class DayScene extends Scene {
         if (this.price.amount > 2) {
             // if price is high
             this.customerLeaveTheMap(customer);
+            // customer leaves review
+            const review = new Review(customer.getCharacterIndex(), getTooExpensiveReview(), 0);
+            this.reviews.addReview(review);
             return;
         }
 
         if (this.customerQueue.length >= 5) {
             // if queue is not too long
             this.customerLeaveTheMap(customer);
+            const review = new Review(customer.getCharacterIndex(), getTooLongQueueReview(), 0);
+            this.reviews.addReview(review);
             return;
         }
         // TODO
