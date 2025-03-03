@@ -1,4 +1,7 @@
 import { PITCHER_PER_ICE } from "../constants";
+import { getReviewsByStar } from "../data/reviewText";
+import WeatherForecast from "../types/weather-forecast";
+import Price from "./price";
 import { Supplies } from "./supplies";
 
 export class Recipe extends Phaser.Events.EventEmitter {
@@ -29,6 +32,42 @@ export class Recipe extends Phaser.Events.EventEmitter {
         const totalCost = lemonCost + sugarCost + cupCost;
 
         return totalCost / this._cupsPerPitcher;
+    }
+
+    getFlavor(): "good" | "bad" | "perfect" {
+        const ratio = this.getRatio();
+        if (this._sugar >= 3 && ratio === 2) {
+            return "perfect";
+        } else if (ratio >= 1.5 && ratio <= 2.5 && this._lemon >= 2 && this._sugar >= 1) {
+            return "good";
+        } else {
+            return "bad";
+        }
+    }
+
+    getRatio(): number {
+        return this._lemon / this._sugar;
+    }
+
+    getFlavorReview(): string[] {
+        const ratio = this.getRatio();
+        const reviews = [];
+        if (ratio === 2) {
+            reviews.push("Perfect balance between lemon and sugar.");
+        } else if (ratio > 2) {
+            reviews.push("More sugar will be better.");
+        } else {
+            reviews.push("More lemon will be better.");
+        }
+
+        return reviews;
+    }
+
+    getReview(price: Price, weatherForecast: WeatherForecast): { text: string; star: number } {
+        const flavor = this.getFlavor();
+        const flavorReview = this.getFlavorReview();
+        const star = flavor === "perfect" ? 3 : flavor === "good" ? 2 : 1;
+        return { text: Phaser.Math.RND.pick([...flavorReview, ...getReviewsByStar(star)]), star };
     }
 
     get lemon(): number {
