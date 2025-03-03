@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="#ffff4a">
+  <!-- 중심 정사각형 -->
+  <rect x="40" y="40" width="20" height="20" />
+  <!-- 위 정사각형 -->
+  <rect x="40" y="20" width="20" height="20" />
+  <!-- 아래 정사각형 -->
+  <rect x="40" y="60" width="20" height="20" />
+  <!-- 왼쪽 정사각형 -->
+  <rect x="20" y="40" width="20" height="20" />
+  <!-- 오른쪽 정사각형 -->
+  <rect x="60" y="40" width="20" height="20" />
+</svg>
