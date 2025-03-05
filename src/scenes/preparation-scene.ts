@@ -38,6 +38,7 @@ export interface GameDataFromDayScene {
 }
 
 export class PreparationScene extends Scene {
+    private bgm: Phaser.Sound.BaseSound;
     camera: Phaser.Cameras.Scene2D.Camera;
     background: Phaser.GameObjects.Image;
     private budget: Budget;
@@ -62,6 +63,7 @@ export class PreparationScene extends Scene {
     }
 
     preload() {
+        this.load.audio("bgm", "assets/audio/bgm.mp3");
         this.load.image("lemon", "assets/lemon-32.png");
         this.load.image("ice", "assets/ice-32.png");
         this.load.image("sugar", "assets/sugar-32.png");
@@ -97,6 +99,11 @@ export class PreparationScene extends Scene {
     }
 
     create() {
+        if (!this.sound.get("bgm")) {
+            this.bgm = this.sound.add("bgm", { loop: true, volume: 0.5 });
+            this.bgm.play();
+        }
+
         this.camera = this.cameras.main;
         this.camera.setBackgroundColor("rgb(24, 174, 49)");
 
@@ -141,6 +148,7 @@ export class PreparationScene extends Scene {
             this.scene.get(this.sceneKey).sys.shutdown();
             this.scene.stop(this.sceneKey);
             this.scene.remove(this.sceneKey);
+            this.sound.remove(this.bgm);
         });
     }
 
