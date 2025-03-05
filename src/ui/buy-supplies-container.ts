@@ -79,7 +79,7 @@ export class BuySuppliesContainer extends Phaser.GameObjects.Container {
         this.buyUIBackground = scene.add.rectangle(0, 100, 432, 180, 0x008229, 1);
         this.buyUIBackground.setOrigin(0, 0);
 
-        this.buyButton = new TextButton(scene, 340, 320, "Buy"); // + button 아래에 있으면 좋을 듯 사용자가 누르기 편할 듯
+        this.buyButton = new TextButton(scene, 390, 320, "Buy"); // + button 아래에 있으면 좋을 듯 사용자가 누르기 편할 듯
         this.buyButton.setInteractive();
         this.buyButton.on("pointerdown", this.onBuyButtonClicked, this);
 
