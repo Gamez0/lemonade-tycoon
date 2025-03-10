@@ -111,7 +111,7 @@ export class PreparationScene extends Scene {
         const news = this.getNews();
 
         this.supplyStatusContainer = new SupplyStatusContainer(this, 50, 25, this.supplies);
-        this.budgetContainer = new BudgetContainer(this, 924, 16, this.budget);
+        this.budgetContainer = new BudgetContainer(this, 900, 16, this.budget);
         this.gameControlUI = new GameControlContainer(
             this,
             0,
