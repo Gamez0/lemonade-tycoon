@@ -10,11 +10,12 @@ export class BudgetContainer extends Phaser.GameObjects.Container {
         super(scene, x, y);
 
         this.budget = budget;
-        this.budgetText = new TitleText(scene, 0, 12, budget.getAmountString());
+
+        this.budgetText = new TitleText(scene, 0, 12, `$ ${budget.getAmountString()}`);
 
         this.budget.on("change", this.updateBudgetText, this);
 
-        this.add(this.budgetText);
+        this.add([this.budgetText]);
         scene.add.existing(this);
 
         scene.events.on(Phaser.Scenes.Events.SHUTDOWN, this.onSceneShutdown, this);
