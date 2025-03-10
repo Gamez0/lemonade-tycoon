@@ -214,7 +214,7 @@ export class DayScene extends Scene {
         if (
             this.supplies.lemon < this.recipe.lemon ||
             this.supplies.sugar < this.recipe.sugar ||
-            this.supplies.ice < this.recipe.ice ||
+            this.supplies.ice < this.recipe.ice * this.recipe.cupsPerPitcher ||
             this.supplies.cup < 1
         ) {
             return;
