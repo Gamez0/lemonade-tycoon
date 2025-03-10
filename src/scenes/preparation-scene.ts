@@ -54,6 +54,7 @@ export class PreparationScene extends Scene {
     startButton: TextButton;
     weatherNewsContainer: WeatherNewsContainer;
     mapContainer: MapContainer;
+    speakerButton: Phaser.GameObjects.Image;
 
     private sceneKey: string;
 
@@ -83,6 +84,8 @@ export class PreparationScene extends Scene {
         this.load.image("cloudy-24", "assets/cloudy-24.png");
         this.load.image("rainy-24", "assets/rainy-24.png");
         this.load.image("little-cloudy-24", "assets/little-cloudy-24.png");
+        this.load.image("speaker-32", "assets/speaker-32.png");
+        this.load.image("speaker-mute-32", "assets/speaker-mute-32.png");
 
         this.load.image("tiles", "assets/tiles/tilemap_packed.png");
         this.load.tilemapTiledJSON("park-map", "assets/tiles/park.json");
@@ -99,13 +102,10 @@ export class PreparationScene extends Scene {
     }
 
     create() {
-        if (!this.sound.get("bgm")) {
-            this.bgm = this.sound.add("bgm", { loop: true, volume: 0.5 });
-            this.bgm.play();
-        }
-
         this.camera = this.cameras.main;
         this.camera.setBackgroundColor("rgb(24, 174, 49)");
+
+        this.loadBgm();
 
         const weatherForecast = this.getWeatherForecast({ isCelsius: true });
         const news = this.getNews();
@@ -149,6 +149,36 @@ export class PreparationScene extends Scene {
             this.scene.stop(this.sceneKey);
             this.scene.remove(this.sceneKey);
             this.sound.remove(this.bgm);
+        });
+    }
+
+    loadBgm() {
+        // add bgm and play it
+        if (!this.sound.get("bgm")) {
+            this.bgm = this.sound.add("bgm", { loop: true, volume: 0.5 });
+            const isBgmPaused = this.registry.get("bgmPaused");
+            if (isBgmPaused) {
+                this.bgm.pause();
+                return;
+            }
+            this.bgm.play();
+        }
+        // add speaker image
+        this.speakerButton = this.add
+            .image(50, 718, this.registry.get("bgmPaused") ? "speaker-mute-32" : "speaker-32")
+            .setInteractive({ cursor: "pointer" });
+        // add event listener to speaker image
+        this.speakerButton.on("pointerdown", () => {
+            const isBgmPaused = this.registry.get("bgmPaused");
+            if (isBgmPaused) {
+                this.bgm.play();
+                this.speakerButton.setTexture("speaker-32");
+                this.registry.set("bgmPaused", false);
+            } else {
+                this.bgm.pause();
+                this.speakerButton.setTexture("speaker-mute-32");
+                this.registry.set("bgmPaused", true);
+            }
         });
     }
 
