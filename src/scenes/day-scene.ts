@@ -473,7 +473,7 @@ export class DayScene extends Scene {
             return;
         }
         // TODO: weather, time, popularity, price, etc. should be considered also.
-        const priceRange = 2 + Phaser.Math.RND.integerInRange(-20, 20) / 100;
+        const priceRange = 2 + Number((Phaser.Math.RND.integerInRange(-20, 20) / 100).toFixed(1));
         if (this.price.amount > priceRange) {
             // if price is high
             this.customerLeaveTheMap(customer);
