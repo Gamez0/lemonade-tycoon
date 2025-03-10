@@ -101,6 +101,11 @@ export class Supplies extends Phaser.Events.EventEmitter {
     }
 
     isOutOfSupplies(recipe: Recipe): boolean {
-        return this._lemon < recipe.lemon || this._sugar < recipe.sugar || this._ice < recipe.ice || this._cup < 1;
+        return (
+            this._lemon < recipe.lemon ||
+            this._sugar < recipe.sugar ||
+            this._ice < recipe.ice * recipe.cupsPerPitcher ||
+            this._cup < 1
+        );
     }
 }

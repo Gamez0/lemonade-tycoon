@@ -211,12 +211,7 @@ export class DayScene extends Scene {
 
     makeLemonade({ disableDelay }: { disableDelay?: boolean } = { disableDelay: false }) {
         // check if there are enough supplies
-        if (
-            this.supplies.lemon < this.recipe.lemon ||
-            this.supplies.sugar < this.recipe.sugar ||
-            this.supplies.ice < this.recipe.ice * this.recipe.cupsPerPitcher ||
-            this.supplies.cup < 1
-        ) {
+        if (this.supplies.isOutOfSupplies(this.recipe)) {
             return;
         }
 
