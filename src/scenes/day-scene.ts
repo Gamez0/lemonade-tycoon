@@ -469,10 +469,12 @@ export class DayScene extends Scene {
         if (this.supplies.isOutOfSupplies(this.recipe) && this.lemonadePitcher.amount === 0) {
             // if out of supplies
             this.customerLeaveTheMap(customer);
+            // TODO: customer leaves review or feedback animation
             return;
         }
-
-        if (this.price.amount > 2) {
+        // TODO: weather, time, popularity, price, etc. should be considered also.
+        const priceRange = 2 + Number((Phaser.Math.RND.integerInRange(-20, 20) / 100).toFixed(1));
+        if (this.price.amount > priceRange) {
             // if price is high
             this.customerLeaveTheMap(customer);
             // customer leaves review
