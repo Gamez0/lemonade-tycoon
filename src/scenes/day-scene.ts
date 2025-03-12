@@ -130,7 +130,7 @@ export class DayScene extends Scene {
         this.camera.setBackgroundColor("rgb(24, 174, 49)");
 
         this.supplyStatusContainer = new SupplyStatusContainer(this, 50, 25, this.supplies, this.lemonadePitcher);
-        this.budgetContainer = new BudgetContainer(this, 924, 16, this.budget);
+        this.budgetContainer = new BudgetContainer(this, 900, 16, this.budget);
         this.performanceContainer = new PerformanceContainer(this, 0, 194, this.todayResult, this.reviews);
         this.weatherNewsContainer = new WeatherNewsContainer(
             this,
@@ -211,12 +211,7 @@ export class DayScene extends Scene {
 
     makeLemonade({ disableDelay }: { disableDelay?: boolean } = { disableDelay: false }) {
         // check if there are enough supplies
-        if (
-            this.supplies.lemon < this.recipe.lemon ||
-            this.supplies.sugar < this.recipe.sugar ||
-            this.supplies.ice < this.recipe.ice ||
-            this.supplies.cup < 1
-        ) {
+        if (this.supplies.isOutOfSupplies(this.recipe)) {
             return;
         }
 
@@ -343,34 +338,41 @@ export class DayScene extends Scene {
 
     createAnimation() {
         for (let i = 0; i < TOTAL_CHARACTER_SPRITES; i++) {
-            this.anims.create({
-                key: `walk-down-${i}`,
-                frames: this.anims.generateFrameNumbers("characters", { start: i * 12 + 4, end: i * 12 + 5 }),
-                frameRate: 6,
-                // repeat 은 -1 이면 무한반복이기 때문에 테스트할 땐 -1로 설정하지만 조작했을 땐 한번만 하는게 맞다.
-                repeat: -1,
-            });
+            if (!this.anims.exists(`walk-down-${i}`)) {
+                this.anims.create({
+                    key: `walk-down-${i}`,
+                    frames: this.anims.generateFrameNumbers("characters", { start: i * 12 + 4, end: i * 12 + 5 }),
+                    frameRate: 6,
+                    repeat: -1,
+                });
+            }
 
-            this.anims.create({
-                key: `walk-up-${i}`,
-                frames: this.anims.generateFrameNumbers("characters", { start: i * 12 + 6, end: i * 12 + 7 }),
-                frameRate: 6,
-                repeat: -1,
-            });
+            if (!this.anims.exists(`walk-up-${i}`)) {
+                this.anims.create({
+                    key: `walk-up-${i}`,
+                    frames: this.anims.generateFrameNumbers("characters", { start: i * 12 + 6, end: i * 12 + 7 }),
+                    frameRate: 6,
+                    repeat: -1,
+                });
+            }
 
-            this.anims.create({
-                key: `walk-right-${i}`,
-                frames: this.anims.generateFrameNumbers("characters", { start: i * 12 + 8, end: i * 12 + 9 }),
-                frameRate: 6,
-                repeat: -1,
-            });
+            if (!this.anims.exists(`walk-right-${i}`)) {
+                this.anims.create({
+                    key: `walk-right-${i}`,
+                    frames: this.anims.generateFrameNumbers("characters", { start: i * 12 + 8, end: i * 12 + 9 }),
+                    frameRate: 6,
+                    repeat: -1,
+                });
+            }
 
-            this.anims.create({
-                key: `walk-left-${i}`,
-                frames: this.anims.generateFrameNumbers("characters", { start: i * 12 + 10, end: i * 12 + 11 }),
-                frameRate: 6,
-                repeat: -1,
-            });
+            if (!this.anims.exists(`walk-left-${i}`)) {
+                this.anims.create({
+                    key: `walk-left-${i}`,
+                    frames: this.anims.generateFrameNumbers("characters", { start: i * 12 + 10, end: i * 12 + 11 }),
+                    frameRate: 6,
+                    repeat: -1,
+                });
+            }
         }
     }
 
@@ -467,10 +469,12 @@ export class DayScene extends Scene {
         if (this.supplies.isOutOfSupplies(this.recipe) && this.lemonadePitcher.amount === 0) {
             // if out of supplies
             this.customerLeaveTheMap(customer);
+            // TODO: customer leaves review or feedback animation
             return;
         }
-
-        if (this.price.amount > 2) {
+        // TODO: weather, time, popularity, price, etc. should be considered also.
+        const priceRange = 2 + Number((Phaser.Math.RND.integerInRange(-20, 20) / 100).toFixed(1));
+        if (this.price.amount > priceRange) {
             // if price is high
             this.customerLeaveTheMap(customer);
             // customer leaves review
