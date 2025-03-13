@@ -134,7 +134,14 @@ export class DayScene extends Scene {
         this.supplyStatusContainer = new SupplyStatusContainer(this, 50, 25, this.supplies, this.lemonadePitcher);
         this.budgetContainer = new BudgetContainer(this, 900, 16, this.budget);
         this.performanceContainer = new PerformanceContainer(this, 0, 194, this.todayResult, this.reviews);
-        this.todaySettingContainer = new TodaySettingContainer(this, 0, 388, this.recipe);
+        this.todaySettingContainer = new TodaySettingContainer(
+            this,
+            0,
+            388,
+            this.rentedLocation,
+            this.price,
+            this.recipe
+        );
         this.weatherNewsContainer = new WeatherNewsContainer(
             this,
             512,
