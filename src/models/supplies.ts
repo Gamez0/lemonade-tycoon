@@ -74,6 +74,7 @@ export class Supplies extends Phaser.Events.EventEmitter {
 
     set lemonAveragePrice(value: number) {
         this._lemonAveragePrice = value;
+        this.emit("averagePriceChanged", this._lemonAveragePrice);
     }
 
     get sugarAveragePrice(): number {
@@ -82,6 +83,7 @@ export class Supplies extends Phaser.Events.EventEmitter {
 
     set sugarAveragePrice(value: number) {
         this._sugarAveragePrice = value;
+        this.emit("averagePriceChanged", this._sugarAveragePrice);
     }
 
     get iceAveragePrice(): number {
@@ -90,6 +92,7 @@ export class Supplies extends Phaser.Events.EventEmitter {
 
     set iceAveragePrice(value: number) {
         this._iceAveragePrice = value;
+        this.emit("averagePriceChanged", this._iceAveragePrice);
     }
 
     get cupAveragePrice(): number {
@@ -98,6 +101,7 @@ export class Supplies extends Phaser.Events.EventEmitter {
 
     set cupAveragePrice(value: number) {
         this._cupAveragePrice = value;
+        this.emit("averagePriceChanged", this._cupAveragePrice);
     }
 
     isOutOfSupplies(recipe: Recipe): boolean {
@@ -107,5 +111,31 @@ export class Supplies extends Phaser.Events.EventEmitter {
             this._ice < recipe.ice * recipe.cupsPerPitcher ||
             this._cup < 1
         );
+    }
+
+    updateAveragePrice(
+        lemonTotalPrice: number,
+        lemonTotalAmount: number,
+        sugarTotalPrice: number,
+        sugarTotalAmount: number,
+        iceTotalPrice: number,
+        iceTotalAmount: number,
+        cupsTotalPrice: number,
+        cupsTotalAmount: number
+    ) {
+        const newLemonAverageAmount =
+            (this._lemonAveragePrice * this._lemon + lemonTotalPrice) / (this._lemon + lemonTotalAmount);
+        this.lemonAveragePrice = Number(newLemonAverageAmount.toFixed(2));
+
+        const newSugarAverageAmount =
+            (this._sugarAveragePrice * this._sugar + sugarTotalPrice) / (this._sugar + sugarTotalAmount);
+        this.sugarAveragePrice = Number(newSugarAverageAmount.toFixed(2));
+
+        const newIceAverageAmount = (this._iceAveragePrice * this._ice + iceTotalPrice) / (this._ice + iceTotalAmount);
+        this.iceAveragePrice = Number(newIceAverageAmount.toFixed(2));
+
+        const newCupAverageAmount =
+            (this._cupAveragePrice * this._cup + cupsTotalPrice) / (this._cup + cupsTotalAmount);
+        this.cupAveragePrice = Number(newCupAverageAmount.toFixed(2));
     }
 }
