@@ -123,19 +123,28 @@ export class Supplies extends Phaser.Events.EventEmitter {
         cupsTotalPrice: number,
         cupsTotalAmount: number
     ) {
-        const newLemonAverageAmount =
-            (this._lemonAveragePrice * this._lemon + lemonTotalPrice) / (this._lemon + lemonTotalAmount);
-        this.lemonAveragePrice = Number(newLemonAverageAmount.toFixed(2));
+        if (lemonTotalAmount > 0) {
+            const newLemonAverageAmount =
+                (this._lemonAveragePrice * this._lemon + lemonTotalPrice) / (this._lemon + lemonTotalAmount);
+            this.lemonAveragePrice = Number(newLemonAverageAmount.toFixed(2));
+        }
 
-        const newSugarAverageAmount =
-            (this._sugarAveragePrice * this._sugar + sugarTotalPrice) / (this._sugar + sugarTotalAmount);
-        this.sugarAveragePrice = Number(newSugarAverageAmount.toFixed(2));
+        if (sugarTotalAmount > 0) {
+            const newSugarAverageAmount =
+                (this._sugarAveragePrice * this._sugar + sugarTotalPrice) / (this._sugar + sugarTotalAmount);
+            this.sugarAveragePrice = Number(newSugarAverageAmount.toFixed(2));
+        }
 
-        const newIceAverageAmount = (this._iceAveragePrice * this._ice + iceTotalPrice) / (this._ice + iceTotalAmount);
-        this.iceAveragePrice = Number(newIceAverageAmount.toFixed(2));
+        if (iceTotalAmount > 0) {
+            const newIceAverageAmount =
+                (this._iceAveragePrice * this._ice + iceTotalPrice) / (this._ice + iceTotalAmount);
+            this.iceAveragePrice = Number(newIceAverageAmount.toFixed(2));
+        }
 
-        const newCupAverageAmount =
-            (this._cupAveragePrice * this._cup + cupsTotalPrice) / (this._cup + cupsTotalAmount);
-        this.cupAveragePrice = Number(newCupAverageAmount.toFixed(2));
+        if (cupsTotalAmount > 0) {
+            const newCupAverageAmount =
+                (this._cupAveragePrice * this._cup + cupsTotalPrice) / (this._cup + cupsTotalAmount);
+            this.cupAveragePrice = Number(newCupAverageAmount.toFixed(2));
+        }
     }
 }

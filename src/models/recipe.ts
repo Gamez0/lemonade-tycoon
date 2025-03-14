@@ -25,6 +25,7 @@ export class Recipe extends Phaser.Events.EventEmitter {
         this._costPerCup = this.getCostPerCup();
 
         this.on("change", this.updateCostPerCup, this);
+        this.supplies.on("averagePriceChanged", this.updateCostPerCup, this);
 
         this.off("shutdown", this.onSceneShutdown, this);
     }

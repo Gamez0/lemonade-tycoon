@@ -62,7 +62,7 @@ export class RecipeContainer extends Phaser.GameObjects.Container {
             this.cupsPerPitcherText.setText("Cups per pitcher: \n" + recipe.cupsPerPitcher.toString());
             this.costPerCupText.setText("Cost per cup:\n" + recipe.costPerCup.toFixed(2) + " $");
         });
-        this.supplies.on("averagePriceChanged", (averagePrice: number) => {
+        this.supplies.on("averagePriceChanged", () => {
             this.costPerCupText.setText("Cost per cup:\n" + this.recipe.costPerCup.toFixed(2) + " $");
         });
 
