@@ -17,12 +17,20 @@
         "dev": "node log.js dev & vite --config vite/config.dev.mjs",
         "build": "node log.js build & vite build --config vite/config.prod.mjs",
         "dev-nolog": "vite --config vite/config.dev.mjs",
-        "build-nolog": "vite build --config vite/config.prod.mjs"
+        "build-nolog": "vite build --config vite/config.prod.mjs",
+        "lint": "eslint . --ext .js,.mjs,.cjs,.ts",
+        "lint:fix": "eslint . --ext .js,.mjs,.cjs,.ts --fix"
     },
     "devDependencies": {
+        "@eslint/js": "^9.22.0",
         "@types/webfontloader": "^1.6.38",
+        "eslint": "^9.22.0",
+        "eslint-config-prettier": "^10.1.1",
+        "eslint-plugin-prettier": "^5.2.3",
+        "globals": "^16.0.0",
         "terser": "^5.31.0",
         "typescript": "^5.4.5",
+        "typescript-eslint": "^8.26.1",
         "vite": "^5.3.1"
     },
     "dependencies": {
