@@ -10,6 +10,7 @@ export default [
     pluginJs.configs.recommended,
     ...tseslint.configs.recommended,
     prettier,
+    // TODO: add formatting rules tabWidth: 4, printWidth: 120
     {
         rules: {
             "@typescript-eslint/no-unused-vars": "warn",
