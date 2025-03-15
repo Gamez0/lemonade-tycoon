@@ -159,15 +159,6 @@ export class PreparationScene extends Scene {
     }
 
     generateTemperatureByTime(isCelsius: boolean): number {
-        // 원래 코드
-        // const temperatureByTime = {} as TemperatureByTime;
-        // for (let i = 0; i < 24; i++) {
-        // generate random temperature
-        // const temperature = Math.floor(Math.random() * 30) + 10;
-        // temperatureByTime[i as keyof TemperatureByTime] = isCelsius
-        //     ? temperature
-        //     : changeTemperatureToFahrenheit(temperature);
-        // }
         const month = this._date.getMonth();
         const temperature = getTemperature(month);
         return isCelsius ? temperature : changeTemperatureToFahrenheit(temperature);
