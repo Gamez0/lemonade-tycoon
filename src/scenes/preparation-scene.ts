@@ -14,6 +14,7 @@ import { DayScene } from "./day-scene";
 import _Date from "../models/_date";
 import { Recipe } from "../models/recipe";
 import Price from "../models/price";
+import Result from "../models/result";
 
 export interface GameDataFromPreparationScene {
     budget: Budget;
@@ -33,9 +34,11 @@ export interface GameDataFromDayScene {
     _date: _Date;
     recipe: Recipe;
     price: Price;
+    todayResult: Result;
 }
 
 export class PreparationScene extends Scene {
+    private bgm: Phaser.Sound.BaseSound;
     camera: Phaser.Cameras.Scene2D.Camera;
     background: Phaser.GameObjects.Image;
     private budget: Budget;
@@ -44,12 +47,14 @@ export class PreparationScene extends Scene {
     private _date: _Date;
     private recipe: Recipe;
     private price: Price;
+    private yesterdayResult?: Result;
     supplyStatusContainer: SupplyStatusContainer;
     budgetContainer: BudgetContainer;
     gameControlUI: GameControlContainer;
     startButton: TextButton;
     weatherNewsContainer: WeatherNewsContainer;
     mapContainer: MapContainer;
+    speakerButton: Phaser.GameObjects.Image;
 
     private sceneKey: string;
 
@@ -59,6 +64,7 @@ export class PreparationScene extends Scene {
     }
 
     preload() {
+        this.load.audio("bgm", "assets/audio/bgm.mp3");
         this.load.image("lemon", "assets/lemon-32.png");
         this.load.image("ice", "assets/ice-32.png");
         this.load.image("sugar", "assets/sugar-32.png");
@@ -78,6 +84,8 @@ export class PreparationScene extends Scene {
         this.load.image("cloudy-24", "assets/cloudy-24.png");
         this.load.image("rainy-24", "assets/rainy-24.png");
         this.load.image("little-cloudy-24", "assets/little-cloudy-24.png");
+        this.load.image("speaker-32", "assets/speaker-32.png");
+        this.load.image("speaker-mute-32", "assets/speaker-mute-32.png");
 
         this.load.image("tiles", "assets/tiles/tilemap_packed.png");
         this.load.tilemapTiledJSON("park-map", "assets/tiles/park.json");
@@ -90,17 +98,20 @@ export class PreparationScene extends Scene {
         this._date = data._date ?? new _Date(2025, 7, 1);
         this.recipe = data.recipe ?? new Recipe(1, 1, 1, this.supplies);
         this.price = data.price ?? new Price(1);
+        this.yesterdayResult = data.todayResult;
     }
 
     create() {
         this.camera = this.cameras.main;
         this.camera.setBackgroundColor("rgb(24, 174, 49)");
 
+        this.loadBgm();
+
         const weatherForecast = this.getWeatherForecast({ isCelsius: true });
         const news = this.getNews();
 
         this.supplyStatusContainer = new SupplyStatusContainer(this, 50, 25, this.supplies);
-        this.budgetContainer = new BudgetContainer(this, 924, 16, this.budget);
+        this.budgetContainer = new BudgetContainer(this, 900, 16, this.budget);
         this.gameControlUI = new GameControlContainer(
             this,
             0,
@@ -137,6 +148,37 @@ export class PreparationScene extends Scene {
             this.scene.get(this.sceneKey).sys.shutdown();
             this.scene.stop(this.sceneKey);
             this.scene.remove(this.sceneKey);
+            this.sound.remove(this.bgm);
+        });
+    }
+
+    loadBgm() {
+        // add bgm and play it
+        if (!this.sound.get("bgm")) {
+            this.bgm = this.sound.add("bgm", { loop: true, volume: 0.5 });
+            const isBgmPaused = this.registry.get("bgmPaused");
+            if (isBgmPaused) {
+                this.bgm.pause();
+                return;
+            }
+            this.bgm.play();
+        }
+        // add speaker image
+        this.speakerButton = this.add
+            .image(50, 718, this.registry.get("bgmPaused") ? "speaker-mute-32" : "speaker-32")
+            .setInteractive({ cursor: "pointer" });
+        // add event listener to speaker image
+        this.speakerButton.on("pointerdown", () => {
+            const isBgmPaused = this.registry.get("bgmPaused");
+            if (isBgmPaused) {
+                this.bgm.play();
+                this.speakerButton.setTexture("speaker-32");
+                this.registry.set("bgmPaused", false);
+            } else {
+                this.bgm.pause();
+                this.speakerButton.setTexture("speaker-mute-32");
+                this.registry.set("bgmPaused", true);
+            }
         });
     }
 

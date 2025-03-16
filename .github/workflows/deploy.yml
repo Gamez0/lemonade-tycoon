@@ -1,0 +1,35 @@
+name: Deploy Phaser Game
+
+on:
+    push:
+        branches:
+            - main # Change this to your default branch if it's different
+
+permissions:
+    contents: write # Required for deploying to GitHub Pages
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 18
+                  cache: npm
+
+            - name: Install Dependencies
+              run: npm install # Change this if you're using Yarn or PNPM
+
+            - name: Build Project
+              run: npm run build # Adjust this based on your build setup
+
+            - name: Deploy to GitHub Pages
+              uses: JamesIves/github-pages-deploy-action@v4
+              with:
+                  branch: gh-pages # The branch to deploy to
+                  folder: dist # Change to your build output folder (e.g., public)

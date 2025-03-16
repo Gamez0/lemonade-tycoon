@@ -62,6 +62,9 @@ export class RecipeContainer extends Phaser.GameObjects.Container {
             this.cupsPerPitcherText.setText("Cups per pitcher: \n" + recipe.cupsPerPitcher.toString());
             this.costPerCupText.setText("Cost per cup:\n" + recipe.costPerCup.toFixed(2) + " $");
         });
+        this.supplies.on("averagePriceChanged", () => {
+            this.costPerCupText.setText("Cost per cup:\n" + this.recipe.costPerCup.toFixed(2) + " $");
+        });
 
         this.add([
             this.title,
@@ -84,6 +87,8 @@ export class RecipeContainer extends Phaser.GameObjects.Container {
             this.cupImage,
         ]);
         scene.add.existing(this);
+
+        scene.events.on("shutdown", this.onSceneShutdown, this);
     }
 
     private createLemonControls(scene: Phaser.Scene) {
@@ -172,5 +177,10 @@ export class RecipeContainer extends Phaser.GameObjects.Container {
                 }
                 break;
         }
+    }
+
+    private onSceneShutdown() {
+        this.recipe.off("change");
+        this.supplies.off("averagePriceChanged");
     }
 }

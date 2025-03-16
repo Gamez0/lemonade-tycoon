@@ -124,6 +124,20 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
         const newAmount = currentBudget - totalCost;
         this.budget.amount = newAmount;
 
+        // update average price
+        // TODO: just pass totalPrice and totalAmount to updateAveragePrice
+        this.supplies.updateAveragePrice(
+            lemonTotalPrice,
+            lemonTotalAmount,
+            sugarTotalPrice,
+            sugarTotalAmount,
+            iceTotalPrice,
+            iceTotalAmount,
+            cupsTotalPrice,
+            cupsTotalAmount
+        );
+
+        // update supplies
         this.supplies.lemon += lemonTotalAmount;
         this.supplies.sugar += sugarTotalAmount;
         this.supplies.ice += iceTotalAmount;

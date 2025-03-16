@@ -18,6 +18,11 @@ import Price from "../models/price";
 import CustomerQueue from "../models/customerQueue";
 import LemonadePitcher from "../models/lemonadePitcher";
 import WeatherForecast from "../types/weather-forecast";
+import PerformanceContainer from "../ui/performance-container";
+import Result from "../models/result";
+import { getTooExpensiveReview, getTooLongQueueReview } from "../data/reviewText";
+import Reviews, { Review } from "../models/reviews";
+import TodaySettingContainer from "../ui/today-setting-container";
 
 const MAP_POSITION = { x: 515, y: 194 };
 const MAP_SIZE = { width: 480, height: 384 };
@@ -57,6 +62,8 @@ export class DayScene extends Scene {
     supplyStatusContainer: SupplyStatusContainer;
     budgetContainer: BudgetContainer;
     gameControlUI: GameControlContainer;
+    performanceContainer: PerformanceContainer;
+    todaySettingContainer: TodaySettingContainer;
     weatherNewsContainer: WeatherNewsContainer;
     mapContainer: MapContainer;
     skipButton: TextButton;
@@ -73,6 +80,8 @@ export class DayScene extends Scene {
 
     // Temporary Game Data
     lemonadePitcher: LemonadePitcher = new LemonadePitcher(0);
+    todayResult: Result = new Result(0, 0);
+    reviews: Reviews = new Reviews();
 
     pathPoints: { x: number; y: number }[];
     customerQueue: CustomerQueue;
@@ -123,15 +132,14 @@ export class DayScene extends Scene {
         this.camera.setBackgroundColor("rgb(24, 174, 49)");
 
         this.supplyStatusContainer = new SupplyStatusContainer(this, 50, 25, this.supplies, this.lemonadePitcher);
-        this.budgetContainer = new BudgetContainer(this, 924, 16, this.budget);
-        this.gameControlUI = new GameControlContainer(
+        this.budgetContainer = new BudgetContainer(this, 900, 16, this.budget);
+        this.performanceContainer = new PerformanceContainer(this, 0, 194, this.todayResult, this.reviews);
+        this.todaySettingContainer = new TodaySettingContainer(
             this,
             0,
-            144,
-            this.price,
-            this.budget,
-            this.supplies,
+            388,
             this.rentedLocation,
+            this.price,
             this.recipe
         );
         this.weatherNewsContainer = new WeatherNewsContainer(
@@ -154,7 +162,7 @@ export class DayScene extends Scene {
             this.switchToPreparationScene();
         });
 
-        this.makeLemonade();
+        this.makeLemonade({ disableDelay: true });
 
         this.lemonadePitcher.on("change", (amount: number) => {
             if (amount > 0) return;
@@ -211,28 +219,29 @@ export class DayScene extends Scene {
         });
     }
 
-    makeLemonade() {
+    makeLemonade({ disableDelay }: { disableDelay?: boolean } = { disableDelay: false }) {
         // check if there are enough supplies
-        if (
-            this.supplies.lemon < this.recipe.lemon ||
-            this.supplies.sugar < this.recipe.sugar ||
-            this.supplies.ice < this.recipe.ice ||
-            this.supplies.cup < 1
-        ) {
-            alert("You don't have enough supplies to make lemonade.");
+        if (this.supplies.isOutOfSupplies(this.recipe)) {
             return;
         }
 
         // decrease supplies
         this.supplies.lemon -= this.recipe.lemon;
         this.supplies.sugar -= this.recipe.sugar;
-        this.supplies.ice -= this.recipe.ice;
+        this.supplies.ice -= this.recipe.ice * this.recipe.cupsPerPitcher;
 
         // fill lemonade pitcher
         // need delay because it takes time to make lemonade. just delay the process left below
+        if (disableDelay) {
+            this.lemonadePitcher.amount += this.recipe.cupsPerPitcher;
+            return;
+        }
+
         this.time.delayedCall(
             LEMONADE_MAKE_DELAY,
-            () => (this.lemonadePitcher.amount += this.recipe.cupsPerPitcher),
+            () => {
+                this.lemonadePitcher.amount += this.recipe.cupsPerPitcher;
+            },
             [],
             this
         );
@@ -241,17 +250,28 @@ export class DayScene extends Scene {
     sellLemonade() {
         if (this.lemonadePitcher.amount <= 0) return;
         if (this.customerQueue.length <= 0) return;
+        if (this.supplies.cup <= 0) return;
 
         const customer = this.customerQueue.dequeue() as Customer;
         // decrease lemonade pitcher
         this.lemonadePitcher.decrease();
+        this.supplies.cup -= 1;
 
         // increase budget
         this.budget.amount += this.price.amount;
 
+        // increase today's result
+        this.todayResult.increaseCupsSold();
+        this.todayResult.addProfit(this.price.amount);
+
         // dequeue the first customer
         this.customerLeaveTheMap(customer);
         // play exit customer animation
+
+        // customer leaves review
+        const { text: reviewText, star } = this.recipe.getReview(this.price, this.weatherForecast);
+        const review = new Review(customer.getCharacterIndex(), reviewText, star);
+        this.reviews.addReview(review);
     }
 
     customerEnterTheMap() {
@@ -268,10 +288,12 @@ export class DayScene extends Scene {
     }
 
     updateCustomerQueue() {
-        // TODO: decrease customer's patience
         this.customerQueue.forEach((customer) => {
             customer.decreasePatience();
             if (customer.getPatience() <= 0) {
+                // customer leaves review
+                const review = new Review(customer.getCharacterIndex(), getTooLongQueueReview(), 0);
+                this.reviews.addReview(review);
                 // remove customer from queue
                 this.customerQueue.removeCustomer(customer);
                 this.drawCustomerQueue();
@@ -314,6 +336,7 @@ export class DayScene extends Scene {
             _date: this._date,
             recipe: this.recipe,
             price: this.price,
+            todayResult: this.todayResult,
         };
         this.scene.add(`preparation-${this._date.getDateString()}`, preparationScene, true, data);
         this.scene.start(`preparation-${this._date.getDateString()}`);
@@ -325,34 +348,41 @@ export class DayScene extends Scene {
 
     createAnimation() {
         for (let i = 0; i < TOTAL_CHARACTER_SPRITES; i++) {
-            this.anims.create({
-                key: `walk-down-${i}`,
-                frames: this.anims.generateFrameNumbers("characters", { start: i * 12 + 4, end: i * 12 + 5 }),
-                frameRate: 6,
-                // repeat 은 -1 이면 무한반복이기 때문에 테스트할 땐 -1로 설정하지만 조작했을 땐 한번만 하는게 맞다.
-                repeat: -1,
-            });
+            if (!this.anims.exists(`walk-down-${i}`)) {
+                this.anims.create({
+                    key: `walk-down-${i}`,
+                    frames: this.anims.generateFrameNumbers("characters", { start: i * 12 + 4, end: i * 12 + 5 }),
+                    frameRate: 6,
+                    repeat: -1,
+                });
+            }
 
-            this.anims.create({
-                key: `walk-up-${i}`,
-                frames: this.anims.generateFrameNumbers("characters", { start: i * 12 + 6, end: i * 12 + 7 }),
-                frameRate: 6,
-                repeat: -1,
-            });
+            if (!this.anims.exists(`walk-up-${i}`)) {
+                this.anims.create({
+                    key: `walk-up-${i}`,
+                    frames: this.anims.generateFrameNumbers("characters", { start: i * 12 + 6, end: i * 12 + 7 }),
+                    frameRate: 6,
+                    repeat: -1,
+                });
+            }
 
-            this.anims.create({
-                key: `walk-right-${i}`,
-                frames: this.anims.generateFrameNumbers("characters", { start: i * 12 + 8, end: i * 12 + 9 }),
-                frameRate: 6,
-                repeat: -1,
-            });
+            if (!this.anims.exists(`walk-right-${i}`)) {
+                this.anims.create({
+                    key: `walk-right-${i}`,
+                    frames: this.anims.generateFrameNumbers("characters", { start: i * 12 + 8, end: i * 12 + 9 }),
+                    frameRate: 6,
+                    repeat: -1,
+                });
+            }
 
-            this.anims.create({
-                key: `walk-left-${i}`,
-                frames: this.anims.generateFrameNumbers("characters", { start: i * 12 + 10, end: i * 12 + 11 }),
-                frameRate: 6,
-                repeat: -1,
-            });
+            if (!this.anims.exists(`walk-left-${i}`)) {
+                this.anims.create({
+                    key: `walk-left-${i}`,
+                    frames: this.anims.generateFrameNumbers("characters", { start: i * 12 + 10, end: i * 12 + 11 }),
+                    frameRate: 6,
+                    repeat: -1,
+                });
+            }
         }
     }
 
@@ -446,21 +476,28 @@ export class DayScene extends Scene {
     }
 
     checkLemonadeStand(customer: Customer) {
-        if (this.supplies.isOutOfSupplies(this.recipe)) {
+        if (this.supplies.isOutOfSupplies(this.recipe) && this.lemonadePitcher.amount === 0) {
             // if out of supplies
             this.customerLeaveTheMap(customer);
+            // TODO: customer leaves review or feedback animation
             return;
         }
-
-        if (this.price.amount > 2) {
+        // TODO: weather, time, popularity, price, etc. should be considered also.
+        const priceRange = 2 + Number((Phaser.Math.RND.integerInRange(-20, 20) / 100).toFixed(1));
+        if (this.price.amount > priceRange) {
             // if price is high
             this.customerLeaveTheMap(customer);
+            // customer leaves review
+            const review = new Review(customer.getCharacterIndex(), getTooExpensiveReview(), 0);
+            this.reviews.addReview(review);
             return;
         }
 
         if (this.customerQueue.length >= 5) {
             // if queue is not too long
             this.customerLeaveTheMap(customer);
+            const review = new Review(customer.getCharacterIndex(), getTooLongQueueReview(), 0);
+            this.reviews.addReview(review);
             return;
         }
         // TODO
