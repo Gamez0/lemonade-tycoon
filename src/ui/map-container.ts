@@ -9,6 +9,7 @@ export default class MapContainer extends Phaser.GameObjects.Container {
     locationDetailText: Phaser.GameObjects.Text;
     locationPopularityText: Phaser.GameObjects.Text;
     locationSatisfactionText: Phaser.GameObjects.Text;
+    location: RentedLocation;
     background: Phaser.GameObjects.Rectangle;
     map: Phaser.Tilemaps.Tilemap;
     tileset: Phaser.Tilemaps.Tileset | null;
@@ -24,7 +25,8 @@ export default class MapContainer extends Phaser.GameObjects.Container {
         super(scene, x, y);
         this.map = map;
         this.tileset = tileset;
-        const locationKey = location.getCurrentLocationKey();
+        this.location = location;
+        const locationKey = this.location.getCurrentLocationKey();
         const { title, description } = LOCATIONS_DATA[locationKey];
 
         this.locationTitleText = new TitleText(scene, paddingLeft, 384 + 12, title);
@@ -33,8 +35,8 @@ export default class MapContainer extends Phaser.GameObjects.Container {
             fontSize: "12px",
         });
 
-        const popularity = location.getPopularity(locationKey);
-        const satisfaction = location.getSatisfaction(locationKey);
+        const popularity = this.location.getPopularity(locationKey);
+        const satisfaction = this.location.getSatisfaction(locationKey);
         this.locationPopularityText = new Phaser.GameObjects.Text(
             scene,
             paddingLeft,
@@ -55,12 +57,12 @@ export default class MapContainer extends Phaser.GameObjects.Container {
             }
         );
 
-        location.on("locationChanged", (locationKey: number) => {
+        this.location.on("locationChanged", (locationKey: number) => {
             const { title, description } = LOCATIONS_DATA[locationKey];
             this.locationTitleText.setText(title);
             this.locationDetailText.setText(description);
-            const popularity = location.getPopularity(locationKey);
-            const satisfaction = location.getSatisfaction(locationKey);
+            const popularity = this.location.getPopularity(locationKey);
+            const satisfaction = this.location.getSatisfaction(locationKey);
             this.locationPopularityText.setText(`Popularity: ${popularity}`);
             this.locationSatisfactionText.setText(`Satisfaction: ${satisfaction}`);
         });
@@ -76,7 +78,13 @@ export default class MapContainer extends Phaser.GameObjects.Container {
         ]);
         scene.add.existing(this);
 
+        scene.events.on("shutdown", this.onSceneShutdown, this);
+
         this.loadMap();
+    }
+
+    private onSceneShutdown() {
+        this.location.off("locationChanged");
     }
 
     loadMap() {
