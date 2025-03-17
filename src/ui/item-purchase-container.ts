@@ -18,7 +18,8 @@ export class ItemPurchaseContainer extends Phaser.GameObjects.Container {
         this.totalPrice = 0;
         this.perBundle = perBundle;
 
-        this.minusButton = new MinusButton(scene, 0, 0);
+        this.minusButton = new MinusButton(scene, 300, 0);
+        this.minusButton.setInteractive({ useHandCursor: true });
         this.minusButton.on("pointerdown", this.onMinusButtonClicked, this);
         this.minusButton.setVisible(false);
 
@@ -27,11 +28,12 @@ export class ItemPurchaseContainer extends Phaser.GameObjects.Container {
             fontSize: "24px",
         });
 
-        this.bundlesToBuyText = scene.add.text(250, 0, "0", {
+        this.bundlesToBuyText = scene.add.text(250, 10, "0", {
             fontSize: "24px",
         });
 
-        this.plusButton = new PlusButton(scene, 300, 0);
+        this.plusButton = new PlusButton(scene, 350, 0);
+        this.plusButton.setInteractive({ useHandCursor: true });
         this.plusButton.on("pointerdown", this.onPlusButtonClicked, this);
 
         this.bundlesToBuy = 0;
