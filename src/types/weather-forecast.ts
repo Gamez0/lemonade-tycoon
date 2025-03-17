@@ -72,3 +72,12 @@ export type Time =
 export type TemperatureByTime = {
     [K in Time]: number;
 };
+
+export type Season = "spring" | "summer" | "autumn" | "winter";
+
+export const TemperatureRanges: Record<Season, [number, number]> = {
+    winter: [-10, 10],
+    spring: [15, 25],
+    summer: [26, 35],
+    autumn: [15, 25],
+};

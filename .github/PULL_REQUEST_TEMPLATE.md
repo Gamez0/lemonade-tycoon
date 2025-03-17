@@ -1,7 +1,6 @@
-<!-- (Once you have read these comments, you are free to remove them) -->
-<!-- Feel free to look at other PRs for examples -->
 <!--
 Make sure the title includes categorization (choose the one that best fits):
+-   [Feature]: If the PR is adding feature
 -       [Bug]: If the PR is primarily a bug fix
 -      [Test]: If the PR is primarily adding or modifying tests
 -     [UI/UX]: If the PR is changing UI/UX elements

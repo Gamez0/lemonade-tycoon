@@ -22,6 +22,7 @@ import PerformanceContainer from "../ui/performance-container";
 import Result from "../models/result";
 import { getTooExpensiveReview, getTooLongQueueReview } from "../data/reviewText";
 import Reviews, { Review } from "../models/reviews";
+import TodaySettingContainer from "../ui/today-setting-container";
 
 const MAP_POSITION = { x: 515, y: 194 };
 const MAP_SIZE = { width: 480, height: 384 };
@@ -62,6 +63,7 @@ export class DayScene extends Scene {
     budgetContainer: BudgetContainer;
     gameControlUI: GameControlContainer;
     performanceContainer: PerformanceContainer;
+    todaySettingContainer: TodaySettingContainer;
     weatherNewsContainer: WeatherNewsContainer;
     mapContainer: MapContainer;
     skipButton: TextButton;
@@ -132,6 +134,14 @@ export class DayScene extends Scene {
         this.supplyStatusContainer = new SupplyStatusContainer(this, 50, 25, this.supplies, this.lemonadePitcher);
         this.budgetContainer = new BudgetContainer(this, 900, 16, this.budget);
         this.performanceContainer = new PerformanceContainer(this, 0, 194, this.todayResult, this.reviews);
+        this.todaySettingContainer = new TodaySettingContainer(
+            this,
+            0,
+            388,
+            this.rentedLocation,
+            this.price,
+            this.recipe
+        );
         this.weatherNewsContainer = new WeatherNewsContainer(
             this,
             512,
