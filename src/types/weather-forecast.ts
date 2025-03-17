@@ -75,7 +75,7 @@ export type TemperatureByTime = {
 
 export type Season = "spring" | "summer" | "autumn" | "winter";
 
-export const tempRanges: Record<Season, [number, number]> = {
+export const TemperatureRanges: Record<Season, [number, number]> = {
     winter: [-10, 10],
     spring: [15, 25],
     summer: [26, 35],

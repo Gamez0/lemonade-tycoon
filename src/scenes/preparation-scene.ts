@@ -7,7 +7,7 @@ import { Budget } from "../models/budget";
 import { TextButton } from "../ui/text-button";
 import { RentedLocation } from "../models/location";
 import WeatherNewsContainer from "../ui/weather-news-container";
-import WeatherForecast, { TemperatureByTime, tempRanges } from "../types/weather-forecast";
+import WeatherForecast, { TemperatureByTime, TemperatureRanges } from "../types/weather-forecast";
 import { changeTemperatureToFahrenheit } from "../utils";
 import MapContainer from "../ui/map-container";
 import { DayScene } from "./day-scene";
@@ -209,6 +209,6 @@ export class PreparationScene extends Scene {
 
 function getTemperature(month: number) {
     const season = month <= 2 || month === 12 ? "winter" : month <= 5 ? "spring" : month <= 8 ? "summer" : "autumn";
-    const [min, max] = tempRanges[season];
+    const [min, max] = TemperatureRanges[season];
     return Math.floor(Math.random() * (max - min) + min);
 }
