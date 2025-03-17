@@ -7,8 +7,7 @@ import { Budget } from "../models/budget";
 import { TextButton } from "../ui/text-button";
 import { RentedLocation } from "../models/location";
 import WeatherNewsContainer from "../ui/weather-news-container";
-import WeatherForecast, { TemperatureByTime, TemperatureRanges } from "../types/weather-forecast";
-import { changeTemperatureToFahrenheit } from "../utils";
+import WeatherForecast, { TemperatureByTime, TemperatureRanges, Time } from "../types/weather-forecast";
 import MapContainer from "../ui/map-container";
 import { DayScene } from "./day-scene";
 import _Date from "../models/_date";
@@ -187,27 +186,22 @@ export class PreparationScene extends Scene {
     }
 
     getWeatherForecast({ isCelsius }: { isCelsius: boolean }): WeatherForecast {
-        const temperatureByTime: number = this.generateTemperatureByTime(isCelsius);
-        return {
-            temperatureByTime,
-            morning: "sunny",
-            afternoon: "sunny",
-            evening: "sunny",
-            isCelsius,
-        };
-        // const temperatureByTime: TemperatureByTime = this.generateTemperatureByTime(isCelsius);
-        // const newWeatherForecast = new WeatherForecast(temperatureByTime, "sunny", "sunny", "sunny", isCelsius);
-        // return newWeatherForecast;
+        const temperatureByTime: TemperatureByTime = this.generateTemperatureByTime();
+        const newWeatherForecast = new WeatherForecast(temperatureByTime, "sunny", "sunny", "sunny", isCelsius);
+        return newWeatherForecast;
     }
 
-    generateTemperatureByTime(isCelsius: boolean): number {
+    generateTemperatureByTime(): TemperatureByTime {
         const month = this._date.getMonth();
-        const temperature = getTemperature(month);
-        return isCelsius ? temperature : changeTemperatureToFahrenheit(temperature);
+        const newTemperatureByTime: TemperatureByTime = {} as TemperatureByTime;
+        for (let i = 0; i < 24; i++) {
+            newTemperatureByTime[i as Time] = getTemperature(month);
+        }
+        return newTemperatureByTime;
     }
 }
 
-function getTemperature(month: number) {
+function getTemperature(month: number): number {
     const season = month <= 2 || month === 12 ? "winter" : month <= 5 ? "spring" : month <= 8 ? "summer" : "autumn";
     const [min, max] = TemperatureRanges[season];
     return Math.floor(Math.random() * (max - min) + min);
