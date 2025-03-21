@@ -19,7 +19,7 @@ If you have the motivation and experience with Typescript/Javascript (or are wil
 
 1. Clone the repo and in the root directory run `yarn install`
     - _if you run into any errors, reach out in the **#dev-corner** channel in discord_
-2. Run `yarn start:dev` to locally run the project in `localhost:8000`
+2. Run `yarn dev` to locally run the project in `localhost:8080`
 
 <!-- #### Linting
 
