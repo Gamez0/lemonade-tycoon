@@ -6,9 +6,7 @@ export class MainMenu extends Scene {
     // Declare properties for background image, logo image, title text, and buttons
     background: GameObjects.Image;
     logo: GameObjects.Image;
-    title: GameObjects.Text;
     startButton: GameObjects.Text;
-    optionsButton: GameObjects.Text;
 
     // Constructor method to initialize the scene with the key 'MainMenu'
     constructor() {
