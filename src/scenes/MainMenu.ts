@@ -38,7 +38,6 @@ export class MainMenu extends Scene {
             .setOrigin(0.5)
             .setInteractive({ useHandCursor: true });
 
-        // Set up an input event listener for the start button
         this.startButton.on("pointerdown", () => {
             this.scene.start("preparation");
             this.startButton.disableInteractive();
