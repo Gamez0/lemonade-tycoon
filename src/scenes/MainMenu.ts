@@ -16,6 +16,7 @@ export class MainMenu extends Scene {
     // Create method to set up the scene's content
     create() {
         const preparationScene = new PreparationScene("preparation");
+        this.scene.add("preparation", preparationScene);
 
         // background color is #18ae31
         this.cameras.main.setBackgroundColor("#18ae31");
@@ -39,8 +40,8 @@ export class MainMenu extends Scene {
 
         // Set up an input event listener for the start button
         this.startButton.on("pointerdown", () => {
-            this.scene.add("preparation", preparationScene, true);
             this.scene.start("preparation");
+            this.startButton.disableInteractive();
         });
     }
 }
