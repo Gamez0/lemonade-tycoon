@@ -129,6 +129,11 @@ export class PreparationScene extends Scene {
         this.startButton = new TextButton(this, 410, 700, "START GAME");
         this.startButton.setInteractive();
         this.startButton.on("pointerdown", () => {
+            // Check if the player has enough money to rent the location
+            if (this.budget.amount < this.rentedLocation.getFee()) {
+                alert("You don't have enough money to rent the location.");
+                return;
+            }
             // Create a new instance of the DayScene
             const dayScene = new DayScene(`day-${this._date.getDateString()}`);
             // // Add the new instance to the scene manager

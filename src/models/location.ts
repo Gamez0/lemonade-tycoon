@@ -42,4 +42,8 @@ export class RentedLocation extends Phaser.Events.EventEmitter {
         this.satisfactionList[key] = value;
         this.emit("satisfactionChanged", key, value);
     };
+
+    getFee = (): number => {
+        return LOCATIONS_DATA[this.rentedLocationKey].price;
+    };
 }
