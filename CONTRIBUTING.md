@@ -1,51 +1,63 @@
 # Contributing Guidelines
 
-Thank you for your interest in contributing to the Lemonade Tycoon project! We appreciate your help in making this project better. Please follow the guidelines below to ensure a smooth and effective contribution process.
-
-## Table of Contents
-
-1. [Getting Started](#getting-started)
-2. [Code of Conduct](#code-of-conduct)
-3. [Submitting Contributions](#submitting-contributions)
-4. [Style Guidelines](#style-guidelines)
-5. [Testing](#testing)
-6. [Documentation](#documentation)
-7. [Contact](#contact)
+Thank you for your interest in contributing to the Lemonade Tycoon project!
 
 ## Getting Started
 
-Before you start contributing, make sure you have the latest version of the project installed on your local machine. You can find the installation instructions in the project's README file.
+1. Clone the repo and run `yarn install` in the root directory
+2. Run `yarn dev` to start the dev server at `localhost:8080`
+3. Check [GitHub Issues](https://github.com/Gamez0/lemonade-tycoon/issues) for things to work on
 
 ## Code of Conduct
 
-Please note that we have a Code of Conduct in place to ensure a positive and inclusive environment for all contributors. Make sure to read and adhere to the Code of Conduct before making any contributions.
+Please read and follow our [Code of Conduct](./CODE_OF_CONDUCT.md) to keep this a positive environment for all contributors.
 
-## Submitting Contributions
+## Branch Naming
 
-To submit your contributions, please follow these steps:
+| Prefix | When to use |
+|--------|-------------|
+| `feat/` | New feature |
+| `fix/` | Bug fix |
+| `refactor/` | Code refactor |
+| `chore/` | Tooling, config, dependencies |
+| `docs/` | Documentation only |
 
-1. Fork the project repository.
-2. Create a new branch for your changes.
-3. Make your desired changes and commit them.
-4. Push your changes to your forked repository.
-5. Submit a pull request to the main project repository.
+## Commit Messages
 
-## Style Guidelines
+Follow [Conventional Commits](https://www.conventionalcommits.org/):
 
-To maintain consistency throughout the project, please follow the established style guidelines. These guidelines cover aspects such as code formatting, naming conventions, and documentation standards.
+```
+type(scope): subject
+```
 
-<!-- ## Testing
+- **type**: `feat` | `fix` | `refactor` | `chore` | `docs` | `style` | `test`
+- **scope**: file or feature area (e.g. `day-scene`, `recipe`, `ui`, `ci`)
+- **subject**: short, imperative, English
 
-We highly encourage contributors to write tests for their code changes. This helps ensure the stability and reliability of the project. Please include relevant tests with your contributions. -->
+Examples:
+```
+feat(day-scene): add customer patience decay animation
+fix(recipe): remove stray off() call in constructor
+chore(deps): upgrade phaser to 3.88.0
+docs(contributing): add branch naming conventions
+```
 
-## Documentation
+## Pull Requests
 
-Clear and concise documentation is essential for the project's maintainability. If your contributions involve changes to the project's documentation, please make sure to update the relevant sections accordingly.
+- Title follows the same Conventional Commits format
+- One purpose per PR — do not mix `feat`/`fix`/`refactor`
+- Write in English
+- Merged via **squash merge** — branch commits don't need to be clean, the PR title becomes the final commit message
+
+## Language
+
+| Context | Language |
+|---------|----------|
+| Commit messages | English |
+| PR title & body | English |
+| Code review comments | Korean or English |
+| Issues | Korean or English |
 
 ## Contact
 
-If you have any questions or need further assistance, feel free to reach out to the project maintainers. You can find their contact information in the project's README file.
-
-We appreciate your contributions and look forward to working with you!
-
-Contact: [dobinshin@gmail.com](mailto:dobinshin@gmail.com)
+If you have any questions, feel free to reach out: [dobinshin@gmail.com](mailto:dobinshin@gmail.com)
