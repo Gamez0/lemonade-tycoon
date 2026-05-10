@@ -29,7 +29,7 @@ export default class CustomerQueue extends Phaser.Events.EventEmitter {
         }
     }
 
-    peak(): Customer | undefined {
+    peek(): Customer | undefined {
         if (this._queue.length > 0) {
             return this._queue[0];
         }
