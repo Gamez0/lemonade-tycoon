@@ -119,7 +119,8 @@ export class PreparationScene extends Scene {
             this.budget,
             this.supplies,
             this.rentedLocation,
-            this.recipe
+            this.recipe,
+            this.yesterdayResult
         );
         this.weatherNewsContainer = new WeatherNewsContainer(this, 512, 64, this._date, weatherForecast, news, true);
         const map = this.make.tilemap({ key: "park-map" });

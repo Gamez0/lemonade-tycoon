@@ -3,6 +3,7 @@ import { Budget } from "../models/budget";
 import { RentedLocation } from "../models/location";
 import Price from "../models/price";
 import { Recipe } from "../models/recipe";
+import Result from "../models/result";
 import { Supplies } from "../models/supplies";
 import { BuySuppliesContainer } from "./buy-supplies-container";
 import { MarketingContainer } from "./marketing-container";
@@ -50,7 +51,8 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
         budget: Budget,
         supplies: Supplies,
         rentedLocation: RentedLocation,
-        recipe: Recipe
+        recipe: Recipe,
+        yesterdayResult?: Result
     ) {
         super(scene, x, y);
         const marginLeft = 16;
@@ -63,7 +65,7 @@ export class GameControlContainer extends Phaser.GameObjects.Container {
         this.budget = budget;
         this.supplies = supplies;
 
-        this.resultsContainer = new ResultsContainer(scene, marginLeft + padding, 64);
+        this.resultsContainer = new ResultsContainer(scene, marginLeft + padding, 64, yesterdayResult);
         this.rentContainer = new RentContainer(scene, marginLeft + padding, 64, rentedLocation);
         this.upgradesContainer = new UpgradesContainer(scene, marginLeft + padding, 64);
         this.staffContainer = new StaffContainer(scene, marginLeft + padding, 64);
