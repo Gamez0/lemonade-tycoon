@@ -123,7 +123,7 @@ export class LocationCarouselWithRentButton extends Phaser.GameObjects.Container
     }
 
     private updateRentButton(rentedLocation: RentedLocation) {
-        this.rentButton.destroy();
+        this.remove(this.rentButton, true);
         this.rentButton = new TextButton(
             this.scene,
             360,
