@@ -49,7 +49,7 @@ export class TextButton extends Phaser.GameObjects.Container {
         return graphics;
     }
 
-    public destory() {
+    public destroy() {
         this.startButton.destroy();
         this.emptyButton.destroy();
         this.buttonWithRadius.destroy();
