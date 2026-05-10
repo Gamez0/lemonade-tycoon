@@ -217,6 +217,16 @@ export class DayScene extends Scene {
             callbackScope: this,
             loop: true,
         });
+
+        this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+            this.timerEvent?.remove(false);
+            this.enterIntervalDuration?.remove(false);
+            this.queueIntervalDuration?.remove(false);
+            this.sellIntervalDuration?.remove(false);
+            this.lemonadePitcher.off("change");
+            this.customerQueue.off("change");
+            this.skipButton.off("pointerdown");
+        });
     }
 
     makeLemonade({ disableDelay }: { disableDelay?: boolean } = { disableDelay: false }) {
