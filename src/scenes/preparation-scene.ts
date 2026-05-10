@@ -7,7 +7,7 @@ import { Budget } from "../models/budget";
 import { TextButton } from "../ui/text-button";
 import { RentedLocation } from "../models/location";
 import WeatherNewsContainer from "../ui/weather-news-container";
-import WeatherForecast, { TemperatureByTime, TemperatureRanges, Time } from "../types/weather-forecast";
+import WeatherForecast, { Atmosphere, Season, TemperatureByTime, TemperatureRanges, Time } from "../types/weather-forecast";
 import MapContainer from "../ui/map-container";
 import { DayScene } from "./day-scene";
 import _Date from "../models/_date";
@@ -192,9 +192,13 @@ export class PreparationScene extends Scene {
     }
 
     getWeatherForecast({ isCelsius }: { isCelsius: boolean }): WeatherForecast {
+        const month = this._date.getMonth();
+        const season = getSeason(month);
         const temperatureByTime: TemperatureByTime = this.generateTemperatureByTime();
-        const newWeatherForecast = new WeatherForecast(temperatureByTime, "sunny", "sunny", "sunny", isCelsius);
-        return newWeatherForecast;
+        const morning = getAtmosphere(season);
+        const afternoon = getAtmosphere(season);
+        const evening = getAtmosphere(season);
+        return new WeatherForecast(temperatureByTime, morning, afternoon, evening, isCelsius);
     }
 
     generateTemperatureByTime(): TemperatureByTime {
@@ -207,8 +211,27 @@ export class PreparationScene extends Scene {
     }
 }
 
+function getSeason(month: number): Season {
+    return month <= 2 || month === 12 ? "winter" : month <= 5 ? "spring" : month <= 8 ? "summer" : "autumn";
+}
+
 function getTemperature(month: number): number {
-    const season = month <= 2 || month === 12 ? "winter" : month <= 5 ? "spring" : month <= 8 ? "summer" : "autumn";
-    const [min, max] = TemperatureRanges[season];
+    const [min, max] = TemperatureRanges[getSeason(month)];
     return Math.floor(Math.random() * (max - min) + min);
+}
+
+function getAtmosphere(season: Season): Atmosphere {
+    const weights: Record<Season, [number, Atmosphere][]> = {
+        summer: [[60, "sunny"], [20, "little-cloudy"], [10, "cloudy"], [10, "rainy"], [0, "snowy"]],
+        spring: [[30, "sunny"], [30, "little-cloudy"], [20, "cloudy"], [20, "rainy"], [0, "snowy"]],
+        autumn: [[20, "sunny"], [20, "little-cloudy"], [30, "cloudy"], [30, "rainy"], [0, "snowy"]],
+        winter: [[10, "sunny"], [10, "little-cloudy"], [20, "cloudy"], [30, "rainy"], [30, "snowy"]],
+    };
+    const roll = Math.random() * 100;
+    let cumulative = 0;
+    for (const [weight, atmosphere] of weights[season]) {
+        cumulative += weight;
+        if (roll < cumulative) return atmosphere;
+    }
+    return "sunny";
 }
