@@ -28,6 +28,7 @@ async function finishDay(page) {
     await page.locator("#open").click();
     await expect(page.locator("#selling")).toBeVisible();
     await expect(page.locator("#lemon")).toBeDisabled();
+    await expect(page.locator('[data-adjust="lemon"][data-direction="1"]')).toBeDisabled();
     await page.locator("#speed").click();
     await expect(page.locator("#results")).toBeVisible();
     await expect(page.locator("#next")).toBeEnabled();
@@ -37,10 +38,20 @@ test("three days preserve accounting, reset presentation and permit a fresh busi
     await expect(page.locator("#cash")).toHaveText("$40.00");
     await page.locator("#open").click();
     await expect(page.locator("#message")).toContainText("Buy enough supplies");
+    await page.getByRole("button", { name: "Supplies", exact: true }).click();
+    await expect(page.locator('[data-item="lemon"]')).toBeFocused();
     await stock(page);
-    await change(page, "ice", "4");
+    await expect(page.locator("#inventory-lemon")).toHaveText("40");
+    await page.getByRole("button", { name: "Recipe", exact: true }).click();
+    await expect(page.locator("#lemon")).toBeFocused();
+    await page.getByRole("button", { name: "Increase ice", exact: true }).click();
+    await page.getByRole("button", { name: "Increase ice", exact: true }).click();
+    await expect(page.locator("#ice")).toHaveValue("4");
+    await page.getByRole("button", { name: "Price", exact: true }).click();
+    await expect(page.locator("#price")).toBeFocused();
     await change(page, "price", "1.75");
     await expect(page.locator("#unit-cost")).toHaveText("$0.34");
+    await page.screenshot({ path: "test-results/desktop-preparation.png", fullPage: true });
     for (let day = 1; day <= 3; day++) {
         if (day > 1) await stock(page);
         await finishDay(page);
@@ -85,6 +96,7 @@ test("invalid plans stay visible, funds failures are atomic and restart clears d
     await expect(page.locator("#message")).toContainText("Not enough cash");
     await expect(page.locator("#cash")).toHaveText("$1.60");
     await expect(page.locator("#stock-lemon")).toHaveText("480 in stock");
+    await expect(page.locator("#inventory-lemon")).toHaveText("480");
     await page.locator("#restart").click();
     await page.locator("#restart").press("Escape");
     await expect(page.locator("#restart")).toHaveText("New business");

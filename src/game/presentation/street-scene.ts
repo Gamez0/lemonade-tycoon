@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { createArt } from "./art";
+import { CART, createArt, STREET } from "./art";
 import type { CustomerEvent, State } from "../simulation/game";
 
 interface StreetHooks {
@@ -32,32 +32,25 @@ export class StreetScene extends Phaser.Scene {
 
     create(): void {
         createArt(this);
-        this.add.image(0, 0, "neighborhood").setOrigin(0).setScale(2);
-        this.add.image(332, 158, "stand").setOrigin(0).setScale(2);
+        this.add.image(0, 0, "neighborhood").setOrigin(0);
+        this.add.image(CART.x, CART.y, "stand").setOrigin(0);
         this.sign = this.add
-            .text(390, 202, "FRESH", {
+            .text(CART.x + 29, CART.y + 66, "FRESH", {
                 fontFamily: "monospace",
-                fontSize: "10px",
+                fontSize: "7px",
                 color: "#574b31",
                 backgroundColor: "#fff0bd",
             })
             .setOrigin(0.5);
-        this.add.text(20, 18, "WILLOW LANE", {
-            fontFamily: "monospace",
-            fontSize: "12px",
-            color: "#456548",
-            backgroundColor: "#edf0cb",
-            padding: { x: 8, y: 5 },
-        });
         this.sky = this.add.rectangle(0, 0, 640, 440, 0x536b83, 0).setOrigin(0);
-        this.walker = this.add.sprite(-30, 306, "customer-0-0").setScale(2).setVisible(false);
+        this.walker = this.add.sprite(-30, 0, "customer-0-0").setOrigin(0.5, 1).setVisible(false);
         this.bubble = this.add
-            .text(390, 269, "", {
+            .text(STREET.stopX, STREET.pavementY(STREET.stopX) - 42, "", {
                 fontFamily: "sans-serif",
-                fontSize: "14px",
+                fontSize: "11px",
                 color: "#284a3c",
                 backgroundColor: "#fff8df",
-                padding: { x: 8, y: 5 },
+                padding: { x: 5, y: 3 },
             })
             .setOrigin(0.5)
             .setVisible(false);
@@ -111,11 +104,14 @@ export class StreetScene extends Phaser.Scene {
         const pose = waiting ? 2 : bought && this.elapsed >= 1100 ? 3 : Math.floor(this.elapsed / 120) % 2;
         const x =
             this.elapsed < 800
-                ? -20 + (this.elapsed / 800) * 410
+                ? -20 + (this.elapsed / 800) * (STREET.stopX + 20)
                 : this.elapsed < 1100
-                  ? 390
-                  : 390 + ((this.elapsed - 1100) / 500) * 280;
-        this.walker?.setVisible(true).setPosition(Math.round(x), 292).setTexture(`customer-${profile}-${pose}`);
+                  ? STREET.stopX
+                  : STREET.stopX + ((this.elapsed - 1100) / 500) * (680 - STREET.stopX);
+        this.walker
+            ?.setVisible(true)
+            .setPosition(Math.round(x), Math.round(STREET.pavementY(x)))
+            .setTexture(`customer-${profile}-${pose}`);
         const label =
             this.event?.kind === "bought"
                 ? "One lemonade!"
