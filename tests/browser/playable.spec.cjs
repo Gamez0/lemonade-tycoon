@@ -34,17 +34,23 @@ async function change(page, id, value) {
 async function finishDay(page, capture = false) {
     await page.locator("#open").click();
     await expect(page.locator("#selling")).toBeVisible();
+    await expect(page.locator("#weather-label")).toHaveText("Current weather");
+    await expect(page.locator("#closed-sign")).toBeHidden();
     await expect(page.locator("#lemon")).toBeDisabled();
     await expect(page.locator('[data-page="supplies"]')).toBeDisabled();
     if (capture) await page.locator("#app").screenshot({ path: "test-results/m2-selling.png" });
     await page.locator("#speed").click();
     await expect(page.locator("#results")).toBeVisible();
     await expect(page.locator("#next")).toBeEnabled();
+    await expect(page.locator("#closed-sign")).toBeVisible();
+    await expect(page.locator("#weather-label")).toHaveText("Today's weather");
 }
 const cents = (value) => Math.round(Number(value.replace("$", "")) * 100);
 
 test("three days keep daily and cumulative books and classic geometry", async ({ page }) => {
     await expect(page.locator("#cash")).toHaveText("$40.00");
+    await expect(page.locator("#weather-label")).toHaveText("Weather forecast");
+    await expect(page.locator("#weather-art")).toHaveAttribute("aria-label", "Sunny");
     await tab(page, "results");
     await expect(page.locator("#result-intro")).toContainText("No completed days");
     await page.locator("#open").click();
@@ -95,10 +101,16 @@ test("three days keep daily and cumulative books and classic geometry", async ({
         expect(cents(ledger[5])).toBe(totalCashChange);
         expect(cents(await page.locator("#cash").textContent())).toBe(4000 + totalCashChange);
         const cash = await page.locator("#cash").textContent();
+        const reactionCounts = await page.locator(".reactions strong").allTextContents();
+        expect(reactionCounts.map(Number).reduce((a, b) => a + b, 0)).toBe(
+            Number((await page.locator("#progress-text").textContent()).split(" / ")[0]),
+        );
         await page.locator("#next").click();
+        await expect(page.locator("#weather-label")).toHaveText("Weather forecast");
+        await expect(page.locator("#reaction-price")).toHaveText("0");
         await expect(page.locator("#day")).toHaveText(String(day + 1).padStart(2, "0"));
         await expect(page.locator("#cash")).toHaveText(cash);
-        await expect(page.locator("#speed")).toHaveText("Speed: 1×");
+        await expect(page.locator("#speed-label")).toHaveText("Speed: 1×");
         await tab(page, "results");
         await expect(page.locator("#result-intro")).toContainText(`Day ${day}`);
         await expect(page.locator("#next")).toBeHidden();

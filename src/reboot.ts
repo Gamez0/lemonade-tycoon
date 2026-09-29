@@ -15,6 +15,7 @@ import {
 } from "./game/simulation/game";
 import type { State, Stock } from "./game/simulation/game";
 import { StreetScene } from "./game/presentation/street-scene";
+import { icon } from "./game/presentation/icons";
 import { markup } from "./game/presentation/layout";
 import "./game/presentation/style.css";
 
@@ -28,6 +29,7 @@ const emptyOrder = (): Record<Item, number[]> => ({
 });
 const bundleSizes = [1, 2, 5];
 let state = newGame();
+let reactions = { bought: 0, price: 0, passed: 0, "sold-out": 0 };
 let history: State[] = [];
 let order = emptyOrder();
 let selectedSupply: Item = "lemon";
@@ -80,6 +82,7 @@ const scene = new StreetScene({
     arrive: () => {
         const step = stepCustomer(state);
         state = step.state;
+        reactions[step.event.kind]++;
         if (state.phase === "results") {
             history.push(state);
             currentPage = "results";
@@ -193,6 +196,7 @@ element("open").addEventListener("click", () =>
     }),
 );
 function resetPresentation(): void {
+    reactions = { bought: 0, price: 0, passed: 0, "sold-out": 0 };
     currentPage = "recipe";
     reportPage = "daily";
     selectedSupply = "lemon";
@@ -200,7 +204,7 @@ function resetPresentation(): void {
     scene.resetDay();
     fast = false;
     scene.setSpeed(1);
-    text("speed", "Speed: 1×");
+    text("speed-label", "Speed: 1×");
     restartArmed = false;
     text("restart", "New business");
     for (const key of ["lemon", "sugar", "ice"] as const)
@@ -211,7 +215,7 @@ function resetPresentation(): void {
 element("speed").addEventListener("click", () => {
     fast = !fast;
     scene.setSpeed(fast ? 4 : 1);
-    text("speed", `Speed: ${fast ? 4 : 1}×`);
+    text("speed-label", `Speed: ${fast ? 4 : 1}×`);
 });
 element("next").addEventListener("click", () => {
     if (scene.finishing) return;
@@ -249,8 +253,10 @@ function renderReport(): void {
     if (!latest) {
         text("result-intro", "No completed days yet. Open your stand to start the books!");
         rows("result-values", []);
+        element("report-commentary").hidden = true;
         return;
     }
+    element("report-commentary").hidden = false;
     const reports = reportPage === "ledger" ? history : [latest];
     const sum = (key: keyof State["daily"]) => reports.reduce((total, day) => total + day.daily[key], 0);
     const sold = sum("sold");
@@ -260,6 +266,29 @@ function renderReport(): void {
             ? `Business ledger · ${history.length} completed ${history.length === 1 ? "day" : "days"}. Current preparation purchases are not included.`
             : `Day ${latest.day} · ${sold === 0 ? "No sales. Try a lower price tomorrow." : `${sold} neighbors served.`}`,
     );
+    const satisfaction = sold === 0 ? null : Math.round(sum("satisfactionTotal") / sold);
+    element("report-face").innerHTML = icon(sold > 0 ? "happy" : "expensive");
+    text(
+        "report-verdict",
+        sold === 0
+            ? "A quiet day..."
+            : satisfaction !== null && satisfaction >= 80
+              ? "A refreshing success!"
+              : "Room to improve!",
+    );
+    text(
+        "report-response",
+        sold === 0
+            ? "No buyers yet. Try a lower cup price."
+            : "Customer satisfaction: " +
+                  satisfaction +
+                  "%. " +
+                  sum("soldOut") +
+                  " visitors missed out on empty stock. " +
+                  sum("rejected") +
+                  " passed without buying.",
+    );
+
     rows("result-values", [
         ["Cups sold", String(sold)],
         ["Revenue", money(sum("revenue"))],
@@ -278,7 +307,15 @@ function render(): void {
         closed = state.phase === "results";
     text("day", String(state.day).padStart(2, "0"));
     text("cash", money(state.cash));
-    text("weather", `${state.weather.label} / ${state.weather.temperature}°C`);
+    text("weather", state.weather.temperature + "°C");
+    element("weather-art").innerHTML = icon(
+        state.weather.label === "Sunny" ? "sunny" : state.weather.label === "Cloudy" ? "cloudy" : "rainy",
+    );
+    element("weather-art").setAttribute("aria-label", state.weather.label);
+    element("weather-art").setAttribute("role", "img");
+    text("weather-label", selling ? "Current weather" : closed ? "Today's weather" : "Weather forecast");
+    text("weather-advice", state.weather.label + " · " + (prep ? "steady all day" : "Willow Lane"));
+    app.dataset.weather = state.weather.label.toLowerCase();
     text(
         "forecast-news",
         state.day === 1
@@ -295,6 +332,19 @@ function render(): void {
     element("next").hidden = !closed;
     element<HTMLButtonElement>("next").disabled = scene.finishing;
     element("speed").hidden = !selling && !scene.finishing;
+    element("closed-sign").hidden = !closed || scene.finishing;
+    const satisfaction = prep
+        ? history.length
+            ? results(history[history.length - 1]).satisfaction
+            : null
+        : report.satisfaction;
+    text("location-satisfaction", satisfaction === null ? "—" : satisfaction + "%");
+    element<HTMLMeterElement>("satisfaction-meter").value = satisfaction ?? 0;
+    element("satisfaction-meter").setAttribute(
+        "aria-valuetext",
+        satisfaction === null ? "No buyers yet" : satisfaction + "%",
+    );
+    element("satisfaction-meter").title = prep ? "Last completed day's buyers" : "Today's buyers";
     text(
         "panel-title",
         selling
@@ -350,6 +400,8 @@ function render(): void {
     text("revenue", money(state.daily.revenue));
     text("profit", money(report.profit));
     text("feedback", lastFeedback);
+    for (const kind of ["bought", "price", "passed", "sold-out"] as const)
+        text("reaction-" + kind, String(reactions[kind]));
     text(
         "goal",
         state.cash >= 7500
@@ -359,15 +411,9 @@ function render(): void {
     text("world-status", prep ? "Ready to open" : selling ? "Open for business" : "Closed for today");
     text("progress-text", prep ? "Willow Lane" : `${state.daily.visitors} / ${state.weather.traffic} neighbors`);
     element<HTMLProgressElement>("day-progress").value = state.daily.visitors / state.weather.traffic;
-    text(
-        "sale-summary",
-        `${money(state.plan.price)} / cup · ${capacity(state)} cups left\nRecipe: ${state.plan.recipe.lemon} lemon / ${state.plan.recipe.sugar} sugar / ${state.plan.recipe.ice} ice\nStock: ${state.stock.lemon} lemon · ${state.stock.sugar} sugar · ${state.stock.ice} ice · ${state.stock.cup} cups`,
-    );
-    rows("live-feedback", [
-        ["Walked past", String(state.daily.rejected)],
-        ["Lost to empty stock", String(state.daily.soldOut)],
-        ["Satisfaction", report.satisfaction === null ? "No buyers yet" : `${report.satisfaction}%`],
-    ]);
+    text("setting-price", money(state.plan.price));
+    text("setting-capacity", capacity(state) + " cups");
+    for (const item of ["lemon", "sugar", "ice"] as const) text("setting-" + item, String(state.plan.recipe[item]));
     renderReport();
 }
 render();

@@ -11,11 +11,14 @@ export const markup = `
  <nav class="toolbar" aria-label="Business screens">
  ${(["results", "price", "recipe", "supplies"] as const).map((page) => `<button data-page="${page}" aria-pressed="${page === "recipe"}" aria-controls="${page === "results" ? "results" : `${page}-page`}">${icon(page)}${page[0].toUpperCase() + page.slice(1)}</button>`).join("")}
  </nav>
- <section class="forecast" aria-label="Forecast"><div><strong>Year 1 · Day <span id="day">01</span></strong><span class="label">Today's weather</span><strong id="weather"></strong></div><p id="forecast-news">A new lemonade stand opens on Willow Lane!</p></section>
+ <section class="forecast" aria-label="Forecast">
+  <div class="forecast-weather"><strong class="date-line">Year 1 · Day <span id="day">01</span></strong><span class="label" id="weather-label">Weather forecast</span><div class="weather-reading"><span id="weather-art"></span><strong id="weather"></strong></div><span id="weather-advice" class="weather-advice"></span></div>
+  <div class="forecast-news"><p id="forecast-news"></p><div class="day-clock">${icon("clock")}<span id="world-status"></span></div><span id="progress-text"></span><progress id="day-progress" max="1" value="0" aria-label="Day progress"></progress></div>
+ </section>
 </div>
 <main class="layout">
  <section class="management-column" aria-label="Business controls">
-  <section class="daily-strip" aria-label="Today's performance"><h2>Performance</h2><div><span>Cups sold</span><strong id="sold">0</strong></div><div><span>Revenue</span><strong id="revenue">$0.00</strong></div><div><span>Profit</span><strong id="profit">$0.00</strong></div></section>
+  <section class="daily-strip" aria-label="Today's performance"><h2>Performance</h2><div><span>Cups sold</span><strong id="sold">0</strong></div><div><span>Revenue</span><strong id="revenue">$0.00</strong></div><div><span>Profit</span><strong id="profit">$0.00</strong></div><div class="reactions" aria-label="Customer reactions"><span title="Customers served">${icon("happy")}<strong id="reaction-bought">0</strong><small>Served</small></span><span title="Left because of the price">${icon("expensive")}<strong id="reaction-price">0</strong><small>Price</small></span><span title="Passersby who did not buy">${icon("passing")}<strong id="reaction-passed">0</strong><small>Passed</small></span><span title="Could not buy: empty stock">${icon("empty")}<strong id="reaction-sold-out">0</strong><small>Empty</small></span></div><p id="feedback" class="live-news" aria-live="off"></p></section>
   <section class="panel" aria-labelledby="panel-title">
    <h2 id="panel-title">Recipe</h2>
    <div id="preparation">
@@ -29,20 +32,18 @@ export const markup = `
      <div id="supplies"></div><p id="order-summary" class="hint"></p><div class="order-total"><span>Order total</span><strong id="order-total"></strong></div><div class="purchase-actions"><button id="cancel-order">CANCEL</button><button id="buy-order">BUY</button></div>
     </fieldset></div>
    </div>
-   <div id="selling" hidden><div class="sale-summary" id="sale-summary"></div><p class="hint">Recipe and price are fixed until closing.</p><dl id="live-feedback"></dl></div>
-   <div id="results" hidden><nav class="report-tabs" aria-label="Report period"><button data-report="daily" aria-pressed="true">Last day</button><button data-report="ledger" aria-pressed="false">Profit &amp; loss</button></nav><p class="intro" id="result-intro"></p><dl id="result-values"></dl><p class="hint">Profit subtracts ingredients used. Cash change subtracts supplies bought. Leftovers carry over.</p></div>
+   <div id="selling" hidden><dl class="settings-table"><dt>Location</dt><dd>The Neighborhood</dd><dt>Rent</dt><dd>FREE</dd><dt>Cup price</dt><dd id="setting-price"></dd><dt>Recipe / cup</dt><dd class="setting-recipe">${(["lemon", "sugar", "ice"] as const).map((item) => `<span>${icon(item)}<b id="setting-${item}"></b></span>`).join("")}</dd><dt>Ready to serve</dt><dd id="setting-capacity"></dd></dl><p class="hint">Today's recipe and price stay fixed until closing.</p></div>
+   <div id="results" hidden><nav class="report-tabs" aria-label="Report period"><button data-report="daily" aria-pressed="true">${icon("calendar")}Last day</button><button data-report="ledger" aria-pressed="false">${icon("results")}Profit &amp; loss</button></nav><p class="intro" id="result-intro"></p><div class="report-content"><dl id="result-values"></dl><aside id="report-commentary"><span id="report-face"></span><strong id="report-verdict"></strong><p id="report-response"></p></aside></div><p class="hint">Profit subtracts ingredients used. Cash change subtracts supplies bought. Leftovers carry over.</p></div>
    <div id="day-actions"><div class="cost-line"><span>Ingredients / cup</span><strong id="unit-cost"></strong></div><div class="capacity"><span>Ready to serve</span><strong id="capacity"></strong></div><button id="open" class="primary">Start day <span>▶</span></button></div>
    <button id="next" class="primary" hidden>Prepare next day <span>▶</span></button>
    <p id="message" role="status" aria-live="polite"></p>
   </section>
  </section>
  <section class="world-column" aria-label="Willow Lane stand">
-  <div class="world-frame"><div id="game-container"></div>
+  <div class="world-frame"><div class="scene-window"><div id="game-container"></div><button id="speed" class="scene-speed" hidden><span aria-hidden="true">▶▶</span> <span id="speed-label">Speed: 1×</span></button><span id="closed-sign" hidden>DAY COMPLETE</span></div>
    <div class="location-heading"><h2>The Neighborhood</h2><span class="rent-tag">Rent: FREE</span></div>
    <p class="location-description">A quiet street and a few thirsty neighbors. The perfect place to start your lemonade empire.</p>
-   <div class="rating-line"><label for="reputation-meter">Reputation</label><strong id="reputation"></strong></div><meter id="reputation-meter" min="0" max="100" value="50">50%</meter>
-   <div class="world-caption"><span id="world-status"></span><span id="progress-text"></span></div><progress id="day-progress" max="1" value="0" aria-label="Day progress"></progress>
-   <div class="world-controls"><span id="feedback" aria-live="off"></span><button id="speed" class="secondary" hidden>Speed: 1×</button></div>
+   <div class="location-ratings"><div><div class="rating-line"><label for="reputation-meter">Reputation</label><strong id="reputation"></strong></div><meter id="reputation-meter" min="0" max="100" value="50">50%</meter></div><div><div class="rating-line"><label for="satisfaction-meter">Satisfaction</label><strong id="location-satisfaction"></strong></div><meter id="satisfaction-meter" min="0" max="100" value="0">No buyers yet</meter></div></div>
   </div>
  </section>
 </main>

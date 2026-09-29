@@ -32,3 +32,7 @@ Procedural pixel artwork is a maintained game asset when authored to this specif
 The work panel and neighborhood now share the available width equally. The scene is 640?512 (5:4); the 72?88 cart texture is drawn at 0.8 scale (57.6 pixels, 9% of scene width). Customers remain 20?34 (6.6% of scene height). The lower garden gains paths, fencing and trees. Lemon, sugar and stacked paper-cup silhouettes were revised, and an illustrated results ledger icon was added. Green inset panels, four active screen tabs, ingredient subtabs, bundle counters and BUY/CANCEL use the same bevel states.
 
 Customer movement remains our sequential walk / wait / depart implementation, with a held cup after purchase and distinct feedback for price rejection, passing and stock shortages. Exact original animation timing has not been verified. The video page loaded but seeking stalled with no playable frame sequence; this is not motion evidence.
+
+## M2 follow-up: weather and selling
+
+Original weather glyphs (sun/cloud/rain), clock, calendar and four labeled customer-reaction bubbles extend the shared SVG set. Preparation and selling use different weather labels with the same true daily temperature. The neighborhood now has a connected T-junction and a crossing on the existing pedestrian path. Selling settings are separated into rows with ingredient illustrations; speed sits inside the scene. Report tabs and customer commentary add imagery without introducing fake economic systems. See the follow-up study and refreshed comparison board.
