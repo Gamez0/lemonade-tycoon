@@ -4,7 +4,7 @@ The user resumed the previous night's work. Reboot work lives in `.reboot-work/`
 
 ## Latest art revision
 
-Latest user steering: the road junction looked unnatural; investigate the selling screen and make M2 more closely resemble the original overall, including weather. Branch `feat/m2-weather-selling-refinement` addresses this feedback after PR #99. Read `docs/research/m2-selling-weather-study.md` and `docs/reviews/m2-visual-refinement.md`. M2 and #97 remain open pending visual acceptance.
+Latest user steering: finish the ongoing road/weather/selling work first, then separately audit whether M2 truly meets its goals. PR #102 is merged with green CI. Branch `fix/m2-acceptance-audit` follows up with medium-width forecast visibility, stable mobile action placement, working SKIP and additional storage/skip regression checks. Read `docs/research/m2-acceptance-audit.md` and consult the audit PR for its final checks/merge state. M2/#97 remain open for visual acceptance.
 
 The user explicitly placed simultaneous pedestrians/visitors, queues and waiting departures in M3. Milestone 3 and issue #100 track that work; do not implement it inside M2. Save/load and later roadmap milestones now follow M3.
 

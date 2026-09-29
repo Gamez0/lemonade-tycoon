@@ -495,10 +495,15 @@ canvas {
     display: block;
     image-rendering: pixelated;
 }
-.scene-speed {
+#scene-controls {
     position: absolute;
     right: 6px;
     bottom: 6px;
+    display: flex;
+    gap: 5px;
+}
+.scene-speed,
+.scene-skip {
     padding: 4px 6px;
     min-height: 31px;
     color: #fffbd7;
@@ -508,6 +513,12 @@ canvas {
     letter-spacing: -3px;
     padding-right: 6px;
     color: #ffffcb;
+}
+.scene-skip {
+    font:
+        19px "Arial Narrow",
+        "Trebuchet MS",
+        sans-serif;
 }
 #closed-sign {
     position: absolute;
@@ -757,12 +768,6 @@ a {
         width: 32px;
         height: 32px;
     }
-    .forecast {
-        grid-template-columns: 1fr;
-    }
-    .forecast-news {
-        display: none;
-    }
     .panel {
         padding: 8px;
     }
@@ -857,7 +862,7 @@ a {
         gap: 1px;
     }
     .panel {
-        min-height: 480px;
+        min-height: 516px;
         padding: 10px;
     }
     .recipe-row label span {

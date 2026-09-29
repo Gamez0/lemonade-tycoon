@@ -19,7 +19,7 @@ Revised direction (2026-09-29, user playtest): restore old PC tycoon aesthetics 
 | Basic customer | Selling screenshot, small outlined figures | Visible demand | 20×34 px | walk 2 frames, wait/buy, leave with drink | P0 | Original sprite textures; stable profile through visit |
 | Lemonade | Selling screenshot, yellow supply cues | Sale readability | 3×4 px | held after purchase | P0 | Included in customer departure pose |
 | HUD | Top resource strip and green inset panels | Cash, stock, weather, phase | compact DOM | preparation/selling/results | P0 | Beveled controls, four switching tabs, ingredient +/- buttons; responsive narrow layout |
-| Inventory / control icons | Original ingredient and tab illustrations | Quick visual identification | 26×26 SVG | static | P0 | Eight original outlined icons in `icons.ts`, shared across controls and live inventory |
+| Inventory / control icons | Original ingredient and tab illustrations | Quick visual identification | 26×26 SVG | static | P0 | Shared original outlined icons in `icons.ts`, shared across controls and live inventory |
 | Houses / trees / bench | Neighborhood context | Environmental storytelling | varied | static | P1 | Included in neighborhood texture |
 | Customer variations | Small readable silhouettes | Diversity without visual noise | 20×34 px | three profiles, four poses each | P2 | Implemented |
 | Weather effects | Original weather indicator | Reinforce forecast | scene overlay | sunny/cloudy/rainy tint | P2 | Tint implemented; particles deferred |

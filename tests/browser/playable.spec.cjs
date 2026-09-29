@@ -203,3 +203,73 @@ test("375px layout supports three no-sale days and restarting during a visit", a
     await expect(page.locator("#cash")).toHaveText("$40.00");
     await page.screenshot({ path: "test-results/narrow-preparation.png", fullPage: true });
 });
+
+test("all preparation screens retain forecast details and action position across breakpoints", async ({ page }) => {
+    for (const width of [375, 520, 640, 768]) {
+        await page.setViewportSize({ width, height: 1000 });
+        const positions = [];
+        for (const name of ["recipe", "price", "supplies", "results"]) {
+            await tab(page, name);
+            await expect(page.locator("#forecast-news")).toBeVisible();
+            await expect(page.locator("#progress-text")).toBeVisible();
+            positions.push((await page.locator("#open").boundingBox()).y);
+            expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+        }
+        expect(Math.max(...positions) - Math.min(...positions)).toBeLessThanOrEqual(1);
+    }
+});
+
+test("storage-limit checkout preserves every item, cash and pending order", async ({ page }) => {
+    await tab(page, "supplies");
+    await add(page, "ice", 2, 3);
+    await page.locator("#buy-order").click();
+    await expect(page.locator("#inventory-ice")).toHaveText("900");
+    await expect(page.locator("#cash")).toHaveText("$22.00");
+    await add(page, "lemon");
+    await add(page, "ice", 1);
+    await page.locator("#buy-order").click();
+    await expect(page.locator("#message")).toContainText("Storage limit");
+    await expect(page.locator("#inventory-lemon")).toHaveText("0");
+    await expect(page.locator("#inventory-ice")).toHaveText("900");
+    await expect(page.locator("#cash")).toHaveText("$22.00");
+    await expect(page.locator("#order-total")).toHaveText("$5.60");
+    await page.locator("#cancel-order").click();
+    await expect(page.locator("#order-total")).toHaveText("$0.00");
+    await expect(page.locator("#cash")).toHaveText("$22.00");
+});
+
+for (const timing of ["immediately", "after a committed visit"]) {
+    test(`SKIP ${timing} matches normal day accounting without duplicate visits`, async ({ page }) => {
+        const game = require("../../.test-build/simulation/game.js");
+        let expected = game.openDay(game.buyOrder(game.newGame(), { lemon: 40, sugar: 20, ice: 60, cup: 20 }));
+        while (expected.phase === "selling") expected = game.stepCustomer(expected).state;
+        await stock(page);
+        await page.locator("#open").click();
+        if (timing !== "immediately") {
+            await expect(page.locator("#progress-text")).not.toHaveText(/^0 \/ /);
+        }
+        await page.locator("#skip").click();
+        await expect(page.locator("#results")).toBeVisible();
+        await expect(page.locator("#next")).toBeEnabled();
+        await expect(page.locator("#closed-sign")).toBeVisible();
+        await expect(page.locator("#scene-controls")).toBeHidden();
+        const values = await page.locator("#result-values dd").allTextContents();
+        expect(Number(values[0])).toBe(expected.daily.sold);
+        expect(cents(values[1])).toBe(expected.daily.revenue);
+        expect(cents(values[2])).toBe(expected.daily.cost);
+        expect(cents(await page.locator("#cash").textContent())).toBe(expected.cash);
+        const counts = await page.locator(".reactions strong").allTextContents();
+        expect(counts.map(Number).reduce((a, b) => a + b, 0)).toBe(expected.weather.traffic);
+        for (const item of ["lemon", "sugar", "ice", "cup"]) {
+            await expect(page.locator(`#inventory-${item}`)).toHaveText(String(expected.stock[item]));
+        }
+        await page.locator("#next").click();
+        await expect(page.locator("#day")).toHaveText("02");
+        await expect(page.locator("#speed-label")).toHaveText("Speed: 1×");
+        await tab(page, "results");
+        await page.locator('[data-report="ledger"]').click();
+        await expect(page.locator("#result-intro")).toContainText("1 completed day.");
+        await page.waitForTimeout(1700);
+        await expect(page.locator("#cash")).toHaveText(`$${(expected.cash / 100).toFixed(2)}`);
+    });
+}
