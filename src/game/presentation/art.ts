@@ -3,7 +3,7 @@
 // Original code-authored artwork. Fine outlines and a shared 2:1 ground projection.
 // No source-game image or sprite is embedded here.
 export const STREET = { stopX: 267, pavementY: (x: number) => x / 2 + 112 };
-export const CART = { x: 228, y: 155 };
+export const CART = { x: 236, y: 167 };
 
 export function createArt(scene: Phaser.Scene): void {
     const g = scene.make.graphics({ x: 0, y: 0 });
@@ -24,10 +24,10 @@ export function createArt(scene: Phaser.Scene): void {
         g.fillStyle(color).fillEllipse(x, y, w, h);
         if (outline) g.lineStyle(1, ink, 1).strokeEllipse(x, y, w, h);
     };
-    rect(0, 0, 640, 440, 0x3f9e56);
-    for (let i = 0; i < 4100; i++) {
+    rect(0, 0, 640, 512, 0x3f9e56);
+    for (let i = 0; i < 4800; i++) {
         const x = (i * 137 + 17) % 640,
-            y = (i * 79 + Math.floor(i / 640) * 31) % 440;
+            y = (i * 79 + Math.floor(i / 640) * 31) % 512;
         rect(x, y, 1, 1, i % 3 ? 0x51aa61 : 0x348b48);
     }
     // Diagonal street and two continuous pavement lanes.
@@ -193,9 +193,14 @@ export function createArt(scene: Phaser.Scene): void {
     fence(-12, 342, 173, 0.5);
     tree(188, 378, 1.3);
     house(-68, 438, 130, 103, 96, 0xdbc28c, 0xa99870, 0x82b2aa);
+    // Lower garden fills the taller 5:4 viewport without stretching the street.
+    poly([110, 456, 197, 412, 220, 424, 132, 468], 0xc5c6ad);
+    fence(228, 468, 148, -0.5);
+    tree(265, 459, 1.2);
+    tree(376, 490, 1.5);
     tree(574, 414, 1.2);
     fence(560, 388, 90, -0.5);
-    g.generateTexture("neighborhood", 640, 440);
+    g.generateTexture("neighborhood", 640, 512);
     g.clear();
 
     // Small wheeled lemonade cart with alternating parasol panels.

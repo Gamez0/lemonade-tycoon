@@ -4,9 +4,9 @@ The user resumed the previous night's work. Reboot work lives in `.reboot-work/`
 
 ## Latest art revision
 
-Latest user steering: M1 is accepted; M2 is now **Classic PC experience MVP**, milestone 2. The user explicitly requested concrete original-game research before more implementation. Research is on `docs/m2-original-research`, issue #92, with five implementation/acceptance issues #93–97. Read `docs/research/m2-original-study.md` and the interactive board first. M2 remains open; only research is complete. Save/load has moved after M2 in the roadmap.
+Latest user steering: implement the researched M2 direction. Branch `feat/m2-classic-experience` integrates #93?96: equal columns, four real screen tabs, staged atomic BUY/CANCEL, completed-day ledger, 5:4 scene and revised icons. #97 and milestone 2 remain open until the user visually accepts the comparison. Read `docs/reviews/93-classic-experience.md` for findings and verification and consult its PR for merge state.
 
-An in-progress closer-layout experiment is checkpointed at `d0b4ef1` on `feat/classic-screen-layout`; it is unvalidated, not on main, and must not be described as a finished M2. The research branch serves the stable main runtime again. Current preview remains port 8080; the board is `/docs/research/m2-reference-board.html`.
+Preview remains http://localhost:8080; reference/implementation comparison is http://localhost:8080/docs/research/m2-reference-board.html. The board has six M2 captures plus M1. The old layout checkpoint was incorporated before completion; do not resume that draft separately. The development server was intentionally left running for the user's playtest.
 
 After completing the MVP, the user requested a substantial redesign and explicitly rejected modern UI styling in favor of the original PC game's atmosphere. Issue #90 / branch `feat/retro-art-direction` implements compact green panels, beveled controls, resource icons and a fine outlined diagonal neighborhood with a small parasol cart. Treat this as the accepted art direction; do not reintroduce cream cards or modern spacious dashboard styling. Reference analysis and review are in `docs/art-assets.md` and `docs/reviews/90-retro-art.md`. Consult the branch PR for final CI/merge state. The local preview is on port 8080.
 
@@ -22,7 +22,7 @@ After completing the MVP, the user requested a substantial redesign and explicit
 
 Consult PR #89 and its latest checks for the final remote state. Merge only after the current commit's simulation, strict reboot typecheck/lint, production build and browser checks pass. Do not use earlier draft/checkpoint claims as evidence. README, art register and the review describe the implemented MVP and its limits.
 
-After M1, take user playtest feedback before expanding. Save/load, progression, staff, upgrades, sound and balance work are still deferred per `docs/roadmap.md`. No background development schedule has been created.
+After this M2 implementation, collect user visual feedback before marking the milestone complete. Save/load, progression, staff, upgrades, sound and balance work are still deferred per `docs/roadmap.md`. No background development schedule has been created.
 
 ## Working agreement
 

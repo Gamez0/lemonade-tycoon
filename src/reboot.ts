@@ -1,8 +1,8 @@
-import Phaser from "phaser";
+﻿import Phaser from "phaser";
 import { ITEMS, ITEM_KEYS } from "./game/content/catalog";
 import type { Item } from "./game/content/catalog";
 import {
-    buy,
+    buyOrder,
     capacity,
     newGame,
     nextDay,
@@ -13,39 +13,65 @@ import {
     stepCustomer,
     unitCost,
 } from "./game/simulation/game";
-import type { State } from "./game/simulation/game";
+import type { State, Stock } from "./game/simulation/game";
 import { StreetScene } from "./game/presentation/street-scene";
-import { icon } from "./game/presentation/icons";
 import { markup } from "./game/presentation/layout";
 import "./game/presentation/style.css";
 
 const money = (cents: number) => `$${(cents / 100).toFixed(2)}`;
+type Page = "recipe" | "price" | "supplies" | "results";
+const emptyOrder = (): Record<Item, number[]> => ({
+    lemon: [0, 0, 0],
+    sugar: [0, 0, 0],
+    ice: [0, 0, 0],
+    cup: [0, 0, 0],
+});
+const bundleSizes = [1, 2, 5];
 let state = newGame();
+let history: State[] = [];
+let order = emptyOrder();
+let selectedSupply: Item = "lemon";
+let currentPage: Page = "recipe";
+let reportPage: "daily" | "ledger" = "daily";
 let lastFeedback = "Your first customers are just around the corner.";
 let restartArmed = false;
-type PreparationPage = "recipe" | "price" | "supplies";
-let preparationPage: PreparationPage = "recipe";
+let fast = false;
 const app = document.querySelector<HTMLDivElement>("#app")!;
 app.innerHTML = markup;
-
 function element<T extends HTMLElement = HTMLElement>(id: string): T {
     return document.getElementById(id) as T;
 }
 function text(id: string, value: string): void {
     element(id).textContent = value;
 }
-function showPreparationPage(page: PreparationPage): void {
-    preparationPage = page;
-    for (const name of ["recipe", "price", "supplies"] as const) element(`${name}-page`).hidden = name !== page;
-    for (const button of document.querySelectorAll<HTMLButtonElement>("[data-jump]")) {
-        button.setAttribute("aria-pressed", String((button.dataset.jump === "lemon" ? "recipe" : button.dataset.jump) === page));
-    }
-    if (state.phase === "preparation") text("panel-title", page === "recipe" ? "Recipe" : page === "price" ? "Price" : "Supplies");
+function quantities(): Stock {
+    const quantity = (item: Item) =>
+        order[item].reduce((sum, count, i) => sum + count * bundleSizes[i] * ITEMS[item].bundle, 0);
+    return { lemon: quantity("lemon"), sugar: quantity("sugar"), ice: quantity("ice"), cup: quantity("cup") };
 }
-for (const item of ITEM_KEYS) {
+function orderCost(): number {
+    const q = quantities();
+    return ITEM_KEYS.reduce((sum, item) => sum + q[item] * ITEMS[item].cost, 0);
+}
+function showPage(page: Page): void {
+    currentPage = page;
+    render();
+}
+function rows(id: string, values: [string, string][]): void {
+    element(id).replaceChildren(
+        ...values.flatMap(([label, value]) => {
+            const dt = document.createElement("dt"),
+                dd = document.createElement("dd");
+            dt.textContent = label;
+            dd.textContent = value;
+            return [dt, dd];
+        }),
+    );
+}
+for (const [i] of bundleSizes.entries()) {
     const row = document.createElement("div");
-    row.className = "supply-row";
-    row.innerHTML = `<span class="supply-name">${icon(item)}<span>${ITEMS[item].name}<small id="stock-${item}"></small></span></span><button class="supply-button" data-item="${item}" aria-label="Buy ${ITEMS[item].bundle} ${ITEMS[item].name}">+${ITEMS[item].bundle} <small>${money(ITEMS[item].cost * ITEMS[item].bundle)}</small></button>`;
+    row.className = "bundle-row";
+    row.innerHTML = `<span id="bundle-label-${i}"></span><strong id="bundle-price-${i}"></strong><div class="spinner"><button data-bundle="${i}" data-delta="-1">−</button><output id="bundle-count-${i}">0</output><button data-bundle="${i}" data-delta="1">+</button></div>`;
     element("supplies").append(row);
 }
 const scene = new StreetScene({
@@ -54,14 +80,19 @@ const scene = new StreetScene({
     arrive: () => {
         const step = stepCustomer(state);
         state = step.state;
+        if (state.phase === "results") {
+            history.push(state);
+            currentPage = "results";
+            reportPage = "daily";
+        }
         lastFeedback =
             step.event.kind === "bought"
-                ? `Sold! Customer satisfaction: ${step.event.satisfaction}%.`
+                ? `Sold! Satisfaction: ${step.event.satisfaction}%.`
                 : step.event.kind === "price"
-                  ? "A neighbor passed: the price was too high."
+                  ? "Too expensive! A neighbor walked away."
                   : step.event.kind === "sold-out"
-                    ? "Missed a customer: not enough supplies for this recipe."
-                    : "A passerby wasn't thirsty enough. Try price, recipe or tomorrow's weather.";
+                    ? "Sold out! A customer left empty-handed."
+                    : "Just passing by. Maybe next time!";
         return step.event;
     },
     changed: render,
@@ -69,7 +100,7 @@ const scene = new StreetScene({
 new Phaser.Game({
     type: Phaser.CANVAS,
     width: 640,
-    height: 440,
+    height: 512,
     parent: "game-container",
     backgroundColor: "#9bc77e",
     pixelArt: true,
@@ -78,7 +109,6 @@ new Phaser.Game({
     scene: [scene],
     audio: { noAudio: true },
 });
-
 function act(action: () => State): void {
     try {
         state = action();
@@ -92,15 +122,15 @@ function readPlan(): State {
     for (const id of ["lemon", "sugar", "ice", "price"]) {
         const input = element<HTMLInputElement>(id);
         if (input.value === "" || !input.checkValidity()) {
-            showPreparationPage(id === "price" ? "price" : "recipe");
+            showPage(id === "price" ? "price" : "recipe");
             input.setAttribute("aria-invalid", "true");
+            input.focus();
             throw new Error(`Check ${id}: enter a value from ${input.min} to ${input.max} in steps of ${input.step}.`);
         }
         input.removeAttribute("aria-invalid");
     }
-    const price = Number(element<HTMLInputElement>("price").value) * 100;
     return setPlan(state, {
-        price: Math.round(price),
+        price: Math.round(Number(element<HTMLInputElement>("price").value) * 100),
         recipe: {
             lemon: Number(element<HTMLInputElement>("lemon").value),
             sugar: Number(element<HTMLInputElement>("sugar").value),
@@ -109,42 +139,64 @@ function readPlan(): State {
     });
 }
 for (const id of ["lemon", "sugar", "ice", "price"]) element(id).addEventListener("change", () => act(readPlan));
-for (const button of document.querySelectorAll<HTMLButtonElement>("[data-adjust]")) {
+for (const button of document.querySelectorAll<HTMLButtonElement>("[data-adjust]"))
     button.addEventListener("click", () => {
         const input = element<HTMLInputElement>(button.dataset.adjust!);
         if (button.dataset.direction === "1") input.stepUp();
         else input.stepDown();
         act(readPlan);
     });
-}
-for (const button of document.querySelectorAll<HTMLButtonElement>("[data-jump]")) {
+for (const button of document.querySelectorAll<HTMLButtonElement>("[data-page]"))
     button.addEventListener("click", () => {
         if (state.phase !== "preparation") return;
-        showPreparationPage(button.dataset.jump === "lemon" ? "recipe" : button.dataset.jump as PreparationPage);
-        const target =
-            button.dataset.jump === "supplies"
-                ? element("supplies").querySelector<HTMLButtonElement>("button")!
-                : element(button.dataset.jump!);
-        target.focus();
-        target.scrollIntoView({ block: "nearest" });
+        showPage(button.dataset.page as Page);
     });
-}
-for (const button of document.querySelectorAll<HTMLButtonElement>("[data-item]")) {
+for (const button of document.querySelectorAll<HTMLButtonElement>("[data-supply]"))
     button.addEventListener("click", () => {
-        const item = button.dataset.item as Item;
-        act(() => buy(readPlan(), item, ITEMS[item].bundle));
+        selectedSupply = button.dataset.supply as Item;
+        render();
     });
-}
+for (const button of document.querySelectorAll<HTMLButtonElement>("[data-bundle]"))
+    button.addEventListener("click", () => {
+        const i = Number(button.dataset.bundle),
+            delta = Number(button.dataset.delta);
+        order[selectedSupply][i] = Math.max(0, Math.min(99, order[selectedSupply][i] + delta));
+        text("message", "");
+        render();
+    });
+element("cancel-order").addEventListener("click", () => {
+    order = emptyOrder();
+    text("message", "Order cancelled. Your cash and stock are unchanged.");
+    render();
+});
+element("buy-order").addEventListener("click", () =>
+    act(() => {
+        const bought = buyOrder(readPlan(), quantities());
+        order = emptyOrder();
+        return bought;
+    }),
+);
+for (const button of document.querySelectorAll<HTMLButtonElement>("[data-report]"))
+    button.addEventListener("click", () => {
+        reportPage = button.dataset.report as typeof reportPage;
+        render();
+    });
 element("open").addEventListener("click", () =>
     act(() => {
+        if (orderCost() > 0) {
+            showPage("supplies");
+            throw new Error("BUY or CANCEL your pending order before starting the day.");
+        }
         const opened = openDay(readPlan());
         scene.resetDay();
         return opened;
     }),
 );
-let fast = false;
 function resetPresentation(): void {
-    showPreparationPage("recipe");
+    currentPage = "recipe";
+    reportPage = "daily";
+    selectedSupply = "lemon";
+    order = emptyOrder();
     scene.resetDay();
     fast = false;
     scene.setSpeed(1);
@@ -164,10 +216,10 @@ element("speed").addEventListener("click", () => {
 element("next").addEventListener("click", () => {
     if (scene.finishing) return;
     act(() => {
-        const next = nextDay(state);
+        state = nextDay(state);
         resetPresentation();
         lastFeedback = "A new forecast, a new chance to improve.";
-        return next;
+        return state;
     });
 });
 element("restart").addEventListener("click", () => {
@@ -176,52 +228,123 @@ element("restart").addEventListener("click", () => {
         text("restart", "Confirm new business");
         return;
     }
-    restartArmed = false;
-    text("restart", "New business");
-    scene.resetDay();
-    lastFeedback = "Your first customers are just around the corner.";
     state = newGame();
+    history = [];
     resetPresentation();
+    lastFeedback = "Your first customers are just around the corner.";
     act(() => state);
 });
-element("restart").addEventListener("blur", () => {
+function cancelRestart(): void {
     restartArmed = false;
     text("restart", "New business");
-});
+}
+element("restart").addEventListener("blur", cancelRestart);
 element("restart").addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-        restartArmed = false;
-        text("restart", "New business");
-    }
+    if (event.key === "Escape") cancelRestart();
 });
-
+function renderReport(): void {
+    for (const button of document.querySelectorAll<HTMLButtonElement>("[data-report]"))
+        button.setAttribute("aria-pressed", String(button.dataset.report === reportPage));
+    const latest = history[history.length - 1];
+    if (!latest) {
+        text("result-intro", "No completed days yet. Open your stand to start the books!");
+        rows("result-values", []);
+        return;
+    }
+    const reports = reportPage === "ledger" ? history : [latest];
+    const sum = (key: keyof State["daily"]) => reports.reduce((total, day) => total + day.daily[key], 0);
+    const sold = sum("sold");
+    text(
+        "result-intro",
+        reportPage === "ledger"
+            ? `Business ledger · ${history.length} completed ${history.length === 1 ? "day" : "days"}. Current preparation purchases are not included.`
+            : `Day ${latest.day} · ${sold === 0 ? "No sales. Try a lower price tomorrow." : `${sold} neighbors served.`}`,
+    );
+    rows("result-values", [
+        ["Cups sold", String(sold)],
+        ["Revenue", money(sum("revenue"))],
+        ["Ingredients used", money(sum("cost"))],
+        ["Profit", money(sum("revenue") - sum("cost"))],
+        ["Supplies bought", money(sum("purchases"))],
+        ["Cash change", money(reports.reduce((total, day) => total + results(day).cashChange, 0))],
+        ["Passed / sold out", `${sum("rejected")} / ${sum("soldOut")}`],
+        ["Satisfaction", sold === 0 ? "No buyers yet" : `${Math.round(sum("satisfactionTotal") / sold)}%`],
+    ]);
+}
 function render(): void {
     const report = results(state),
         prep = state.phase === "preparation",
-        selling = state.phase === "selling";
+        selling = state.phase === "selling",
+        closed = state.phase === "results";
     text("day", String(state.day).padStart(2, "0"));
     text("cash", money(state.cash));
     text("weather", `${state.weather.label} / ${state.weather.temperature}°C`);
+    text(
+        "forecast-news",
+        state.day === 1
+            ? "A new lemonade stand opens on Willow Lane!"
+            : `${state.weather.traffic} neighbors are expected to pass today. Make every cup count!`,
+    );
     text("reputation", `${Math.round(state.reputation * 100)}%`);
-    element("preparation").hidden = !prep;
-    element("selling").hidden = !selling;
-    element("results").hidden = state.phase !== "results";
-    text("panel-title", prep ? preparationPage === "recipe" ? "Recipe" : preparationPage === "price" ? "Price" : "Supplies" : selling ? "Today's settings" : "Results");
-    for (const button of document.querySelectorAll<HTMLButtonElement>("[data-jump]")) button.disabled = !prep;
-    app.dataset.phase = state.phase;
     element<HTMLMeterElement>("reputation-meter").value = Math.round(state.reputation * 100);
+    element("preparation").hidden = !prep || currentPage === "results";
+    for (const page of ["recipe", "price", "supplies"]) element(`${page}-page`).hidden = page !== currentPage;
+    element("selling").hidden = !selling;
+    element("results").hidden = !(closed || (prep && currentPage === "results"));
+    element("day-actions").hidden = !prep;
+    element("next").hidden = !closed;
+    element<HTMLButtonElement>("next").disabled = scene.finishing;
+    element("speed").hidden = !selling && !scene.finishing;
+    text(
+        "panel-title",
+        selling
+            ? "Today's settings"
+            : closed || currentPage === "results"
+              ? "Results"
+              : currentPage[0].toUpperCase() + currentPage.slice(1),
+    );
+    for (const button of document.querySelectorAll<HTMLButtonElement>("[data-page]")) {
+        button.disabled = !prep;
+        button.setAttribute("aria-pressed", String(!selling && button.dataset.page === currentPage));
+    }
+    app.dataset.phase = state.phase;
     for (const id of ["recipe-controls", "price-controls", "supply-controls"])
         element<HTMLFieldSetElement>(id).disabled = !prep;
-    element<HTMLButtonElement>("next").disabled = scene.finishing;
     for (const key of ITEM_KEYS) {
         text(`stock-${key}`, `${state.stock[key]} in stock`);
         text(`inventory-${key}`, String(state.stock[key]));
     }
+    for (const button of document.querySelectorAll<HTMLButtonElement>("[data-supply]"))
+        button.setAttribute("aria-pressed", String(button.dataset.supply === selectedSupply));
+    bundleSizes.forEach((size, i) => {
+        const quantity = size * ITEMS[selectedSupply].bundle;
+        text(`bundle-label-${i}`, `${quantity} ${ITEMS[selectedSupply].name}`);
+        text(`bundle-price-${i}`, money(quantity * ITEMS[selectedSupply].cost));
+        text(`bundle-count-${i}`, String(order[selectedSupply][i]));
+        for (const button of document.querySelectorAll<HTMLButtonElement>(`[data-bundle="${i}"]`)) {
+            const adding = button.dataset.delta === "1";
+            button.setAttribute(
+                "aria-label",
+                `${adding ? "Add" : "Remove"} bundle of ${quantity} ${ITEMS[selectedSupply].name}`,
+            );
+            button.disabled = !prep || (adding ? order[selectedSupply][i] >= 99 : order[selectedSupply][i] === 0);
+        }
+    });
+    const q = quantities(),
+        cost = orderCost();
+    text(
+        "order-summary",
+        ITEM_KEYS.filter((item) => q[item] > 0)
+            .map((item) => `${q[item]} ${ITEMS[item].name}`)
+            .join(" · ") || "Your order is empty.",
+    );
+    text("order-total", money(cost));
+    element<HTMLButtonElement>("cancel-order").disabled = cost === 0;
     text("capacity", `${capacity(state)} cups`);
     text("unit-cost", money(unitCost(state.plan.recipe)));
     text(
         "recipe-hint",
-        `Forecast fit: ${Math.round(quality(state.plan.recipe, state.weather.temperature) * 100)}%. ${state.weather.temperature >= 30 ? "It's hot — try 4 ice cubes." : state.weather.temperature >= 25 ? "Warm out — try 3 ice cubes." : state.weather.temperature >= 21 ? "Mild weather — try 2 ice cubes." : "Cool out — try 1 ice cube."}`,
+        `Recipe per cup · Forecast fit: ${Math.round(quality(state.plan.recipe, state.weather.temperature) * 100)}%. Try ${state.weather.temperature >= 30 ? 4 : state.weather.temperature >= 25 ? 3 : state.weather.temperature >= 21 ? 2 : 1} ice for today's weather.`,
     );
     text("sold", String(state.daily.sold));
     text("revenue", money(state.daily.revenue));
@@ -230,49 +353,21 @@ function render(): void {
     text(
         "goal",
         state.cash >= 7500
-            ? "First goal reached: $75 in the till! Keep building your neighborhood business."
-            : `Your first goal: $75 in the till. ${money(Math.max(0, 7500 - state.cash))} to go.`,
+            ? "First goal reached: $75 in the till!"
+            : `Goal: $75 in the till · ${money(7500 - state.cash)} to go`,
     );
-    text(
-        "world-status",
-        prep
-            ? "A fresh start on a familiar street."
-            : selling
-              ? "The stand is open. Come say hello!"
-              : "Closed for today. See you tomorrow!",
-    );
-    text("progress-text", prep ? "Ready when you are" : `${state.daily.visitors} / ${state.weather.traffic} neighbors`);
+    text("world-status", prep ? "Ready to open" : selling ? "Open for business" : "Closed for today");
+    text("progress-text", prep ? "Willow Lane" : `${state.daily.visitors} / ${state.weather.traffic} neighbors`);
     element<HTMLProgressElement>("day-progress").value = state.daily.visitors / state.weather.traffic;
     text(
         "sale-summary",
         `${money(state.plan.price)} / cup · ${capacity(state)} cups left\nRecipe: ${state.plan.recipe.lemon} lemon / ${state.plan.recipe.sugar} sugar / ${state.plan.recipe.ice} ice\nStock: ${state.stock.lemon} lemon · ${state.stock.sugar} sugar · ${state.stock.ice} ice · ${state.stock.cup} cups`,
     );
-    if (state.phase === "results") {
-        text(
-            "result-intro",
-            state.daily.sold === 0
-                ? "No sales today. Try a lower price tomorrow."
-                : `You served ${state.daily.sold} neighbors. ${report.profit > 0 ? "A little business is growing." : "Try a better margin tomorrow."}`,
-        );
-        const rows: [string, string][] = [
-            ["Cups sold", String(state.daily.sold)],
-            ["Revenue", money(state.daily.revenue)],
-            ["Ingredients used", money(state.daily.cost)],
-            ["Profit", money(report.profit)],
-            ["Supplies bought", money(state.daily.purchases)],
-            ["Cash change", money(report.cashChange)],
-            ["Passed / sold out", `${state.daily.rejected} / ${state.daily.soldOut}`],
-            ["Satisfaction", report.satisfaction === null ? "No buyers yet" : `${report.satisfaction}%`],
-        ];
-        element("result-values").replaceChildren(
-            ...rows.flatMap(([label, value]) => {
-                const dt = document.createElement("dt"),
-                    dd = document.createElement("dd");
-                dt.textContent = label;
-                dd.textContent = value;
-                return [dt, dd];
-            }),
-        );
-    }
+    rows("live-feedback", [
+        ["Walked past", String(state.daily.rejected)],
+        ["Lost to empty stock", String(state.daily.soldOut)],
+        ["Satisfaction", report.satisfaction === null ? "No buyers yet" : `${report.satisfaction}%`],
+    ]);
+    renderReport();
 }
 render();

@@ -33,16 +33,16 @@ export class StreetScene extends Phaser.Scene {
     create(): void {
         createArt(this);
         this.add.image(0, 0, "neighborhood").setOrigin(0);
-        this.add.image(CART.x, CART.y, "stand").setOrigin(0);
+        this.add.image(CART.x, CART.y, "stand").setOrigin(0).setScale(0.8);
         this.sign = this.add
-            .text(CART.x + 29, CART.y + 66, "FRESH", {
+            .text(CART.x + 23, CART.y + 53, "FRESH", {
                 fontFamily: "monospace",
                 fontSize: "7px",
                 color: "#574b31",
                 backgroundColor: "#fff0bd",
             })
             .setOrigin(0.5);
-        this.sky = this.add.rectangle(0, 0, 640, 440, 0x536b83, 0).setOrigin(0);
+        this.sky = this.add.rectangle(0, 0, 640, 512, 0x536b83, 0).setOrigin(0);
         this.walker = this.add.sprite(-30, 0, "customer-0-0").setOrigin(0.5, 1).setVisible(false);
         this.bubble = this.add
             .text(STREET.stopX, STREET.pavementY(STREET.stopX) - 42, "", {

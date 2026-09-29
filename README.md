@@ -2,7 +2,7 @@
 
 A neighborhood lemonade business built with Phaser and TypeScript. Buy supplies, adjust a recipe and price, watch customers visit, and improve tomorrow.
 
-The presentation follows classic PC tycoon games: compact green management panels, beveled buttons, illustrated inventory, and an original diagonal neighborhood with a little parasol cart. Recipe +/- buttons adjust ingredients; the illustrated shortcuts focus recipe, price or supply controls.
+The presentation follows classic PC tycoon games: compact green management panels, beveled buttons, illustrated inventory, and an original diagonal neighborhood with a little parasol cart. Four illustrated tabs switch Results, Price, Recipe and Supplies in a fixed two-column frame. The 5:4 neighborhood stays beside the work panel.
 
 ## Run locally
 
@@ -17,9 +17,9 @@ Open http://localhost:8080 for the reboot. The preserved earlier game is at http
 
 ## Playing
 
-Start with $40 and empty stock. Purchase each ingredient, choose lemon/sugar/ice units per cup, and set a price from $0.25 to $5.00. The forecast-fit hint helps tune the recipe. Open the stand to lock preparation and watch customers buy or pass. The speed button runs the day at 4x.
+Start with $40 and empty stock. In Supplies, select ingredients and add bundles to your order. BUY commits the whole order; CANCEL discards it. Cash and stock stay unchanged until checkout. Choose lemon/sugar/ice units per cup and set a price from $0.25 to $5.00. The forecast-fit hint helps tune the recipe. Open the stand to lock preparation and watch customers buy or pass. The speed button runs the day at 4x.
 
-Results distinguish profit (sales minus ingredients consumed) from cash change (sales minus supplies purchased). Leftover supplies, cash and reputation carry into the next day. Aim for $75 cash; play can continue afterward. Choose **New business** twice to reset; Escape or moving focus cancels confirmation.
+Results offers Last day and a cumulative Profit & loss ledger for completed days; it remains available during the next preparation. Reports distinguish profit (sales minus ingredients consumed) from cash change (sales minus supplies purchased). Leftover supplies, cash and reputation carry into the next day. Aim for $75 cash; play can continue afterward. Choose **New business** twice to reset; Escape or moving focus cancels confirmation.
 
 Progress lasts for the current page session. The MVP has one free location, silent original pixel artwork, and no save/load, staff or upgrades yet. The legacy entry retains its previous behavior and external font dependency.
 
@@ -34,7 +34,7 @@ npx playwright install chromium
 npm run test:browser
 ```
 
-Browser tests run actual controls for three days, validate accounting, invalid input, insufficient cash, no-sale results, restart and a 375px layout. Screenshots go to `test-results/`, with traces on failure. CI also installs Chromium's system dependencies.
+Browser tests run three days at desktop and 375px widths, reconcile daily/cumulative accounting, check staged orders, cancellations, insufficient funds, invalid inputs, no-sale results, restart and screen geometry. Screenshots go to `test-results/`, with traces on failure. CI also installs Chromium's system dependencies.
 
 The strict typecheck and zero-warning lint cover the reboot. Legacy sources remain intact and have pre-existing unused-symbol/type/lint findings documented in [the repository audit](docs/repository-audit.md); repository-wide `npx tsc --noEmit` and `npm run lint` are not release gates for the reboot.
 
@@ -46,3 +46,5 @@ The strict typecheck and zero-warning lint cover the reboot. Legacy sources rema
 - [Roadmap](docs/roadmap.md)
 
 Reboot scene and character textures are original code-authored artwork. Existing assets remain available to the legacy game. Reference screenshots are not bundled.
+
+M2 implementation and same-width reference comparisons are available in the [reference board](docs/research/m2-reference-board.html). The milestone stays open until user visual acceptance.
