@@ -4,6 +4,10 @@ The user resumed the previous night's work. Reboot work lives in `.reboot-work/`
 
 ## Latest art revision
 
+Latest user steering: M1 is accepted; M2 is now **Classic PC experience MVP**, milestone 2. The user explicitly requested concrete original-game research before more implementation. Research is on `docs/m2-original-research`, issue #92, with five implementation/acceptance issues #93–97. Read `docs/research/m2-original-study.md` and the interactive board first. M2 remains open; only research is complete. Save/load has moved after M2 in the roadmap.
+
+An in-progress closer-layout experiment is checkpointed at `d0b4ef1` on `feat/classic-screen-layout`; it is unvalidated, not on main, and must not be described as a finished M2. The research branch serves the stable main runtime again. Current preview remains port 8080; the board is `/docs/research/m2-reference-board.html`.
+
 After completing the MVP, the user requested a substantial redesign and explicitly rejected modern UI styling in favor of the original PC game's atmosphere. Issue #90 / branch `feat/retro-art-direction` implements compact green panels, beveled controls, resource icons and a fine outlined diagonal neighborhood with a small parasol cart. Treat this as the accepted art direction; do not reintroduce cream cards or modern spacious dashboard styling. Reference analysis and review are in `docs/art-assets.md` and `docs/reviews/90-retro-art.md`. Consult the branch PR for final CI/merge state. The local preview is on port 8080.
 
 ## Current implementation
