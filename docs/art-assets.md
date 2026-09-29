@@ -6,19 +6,20 @@ Primary visual anchor: original Windows Lemonade Tycoon, not its sequel or mobil
 
 The viewed 640×480 selling screen places a compact elevated street view in the right half, persistent stock/cash across the top and dense business controls on the left. Small customers contrast against broad pale sidewalks; the yellow stand is a bright focal point inside a neighborhood of houses, lawns and roads. Strong outlines and simple silhouettes do more work than fine texture. The stand is several customer widths across, while buildings dominate the environment. Green UI surrounds the world rather than replacing it. These observations guide an original composition, not copied geometry.
 
-Reboot specification: warm cream/yellow/leaf-green palette, darker outlines, overhead three-quarter cues, original small neighborhood, low-resolution world scaled with nearest-neighbor filtering. Keep customers small relative to the stand, clear sidewalk movement lanes, a lemon sign, visible yellow drink, and readable walk/stop/buy silhouettes. Business controls remain adjacent to the scene. Character animation uses a small number of leg/arm poses; UI text stays native resolution for readability.
+Revised direction (2026-09-29, user playtest): restore old PC tycoon aesthetics across both the world and interface; avoid modern cards and spacious cream layouts. Use saturated deep-green inset panels, lime beveled buttons, yellow highlights, small illustrated resource icons and compact native-resolution text. The world uses a consistent 2:1 diagonal ground projection, fine dark outlines, shaded building sides, roof seams, angled windows, fences, textured lawns and a small blue/yellow parasol cart. Customers stay small relative to buildings and walk along the diagonal pavement, stopping beside the cart. All artwork is original code-authored geometry; reference screenshots are not copied into game assets.
 
 ## Register
 
 | Asset | Original reference | Purpose | Logical size | Animation / states | Priority | Status |
 | --- | --- | --- | --- | --- | --- | --- |
-| Stand | Selling screenshot, yellow focal kiosk | Identify service point | 60×56 px | open/closed sign | P0 | Implemented in `art.ts`, scene text sign |
-| Street / ground | Selling screenshot, sidewalk contrast | Customer route and context | 320×220 px | static, weather tint | P0 | Original code-drawn texture in `art.ts` |
-| Basic customer | Selling screenshot, small outlined figures | Visible demand | 16×20 px | walk 2 frames, wait/buy, leave with drink | P0 | Original sprite textures; stable profile through visit |
+| Stand | Selling screenshot, small parasol cart | Identify service point | 72×88 px | open/closed sign | P0 | Original wheeled cart, segmented parasol, vendor and pitcher |
+| Street / ground | Selling screenshot, diagonal sidewalk | Customer route and context | 640×440 px | static, weather tint | P0 | Original outlined neighborhood, 2:1 ground projection |
+| Basic customer | Selling screenshot, small outlined figures | Visible demand | 20×34 px | walk 2 frames, wait/buy, leave with drink | P0 | Original sprite textures; stable profile through visit |
 | Lemonade | Selling screenshot, yellow supply cues | Sale readability | 3×4 px | held after purchase | P0 | Included in customer departure pose |
-| HUD | Top resource strip and business panels | Cash, stock, weather, phase | responsive DOM | preparation/selling/results | P0 | Implemented in `reboot.ts` and `style.css` |
+| HUD | Top resource strip and green inset panels | Cash, stock, weather, phase | compact DOM | preparation/selling/results | P0 | Beveled controls, section shortcuts, ingredient +/- buttons; responsive narrow layout |
+| Inventory / control icons | Original ingredient and tab illustrations | Quick visual identification | 26×26 SVG | static | P0 | Seven original outlined icons in `icons.ts`, shared across controls and live inventory |
 | Houses / trees / bench | Neighborhood context | Environmental storytelling | varied | static | P1 | Included in neighborhood texture |
-| Customer variations | Small readable silhouettes | Diversity without visual noise | 16×20 px | three profiles, four poses each | P2 | Implemented |
+| Customer variations | Small readable silhouettes | Diversity without visual noise | 20×34 px | three profiles, four poses each | P2 | Implemented |
 | Weather effects | Original weather indicator | Reinforce forecast | scene overlay | sunny/cloudy/rainy tint | P2 | Tint implemented; particles deferred |
 | Audio | No source asset reused | Feedback | n/a | sale/open/close | P3 | Backlog, silent MVP |
 

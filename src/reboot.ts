@@ -15,6 +15,7 @@ import {
 } from "./game/simulation/game";
 import type { State } from "./game/simulation/game";
 import { StreetScene } from "./game/presentation/street-scene";
+import { icon } from "./game/presentation/icons";
 import "./game/presentation/style.css";
 
 const money = (cents: number) => `$${(cents / 100).toFixed(2)}`;
@@ -23,7 +24,8 @@ let lastFeedback = "Your first customers are just around the corner.";
 let restartArmed = false;
 const app = document.querySelector<HTMLDivElement>("#app")!;
 app.innerHTML = `
-    <header class="masthead"><div><span class="eyebrow">A LITTLE STAND. A BIG SUMMER.</span><h1>Lemonade <span>Tycoon</span></h1></div><span class="edition">REBOOT / EARLY ACCESS</span></header>
+    <header class="masthead"><h1>${icon("lemon")}Lemonade <span>Tycoon</span></h1><span class="edition">THE NEIGHBORHOOD<br>One stand. Big dreams.</span></header>
+    <section class="resource-bar" aria-label="Supplies on hand">${ITEM_KEYS.map((item) => `<span aria-label="${ITEMS[item].name}">${icon(item)}<strong id="inventory-${item}">0</strong></span>`).join("")}<span class="resource-title">SUPPLIES ON HAND</span></section>
     <section class="ledger" aria-label="Business overview">
         <div><span class="label">DAY</span><strong id="day">01</strong></div>
         <div><span class="label">CASH ON HAND</span><strong id="cash"></strong></div>
@@ -34,11 +36,10 @@ app.innerHTML = `
       <section class="panel preparation" aria-labelledby="panel-title">
         <div class="panel-heading"><span class="step" id="phase-number">01</span><div><span class="eyebrow" id="phase-label">BEFORE THE RUSH</span><h2 id="panel-title">Make it your own.</h2></div></div>
         <div id="preparation">
+          <nav class="toolbar" aria-label="Preparation controls"><button data-jump="lemon">${icon("recipe")}Recipe</button><button data-jump="price">${icon("price")}Price</button><button data-jump="supplies">${icon("supplies")}Supplies</button></nav>
           <p class="intro">Check the weather. Mix a recipe. Stock up for the neighbors.</p>
           <fieldset id="recipe-controls"><legend>01 / YOUR RECIPE <small>per cup</small></legend>
-            <label>Lemon units <input id="lemon" type="number" min="1" max="6" step="1" value="2"></label>
-            <label>Sugar scoops <input id="sugar" type="number" min="1" max="4" step="1" value="1"></label>
-            <label>Ice cubes <input id="ice" type="number" min="0" max="6" step="1" value="2"></label>
+            ${(["lemon", "sugar", "ice"] as const).map((item) => `<div class="recipe-row"><label for="${item}"><span class="ingredient-label">${icon(item)}${ITEMS[item].name}</span></label><div class="spinner"><button type="button" data-adjust="${item}" data-direction="-1" aria-label="Decrease ${item}">−</button><input id="${item}" type="number" min="${item === "ice" ? 0 : 1}" max="${item === "sugar" ? 4 : 6}" step="1" value="${item === "sugar" ? 1 : 2}"><button type="button" data-adjust="${item}" data-direction="1" aria-label="Increase ${item}">+</button></div></div>`).join("")}
           </fieldset>
           <p class="hint" id="recipe-hint"></p>
           <fieldset id="price-controls"><legend>02 / SET YOUR PRICE</legend><label>Price per cup ($) <input id="price" type="number" min="0.25" max="5" step="0.01" value="1.50"></label></fieldset>
@@ -68,7 +69,7 @@ function text(id: string, value: string): void {
 for (const item of ITEM_KEYS) {
     const row = document.createElement("div");
     row.className = "supply-row";
-    row.innerHTML = `<span>${ITEMS[item].name}<small id="stock-${item}"></small></span><button class="supply-button" data-item="${item}">+${ITEMS[item].bundle} <small>${money(ITEMS[item].cost * ITEMS[item].bundle)}</small></button>`;
+    row.innerHTML = `<span class="supply-name">${icon(item)}<span>${ITEMS[item].name}<small id="stock-${item}"></small></span></span><button class="supply-button" data-item="${item}" aria-label="Buy ${ITEMS[item].bundle} ${ITEMS[item].name}">+${ITEMS[item].bundle} <small>${money(ITEMS[item].cost * ITEMS[item].bundle)}</small></button>`;
     element("supplies").append(row);
 }
 const scene = new StreetScene({
@@ -131,6 +132,24 @@ function readPlan(): State {
     });
 }
 for (const id of ["lemon", "sugar", "ice", "price"]) element(id).addEventListener("change", () => act(readPlan));
+for (const button of document.querySelectorAll<HTMLButtonElement>("[data-adjust]")) {
+    button.addEventListener("click", () => {
+        const input = element<HTMLInputElement>(button.dataset.adjust!);
+        if (button.dataset.direction === "1") input.stepUp();
+        else input.stepDown();
+        act(readPlan);
+    });
+}
+for (const button of document.querySelectorAll<HTMLButtonElement>("[data-jump]")) {
+    button.addEventListener("click", () => {
+        const target =
+            button.dataset.jump === "supplies"
+                ? element("supplies").querySelector<HTMLButtonElement>("button")!
+                : element(button.dataset.jump!);
+        target.focus();
+        target.scrollIntoView({ block: "nearest" });
+    });
+}
 for (const button of document.querySelectorAll<HTMLButtonElement>("[data-item]")) {
     button.addEventListener("click", () => {
         const item = button.dataset.item as Item;
@@ -209,11 +228,14 @@ function render(): void {
     element("results").hidden = state.phase !== "results";
     text("phase-number", prep ? "01" : selling ? "02" : "03");
     text("phase-label", prep ? "BEFORE THE RUSH" : selling ? "OPEN FOR BUSINESS" : "COUNTING THE DAY");
-    text("panel-title", prep ? "Make it your own." : selling ? "Here come the neighbors." : "Every cup counts.");
+    text("panel-title", prep ? "Today's settings" : selling ? "Open for business" : "Today's results");
     for (const id of ["recipe-controls", "price-controls", "supply-controls"])
         element<HTMLFieldSetElement>(id).disabled = !prep;
     element<HTMLButtonElement>("next").disabled = scene.finishing;
-    for (const key of ITEM_KEYS) text(`stock-${key}`, `${state.stock[key]} in stock`);
+    for (const key of ITEM_KEYS) {
+        text(`stock-${key}`, `${state.stock[key]} in stock`);
+        text(`inventory-${key}`, String(state.stock[key]));
+    }
     text("capacity", `${capacity(state)} cups`);
     text("unit-cost", money(unitCost(state.plan.recipe)));
     text(

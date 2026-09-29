@@ -2,6 +2,8 @@
 
 A neighborhood lemonade business built with Phaser and TypeScript. Buy supplies, adjust a recipe and price, watch customers visit, and improve tomorrow.
 
+The presentation follows classic PC tycoon games: compact green management panels, beveled buttons, illustrated inventory, and an original diagonal neighborhood with a little parasol cart. Recipe +/- buttons adjust ingredients; the illustrated shortcuts focus recipe, price or supply controls.
+
 ## Run locally
 
 Use Node.js 22 and npm. The committed `package-lock.json` is authoritative.

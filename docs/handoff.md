@@ -1,6 +1,10 @@
 ﻿# Resume checkpoint — 2026-09-29
 
-The user resumed the previous night's work. Reboot work lives in `.reboot-work/` on `feat/reboot-playable`; the parent worktree remains on `refactor/static-scene-registration` with user-owned uncommitted changes. Never stage/reset those parent changes.
+The user resumed the previous night's work. Reboot work lives in `.reboot-work/`; the parent worktree remains on `refactor/static-scene-registration` with user-owned uncommitted changes. Never stage/reset those parent changes.
+
+## Latest art revision
+
+After completing the MVP, the user requested a substantial redesign and explicitly rejected modern UI styling in favor of the original PC game's atmosphere. Issue #90 / branch `feat/retro-art-direction` implements compact green panels, beveled controls, resource icons and a fine outlined diagonal neighborhood with a small parasol cart. Treat this as the accepted art direction; do not reintroduce cream cards or modern spacious dashboard styling. Reference analysis and review are in `docs/art-assets.md` and `docs/reviews/90-retro-art.md`. Consult the branch PR for final CI/merge state. The local preview is on port 8080.
 
 ## Current implementation
 
