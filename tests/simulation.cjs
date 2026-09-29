@@ -94,3 +94,24 @@ test('many seeded days keep numeric and economic invariants', () => {
         assert.equal(s.cash, 4000 - s.daily.purchases + s.daily.revenue);
     }
 });
+
+test('staged multi-item checkout commits everything or nothing', () => {
+    const { buyOrder } = require('../.test-build/simulation/game.js');
+    const before = frozen(newGame());
+    const order = frozen({ lemon: 40, sugar: 20, ice: 60, cup: 20 });
+    const after = buyOrder(before, order);
+    assert.deepEqual(after.stock, order);
+    assert.equal(after.cash, 3360);
+    assert.equal(after.daily.purchases, 640);
+    const short = frozen({ ...before, cash: 550 });
+    assert.throws(() => buyOrder(short, order), /cash/);
+    assert.deepEqual(short.stock, before.stock);
+    assert.equal(short.cash, 550);
+    assert.equal(short.daily.purchases, 0);
+    const full = frozen({ ...before, stock: { ...before.stock, cup: 990 } });
+    assert.throws(() => buyOrder(full, order), /Storage/);
+    assert.equal(full.stock.lemon, 0);
+    for (const quantity of [-1, .5, NaN, Infinity, 1000]) assert.throws(() => buyOrder(before, { ...order, cup: quantity }));
+    assert.throws(() => buyOrder(before, { lemon: 0, sugar: 0, ice: 0, cup: 0 }), /Choose/);
+    assert.throws(() => buyOrder(openDay(after), order), /preparation/);
+});

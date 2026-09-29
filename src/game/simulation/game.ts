@@ -75,6 +75,14 @@ export function buy(state: State, item: Item, quantity: number): State {
     return { ...state, cash: state.cash - cost, stock: { ...state.stock, [item]: state.stock[item] + quantity },
         daily: { ...state.daily, purchases: state.daily.purchases + cost } };
 }
+/** Checkout is all-or-nothing: immutable intermediate states never escape on failure. */
+export function buyOrder(state: State, order: Stock): State {
+    phase(state, "preparation");
+    for (const item of ITEM_KEYS) integer(order[item], 0, 999, "Order quantity");
+    if (ITEM_KEYS.every(item => order[item] === 0)) throw new Error("Choose supplies before buying.");
+    return ITEM_KEYS.reduce((next, item) => order[item] === 0 ? next : buy(next, item, order[item]), state);
+}
+
 export function unitCost(recipe: Recipe): number {
     return recipe.lemon * ITEMS.lemon.cost + recipe.sugar * ITEMS.sugar.cost + recipe.ice * ITEMS.ice.cost + ITEMS.cup.cost;
 }

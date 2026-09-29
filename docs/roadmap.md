@@ -30,3 +30,7 @@ Legacy issues remain linked context; do not close them without comparing their o
 ## Working agreement
 
 PRs state behavior, rationale, tests, related Issue and remaining limits. Record self-review findings and corrections before merge. GitHub access failure does not stop local implementation: retain issue/PR text locally and state precisely what is not published. Autonomous work proceeds during an active agent session; these documents do not imply an unattended scheduler exists.
+
+## M2 implementation checkpoint
+
+The integrated classic-experience PR implements #93?96. Their shared shell/state transitions are reviewed together; #97 keeps visual acceptance separate. The comparison board contains captured recipe, price, staged supplies, selling, daily result and cumulative ledger screens. M2 remains active pending the user?s visual acceptance.
