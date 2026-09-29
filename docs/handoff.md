@@ -2,6 +2,10 @@
 
 The user resumed the previous night's work. Reboot work lives in `.reboot-work/`; the parent worktree remains on `refactor/static-scene-registration` with user-owned uncommitted changes. Never stage/reset those parent changes.
 
+## Latest release planning
+
+The user requested a concrete milestone path through release. See [roadmap](roadmap.md): M2 visual acceptance remains open; M3 queues stays next; M4–M10 cover persistence, progression, management, alpha, beta, release candidate and web 1.0. GitHub milestones and tracking issues #105–111 are created. Web-first is the current planning assumption, not a store launch commitment. No due dates or background schedule are promised. PR #104 merged with green CI; M2 still needs user visual acceptance.
+
 ## Latest art revision
 
 Latest user steering: finish the ongoing road/weather/selling work first, then separately audit whether M2 truly meets its goals. PR #102 is merged with green CI. Branch `fix/m2-acceptance-audit` follows up with medium-width forecast visibility, stable mobile action placement, working SKIP and additional storage/skip regression checks. Read `docs/research/m2-acceptance-audit.md` and consult the audit PR for its final checks/merge state. M2/#97 remain open for visual acceptance.
