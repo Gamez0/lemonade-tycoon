@@ -40,7 +40,7 @@ export const markup = `
   </section>
  </section>
  <section class="world-column" aria-label="Willow Lane stand">
-  <div class="world-frame"><div class="scene-window"><div id="game-container"></div><button id="speed" class="scene-speed" hidden><span aria-hidden="true">▶▶</span> <span id="speed-label">Speed: 1×</span></button><span id="closed-sign" hidden>DAY COMPLETE</span></div>
+  <div class="world-frame"><div class="scene-window"><div id="game-container"></div><div id="scene-controls" hidden><button id="speed" class="scene-speed"><span aria-hidden="true">▶▶</span> <span id="speed-label">Speed: 1×</span></button><button id="skip" class="scene-skip" title="Finish the remaining visits now">SKIP</button></div><span id="closed-sign" hidden>DAY COMPLETE</span></div>
    <div class="location-heading"><h2>The Neighborhood</h2><span class="rent-tag">Rent: FREE</span></div>
    <p class="location-description">A quiet street and a few thirsty neighbors. The perfect place to start your lemonade empire.</p>
    <div class="location-ratings"><div><div class="rating-line"><label for="reputation-meter">Reputation</label><strong id="reputation"></strong></div><meter id="reputation-meter" min="0" max="100" value="50">50%</meter></div><div><div class="rating-line"><label for="satisfaction-meter">Satisfaction</label><strong id="location-satisfaction"></strong></div><meter id="satisfaction-meter" min="0" max="100" value="0">No buyers yet</meter></div></div>

@@ -13,7 +13,7 @@ import {
     stepCustomer,
     unitCost,
 } from "./game/simulation/game";
-import type { State, Stock } from "./game/simulation/game";
+import type { CustomerEvent, State, Stock } from "./game/simulation/game";
 import { StreetScene } from "./game/presentation/street-scene";
 import { icon } from "./game/presentation/icons";
 import { markup } from "./game/presentation/layout";
@@ -76,28 +76,29 @@ for (const [i] of bundleSizes.entries()) {
     row.innerHTML = `<span id="bundle-label-${i}"></span><strong id="bundle-price-${i}"></strong><div class="spinner"><button data-bundle="${i}" data-delta="-1">−</button><output id="bundle-count-${i}">0</output><button data-bundle="${i}" data-delta="1">+</button></div>`;
     element("supplies").append(row);
 }
+function advanceCustomer(): CustomerEvent {
+    const step = stepCustomer(state);
+    state = step.state;
+    reactions[step.event.kind]++;
+    if (state.phase === "results") {
+        history.push(state);
+        currentPage = "results";
+        reportPage = "daily";
+    }
+    lastFeedback =
+        step.event.kind === "bought"
+            ? `Sold! Satisfaction: ${step.event.satisfaction}%.`
+            : step.event.kind === "price"
+              ? "Too expensive! A neighbor walked away."
+              : step.event.kind === "sold-out"
+                ? "Sold out! A customer left empty-handed."
+                : "Just passing by. Maybe next time!";
+    return step.event;
+}
 const scene = new StreetScene({
     state: () => state,
     profile: () => stepCustomer(state).event.profile,
-    arrive: () => {
-        const step = stepCustomer(state);
-        state = step.state;
-        reactions[step.event.kind]++;
-        if (state.phase === "results") {
-            history.push(state);
-            currentPage = "results";
-            reportPage = "daily";
-        }
-        lastFeedback =
-            step.event.kind === "bought"
-                ? `Sold! Satisfaction: ${step.event.satisfaction}%.`
-                : step.event.kind === "price"
-                  ? "Too expensive! A neighbor walked away."
-                  : step.event.kind === "sold-out"
-                    ? "Sold out! A customer left empty-handed."
-                    : "Just passing by. Maybe next time!";
-        return step.event;
-    },
+    arrive: advanceCustomer,
     changed: render,
 });
 new Phaser.Game({
@@ -217,6 +218,14 @@ element("speed").addEventListener("click", () => {
     scene.setSpeed(fast ? 4 : 1);
     text("speed-label", `Speed: ${fast ? 4 : 1}×`);
 });
+element("skip").addEventListener("click", () => {
+    if (state.phase !== "selling") return;
+    // The pending visit may already be committed. Resume from the actual state,
+    // not the animation's profile/elapsed time, to avoid charging it twice.
+    scene.resetDay();
+    while (state.phase === "selling") advanceCustomer();
+    act(() => state);
+});
 element("next").addEventListener("click", () => {
     if (scene.finishing) return;
     act(() => {
@@ -331,7 +340,8 @@ function render(): void {
     element("day-actions").hidden = !prep;
     element("next").hidden = !closed;
     element<HTMLButtonElement>("next").disabled = scene.finishing;
-    element("speed").hidden = !selling && !scene.finishing;
+    element("scene-controls").hidden = !selling && !scene.finishing;
+    element<HTMLButtonElement>("skip").disabled = !selling;
     element("closed-sign").hidden = !closed || scene.finishing;
     const satisfaction = prep
         ? history.length

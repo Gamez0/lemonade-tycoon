@@ -17,7 +17,7 @@ Open http://localhost:8080 for the reboot. The preserved earlier game is at http
 
 ## Playing
 
-Start with $40 and empty stock. In Supplies, select ingredients and add bundles to your order. BUY commits the whole order; CANCEL discards it. Cash and stock stay unchanged until checkout. Choose lemon/sugar/ice units per cup and set a price from $0.25 to $5.00. The forecast-fit hint helps tune the recipe. Open the stand to lock preparation and watch customers buy or pass. The speed button runs the day at 4x.
+Start with $40 and empty stock. In Supplies, select ingredients and add bundles to your order. BUY commits the whole order; CANCEL discards it. Cash and stock stay unchanged until checkout. Choose lemon/sugar/ice units per cup and set a price from $0.25 to $5.00. The forecast-fit hint helps tune the recipe. Open the stand to lock preparation and watch customers buy or pass. The speed button runs the day at 4x. SKIP resolves the remaining visits immediately using the same rules and opens the results.
 
 Results offers Last day and a cumulative Profit & loss ledger for completed days; it remains available during the next preparation. Reports distinguish profit (sales minus ingredients consumed) from cash change (sales minus supplies purchased). Leftover supplies, cash and reputation carry into the next day. Aim for $75 cash; play can continue afterward. Choose **New business** twice to reset; Escape or moving focus cancels confirmation.
 
