@@ -4,7 +4,7 @@ The user resumed the previous night's work. Reboot work lives in `.reboot-work/`
 
 ## Latest release planning
 
-The user requested a concrete milestone path through release. See [roadmap](roadmap.md): M2 visual acceptance remains open; M3 queues stays next; M4–M10 cover persistence, progression, management, alpha, beta, release candidate and web 1.0. GitHub milestones and tracking issues #105–111 are created. Web-first is the current planning assumption, not a store launch commitment. No due dates or background schedule are promised. PR #104 merged with green CI; M2 still needs user visual acceptance.
+The user requested a concrete milestone path through release. See [roadmap](roadmap.md): M2 visual acceptance remains open; M3 queues stays next; M4–M10 cover persistence, progression, management, alpha, beta, PC release candidate and Steam submission readiness. GitHub milestones and tracking issues #105–111 are created. Superseded by the latest user instruction: target a Windows PC game ready for Steam submission; web remains a preview. See the updated roadmap for desktop acceptance gates and external Steam verification prerequisites. Actual public release/sales are a separate decision. No due dates or background schedule are promised. PR #104 merged with green CI; M2 still needs user visual acceptance.
 
 ## Latest art revision
 
