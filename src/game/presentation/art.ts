@@ -30,23 +30,37 @@ export function createArt(scene: Phaser.Scene): void {
             y = (i * 79 + Math.floor(i / 640) * 31) % 512;
         rect(x, y, 1, 1, i % 3 ? 0x51aa61 : 0x348b48);
     }
-    // Diagonal street and two continuous pavement lanes.
-    poly([-20, 91, 660, 431, 660, 549, -20, 209], 0xd4d5c6);
-    poly([-20, 115, 660, 455, 660, 525, -20, 185], 0x626665);
-    line(-20, 119, 660, 459, 0x90958d);
+    // One continuous T-junction, using y = x/2 + c and y = -x/2 + c.
+    // The pavement and asphalt each have a single outline: no curb crosses the mouth.
+    poly([-20, 91, 115, 158.5, 432, 0, 648, 0, 223, 212.5, 660, 431, 660, 549, -20, 209], 0xd4d5c6);
+    poly([-20, 115, 115, 182.5, 480, 0, 600, 0, 175, 212.5, 660, 455, 660, 525, -20, 185], 0x626665);
+    line(-20, 119, 115, 186.5, 0x90958d);
+    line(115, 186.5, 488, 0, 0x90958d);
+    line(175, 216.5, 608, 0, 0x90958d);
+    line(175, 216.5, 660, 459, 0x90958d);
     line(-20, 181, 660, 521, 0x3f4948);
     for (let x = -40; x < 680; x += 27) {
-        line(x, x / 2 + 101, x - 24, x / 2 + 113, 0x989f95);
+        // Stop paving joints at the junction opening, then continue along the branch.
+        if (x < 115 || x > 247) line(x, x / 2 + 101, x - 24, x / 2 + 113, 0x989f95);
         line(x, x / 2 + 195, x - 24, x / 2 + 207, 0x989f95);
     }
+    for (let x = 145; x < 650; x += 27) {
+        line(x, 216 - x / 2, x + 24, 228 - x / 2, 0x989f95);
+        if (x > 175) line(x, 300 - x / 2, x + 24, 312 - x / 2, 0x989f95);
+    }
+    // Leave the intersection clear instead of running dashes through turning traffic.
     for (let x = -10; x < 640; x += 83) {
+        if (x > 40 && x < 200) continue;
         poly([x, x / 2 + 159, x + 28, x / 2 + 173, x + 26, x / 2 + 176, x - 2, x / 2 + 162], 0xd7d6bb, false);
     }
-    // A side road turns out of the frame, creating a small residential junction.
-    poly([460, 0, 565, 0, 238, 164, 133, 111], 0xd1d3c4);
-    poly([489, 0, 539, 0, 216, 162, 166, 137], 0x626665);
-    line(484, 3, 166, 162, 0x8a9088);
-    for (let x = 245; x < 500; x += 58) line(x, 259 - x / 2, x + 17, 250.5 - x / 2, 0xd6d4b5);
+    for (let x = 225; x < 580; x += 62) {
+        poly([x, 269 - x / 2, x + 25, 256.5 - x / 2, x + 27, 259.5 - x / 2, x + 2, 272 - x / 2], 0xd7d6bb, false);
+    }
+    // A short crossing carries the existing pedestrian route across the side street.
+    for (let x = 134; x <= 179; x += 9) {
+        const y = STREET.pavementY(x);
+        poly([x, y, x + 4, y + 2, x + 14, y - 3, x + 10, y - 5], 0xe2e0c9, false);
+    }
     // Drain grate, street markings, service cover.
     ellipse(348, 320, 22, 11, 0x515c58);
     for (let k = -5; k <= 5; k += 3) line(340, 320 + k / 2, 356, 320 + k / 2, 0x778179);
@@ -180,11 +194,11 @@ export function createArt(scene: Phaser.Scene): void {
     tree(153, 150, 0.8);
     tree(308, 232, 0.85);
     // Mailbox, bin and a modest street lamp along the verge.
-    rect(182, 180, 3, 17, 0x596954);
-    poly([175, 177, 183, 173, 192, 178, 184, 182], 0x639799);
-    poly([175, 177, 184, 182, 184, 189, 175, 184], 0x416f79);
-    poly([184, 182, 192, 178, 192, 185, 184, 189], 0x315c67);
-    line(189, 177, 189, 172, 0xc7aa62);
+    rect(110, 155, 3, 17, 0x596954);
+    poly([103, 152, 111, 148, 120, 153, 112, 157], 0x639799);
+    poly([103, 152, 112, 157, 112, 164, 103, 159], 0x416f79);
+    poly([112, 157, 120, 153, 120, 160, 112, 164], 0x315c67);
+    line(117, 152, 117, 147, 0xc7aa62);
     rect(92, 228, 3, 48, 0x40584f);
     poly([84, 227, 91, 219, 103, 223, 98, 232], 0x263e3c);
     poly([88, 225, 94, 222, 99, 224, 96, 229], 0xf0eab0);

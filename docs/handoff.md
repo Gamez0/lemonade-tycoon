@@ -4,9 +4,11 @@ The user resumed the previous night's work. Reboot work lives in `.reboot-work/`
 
 ## Latest art revision
 
-Latest user steering: implement the researched M2 direction. Branch `feat/m2-classic-experience` integrates #93?96: equal columns, four real screen tabs, staged atomic BUY/CANCEL, completed-day ledger, 5:4 scene and revised icons. #97 and milestone 2 remain open until the user visually accepts the comparison. Read `docs/reviews/93-classic-experience.md` for findings and verification and consult its PR for merge state.
+Latest user steering: the road junction looked unnatural; investigate the selling screen and make M2 more closely resemble the original overall, including weather. Branch `feat/m2-weather-selling-refinement` addresses this feedback after PR #99. Read `docs/research/m2-selling-weather-study.md` and `docs/reviews/m2-visual-refinement.md`. M2 and #97 remain open pending visual acceptance.
 
-Preview remains http://localhost:8080; reference/implementation comparison is http://localhost:8080/docs/research/m2-reference-board.html. The board has six M2 captures plus M1. The old layout checkpoint was incorporated before completion; do not resume that draft separately. The development server was intentionally left running for the user's playtest.
+The user explicitly placed simultaneous pedestrians/visitors, queues and waiting departures in M3. Milestone 3 and issue #100 track that work; do not implement it inside M2. Save/load and later roadmap milestones now follow M3.
+
+Preview remains http://localhost:8080; comparison board is http://localhost:8080/docs/research/m2-reference-board.html. Keep the server running for playtesting. Consult the current PR for final checks and merge state.
 
 After completing the MVP, the user requested a substantial redesign and explicitly rejected modern UI styling in favor of the original PC game's atmosphere. Issue #90 / branch `feat/retro-art-direction` implements compact green panels, beveled controls, resource icons and a fine outlined diagonal neighborhood with a small parasol cart. Treat this as the accepted art direction; do not reintroduce cream cards or modern spacious dashboard styling. Reference analysis and review are in `docs/art-assets.md` and `docs/reviews/90-retro-art.md`. Consult the branch PR for final CI/merge state. The local preview is on port 8080.
 

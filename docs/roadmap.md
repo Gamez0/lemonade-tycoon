@@ -23,7 +23,9 @@ M2 keeps M1 economics explicit: do not relabel per-cup recipes as original pitch
 
 ## After M2
 
-M3: save/load (#11), keyboard/mobile refinement and balance experiments. M4: progression and meaningful location choices (#34/#58–60). M5: upgrades (#74), then advertising (#35/#72) and staff (#73). Later: additional locations, sound and content. Keep every step runnable.
+M3: [Living street and customer queues](https://github.com/Gamez0/lemonade-tycoon/milestone/3), issue #100. User explicitly requested concurrent pedestrians/visitors, queues and departures caused by long waits as the next milestone. Define arrival/service/patience rules and observe original motion before implementation. M2 keeps sequential visits while its presentation is refined.
+
+M4: save/load (#11), keyboard/mobile refinement and balance. M5: progression and meaningful locations (#34/#58-60). M6: upgrades (#74), advertising (#35/#72), staff (#73), more locations and sound. Keep every step runnable.
 
 Legacy issues remain linked context; do not close them without comparing their original acceptance criteria. Draft #83 and local debug changes remain owned by their existing branch. Newly found defects get focused issues. Major design changes are recorded before implementation.
 
@@ -34,3 +36,8 @@ PRs state behavior, rationale, tests, related Issue and remaining limits. Record
 ## M2 implementation checkpoint
 
 The integrated classic-experience PR implements #93?96. Their shared shell/state transitions are reviewed together; #97 keeps visual acceptance separate. The comparison board contains captured recipe, price, staged supplies, selling, daily result and cumulative ledger screens. M2 remains active pending the user?s visual acceptance.
+
+
+## Latest visual feedback
+
+M2 remains active after the first integrated pass. Follow-up research: [selling/weather comparison](research/m2-selling-weather-study.md). Improve the connected road, weather icons and phase labels, compact performance reactions, structured settings, in-scene speed controls, typography and results composition before requesting visual acceptance again.
