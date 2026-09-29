@@ -1,0 +1,5 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": { "strictPropertyInitialization": true },
+    "include": ["src/reboot.ts", "src/game/**/*.ts"]
+}

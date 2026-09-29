@@ -20,7 +20,10 @@
         "dev-nolog": "vite --config vite/config.dev.mjs",
         "build-nolog": "vite build --config vite/config.prod.mjs",
         "lint": "eslint . --ext .js,.mjs,.cjs,.ts",
-        "lint:fix": "eslint . --ext .js,.mjs,.cjs,.ts --fix"
+        "lint:fix": "eslint . --ext .js,.mjs,.cjs,.ts --fix",
+        "typecheck": "tsc -p tsconfig.reboot.json",
+        "lint:reboot": "eslint src/reboot.ts src/game --max-warnings 0",
+        "test:browser": "playwright test"
     },
     "devDependencies": {
         "@eslint/js": "^9.22.0",

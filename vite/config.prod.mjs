@@ -21,6 +21,7 @@ export default defineConfig({
     logLevel: "warning",
     build: {
         rollupOptions: {
+            input: { reboot: "index.html", legacy: "legacy.html" },
             output: {
                 manualChunks: {
                     phaser: ["phaser"],
