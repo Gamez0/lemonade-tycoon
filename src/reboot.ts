@@ -16,55 +16,31 @@ import {
 import type { State } from "./game/simulation/game";
 import { StreetScene } from "./game/presentation/street-scene";
 import { icon } from "./game/presentation/icons";
+import { markup } from "./game/presentation/layout";
 import "./game/presentation/style.css";
 
 const money = (cents: number) => `$${(cents / 100).toFixed(2)}`;
 let state = newGame();
 let lastFeedback = "Your first customers are just around the corner.";
 let restartArmed = false;
+type PreparationPage = "recipe" | "price" | "supplies";
+let preparationPage: PreparationPage = "recipe";
 const app = document.querySelector<HTMLDivElement>("#app")!;
-app.innerHTML = `
-    <header class="masthead"><h1>${icon("lemon")}Lemonade <span>Tycoon</span></h1><span class="edition">THE NEIGHBORHOOD<br>One stand. Big dreams.</span></header>
-    <section class="resource-bar" aria-label="Supplies on hand">${ITEM_KEYS.map((item) => `<span aria-label="${ITEMS[item].name}">${icon(item)}<strong id="inventory-${item}">0</strong></span>`).join("")}<span class="resource-title">SUPPLIES ON HAND</span></section>
-    <section class="ledger" aria-label="Business overview">
-        <div><span class="label">DAY</span><strong id="day">01</strong></div>
-        <div><span class="label">CASH ON HAND</span><strong id="cash"></strong></div>
-        <div><span class="label">TODAY'S FORECAST</span><strong id="weather"></strong></div>
-        <div><span class="label">REPUTATION</span><strong id="reputation"></strong></div>
-    </section>
-    <main class="layout">
-      <section class="panel preparation" aria-labelledby="panel-title">
-        <div class="panel-heading"><span class="step" id="phase-number">01</span><div><span class="eyebrow" id="phase-label">BEFORE THE RUSH</span><h2 id="panel-title">Make it your own.</h2></div></div>
-        <div id="preparation">
-          <nav class="toolbar" aria-label="Preparation controls"><button data-jump="lemon">${icon("recipe")}Recipe</button><button data-jump="price">${icon("price")}Price</button><button data-jump="supplies">${icon("supplies")}Supplies</button></nav>
-          <p class="intro">Check the weather. Mix a recipe. Stock up for the neighbors.</p>
-          <fieldset id="recipe-controls"><legend>01 / YOUR RECIPE <small>per cup</small></legend>
-            ${(["lemon", "sugar", "ice"] as const).map((item) => `<div class="recipe-row"><label for="${item}"><span class="ingredient-label">${icon(item)}${ITEMS[item].name}</span></label><div class="spinner"><button type="button" data-adjust="${item}" data-direction="-1" aria-label="Decrease ${item}">−</button><input id="${item}" type="number" min="${item === "ice" ? 0 : 1}" max="${item === "sugar" ? 4 : 6}" step="1" value="${item === "sugar" ? 1 : 2}"><button type="button" data-adjust="${item}" data-direction="1" aria-label="Increase ${item}">+</button></div></div>`).join("")}
-          </fieldset>
-          <p class="hint" id="recipe-hint"></p>
-          <fieldset id="price-controls"><legend>02 / SET YOUR PRICE</legend><label>Price per cup ($) <input id="price" type="number" min="0.25" max="5" step="0.01" value="1.50"></label></fieldset>
-          <div class="cost-line"><span>Ingredients / cup</span><strong id="unit-cost"></strong></div>
-          <fieldset id="supply-controls"><legend>03 / STOCK THE STAND</legend><div id="supplies"></div></fieldset>
-          <div class="capacity"><span>Ready to serve</span><strong id="capacity"></strong></div>
-          <button id="open" class="primary">Open for the day <span>→</span></button>
-        </div>
-        <div id="selling" hidden><p class="intro">The stand is open. Watch what your neighbors think!</p><div class="sale-summary" id="sale-summary"></div><p class="hint">Today's recipe and price are locked until closing.</p><button id="speed" class="secondary">Speed: 1×</button></div>
-        <div id="results" hidden><p class="intro" id="result-intro"></p><dl id="result-values"></dl><p class="hint">Profit counts ingredients used. Cash change also includes all supplies bought. Leftovers carry over.</p><button id="next" class="primary">Prepare next day <span>→</span></button></div>
-        <p id="message" role="status" aria-live="polite"></p>
-      </section>
-      <section class="world-column" aria-label="Willow Lane stand">
-        <div class="world-frame"><div class="location-heading"><div><span class="eyebrow">THE NEIGHBORHOOD</span><h2>Willow Lane</h2></div><span class="rent-tag">FREE RENT</span></div><div id="game-container"></div>
-          <div class="world-caption"><span id="world-status">A fresh start on a familiar street.</span><span id="progress-text">Ready when you are</span></div><progress id="day-progress" max="1" value="0" aria-label="Day progress"></progress></div>
-        <section class="daily-strip" aria-label="Today's performance"><div><span class="label">CUPS SOLD</span><strong id="sold">0</strong></div><div><span class="label">REVENUE</span><strong id="revenue">$0.00</strong></div><div><span class="label">PROFIT</span><strong id="profit">$0.00</strong></div></section>
-        <section class="notebook"><span class="eyebrow">NOTES FROM THE COUNTER</span><p id="feedback" aria-live="off"></p><p id="goal"></p><p class="hint">Try two lemon units for each scoop of sugar. Hot days call for more ice. Higher prices earn more per cup, but can turn customers away.</p></section>
-      </section>
-    </main><footer><span>A neighborhood business, one day at a time. <small>Progress lasts for this session.</small></span><button id="restart" class="text-button">New business</button><a href="./legacy.html">Legacy reference</a></footer>`;
+app.innerHTML = markup;
 
 function element<T extends HTMLElement = HTMLElement>(id: string): T {
     return document.getElementById(id) as T;
 }
 function text(id: string, value: string): void {
     element(id).textContent = value;
+}
+function showPreparationPage(page: PreparationPage): void {
+    preparationPage = page;
+    for (const name of ["recipe", "price", "supplies"] as const) element(`${name}-page`).hidden = name !== page;
+    for (const button of document.querySelectorAll<HTMLButtonElement>("[data-jump]")) {
+        button.setAttribute("aria-pressed", String((button.dataset.jump === "lemon" ? "recipe" : button.dataset.jump) === page));
+    }
+    if (state.phase === "preparation") text("panel-title", page === "recipe" ? "Recipe" : page === "price" ? "Price" : "Supplies");
 }
 for (const item of ITEM_KEYS) {
     const row = document.createElement("div");
@@ -116,6 +92,7 @@ function readPlan(): State {
     for (const id of ["lemon", "sugar", "ice", "price"]) {
         const input = element<HTMLInputElement>(id);
         if (input.value === "" || !input.checkValidity()) {
+            showPreparationPage(id === "price" ? "price" : "recipe");
             input.setAttribute("aria-invalid", "true");
             throw new Error(`Check ${id}: enter a value from ${input.min} to ${input.max} in steps of ${input.step}.`);
         }
@@ -142,6 +119,8 @@ for (const button of document.querySelectorAll<HTMLButtonElement>("[data-adjust]
 }
 for (const button of document.querySelectorAll<HTMLButtonElement>("[data-jump]")) {
     button.addEventListener("click", () => {
+        if (state.phase !== "preparation") return;
+        showPreparationPage(button.dataset.jump === "lemon" ? "recipe" : button.dataset.jump as PreparationPage);
         const target =
             button.dataset.jump === "supplies"
                 ? element("supplies").querySelector<HTMLButtonElement>("button")!
@@ -165,6 +144,7 @@ element("open").addEventListener("click", () =>
 );
 let fast = false;
 function resetPresentation(): void {
+    showPreparationPage("recipe");
     scene.resetDay();
     fast = false;
     scene.setSpeed(1);
@@ -226,9 +206,10 @@ function render(): void {
     element("preparation").hidden = !prep;
     element("selling").hidden = !selling;
     element("results").hidden = state.phase !== "results";
-    text("phase-number", prep ? "01" : selling ? "02" : "03");
-    text("phase-label", prep ? "BEFORE THE RUSH" : selling ? "OPEN FOR BUSINESS" : "COUNTING THE DAY");
-    text("panel-title", prep ? "Today's settings" : selling ? "Open for business" : "Today's results");
+    text("panel-title", prep ? preparationPage === "recipe" ? "Recipe" : preparationPage === "price" ? "Price" : "Supplies" : selling ? "Today's settings" : "Results");
+    for (const button of document.querySelectorAll<HTMLButtonElement>("[data-jump]")) button.disabled = !prep;
+    app.dataset.phase = state.phase;
+    element<HTMLMeterElement>("reputation-meter").value = Math.round(state.reputation * 100);
     for (const id of ["recipe-controls", "price-controls", "supply-controls"])
         element<HTMLFieldSetElement>(id).disabled = !prep;
     element<HTMLButtonElement>("next").disabled = scene.finishing;
