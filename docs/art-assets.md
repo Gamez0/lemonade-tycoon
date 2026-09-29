@@ -12,14 +12,14 @@ Reboot specification: warm cream/yellow/leaf-green palette, darker outlines, ove
 
 | Asset | Original reference | Purpose | Logical size | Animation / states | Priority | Status |
 | --- | --- | --- | --- | --- | --- | --- |
-| Stand | Selling screenshot, yellow focal kiosk | Identify service point | ~48×48 px | open/closed sign | P0 | Planned original code-drawn pixel art |
-| Street / ground | Selling screenshot, sidewalk contrast | Customer route and context | ~320×200 px | static, weather tint | P0 | Planned original code-drawn pixel art |
-| Basic customer | Selling screenshot, small outlined figures | Visible demand | ~10×18 px | walk 2 frames, wait, buy, leave | P0 | Planned original sprite textures |
-| Lemonade | Selling screenshot, yellow supply cues | Sale readability | ~4×6 px | held after purchase | P0 | Planned |
-| HUD | Top resource strip and business panels | Cash, stock, weather, phase | responsive DOM | preparation/selling/results | P0 | Planned |
-| Houses / trees / bench | Neighborhood context | Environmental storytelling | varied | static | P1 | Planned |
-| Customer variations | Small readable silhouettes | Diversity without visual noise | same base | same states | P2 | Backlog |
-| Weather effects | Original weather indicator | Reinforce forecast | scene overlay | sunny/cloudy/rainy | P2 | Backlog |
+| Stand | Selling screenshot, yellow focal kiosk | Identify service point | 60×56 px | open/closed sign | P0 | Implemented in `art.ts`, scene text sign |
+| Street / ground | Selling screenshot, sidewalk contrast | Customer route and context | 320×220 px | static, weather tint | P0 | Original code-drawn texture in `art.ts` |
+| Basic customer | Selling screenshot, small outlined figures | Visible demand | 16×20 px | walk 2 frames, wait/buy, leave with drink | P0 | Original sprite textures; stable profile through visit |
+| Lemonade | Selling screenshot, yellow supply cues | Sale readability | 3×4 px | held after purchase | P0 | Included in customer departure pose |
+| HUD | Top resource strip and business panels | Cash, stock, weather, phase | responsive DOM | preparation/selling/results | P0 | Implemented in `reboot.ts` and `style.css` |
+| Houses / trees / bench | Neighborhood context | Environmental storytelling | varied | static | P1 | Included in neighborhood texture |
+| Customer variations | Small readable silhouettes | Diversity without visual noise | 16×20 px | three profiles, four poses each | P2 | Implemented |
+| Weather effects | Original weather indicator | Reinforce forecast | scene overlay | sunny/cloudy/rainy tint | P2 | Tint implemented; particles deferred |
 | Audio | No source asset reused | Feedback | n/a | sale/open/close | P3 | Backlog, silent MVP |
 
 Procedural pixel artwork is a maintained game asset when authored to this specification; anonymous rectangles used only for debugging are placeholders. Every unfinished visual must remain listed here with a replacement priority. Existing public/assets images/audio/Tiled sources are preserved as legacy; origin/license verification is required before selectively adopting them into reboot.

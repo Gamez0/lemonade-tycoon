@@ -19,14 +19,14 @@ jobs:
             - name: Setup Node.js
               uses: actions/setup-node@v4
               with:
-                  node-version: 18
+                  node-version: 22
                   cache: npm
 
             - name: Install Dependencies
-              run: npm install # Change this if you're using Yarn or PNPM
+              run: npm ci
 
             - name: Build Project
-              run: npm run build # Adjust this based on your build setup
+              run: npm run build-nolog
 
             - name: Deploy to GitHub Pages
               uses: JamesIves/github-pages-deploy-action@v4

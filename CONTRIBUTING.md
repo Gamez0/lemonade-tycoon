@@ -4,8 +4,8 @@ Thank you for your interest in contributing to the Lemonade Tycoon project!
 
 ## Getting Started
 
-1. Clone the repo and run `yarn install` in the root directory
-2. Run `yarn dev` to start the dev server at `localhost:8080`
+1. Use Node.js 22, clone the repo and run `npm ci` in the root directory
+2. Run `npm run dev-nolog` to start the dev server at `localhost:8080`
 3. Check [GitHub Issues](https://github.com/Gamez0/lemonade-tycoon/issues) for things to work on
 
 ## Code of Conduct

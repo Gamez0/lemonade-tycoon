@@ -12,3 +12,13 @@ jobs:
                   node-version: 22
             - run: npm ci
             - run: npm test
+            - run: npm run typecheck
+            - run: npm run lint:reboot
+            - run: npm run build-nolog
+            - run: npx playwright install --with-deps chromium
+            - run: npm run test:browser
+            - uses: actions/upload-artifact@v4
+              if: always()
+              with:
+                  name: browser-results
+                  path: test-results/

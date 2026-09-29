@@ -8,6 +8,8 @@ State flow: preparation → selling → results → next preparation. Only prepa
 
 Costs: constant integer-cent ingredient unit costs; stock purchases decrease cash, sales consume stock and accrue cost of goods sold. Daily profit = revenue − consumed stock cost; cash change = revenue − purchases. Unused inventory carries over at cost, including ice for this first slice. No rent at the initial location. The UI distinguishes these two accounting views.
 
-Tests compile the simulation in isolation and execute with Node's built-in test runner. Browser tests exercise real controls, transitions and console errors. PR CI runs simulation tests, typechecking, lint/build and browser smoke checks. Legacy remains available as reference with a separate typecheck; no runtime imports from legacy into reboot.
+Tests compile the simulation in isolation and execute with Node's built-in test runner. Browser tests exercise real controls, transitions and console errors. PR CI runs simulation tests, strict reboot typechecking, reboot lint, both-entry build and browser smoke checks. Legacy remains available at `legacy.html`; its pre-existing typecheck findings are recorded in the repository audit. There are no runtime imports from legacy into reboot. npm and `package-lock.json` are authoritative; the stale Yarn lock was removed from this branch to prevent divergent dependency resolution.
+
+`src/reboot.ts` owns DOM controls and state snapshots. The street scene previews the deterministic next customer's profile without committing a transaction, then advances simulation once at arrival. The last customer's exit gates the next-day control. Restart clears animation state and speed immediately. Canvas rendering is sufficient for the small original pixel textures and avoids a WebGL requirement.
 
 Storage, pitcher production delays, queues with abandonment, upgrades and multiple locations are deferred. Add modules when there is a tested use case, not speculative interfaces.
