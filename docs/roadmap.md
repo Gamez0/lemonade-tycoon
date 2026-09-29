@@ -1,43 +1,105 @@
-# Roadmap
+# 출시까지의 로드맵
 
-## M1 — Playable MVP (complete)
+2026-09-29 기준. 목표는 고전 PC Lemonade Tycoon의 밀도와 분위기를 살린 **웹 1.0 출시**다. 현재 GitHub Pages 주소는 프리뷰이며 정식 출시 완료를 뜻하지 않는다. 웹 우선은 현재 구현/배포 기반에 따른 계획 가정이다. Steam, 모바일 스토어, 계정/클라우드 동기화, 결제, 멀티플레이는 1.0 필수 범위에 넣지 않는다.
 
-1. #84: Repository audit, architecture, game design, reference analysis and issue decomposition.
-2. #85: Deterministic headless day simulation: preparation, stock, demand, transactions, settlement, next day; automated invariants.
-3. #86: Playable single-location presentation: preparation controls, street/customers, HUD, results/restart; original pixel art, browser checks and PR CI.
+일정은 날짜 대신 완료 조건으로 관리한다. M2 → M3 → M4 → M5 → M6 → M7(알파/기능 동결) → M8(베타) → M9(RC) → M10(출시) 순서로 수용한다. 독립적인 조사와 설계는 앞당길 수 있지만 앞 단계의 미해결 결함을 완료로 숨기지 않는다. 아래 콘텐츠 수/테스트 인원은 초기 목표이며 실제 검증 결과에 따라 근거와 함께 조정한다.
 
-Each has its own Issue → branch → implementation → checks → PR → self-review → fixes → green CI → squash merge. Review accounting, transition guards, type safety, UI access, lifecycle cleanup and test adequacy. Do not merge a red PR or describe a pending browser check as passed.
+## M1 — Playable MVP · 완료
 
-## M2 — Classic PC experience MVP (active)
+#84–86: 순수 시뮬레이션, 구매/레시피/가격 설정, 판매, 정산, 다음 날, 재시작과 회계 검증. 현재 한 장소의 전체 루프가 기준선이다. [게임 설계](game-design.md)는 이 MVP의 기준이며 향후 기능 전체의 명세가 아니다.
 
-User priority changed on 2026-09-29: the second MVP is the original Windows game's visual composition and preparation/selling/results interactions. [Milestone 2](https://github.com/Gamez0/lemonade-tycoon/milestone/2), [research specification](research/m2-original-study.md), [interactive reference board](research/m2-reference-board.html).
+## M2 — Classic PC experience MVP · 진행 중
 
-1. #92: Evidence, version baseline, measured gaps and acceptance criteria (this research).
-2. #93: Classic two-column shell and real screen-switching tabs; use #92 as the baseline.
-3. #94: Recipe controls and staged supply purchases; depends on #93.
-4. #95: UI artwork and neighborhood composition; use #93 dimensions and #92 references.
-5. #96: Selling/customer presentation and results screens; depends on #93, coordinates with #95. Verify motion evidence before claiming original animation fidelity.
-6. #97: Full-loop regression, same-size visual comparisons and user visual acceptance; depends on #94–96. Only then close M2.
+[마일스톤](https://github.com/Gamez0/lemonade-tycoon/milestone/2) · [수용 이슈 #97](https://github.com/Gamez0/lemonade-tycoon/issues/97)
 
-M2 keeps M1 economics explicit: do not relabel per-cup recipes as original pitcher production or implement fictitious original costs. It does not require every original staff, advertising, upgrade or location system. No modern card/dashboard redesign. CI success alone is not visual acceptance.
+- 목표: 원작 Windows PC판의 준비/판매/결과 구성, 조밀한 녹색 패널, 실제 탭, 구매 흐름, 동네 도로와 날씨 표현을 일관되게 구현한다. 현대적인 카드형 대시보드로 바꾸지 않는다.
+- 구현/조사 #92–96과 후속 PR #102/#104는 병합되었다. [원작 조사](research/m2-original-study.md), [판매/날씨 조사](research/m2-selling-weather-study.md), [자체 감사](research/m2-acceptance-audit.md), [비교 보드](research/m2-reference-board.html)를 근거로 삼는다.
+- 완료 조건: 같은 크기의 준비/판매/결과 비교, 데스크톱 및 좁은 화면의 조작·날씨 가독성, 3일 루프 및 예외 경로 검증, 사용자 시각적 수용. CI 통과만으로 닫지 않는다.
+- 현재 컵 단위 회계는 유지한다. 원작의 투수 생산이나 정확한 애니메이션 타이밍을 구현했다고 주장하지 않는다.
 
-## After M2
+## M3 — Living street and customer queues · 다음 구현
 
-M3: [Living street and customer queues](https://github.com/Gamez0/lemonade-tycoon/milestone/3), issue #100. User explicitly requested concurrent pedestrians/visitors, queues and departures caused by long waits as the next milestone. Define arrival/service/patience rules and observe original motion before implementation. M2 keeps sequential visits while its presentation is refined.
+[마일스톤](https://github.com/Gamez0/lemonade-tycoon/milestone/3) · [추적 이슈 #100](https://github.com/Gamez0/lemonade-tycoon/issues/100)
 
-M4: save/load (#11), keyboard/mobile refinement and balance. M5: progression and meaningful locations (#34/#58-60). M6: upgrades (#74), advertising (#35/#72), staff (#73), more locations and sound. Keep every step runnable.
+- 목표: 여러 보행자/방문자, 매대 대기열, 서비스 시간, 오래 기다리다 떠나는 손님. 사용자가 직접 M3로 지정한 범위다.
+- 원작 동작을 관찰한 뒤 유입/서비스/인내심 규칙을 명시한다. 보행자와 구매자, 가격 거절, 재고 부족, 대기 포기를 구분한다.
+- 완료 조건: 겹침 없는 이동/줄 정렬, 여러 손님의 독립된 생애주기, 이중 결제 없는 결정적 회계, 속도 변경/SKIP/영업 종료/마지막 손님/다음 날/재시작 검증. 관련 구형 이슈 #16의 원래 조건도 비교한다.
 
-Legacy issues remain linked context; do not close them without comparing their original acceptance criteria. Draft #83 and local debug changes remain owned by their existing branch. Newly found defects get focused issues. Major design changes are recorded before implementation.
+## M4 — Reliable saves and recovery · 계획
 
-## Working agreement
+[마일스톤](https://github.com/Gamez0/lemonade-tycoon/milestone/4) · [추적 이슈 #105](https://github.com/Gamez0/lemonade-tycoon/issues/105)
 
-PRs state behavior, rationale, tests, related Issue and remaining limits. Record self-review findings and corrections before merge. GitHub access failure does not stop local implementation: retain issue/PR text locally and state precisely what is not published. Autonomous work proceeds during an active agent session; these documents do not imply an unattended scheduler exists.
+**목표:** 일일 자동 저장과 이어하기, 저장 내보내기/가져오기, 버전 및 손상 복구.
 
-## M2 implementation checkpoint
+**완료 조건:** 저장 시점과 판매 중 종료 정책을 명시한다. 새로고침·재접속·손상 데이터·이전 버전·초기화 취소를 검증하고 현금/재고/날짜/누적 장부가 일치한다. 브라우저 저장의 한계와 백업 방법을 안내한다.
 
-The integrated classic-experience PR implements #93?96. Their shared shell/state transitions are reviewed together; #97 keeps visual acceptance separate. The comparison board contains captured recipe, price, staged supplies, selling, daily result and cumulative ledger screens. M2 remains active pending the user?s visual acceptance.
+**선행 단계:** M3. **기존 맥락:** #11.
 
+## M5 — Locations and business progression · 계획
 
-## Latest visual feedback
+[마일스톤](https://github.com/Gamez0/lemonade-tycoon/milestone/5) · [추적 이슈 #106](https://github.com/Gamez0/lemonade-tycoon/issues/106)
 
-M2 remains active after the first integrated pass. Follow-up research: [selling/weather comparison](research/m2-selling-weather-study.md). Improve the connected road, weather icons and phase labels, compact performance reactions, structured settings, in-scene speed controls, typography and results composition before requesting visual acceptance again.
+**목표:** 동네를 시작으로 성격이 다른 장소 2곳을 추가하는 것을 초기 콘텐츠 목표로 삼는다. 해금 조건, 임대료, 유동 인구, 구매력, 인내심과 평판의 역할을 설계한다.
+
+**완료 조건:** 최소 3개 장소에서 서로 다른 가격/레시피/대기열 전략이 유효하다. 이동 비용과 효과를 사전에 알 수 있고 목표 달성 후에도 계속 플레이할 수 있다. 파산/재시작 경로와 저장 호환성을 검증한다.
+
+**선행 단계:** M4. **기존 맥락:** #34, #58, #59, #60, #75.
+
+## M6 — Upgrades staff and advertising · 계획
+
+[마일스톤](https://github.com/Gamez0/lemonade-tycoon/milestone/6) · [추적 이슈 #107](https://github.com/Gamez0/lemonade-tycoon/issues/107)
+
+**목표:** 설비 업그레이드, 직원 고용, 광고를 비용과 효과가 분명한 경영 선택으로 구현한다. 각 시스템은 최소 2가지 유효한 선택 또는 단계로 시작한다.
+
+**완료 조건:** 구매·해고·광고 변경·자금 부족·일일 비용 정산·저장 복원을 검증한다. 투자 효과가 대기열/유입/수익에 실제 반영되고 한 가지 선택만 항상 이기지 않는다. 투수 단위 생산·얼음 녹음·폐기 규칙은 구현 전 별도 설계 판단을 기록한다.
+
+**선행 단계:** M5. **기존 맥락:** #74, #73, #35, #72, #32.
+
+## M7 — Feature complete alpha · 계획
+
+[마일스톤](https://github.com/Gamez0/lemonade-tycoon/milestone/7) · [추적 이슈 #108](https://github.com/Gamez0/lemonade-tycoon/issues/108)
+
+**목표:** 초보 안내, 전체 장소의 일관된 고전풍 미술, 효과음/음악 및 음량 설정, 날씨/뉴스 피드백, 도움말과 종료까지의 플레이 흐름을 완성한다.
+
+**완료 조건:** 신규 플레이어가 설명 없이 구매→가격/레시피→판매→결과→다음 날을 수행한다. 날씨는 장식뿐 아니라 명시된 규칙과 일치한다. 한국어/영어 지원 범위를 확정하고 제공 언어의 누락을 없앤다. 게임용 아트/음원의 출처·라이선스를 기록하며 임시 자산을 제거한다. 이 단계 종료 후 신규 기능을 동결한다.
+
+**선행 단계:** M6. **기존 맥락:** #3, #26, #25, #29, #37.
+
+## M8 — Playtested beta · 계획
+
+[마일스톤](https://github.com/Gamez0/lemonade-tycoon/milestone/8) · [추적 이슈 #109](https://github.com/Gamez0/lemonade-tycoon/issues/109)
+
+**목표:** 여러 플레이어의 반복 플레이를 통해 경제, 진행 속도, 가독성과 조작성을 조정하고 지원 환경을 확정한다.
+
+**완료 조건:** 초기 목표 5명 이상의 플레이테스트에서 첫 3일과 장소 해금까지 관찰하고 막힌 지점을 기록·수정한다. 대표 진행을 30일 이상 시뮬레이션하고 돈/재고 불변식과 저장 호환성을 검증한다. 데스크톱 Chrome/Edge/Firefox 및 모바일 Safari/Chrome에서 핵심 루프를 확인한다. 키보드, 작은 화면, 소리 끔, 모션 감소를 점검하고 성능 예산과 실제 측정치를 기록한다.
+
+**선행 단계:** M7. **기존 맥락:** M3–M7 tracking issues.
+
+## M9 — Release candidate · 계획
+
+[마일스톤](https://github.com/Gamez0/lemonade-tycoon/milestone/9) · [추적 이슈 #110](https://github.com/Gamez0/lemonade-tycoon/issues/110)
+
+**목표:** 배포할 정확한 버전을 고정하고 저장 마이그레이션, 회귀 검증, 배포/되돌리기와 출시 문서를 준비한다.
+
+**완료 조건:** 진행 불가·데이터 손실(P0/P1) 결함이 0개이고 나머지 알려진 문제를 공개한다. 현재 커밋의 CI와 지원 환경 수동 검증이 통과한다. 출시 명칭·소개·조작법·크레딧·자산 출처·변경 이력·피드백 경로를 준비한다. 게임 배포물에서 연구용 원작 이미지와 불필요한 개발 페이지를 분리한다. 실제 호스팅에서 업데이트/캐시/저장 호환성과 이전 버전 복구 절차를 시험한다.
+
+**선행 단계:** M8. **기존 맥락:** #38, #43.
+
+## M10 — Web 1.0 launch · 계획
+
+[마일스톤](https://github.com/Gamez0/lemonade-tycoon/milestone/10) · [추적 이슈 #111](https://github.com/Gamez0/lemonade-tycoon/issues/111)
+
+**목표:** 검증된 릴리스 후보를 정식 웹 주소에 배포하고 버전 태그와 릴리스 노트를 발행한다.
+
+**완료 조건:** 실제 공개 URL에서 새 게임·이어하기·하루 완료·모바일 조작을 확인한다. 배포 커밋/태그/CI가 일치하며 피드백과 긴급 수정 담당 절차를 명시한다. 초기 7일 관찰 기간의 문제를 분류하고 치명적 결함을 해결하거나 검증된 버전으로 복구한 뒤 출시 마일스톤을 닫는다.
+
+**선행 단계:** M9. **기존 맥락:** M9 tracking issue.
+
+## 범위와 품질 관리
+
+- 각 단계 착수 시 설계 결정을 기록하고 작은 구현 이슈로 나눈다. 모든 중간 단계는 플레이 가능해야 한다. 기존 이슈는 맥락으로 연결하며 완료 조건을 비교하기 전 자동 종료하지 않는다.
+- 날씨 변화 주기, 투수 생산, 얼음/폐기는 원작에 있다는 이유만으로 전부 복원하지 않는다. 경영 의사결정에 필요한지 M6/M7 설계에서 결정하고 컵 단위 회계 변경 시 테스트와 저장 마이그레이션을 함께 계획한다.
+- M7 이후 새 기능은 다음 버전으로 보낸다. 진행 불가/데이터 손실은 출시 차단 결함이며 나머지는 영향과 우회 방법을 기록한다. 기능 추가가 필요하면 로드맵/완료 조건을 먼저 갱신한다.
+- 구현 PR은 변경 이유, 관련 이슈, 검증과 한계를 포함한다. 자체 리뷰와 수정 후 **현재 커밋의 녹색 CI**를 확인하고 병합한다. 수동 검증과 사용자 시각적 수용을 자동 테스트 결과로 대체하지 않는다.
+- 사용자 소유의 부모 작업 트리와 PR #83은 별개다. 레거시 리팩터링 #41/#47/#57/#61은 실제 출시 경로를 막을 때만 이 로드맵에 편입한다.
+- 출시 후에는 M10의 관찰 결과로 버그 수정과 다음 버전을 정한다. 이 문서는 백그라운드 작업이나 자동 일정을 생성하지 않는다.
