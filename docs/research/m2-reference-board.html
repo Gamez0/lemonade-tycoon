@@ -3,13 +3,13 @@
 <style>
 :root{font-family:system-ui,sans-serif;color:#e9f0dc;background:#183622}*{box-sizing:border-box}body{margin:0;padding:24px;max-width:1600px;margin-inline:auto}h1{font-size:26px;margin:0 0 8px}p{line-height:1.6}a{color:#f0d960}header{border-bottom:1px solid #61835d;padding-bottom:14px}nav{display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin:18px 0}select,button{font:inherit;padding:8px;background:#e3e9ce;color:#1f3928;border:1px solid #88aa65}button:focus-visible,select:focus-visible{outline:3px solid #ffe26e}label{display:flex;align-items:center;gap:8px}.comparison{display:grid;grid-template-columns:1fr 1fr;gap:20px}.pane{min-width:0;background:#102919;padding:12px;border:1px solid #6c855d}.pane h2{font-size:17px;margin:0 0 10px}.frame{position:relative;width:100%}.frame img{display:block;width:100%;height:auto;image-rendering:pixelated}.bounds{position:absolute;inset:0;pointer-events:none}.box{position:absolute;border:2px solid #ffe24d;background:#ffd84d15;color:#fff;font:bold 10px monospace}.box span{background:#172616;padding:2px}.note{min-height:70px;color:#e3edb8}.small{font-size:12px;color:#b8c7ac}.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}.facts div{background:#254d30;padding:12px}.facts strong{display:block;color:#ffde63;font-size:23px}.sources{line-height:1.9}details{padding:12px;border:1px solid #628559;margin-top:15px}[hidden]{display:none!important}@media(max-width:800px){body{padding:12px}.comparison{grid-template-columns:1fr}.facts{grid-template-columns:1fr}}
 </style></head><body>
-<header><h1>M2 · 원작 PC판 화면 조사</h1><p>Windows 영어판 1.1.5 스크린샷을 기준으로, 현재 구현과 구조를 비교합니다. <a href="m2-original-study.md">상세 조사 문서</a> · <a href="https://github.com/Gamez0/lemonade-tycoon/milestone/2">M2 마일스톤</a></p><p class="small">2026-09-29 · 이미지 12장 직접 확인. 플레이 영상은 발견했지만 재생 검증하지 못했습니다. 원작 실행·애니메이션 타이밍 측정 결과가 아닙니다.</p></header>
-<nav><label>원작 화면 <select id="screen"></select></label><label><input id="overlay" type="checkbox" checked>영역 표시</label><button id="previous">이전</button><button id="next">다음</button></nav>
+<header><h1>M2 · 원작과 구현 화면 비교</h1><p>Windows 영어판 1.1.5 스크린샷을 기준으로, M2 구현과 구조를 비교합니다. <a href="m2-original-study.md">상세 조사 문서</a> · <a href="https://github.com/Gamez0/lemonade-tycoon/milestone/2">M2 마일스톤</a></p><p class="small">2026-09-29 · 이미지 12장 직접 확인. 플레이 영상은 발견했지만 재생 검증하지 못했습니다. 원작 실행·애니메이션 타이밍 측정 결과가 아닙니다.</p></header>
+<nav><label>원작 화면 <select id="screen"></select></label><label>구현 화면 <select id="current-screen"></select></label><label><input id="overlay" type="checkbox">영역 표시</label><button id="previous">이전</button><button id="next">다음</button></nav>
 <div class="comparison">
 <section class="pane"><h2 id="reference-title"></h2><div class="frame"><img id="reference" alt="선택한 원작 PC 게임 화면"><div class="bounds" id="bounds"></div></div><p id="reference-note" class="note"></p><a id="source" target="_blank" rel="noreferrer">원본 이미지 열기</a><p class="small" id="image-error" hidden>외부 이미지가 로드되지 않았습니다. 원본 링크를 이용해 주세요.</p></section>
-<section class="pane"><h2>현재 M1 — PR #91 / main 645c44f</h2><div class="frame"><img src="current-m1.png" alt="현재 구현의 레시피와 전체 준비 항목, 크게 배치된 동네 화면"></div><p class="note">녹색 색감은 가깝지만 좌우가 약 35:65입니다. 세 준비 항목을 동시에 펼치고, 장면 위에 큰 개요 줄과 장소 제목을 둡니다. 원작은 약 50:50이고 선택한 작업 하나를 보여줍니다.</p><p class="small">비교용 동일 표시 폭. 원작에는 Windows 제목줄이 포함되어 있습니다. 정확한 픽셀 차분이나 구현 시안이 아닙니다.</p></section>
+<section class="pane"><h2 id="current-title"></h2><div class="frame"><img id="current-image" alt="선택한 구현 화면"></div><p id="current-note" class="note"></p><p class="small">M2는 앱 영역 960px 폭입니다. 원작에는 Windows 창 크롬이 포함되므로 픽셀 차분은 아닙니다. <a href="/">직접 플레이</a></p></section>
 </div>
-<div class="facts"><div>원작 좌우 구성<strong>약 50 : 50</strong>현재 35 : 65 → 화면 틀부터 변경</div><div>원작 동네 창<strong>약 300 × 240</strong>약 5:4 · 현재 640:440 장면과 다름</div><div>M2 완료 조건<strong>동작 + 시각 검수</strong>CI만으로 원작 재현 완료를 선언하지 않음</div></div>
+<div class="facts"><div>원작 좌우 구성<strong>약 50 : 50</strong>M1 35 : 65 → M2 50 : 50</div><div>원작 동네 창<strong>약 300 × 240</strong>M2 640 × 512 · 5:4 적용</div><div>M2 완료 조건<strong>동작 + 시각 검수</strong>자동 검증 통과 · 사용자 시각 검수 대기</div></div>
 <details open><summary>이번 조사에서 중요한 차이</summary><ul><li>상단 재고/현금, 좌측 탭, 우측 예보/뉴스의 고정 위치.</li><li>레시피·재료·결과의 하위 화면을 실제로 전환하는 조작 구조.</li><li>재료 화면에는 BUY/CANCEL이 존재. M2에서는 초안/확정/취소 계약을 명시.</li><li>영업 시 왼쪽 실적/설정 패널, 장면 아래 장소 설명과 평가.</li><li>작은 카트와 가는 손님, 건물로 잘린 화면 가장자리, 촘촘한 환경.</li></ul></details>
 <details><summary>판본과 증거의 한계</summary><p>기준 묶음은 staff/marketing 탭을 표시합니다. 다른 자료의 advertising/price 구성과 혼합하지 않습니다. 정확한 구매 반영 시점, 보행 프레임·속도·대기열·사운드는 정지 화면만으로 확인할 수 없습니다. 현재의 컵 단위 레시피를 원작 피처 규칙과 같은 것으로 취급하지 않습니다.</p><div class="sources"><a href="https://www.mobygames.com/game/44300/lemonade-tycoon/screenshots/windows/854921/">주택가 영업 보조 자료</a><br><a href="https://gamefabrique.com/screenshots2/pc/lemonade-tycoon-03.big.jpg">다른 판본의 광고 탭</a><br><a href="https://gamefaqs.gamespot.com/pc/930814-lemonade-tycoon/faqs/57197">PC FAQ — 조작 흐름 교차 확인</a><br><a href="https://www.youtube.com/watch?v=Ra_V8qP2Jzw">플레이 영상 후보 — 재생 미검증</a></div></details>
 <script>
@@ -28,39 +28,16 @@ const select=document.querySelector('#screen');screens.forEach((s,i)=>select.add
 const boxes=[['재고/현금',1,5.2,98,5],['탭',1.5,17.3,48,10],['예보/뉴스',51,12,48,15],['작업 패널',1.5,28.5,48,57],['장면',51.5,29.5,47,47.5],['장소 설명',51,77,48,20]];
 const bounds=document.querySelector('#bounds');for(const [label,x,y,w,h]of boxes){const box=document.createElement('div');box.className='box';box.style.cssText=`left:${x}%;top:${y}%;width:${w}%;height:${h}%`;const span=document.createElement('span');span.textContent=label;box.append(span);bounds.append(box)}
 const captures=[
-['m2-recipe.png','M2 ? ???','?? ?? ??, ? ?? ??, ?? ??? Start day.'],
-['m2-price.png','M2 ? ??','??? ???? ??. ?? Marketing ?? ??? ??? ?? ????.'],
-['m2-supplies.png','M2 ? ?? ??','??? ?? ?? ??. BUY ??? ??/??? ??? ?? CANCEL? ?? ??? ????.'],
-['m2-selling.png','M2 ? ??','??? ?? ??, ?? ??, ?? ? ??. ?? ?? ??? ?? ?????.'],
-['m2-results.png','M2 ? ?? ??','??, ?? ??, ?? ??, ?? ??? ?? ??? ?????.'],
-['m2-ledger.png','M2 ? ?? ??','??? 3?? ??. ?? ? ?? ??? ?? ??? ?? ? ? ????.'],
-['current-m1.png','?? M1 ? ?? ??','?? 35:65 ??? ??? ??? ?? ?. M2?? ??? ?? ?????.']];
+['m2-recipe.png','M2 · 레시피','컵 단위 조절과 고정 위치의 Start day. 준비 화면을 하나씩 표시합니다.'],
+['m2-price.png','M2 · 가격','가격만 편집합니다. 원작 Marketing 전체 기능을 구현한 것은 아닙니다.'],
+['m2-supplies.png','M2 · 구매 초안','BUY 전에는 재고/잔액이 바뀌지 않고 CANCEL로 전체 초안을 버립니다.'],
+['m2-selling.png','M2 · 영업','실적과 오늘 설정, 준비 잠금, 장면 옆 배속. 순차 손님 동작은 독자 구현입니다.'],
+['m2-results.png','M2 · 하루 결과','매출, 사용 원가, 구매 지출, 현금 증감과 놓친 판매를 구분합니다.'],
+['m2-ledger.png','M2 · 누적 장부','완료된 3일 합계. 다음 날 준비 중에도 다시 볼 수 있습니다.'],
+['current-m1.png','이전 M1 · 비교 기준','기존 35:65 배치와 동시에 펼쳐진 준비 폼입니다.']];
 const currentSelect=document.querySelector('#current-screen');captures.forEach((c,i)=>currentSelect.add(new Option(c[1],i)));
 function renderCurrent(){const [file,title,note]=captures[Number(currentSelect.value)];document.querySelector('#current-image').src=file;document.querySelector('#current-title').textContent=title;document.querySelector('#current-note').textContent=note}
 currentSelect.addEventListener('change',renderCurrent);
 function render(){const [id,title,note]=screens[Number(select.value)];document.querySelector('#reference-title').textContent=title;document.querySelector('#reference-note').textContent=note;const url=`https://games-cdn.softpedia.com/screenshots/Lemonade-Tycoon_${id}.jpg`;document.querySelector('#reference').src=url;document.querySelector('#source').href=url;document.querySelector('#image-error').hidden=true;bounds.hidden=!document.querySelector('#overlay').checked||id===1;currentSelect.value=({6:0,7:2,8:3,9:4,2:5})[id]??0;renderCurrent()}
-select.addEventListener('change',render);document.querySelector('#overlay').addEventListener('change',render);for(const [id,delta]of [['previous',-1],['next',1]])document.querySelector('#'+id).addEventListener('click',()=>{select.value=(Number(select.value)+delta+screens.length)%screens.length;render()});document.querySelector('#reference').addEventListener('error',()=>document.querySelector('#image-error').hidden=false);render();
-</script></body></html><section class="pane"><h2 id="current-title">M2 ??</h2><label>?? ?? <select id="current-screen"></select></label><div class="frame" style="margin-top:10px"><img id="current-image" alt="??? ?? ??"></div><p id="current-note" class="note"></p><p class="small">?? ???? ??? ?? ??? ?????. M2? 960px ? ?? ???? ? ??? ???? ?? ??? ????. <a href="/">?? ???</a></p></section>
-<section class="pane"><h2>현재 M1 — PR #91 / main 645c44f</h2><div class="frame"><img src="current-m1.png" alt="현재 구현의 레시피와 전체 준비 항목, 크게 배치된 동네 화면"></div><p class="note">녹색 색감은 가깝지만 좌우가 약 35:65입니다. 세 준비 항목을 동시에 펼치고, 장면 위에 큰 개요 줄과 장소 제목을 둡니다. 원작은 약 50:50이고 선택한 작업 하나를 보여줍니다.</p><p class="small">비교용 동일 표시 폭. 원작에는 Windows 제목줄이 포함되어 있습니다. 정확한 픽셀 차분이나 구현 시안이 아닙니다.</p></section>
-</div>
-<div class="facts"><div>원작 좌우 구성<strong>약 50 : 50</strong>현재 35 : 65 → 화면 틀부터 변경</div><div>원작 동네 창<strong>약 300 × 240</strong>약 5:4 · 현재 640:440 장면과 다름</div><div>M2 완료 조건<strong>동작 + 시각 검수</strong>CI만으로 원작 재현 완료를 선언하지 않음</div></div>
-<details open><summary>이번 조사에서 중요한 차이</summary><ul><li>상단 재고/현금, 좌측 탭, 우측 예보/뉴스의 고정 위치.</li><li>레시피·재료·결과의 하위 화면을 실제로 전환하는 조작 구조.</li><li>재료 화면에는 BUY/CANCEL이 존재. M2에서는 초안/확정/취소 계약을 명시.</li><li>영업 시 왼쪽 실적/설정 패널, 장면 아래 장소 설명과 평가.</li><li>작은 카트와 가는 손님, 건물로 잘린 화면 가장자리, 촘촘한 환경.</li></ul></details>
-<details><summary>판본과 증거의 한계</summary><p>기준 묶음은 staff/marketing 탭을 표시합니다. 다른 자료의 advertising/price 구성과 혼합하지 않습니다. 정확한 구매 반영 시점, 보행 프레임·속도·대기열·사운드는 정지 화면만으로 확인할 수 없습니다. 현재의 컵 단위 레시피를 원작 피처 규칙과 같은 것으로 취급하지 않습니다.</p><div class="sources"><a href="https://www.mobygames.com/game/44300/lemonade-tycoon/screenshots/windows/854921/">주택가 영업 보조 자료</a><br><a href="https://gamefabrique.com/screenshots2/pc/lemonade-tycoon-03.big.jpg">다른 판본의 광고 탭</a><br><a href="https://gamefaqs.gamespot.com/pc/930814-lemonade-tycoon/faqs/57197">PC FAQ — 조작 흐름 교차 확인</a><br><a href="https://www.youtube.com/watch?v=Ra_V8qP2Jzw">플레이 영상 후보 — 재생 미검증</a></div></details>
-<script>
-const screens=[
-[6,'R06 · 레시피','큰 그림·숫자·화살표로 조절합니다. 여러 준비 폼을 동시에 보여주지 않으며, 오른쪽 동네는 계속 유지됩니다.'],
-[7,'R07 · 재료 구매','재료별 하위 탭과 묶음별 수량, BUY/CANCEL이 보입니다. 실제 클릭 전후 상태 변화는 별도로 검증해야 합니다.'],
-[8,'R08 · 영업','왼쪽 Performance/Today\'s Settings, 흐려진 준비 탭, 장면 위의 배속/건너뛰기. 장소 설명은 아래에 남아 있습니다.'],
-[9,'R09 · 전날 결과','장부와 함께 만족도·놓친 판매·재료 손실을 보여줍니다. 하위 아이콘 탭으로 결과 종류를 구분합니다.'],
-[2,'R02 · 손익 장부','전날 결과 화면과 별도의 장부 화면입니다. 우측 주택가의 건물·카트·사람 크기도 함께 비교합니다.'],
-[3,'R03 · 공원 장소 선택','썸네일/화살표/임대 버튼. 장소 소개와 평가 막대가 오른쪽 장면 아래에 고정됩니다.'],
-[4,'R04 · 업그레이드','큰 웹 카드 대신 작은 상품 표시와 가격/구매 조작이 왼쪽 패널 안에 모입니다. M2 기능 범위 밖의 경제입니다.'],
-[5,'R05 · 직원','동일한 화면 틀에 직원 초상과 고용 카드가 들어갑니다. 직원 기능 자체는 M2 필수가 아닙니다.'],
-[10,'R10 · 역 장소 선택','환경 밀도와 작은 가판대/손님 비율을 비교합니다. M2에 역 맵 추가를 요구하는 자료가 아닙니다.'],
-[1,'R01 · 시작 메뉴','Version 1.1.5 표기를 확인할 수 있습니다. 본문 영역 표시를 적용하지 않는 별도 메뉴 구도입니다.']];
-const select=document.querySelector('#screen');screens.forEach((s,i)=>select.add(new Option(s[1],i)));
-const boxes=[['재고/현금',1,5.2,98,5],['탭',1.5,17.3,48,10],['예보/뉴스',51,12,48,15],['작업 패널',1.5,28.5,48,57],['장면',51.5,29.5,47,47.5],['장소 설명',51,77,48,20]];
-const bounds=document.querySelector('#bounds');for(const [label,x,y,w,h]of boxes){const box=document.createElement('div');box.className='box';box.style.cssText=`left:${x}%;top:${y}%;width:${w}%;height:${h}%`;const span=document.createElement('span');span.textContent=label;box.append(span);bounds.append(box)}
-function render(){const [id,title,note]=screens[Number(select.value)];document.querySelector('#reference-title').textContent=title;document.querySelector('#reference-note').textContent=note;const url=`https://games-cdn.softpedia.com/screenshots/Lemonade-Tycoon_${id}.jpg`;document.querySelector('#reference').src=url;document.querySelector('#source').href=url;document.querySelector('#image-error').hidden=true;bounds.hidden=!document.querySelector('#overlay').checked||id===1}
 select.addEventListener('change',render);document.querySelector('#overlay').addEventListener('change',render);for(const [id,delta]of [['previous',-1],['next',1]])document.querySelector('#'+id).addEventListener('click',()=>{select.value=(Number(select.value)+delta+screens.length)%screens.length;render()});document.querySelector('#reference').addEventListener('error',()=>document.querySelector('#image-error').hidden=false);render();
 </script></body></html>

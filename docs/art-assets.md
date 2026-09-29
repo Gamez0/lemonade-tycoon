@@ -15,7 +15,7 @@ Revised direction (2026-09-29, user playtest): restore old PC tycoon aesthetics 
 | Asset | Original reference | Purpose | Logical size | Animation / states | Priority | Status |
 | --- | --- | --- | --- | --- | --- | --- |
 | Stand | Selling screenshot, small parasol cart | Identify service point | 72×88 px | open/closed sign | P0 | Original wheeled cart, segmented parasol, vendor and pitcher |
-| Street / ground | Selling screenshot, diagonal sidewalk | Customer route and context | 640×440 px | static, weather tint | P0 | Original outlined neighborhood, 2:1 ground projection |
+| Street / ground | Selling screenshot, diagonal sidewalk | Customer route and context | 640 x 512 px | static, weather tint | P0 | Original outlined neighborhood, 2:1 ground projection |
 | Basic customer | Selling screenshot, small outlined figures | Visible demand | 20×34 px | walk 2 frames, wait/buy, leave with drink | P0 | Original sprite textures; stable profile through visit |
 | Lemonade | Selling screenshot, yellow supply cues | Sale readability | 3×4 px | held after purchase | P0 | Included in customer departure pose |
 | HUD | Top resource strip and green inset panels | Cash, stock, weather, phase | compact DOM | preparation/selling/results | P0 | Beveled controls, four switching tabs, ingredient +/- buttons; responsive narrow layout |

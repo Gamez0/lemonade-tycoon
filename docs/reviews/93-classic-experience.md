@@ -32,3 +32,5 @@ Local final result: simulation 9/9; strict typecheck and lint pass; production b
 ## Limits
 
 M1's per-cup economics, supply prices, day/customer counts and reputation rules are unchanged. No advertising, pitcher production, spoilage, queue economy, staff, paid rent, persistence or sound was introduced. Results use completed days only. This is a closer original-style interface, not a claim of exact pixel or motion reproduction.
+
+Comparison-board follow-up: a PowerShell-to-Node encoding conversion damaged generated Korean text and prevented the new selector from initializing. Rebuilt the document from the baseline using a UTF-8 script file. Verified all seven implementation choices load images and no page script errors occur; the final comparison screenshot was inspected. This documentation-only correction does not change the tested runtime.
