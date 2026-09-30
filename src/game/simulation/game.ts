@@ -8,7 +8,10 @@ export interface Daily {
     readonly visitors: number;
     readonly sold: number;
     readonly rejected: number;
+    readonly priceRejected: number;
+    readonly passed: number;
     readonly soldOut: number;
+    readonly abandoned: number;
     readonly revenue: number;
     readonly cost: number;
     readonly purchases: number;
@@ -28,12 +31,18 @@ export interface State {
 }
 export interface CustomerEvent {
     readonly id: number;
-    readonly kind: "bought" | "price" | "passed" | "sold-out";
+    readonly kind: "bought" | "price" | "passed" | "sold-out" | "abandoned";
     readonly profile: number;
     readonly satisfaction: number | null;
 }
+export interface Visitor {
+    readonly id: number;
+    readonly profile: number;
+    readonly intent: "buy" | "price" | "passed";
+    readonly willingness: number;
+}
 
-const emptyDaily = (): Daily => ({ visitors: 0, sold: 0, rejected: 0, soldOut: 0,
+const emptyDaily = (): Daily => ({ visitors: 0, sold: 0, rejected: 0, priceRejected: 0, passed: 0, soldOut: 0, abandoned: 0,
     revenue: 0, cost: 0, purchases: 0, satisfactionTotal: 0 });
 const clamp = (n: number, min = 0, max = 1) => Math.max(min, Math.min(max, n));
 function integer(n: number, min: number, max: number, label: string): void {
@@ -111,16 +120,22 @@ export function openDay(state: State): State {
     if (capacity(state) === 0) throw new Error("Buy enough supplies for at least one cup before opening.");
     return { ...state, phase: "selling" };
 }
-export function stepCustomer(state: State): { state: State; event: CustomerEvent } {
+export function drawVisitor(state: State, id: number): { state: State; visitor: Visitor } {
     phase(state, "selling");
     const a = random(state.seed), b = random(a.seed), c = random(b.seed);
     const profile = Math.floor(a.value * CUSTOMERS.length);
     const decision = demand(state.plan, state.weather, state.reputation, profile, b.value);
-    const kind: CustomerEvent["kind"] = capacity(state) === 0 ? "sold-out"
-        : state.plan.price > decision.willingness ? "price" : c.value >= decision.probability ? "passed" : "bought";
+    const intent: Visitor["intent"] = state.plan.price > decision.willingness ? "price"
+        : c.value >= decision.probability ? "passed" : "buy";
+    return { state: { ...state, seed: c.seed }, visitor: { id, profile, intent, willingness: decision.willingness } };
+}
+export function settleVisitor(state: State, visitor: Visitor, outcome?: "abandoned"): { state: State; event: CustomerEvent } {
+    phase(state, "selling");
+    const kind: CustomerEvent["kind"] = outcome ?? (visitor.intent !== "buy" ? visitor.intent
+        : capacity(state) === 0 ? "sold-out" : "bought");
     const sold = kind === "bought";
     const satisfaction = sold ? Math.round(clamp(quality(state.plan.recipe, state.weather.temperature) * 0.8
-        + clamp(1 - state.plan.price / (decision.willingness * 1.4)) * 0.2) * 100) : null;
+        + clamp(1 - state.plan.price / (visitor.willingness * 1.4)) * 0.2) * 100) : null;
     const stock: Stock = sold ? {
         lemon: state.stock.lemon - state.plan.recipe.lemon,
         sugar: state.stock.sugar - state.plan.recipe.sugar,
@@ -128,14 +143,21 @@ export function stepCustomer(state: State): { state: State; event: CustomerEvent
     } : state.stock;
     const daily: Daily = { ...state.daily, visitors: state.daily.visitors + 1,
         sold: state.daily.sold + Number(sold), rejected: state.daily.rejected + Number(kind === "price" || kind === "passed"),
+        priceRejected: state.daily.priceRejected + Number(kind === "price"),
+        passed: state.daily.passed + Number(kind === "passed"),
         soldOut: state.daily.soldOut + Number(kind === "sold-out"),
+        abandoned: state.daily.abandoned + Number(kind === "abandoned"),
         revenue: state.daily.revenue + (sold ? state.plan.price : 0), cost: state.daily.cost + (sold ? unitCost(state.plan.recipe) : 0),
         satisfactionTotal: state.daily.satisfactionTotal + (satisfaction ?? 0) };
     const finished = daily.visitors >= state.weather.traffic;
-    return { state: { ...state, stock, daily, seed: c.seed, cash: state.cash + (sold ? state.plan.price : 0),
+    return { state: { ...state, stock, daily, cash: state.cash + (sold ? state.plan.price : 0),
         phase: finished ? "results" : "selling",
         reputation: finished && daily.sold > 0 ? clamp(state.reputation * 0.65 + daily.satisfactionTotal / daily.sold / 100 * 0.35) : state.reputation },
-        event: { id: daily.visitors, kind, profile, satisfaction } };
+        event: { id: visitor.id, kind, profile: visitor.profile, satisfaction } };
+}
+export function stepCustomer(state: State): { state: State; event: CustomerEvent } {
+    const draw = drawVisitor(state, state.daily.visitors + 1);
+    return settleVisitor(draw.state, draw.visitor);
 }
 export function nextDay(state: State): State {
     phase(state, "results");

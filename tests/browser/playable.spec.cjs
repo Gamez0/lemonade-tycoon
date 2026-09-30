@@ -238,14 +238,16 @@ test("storage-limit checkout preserves every item, cash and pending order", asyn
     await expect(page.locator("#cash")).toHaveText("$22.00");
 });
 
-for (const timing of ["immediately", "after a committed visit"]) {
+for (const timing of ["immediately", "after a committed visit", "after changing speed"]) {
     test(`SKIP ${timing} matches normal day accounting without duplicate visits`, async ({ page }) => {
         const game = require("../../.test-build/simulation/game.js");
-        let expected = game.openDay(game.buyOrder(game.newGame(), { lemon: 40, sugar: 20, ice: 60, cup: 20 }));
-        while (expected.phase === "selling") expected = game.stepCustomer(expected).state;
+        const street = require("../../.test-build/simulation/street-day.js");
+        const opened = game.openDay(game.buyOrder(game.newGame(), { lemon: 40, sugar: 20, ice: 60, cup: 20 }));
+        const expected = street.finishStreetDay(street.beginStreetDay(opened)).day.game;
         await stock(page);
         await page.locator("#open").click();
         if (timing !== "immediately") {
+            if (timing === "after changing speed") await page.locator("#speed").click();
             await expect(page.locator("#progress-text")).not.toHaveText(/^0 \/ /);
         }
         await page.locator("#skip").click();
@@ -258,6 +260,7 @@ for (const timing of ["immediately", "after a committed visit"]) {
         expect(cents(values[1])).toBe(expected.daily.revenue);
         expect(cents(values[2])).toBe(expected.daily.cost);
         expect(cents(await page.locator("#cash").textContent())).toBe(expected.cash);
+        await expect(page.locator("#reaction-abandoned")).toHaveText(String(expected.daily.abandoned));
         const counts = await page.locator(".reactions strong").allTextContents();
         expect(counts.map(Number).reduce((a, b) => a + b, 0)).toBe(expected.weather.traffic);
         for (const item of ["lemon", "sugar", "ice", "cup"]) {
@@ -273,3 +276,21 @@ for (const timing of ["immediately", "after a committed visit"]) {
         await expect(page.locator("#cash")).toHaveText(`$${(expected.cash / 100).toFixed(2)}`);
     });
 }
+
+test("waiting departures appear separately in the live reaction count and report", async ({ page }) => {
+    const game = require("../../.test-build/simulation/game.js");
+    const street = require("../../.test-build/simulation/street-day.js");
+    const supplies = { lemon: 120, sugar: 60, ice: 180, cup: 60 };
+    const expected = street.finishStreetDay(street.beginStreetDay(
+        game.openDay(game.buyOrder(game.newGame(), supplies)))).day.game;
+    expect(expected.daily.abandoned).toBeGreaterThan(0);
+    await tab(page, "supplies");
+    for (const item of ["lemon", "sugar", "ice", "cup"]) await add(page, item, 0, 3);
+    await page.locator("#buy-order").click();
+    await page.locator("#open").click();
+    await expect(page.locator("#world-status")).toContainText("waiting");
+    await page.locator("#skip").click();
+    await expect(page.locator("#reaction-abandoned")).toHaveText(String(expected.daily.abandoned));
+    await expect(page.locator("#report-response")).toContainText("left the line");
+    await expect(page.locator("#cash")).toHaveText(`$${(expected.cash / 100).toFixed(2)}`);
+});
