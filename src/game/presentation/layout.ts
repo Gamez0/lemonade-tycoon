@@ -22,7 +22,7 @@ export const markup = `
   <section class="panel" aria-labelledby="panel-title">
    <h2 id="panel-title">Recipe</h2>
    <div id="preparation">
-    <div id="recipe-page" class="control-page"><p class="intro">Mix your lemonade to suit the weather.<br>A good recipe brings customers back!</p>
+    <div id="recipe-page" class="control-page"><p class="intro">Adjust your recipe to the forecast.<br>Add ice on warm days.<br>Balance the ingredients for better sales.</p>
      <fieldset id="recipe-controls"><legend class="sr-only">Recipe per cup</legend>
      ${(["lemon", "sugar", "ice"] as const).map((item) => `<div class="recipe-row"><label for="${item}">${icon(item)}<span>${ITEMS[item].name}</span></label><div class="spinner"><button type="button" data-adjust="${item}" data-direction="-1" aria-label="Decrease ${item}">−</button><input id="${item}" type="number" min="${item === "ice" ? 0 : 1}" max="${item === "sugar" ? 4 : 6}" step="1" value="${item === "sugar" ? 1 : 2}"><button type="button" data-adjust="${item}" data-direction="1" aria-label="Increase ${item}">+</button></div></div>`).join("")}
      </fieldset><p class="hint" id="recipe-hint"></p></div>
