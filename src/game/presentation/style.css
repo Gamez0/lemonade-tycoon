@@ -1,6 +1,15 @@
-﻿:root {
-    font-family: Tahoma, Verdana, sans-serif;
+﻿@font-face {
+    font-family: "Tycoon Condensed";
+    src: url("/fonts/Oswald-wght.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 200 700;
+    font-display: swap;
+}
+
+:root {
+    font-family: "Tycoon Condensed", "Arial Narrow", Tahoma, sans-serif;
     font-size: 13px;
+    font-weight: 300;
     color: #fffbd7;
     background: #1b572a;
     font-synthesis: none;
@@ -57,7 +66,7 @@ h1 {
     gap: 4px;
     margin: 0;
     font:
-        12px Tahoma,
+        14px "Tycoon Condensed",
         sans-serif;
 }
 h1 .pixel-icon {
@@ -91,7 +100,7 @@ h1 .pixel-icon {
 }
 .resource-bar strong {
     font:
-        24px "Arial Narrow",
+        24px "Tycoon Condensed",
         "Trebuchet MS",
         sans-serif;
 }
@@ -148,7 +157,7 @@ a:focus-visible {
     min-height: 75px;
     padding: 3px;
     font:
-        12px Tahoma,
+        14px "Tycoon Condensed",
         sans-serif;
     color: #f9ffd6;
     text-shadow: 1px 1px #426a09;
@@ -196,7 +205,7 @@ a:focus-visible {
 }
 #weather {
     font:
-        24px "Arial Narrow",
+        24px "Tycoon Condensed",
         "Trebuchet MS",
         sans-serif;
 }
@@ -262,10 +271,11 @@ progress::-moz-progress-bar {
 h2 {
     margin: 0 0 9px;
     font:
-        28px "Arial Narrow",
+        28px "Tycoon Condensed",
         "Trebuchet MS",
         sans-serif;
     font-stretch: condensed;
+    font-weight: 300;
     color: #fffed1;
     letter-spacing: -1px;
 }
@@ -339,7 +349,7 @@ input {
     padding: 3px 5px;
     text-align: right;
     font:
-        23px "Arial Narrow",
+        23px "Tycoon Condensed",
         "Trebuchet MS",
         sans-serif;
 }
@@ -392,7 +402,7 @@ input[aria-invalid="true"] {
     margin-left: auto;
     text-transform: uppercase;
     font:
-        22px "Arial Narrow",
+        22px "Tycoon Condensed",
         "Trebuchet MS",
         sans-serif;
     color: #fffcd0;
@@ -416,15 +426,21 @@ input[aria-invalid="true"] {
     gap: 3px;
     margin-bottom: 5px;
 }
+#supplies-page .intro {
+    margin-bottom: 6px;
+}
+#supplies-page .hint {
+    margin: 5px 0;
+}
 .supply-tabs button {
     flex: 1;
     min-width: 0;
-    padding: 3px 1px;
+    padding: 2px 1px;
     font-size: 11px;
 }
 .supply-tabs .pixel-icon {
-    width: 33px;
-    height: 33px;
+    width: 29px;
+    height: 29px;
 }
 .supply-tabs span,
 .supply-tabs small {
@@ -433,7 +449,7 @@ input[aria-invalid="true"] {
 .supply-tabs small {
     font-size: 10px;
     font-weight: normal;
-    margin-top: 2px;
+    margin-top: 0;
 }
 .bundle-row {
     display: grid;
@@ -466,13 +482,13 @@ input[aria-invalid="true"] {
     display: flex;
     justify-content: flex-end;
     gap: 8px;
-    margin: 3px 0 5px;
+    margin: 1px 0 3px;
 }
 .purchase-actions button {
     min-width: 78px;
     padding: 4px;
     font:
-        19px "Arial Narrow",
+        19px "Tycoon Condensed",
         "Trebuchet MS",
         sans-serif;
     color: #fffbd5;
@@ -516,7 +532,7 @@ canvas {
 }
 .scene-skip {
     font:
-        19px "Arial Narrow",
+        19px "Tycoon Condensed",
         "Trebuchet MS",
         sans-serif;
 }
@@ -528,7 +544,7 @@ canvas {
     background: #145e29df;
     border: 1px solid #cbdf9a;
     font:
-        17px "Arial Narrow",
+        17px "Tycoon Condensed",
         "Trebuchet MS",
         sans-serif;
 }
