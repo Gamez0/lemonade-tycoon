@@ -47,4 +47,4 @@ export const markup = `
   </div>
  </section>
 </main>
-<footer><span id="goal"></span><button id="restart" class="text-button">New business</button><a href="./legacy.html">Legacy game</a><small>Session only</small></footer>`;
+<footer><span id="goal"></span><button id="restart" class="text-button">New business</button><button id="export-save" class="text-button">Export save</button><button id="import-save" class="text-button">Import save</button><input id="save-file" class="sr-only" type="file" accept=".json,application/json"><a href="./legacy.html">Legacy game</a><small id="save-status" role="status">Saved on this device</small></footer>`;
