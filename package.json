@@ -14,7 +14,7 @@
     },
     "homepage": "https://github.com/phaserjs/template-vite-ts#readme",
     "scripts": {
-        "test": "tsc -p tsconfig.simulation.json && node --test tests/simulation.cjs",
+        "test": "tsc -p tsconfig.simulation.json && node --test tests/simulation.cjs tests/street-day.cjs",
         "dev": "node log.js dev & vite --config vite/config.dev.mjs",
         "build": "node log.js build & vite build --config vite/config.prod.mjs",
         "dev-nolog": "vite --config vite/config.dev.mjs",

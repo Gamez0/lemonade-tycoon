@@ -10,10 +10,11 @@ import {
     quality,
     results,
     setPlan,
-    stepCustomer,
     unitCost,
 } from "./game/simulation/game";
 import type { CustomerEvent, State, Stock } from "./game/simulation/game";
+import { beginStreetDay, finishStreetDay, tickStreet } from "./game/simulation/street-day";
+import type { StreetDay } from "./game/simulation/street-day";
 import { StreetScene } from "./game/presentation/street-scene";
 import { icon } from "./game/presentation/icons";
 import { markup } from "./game/presentation/layout";
@@ -29,7 +30,8 @@ const emptyOrder = (): Record<Item, number[]> => ({
 });
 const bundleSizes = [1, 2, 5];
 let state = newGame();
-let reactions = { bought: 0, price: 0, passed: 0, "sold-out": 0 };
+let reactions = { bought: 0, price: 0, passed: 0, "sold-out": 0, abandoned: 0 };
+let street: StreetDay | null = null;
 let history: State[] = [];
 let order = emptyOrder();
 let selectedSupply: Item = "lemon";
@@ -76,29 +78,31 @@ for (const [i] of bundleSizes.entries()) {
     row.innerHTML = `<span id="bundle-label-${i}"></span><strong id="bundle-price-${i}"></strong><div class="spinner"><button data-bundle="${i}" data-delta="-1">−</button><output id="bundle-count-${i}">0</output><button data-bundle="${i}" data-delta="1">+</button></div>`;
     element("supplies").append(row);
 }
-function advanceCustomer(): CustomerEvent {
-    const step = stepCustomer(state);
-    state = step.state;
-    reactions[step.event.kind]++;
-    if (state.phase === "results") {
+function applyStreet(events: CustomerEvent[]): void {
+    for (const event of events) {
+        reactions[event.kind]++;
+        lastFeedback = event.kind === "bought" ? `Sold! Satisfaction: ${event.satisfaction}%.`
+            : event.kind === "price" ? "Too expensive! A neighbor walked away."
+            : event.kind === "sold-out" ? "Sold out! A customer left empty-handed."
+            : event.kind === "abandoned" ? "The line took too long. A customer left."
+            : "Just passing by. Maybe next time!";
+    }
+    if (state.phase === "results" && history[history.length - 1] !== state) {
         history.push(state);
         currentPage = "results";
         reportPage = "daily";
     }
-    lastFeedback =
-        step.event.kind === "bought"
-            ? `Sold! Satisfaction: ${step.event.satisfaction}%.`
-            : step.event.kind === "price"
-              ? "Too expensive! A neighbor walked away."
-              : step.event.kind === "sold-out"
-                ? "Sold out! A customer left empty-handed."
-                : "Just passing by. Maybe next time!";
-    return step.event;
 }
 const scene = new StreetScene({
     state: () => state,
-    profile: () => stepCustomer(state).event.profile,
-    arrive: advanceCustomer,
+    street: () => street,
+    tick: () => {
+        if (!street) return;
+        const next = tickStreet(street);
+        street = next.day;
+        state = street.game;
+        applyStreet(next.events);
+    },
     changed: render,
 });
 new Phaser.Game({
@@ -193,11 +197,13 @@ element("open").addEventListener("click", () =>
         }
         const opened = openDay(readPlan());
         scene.resetDay();
+        street = beginStreetDay(opened);
         return opened;
     }),
 );
 function resetPresentation(): void {
-    reactions = { bought: 0, price: 0, passed: 0, "sold-out": 0 };
+    reactions = { bought: 0, price: 0, passed: 0, "sold-out": 0, abandoned: 0 };
+    street = null;
     currentPage = "recipe";
     reportPage = "daily";
     selectedSupply = "lemon";
@@ -219,11 +225,12 @@ element("speed").addEventListener("click", () => {
     text("speed-label", `Speed: ${fast ? 4 : 1}×`);
 });
 element("skip").addEventListener("click", () => {
-    if (state.phase !== "selling") return;
-    // The pending visit may already be committed. Resume from the actual state,
-    // not the animation's profile/elapsed time, to avoid charging it twice.
+    if (state.phase !== "selling" || !street) return;
+    const done = finishStreetDay(street);
+    street = done.day;
+    state = street.game;
+    applyStreet(done.events);
     scene.resetDay();
-    while (state.phase === "selling") advanceCustomer();
     act(() => state);
 });
 element("next").addEventListener("click", () => {
@@ -294,8 +301,12 @@ function renderReport(): void {
                   "%. " +
                   sum("soldOut") +
                   " visitors missed out on empty stock. " +
-                  sum("rejected") +
-                  " passed without buying.",
+                  sum("abandoned") +
+                  " left the line. " +
+                  sum("priceRejected") +
+                  " found the price too high; " +
+                  sum("passed") +
+                  " passed by.",
     );
 
     rows("result-values", [
@@ -305,7 +316,8 @@ function renderReport(): void {
         ["Profit", money(sum("revenue") - sum("cost"))],
         ["Supplies bought", money(sum("purchases"))],
         ["Cash change", money(reports.reduce((total, day) => total + results(day).cashChange, 0))],
-        ["Passed / sold out", `${sum("rejected")} / ${sum("soldOut")}`],
+        ["Price / passed", `${sum("priceRejected")} / ${sum("passed")}`],
+        ["Empty / wait", `${sum("soldOut")} / ${sum("abandoned")}`],
         ["Satisfaction", sold === 0 ? "No buyers yet" : `${Math.round(sum("satisfactionTotal") / sold)}%`],
     ]);
 }
@@ -410,7 +422,7 @@ function render(): void {
     text("revenue", money(state.daily.revenue));
     text("profit", money(report.profit));
     text("feedback", lastFeedback);
-    for (const kind of ["bought", "price", "passed", "sold-out"] as const)
+    for (const kind of ["bought", "price", "passed", "sold-out", "abandoned"] as const)
         text("reaction-" + kind, String(reactions[kind]));
     text(
         "goal",
@@ -418,7 +430,8 @@ function render(): void {
             ? "First goal reached: $75 in the till!"
             : `Goal: $75 in the till · ${money(7500 - state.cash)} to go`,
     );
-    text("world-status", prep ? "Ready to open" : selling ? "Open for business" : "Closed for today");
+    text("world-status", prep ? "Ready to open"
+        : selling ? `Open · ${street?.waiting.length ?? 0} waiting` : "Closed for today");
     text("progress-text", prep ? "Willow Lane" : `${state.daily.visitors} / ${state.weather.traffic} neighbors`);
     element<HTMLProgressElement>("day-progress").value = state.daily.visitors / state.weather.traffic;
     text("setting-price", money(state.plan.price));
