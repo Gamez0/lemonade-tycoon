@@ -296,14 +296,26 @@ legend {
 }
 .recipe-row {
     display: flex;
+    width: min(100%, 295px);
+    margin-left: 18px;
     align-items: center;
     justify-content: space-between;
     gap: 7px;
-    padding: 5px 8px;
+    padding: 6px;
     margin-bottom: 10px;
     background: linear-gradient(90deg, #64b923, #078e24);
     border: 2px solid;
     border-color: #00681d #6cc244 #6cc244 #00681d;
+}
+#recipe-page .intro {
+    margin-bottom: 27px;
+}
+.recipe-row:first-child {
+    margin-bottom: 0;
+    border-bottom: 0;
+}
+.recipe-row:nth-child(2) {
+    border-top: 0;
 }
 .recipe-row label {
     display: flex;
@@ -320,8 +332,8 @@ legend {
     gap: 5px;
 }
 .spinner button {
-    width: 34px;
-    height: 34px;
+    width: 42px;
+    height: 42px;
     padding: 0;
     color: #f4f7a0;
     font:
