@@ -16,6 +16,8 @@ import type { CustomerEvent, State, Stock } from "./game/simulation/game";
 import { beginStreetDay, finishStreetDay, tickStreet } from "./game/simulation/street-day";
 import type { StreetDay } from "./game/simulation/street-day";
 import { decodeSave, encodeSave, readSave, writeSave } from "./game/simulation/save";
+import { readSaveAsync, writeSaveAsync } from "./game/simulation/async-save";
+import type { AsyncSaveStorage } from "./game/simulation/async-save";
 import { StreetScene } from "./game/presentation/street-scene";
 import { icon } from "./game/presentation/icons";
 import { markup } from "./game/presentation/layout";
@@ -43,6 +45,9 @@ let lastFeedback = "Your first customers are just around the corner.";
 let restartArmed = false;
 let fast = false;
 let saveBlocked = false;
+const desktopSave = (window as Window & { desktopSave?: AsyncSaveStorage & { onFlush(handler: () => Promise<void>): void } }).desktopSave;
+let saveQueue = Promise.resolve();
+desktopSave?.onFlush(() => saveQueue);
 const app = document.querySelector<HTMLDivElement>("#app")!;
 app.innerHTML = markup;
 function element<T extends HTMLElement = HTMLElement>(id: string): T {
@@ -53,12 +58,25 @@ function text(id: string, value: string): void {
 }
 function persist(): void {
     if (state.phase === "selling" || saveBlocked) return;
+    if (desktopSave) {
+        try {
+            queueDesktopSave(encodeSave(state, history));
+        } catch { text("save-status", "Save could not be prepared · export a backup"); }
+        return;
+    }
     try {
         writeSave(localStorage, state, history);
         text("save-status", "Saved on this device");
     } catch {
         text("save-status", "Storage unavailable · export a backup");
     }
+}
+function queueDesktopSave(raw: string, status = "Saved on this PC"): void {
+    saveQueue = saveQueue.then(() => writeSaveAsync(desktopSave!, raw)).then(() => {
+        text("save-status", status);
+    }).catch(() => {
+        text("save-status", "Storage unavailable · export a backup");
+    });
 }
 function quantities(): Stock {
     const quantity = (item: Item) =>
@@ -212,7 +230,10 @@ element("open").addEventListener("click", () =>
         const planned = readPlan();
         const opened = openDay(planned);
         openingCheckpoint = planned;
-        if (!saveBlocked) {
+        if (!saveBlocked && desktopSave) {
+            queueDesktopSave(encodeSave(planned, history));
+            text("save-status", "Opening checkpoint queued · reload restarts this day");
+        } else if (!saveBlocked) {
             try {
                 writeSave(localStorage, planned, history);
                 text("save-status", "Saved before opening · reload restarts this day");
@@ -306,7 +327,10 @@ element<HTMLInputElement>("save-file").addEventListener("change", async (event) 
     try {
         if (file.size > 2_000_000) throw new Error("Save file is too large.");
         const imported = decodeSave(await file.text());
-        writeSave(localStorage, imported.state, imported.history);
+        if (desktopSave) {
+            await saveQueue;
+            await writeSaveAsync(desktopSave, encodeSave(imported.state, imported.history));
+        } else writeSave(localStorage, imported.state, imported.history);
         state = imported.state;
         history = [...imported.history];
         saveBlocked = false;
@@ -495,19 +519,27 @@ function render(): void {
     for (const item of ["lemon", "sugar", "ice"] as const) text("setting-" + item, String(state.plan.recipe[item]));
     renderReport();
 }
-try {
-    const loaded = readSave(localStorage);
-    if (loaded.document) {
-        state = loaded.document.state;
-        history = [...loaded.document.history];
-        resetPresentation();
-        currentPage = state.phase === "results" ? "results" : "recipe";
-        lastFeedback = loaded.recovered ? "Recovered from the previous valid save." : "Business restored from this device.";
-        if (loaded.recovered) writeSave(localStorage, state, history);
-        text("save-status", loaded.recovered ? "Recovered from backup" : "Saved on this device");
-    } else persist();
-} catch (error) {
-    saveBlocked = true;
-    text("save-status", error instanceof Error ? error.message : "Save could not be restored");
+async function restore(): Promise<void> {
+    try {
+        const loaded = desktopSave ? await readSaveAsync(desktopSave) : readSave(localStorage);
+        if (loaded.document) {
+            state = loaded.document.state;
+            history = [...loaded.document.history];
+            resetPresentation();
+            currentPage = state.phase === "results" ? "results" : "recipe";
+            lastFeedback = loaded.recovered ? "Recovered from the previous valid save." : "Business restored from this device.";
+            if (loaded.recovered) {
+                if (desktopSave) queueDesktopSave(encodeSave(state, history), "Recovered from backup");
+                else writeSave(localStorage, state, history);
+            }
+            text("save-status", loaded.recovered ? "Recovered from backup" : desktopSave ? "Saved on this PC" : "Saved on this device");
+        } else persist();
+    } catch (error) {
+        saveBlocked = true;
+        text("save-status", error instanceof Error ? error.message : "Save could not be restored");
+    }
+    render();
+    app.hidden = false;
 }
-render();
+app.hidden = true;
+void restore();
