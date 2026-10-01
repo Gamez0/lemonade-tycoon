@@ -264,7 +264,7 @@ progress::-moz-progress-bar {
 }
 .panel {
     padding: 10px 13px;
-    min-height: 516px;
+    min-height: 540px;
     display: flex;
     flex-direction: column;
 }
@@ -364,6 +364,14 @@ input {
         23px "Tycoon Condensed",
         "Trebuchet MS",
         sans-serif;
+}
+.recipe-row input[type="number"] {
+    appearance: textfield;
+}
+.recipe-row input[type="number"]::-webkit-inner-spin-button,
+.recipe-row input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 input[aria-invalid="true"] {
     background: #873c26;
@@ -890,7 +898,7 @@ a {
         gap: 1px;
     }
     .panel {
-        min-height: 516px;
+        min-height: 540px;
         padding: 10px;
     }
     .recipe-row label span {

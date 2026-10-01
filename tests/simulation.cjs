@@ -1,6 +1,6 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const { newGame, setPlan, buy, unitCost, capacity, quality, demand, openDay, stepCustomer, nextDay, results } = require('../.test-build/simulation/game.js');
+const { newGame, setPlan, buy, unitCost, capacity, cupsPerPitcher, pitcherCost, quality, demand, openDay, stepCustomer, nextDay, results } = require('../.test-build/simulation/game.js');
 const { WEATHER, ITEM_KEYS, ITEMS } = require('../.test-build/content/catalog.js');
 const stocked = (seed = 2026, quantity = 80) => ITEM_KEYS.reduce((s, key) => buy(s, key, quantity), newGame(seed));
 function finish(state) { while (state.phase === 'selling') state = stepCustomer(state).state; return state; }
@@ -46,12 +46,15 @@ test('every sale reconciles complete stock consumption, cash, revenue and cost',
         const before = frozen(s); const step = stepCustomer(s); s = step.state;
         const bought = step.event.kind === 'bought';
         assert.equal(s.cash - before.cash, bought ? s.plan.price : 0);
-        for (const key of ITEM_KEYS) assert.equal(before.stock[key] - s.stock[key], bought ? key === 'cup' ? 1 : s.plan.recipe[key] : 0);
-        assert.equal(s.daily.cost - before.daily.cost, bought ? unitCost(s.plan.recipe) : 0);
+        const made = s.daily.pitchersMade - before.daily.pitchersMade;
+        for (const key of ITEM_KEYS) assert.equal(before.stock[key] - s.stock[key],
+            key === 'cup' ? Number(bought) : made * (key === 'ice' ? s.plan.recipe.ice * cupsPerPitcher(s.plan.recipe) : s.plan.recipe[key]));
+        assert.equal(s.daily.cost - before.daily.cost, made * pitcherCost(s.plan.recipe) + Number(bought) * ITEMS.cup.cost);
         assert.ok(ITEM_KEYS.every(key => s.stock[key] >= 0));
     }
     assert.ok(s.daily.sold > 0);
     assert.equal(s.daily.revenue, s.daily.sold * s.plan.price);
+    assert.equal(s.daily.cost, s.daily.pitchersMade * pitcherCost(s.plan.recipe) + s.daily.sold * ITEMS.cup.cost);
     assert.equal(s.daily.visitors, s.daily.sold + s.daily.rejected + s.daily.soldOut);
     const inventoryValue = stock => ITEM_KEYS.reduce((n, key) => n + stock[key] * ITEMS[key].cost, 0);
     assert.equal(inventoryValue(initial.stock) - inventoryValue(s.stock), s.daily.cost);
@@ -62,11 +65,33 @@ test('every sale reconciles complete stock consumption, cash, revenue and cost',
 test('one-cup inventory sells at most once and missing any ingredient blocks opening', () => {
     const start = stocked();
     for (const key of ITEM_KEYS) assert.throws(() => openDay({ ...start, stock: { ...start.stock, [key]: 0 } }));
-    const s = finish(openDay({ ...start, stock: { lemon: 2, sugar: 1, ice: 2, cup: 1 } }));
+    const s = finish(openDay({ ...start, stock: { lemon: 2, sugar: 1, ice: 24, cup: 1 } }));
     assert.equal(s.daily.sold, 1); assert.ok(s.daily.soldOut > 0);
     assert.deepEqual(s.stock, { lemon: 0, sugar: 0, ice: 0, cup: 0 });
     const noIce = setPlan(start, { ...start.plan, recipe: { ...start.plan.recipe, ice: 0 } });
     assert.ok(capacity({ ...noIce, stock: { ...noIce.stock, ice: 0 } }) > 0);
+});
+test('one pitcher uses lemons and sugar once, while ice scales yield and melts overnight', () => {
+    const recipe = newGame().plan.recipe;
+    assert.equal(cupsPerPitcher(recipe), 12);
+    assert.equal(cupsPerPitcher({ ...recipe, ice: 4 }), 16);
+    assert.equal(cupsPerPitcher({ ...recipe, lemon: 6, sugar: 4 }), 12);
+    assert.ok(unitCost({ ...recipe, lemon: 6 }) > unitCost(recipe));
+    const prepared = { ...stocked(), stock: { lemon: 2, sugar: 1, ice: 24, cup: 12 } };
+    let state = openDay(prepared);
+    const visitor = { id: 1, profile: 0, intent: 'buy', willingness: 500 };
+    state = require('../.test-build/simulation/game.js').settleVisitor(state, visitor).state;
+    assert.equal(state.pitcherCups, 11);
+    assert.deepEqual(state.stock, { lemon: 0, sugar: 0, ice: 0, cup: 11 });
+    assert.equal(state.daily.pitchersMade, 1);
+    assert.equal(state.daily.cost, pitcherCost(recipe) + ITEMS.cup.cost);
+    for (let i = 2; i <= 12; i++) state = require('../.test-build/simulation/game.js').settleVisitor(state, { ...visitor, id: i }).state;
+    assert.equal(state.daily.sold, 12);
+    assert.equal(state.daily.pitchersMade, 1);
+    assert.equal(state.pitcherCups, 0);
+    const overnight = nextDay(finish(openDay(stocked())));
+    assert.equal(overnight.stock.ice, 0);
+    assert.ok(overnight.daily.meltedIce > 0);
 });
 test('no buyers means zero revenue and no satisfaction; expensive plans fail', () => {
     const s = finish(openDay(setPlan(stocked(), { ...newGame().plan, price: 500 })));
@@ -80,7 +105,8 @@ test('deterministic replay and ten consecutive days preserve accounts and reset 
         for (const key of ITEM_KEYS) if (s.stock[key] < 120) s = buy(s, key, 120 - s.stock[key]);
         const done = finish(openDay(s)); const next = nextDay(frozen(done));
         assert.equal(done.day, day); assert.equal(next.day, day + 1);
-        assert.equal(next.cash, done.cash); assert.deepEqual(next.stock, done.stock); assert.equal(next.reputation, done.reputation);
+        assert.equal(next.cash, done.cash); assert.deepEqual(next.stock, { ...done.stock, ice: 0 }); assert.equal(next.reputation, done.reputation);
+        assert.equal(next.daily.meltedIce, done.stock.ice);
         assert.equal(next.daily.visitors, 0); assert.equal(next.daily.revenue, 0); assert.equal(next.daily.purchases, 0);
         assert.equal(results(next).cashChange, 0); assert.throws(() => nextDay(next)); s = next;
     }

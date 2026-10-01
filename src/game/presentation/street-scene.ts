@@ -91,18 +91,18 @@ export class StreetScene extends Phaser.Scene {
                 undefined, true);
         }
         day.waiting.forEach((person, index) => {
-            const target = STREET.stopX + 48 + index * 23;
-            const progress = Math.min(1, (day.tick - person.joinedAt) / 4);
-            const x = -20 + (target + 20) * progress;
+            const target = STREET.stopX + 58 + index * 38;
+            const progress = Math.min(1, (day.tick - person.joinedAt) / 3);
+            const x = 660 + (target - 660) * progress;
             show(person.visitor.id, person.visitor.profile, progress < 1 ? day.tick % 2 : 0,
-                x, STREET.pavementY(x), undefined, progress >= 1);
+                x, STREET.pavementY(x) + 38 * (1 - progress), undefined, progress >= 1);
         });
         for (const person of day.walking) {
             const progress = (day.tick - person.startedAt) / (person.until - person.startedAt);
             const from = person.kind === "passed" || person.kind === "price" ? -20 : STREET.stopX + 19;
             const x = from + (680 - from) * progress;
             show(person.visitor.id, person.visitor.profile,
-                person.kind === "bought" ? 3 : day.tick % 2, x, STREET.pavementY(x),
+                person.kind === "bought" ? 3 : day.tick % 2, x, STREET.pavementY(x) + 38,
                 progress < 0.65 && person.kind !== "passed" ? this.reaction(person) : undefined);
         }
         for (const [id, sprite] of this.people) if (!visible.has(id)) {

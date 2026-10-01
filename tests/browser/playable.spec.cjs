@@ -21,9 +21,9 @@ async function add(page, item, size = 0, times = 1) {
     await page.locator(`[data-supply="${item}"]`).click();
     for (let i = 0; i < times; i++) await page.locator(`[data-bundle="${size}"][data-delta="1"]`).click();
 }
-async function stock(page) {
+async function stock(page, extraIce = false) {
     await tab(page, "supplies");
-    for (const item of ["lemon", "sugar", "ice", "cup"]) await add(page, item);
+    for (const item of ["lemon", "sugar", "ice", "cup"]) await add(page, item, 0, item === "ice" && extraIce ? 2 : 1);
     await page.locator("#buy-order").click();
 }
 async function change(page, id, value) {
@@ -55,13 +55,13 @@ test("three days keep daily and cumulative books and classic geometry", async ({
     await expect(page.locator("#result-intro")).toContainText("No completed days");
     await page.locator("#open").click();
     await expect(page.locator("#message")).toContainText("Buy enough supplies");
-    await stock(page);
+    await stock(page, true);
     await expect(page.locator("#inventory-lemon")).toHaveText("40");
     await change(page, "ice", "4");
     await expect(page.locator("#supplies-page")).toBeHidden();
     await page.locator("#app").screenshot({ path: "test-results/m2-recipe.png" });
     await change(page, "price", "1.75");
-    await expect(page.locator("#unit-cost")).toHaveText("$0.34");
+    await expect(page.locator("#unit-cost")).toHaveText("$0.15");
     await page.locator("#app").screenshot({ path: "test-results/m2-price.png" });
     const geometry = await page.evaluate(() => {
         const box = (selector) => document.querySelector(selector).getBoundingClientRect();
@@ -83,11 +83,11 @@ test("three days keep daily and cumulative books and classic geometry", async ({
         totalRevenue = 0,
         totalCashChange = 0;
     for (let day = 1; day <= 3; day++) {
-        if (day > 1) await stock(page);
+        if (day > 1) await stock(page, true);
         await finishDay(page, day === 1);
         const values = await page.locator("#result-values dd").allTextContents();
         expect(cents(values[1])).toBe(Number(values[0]) * 175);
-        expect(cents(values[2])).toBe(Number(values[0]) * 34);
+        expect(cents(values[2])).toBeGreaterThanOrEqual(Number(values[0]) * 6);
         expect(cents(values[3])).toBe(cents(values[1]) - cents(values[2]));
         expect(cents(values[5])).toBe(cents(values[1]) - cents(values[4]));
         totalSold += Number(values[0]);
@@ -187,6 +187,7 @@ test("375px layout supports three no-sale days and restarting during a visit", a
     await stock(page);
     await change(page, "price", "5");
     for (let day = 1; day <= 3; day++) {
+        if (day > 1) await stock(page, true);
         await finishDay(page);
         await expect(page.locator("#sold")).toHaveText("0");
         await expect(page.locator("#result-values")).toContainText("No buyers yet");
