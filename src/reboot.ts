@@ -4,6 +4,7 @@ import type { Item } from "./game/content/catalog";
 import {
     buyOrder,
     capacity,
+    cupsPerPitcher,
     newGame,
     nextDay,
     openDay,
@@ -354,7 +355,7 @@ function renderReport(): void {
     }
     element("report-commentary").hidden = false;
     const reports = reportPage === "ledger" ? history : [latest];
-    const sum = (key: keyof State["daily"]) => reports.reduce((total, day) => total + day.daily[key], 0);
+    const sum = (key: Exclude<keyof State["daily"], "model">) => reports.reduce((total, day) => total + day.daily[key], 0);
     const sold = sum("sold");
     text(
         "result-intro",
@@ -494,9 +495,11 @@ function render(): void {
     element<HTMLButtonElement>("cancel-order").disabled = cost === 0;
     text("capacity", `${capacity(state)} cups`);
     text("unit-cost", money(unitCost(state.plan.recipe)));
+    text("pitcher-yield", `${cupsPerPitcher(state.plan.recipe)} cups per pitcher`);
+    text("pitcher-cups", `${state.pitcherCups} cups`);
     text(
         "recipe-hint",
-        `Recipe per cup · Forecast fit: ${Math.round(quality(state.plan.recipe, state.weather.temperature) * 100)}%. Try ${state.weather.temperature >= 30 ? 4 : state.weather.temperature >= 25 ? 3 : state.weather.temperature >= 21 ? 2 : 1} ice for today's weather.`,
+        `Forecast fit: ${Math.round(quality(state.plan.recipe, state.weather.temperature) * 100)}%. Try ${state.weather.temperature >= 30 ? 4 : state.weather.temperature >= 25 ? 3 : state.weather.temperature >= 21 ? 2 : 1} ice for today's weather.${state.daily.meltedIce ? ` ${state.daily.meltedIce} ice melted overnight.` : ""}`,
     );
     text("sold", String(state.daily.sold));
     text("revenue", money(state.daily.revenue));
