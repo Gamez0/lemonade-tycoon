@@ -13,3 +13,9 @@ Browser save foundation is implemented; M4 remains in progress until desktop sto
 Self-review found and fixed an opening-day write bypassing damage protection, missing-primary backup recovery, and inconsistent results/history acceptance. Added simulation-level save tests and browser reload/import/export/recovery checks.
 
 Validation: 17 simulation/save tests and 11 production-browser tests passed; strict reboot typecheck, lint, production build and git diff whitespace check passed. Preview server left running at http://localhost:8080.
+
+## Windows file storage adapter — 2026-10-01
+
+`src/desktop/file-storage.cjs` implements the same `getItem`/`setItem` contract for a future Windows desktop shell. It places `save.json` and `save.backup.json` under `%LOCALAPPDATA%\Lemonade Tycoon`, outside the installation folder. Each write uses a unique temporary file in that directory, flushes it, and replaces the destination; the existing valid-backup rule in `save.ts` still applies. Reads distinguish missing files from permission or I/O failures. The directory is selected from the signed-in user's environment, not a hardcoded profile.
+
+The adapter is tested with the same portable save document as the browser. It is not yet wired to a packaged application, so actual Windows process termination, update/reinstall behavior and file replacement still require the desktop shell and M7 package verification. Browser exports provide migration input for that future shell.
