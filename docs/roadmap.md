@@ -28,7 +28,7 @@
 - [연속 영업 장면 관찰과 결정적 규칙](research/m3-street-observation.md)을 기준으로 구현하고, 다중 인물 화면 캡처와 단위·브라우저 검증을 마쳤다. 2026-09-30 사용자 지시에 따라 M2의 시각 검토가 열린 상태에서도 M3 기능·검증을 진행했으며, M2를 완료한 것으로 표시하지 않는다.
 - 완료 조건: 겹침 없는 이동/줄 정렬, 여러 손님의 독립된 생애주기, 이중 결제 없는 결정적 회계, 속도 변경/SKIP/영업 종료/마지막 손님/다음 날/재시작 검증. 관련 구형 이슈 #16의 원래 조건도 비교한다.
 
-## M4 — Reliable saves and recovery · 계획
+## M4 — Reliable saves and recovery · 진행 중
 
 [마일스톤](https://github.com/Gamez0/lemonade-tycoon/milestone/4) · [추적 이슈 #105](https://github.com/Gamez0/lemonade-tycoon/issues/105)
 

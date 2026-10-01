@@ -15,6 +15,7 @@ import {
 import type { CustomerEvent, State, Stock } from "./game/simulation/game";
 import { beginStreetDay, finishStreetDay, tickStreet } from "./game/simulation/street-day";
 import type { StreetDay } from "./game/simulation/street-day";
+import { decodeSave, encodeSave, readSave, writeSave } from "./game/simulation/save";
 import { StreetScene } from "./game/presentation/street-scene";
 import { icon } from "./game/presentation/icons";
 import { markup } from "./game/presentation/layout";
@@ -32,6 +33,7 @@ const bundleSizes = [1, 2, 5];
 let state = newGame();
 let reactions = { bought: 0, price: 0, passed: 0, "sold-out": 0, abandoned: 0 };
 let street: StreetDay | null = null;
+let openingCheckpoint: State | null = null;
 let history: State[] = [];
 let order = emptyOrder();
 let selectedSupply: Item = "lemon";
@@ -40,6 +42,7 @@ let reportPage: "daily" | "ledger" = "daily";
 let lastFeedback = "Your first customers are just around the corner.";
 let restartArmed = false;
 let fast = false;
+let saveBlocked = false;
 const app = document.querySelector<HTMLDivElement>("#app")!;
 app.innerHTML = markup;
 function element<T extends HTMLElement = HTMLElement>(id: string): T {
@@ -47,6 +50,15 @@ function element<T extends HTMLElement = HTMLElement>(id: string): T {
 }
 function text(id: string, value: string): void {
     element(id).textContent = value;
+}
+function persist(): void {
+    if (state.phase === "selling" || saveBlocked) return;
+    try {
+        writeSave(localStorage, state, history);
+        text("save-status", "Saved on this device");
+    } catch {
+        text("save-status", "Storage unavailable · export a backup");
+    }
 }
 function quantities(): Stock {
     const quantity = (item: Item) =>
@@ -91,6 +103,7 @@ function applyStreet(events: CustomerEvent[]): void {
         history.push(state);
         currentPage = "results";
         reportPage = "daily";
+        persist();
     }
 }
 const scene = new StreetScene({
@@ -122,6 +135,7 @@ function act(action: () => State): void {
         state = action();
         text("message", "");
         render();
+        persist();
     } catch (error) {
         text("message", error instanceof Error ? error.message : "Please check your choices.");
     }
@@ -195,7 +209,15 @@ element("open").addEventListener("click", () =>
             showPage("supplies");
             throw new Error("BUY or CANCEL your pending order before starting the day.");
         }
-        const opened = openDay(readPlan());
+        const planned = readPlan();
+        const opened = openDay(planned);
+        openingCheckpoint = planned;
+        if (!saveBlocked) {
+            try {
+                writeSave(localStorage, planned, history);
+                text("save-status", "Saved before opening · reload restarts this day");
+            } catch { text("save-status", "Storage unavailable · export a backup"); }
+        }
         scene.resetDay();
         street = beginStreetDay(opened);
         return opened;
@@ -204,6 +226,7 @@ element("open").addEventListener("click", () =>
 function resetPresentation(): void {
     reactions = { bought: 0, price: 0, passed: 0, "sold-out": 0, abandoned: 0 };
     street = null;
+    openingCheckpoint = null;
     currentPage = "recipe";
     reportPage = "daily";
     selectedSupply = "lemon";
@@ -250,6 +273,7 @@ element("restart").addEventListener("click", () => {
     }
     state = newGame();
     history = [];
+    saveBlocked = false;
     resetPresentation();
     lastFeedback = "Your first customers are just around the corner.";
     act(() => state);
@@ -261,6 +285,38 @@ function cancelRestart(): void {
 element("restart").addEventListener("blur", cancelRestart);
 element("restart").addEventListener("keydown", (event) => {
     if (event.key === "Escape") cancelRestart();
+});
+element("export-save").addEventListener("click", () => {
+    try {
+        const raw = encodeSave(state.phase === "selling" ? openingCheckpoint! : state, history);
+        const url = URL.createObjectURL(new Blob([raw], { type: "application/json" }));
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `lemonade-tycoon-day-${state.day}.json`;
+        link.click();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        text("save-status", "Save exported");
+    } catch (error) { text("save-status", error instanceof Error ? error.message : "Export failed"); }
+});
+element("import-save").addEventListener("click", () => element<HTMLInputElement>("save-file").click());
+element<HTMLInputElement>("save-file").addEventListener("change", async (event) => {
+    const input = event.currentTarget as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) return;
+    try {
+        if (file.size > 2_000_000) throw new Error("Save file is too large.");
+        const imported = decodeSave(await file.text());
+        writeSave(localStorage, imported.state, imported.history);
+        state = imported.state;
+        history = [...imported.history];
+        saveBlocked = false;
+        resetPresentation();
+        currentPage = state.phase === "results" ? "results" : "recipe";
+        lastFeedback = "Imported business restored.";
+        render();
+        text("save-status", "Imported save · saved on this device");
+    } catch (error) { text("save-status", error instanceof Error ? error.message : "Import failed"); }
+    input.value = "";
 });
 function renderReport(): void {
     for (const button of document.querySelectorAll<HTMLButtonElement>("[data-report]"))
@@ -438,5 +494,20 @@ function render(): void {
     text("setting-capacity", capacity(state) + " cups");
     for (const item of ["lemon", "sugar", "ice"] as const) text("setting-" + item, String(state.plan.recipe[item]));
     renderReport();
+}
+try {
+    const loaded = readSave(localStorage);
+    if (loaded.document) {
+        state = loaded.document.state;
+        history = [...loaded.document.history];
+        resetPresentation();
+        currentPage = state.phase === "results" ? "results" : "recipe";
+        lastFeedback = loaded.recovered ? "Recovered from the previous valid save." : "Business restored from this device.";
+        if (loaded.recovered) writeSave(localStorage, state, history);
+        text("save-status", loaded.recovered ? "Recovered from backup" : "Saved on this device");
+    } else persist();
+} catch (error) {
+    saveBlocked = true;
+    text("save-status", error instanceof Error ? error.message : "Save could not be restored");
 }
 render();

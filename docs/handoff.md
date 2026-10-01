@@ -33,3 +33,7 @@ After this M2 implementation, collect user visual feedback before marking the mi
 ## Working agreement
 
 User authorizes routine git/GitHub operations without repeated confirmation. Self-review and green CI are required before merging. No subagents were used. At the end of a working session, explicitly report any local preview server left running.
+
+## Latest checkpoint — 2026-10-01
+
+Active worktree: `.reboot-work`, branch `feat/m4-save-recovery`. M3 merged in #117. Resumed WIP commit c9ec9b0 (M4 save/recovery), fixed corrupted-save protection when opening, missing-primary recovery and result/history consistency. Save tests are in `tests/save.cjs` and `tests/browser/save.spec.cjs`; policy and outstanding desktop work in `docs/reviews/m4-save-recovery.md`. M2 still awaits visual acceptance. M4 is in progress, not complete. Parent worktree changes remain user-owned.
