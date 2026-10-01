@@ -4,6 +4,7 @@ import type { State } from "./game";
 
 export const SAVE_KEY = "lemonade-tycoon.reboot.save";
 export const BACKUP_KEY = "lemonade-tycoon.reboot.backup";
+export type SaveStorage = Pick<Storage, "getItem" | "setItem">;
 export interface SaveDocument {
     readonly version: 1;
     readonly state: State;
@@ -65,6 +66,15 @@ export function decodeSave(raw: string): SaveDocument {
         history.some((day, index) => index > 0 && day.openingCash !== history[index - 1].cash) ||
         (history.length > 0 && state.phase === "preparation" && state.openingCash !== history[history.length - 1].cash))
         throw new Error("Save history does not match the current day.");
+    if (state.phase === "results") {
+        const latest = history[history.length - 1];
+        const equal = (a: unknown, b: unknown): boolean => {
+            if (record(a) && record(b)) return Object.keys(a).length === Object.keys(b).length &&
+                Object.keys(a).every(key => equal(a[key], b[key]));
+            return a === b;
+        };
+        if (!equal(state, latest)) throw new Error("Save history does not match the current results.");
+    }
     return { version: 1, state, history };
 }
 
@@ -73,7 +83,7 @@ export function encodeSave(state: State, history: readonly State[]): string {
     return JSON.stringify(decodeSave(JSON.stringify({ version: 1, state, history })));
 }
 
-export function writeSave(storage: Storage, state: State, history: readonly State[]): void {
+export function writeSave(storage: SaveStorage, state: State, history: readonly State[]): void {
     const next = encodeSave(state, history);
     const previous = storage.getItem(SAVE_KEY);
     if (previous) {
@@ -82,9 +92,13 @@ export function writeSave(storage: Storage, state: State, history: readonly Stat
     storage.setItem(SAVE_KEY, next);
 }
 
-export function readSave(storage: Storage): { document: SaveDocument | null; recovered: boolean } {
+export function readSave(storage: SaveStorage): { document: SaveDocument | null; recovered: boolean } {
     const primary = storage.getItem(SAVE_KEY);
-    if (!primary) return { document: null, recovered: false };
+    if (primary === null) {
+        const backup = storage.getItem(BACKUP_KEY);
+        return backup === null ? { document: null, recovered: false }
+            : { document: decodeSave(backup), recovered: true };
+    }
     try { return { document: decodeSave(primary), recovered: false }; }
     catch (error) {
         const backup = storage.getItem(BACKUP_KEY);

@@ -1,4 +1,4 @@
-﻿# Lemonade Tycoon
+# Lemonade Tycoon
 
 A neighborhood lemonade business built with Phaser and TypeScript. Buy supplies, adjust a recipe and price, watch customers visit, and improve tomorrow.
 
@@ -21,7 +21,7 @@ Start with $40 and empty stock. In Supplies, select ingredients and add bundles 
 
 Results offers Last day and a cumulative Profit & loss ledger for completed days; it remains available during the next preparation. Reports distinguish profit (sales minus ingredients consumed) from cash change (sales minus supplies purchased). Leftover supplies, cash and reputation carry into the next day. Aim for $75 cash; play can continue afterward. Choose **New business** twice to reset; Escape or moving focus cancels confirmation.
 
-Progress lasts for the current page session. The MVP has one free location, silent original pixel artwork, and no save/load, staff or upgrades yet. The legacy entry retains its previous behavior and external font dependency.
+Progress saves automatically on this device. Reload during selling returns to the checkpoint just before opening that day. Use Export save for a portable backup and Import save to restore it; browser data can be cleared and is not synced. See [save and recovery policy](docs/reviews/m4-save-recovery.md). The MVP has one free location, silent original pixel artwork, and no staff or upgrades yet. The legacy entry retains its previous behavior and external font dependency.
 
 ## Checks
 

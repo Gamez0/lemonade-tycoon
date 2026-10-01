@@ -212,7 +212,12 @@ element("open").addEventListener("click", () =>
         const planned = readPlan();
         const opened = openDay(planned);
         openingCheckpoint = planned;
-        try { writeSave(localStorage, planned, history); } catch { text("save-status", "Storage unavailable · export a backup"); }
+        if (!saveBlocked) {
+            try {
+                writeSave(localStorage, planned, history);
+                text("save-status", "Saved before opening · reload restarts this day");
+            } catch { text("save-status", "Storage unavailable · export a backup"); }
+        }
         scene.resetDay();
         street = beginStreetDay(opened);
         return opened;
