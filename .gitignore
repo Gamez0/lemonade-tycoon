@@ -9,6 +9,8 @@ lerna-debug.log*
 
 node_modules
 dist
+.desktop-build/
+release/
 dist-ssr
 .test-build/
 test-results/

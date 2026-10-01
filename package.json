@@ -23,12 +23,17 @@
         "lint:fix": "eslint . --ext .js,.mjs,.cjs,.ts --fix",
         "typecheck": "tsc -p tsconfig.reboot.json",
         "lint:reboot": "eslint src/reboot.ts src/game --max-warnings 0",
-        "test:browser": "playwright test"
+        "test:browser": "playwright test",
+        "desktop:run": "npm run build-nolog && electron .",
+        "desktop:package:win": "npm run build-nolog && node scripts/package-win.cjs",
+        "test:desktop": "node tests/desktop.cjs"
     },
     "devDependencies": {
+        "@electron/packager": "^20.3.0",
         "@eslint/js": "^9.22.0",
         "@playwright/test": "^1.63.0",
         "@types/webfontloader": "^1.6.38",
+        "electron": "^44.5.1",
         "eslint": "^9.22.0",
         "eslint-config-prettier": "^10.1.1",
         "eslint-plugin-prettier": "^5.2.3",
@@ -41,5 +46,6 @@
     "dependencies": {
         "phaser": "^3.87.0",
         "webfontloader": "^1.6.28"
-    }
+    },
+    "main": "src/desktop/main.cjs"
 }

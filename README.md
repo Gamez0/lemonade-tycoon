@@ -23,6 +23,8 @@ Results offers Last day and a cumulative Profit & loss ledger for completed days
 
 Progress saves automatically on this device. Reload during selling returns to the checkpoint just before opening that day. Use Export save for a portable backup and Import save to restore it; browser data can be cleared and is not synced. See [save and recovery policy](docs/reviews/m4-save-recovery.md). The MVP has one free location, silent original pixel artwork, and no staff or upgrades yet. The legacy entry retains its previous behavior and external font dependency.
 
+For a Windows desktop prototype, run `npm run desktop:package:win` and launch the executable from `release/Lemonade Tycoon-win32-x64/`. Saves are written to `%LOCALAPPDATA%\Lemonade Tycoon`, independently of the installation folder. See the [Windows package review](docs/reviews/m4-desktop-package.md) for testing and remaining release work.
+
 ## Checks
 
 ```sh

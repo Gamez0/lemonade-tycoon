@@ -30,6 +30,10 @@ Consult PR #89 and its latest checks for the final remote state. Merge only afte
 
 After this M2 implementation, collect user visual feedback before marking the milestone complete. Save/load, progression, staff, upgrades, sound and balance work are still deferred per `docs/roadmap.md`. No background development schedule has been created.
 
+## 2026-10-01 desktop continuation
+
+M4 browser saves and a Windows file adapter were merged in #118 and #119. The next branch adds an Electron Windows x64 package and connects the native save adapter to the same JSON format. See `docs/reviews/m4-desktop-package.md` for build/test commands and remaining Steam Cloud, update/reinstall and clean-PC checks. M4/#105 remains open. The M2 visual acceptance is also still open. The parent worktree on `refactor/static-scene-registration` has unrelated user changes; do not stage or reset them.
+
 ## Working agreement
 
 User authorizes routine git/GitHub operations without repeated confirmation. Self-review and green CI are required before merging. No subagents were used. At the end of a working session, explicitly report any local preview server left running.
