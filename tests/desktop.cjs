@@ -1,10 +1,11 @@
-﻿const { _electron: electron } = require('playwright');
+const { _electron: electron } = require('playwright');
 const { expect } = require('@playwright/test');
 const fs = require('node:fs');
 const path = require('node:path');
 const os = require('node:os');
 const { execFileSync } = require('node:child_process');
 
+let stage = 'launch and preparation save';
 const executablePath = process.env.LEMONADE_DESKTOP_EXE;
 if (!executablePath || !fs.existsSync(executablePath)) throw new Error('Set LEMONADE_DESKTOP_EXE to the packaged game executable.');
 const base = fs.mkdtempSync(path.join(os.tmpdir(), 'lemonade-desktop-test-'));
@@ -42,6 +43,7 @@ const closeNormally = async session => {
         await session.page.locator('#open').click();
         await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'selling');
         await expect.poll(() => fs.readFileSync(savePath, 'utf8')).toBe(preparation);
+        stage = 'forced selling termination';
         execFileSync('taskkill', ['/PID', String(session.app.process().pid), '/T', '/F']);
         session = await launch();
         await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
@@ -49,6 +51,7 @@ const closeNormally = async session => {
         await session.page.locator('#skip').click();
         await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'results');
         await expect.poll(() => JSON.parse(fs.readFileSync(savePath, 'utf8')).state.phase).toBe('results');
+        stage = 'results export and invalid import';
         const results = fs.readFileSync(savePath, 'utf8');
         // Exercise the native download, without assuming browser download events.
         const exportedPath = path.join(base, 'exported-business.json');
@@ -69,6 +72,7 @@ const closeNormally = async session => {
         await closeNormally(session); session = await launch();
         await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'results');
         if (fs.readFileSync(savePath, 'utf8') !== results) throw new Error('Results changed on relaunch.');
+        stage = 'next-day immediate close and flush';
         // Close immediately after a new checkpoint: exercise the renderer flush handshake.
         await session.page.locator('#next').click();
         await closeNormally(session); session = await launch();
@@ -77,6 +81,7 @@ const closeNormally = async session => {
         await closeNormally(session); session = null;
         // A second installation directory must still use the same user-data root.
         // This simulates relocation, not an installer update or clean-PC acceptance.
+        stage = 'same-build installation relocation';
         const replacement = path.join(base, 'replacement-install');
         fs.cpSync(path.dirname(executablePath), replacement, { recursive: true });
         const beforeRelocation = fs.readFileSync(savePath, 'utf8');
@@ -84,6 +89,7 @@ const closeNormally = async session => {
         await expect(session.page.locator('#day')).toHaveText('02');
         if (fs.readFileSync(savePath, 'utf8') !== beforeRelocation) throw new Error('Relocation changed the save.');
         await closeNormally(session); session = null;
+        stage = 'corrupt-primary backup recovery';
         const backup = JSON.parse(fs.readFileSync(path.join(base, 'Lemonade Tycoon', 'save.backup.json'), 'utf8'));
         fs.writeFileSync(savePath, '{', 'utf8');
         session = await launch();
@@ -91,6 +97,7 @@ const closeNormally = async session => {
         await expect(session.page.locator('#app')).toHaveAttribute('data-phase', backup.state.phase);
         await closeNormally(session); session = null;
         // Both damaged files stay protected even while the player buys and opens.
+        stage = 'both-corrupt protection and portable import';
         const backupPath = path.join(base, 'Lemonade Tycoon', 'save.backup.json');
         fs.writeFileSync(savePath, '{'); fs.writeFileSync(backupPath, '{');
         session = await launch();
@@ -122,4 +129,13 @@ const closeNormally = async session => {
         if (session) await session.app.close().catch(() => {});
         fs.rmSync(base, { recursive: true, force: true });
     }
-})().then(() => process.exit(0)).catch(error => { process.stderr.write(`${error.stack || error}\n`); process.exit(1); });
+})().then(() => process.exit(0)).catch(error => {
+    const detail = `${stage}: ${error.stack || error}`;
+    process.stderr.write(`${detail}\n`);
+    if (process.env.GITHUB_ACTIONS === 'true') {
+        // Check annotations remain readable through the API even when log downloads are blocked.
+        const escaped = detail.replace(/%/g, '%25').replace(/\r/g, '%0D').replace(/\n/g, '%0A');
+        process.stdout.write(`::error title=Windows packaged save failure::${escaped}\n`);
+    }
+    process.exit(1);
+});
