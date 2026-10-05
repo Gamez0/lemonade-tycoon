@@ -65,6 +65,9 @@ const closeNormally = async session => {
             try { return JSON.parse(fs.readFileSync(exportedPath, 'utf8')); }
             catch { return null; }
         }).toEqual(JSON.parse(results));
+        // Playwright deletes tracked downloads when the Electron context closes.
+        // Retain the actual exported bytes for import after the relaunch checks.
+        const exportedDocument = fs.readFileSync(exportedPath);
         await session.page.locator('#save-file').setInputFiles({ name: 'invalid.json',
             mimeType: 'application/json', buffer: Buffer.from('{') });
         await expect(session.page.locator('#save-status')).toContainText('not valid JSON');
@@ -117,7 +120,8 @@ const closeNormally = async session => {
         await expect(session.page.locator('#save-status')).toContainText('not valid JSON');
         if (fs.readFileSync(savePath, 'utf8') !== '{' || fs.readFileSync(backupPath, 'utf8') !== '{')
             throw new Error('Invalid import erased damaged files.');
-        await session.page.locator('#save-file').setInputFiles(exportedPath);
+        await session.page.locator('#save-file').setInputFiles({ name: 'exported-business.json',
+            mimeType: 'application/json', buffer: exportedDocument });
         await expect(session.page.locator('#save-status')).toContainText('Imported save');
         if (fs.readFileSync(savePath, 'utf8') !== results) throw new Error('Portable import changed the business.');
         await closeNormally(session); session = await launch();

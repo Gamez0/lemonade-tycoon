@@ -309,3 +309,20 @@ parallel agent, separate API billing or credit purchase is configured.
   replacement/reinstall, M2 user visual approval and Steam/account/device checks. M4 remains open;
   M5 implementation stays deferred. Independent M5 design was completed, not gameplay implementation.
   Runnable diagnostic work is done; no endless reruns, parallel agents or paid automation configured.
+
+## Reproduced Windows failure and focused correction — 2026-10-06 KST
+
+At merged head `5d60216eb2f8d76012fff86769a0531fc576433a`, Windows run 37329620688
+failed again. The new check annotation exposed the exact failure: `ENOENT` on the exported
+JSON path during `setInputFiles`, in stage `both-corrupt protection and portable import`.
+The test had already verified that export's contents, then closed/reopened Electron several
+times before reusing the download path. Playwright's installed context code deletes tracked
+downloads on context close (`_deleteAllDownloads` / `deleteOnContextClose`).
+
+Correction: capture the actual successfully exported file bytes immediately after validating
+them, and import those bytes after relaunch instead of a context-owned download path. Native
+export and exact import/results/relaunch assertions remain intact; no canned fixture replaces
+the exported business. No gameplay/save policy changed. Desktop JS syntax and whitespace checks
+passed. The demonstrated failing Windows run is the pre-fix regression evidence; Windows
+current-head rerun is required to establish the fix. Historical run 37327073561 logs remain
+unavailable, so do not claim its exact error independently observed.
