@@ -1,0 +1,25 @@
+name: Windows package saves
+on:
+    push:
+    pull_request:
+    workflow_dispatch:
+permissions:
+    contents: read
+jobs:
+    packaged-saves:
+        runs-on: windows-latest
+        timeout-minutes: 20
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+                  cache: npm
+            - run: npm ci
+            - run: npm test
+            - run: npm run desktop:package:win
+            - name: Test packaged save and recovery
+              shell: pwsh
+              run: |
+                  $env:LEMONADE_DESKTOP_EXE = Join-Path $env:GITHUB_WORKSPACE 'release/Lemonade Tycoon-win32-x64/Lemonade Tycoon.exe'
+                  npm run test:desktop

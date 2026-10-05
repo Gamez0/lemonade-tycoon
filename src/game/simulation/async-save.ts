@@ -10,8 +10,10 @@ export async function writeSaveAsync(storage: AsyncSaveStorage, raw: string): Pr
     decodeSave(raw);
     const previous = await storage.getItem(SAVE_KEY);
     if (previous !== null) {
-        try { decodeSave(previous); await storage.setItem(BACKUP_KEY, previous); }
+        let valid = false;
+        try { decodeSave(previous); valid = true; }
         catch { /* Keep the last valid backup. */ }
+        if (valid) await storage.setItem(BACKUP_KEY, previous);
     }
     await storage.setItem(SAVE_KEY, raw);
 }

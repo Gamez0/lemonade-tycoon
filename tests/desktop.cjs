@@ -19,6 +19,11 @@ const launch = async () => {
     if (!await page.evaluate(() => Boolean(window.desktopSave))) throw new Error('Native save bridge is missing.');
     return { app, page };
 };
+const closeNormally = async session => {
+    const closed = session.app.waitForEvent('close');
+    await session.app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].close());
+    await closed;
+};
 (async () => {
     let session;
     try {
@@ -31,11 +36,12 @@ const launch = async () => {
         await session.page.locator('#buy-order').click();
         await expect.poll(() => JSON.parse(fs.readFileSync(savePath, 'utf8')).state.stock.cup).toBeGreaterThan(0);
         const preparation = fs.readFileSync(savePath, 'utf8');
-        await session.app.close(); session = await launch();
+        await closeNormally(session); session = await launch();
         await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
         if (fs.readFileSync(savePath, 'utf8') !== preparation) throw new Error('Preparation changed on relaunch.');
         await session.page.locator('#open').click();
         await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'selling');
+        await expect.poll(() => fs.readFileSync(savePath, 'utf8')).toBe(preparation);
         execFileSync('taskkill', ['/PID', String(session.app.process().pid), '/T', '/F']);
         session = await launch();
         await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
@@ -43,15 +49,22 @@ const launch = async () => {
         await session.page.locator('#skip').click();
         await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'results');
         await expect.poll(() => JSON.parse(fs.readFileSync(savePath, 'utf8')).state.phase).toBe('results');
-        await session.app.close(); session = await launch();
+        const results = fs.readFileSync(savePath, 'utf8');
+        await closeNormally(session); session = await launch();
         await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'results');
-        await session.app.close(); session = null;
+        if (fs.readFileSync(savePath, 'utf8') !== results) throw new Error('Results changed on relaunch.');
+        // Close immediately after a new checkpoint: exercise the renderer flush handshake.
+        await session.page.locator('#next').click();
+        await closeNormally(session); session = await launch();
+        await expect(session.page.locator('#day')).toHaveText('02');
+        await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
+        await closeNormally(session); session = null;
         const backup = JSON.parse(fs.readFileSync(path.join(base, 'Lemonade Tycoon', 'save.backup.json'), 'utf8'));
         fs.writeFileSync(savePath, '{', 'utf8');
         session = await launch();
         await expect(session.page.locator('#save-status')).toContainText('Recovered from backup');
         await expect(session.page.locator('#app')).toHaveAttribute('data-phase', backup.state.phase);
-        await session.app.close(); session = null;
+        await closeNormally(session); session = null;
         process.stdout.write('Windows package: save, relaunch, forced exit and results recovery passed.\n');
     } finally {
         if (session) await session.app.close().catch(() => {});
