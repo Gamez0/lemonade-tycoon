@@ -5,6 +5,9 @@ export type Stock = Readonly<Record<Item, number>>;
 export interface Recipe { readonly lemon: number; readonly sugar: number; readonly ice: number }
 export interface Plan { readonly recipe: Recipe; readonly price: number }
 export interface Daily {
+    readonly model: "cup" | "pitcher";
+    readonly pitchersMade: number;
+    readonly meltedIce: number;
     readonly visitors: number;
     readonly sold: number;
     readonly rejected: number;
@@ -23,6 +26,7 @@ export interface State {
     readonly cash: number;
     readonly openingCash: number;
     readonly stock: Stock;
+    readonly pitcherCups: number;
     readonly plan: Plan;
     readonly weather: Weather;
     readonly reputation: number;
@@ -42,8 +46,14 @@ export interface Visitor {
     readonly willingness: number;
 }
 
-const emptyDaily = (): Daily => ({ visitors: 0, sold: 0, rejected: 0, priceRejected: 0, passed: 0, soldOut: 0, abandoned: 0,
+const emptyDaily = (meltedIce = 0): Daily => ({ model: "pitcher", pitchersMade: 0, meltedIce,
+    visitors: 0, sold: 0, rejected: 0, priceRejected: 0, passed: 0, soldOut: 0, abandoned: 0,
     revenue: 0, cost: 0, purchases: 0, satisfactionTotal: 0 });
+const PITCHER_CUPS = [10, 11, 12, 14, 16, 20, 25, 33] as const;
+export const cupsPerPitcher = (recipe: Recipe): number => PITCHER_CUPS[recipe.ice];
+export const pitcherCost = (recipe: Recipe): number =>
+    recipe.lemon * ITEMS.lemon.cost + recipe.sugar * ITEMS.sugar.cost +
+    recipe.ice * cupsPerPitcher(recipe) * ITEMS.ice.cost;
 const clamp = (n: number, min = 0, max = 1) => Math.max(min, Math.min(max, n));
 function integer(n: number, min: number, max: number, label: string): void {
     if (!Number.isSafeInteger(n) || n < min || n > max) throw new Error(`${label} must be ${min}–${max}.`);
@@ -62,7 +72,7 @@ function forecast(seed: number): { seed: number; weather: Weather } {
 export function newGame(seed = 2026): State {
     integer(seed, 0, 4294967295, "Seed");
     return { phase: "preparation", day: 1, cash: 4000, openingCash: 4000,
-        stock: { lemon: 0, sugar: 0, ice: 0, cup: 0 },
+        stock: { lemon: 0, sugar: 0, ice: 0, cup: 0 }, pitcherCups: 0,
         plan: { recipe: { lemon: 2, sugar: 1, ice: 2 }, price: 150 },
         reputation: 0.5, daily: emptyDaily(), ...forecast(seed) };
 }
@@ -71,7 +81,7 @@ export function setPlan(state: State, plan: Plan): State {
     integer(plan.price, 25, 500, "Price (cents)");
     integer(plan.recipe.lemon, 1, 6, "Lemon");
     integer(plan.recipe.sugar, 1, 4, "Sugar");
-    integer(plan.recipe.ice, 0, 6, "Ice");
+    integer(plan.recipe.ice, 0, 7, "Ice");
     return { ...state, plan: { price: plan.price, recipe: { ...plan.recipe } } };
 }
 export function buy(state: State, item: Item, quantity: number): State {
@@ -93,12 +103,13 @@ export function buyOrder(state: State, order: Stock): State {
 }
 
 export function unitCost(recipe: Recipe): number {
-    return recipe.lemon * ITEMS.lemon.cost + recipe.sugar * ITEMS.sugar.cost + recipe.ice * ITEMS.ice.cost + ITEMS.cup.cost;
+    return pitcherCost(recipe) / cupsPerPitcher(recipe) + ITEMS.cup.cost;
 }
 export function capacity(state: State): number {
     const { stock, plan: { recipe } } = state;
-    return Math.min(stock.cup, Math.floor(stock.lemon / recipe.lemon), Math.floor(stock.sugar / recipe.sugar),
-        recipe.ice === 0 ? Infinity : Math.floor(stock.ice / recipe.ice));
+    const newPitchers = Math.min(Math.floor(stock.lemon / recipe.lemon), Math.floor(stock.sugar / recipe.sugar),
+        recipe.ice === 0 ? Infinity : Math.floor(stock.ice / (recipe.ice * cupsPerPitcher(recipe))));
+    return Math.min(stock.cup, state.pitcherCups + newPitchers * cupsPerPitcher(recipe));
 }
 export function quality(recipe: Recipe, temperature: number): number {
     const balance = Math.abs(recipe.lemon / recipe.sugar - 2) * 0.2;
@@ -117,7 +128,7 @@ export function demand(plan: Plan, weather: Weather, reputation: number, profile
 }
 export function openDay(state: State): State {
     phase(state, "preparation");
-    if (capacity(state) === 0) throw new Error("Buy enough supplies for at least one cup before opening.");
+    if (capacity(state) === 0) throw new Error("Buy enough supplies for one pitcher and a cup before opening.");
     return { ...state, phase: "selling" };
 }
 export function drawVisitor(state: State, id: number): { state: State; visitor: Visitor } {
@@ -136,10 +147,12 @@ export function settleVisitor(state: State, visitor: Visitor, outcome?: "abandon
     const sold = kind === "bought";
     const satisfaction = sold ? Math.round(clamp(quality(state.plan.recipe, state.weather.temperature) * 0.8
         + clamp(1 - state.plan.price / (visitor.willingness * 1.4)) * 0.2) * 100) : null;
+    const makePitcher = sold && state.pitcherCups === 0;
+    const recipe = state.plan.recipe;
     const stock: Stock = sold ? {
-        lemon: state.stock.lemon - state.plan.recipe.lemon,
-        sugar: state.stock.sugar - state.plan.recipe.sugar,
-        ice: state.stock.ice - state.plan.recipe.ice, cup: state.stock.cup - 1,
+        lemon: state.stock.lemon - (makePitcher ? recipe.lemon : 0),
+        sugar: state.stock.sugar - (makePitcher ? recipe.sugar : 0),
+        ice: state.stock.ice - (makePitcher ? recipe.ice * cupsPerPitcher(recipe) : 0), cup: state.stock.cup - 1,
     } : state.stock;
     const daily: Daily = { ...state.daily, visitors: state.daily.visitors + 1,
         sold: state.daily.sold + Number(sold), rejected: state.daily.rejected + Number(kind === "price" || kind === "passed"),
@@ -147,10 +160,13 @@ export function settleVisitor(state: State, visitor: Visitor, outcome?: "abandon
         passed: state.daily.passed + Number(kind === "passed"),
         soldOut: state.daily.soldOut + Number(kind === "sold-out"),
         abandoned: state.daily.abandoned + Number(kind === "abandoned"),
-        revenue: state.daily.revenue + (sold ? state.plan.price : 0), cost: state.daily.cost + (sold ? unitCost(state.plan.recipe) : 0),
+        revenue: state.daily.revenue + (sold ? state.plan.price : 0),
+        cost: state.daily.cost + (makePitcher ? pitcherCost(recipe) : 0) + (sold ? ITEMS.cup.cost : 0),
+        pitchersMade: state.daily.pitchersMade + Number(makePitcher),
         satisfactionTotal: state.daily.satisfactionTotal + (satisfaction ?? 0) };
     const finished = daily.visitors >= state.weather.traffic;
     return { state: { ...state, stock, daily, cash: state.cash + (sold ? state.plan.price : 0),
+        pitcherCups: finished ? 0 : state.pitcherCups + (makePitcher ? cupsPerPitcher(recipe) : 0) - Number(sold),
         phase: finished ? "results" : "selling",
         reputation: finished && daily.sold > 0 ? clamp(state.reputation * 0.65 + daily.satisfactionTotal / daily.sold / 100 * 0.35) : state.reputation },
         event: { id: visitor.id, kind, profile: visitor.profile, satisfaction } };
@@ -162,7 +178,8 @@ export function stepCustomer(state: State): { state: State; event: CustomerEvent
 export function nextDay(state: State): State {
     phase(state, "results");
     return { ...state, phase: "preparation", day: state.day + 1, openingCash: state.cash,
-        daily: emptyDaily(), ...forecast(state.seed) };
+        stock: { ...state.stock, ice: 0 }, pitcherCups: 0,
+        daily: emptyDaily(state.stock.ice), ...forecast(state.seed) };
 }
 export function results(state: State): { profit: number; cashChange: number; satisfaction: number | null } {
     return { profit: state.daily.revenue - state.daily.cost,

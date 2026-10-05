@@ -12,4 +12,4 @@ Tests compile the simulation in isolation and execute with Node's built-in test 
 
 `src/reboot.ts` owns DOM controls and state snapshots. The street scene previews the deterministic next customer's profile without committing a transaction, then advances simulation once at arrival. The last customer's exit gates the next-day control. Restart clears animation state and speed immediately. Canvas rendering is sufficient for the small original pixel textures and avoids a WebGL requirement.
 
-Storage, pitcher production delays, queues with abandonment, upgrades and multiple locations are deferred. Add modules when there is a tested use case, not speculative interfaces.
+The current simulation produces pitchers when a buyer needs one, counts prepared cups, discards remaining prepared cups at closing, and melts leftover ice before the next preparation. Service delay and queues are separate fixed-tick street rules. Storage and save migration use the versioned save document. Staff, upgrades and multiple locations remain later milestones.
