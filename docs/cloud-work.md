@@ -217,3 +217,21 @@ and queued/running status; that prerequisite is not confirmed here. No auto-reru
 Follow-up PR/current-head Windows result will be recorded after remote validation. M4/#105 remains
 open for human clean-PC/offline, web↔PC and actual newer-version update/reinstall evidence. M5 remains
 design-only until M4 acceptance; M2 visual approval and Steam/device/account gates remain external.
+
+## Desktop failure diagnostics continuation — 2026-10-06 KST
+
+User reported that the window-close probe produced its new PR after closing the window.
+That is evidence for that bounded run only, not automatic restarting or indefinite execution.
+Resumed actual published cloud checkout with clean `docs/window-close-probe-20261005`.
+PR #124 remains OPEN at `12f8e6cc2d31a503fc4943d2e9ac2513cab89b33`; one Windows job failed,
+one passed, and Reboot/CodeQL passed. The failed job is still unresolved. Run logs and
+individual job logs redirect to blocked Actions/Azure log destinations; API annotations
+provide only exit 1, not the error. No policy bypass or guessed root-cause fix performed.
+
+Branch `fix/desktop-ci-failure-diagnostics` starts from #124's exact head. The only code
+change adds stage labels and a GitHub error annotation containing the existing failure stack,
+while preserving exit 1. This lets future failures be diagnosed through check annotations
+without log-host access. It does not change gameplay, saves or test assertions and does not
+claim the original defect fixed. Desktop JavaScript syntax and diff whitespace passed.
+New Windows CI is required to validate execution; #124 must not merge with an unresolved
+failure. M4 manual/clean-PC/update/transfer and M2 visual/Steam gates remain open.
