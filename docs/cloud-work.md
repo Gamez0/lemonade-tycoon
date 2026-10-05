@@ -55,7 +55,8 @@ or promise automatic re-execution after the cloud task ends.
 
 ## Activation status
 
-- Local handoff files prepared; remote publication and CI tracked in the setup PR.
+- Handoff published on `chore/codex-cloud-handoff`; setup PR:
+  https://github.com/Gamez0/lemonade-tycoon/pull/122
 - No cloud task or recurring schedule has been activated by this document.
 - The CLI can submit a task once the cloud environment ID is available.
 - Windows/manual acceptance gates remain open.
