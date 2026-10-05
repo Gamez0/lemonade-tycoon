@@ -171,6 +171,71 @@ or spend-cap guarantee is made.
   Windows clean-PC/update/reinstall/manual transfer, M2 visual approval and Steam gates
   remain open; M5 gameplay stays deferred until M4 acceptance. No automatic rerun configured.
 
+## Merge and M4 acceptance follow-up — 2026-10-05 (KST)
+
+- Actual commands executed in the published cloud checkout `/workspace/lemonade-tycoon`.
+  Started clean at `3e8fe1d4b2463710ec0781bc0ce282e4830f316e`.
+- Reviewed #121 pitcher cost/capacity/ice/migration and its regression evidence; #122
+  instructions/setup/LF/manual gates; #123 backup error handling/queue tests/native close/Windows CI.
+  No blocking finding. Current-head CI passed for each before sequential merge, using
+  exact head-match guards. GitHub confirmed:
+  #121 `bc2272bd9b44cfa447b34836a210ba885189e4ec`
+  #122 `14d88181458c9a4391ffae8b4663b22a0385d602`
+  #123 `b851f1d3a1c30ce3580980114add56b172fbd716`
+  #122 retargeted to main; GitHub automatically retargeted #123 to main after #122 merged.
+  Explicit ancestry checks verified f5ce10f/e4dd6b8/3e8fe1d are all included in fetched main.
+- Follow-up branch: `fix/m4-desktop-acceptance-followup`, based on main
+  `b851f1d3a1c30ce3580980114add56b172fbd716`. Main Reboot, Windows and deploy runs passed.
+- Added native package import/export, invalid-import/both-corrupt protection, restore after
+  valid import, and same-build installation-directory relocation checks. Prepared downloadable
+  Windows prototype artifacts with commit metadata and three-day retention, and a manual checklist.
+- Read M5 legacy #34/#58/#59/#60/#75 through restored API. Added thumbnails and explicit
+  per-location satisfaction→popularity→traffic feedback to the design. No M5 gameplay implemented.
+- Local Node 22.22.0: npm test 25/25, typecheck, lint:reboot, production build and browser
+  12/12 passed. Desktop JS syntax and diff whitespace passed. New native tests require Windows CI;
+  do not claim them passed until its result. No art, dependencies or game rules changed.
+- Self-review: native download captured via Electron session, malformed imports leave files unchanged;
+  valid import must restore exact results and survive relaunch. Relocation uses a disposable directory
+  and user-data root, not user files. Artifact source vs PR merge SHA distinguished in metadata.
+  Relocation is not newer-version installer/clean-PC evidence. Manual/Steam/M2 gates remain open.
+
+### Execution persistence limitation
+
+The environment reports cloud/running/connected, and actual repository commands ran. That proves
+remote execution, not continuation of this chat turn after browser closure. No separate development
+task ID/link/state is exposed by available tools. `codex cloud exec --help` documents submission and
+`codex cloud status` can inspect a submitted task, but `codex cloud list --json` failed connecting to
+`https://chatgpt.com/backend-api/wham/tasks/list`. Its required host is not in the selected policy;
+the official cloud-environment documentation fetch also returned 403. Do not pass the managed
+instance ID to the task CLI as though it were a verified compatible task environment ID.
+No independent background development task was submitted. Earlier chat assurances that closing
+this window definitely preserves development execution are withdrawn. GitHub Actions runs are
+independently submitted services and keep their own run IDs; they perform checks, not ongoing AI
+work. For guaranteed independent development use a platform task submission with returned ID/link
+and queued/running status; that prerequisite is not confirmed here. No auto-rerun or billing configured.
+
+Follow-up PR/current-head Windows result will be recorded after remote validation. M4/#105 remains
+open for human clean-PC/offline, web↔PC and actual newer-version update/reinstall evidence. M5 remains
+design-only until M4 acceptance; M2 visual approval and Steam/device/account gates remain external.
+
+## Desktop failure diagnostics continuation — 2026-10-06 KST
+
+User reported that the window-close probe produced its new PR after closing the window.
+That is evidence for that bounded run only, not automatic restarting or indefinite execution.
+Resumed actual published cloud checkout with clean `docs/window-close-probe-20261005`.
+PR #124 remains OPEN at `12f8e6cc2d31a503fc4943d2e9ac2513cab89b33`; one Windows job failed,
+one passed, and Reboot/CodeQL passed. The failed job is still unresolved. Run logs and
+individual job logs redirect to blocked Actions/Azure log destinations; API annotations
+provide only exit 1, not the error. No policy bypass or guessed root-cause fix performed.
+
+Branch `fix/desktop-ci-failure-diagnostics` starts from #124's exact head. The only code
+change adds stage labels and a GitHub error annotation containing the existing failure stack,
+while preserving exit 1. This lets future failures be diagnosed through check annotations
+without log-host access. It does not change gameplay, saves or test assertions and does not
+claim the original defect fixed. Desktop JavaScript syntax and diff whitespace passed.
+New Windows CI is required to validate execution; #124 must not merge with an unresolved
+failure. M4 manual/clean-PC/update/transfer and M2 visual/Steam gates remain open.
+
 ## Window-close persistence probe — 2026-10-05 23:54:31 KST
 
 This bounded run tests whether work continues after the user closes the chat window.
@@ -215,3 +280,77 @@ execution or an automatic restart guarantee. Retrieve/diagnose #124's failed Win
 through authorized access before deciding whether code changes or another verification run
 are needed. This probe ends when its one new PR is created; no merge, recurring execution,
 parallel agent, separate API billing or credit purchase is configured.
+
+## Validated diagnostic checkpoint — 2026-10-06 KST
+
+- PR #125 record reviewed, current-head Reboot/Windows/CodeQL green; merged at
+  `1da492f3196d4d8cac8068513423f2da9a9c65a6`.
+- PR #126: https://github.com/Gamez0/lemonade-tycoon/pull/126
+  Exact diagnostic implementation `a7622957f6d0060631f7b0eb0a75beb91b4aade3` passed:
+  Windows push run 37329126623 and PR run 37329229013, both 1m35s;
+  Reboot push run 37329126696 (2m06s) and PR run 37329229203 (1m53s).
+  Reboot includes unit/save/file tests, strict typecheck/lint, build and browser suite.
+  Native export/import/recovery/relocation and artifact upload also passed on Windows.
+- Self-review: diagnostic stage/stack annotations escape percent/newline/control characters;
+  original stderr and failure exit 1 retained, assertions unchanged. No speculative bug fix.
+  Merged #126 into #124's feature branch only at
+  `482feccdd2776c8d8ad58e433d6b738a8ee0bdb3`, after current-head green checks.
+- Merged latest main into `fix/m4-desktop-acceptance-followup` without rebasing/force pushing.
+  Resolved the append-only cloud-work conflict by preserving both #124/diagnostic history
+  and #125's window-close record. No user work discarded. This checkpoint is documentation-only
+  relative to the validated test code; final merged-head CI must be checked separately.
+- PR #124 remains OPEN: https://github.com/Gamez0/lemonade-tycoon/pull/124
+  Original failed Windows run 37327073561 remains unexplained; blocked log destinations
+  are `results-receiver.actions.githubusercontent.com` and
+  `productionresultssa2.blob.core.windows.net`. Successful reruns do not establish its root cause.
+  Next: retrieve that failed log using authorized access, or investigate any new failure via
+  newly accessible check annotations. Do not close the failure by assumption or merge #124 prematurely.
+- Remaining acceptance: clean user PC/offline, real web↔PC transfer, true newer-version package
+  replacement/reinstall, M2 user visual approval and Steam/account/device checks. M4 remains open;
+  M5 implementation stays deferred. Independent M5 design was completed, not gameplay implementation.
+  Runnable diagnostic work is done; no endless reruns, parallel agents or paid automation configured.
+
+## Reproduced Windows failure and focused correction — 2026-10-06 KST
+
+At merged head `5d60216eb2f8d76012fff86769a0531fc576433a`, Windows run 37329620688
+failed again. The new check annotation exposed the exact failure: `ENOENT` on the exported
+JSON path during `setInputFiles`, in stage `both-corrupt protection and portable import`.
+The test had already verified that export's contents, then closed/reopened Electron several
+times before reusing the download path. Playwright's installed context code deletes tracked
+downloads on context close (`_deleteAllDownloads` / `deleteOnContextClose`).
+
+Correction: capture the actual successfully exported file bytes immediately after validating
+them, and import those bytes after relaunch instead of a context-owned download path. Native
+export and exact import/results/relaunch assertions remain intact; no canned fixture replaces
+the exported business. No gameplay/save policy changed. Desktop JS syntax and whitespace checks
+passed. The demonstrated failing Windows run is the pre-fix regression evidence; Windows
+current-head rerun is required to establish the fix. Historical run 37327073561 logs remain
+unavailable, so do not claim its exact error independently observed.
+
+## Post-fix validation and authentication blocker — 2026-10-06 KST
+
+Exact pushed correction: `a80fb65cbd5db82811bf2b264c050d47022d61d4`, branch
+`fix/m4-desktop-acceptance-followup`, PR https://github.com/Gamez0/lemonade-tycoon/pull/124.
+Public Actions pages (containing that source SHA) confirmed:
+- Windows push run 37329984149: Success, 1m41s.
+- Windows PR run 37329997608: Success, 1m44s.
+- Reboot push run 37329984263: Success, 1m52s.
+- Reboot PR run 37329997291: still in progress at this checkpoint; verify its final outcome.
+Desktop syntax and diff whitespace checks passed. The previously reproduced missing-download
+fixture failure is corrected without removing native export/import assertions. M4 gameplay is
+not accepted solely from these automated results.
+
+After the correction was pushed and runs submitted, authenticated GitHub REST/GraphQL calls
+began returning HTTP 401 Bad credentials; Git ls-remote also failed requesting a username.
+Even a public API request through the inherited proxy returned 401, while public GitHub run
+pages remained readable. Runtime still reports connected/running but provides no credential
+readiness bindings. The exact expiry/revocation cause is unknown; do not extract/replace
+platform credentials or start an interactive login by assumption. This differs from the earlier
+CONNECT domain denial. No merge attempted under missing authentication.
+
+This final checkpoint is a local documentation-only successor to a80fb65. If its push is blocked,
+retain the local commit and report it separately from the last verified remote correction.
+Next: restore supported platform GitHub authentication, push this checkpoint, verify final current
+head CI and review, then decide #124 merge. Human clean-PC/offline, actual version update/reinstall,
+web↔PC transfer, M2 visual and Steam/account/device gates remain open; M5 gameplay remains deferred.
+No parallel agents, added billing, purchased credits, endless reruns or automatic restart configured.

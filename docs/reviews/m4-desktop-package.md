@@ -7,3 +7,13 @@ Build with `npm run desktop:package:win`. The unpacked prototype appears in `rel
 Steam Cloud is not configured yet. If enabled for Windows, the [Steam Auto-Cloud root path](https://partner.steamgames.com/doc/features/cloud) can use `WinAppDataLocal`, subdirectory `Lemonade Tycoon`, and pattern `save*.json` to include primary and backup but exclude temporary files. Test a second PC, offline edits, cloud conflicts and a fresh Steam install before claiming cloud saves. The local save works without Steam.
 
 This is a functional package prototype, not a release candidate. Code signing, app identity, package update/reinstall checks, a clean-PC check, and Steam Cloud configuration remain open. Keep M4/#105 open until those storage acceptance checks are met; repeat package checks at M7–M10.
+
+## Repeatable package evidence — 2026-10-05
+
+PR #123 is merged. The Windows Actions job runs the native package tests, including
+normal-close flush and forced termination. The follow-up job publishes a three-day
+`windows-prototype-<source SHA>` artifact after tests pass; `build-info.json` identifies
+both the source commit and tested checkout (PR merge SHA where applicable).
+See [manual acceptance checklist](m4-windows-manual-checklist.md) for download, safe
+user-data testing, web/PC transfer and clean-PC/update evidence. Same-build relocation
+and JSON import/export regressions aid acceptance but do not close the manual gates.
