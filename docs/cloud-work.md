@@ -170,3 +170,48 @@ or spend-cap guarantee is made.
   their inclusion in main, retarget #123 and confirm fresh checks before any merge.
   Windows clean-PC/update/reinstall/manual transfer, M2 visual approval and Steam gates
   remain open; M5 gameplay stays deferred until M4 acceptance. No automatic rerun configured.
+
+## Window-close persistence probe — 2026-10-05 23:54:31 KST
+
+This bounded run tests whether work continues after the user closes the chat window.
+Actual run start: 2026-10-05 14:54:31 UTC / 23:54:31 KST. The assistant sent its
+work-start message after executing environment/status/repository commands. The user's
+actual window-close time is not visible to the assistant. Compare that time with the
+new commit/push/PR timestamps; an earlier CI completing alone is not proof of AI continuation.
+
+- Published managed cloud environment reported running/connected, source version
+  `cecfgver_6ac35ea28bdc8196be15d84bacc0e6a6`. No separate development task ID was returned.
+- Starting worktree: `/workspace/lemonade-tycoon`, clean branch
+  `fix/m4-desktop-acceptance-followup`, commit `12f8e6cc2d31a503fc4943d2e9ac2513cab89b33`.
+- Reviewed OPEN PR #124 at that same exact head: native export/import, malformed and
+  both-corrupt protection, same-package relocation, package metadata and artifact workflow.
+  No demonstrated source correction was identified; no speculative code fix was made.
+- Reboot checks for that head succeeded in runs 37327073362 and 37327202583; CodeQL
+  actions/javascript checks succeeded. Windows run 37327073561 failed at the packaged
+  save test (exit 1), after unit tests and packaging succeeded. Its detailed log download
+  was denied at results-receiver.actions.githubusercontent.com, so the root cause is
+  unresolved and this failure is not dismissed as an environment issue or harmless flake.
+- Windows run 37327202440 for the same head succeeded through native package tests,
+  metadata generation and upload. API verified a non-expired artifact named
+  `windows-prototype-12f8e6cc2d31a503fc4943d2e9ac2513cab89b33` (162976984 bytes).
+  https://github.com/Gamez0/lemonade-tycoon/actions/runs/37327202440
+  Mixed success/failure means #124 should not be merged until the failed run is diagnosed.
+- Dedicated documentation branch `docs/window-close-probe-20261005` starts from main
+  `b851f1d3a1c30ce3580980114add56b172fbd716`. It adds only this checkpoint, not #124's
+  implementation, tests, workflow or design changes. User changes and PR #83 are untouched.
+- M4/#105 still requires human clean-PC/offline, real web↔PC transfer and actual
+  newer-version update/reinstall evidence. Same-build relocation and hosted-runner CI
+  do not close these gates. M2 visual and Steam/account/device gates remain open;
+  M5 gameplay remains deferred.
+
+Validation for this documentation change: verify PR/run/artifact API evidence, run the
+existing Node 22 unit/save/file suite, and check diff whitespace. The exact documentation
+commit and resulting PR URL are in the new PR's metadata/body; obtain the local hash with
+`git log -1 --format=%H -- docs/cloud-work.md`.
+
+Next: compare user window-close time against this run's new PR creation/push timestamps.
+A later PR establishes that this bounded run continued until that point, not perpetual
+execution or an automatic restart guarantee. Retrieve/diagnose #124's failed Windows log
+through authorized access before deciding whether code changes or another verification run
+are needed. This probe ends when its one new PR is created; no merge, recurring execution,
+parallel agent, separate API billing or credit purchase is configured.
