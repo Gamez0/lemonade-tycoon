@@ -326,3 +326,31 @@ the exported business. No gameplay/save policy changed. Desktop JS syntax and wh
 passed. The demonstrated failing Windows run is the pre-fix regression evidence; Windows
 current-head rerun is required to establish the fix. Historical run 37327073561 logs remain
 unavailable, so do not claim its exact error independently observed.
+
+## Post-fix validation and authentication blocker — 2026-10-06 KST
+
+Exact pushed correction: `a80fb65cbd5db82811bf2b264c050d47022d61d4`, branch
+`fix/m4-desktop-acceptance-followup`, PR https://github.com/Gamez0/lemonade-tycoon/pull/124.
+Public Actions pages (containing that source SHA) confirmed:
+- Windows push run 37329984149: Success, 1m41s.
+- Windows PR run 37329997608: Success, 1m44s.
+- Reboot push run 37329984263: Success, 1m52s.
+- Reboot PR run 37329997291: still in progress at this checkpoint; verify its final outcome.
+Desktop syntax and diff whitespace checks passed. The previously reproduced missing-download
+fixture failure is corrected without removing native export/import assertions. M4 gameplay is
+not accepted solely from these automated results.
+
+After the correction was pushed and runs submitted, authenticated GitHub REST/GraphQL calls
+began returning HTTP 401 Bad credentials; Git ls-remote also failed requesting a username.
+Even a public API request through the inherited proxy returned 401, while public GitHub run
+pages remained readable. Runtime still reports connected/running but provides no credential
+readiness bindings. The exact expiry/revocation cause is unknown; do not extract/replace
+platform credentials or start an interactive login by assumption. This differs from the earlier
+CONNECT domain denial. No merge attempted under missing authentication.
+
+This final checkpoint is a local documentation-only successor to a80fb65. If its push is blocked,
+retain the local commit and report it separately from the last verified remote correction.
+Next: restore supported platform GitHub authentication, push this checkpoint, verify final current
+head CI and review, then decide #124 merge. Human clean-PC/offline, actual version update/reinstall,
+web↔PC transfer, M2 visual and Steam/account/device gates remain open; M5 gameplay remains deferred.
+No parallel agents, added billing, purchased credits, endless reruns or automatic restart configured.
