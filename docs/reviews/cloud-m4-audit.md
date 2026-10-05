@@ -43,7 +43,10 @@ No Chromium download is needed for that job. The package test now uses BrowserWi
 and waits for application shutdown, checks exact results preservation, and closes immediately
 after NEXT DAY to exercise queued native writes. Force termination still uses taskkill.
 YAML and JavaScript syntax are checked locally; Linux cannot execute this Windows EXE test.
-GitHub API requests returned Forbidden, so no remote Actions result is claimed.
+GitHub API requests returned Forbidden, but public Actions pages subsequently confirmed
+Windows run 37282655364 passed (1m30s) and Reboot run 37282655187 passed (2m09s),
+both for implementation commit 24a5ef2. The Windows packaged test is therefore verified
+on the Windows runner; clean-PC, update/reinstall and Steam/manual gates remain open.
 
 ## Self-review
 
@@ -60,3 +63,10 @@ GitHub API requests returned Forbidden, so no remote Actions result is claimed.
   freezes opening economics and avoids double fees on replay. Values need balance evidence.
 
 Actual final command counts and exact checked commit are recorded in `docs/cloud-work.md`.
+
+## Remote verification addendum
+
+The Windows package job completed successfully on implementation commit 24a5ef2.
+This resolves the table’s automated Windows package/forced-exit/IPC-flush run gates,
+not clean-PC/manual transfer/update acceptance. No PR or merge occurred because API access
+remained Forbidden. The documentation-only successor CI must be checked separately.

@@ -126,18 +126,22 @@ development batch; perpetual automatic task chaining is not configured.
   `chore/codex-cloud-handoff` while #122 is open:
   https://github.com/Gamez0/lemonade-tycoon/compare/chore/codex-cloud-handoff...fix/cloud-m4-recovery-and-windows-ci?expand=1
   Once #121/#122 merge, fetch latest main, verify both changes and retarget without duplicate diffs.
-- Public Actions pages confirmed these runs for implementation commit 24a5ef2 were **In progress**:
+- Public Actions pages confirmed these runs for implementation commit 24a5ef2 **Success**:
   Reboot https://github.com/Gamez0/lemonade-tycoon/actions/runs/37282655187
   Windows https://github.com/Gamez0/lemonade-tycoon/actions/runs/37282655364
-  This is actual dispatch evidence, not a passing-CI claim. API denial prevents normal CLI logs/status.
-- Windows EXE tests cannot execute on this Linux host. Clean-PC/offline/update/reinstall,
-  native forced-exit and web→Windows transfer acceptance remain unconfirmed until actual Windows evidence.
+  Windows completed in 1m30s and Reboot in 2m09s. The Windows workflow has one non-optional
+  package/test job. Public run status verifies its success; API denial prevents normal CLI logs/status.
+  Documentation-only successor c4ebac7 also dispatched both workflows; its results were pending
+  at the checkpoint. No merge is authorized by older-head CI.
+- Windows EXE tests did not execute on this Linux host; the Windows runner successfully ran
+  packaged save/normal-close/forced-exit/results/backup recovery checks. Clean-PC/offline,
+  update/reinstall and web→Windows manual transfer acceptance remain unconfirmed.
   Steam account/AppID, installation/update/rights checks remain external. M4/#105 stays open;
   M2/#97 still requires user visual acceptance. Do not infer these gates from automated tests.
 
 ### Next actions
 
-Check the linked Windows/Reboot runs and resolve any demonstrated failure, then create the focused PR
+Implementation Windows/Reboot runs passed. Check the documentation successor runs, then create the focused PR
 when API write access is available (or use the compare link). Confirm current-head CI and self-review
 before considering any merge. Perform Windows manual gates, then assess M4 acceptance before M5
 implementation. This bounded cloud batch sets up no automatic rerun/schedule, API billing, credit purchase,
