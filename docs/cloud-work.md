@@ -147,3 +147,26 @@ before considering any merge. Perform Windows manual gates, then assess M4 accep
 implementation. This bounded cloud batch sets up no automatic rerun/schedule, API billing, credit purchase,
 paid service or Steam public release. Exact subscription allowance is not visible and no remaining-token
 or spend-cap guarantee is made.
+
+## API access restored and PR created — 2026-10-05 (KST)
+
+- Confirmed the published environment now uses source configuration version
+  `cecfgver_6ac35ea28bdc8196be15d84bacc0e6a6`, running/connected. Its allowed hosts include
+  `api.github.com`. Actual authenticated REST and GraphQL requests now succeed.
+  The former Forbidden was a proxy CONNECT denial; no token replacement was needed.
+- Working tree restored clean on `fix/cloud-m4-recovery-and-windows-ci` at
+  `7a3599c46785f3f572a9a8c76f78a4fc73595318`. Explicit fetch of main and handoff succeeded.
+  API confirms #121 OPEN against main and #122 OPEN against #121's gameplay branch.
+- API verified both completed/success for that exact head:
+  Windows https://github.com/Gamez0/lemonade-tycoon/actions/runs/37282981342
+  Reboot https://github.com/Gamez0/lemonade-tycoon/actions/runs/37282980881
+- Created focused stacked PR #123 against `chore/codex-cloud-handoff`:
+  https://github.com/Gamez0/lemonade-tycoon/pull/123
+  The PR contains the demonstrated save fix/regressions, Windows workflow/test,
+  M4 audit and M5 design. No merge or milestone closure performed.
+- This documentation-only checkpoint follows 7a3599c. Its exact hash is available from
+  `git log -1 --format=%H -- docs/cloud-work.md`; current-head CI must be checked separately.
+- Next: review #123 and its current-head checks. After #121/#122 land, fetch and verify
+  their inclusion in main, retarget #123 and confirm fresh checks before any merge.
+  Windows clean-PC/update/reinstall/manual transfer, M2 visual approval and Steam gates
+  remain open; M5 gameplay stays deferred until M4 acceptance. No automatic rerun configured.
