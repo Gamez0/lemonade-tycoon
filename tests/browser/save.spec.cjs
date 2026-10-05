@@ -44,3 +44,35 @@ test('invalid saves remain protected through opening; valid import and backup re
     const chunks = []; for await (const chunk of stream) chunks.push(chunk);
     expect(JSON.parse(Buffer.concat(chunks).toString())).toEqual(JSON.parse(valid));
 });
+
+test('desktop writes serialize and normal-close flush waits for the latest checkpoint', async ({ page }) => {
+    await page.addInitScript(() => {
+        let active = 0;
+        window.saveTrace = { overlap: false, writes: [] };
+        window.desktopSave = {
+            getItem: async key => localStorage.getItem(key),
+            setItem: async (key, raw) => {
+                if (++active > 1) window.saveTrace.overlap = true;
+                await new Promise(resolve => setTimeout(resolve, 30));
+                localStorage.setItem(key, raw);
+                window.saveTrace.writes.push(key);
+                active--;
+            },
+            onFlush: handler => { window.flushDesktopSave = handler; },
+        };
+    });
+    await page.goto('/'); await stock(page);
+    await page.locator('#open').click(); await page.locator('#skip').click();
+    await expect(page.locator('#app')).toHaveAttribute('data-phase', 'results');
+    await page.locator('#next').click();
+    await page.evaluate(() => window.flushDesktopSave());
+    const latest = JSON.parse(await saved(page));
+    expect(latest.state.day).toBe(2);
+    expect(latest.state.phase).toBe('preparation');
+    expect(latest.history).toHaveLength(1);
+    const trace = await page.evaluate(() => window.saveTrace);
+    expect(trace.overlap).toBe(false);
+    expect(trace.writes.length).toBeGreaterThan(2);
+    await page.reload();
+    await expect(page.locator('#day')).toHaveText('02');
+});

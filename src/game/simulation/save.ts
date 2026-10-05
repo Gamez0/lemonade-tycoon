@@ -103,7 +103,9 @@ export function writeSave(storage: SaveStorage, state: State, history: readonly 
     const next = encodeSave(state, history);
     const previous = storage.getItem(SAVE_KEY);
     if (previous) {
-        try { decodeSave(previous); storage.setItem(BACKUP_KEY, previous); } catch { /* Preserve older backup. */ }
+        let valid = false;
+        try { decodeSave(previous); valid = true; } catch { /* Preserve older backup. */ }
+        if (valid) storage.setItem(BACKUP_KEY, previous);
     }
     storage.setItem(SAVE_KEY, next);
 }

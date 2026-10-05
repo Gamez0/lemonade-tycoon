@@ -75,3 +75,98 @@ Official setup: https://learn.chatgpt.com/docs/cloud
 First task prompt: copy the contents of `docs/cloud-task-prompt.txt` into the task.
 An eligible cloud task continues while the PC is asleep/offline. This is a bounded
 development batch; perpetual automatic task chaining is not configured.
+
+## First cloud run checkpoint — 2026-10-05 (KST)
+
+### Environment and exact implementation revision
+
+- Managed cloud provider reported `running`, `connected`, current observations and no failure.
+  Commands actually executed in `/workspace/lemonade-tycoon`; no local PC dependency or parallel agents.
+- Started clean on `chore/codex-cloud-handoff` at
+  `e4dd6b8819afaf8d3e98dd2e4a70b4501af4b3b4`.
+- `git fetch origin` / `git ls-remote origin` succeeded. Main:
+  `0ddf7aa3111dc2623167c0834cee4908bc31cb78` (#120). Public GitHub PR page payloads
+  confirmed #121/#122 both OPEN; their gameplay/preparation commits remain in this ancestry.
+- Work branch: `fix/cloud-m4-recovery-and-windows-ci`.
+  Exact tested implementation commit: `24a5ef2a695069cd4dfad91bffd17b2ba7fc07a3`, pushed.
+  This checkpoint is a documentation-only successor; obtain its exact hash with
+  `git log -1 --format=%H -- docs/cloud-work.md`. No merge performed.
+- Default Node was 24.19.0. Used Node **22.23.3**, npm **10.9.9**, committed lockfile and npm ci.
+  Writable runtime cache/path workaround (not a repository or paid configuration):
+  `PATH=/tmp/lemonade-npm/_npx/4bb4bc87b1b72b6c/node_modules/.bin:$PATH`,
+  `npm_config_cache=/tmp/lemonade-npm`, `PLAYWRIGHT_BROWSERS_PATH=/tmp/lemonade-playwright`.
+  These temporary paths require reinstalling if the executor is replaced. Default home npm/browser
+  cache creation failed with ENOENT; installing to /tmp succeeded without privilege escalation.
+
+### Completed work and actual checks
+
+1. Baseline: npm ci, npm test **22/22**, typecheck, lint:reboot and production build passed.
+   `npx playwright install chromium` succeeded with the temporary cache; baseline browser **11/11**.
+   Chromium ran successfully with installed system libraries; no system dependency changes needed.
+2. M4 audited against roadmap and review evidence. Sync/async backup I/O failures were reproduced
+   by two failing regressions before code edits. Backup errors now abort without replacing primary.
+   Added async missing/corrupt recovery regression and delayed production-renderer bridge test for
+   serialized writes and latest-checkpoint close flush. Existing import/export, legacy accounting,
+   result/history and interrupted-selling tests retained.
+3. Added `.github/workflows/windows-package.yml`: Windows runner, Node 22/npm, package and EXE
+   save tests on push/PR/manual dispatch. Expanded desktop test to use actual BrowserWindow close,
+   exact results preservation and immediate next-day close/relaunch.
+4. M5 design: `docs/research/m5-locations-design.md`; three locations, unlock/rent/customer rules,
+   Rent tab, bankruptcy/free return, opening snapshot and v3 compatibility. **No M5 gameplay implemented**.
+5. Self-review: `docs/reviews/cloud-m4-audit.md`. Final code: npm test **25/25**, typecheck,
+   lint:reboot, build-nolog and production browser **12/12** passed. Unit/type/lint were rechecked on
+   commit 24a5ef2. Browser/build checked the identical committed source before commit.
+   `git diff --check`, JS syntax and Windows workflow YAML/trigger/command assertions passed.
+   No dependency/lockfile/art changes, user changes discarded, or preview server left running.
+
+### Remote evidence and blocked work
+
+- Git push succeeded. GitHub GraphQL (`gh pr view`, `gh pr create`) and REST (`gh api`) returned
+  **Forbidden**. No PR was created; no PR URL is claimed. Review/create a focused stacked PR against
+  `chore/codex-cloud-handoff` while #122 is open:
+  https://github.com/Gamez0/lemonade-tycoon/compare/chore/codex-cloud-handoff...fix/cloud-m4-recovery-and-windows-ci?expand=1
+  Once #121/#122 merge, fetch latest main, verify both changes and retarget without duplicate diffs.
+- Public Actions pages confirmed these runs for implementation commit 24a5ef2 **Success**:
+  Reboot https://github.com/Gamez0/lemonade-tycoon/actions/runs/37282655187
+  Windows https://github.com/Gamez0/lemonade-tycoon/actions/runs/37282655364
+  Windows completed in 1m30s and Reboot in 2m09s. The Windows workflow has one non-optional
+  package/test job. Public run status verifies its success; API denial prevents normal CLI logs/status.
+  Documentation-only successor c4ebac7 also dispatched both workflows; its results were pending
+  at the checkpoint. No merge is authorized by older-head CI.
+- Windows EXE tests did not execute on this Linux host; the Windows runner successfully ran
+  packaged save/normal-close/forced-exit/results/backup recovery checks. Clean-PC/offline,
+  update/reinstall and web→Windows manual transfer acceptance remain unconfirmed.
+  Steam account/AppID, installation/update/rights checks remain external. M4/#105 stays open;
+  M2/#97 still requires user visual acceptance. Do not infer these gates from automated tests.
+
+### Next actions
+
+Implementation Windows/Reboot runs passed. Check the documentation successor runs, then create the focused PR
+when API write access is available (or use the compare link). Confirm current-head CI and self-review
+before considering any merge. Perform Windows manual gates, then assess M4 acceptance before M5
+implementation. This bounded cloud batch sets up no automatic rerun/schedule, API billing, credit purchase,
+paid service or Steam public release. Exact subscription allowance is not visible and no remaining-token
+or spend-cap guarantee is made.
+
+## API access restored and PR created — 2026-10-05 (KST)
+
+- Confirmed the published environment now uses source configuration version
+  `cecfgver_6ac35ea28bdc8196be15d84bacc0e6a6`, running/connected. Its allowed hosts include
+  `api.github.com`. Actual authenticated REST and GraphQL requests now succeed.
+  The former Forbidden was a proxy CONNECT denial; no token replacement was needed.
+- Working tree restored clean on `fix/cloud-m4-recovery-and-windows-ci` at
+  `7a3599c46785f3f572a9a8c76f78a4fc73595318`. Explicit fetch of main and handoff succeeded.
+  API confirms #121 OPEN against main and #122 OPEN against #121's gameplay branch.
+- API verified both completed/success for that exact head:
+  Windows https://github.com/Gamez0/lemonade-tycoon/actions/runs/37282981342
+  Reboot https://github.com/Gamez0/lemonade-tycoon/actions/runs/37282980881
+- Created focused stacked PR #123 against `chore/codex-cloud-handoff`:
+  https://github.com/Gamez0/lemonade-tycoon/pull/123
+  The PR contains the demonstrated save fix/regressions, Windows workflow/test,
+  M4 audit and M5 design. No merge or milestone closure performed.
+- This documentation-only checkpoint follows 7a3599c. Its exact hash is available from
+  `git log -1 --format=%H -- docs/cloud-work.md`; current-head CI must be checked separately.
+- Next: review #123 and its current-head checks. After #121/#122 land, fetch and verify
+  their inclusion in main, retarget #123 and confirm fresh checks before any merge.
+  Windows clean-PC/update/reinstall/manual transfer, M2 visual approval and Steam gates
+  remain open; M5 gameplay stays deferred until M4 acceptance. No automatic rerun configured.

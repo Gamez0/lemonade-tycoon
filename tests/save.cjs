@@ -60,3 +60,14 @@ test('v1 cup-based results migrate without rewriting old profit, and next day us
     assert.equal(nextDay(migrated.state).daily.model, 'pitcher');
     assert.equal(decodeSave(encodeSave(migrated.state, migrated.history)).state.daily.cost, oldDay.daily.cost);
 });
+
+test('backup I/O failure rejects without replacing the primary', () => {
+    const prior = encodeSave(newGame(), []);
+    const values = new Map([[SAVE_KEY, prior]]);
+    const store = { getItem: key => values.get(key) ?? null, setItem: (key, value) => {
+        if (key === BACKUP_KEY) throw Error('disk full');
+        values.set(key, value);
+    } };
+    assert.throws(() => writeSave(store, stocked(), []), /disk full/);
+    assert.equal(values.get(SAVE_KEY), prior);
+});
