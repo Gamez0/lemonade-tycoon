@@ -11,8 +11,8 @@ const base = fs.mkdtempSync(path.join(os.tmpdir(), 'lemonade-desktop-test-'));
 const env = { ...process.env, LOCALAPPDATA: base, APPDATA: path.join(base, 'Roaming') };
 delete env.ELECTRON_RUN_AS_NODE;
 const savePath = path.join(base, 'Lemonade Tycoon', 'save.json');
-const launch = async () => {
-    const app = await electron.launch({ executablePath, env, timeout: 60000 });
+const launch = async (target = executablePath) => {
+    const app = await electron.launch({ executablePath: target, env, timeout: 60000 });
     const page = await app.firstWindow();
     await expect(page.locator('#app')).toBeVisible();
     await expect(page.locator('canvas')).toBeVisible();
@@ -50,6 +50,22 @@ const closeNormally = async session => {
         await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'results');
         await expect.poll(() => JSON.parse(fs.readFileSync(savePath, 'utf8')).state.phase).toBe('results');
         const results = fs.readFileSync(savePath, 'utf8');
+        // Exercise the native download, without assuming browser download events.
+        const exportedPath = path.join(base, 'exported-business.json');
+        await session.app.evaluate(({ BrowserWindow }, output) => {
+            BrowserWindow.getAllWindows()[0].webContents.session.once('will-download', (_event, item) => {
+                item.setSavePath(output);
+            });
+        }, exportedPath);
+        await session.page.locator('#export-save').click();
+        await expect.poll(() => {
+            try { return JSON.parse(fs.readFileSync(exportedPath, 'utf8')); }
+            catch { return null; }
+        }).toEqual(JSON.parse(results));
+        await session.page.locator('#save-file').setInputFiles({ name: 'invalid.json',
+            mimeType: 'application/json', buffer: Buffer.from('{') });
+        await expect(session.page.locator('#save-status')).toContainText('not valid JSON');
+        if (fs.readFileSync(savePath, 'utf8') !== results) throw new Error('Invalid import replaced results.');
         await closeNormally(session); session = await launch();
         await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'results');
         if (fs.readFileSync(savePath, 'utf8') !== results) throw new Error('Results changed on relaunch.');
@@ -59,13 +75,49 @@ const closeNormally = async session => {
         await expect(session.page.locator('#day')).toHaveText('02');
         await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
         await closeNormally(session); session = null;
+        // A second installation directory must still use the same user-data root.
+        // This simulates relocation, not an installer update or clean-PC acceptance.
+        const replacement = path.join(base, 'replacement-install');
+        fs.cpSync(path.dirname(executablePath), replacement, { recursive: true });
+        const beforeRelocation = fs.readFileSync(savePath, 'utf8');
+        session = await launch(path.join(replacement, path.basename(executablePath)));
+        await expect(session.page.locator('#day')).toHaveText('02');
+        if (fs.readFileSync(savePath, 'utf8') !== beforeRelocation) throw new Error('Relocation changed the save.');
+        await closeNormally(session); session = null;
         const backup = JSON.parse(fs.readFileSync(path.join(base, 'Lemonade Tycoon', 'save.backup.json'), 'utf8'));
         fs.writeFileSync(savePath, '{', 'utf8');
         session = await launch();
         await expect(session.page.locator('#save-status')).toContainText('Recovered from backup');
         await expect(session.page.locator('#app')).toHaveAttribute('data-phase', backup.state.phase);
         await closeNormally(session); session = null;
-        process.stdout.write('Windows package: save, relaunch, forced exit and results recovery passed.\n');
+        // Both damaged files stay protected even while the player buys and opens.
+        const backupPath = path.join(base, 'Lemonade Tycoon', 'save.backup.json');
+        fs.writeFileSync(savePath, '{'); fs.writeFileSync(backupPath, '{');
+        session = await launch();
+        await expect(session.page.locator('#save-status')).toContainText('not valid JSON');
+        await session.page.locator('[data-page="supplies"]').click();
+        for (const item of ['lemon', 'sugar', 'ice', 'cup']) {
+            await session.page.locator(`[data-supply="${item}"]`).click();
+            await session.page.locator('[data-bundle="0"][data-delta="1"]').click();
+        }
+        await session.page.locator('#buy-order').click();
+        await session.page.locator('#open').click();
+        await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'selling');
+        if (fs.readFileSync(savePath, 'utf8') !== '{' || fs.readFileSync(backupPath, 'utf8') !== '{')
+            throw new Error('Playing erased damaged files.');
+        await session.page.locator('#save-file').setInputFiles({ name: 'invalid.json',
+            mimeType: 'application/json', buffer: Buffer.from('{') });
+        await expect(session.page.locator('#save-status')).toContainText('not valid JSON');
+        if (fs.readFileSync(savePath, 'utf8') !== '{' || fs.readFileSync(backupPath, 'utf8') !== '{')
+            throw new Error('Invalid import erased damaged files.');
+        await session.page.locator('#save-file').setInputFiles(exportedPath);
+        await expect(session.page.locator('#save-status')).toContainText('Imported save');
+        if (fs.readFileSync(savePath, 'utf8') !== results) throw new Error('Portable import changed the business.');
+        await closeNormally(session); session = await launch();
+        await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'results');
+        if (fs.readFileSync(savePath, 'utf8') !== results) throw new Error('Imported save changed on relaunch.');
+        await closeNormally(session); session = null;
+        process.stdout.write('Windows package: save, flush, forced exit, recovery, import/export and relocation passed.\n');
     } finally {
         if (session) await session.app.close().catch(() => {});
         fs.rmSync(base, { recursive: true, force: true });

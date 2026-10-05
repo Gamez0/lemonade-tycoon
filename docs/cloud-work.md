@@ -170,3 +170,50 @@ or spend-cap guarantee is made.
   their inclusion in main, retarget #123 and confirm fresh checks before any merge.
   Windows clean-PC/update/reinstall/manual transfer, M2 visual approval and Steam gates
   remain open; M5 gameplay stays deferred until M4 acceptance. No automatic rerun configured.
+
+## Merge and M4 acceptance follow-up — 2026-10-05 (KST)
+
+- Actual commands executed in the published cloud checkout `/workspace/lemonade-tycoon`.
+  Started clean at `3e8fe1d4b2463710ec0781bc0ce282e4830f316e`.
+- Reviewed #121 pitcher cost/capacity/ice/migration and its regression evidence; #122
+  instructions/setup/LF/manual gates; #123 backup error handling/queue tests/native close/Windows CI.
+  No blocking finding. Current-head CI passed for each before sequential merge, using
+  exact head-match guards. GitHub confirmed:
+  #121 `bc2272bd9b44cfa447b34836a210ba885189e4ec`
+  #122 `14d88181458c9a4391ffae8b4663b22a0385d602`
+  #123 `b851f1d3a1c30ce3580980114add56b172fbd716`
+  #122 retargeted to main; GitHub automatically retargeted #123 to main after #122 merged.
+  Explicit ancestry checks verified f5ce10f/e4dd6b8/3e8fe1d are all included in fetched main.
+- Follow-up branch: `fix/m4-desktop-acceptance-followup`, based on main
+  `b851f1d3a1c30ce3580980114add56b172fbd716`. Main Reboot, Windows and deploy runs passed.
+- Added native package import/export, invalid-import/both-corrupt protection, restore after
+  valid import, and same-build installation-directory relocation checks. Prepared downloadable
+  Windows prototype artifacts with commit metadata and three-day retention, and a manual checklist.
+- Read M5 legacy #34/#58/#59/#60/#75 through restored API. Added thumbnails and explicit
+  per-location satisfaction→popularity→traffic feedback to the design. No M5 gameplay implemented.
+- Local Node 22.22.0: npm test 25/25, typecheck, lint:reboot, production build and browser
+  12/12 passed. Desktop JS syntax and diff whitespace passed. New native tests require Windows CI;
+  do not claim them passed until its result. No art, dependencies or game rules changed.
+- Self-review: native download captured via Electron session, malformed imports leave files unchanged;
+  valid import must restore exact results and survive relaunch. Relocation uses a disposable directory
+  and user-data root, not user files. Artifact source vs PR merge SHA distinguished in metadata.
+  Relocation is not newer-version installer/clean-PC evidence. Manual/Steam/M2 gates remain open.
+
+### Execution persistence limitation
+
+The environment reports cloud/running/connected, and actual repository commands ran. That proves
+remote execution, not continuation of this chat turn after browser closure. No separate development
+task ID/link/state is exposed by available tools. `codex cloud exec --help` documents submission and
+`codex cloud status` can inspect a submitted task, but `codex cloud list --json` failed connecting to
+`https://chatgpt.com/backend-api/wham/tasks/list`. Its required host is not in the selected policy;
+the official cloud-environment documentation fetch also returned 403. Do not pass the managed
+instance ID to the task CLI as though it were a verified compatible task environment ID.
+No independent background development task was submitted. Earlier chat assurances that closing
+this window definitely preserves development execution are withdrawn. GitHub Actions runs are
+independently submitted services and keep their own run IDs; they perform checks, not ongoing AI
+work. For guaranteed independent development use a platform task submission with returned ID/link
+and queued/running status; that prerequisite is not confirmed here. No auto-rerun or billing configured.
+
+Follow-up PR/current-head Windows result will be recorded after remote validation. M4/#105 remains
+open for human clean-PC/offline, web↔PC and actual newer-version update/reinstall evidence. M5 remains
+design-only until M4 acceptance; M2 visual approval and Steam/device/account gates remain external.

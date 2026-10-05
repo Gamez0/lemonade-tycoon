@@ -23,3 +23,14 @@ jobs:
               run: |
                   $env:LEMONADE_DESKTOP_EXE = Join-Path $env:GITHUB_WORKSPACE 'release/Lemonade Tycoon-win32-x64/Lemonade Tycoon.exe'
                   npm run test:desktop
+            - name: Record package source
+              shell: pwsh
+              run: |
+                  $info = @{ commit = '${{ github.sha }}'; source_commit = '${{ github.event.pull_request.head.sha || github.sha }}'; run = '${{ github.run_id }}'; prototype = $true }
+                  $info | ConvertTo-Json | Set-Content 'release/Lemonade Tycoon-win32-x64/build-info.json'
+            - uses: actions/upload-artifact@v4
+              with:
+                  name: windows-prototype-${{ github.event.pull_request.head.sha || github.sha }}
+                  path: release/Lemonade Tycoon-win32-x64/
+                  if-no-files-found: error
+                  retention-days: 3
