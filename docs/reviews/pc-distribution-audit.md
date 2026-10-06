@@ -27,3 +27,9 @@ M6 design and M7–M10 plans remain preparation. Steam VDF examples contain plac
 Preview enabled and no SetLive; no script invokes Steam, signs a product or pays for anything.
 Final names/versions/IDs, music #113, M2 visual acceptance, M4 actual transfer/update,
 M5/M6 gameplay and M8 participants are still outstanding.
+
+Added a 30-day baseline street campaign regression across four seeds. Each preparation,
+result and next-day state round-trips with full history; opening replay matches exactly,
+cumulative cash/purchases/revenue reconcile, stocks remain valid and ice melts overnight.
+This establishes the existing one-location baseline only, not M5/M6 strategy balance or M8
+human playtesting. No fixture modifies cash or forces customers to buy.

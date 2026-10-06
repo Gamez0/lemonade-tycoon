@@ -418,3 +418,10 @@ Local validation correction: the first browser invocation was started before the
 finished and received a root 404 (no canvas). Stopped that invalid invocation and reran only
 after the production build exited successfully; this is a sequencing error, not a dismissed
 application defect. Final browser result is recorded below when complete.
+
+Additional independent M8 groundwork: 30-day existing street campaigns across four seeds,
+full-history daily round-trip, exact opening replay, cumulative accounting and overnight ice
+checks. Node 22 unit/save/file suite now 26/26 passed. This is baseline regression evidence,
+not three-place progression/management balance or real playtesting. PR #128:
+https://github.com/Gamez0/lemonade-tycoon/pull/128
+Initial implementation a6b98fb8e8b6cc145eb1312a64f30bde6774d8e8.
