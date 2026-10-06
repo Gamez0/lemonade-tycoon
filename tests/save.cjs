@@ -71,3 +71,33 @@ test('backup I/O failure rejects without replacing the primary', () => {
     assert.throws(() => writeSave(store, stocked(), []), /disk full/);
     assert.equal(values.get(SAVE_KEY), prior);
 });
+
+test('thirty-day street campaigns keep exact saves, replay and cumulative accounts across seeds', () => {
+    for (const seed of [0, 42, 2026, 4294967295]) {
+        let state = newGame(seed); const history = [];
+        let purchases = 0, revenue = 0;
+        for (let day = 1; day <= 30; day++) {
+            for (const key of ['lemon', 'sugar', 'ice', 'cup'])
+                if (state.stock[key] < 120) state = buy(state, key, 120 - state.stock[key]);
+            const checkpoint = decodeSave(encodeSave(state, history));
+            assert.deepEqual(checkpoint.state, state);
+            assert.deepEqual(checkpoint.history, history);
+            const done = finish(state);
+            assert.deepEqual(finish(checkpoint.state), done, 'opening checkpoint replay must be identical');
+            history.push(done);
+            purchases += done.daily.purchases; revenue += done.daily.revenue;
+            assert.equal(done.day, day);
+            assert.equal(done.cash, 4000 + revenue - purchases);
+            assert.equal(done.daily.visitors, done.daily.sold + done.daily.priceRejected +
+                done.daily.passed + done.daily.soldOut + done.daily.abandoned);
+            for (const quantity of Object.values(done.stock))
+                assert.ok(Number.isSafeInteger(quantity) && quantity >= 0 && quantity <= 999);
+            assert.deepEqual(decodeSave(encodeSave(done, history)), { version: 2, state: done, history });
+            state = nextDay(done);
+            assert.equal(state.stock.ice, 0);
+            assert.equal(state.daily.meltedIce, done.stock.ice);
+            assert.deepEqual(decodeSave(encodeSave(state, history)).state, state);
+        }
+        assert.equal(history.length, 30);
+    }
+});

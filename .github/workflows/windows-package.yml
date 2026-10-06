@@ -17,6 +17,7 @@ jobs:
                   cache: npm
             - run: npm ci
             - run: npm test
+            - run: npm run test:release
             - run: npm run desktop:package:win
             - name: Test packaged save and recovery
               shell: pwsh
@@ -28,6 +29,10 @@ jobs:
               run: |
                   $info = @{ commit = '${{ github.sha }}'; source_commit = '${{ github.event.pull_request.head.sha || github.sha }}'; run = '${{ github.run_id }}'; prototype = $true }
                   $info | ConvertTo-Json | Set-Content 'release/Lemonade Tycoon-win32-x64/build-info.json'
+            - name: Inventory and verify prototype files
+              run: |
+                  node scripts/release-manifest.cjs "release/Lemonade Tycoon-win32-x64"
+                  node scripts/release-manifest.cjs "release/Lemonade Tycoon-win32-x64" --verify
             - uses: actions/upload-artifact@v4
               with:
                   name: windows-prototype-${{ github.event.pull_request.head.sha || github.sha }}

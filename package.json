@@ -25,8 +25,11 @@
         "lint:reboot": "eslint src/reboot.ts src/game --max-warnings 0",
         "test:browser": "playwright test",
         "desktop:run": "npm run build-nolog && electron .",
-        "desktop:package:win": "npm run build-nolog && node scripts/package-win.cjs",
-        "test:desktop": "node tests/desktop.cjs"
+        "desktop:package:win": "npm run build:desktop && node scripts/package-win.cjs",
+        "test:desktop": "node tests/desktop.cjs",
+        "build:desktop": "vite build --config vite/config.desktop.mjs && node scripts/audit-desktop.cjs desktop-dist",
+        "test:release": "node --test tests/release.cjs",
+        "release:manifest": "node scripts/release-manifest.cjs"
     },
     "devDependencies": {
         "@electron/packager": "^20.3.0",

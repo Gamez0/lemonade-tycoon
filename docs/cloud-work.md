@@ -383,3 +383,64 @@ M4/#105 remains OPEN; M5 gameplay remains deferred. M2 visual approval and Steam
 validation are also open. No further demonstrated runnable defect remains from this batch.
 This bounded run stops at these external acceptance gates; no auto-restart, parallel agent,
 API billing, credit purchase, paid service or Steam public sale is configured.
+
+## M10-directed independent preparation — 2026-10-06 UTC
+
+User authorized progress through M10 with a thorough check at each milestone. Existing
+manual gates remain open; this instruction does not fabricate actual Windows/user/Steam
+acceptance. Runtime reports cloud/running/connected. Actual checkout commands and GitHub
+access succeeded, starting clean at e1f78407ea8f935db72a5e314fd39e2ea4db7fdd.
+Reviewed #127 documentation diff and all seven exact-head green checks, then guarded merge.
+Fetched main and branched `feat/pc-release-preparation`; no user changes/PR #83 touched.
+
+Implemented independent M7/M9 packaging groundwork: dedicated reboot-only Windows build,
+bundled font/OFL, rejection of legacy/research assets, SHA-256 distribution inventory with
+source vs checkout commits, Windows CI verification before artifact upload, three regressions.
+Web legacy preview retained. No M5/M6 gameplay or save version change.
+Prepared M6 economic/UI/save design, M7–M10 acceptance plan and non-executable SteamPipe
+VDF examples. Read existing roadmap/reviews/art register and M5 design; design numbers
+are experiment proposals, not original-game measurements or tested balance.
+
+Local Node 22.22.0: unit/save/file 25/25, strict typecheck and lint passed. Desktop build
+and six-file asset audit passed; release regressions 3/3 passed. Web build/browser and
+current-head Windows results will be recorded after completion. Self-review is in
+`docs/reviews/pc-distribution-audit.md`. No separate background task/scheduler exists.
+Exact implementation SHA and PR URL are supplied in the PR metadata; use
+`git log -1 --format=%H -- scripts/release-manifest.cjs` for the code commit.
+
+Remaining milestone gates: M2 visual approval; M4 clean-PC/offline/actual web↔PC and true
+version update/reinstall; M5 gameplay and strategy/save compatibility; M6 actual management;
+M7 music/content/tutorial/language/manual package; M8 real participants/hardware; M9 actual RC
+and rights; M10 account/AppID/private-client validation. Continue independently runnable
+preparation, but do not mark these milestones reached from documents/CI or run endless tests.
+
+Local validation correction: the first browser invocation was started before the web build
+finished and received a root 404 (no canvas). Stopped that invalid invocation and reran only
+after the production build exited successfully; this is a sequencing error, not a dismissed
+application defect. Final browser result is recorded below when complete.
+
+Additional independent M8 groundwork: 30-day existing street campaigns across four seeds,
+full-history daily round-trip, exact opening replay, cumulative accounting and overnight ice
+checks. Node 22 unit/save/file suite now 26/26 passed. This is baseline regression evidence,
+not three-place progression/management balance or real playtesting. PR #128:
+https://github.com/Gamez0/lemonade-tycoon/pull/128
+Initial implementation a6b98fb8e8b6cc145eb1312a64f30bde6774d8e8.
+
+Validated checkpoint: implementation branch `feat/pc-release-preparation`, code/test commit
+`cdd25cc62b63a3b93b120e244b6af86f0a0cb2ad`, based on main
+`ee6c73283c269829f58aa3c4baa0e39ec8170599` (merged #127).
+Local web production build and final browser suite passed 12/12; unit/save/file 26/26,
+release 3/3, typecheck/lint, dedicated PC build/audit and diff whitespace passed.
+The premature preview had retained a root-404 server after interruption; explicitly stopped
+only this run's Playwright/preview processes before the successful fresh run. No preview is
+intentionally left running.
+Windows implementation run https://github.com/Gamez0/lemonade-tycoon/actions/runs/37475188436
+passed all packaging/native save/inventory/upload steps at a6b98fb. That is older-head evidence;
+cdd25cc Windows/Reboot/CodeQL are pending at this written checkpoint and must be verified
+for the final documentation successor before merge. PR #128 body will record the final
+exact-head results and merge outcome. This checkpoint is an ordinary commit, not a scheduler.
+
+Next: actual M4 Windows checklist evidence is required before M5 gameplay implementation
+under the existing ordered acceptance agreement. M6/M7–M10 independent groundwork above is
+prepared, not accepted milestones. Do not claim overnight duration, automatic restart,
+M10 completion, Steam upload, human playtests or Windows user acceptance from this run.
