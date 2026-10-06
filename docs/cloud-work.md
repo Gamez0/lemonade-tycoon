@@ -425,3 +425,22 @@ checks. Node 22 unit/save/file suite now 26/26 passed. This is baseline regressi
 not three-place progression/management balance or real playtesting. PR #128:
 https://github.com/Gamez0/lemonade-tycoon/pull/128
 Initial implementation a6b98fb8e8b6cc145eb1312a64f30bde6774d8e8.
+
+Validated checkpoint: implementation branch `feat/pc-release-preparation`, code/test commit
+`cdd25cc62b63a3b93b120e244b6af86f0a0cb2ad`, based on main
+`ee6c73283c269829f58aa3c4baa0e39ec8170599` (merged #127).
+Local web production build and final browser suite passed 12/12; unit/save/file 26/26,
+release 3/3, typecheck/lint, dedicated PC build/audit and diff whitespace passed.
+The premature preview had retained a root-404 server after interruption; explicitly stopped
+only this run's Playwright/preview processes before the successful fresh run. No preview is
+intentionally left running.
+Windows implementation run https://github.com/Gamez0/lemonade-tycoon/actions/runs/37475188436
+passed all packaging/native save/inventory/upload steps at a6b98fb. That is older-head evidence;
+cdd25cc Windows/Reboot/CodeQL are pending at this written checkpoint and must be verified
+for the final documentation successor before merge. PR #128 body will record the final
+exact-head results and merge outcome. This checkpoint is an ordinary commit, not a scheduler.
+
+Next: actual M4 Windows checklist evidence is required before M5 gameplay implementation
+under the existing ordered acceptance agreement. M6/M7–M10 independent groundwork above is
+prepared, not accepted milestones. Do not claim overnight duration, automatic restart,
+M10 completion, Steam upload, human playtests or Windows user acceptance from this run.
