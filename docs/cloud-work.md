@@ -354,3 +354,32 @@ Next: restore supported platform GitHub authentication, push this checkpoint, ve
 head CI and review, then decide #124 merge. Human clean-PC/offline, actual version update/reinstall,
 web↔PC transfer, M2 visual and Steam/account/device gates remain open; M5 gameplay remains deferred.
 No parallel agents, added billing, purchased credits, endless reruns or automatic restart configured.
+
+## Final merged M4 checkpoint — 2026-10-06 KST
+
+GitHub authentication recovered without credential replacement: checkpoint push, REST/GraphQL
+and guarded merge succeeded. The earlier 401 remains a transient observed failure; its cause
+was not independently established.
+
+- PR #124 is MERGED after self-review and all seven checks passed on exact head
+  `f03d1740eefc6d5d845b7fa8564f942811d3192d`. Windows push/PR, Reboot push/PR,
+  CodeQL actions/JavaScript and aggregate check all passed. This supersedes the earlier
+  in-progress status and authentication blocker, without claiming unknown old logs were read.
+- Main merge commit: `9c0b474fc00cbc7689531e048d8661ae79428485`. Fetch and explicit ancestry
+  check confirmed the verified head is included. PR #125 and #126 also merged as recorded above.
+- Exact tested Windows prototype source: `f03d1740eefc6d5d845b7fa8564f942811d3192d`.
+  Successful run: https://github.com/Gamez0/lemonade-tycoon/actions/runs/37330395029
+  Download: https://github.com/Gamez0/lemonade-tycoon/actions/runs/37330395029/artifacts/11353324638
+  Artifact non-expired at verification; retention three days. Metadata distinguishes source
+  commit from the PR merge checkout. This is an unsigned prototype, not a Steam release.
+- Final record branch: `docs/m4-manual-gates-checkpoint`, based on that main merge commit.
+  Only this journal entry changes; exact checkpoint SHA and PR link are provided in its PR body.
+  Documentation whitespace check passed; no redundant game suite rerun for documentation only.
+
+Next required evidence: use docs/reviews/m4-windows-manual-checklist.md on an actual clean
+Windows PC, including offline play, real web↔PC JSON transfer and true newer-version
+replacement/reinstall with saves preserved. Record the reviewer/OS/DPI/build IDs/outcomes.
+M4/#105 remains OPEN; M5 gameplay remains deferred. M2 visual approval and Steam/account/device
+validation are also open. No further demonstrated runnable defect remains from this batch.
+This bounded run stops at these external acceptance gates; no auto-restart, parallel agent,
+API billing, credit purchase, paid service or Steam public sale is configured.
