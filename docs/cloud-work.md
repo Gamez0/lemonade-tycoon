@@ -444,3 +444,33 @@ Next: actual M4 Windows checklist evidence is required before M5 gameplay implem
 under the existing ordered acceptance agreement. M6/M7–M10 independent groundwork above is
 prepared, not accepted milestones. Do not claim overnight duration, automatic restart,
 M10 completion, Steam upload, human playtests or Windows user acceptance from this run.
+
+## Final verified PC preparation checkpoint — 2026-10-06 UTC
+
+PR #128 https://github.com/Gamez0/lemonade-tycoon/pull/128 MERGED after self-review and all
+seven checks passed on exact final head `76e1596c4fddfaf1b696ff4871685e10fb6bdeb7`.
+Main merge `aa920a3f49225b3e216be18079afbc533935d2ec`; fetch/ancestry confirmed inclusion.
+Windows push run 37475501456 (1m55s) and PR run 37475510261 (1m45s) passed native save,
+PC-only packaging, release regressions, manifest verification and artifact upload.
+Reboot push 37475501482 (1m58s) and PR 37475510005 (2m10s) passed; CodeQL run 37475503509
+and aggregate check passed. This supersedes pending states above.
+Local final evidence: Node22.22.0, unit/save/file 26/26, release regressions 3/3, browser12/12,
+strict typecheck/lint, web and desktop production builds, six-file PC audit, whitespace.
+
+Verified source-specific Windows prototype artifact (non-expired at check, three-day retention):
+https://github.com/Gamez0/lemonade-tycoon/actions/runs/37475510261/artifacts/11419082328
+Source SHA 76e1596; unsigned prototype, not RC or Steam release. M4 manual checklist still applies.
+Final journal-only branch `docs/pc-preparation-checkpoint` starts from aa920a3; its precise SHA
+and focused PR link are recorded in the PR metadata. No redundant gameplay checks for this
+journal entry; its own CI must be verified before any future merge.
+
+Completed runnable independent preparations: M6 economic/UI/save design, M7–M10 acceptance
+plan, PC distribution isolation, file/commit/checksum audit, thirty-day baseline regression,
+SteamPipe placeholder templates. M5 gameplay was not started because the existing M4 acceptance
+prerequisite remains unfulfilled. No milestone completion, human playtest, actual newer-version
+update, clean-PC or Steam account/client verification is claimed. Next: record actual M4 Windows
+manual outcomes and M2 visual approval, then implement M5 against its existing design, M6,
+and the documented later sequence. If explicitly authorized to prototype later gameplay before
+M4 manual acceptance, update that sequencing decision first and keep all acceptance gates open.
+This run stops here; no overnight-duration guarantee, auto-restart, preview server, parallel
+agent, paid API/service, purchase, Steam upload or public sale is configured.
