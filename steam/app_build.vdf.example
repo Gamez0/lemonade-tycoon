@@ -1,0 +1,13 @@
+// TEMPLATE ONLY: replace IDs/paths after M9 acceptance and Steam authorization.
+"AppBuild"
+{
+    "AppID" "REPLACE_WITH_APP_ID"
+    "Desc" "REPLACE_WITH_VERSION_AND_SOURCE_COMMIT"
+    "BuildOutput" "../steam-build-logs"
+    "ContentRoot" "../release/Lemonade Tycoon-win32-x64"
+    "Preview" "1"
+    "Depots"
+    {
+        "REPLACE_WITH_DEPOT_ID" "depot_build.vdf"
+    }
+}

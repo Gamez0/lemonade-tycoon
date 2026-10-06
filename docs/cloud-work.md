@@ -383,3 +383,38 @@ M4/#105 remains OPEN; M5 gameplay remains deferred. M2 visual approval and Steam
 validation are also open. No further demonstrated runnable defect remains from this batch.
 This bounded run stops at these external acceptance gates; no auto-restart, parallel agent,
 API billing, credit purchase, paid service or Steam public sale is configured.
+
+## M10-directed independent preparation — 2026-10-06 UTC
+
+User authorized progress through M10 with a thorough check at each milestone. Existing
+manual gates remain open; this instruction does not fabricate actual Windows/user/Steam
+acceptance. Runtime reports cloud/running/connected. Actual checkout commands and GitHub
+access succeeded, starting clean at e1f78407ea8f935db72a5e314fd39e2ea4db7fdd.
+Reviewed #127 documentation diff and all seven exact-head green checks, then guarded merge.
+Fetched main and branched `feat/pc-release-preparation`; no user changes/PR #83 touched.
+
+Implemented independent M7/M9 packaging groundwork: dedicated reboot-only Windows build,
+bundled font/OFL, rejection of legacy/research assets, SHA-256 distribution inventory with
+source vs checkout commits, Windows CI verification before artifact upload, three regressions.
+Web legacy preview retained. No M5/M6 gameplay or save version change.
+Prepared M6 economic/UI/save design, M7–M10 acceptance plan and non-executable SteamPipe
+VDF examples. Read existing roadmap/reviews/art register and M5 design; design numbers
+are experiment proposals, not original-game measurements or tested balance.
+
+Local Node 22.22.0: unit/save/file 25/25, strict typecheck and lint passed. Desktop build
+and six-file asset audit passed; release regressions 3/3 passed. Web build/browser and
+current-head Windows results will be recorded after completion. Self-review is in
+`docs/reviews/pc-distribution-audit.md`. No separate background task/scheduler exists.
+Exact implementation SHA and PR URL are supplied in the PR metadata; use
+`git log -1 --format=%H -- scripts/release-manifest.cjs` for the code commit.
+
+Remaining milestone gates: M2 visual approval; M4 clean-PC/offline/actual web↔PC and true
+version update/reinstall; M5 gameplay and strategy/save compatibility; M6 actual management;
+M7 music/content/tutorial/language/manual package; M8 real participants/hardware; M9 actual RC
+and rights; M10 account/AppID/private-client validation. Continue independently runnable
+preparation, but do not mark these milestones reached from documents/CI or run endless tests.
+
+Local validation correction: the first browser invocation was started before the web build
+finished and received a root 404 (no canvas). Stopped that invalid invocation and reran only
+after the production build exited successfully; this is a sequencing error, not a dismissed
+application defect. Final browser result is recorded below when complete.

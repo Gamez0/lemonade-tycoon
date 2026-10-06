@@ -9,7 +9,7 @@ const output = path.join(buildRoot, 'release');
 if (!path.resolve(stage).startsWith(buildRoot + path.sep)) throw new Error('Invalid desktop build path.');
 fs.rmSync(stage, { recursive: true, force: true });
 fs.mkdirSync(path.join(stage, 'src', 'desktop'), { recursive: true });
-fs.cpSync(path.join(root, 'dist'), path.join(stage, 'dist'), { recursive: true });
+fs.cpSync(path.join(root, 'desktop-dist'), path.join(stage, 'dist'), { recursive: true });
 for (const name of ['main.cjs', 'preload.cjs', 'file-storage.cjs'])
     fs.copyFileSync(path.join(root, 'src', 'desktop', name), path.join(stage, 'src', 'desktop', name));
 fs.writeFileSync(path.join(stage, 'package.json'), JSON.stringify({
