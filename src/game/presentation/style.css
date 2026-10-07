@@ -365,11 +365,14 @@ input {
         "Trebuchet MS",
         sans-serif;
 }
-.recipe-row input[type="number"] {
+.recipe-row input[type="number"],
+#price {
     appearance: textfield;
 }
 .recipe-row input[type="number"]::-webkit-inner-spin-button,
-.recipe-row input[type="number"]::-webkit-outer-spin-button {
+.recipe-row input[type="number"]::-webkit-outer-spin-button,
+#price::-webkit-inner-spin-button,
+#price::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
