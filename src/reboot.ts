@@ -47,6 +47,12 @@ let restartArmed = false;
 let fast = false;
 let saveBlocked = false;
 const desktopSave = (window as Window & { desktopSave?: AsyncSaveStorage & { onFlush(handler: () => Promise<void>): void } }).desktopSave;
+if (desktopSave) {
+    document.documentElement.classList.add("desktop");
+    const fitDesktop = () => document.documentElement.style.setProperty("--desktop-ui-scale", String(Math.min(1, window.innerHeight / 820)));
+    fitDesktop();
+    window.addEventListener("resize", fitDesktop);
+}
 let saveQueue = Promise.resolve();
 desktopSave?.onFlush(() => saveQueue);
 const app = document.querySelector<HTMLDivElement>("#app")!;

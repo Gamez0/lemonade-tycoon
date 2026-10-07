@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, Menu } = require('electron');
 const path = require('node:path');
 const { createFileStorage } = require('./file-storage.cjs');
 
@@ -26,11 +26,14 @@ ipcMain.on('save:flushed', event => {
 });
 
 app.whenReady().then(() => {
+    Menu.setApplicationMenu(null);
     window = new BrowserWindow({
         width: 1100,
         height: 850,
         minWidth: 800,
         minHeight: 600,
+        useContentSize: true,
+        icon: path.join(__dirname, 'icon.ico'),
         backgroundColor: '#9bc77e',
         webPreferences: {
             preload: path.join(__dirname, 'preload.cjs'),

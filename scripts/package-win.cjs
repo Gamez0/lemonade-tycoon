@@ -10,12 +10,13 @@ if (!path.resolve(stage).startsWith(buildRoot + path.sep)) throw new Error('Inva
 fs.rmSync(stage, { recursive: true, force: true });
 fs.mkdirSync(path.join(stage, 'src', 'desktop'), { recursive: true });
 fs.cpSync(path.join(root, 'desktop-dist'), path.join(stage, 'dist'), { recursive: true });
-for (const name of ['main.cjs', 'preload.cjs', 'file-storage.cjs'])
+for (const name of ['main.cjs', 'preload.cjs', 'file-storage.cjs', 'icon.ico'])
     fs.copyFileSync(path.join(root, 'src', 'desktop', name), path.join(stage, 'src', 'desktop', name));
 fs.writeFileSync(path.join(stage, 'package.json'), JSON.stringify({
     name: 'lemonade-tycoon', version: '0.1.0', main: 'src/desktop/main.cjs',
 }), 'utf8');
 packager({ dir: stage, name: 'Lemonade Tycoon', platform: 'win32', arch: 'x64', out: output,
+    icon: path.join(root, 'src', 'desktop', 'icon.ico'),
     overwrite: true, asar: true, prune: true, electronVersion: '44.5.1' })
     .then(paths => { for (const result of paths) process.stdout.write(`${result}\n`); })
     .catch(error => { process.stderr.write(`${error.stack || error}\n`); process.exitCode = 1; });
