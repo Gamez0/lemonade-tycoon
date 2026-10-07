@@ -1,0 +1,9 @@
+{
+    "commit":  "1d84e54bb6e3df496b36f6eac0dc3c017af77c9e",
+    "run":  "local-windows-ui-fix",
+    "node":  "22.16.0",
+    "electron":  "44.5.1",
+    "prototype":  true,
+    "npm":  "8.4.0",
+    "source_commit":  "1d84e54bb6e3df496b36f6eac0dc3c017af77c9e"
+}

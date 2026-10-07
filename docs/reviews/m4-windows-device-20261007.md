@@ -3,7 +3,8 @@
 판정: **M4 진행 중**. 로컬 Windows 패키지 자동 검사와 사용자 기본 화면·플레이·결과/
 다음 날 재실행 확인은 통과했다. 나머지 직접 확인, 실제 네트워크 단절,
 clean PC/no Node는 미확인이다. M2 시각 승인과 Steam
-검증은 별개이며 완료 처리하지 않는다. 게임 결함은 이번 자동 검사에서 재현되지 않았다.
+검증은 별개이며 완료 처리하지 않는다. 초기 저장 자동 검사에는 실패가 없었으며,
+후속 사용자 UI 결함과 수정·회귀 결과는 아래 추가 기록에 구분한다.
 
 ## 환경과 보호 범위
 
@@ -197,3 +198,76 @@ M4 캡처와 M2/Steam 승인을 분리했다. 결과 문서·증거·재실행 �
 검증된 스크립트/증거 commit은 `2c7747645c133e3ea729b68e5ea0188caefec767`.
 다운로드된 CRLF JSON의 원본 바이트를 git에 보존하며, 후속 attribute에서는 해당
 증거 파일의 CR-at-EOL을 허용해서 whitespace check도 통과한다.
+
+## 사용자 UI 결함 및 수정 패키지 — 2026-10-07 23:41 KST 기록
+
+기본 4단계 확인 후 사용자가 두 스크린샷과 함께 가격 입력의 기본 상하 화살표,
+창 바깥 여백/이중 제목/기본 Electron 아이콘·메뉴, 오른쪽 페이지 스크롤을 지적했다.
+초기 화면 정상 응답을 모든 UI가 수용됐다는 의미로 확장하지 않는다. **M2 미승인**.
+
+재현: 기존 main artifact를 격리 launcher로 실행→Price 탭. 가격만 native number
+spinner가 보인다. 1100×850 기본 창에서 안쪽 제목·File/Edit/View/Window 메뉴,
+좌우·상단 여백과 하단 버튼/저장 footer를 보기 위한 세로 스크롤이 나타난다.
+원인: spinner 제거 CSS가 `.recipe-row`에만 적용되고, 웹용 960px 폭 제한/18px
+margin/중복 masthead/고정 최소 높이를 desktop에서도 사용했다. Electron 메뉴와
+아이콘도 기본값이었다. 저장/회계 결함이 아니라 패키지 표시·조작의 UI 결함이다.
+
+수정:
+- 가격에도 같은 textfield/spin-button 스타일 적용. 직접 숫자 입력·유효성·저장 유지.
+- desktop bridge가 있는 경우만 desktop 레이아웃 적용. Native 제목줄을 사용하고
+  내부 중복 masthead와 작동하지 않는 legacy 링크 제거, Electron 메뉴 제거.
+- 기존 자체 제작 lemon SVG 아이콘을 재사용해 16/32/48/256px ICO 생성하고
+  BrowserWindow/EXE에 적용. 원본 `src/desktop/icon.svg`, 생성본 `icon.ico` 포함.
+  생성 시 Electron의 숨겨진 renderer에서 SVG→canvas PNG를 만들고 ICO 컨테이너로
+  묶었다. 외부 이미지/새 라이선스/유료 생성 서비스 사용 없음.
+- 게임 root가 client area를 채우도록 하고, 작은 높이에서는 UI 크기를 맞춘다.
+  명시적 grid row와 flex 높이로 모든 주요 조작을 viewport 안에 유지한다.
+  거리 canvas는 원래 비율을 유지하며 표시 영역에 맞춘다. 창 비율이 다를 때 거리
+  장면 안의 여유 공간은 가능하지만 바깥 웹 프레임/페이지 스크롤은 제거했다.
+
+수정 중 검증: vendor pseudo-element computed style 조회는 실제 pseudo 대신
+textfield를 반환해서 첫 assertion을 잘못 작성했다. 일반 input appearance와 실제
+캡처로 확인하도록 검사를 수정했다. 이어 canvas 확대를 적용한 중간 build에서
+1280×720 Recipe의 START DAY bottom=756.375 > viewport720인 **실제 잘림**을
+회귀 검사로 발견했다. implicit grid row의 최소 콘텐츠 높이를
+`grid-template-rows: minmax(0, 1fr)`로 제한한 뒤 최종 패키지를 다시 만들어 해결했다.
+실패를 단순 overflow:hidden으로 통과시키지 않았다.
+
+최종 로컬 패키지 source/checkout:
+`1d84e54bb6e3df496b36f6eac0dc3c017af77c9e`, Node22.16.0/npm8.4.0/
+Electron44.5.1, run=`local-windows-ui-fix`. `.local-m4/fixed-package`에 보관.
+처음 두 Actions 다운로드와 별개의 **로컬 빌드**이며 기존 패키지를 덮어쓰지 않았다.
+`npm run desktop:package:win`, six-file desktop audit, manifest 작성/74파일 검증 통과.
+테스트/CI 스크립트 추가는 패키지의 게임 코드 변경 이후 기록이며 native 배포물에
+dev package.json은 넣지 않는다.
+
+최종 검사:
+- `npm run test:desktop:ui`: 1100×850 / 800×600 / 1280×720의 네 탭(12조합),
+  800×600 판매·결과에서 root/주요 버튼/canvas bounds를 검사. root는 client area와
+  일치, 가로·세로 document overflow 없음, footer/START DAY/NEXT DAY가 화면 안.
+  메뉴/중복 제목 없음, 기존 패키지 appearance=auto→수정 textfield,
+  가격2.25 입력→plan225 저장→X/relaunch2.25 유지. PASS.
+- 최종 EXE의 `npm run test:desktop`: 기존 저장·flush·강제 종료·손상/전송·재배치 PASS.
+- typecheck/lint:reboot, production web build, desktop/test JS syntax PASS.
+  별도 headless Edge의 production web 검사에서 기존 masthead/960px web layout 유지,
+  가격2.25 입력·reload 저장 PASS. 전체 browser 12/12 재실행이라고 주장하지 않는다.
+- UI 회귀를 `tests/desktop-ui.cjs`와 Windows workflow에 추가. 기존 테스트와 모두
+  격리된 temp 저장을 사용한다. 초기 증거 JSON/이미지/manifest는 보존한다.
+
+수정 증거: [UI 결과](evidence/m4-windows-20261007/ui-fix/ui-results.json),
+[가격 캡처](evidence/m4-windows-20261007/ui-fix/price-fixed.png),
+[작은 창 결과](evidence/m4-windows-20261007/ui-fix/results-small.png),
+[로컬 build-info](evidence/m4-windows-20261007/ui-fix/build-info.json),
+[manifest](evidence/m4-windows-20261007/ui-fix/release-manifest.json).
+
+**수정 패키지의 사용자 재확인은 아직 없음**. 현재 창을 X로 종료한 뒤 다음 실행기로
+같은 격리 test business를 이어한다. 실제 개인 저장은 사용하지 않는다.
+
+```powershell
+& "C:\Users\dobin\Documents\Projects\lemonade-tycoon-m4-windows\scripts\m4-price-fix-launch.cmd"
+```
+
+가격 화살표, 기본 메뉴/아이콘, 중복 제목/바깥 여백/우측 스크롤이 사라졌는지와
+작은 창에서도 주요 버튼이 보이고 조작되는지 직접 확인을 요청한다. 기존
+`m4-manual-launch.cmd`는 원래 Actions 패키지이며 수정판으로 바꾸지 않았다.
+이후 offline/DPI 등 남은 M4 검사를 계속한다. M2/Steam을 완료 처리하지 않는다.

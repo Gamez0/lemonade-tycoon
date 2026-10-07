@@ -522,3 +522,29 @@ X-close/relaunch -> restore network and report outcome/method. Ask for actual Wi
 display scale and reviewer name. Other manual transfer/recovery/build-replacement checks,
 clean-PC/no Node, M2 visual and Steam remain open. No runtime changes or new regression
 run required for this response-only documentation update. Commit/push to PR #130; no merge.
+
+### User-reported Windows UI corrections — 2026-10-07 23:41 KST
+
+User then reported/screenshotted native arrows still on Price, web-like outer margins/
+duplicate title, default Electron icon/menu and right page scrolling. The initial screen
+PASS does not override these specific findings or constitute M2 approval. Root causes:
+recipe-only spinner CSS, unchanged web max-width/margins/min-heights, default native chrome.
+Corrected Price CSS, bridge-gated desktop layout, native menu/title/icon and content fitting.
+Reused original authored lemon vector for ICO; no external art/image generation/purchases.
+
+Local final package source/checkout `1d84e54bb6e3df496b36f6eac0dc3c017af77c9e`, Node22.16.0,
+npm8.4.0/Electron44.5.1, build-info run=local-windows-ui-fix. Stored separately in
+`.local-m4/fixed-package`, original Actions packages/test business preserved. Manifest74 PASS.
+Meaningful EXE UI regression added to Windows CI: 12 tab/size combinations, small selling/
+results, all controls/canvas/root within viewport, no document scroll, menu/masthead absent,
+price2.25 typing/save/relaunch. Found actual intermediate 1280x720 START DAY clipping after
+canvas fit; corrected grid row min-size and reran PASS. Final native save suite also PASS;
+type/lint/build/JS checks and isolated production Edge web layout/price-save check PASS.
+No full browser-suite or new human acceptance claimed. Detailed evidence/repro in the M4 review.
+
+Next: have user X-close the old manual window and run `scripts/m4-price-fix-launch.cmd`;
+it uses the same isolated manual-data, not real business storage. Confirm arrows/native
+icon/menu/frame/scroll removal and controls at small size, then physical offline and actual
+DPI/reviewer details. New UI package needs user recheck; original 4-step save observations
+still refer to the Actions main artifact. M4/clean-PC/M2/Steam remain open. PR #130 now includes
+these observed Windows UI fixes plus regression/evidence. No merge.

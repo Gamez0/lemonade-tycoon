@@ -1,0 +1,2266 @@
+{
+  "beforeSpinner": "auto",
+  "afterSpinner": "textfield",
+  "pricePersisted": 225,
+  "results": [
+    {
+      "name": "1100x850 recipe",
+      "width": 1100,
+      "height": 850,
+      "scrollWidth": 1100,
+      "scrollHeight": 850,
+      "app": {
+        "x": 0,
+        "y": 0,
+        "right": 1100,
+        "bottom": 850,
+        "width": 1100,
+        "height": 850
+      },
+      "scene": {
+        "x": 561,
+        "y": 186,
+        "right": 1087,
+        "bottom": 682.8125,
+        "width": 526,
+        "height": 496.8125
+      },
+      "canvas": {
+        "x": 562,
+        "y": 187,
+        "right": 1086,
+        "bottom": 681.8125,
+        "width": 524,
+        "height": 494.8125
+      },
+      "controls": [
+        {
+          "name": "Results",
+          "x": 10,
+          "y": 96,
+          "right": 87,
+          "bottom": 171,
+          "width": 77,
+          "height": 75
+        },
+        {
+          "name": "Price",
+          "x": 92,
+          "y": 96,
+          "right": 169,
+          "bottom": 171,
+          "width": 77,
+          "height": 75
+        },
+        {
+          "name": "Recipe",
+          "x": 174,
+          "y": 96,
+          "right": 251,
+          "bottom": 171,
+          "width": 77,
+          "height": 75
+        },
+        {
+          "name": "Supplies",
+          "x": 256,
+          "y": 96,
+          "right": 333,
+          "bottom": 171,
+          "width": 77,
+          "height": 75
+        },
+        {
+          "name": "−",
+          "x": 174,
+          "y": 337.5625,
+          "right": 216,
+          "bottom": 379.5625,
+          "width": 42,
+          "height": 42
+        },
+        {
+          "name": "lemon",
+          "x": 221,
+          "y": 340.0625,
+          "right": 280,
+          "bottom": 377.0625,
+          "width": 59,
+          "height": 37
+        },
+        {
+          "name": "+",
+          "x": 285,
+          "y": 337.5625,
+          "right": 327,
+          "bottom": 379.5625,
+          "width": 42,
+          "height": 42
+        },
+        {
+          "name": "−",
+          "x": 174,
+          "y": 407.5625,
+          "right": 216,
+          "bottom": 449.5625,
+          "width": 42,
+          "height": 42
+        },
+        {
+          "name": "sugar",
+          "x": 221,
+          "y": 410.0625,
+          "right": 280,
+          "bottom": 447.0625,
+          "width": 59,
+          "height": 37
+        },
+        {
+          "name": "+",
+          "x": 285,
+          "y": 407.5625,
+          "right": 327,
+          "bottom": 449.5625,
+          "width": 42,
+          "height": 42
+        },
+        {
+          "name": "−",
+          "x": 174,
+          "y": 477.5625,
+          "right": 216,
+          "bottom": 519.5625,
+          "width": 42,
+          "height": 42
+        },
+        {
+          "name": "ice",
+          "x": 221,
+          "y": 480.0625,
+          "right": 280,
+          "bottom": 517.0625,
+          "width": 59,
+          "height": 37
+        },
+        {
+          "name": "+",
+          "x": 285,
+          "y": 477.5625,
+          "right": 327,
+          "bottom": 519.5625,
+          "width": 42,
+          "height": 42
+        },
+        {
+          "name": "open",
+          "x": 387.328125,
+          "y": 747,
+          "right": 530,
+          "bottom": 793,
+          "width": 142.671875,
+          "height": 46
+        },
+        {
+          "name": "restart",
+          "x": 792.25,
+          "y": 813.5,
+          "right": 871.75,
+          "bottom": 842.5,
+          "width": 79.5,
+          "height": 29
+        },
+        {
+          "name": "export-save",
+          "x": 880.75,
+          "y": 813.5,
+          "right": 951.8125,
+          "bottom": 842.5,
+          "width": 71.0625,
+          "height": 29
+        },
+        {
+          "name": "import-save",
+          "x": 960.8125,
+          "y": 813.5,
+          "right": 1033.6875,
+          "bottom": 842.5,
+          "width": 72.875,
+          "height": 29
+        }
+      ]
+    },
+    {
+      "name": "1100x850 price",
+      "width": 1100,
+      "height": 850,
+      "scrollWidth": 1100,
+      "scrollHeight": 850,
+      "app": {
+        "x": 0,
+        "y": 0,
+        "right": 1100,
+        "bottom": 850,
+        "width": 1100,
+        "height": 850
+      },
+      "scene": {
+        "x": 561,
+        "y": 186,
+        "right": 1087,
+        "bottom": 682.8125,
+        "width": 526,
+        "height": 496.8125
+      },
+      "canvas": {
+        "x": 562,
+        "y": 187,
+        "right": 1086,
+        "bottom": 681.8125,
+        "width": 524,
+        "height": 494.8125
+      },
+      "controls": [
+        {
+          "name": "Results",
+          "x": 10,
+          "y": 96,
+          "right": 87,
+          "bottom": 171,
+          "width": 77,
+          "height": 75
+        },
+        {
+          "name": "Price",
+          "x": 92,
+          "y": 96,
+          "right": 169,
+          "bottom": 171,
+          "width": 77,
+          "height": 75
+        },
+        {
+          "name": "Recipe",
+          "x": 174,
+          "y": 96,
+          "right": 251,
+          "bottom": 171,
+          "width": 77,
+          "height": 75
+        },
+        {
+          "name": "Supplies",
+          "x": 256,
+          "y": 96,
+          "right": 333,
+          "bottom": 171,
+          "width": 77,
+          "height": 75
+        },
+        {
+          "name": "price",
+          "x": 433,
+          "y": 348.375,
+          "right": 521,
+          "bottom": 385.375,
+          "width": 88,
+          "height": 37
+        },
+        {
+          "name": "open",
+          "x": 387.328125,
+          "y": 747,
+          "right": 530,
+          "bottom": 793,
+          "width": 142.671875,
+          "height": 46
+        },
+        {
+          "name": "restart",
+          "x": 792.25,
+          "y": 813.5,
+          "right": 871.75,
+          "bottom": 842.5,
+          "width": 79.5,
+          "height": 29
+        },
+        {
+          "name": "export-save",
+          "x": 880.75,
+          "y": 813.5,
+          "right": 951.8125,
+          "bottom": 842.5,
+          "width": 71.0625,
+          "height": 29
+        },
+        {
+          "name": "import-save",
+          "x": 960.8125,
+          "y": 813.5,
+          "right": 1033.6875,
+          "bottom": 842.5,
+          "width": 72.875,
+          "height": 29
+        }
+      ]
+    },
+    {
+      "name": "1100x850 supplies",
+      "width": 1100,
+      "height": 850,
+      "scrollWidth": 1100,
+      "scrollHeight": 850,
+      "app": {
+        "x": 0,
+        "y": 0,
+        "right": 1100,
+        "bottom": 850,
+        "width": 1100,
+        "height": 850
+      },
+      "scene": {
+        "x": 561,
+        "y": 186,
+        "right": 1087,
+        "bottom": 682.8125,
+        "width": 526,
+        "height": 496.8125
+      },
+      "canvas": {
+        "x": 562,
+        "y": 187,
+        "right": 1086,
+        "bottom": 681.8125,
+        "width": 524,
+        "height": 494.8125
+      },
+      "controls": [
+        {
+          "name": "Results",
+          "x": 10,
+          "y": 96,
+          "right": 87,
+          "bottom": 171,
+          "width": 77,
+          "height": 75
+        },
+        {
+          "name": "Price",
+          "x": 92,
+          "y": 96,
+          "right": 169,
+          "bottom": 171,
+          "width": 77,
+          "height": 75
+        },
+        {
+          "name": "Recipe",
+          "x": 174,
+          "y": 96,
+          "right": 251,
+          "bottom": 171,
+          "width": 77,
+          "height": 75
+        },
+        {
+          "name": "Supplies",
+          "x": 256,
+          "y": 96,
+          "right": 333,
+          "bottom": 171,
+          "width": 77,
+          "height": 75
+        },
+        {
+          "name": "Lemon units0 in stock",
+          "x": 22,
+          "y": 291.375,
+          "right": 146.75,
+          "bottom": 359.375,
+          "width": 124.75,
+          "height": 68
+        },
+        {
+          "name": "Sugar scoops0 in stock",
+          "x": 149.75,
+          "y": 291.375,
+          "right": 274.5,
+          "bottom": 359.375,
+          "width": 124.75,
+          "height": 68
+        },
+        {
+          "name": "Ice cubes0 in stock",
+          "x": 277.5,
+          "y": 291.375,
+          "right": 402.25,
+          "bottom": 359.375,
+          "width": 124.75,
+          "height": 68
+        },
+        {
+          "name": "Paper cups0 in stock",
+          "x": 405.25,
+          "y": 291.375,
+          "right": 530,
+          "bottom": 359.375,
+          "width": 124.75,
+          "height": 68
+        },
+        {
+          "name": "−",
+          "x": 434,
+          "y": 366.375,
+          "right": 464,
+          "bottom": 396.375,
+          "width": 30,
+          "height": 30
+        },
+        {
+          "name": "+",
+          "x": 500,
+          "y": 366.375,
+          "right": 530,
+          "bottom": 396.375,
+          "width": 30,
+          "height": 30
+        },
+        {
+          "name": "−",
+          "x": 434,
+          "y": 401.375,
+          "right": 464,
+          "bottom": 431.375,
+          "width": 30,
+          "height": 30
+        },
+        {
+          "name": "+",
+          "x": 500,
+          "y": 401.375,
+          "right": 530,
+          "bottom": 431.375,
+          "width": 30,
+          "height": 30
+        },
+        {
+          "name": "−",
+          "x": 434,
+          "y": 436.375,
+          "right": 464,
+          "bottom": 466.375,
+          "width": 30,
+          "height": 30
+        },
+        {
+          "name": "+",
+          "x": 500,
+          "y": 436.375,
+          "right": 530,
+          "bottom": 466.375,
+          "width": 30,
+          "height": 30
+        },
+        {
+          "name": "cancel-order",
+          "x": 366,
+          "y": 523.765625,
+          "right": 444,
+          "bottom": 563.765625,
+          "width": 78,
+          "height": 40
+        },
+        {
+          "name": "buy-order",
+          "x": 452,
+          "y": 523.765625,
+          "right": 530,
+          "bottom": 563.765625,
+          "width": 78,
+          "height": 40
+        },
+        {
+          "name": "open",
+          "x": 387.328125,
+          "y": 747,
+          "right": 530,
+          "bottom": 793,
+          "width": 142.671875,
+          "height": 46
+        },
+        {
+          "name": "restart",
+          "x": 792.25,
+          "y": 813.5,
+          "right": 871.75,
+          "bottom": 842.5,
+          "width": 79.5,
+          "height": 29
+        },
+        {
+          "name": "export-save",
+          "x": 880.75,
+          "y": 813.5,
+          "right": 951.8125,
+          "bottom": 842.5,
+          "width": 71.0625,
+          "height": 29
+        },
+        {
+          "name": "import-save",
+          "x": 960.8125,
+          "y": 813.5,
+          "right": 1033.6875,
+          "bottom": 842.5,
+          "width": 72.875,
+          "height": 29
+        }
+      ]
+    },
+    {
+      "name": "1100x850 results",
+      "width": 1100,
+      "height": 850,
+      "scrollWidth": 1100,
+      "scrollHeight": 850,
+      "app": {
+        "x": 0,
+        "y": 0,
+        "right": 1100,
+        "bottom": 850,
+        "width": 1100,
+        "height": 850
+      },
+      "scene": {
+        "x": 561,
+        "y": 186,
+        "right": 1087,
+        "bottom": 682.8125,
+        "width": 526,
+        "height": 496.8125
+      },
+      "canvas": {
+        "x": 562,
+        "y": 187,
+        "right": 1086,
+        "bottom": 681.8125,
+        "width": 524,
+        "height": 494.8125
+      },
+      "controls": [
+        {
+          "name": "Results",
+          "x": 10,
+          "y": 96,
+          "right": 87,
+          "bottom": 171,
+          "width": 77,
+          "height": 75
+        },
+        {
+          "name": "Price",
+          "x": 92,
+          "y": 96,
+          "right": 169,
+          "bottom": 171,
+          "width": 77,
+          "height": 75
+        },
+        {
+          "name": "Recipe",
+          "x": 174,
+          "y": 96,
+          "right": 251,
+          "bottom": 171,
+          "width": 77,
+          "height": 75
+        },
+        {
+          "name": "Supplies",
+          "x": 256,
+          "y": 96,
+          "right": 333,
+          "bottom": 171,
+          "width": 77,
+          "height": 75
+        },
+        {
+          "name": "Last day",
+          "x": 28,
+          "y": 242,
+          "right": 116.09375,
+          "bottom": 280,
+          "width": 88.09375,
+          "height": 38
+        },
+        {
+          "name": "Profit & loss",
+          "x": 121.09375,
+          "y": 242,
+          "right": 229.375,
+          "bottom": 280,
+          "width": 108.28125,
+          "height": 38
+        },
+        {
+          "name": "open",
+          "x": 387.328125,
+          "y": 747,
+          "right": 530,
+          "bottom": 793,
+          "width": 142.671875,
+          "height": 46
+        },
+        {
+          "name": "restart",
+          "x": 792.25,
+          "y": 813.5,
+          "right": 871.75,
+          "bottom": 842.5,
+          "width": 79.5,
+          "height": 29
+        },
+        {
+          "name": "export-save",
+          "x": 880.75,
+          "y": 813.5,
+          "right": 951.8125,
+          "bottom": 842.5,
+          "width": 71.0625,
+          "height": 29
+        },
+        {
+          "name": "import-save",
+          "x": 960.8125,
+          "y": 813.5,
+          "right": 1033.6875,
+          "bottom": 842.5,
+          "width": 72.875,
+          "height": 29
+        }
+      ]
+    },
+    {
+      "name": "800x600 recipe",
+      "width": 800,
+      "height": 600,
+      "scrollWidth": 800,
+      "scrollHeight": 600,
+      "app": {
+        "x": 0,
+        "y": 0,
+        "right": 800,
+        "bottom": 600,
+        "width": 800,
+        "height": 600
+      },
+      "scene": {
+        "x": 407.578125,
+        "y": 134.796875,
+        "right": 790.96875,
+        "bottom": 477.921875,
+        "width": 383.390625,
+        "height": 343.125
+      },
+      "canvas": {
+        "x": 408.578125,
+        "y": 135.796875,
+        "right": 789.96875,
+        "bottom": 476.921875,
+        "width": 381.390625,
+        "height": 341.125
+      },
+      "controls": [
+        {
+          "name": "Results",
+          "x": 7.296875,
+          "y": 69.421875,
+          "right": 63.625,
+          "bottom": 124.296875,
+          "width": 56.328125,
+          "height": 54.875
+        },
+        {
+          "name": "Price",
+          "x": 67.28125,
+          "y": 69.421875,
+          "right": 123.609375,
+          "bottom": 124.296875,
+          "width": 56.328125,
+          "height": 54.875
+        },
+        {
+          "name": "Recipe",
+          "x": 127.265625,
+          "y": 69.421875,
+          "right": 183.59375,
+          "bottom": 124.296875,
+          "width": 56.328125,
+          "height": 54.875
+        },
+        {
+          "name": "Supplies",
+          "x": 187.25,
+          "y": 69.421875,
+          "right": 243.578125,
+          "bottom": 124.296875,
+          "width": 56.328125,
+          "height": 54.875
+        },
+        {
+          "name": "−",
+          "x": 127.328125,
+          "y": 245.671875,
+          "right": 158.046875,
+          "bottom": 276.390625,
+          "width": 30.71875,
+          "height": 30.71875
+        },
+        {
+          "name": "lemon",
+          "x": 161.703125,
+          "y": 247.5,
+          "right": 204.859375,
+          "bottom": 274.5625,
+          "width": 43.15625,
+          "height": 27.0625
+        },
+        {
+          "name": "+",
+          "x": 208.515625,
+          "y": 245.671875,
+          "right": 239.234375,
+          "bottom": 276.390625,
+          "width": 30.71875,
+          "height": 30.71875
+        },
+        {
+          "name": "−",
+          "x": 127.328125,
+          "y": 295.921875,
+          "right": 158.046875,
+          "bottom": 326.640625,
+          "width": 30.71875,
+          "height": 30.71875
+        },
+        {
+          "name": "sugar",
+          "x": 161.703125,
+          "y": 297.75,
+          "right": 204.859375,
+          "bottom": 324.8125,
+          "width": 43.15625,
+          "height": 27.0625
+        },
+        {
+          "name": "+",
+          "x": 208.515625,
+          "y": 295.921875,
+          "right": 239.234375,
+          "bottom": 326.640625,
+          "width": 30.71875,
+          "height": 30.71875
+        },
+        {
+          "name": "−",
+          "x": 127.328125,
+          "y": 346.171875,
+          "right": 158.046875,
+          "bottom": 376.890625,
+          "width": 30.71875,
+          "height": 30.71875
+        },
+        {
+          "name": "ice",
+          "x": 161.703125,
+          "y": 348,
+          "right": 204.859375,
+          "bottom": 375.0625,
+          "width": 43.15625,
+          "height": 27.0625
+        },
+        {
+          "name": "+",
+          "x": 208.515625,
+          "y": 346.171875,
+          "right": 239.234375,
+          "bottom": 376.890625,
+          "width": 30.71875,
+          "height": 30.71875
+        },
+        {
+          "name": "open",
+          "x": 282.421875,
+          "y": 525.46875,
+          "right": 385.84375,
+          "bottom": 558.78125,
+          "width": 103.421875,
+          "height": 33.3125
+        },
+        {
+          "name": "restart",
+          "x": 577.859375,
+          "y": 573.296875,
+          "right": 635.03125,
+          "bottom": 594.515625,
+          "width": 57.171875,
+          "height": 21.21875
+        },
+        {
+          "name": "export-save",
+          "x": 641.609375,
+          "y": 573.296875,
+          "right": 692.625,
+          "bottom": 594.515625,
+          "width": 51.015625,
+          "height": 21.21875
+        },
+        {
+          "name": "import-save",
+          "x": 699.203125,
+          "y": 573.296875,
+          "right": 751.53125,
+          "bottom": 594.515625,
+          "width": 52.328125,
+          "height": 21.21875
+        }
+      ]
+    },
+    {
+      "name": "800x600 price",
+      "width": 800,
+      "height": 600,
+      "scrollWidth": 800,
+      "scrollHeight": 600,
+      "app": {
+        "x": 0,
+        "y": 0,
+        "right": 800,
+        "bottom": 600,
+        "width": 800,
+        "height": 600
+      },
+      "scene": {
+        "x": 407.578125,
+        "y": 134.796875,
+        "right": 790.96875,
+        "bottom": 477.921875,
+        "width": 383.390625,
+        "height": 343.125
+      },
+      "canvas": {
+        "x": 408.578125,
+        "y": 135.796875,
+        "right": 789.96875,
+        "bottom": 476.921875,
+        "width": 381.390625,
+        "height": 341.125
+      },
+      "controls": [
+        {
+          "name": "Results",
+          "x": 7.296875,
+          "y": 69.421875,
+          "right": 63.625,
+          "bottom": 124.296875,
+          "width": 56.328125,
+          "height": 54.875
+        },
+        {
+          "name": "Price",
+          "x": 67.28125,
+          "y": 69.421875,
+          "right": 123.609375,
+          "bottom": 124.296875,
+          "width": 56.328125,
+          "height": 54.875
+        },
+        {
+          "name": "Recipe",
+          "x": 127.265625,
+          "y": 69.421875,
+          "right": 183.59375,
+          "bottom": 124.296875,
+          "width": 56.328125,
+          "height": 54.875
+        },
+        {
+          "name": "Supplies",
+          "x": 187.25,
+          "y": 69.421875,
+          "right": 243.578125,
+          "bottom": 124.296875,
+          "width": 56.328125,
+          "height": 54.875
+        },
+        {
+          "name": "price",
+          "x": 314.625,
+          "y": 254.53125,
+          "right": 379,
+          "bottom": 281.59375,
+          "width": 64.375,
+          "height": 27.0625
+        },
+        {
+          "name": "open",
+          "x": 282.421875,
+          "y": 525.46875,
+          "right": 385.84375,
+          "bottom": 558.78125,
+          "width": 103.421875,
+          "height": 33.3125
+        },
+        {
+          "name": "restart",
+          "x": 577.859375,
+          "y": 573.296875,
+          "right": 635.03125,
+          "bottom": 594.515625,
+          "width": 57.171875,
+          "height": 21.21875
+        },
+        {
+          "name": "export-save",
+          "x": 641.609375,
+          "y": 573.296875,
+          "right": 692.625,
+          "bottom": 594.515625,
+          "width": 51.015625,
+          "height": 21.21875
+        },
+        {
+          "name": "import-save",
+          "x": 699.203125,
+          "y": 573.296875,
+          "right": 751.53125,
+          "bottom": 594.515625,
+          "width": 52.328125,
+          "height": 21.21875
+        }
+      ]
+    },
+    {
+      "name": "800x600 supplies",
+      "width": 800,
+      "height": 600,
+      "scrollWidth": 800,
+      "scrollHeight": 600,
+      "app": {
+        "x": 0,
+        "y": 0,
+        "right": 800,
+        "bottom": 600,
+        "width": 800,
+        "height": 600
+      },
+      "scene": {
+        "x": 407.578125,
+        "y": 134.796875,
+        "right": 790.96875,
+        "bottom": 477.921875,
+        "width": 383.390625,
+        "height": 343.125
+      },
+      "canvas": {
+        "x": 408.578125,
+        "y": 135.796875,
+        "right": 789.96875,
+        "bottom": 476.921875,
+        "width": 381.390625,
+        "height": 341.125
+      },
+      "controls": [
+        {
+          "name": "Results",
+          "x": 7.296875,
+          "y": 69.421875,
+          "right": 63.625,
+          "bottom": 124.296875,
+          "width": 56.328125,
+          "height": 54.875
+        },
+        {
+          "name": "Price",
+          "x": 67.28125,
+          "y": 69.421875,
+          "right": 123.609375,
+          "bottom": 124.296875,
+          "width": 56.328125,
+          "height": 54.875
+        },
+        {
+          "name": "Recipe",
+          "x": 127.265625,
+          "y": 69.421875,
+          "right": 183.59375,
+          "bottom": 124.296875,
+          "width": 56.328125,
+          "height": 54.875
+        },
+        {
+          "name": "Supplies",
+          "x": 187.25,
+          "y": 69.421875,
+          "right": 243.578125,
+          "bottom": 124.296875,
+          "width": 56.328125,
+          "height": 54.875
+        },
+        {
+          "name": "Lemon units0 in stock",
+          "x": 15.609375,
+          "y": 211.875,
+          "right": 106.515625,
+          "bottom": 261,
+          "width": 90.90625,
+          "height": 49.125
+        },
+        {
+          "name": "Sugar scoops0 in stock",
+          "x": 108.703125,
+          "y": 211.875,
+          "right": 199.625,
+          "bottom": 261,
+          "width": 90.921875,
+          "height": 49.125
+        },
+        {
+          "name": "Ice cubes0 in stock",
+          "x": 201.8125,
+          "y": 211.875,
+          "right": 292.734375,
+          "bottom": 261,
+          "width": 90.921875,
+          "height": 49.125
+        },
+        {
+          "name": "Paper cups0 in stock",
+          "x": 294.921875,
+          "y": 211.875,
+          "right": 385.84375,
+          "bottom": 261,
+          "width": 90.921875,
+          "height": 49.125
+        },
+        {
+          "name": "−",
+          "x": 315.65625,
+          "y": 265.984375,
+          "right": 337.59375,
+          "bottom": 287.921875,
+          "width": 21.9375,
+          "height": 21.9375
+        },
+        {
+          "name": "+",
+          "x": 363.90625,
+          "y": 265.984375,
+          "right": 385.84375,
+          "bottom": 287.921875,
+          "width": 21.9375,
+          "height": 21.9375
+        },
+        {
+          "name": "−",
+          "x": 315.65625,
+          "y": 291.59375,
+          "right": 337.59375,
+          "bottom": 313.53125,
+          "width": 21.9375,
+          "height": 21.9375
+        },
+        {
+          "name": "+",
+          "x": 363.90625,
+          "y": 291.59375,
+          "right": 385.84375,
+          "bottom": 313.53125,
+          "width": 21.9375,
+          "height": 21.9375
+        },
+        {
+          "name": "−",
+          "x": 315.65625,
+          "y": 317.203125,
+          "right": 337.59375,
+          "bottom": 339.140625,
+          "width": 21.9375,
+          "height": 21.9375
+        },
+        {
+          "name": "+",
+          "x": 363.90625,
+          "y": 317.203125,
+          "right": 385.84375,
+          "bottom": 339.140625,
+          "width": 21.9375,
+          "height": 21.9375
+        },
+        {
+          "name": "cancel-order",
+          "x": 265.875,
+          "y": 382.09375,
+          "right": 322.9375,
+          "bottom": 410.9375,
+          "width": 57.0625,
+          "height": 28.84375
+        },
+        {
+          "name": "buy-order",
+          "x": 328.78125,
+          "y": 382.09375,
+          "right": 385.84375,
+          "bottom": 410.9375,
+          "width": 57.0625,
+          "height": 28.84375
+        },
+        {
+          "name": "open",
+          "x": 282.421875,
+          "y": 525.46875,
+          "right": 385.84375,
+          "bottom": 558.78125,
+          "width": 103.421875,
+          "height": 33.3125
+        },
+        {
+          "name": "restart",
+          "x": 577.859375,
+          "y": 573.296875,
+          "right": 635.03125,
+          "bottom": 594.515625,
+          "width": 57.171875,
+          "height": 21.21875
+        },
+        {
+          "name": "export-save",
+          "x": 641.609375,
+          "y": 573.296875,
+          "right": 692.625,
+          "bottom": 594.515625,
+          "width": 51.015625,
+          "height": 21.21875
+        },
+        {
+          "name": "import-save",
+          "x": 699.203125,
+          "y": 573.296875,
+          "right": 751.53125,
+          "bottom": 594.515625,
+          "width": 52.328125,
+          "height": 21.21875
+        }
+      ]
+    },
+    {
+      "name": "800x600 results",
+      "width": 800,
+      "height": 600,
+      "scrollWidth": 800,
+      "scrollHeight": 600,
+      "app": {
+        "x": 0,
+        "y": 0,
+        "right": 800,
+        "bottom": 600,
+        "width": 800,
+        "height": 600
+      },
+      "scene": {
+        "x": 407.578125,
+        "y": 134.796875,
+        "right": 790.96875,
+        "bottom": 477.921875,
+        "width": 383.390625,
+        "height": 343.125
+      },
+      "canvas": {
+        "x": 408.578125,
+        "y": 135.796875,
+        "right": 789.96875,
+        "bottom": 476.921875,
+        "width": 381.390625,
+        "height": 341.125
+      },
+      "controls": [
+        {
+          "name": "Results",
+          "x": 7.296875,
+          "y": 69.421875,
+          "right": 63.625,
+          "bottom": 124.296875,
+          "width": 56.328125,
+          "height": 54.875
+        },
+        {
+          "name": "Price",
+          "x": 67.28125,
+          "y": 69.421875,
+          "right": 123.609375,
+          "bottom": 124.296875,
+          "width": 56.328125,
+          "height": 54.875
+        },
+        {
+          "name": "Recipe",
+          "x": 127.265625,
+          "y": 69.421875,
+          "right": 183.59375,
+          "bottom": 124.296875,
+          "width": 56.328125,
+          "height": 54.875
+        },
+        {
+          "name": "Supplies",
+          "x": 187.25,
+          "y": 69.421875,
+          "right": 243.578125,
+          "bottom": 124.296875,
+          "width": 56.328125,
+          "height": 54.875
+        },
+        {
+          "name": "Last day",
+          "x": 19.984375,
+          "y": 175.765625,
+          "right": 83.484375,
+          "bottom": 203.09375,
+          "width": 63.5,
+          "height": 27.328125
+        },
+        {
+          "name": "Profit & loss",
+          "x": 87.140625,
+          "y": 175.765625,
+          "right": 165.40625,
+          "bottom": 203.09375,
+          "width": 78.265625,
+          "height": 27.328125
+        },
+        {
+          "name": "open",
+          "x": 282.421875,
+          "y": 525.46875,
+          "right": 385.84375,
+          "bottom": 558.78125,
+          "width": 103.421875,
+          "height": 33.3125
+        },
+        {
+          "name": "restart",
+          "x": 577.859375,
+          "y": 573.296875,
+          "right": 635.03125,
+          "bottom": 594.515625,
+          "width": 57.171875,
+          "height": 21.21875
+        },
+        {
+          "name": "export-save",
+          "x": 641.609375,
+          "y": 573.296875,
+          "right": 692.625,
+          "bottom": 594.515625,
+          "width": 51.015625,
+          "height": 21.21875
+        },
+        {
+          "name": "import-save",
+          "x": 699.203125,
+          "y": 573.296875,
+          "right": 751.53125,
+          "bottom": 594.515625,
+          "width": 52.328125,
+          "height": 21.21875
+        }
+      ]
+    },
+    {
+      "name": "1280x720 recipe",
+      "width": 1280,
+      "height": 720,
+      "scrollWidth": 1280,
+      "scrollHeight": 720,
+      "app": {
+        "x": 0,
+        "y": 0,
+        "right": 1280,
+        "bottom": 720,
+        "width": 1280,
+        "height": 720
+      },
+      "scene": {
+        "x": 648.875,
+        "y": 161.9375,
+        "right": 1269.359375,
+        "bottom": 573.078125,
+        "width": 620.484375,
+        "height": 411.140625
+      },
+      "canvas": {
+        "x": 649.875,
+        "y": 162.9375,
+        "right": 1268.359375,
+        "bottom": 572.078125,
+        "width": 618.484375,
+        "height": 409.140625
+      },
+      "controls": [
+        {
+          "name": "Results",
+          "x": 8.765625,
+          "y": 83.703125,
+          "right": 76.375,
+          "bottom": 149.546875,
+          "width": 67.609375,
+          "height": 65.84375
+        },
+        {
+          "name": "Price",
+          "x": 80.75,
+          "y": 83.703125,
+          "right": 148.359375,
+          "bottom": 149.546875,
+          "width": 67.609375,
+          "height": 65.84375
+        },
+        {
+          "name": "Recipe",
+          "x": 152.734375,
+          "y": 83.703125,
+          "right": 220.34375,
+          "bottom": 149.546875,
+          "width": 67.609375,
+          "height": 65.84375
+        },
+        {
+          "name": "Supplies",
+          "x": 224.71875,
+          "y": 83.703125,
+          "right": 292.328125,
+          "bottom": 149.546875,
+          "width": 67.609375,
+          "height": 65.84375
+        },
+        {
+          "name": "−",
+          "x": 152.796875,
+          "y": 295.03125,
+          "right": 189.671875,
+          "bottom": 331.90625,
+          "width": 36.875,
+          "height": 36.875
+        },
+        {
+          "name": "lemon",
+          "x": 194.046875,
+          "y": 297.21875,
+          "right": 245.84375,
+          "bottom": 329.703125,
+          "width": 51.796875,
+          "height": 32.484375
+        },
+        {
+          "name": "+",
+          "x": 250.21875,
+          "y": 295.03125,
+          "right": 287.09375,
+          "bottom": 331.90625,
+          "width": 36.875,
+          "height": 36.875
+        },
+        {
+          "name": "−",
+          "x": 152.796875,
+          "y": 354.953125,
+          "right": 189.671875,
+          "bottom": 391.828125,
+          "width": 36.875,
+          "height": 36.875
+        },
+        {
+          "name": "sugar",
+          "x": 194.046875,
+          "y": 357.140625,
+          "right": 245.84375,
+          "bottom": 389.625,
+          "width": 51.796875,
+          "height": 32.484375
+        },
+        {
+          "name": "+",
+          "x": 250.21875,
+          "y": 354.953125,
+          "right": 287.09375,
+          "bottom": 391.828125,
+          "width": 36.875,
+          "height": 36.875
+        },
+        {
+          "name": "−",
+          "x": 152.796875,
+          "y": 414.875,
+          "right": 189.671875,
+          "bottom": 451.75,
+          "width": 36.875,
+          "height": 36.875
+        },
+        {
+          "name": "ice",
+          "x": 194.046875,
+          "y": 417.0625,
+          "right": 245.84375,
+          "bottom": 449.546875,
+          "width": 51.796875,
+          "height": 32.484375
+        },
+        {
+          "name": "+",
+          "x": 250.21875,
+          "y": 414.875,
+          "right": 287.09375,
+          "bottom": 451.75,
+          "width": 36.875,
+          "height": 36.875
+        },
+        {
+          "name": "open",
+          "x": 499.53125,
+          "y": 630.984375,
+          "right": 623.203125,
+          "bottom": 670.734375,
+          "width": 123.671875,
+          "height": 39.75
+        },
+        {
+          "name": "restart",
+          "x": 1014.578125,
+          "y": 687.953125,
+          "right": 1082.796875,
+          "bottom": 713.40625,
+          "width": 68.21875,
+          "height": 25.453125
+        },
+        {
+          "name": "export-save",
+          "x": 1090.6875,
+          "y": 687.953125,
+          "right": 1151.515625,
+          "bottom": 713.40625,
+          "width": 60.828125,
+          "height": 25.453125
+        },
+        {
+          "name": "import-save",
+          "x": 1159.40625,
+          "y": 687.953125,
+          "right": 1221.828125,
+          "bottom": 713.40625,
+          "width": 62.421875,
+          "height": 25.453125
+        }
+      ]
+    },
+    {
+      "name": "1280x720 price",
+      "width": 1280,
+      "height": 720,
+      "scrollWidth": 1280,
+      "scrollHeight": 720,
+      "app": {
+        "x": 0,
+        "y": 0,
+        "right": 1280,
+        "bottom": 720,
+        "width": 1280,
+        "height": 720
+      },
+      "scene": {
+        "x": 648.875,
+        "y": 161.9375,
+        "right": 1269.359375,
+        "bottom": 573.078125,
+        "width": 620.484375,
+        "height": 411.140625
+      },
+      "canvas": {
+        "x": 649.875,
+        "y": 162.9375,
+        "right": 1268.359375,
+        "bottom": 572.078125,
+        "width": 618.484375,
+        "height": 409.140625
+      },
+      "controls": [
+        {
+          "name": "Results",
+          "x": 8.765625,
+          "y": 83.703125,
+          "right": 76.375,
+          "bottom": 149.546875,
+          "width": 67.609375,
+          "height": 65.84375
+        },
+        {
+          "name": "Price",
+          "x": 80.75,
+          "y": 83.703125,
+          "right": 148.359375,
+          "bottom": 149.546875,
+          "width": 67.609375,
+          "height": 65.84375
+        },
+        {
+          "name": "Recipe",
+          "x": 152.734375,
+          "y": 83.703125,
+          "right": 220.34375,
+          "bottom": 149.546875,
+          "width": 67.609375,
+          "height": 65.84375
+        },
+        {
+          "name": "Supplies",
+          "x": 224.71875,
+          "y": 83.703125,
+          "right": 292.328125,
+          "bottom": 149.546875,
+          "width": 67.609375,
+          "height": 65.84375
+        },
+        {
+          "name": "price",
+          "x": 537.921875,
+          "y": 304.671875,
+          "right": 615.1875,
+          "bottom": 337.15625,
+          "width": 77.265625,
+          "height": 32.484375
+        },
+        {
+          "name": "open",
+          "x": 499.53125,
+          "y": 630.984375,
+          "right": 623.203125,
+          "bottom": 670.734375,
+          "width": 123.671875,
+          "height": 39.75
+        },
+        {
+          "name": "restart",
+          "x": 1014.578125,
+          "y": 687.953125,
+          "right": 1082.796875,
+          "bottom": 713.40625,
+          "width": 68.21875,
+          "height": 25.453125
+        },
+        {
+          "name": "export-save",
+          "x": 1090.6875,
+          "y": 687.953125,
+          "right": 1151.515625,
+          "bottom": 713.40625,
+          "width": 60.828125,
+          "height": 25.453125
+        },
+        {
+          "name": "import-save",
+          "x": 1159.40625,
+          "y": 687.953125,
+          "right": 1221.828125,
+          "bottom": 713.40625,
+          "width": 62.421875,
+          "height": 25.453125
+        }
+      ]
+    },
+    {
+      "name": "1280x720 supplies",
+      "width": 1280,
+      "height": 720,
+      "scrollWidth": 1280,
+      "scrollHeight": 720,
+      "app": {
+        "x": 0,
+        "y": 0,
+        "right": 1280,
+        "bottom": 720,
+        "width": 1280,
+        "height": 720
+      },
+      "scene": {
+        "x": 648.875,
+        "y": 161.9375,
+        "right": 1269.359375,
+        "bottom": 573.078125,
+        "width": 620.484375,
+        "height": 411.140625
+      },
+      "canvas": {
+        "x": 649.875,
+        "y": 162.9375,
+        "right": 1268.359375,
+        "bottom": 572.078125,
+        "width": 618.484375,
+        "height": 409.140625
+      },
+      "controls": [
+        {
+          "name": "Results",
+          "x": 8.765625,
+          "y": 83.703125,
+          "right": 76.375,
+          "bottom": 149.546875,
+          "width": 67.609375,
+          "height": 65.84375
+        },
+        {
+          "name": "Price",
+          "x": 80.75,
+          "y": 83.703125,
+          "right": 148.359375,
+          "bottom": 149.546875,
+          "width": 67.609375,
+          "height": 65.84375
+        },
+        {
+          "name": "Recipe",
+          "x": 152.734375,
+          "y": 83.703125,
+          "right": 220.34375,
+          "bottom": 149.546875,
+          "width": 67.609375,
+          "height": 65.84375
+        },
+        {
+          "name": "Supplies",
+          "x": 224.71875,
+          "y": 83.703125,
+          "right": 292.328125,
+          "bottom": 149.546875,
+          "width": 67.609375,
+          "height": 65.84375
+        },
+        {
+          "name": "Lemon units0 in stock",
+          "x": 18.546875,
+          "y": 254.46875,
+          "right": 167.734375,
+          "bottom": 313.421875,
+          "width": 149.1875,
+          "height": 58.953125
+        },
+        {
+          "name": "Sugar scoops0 in stock",
+          "x": 170.359375,
+          "y": 254.46875,
+          "right": 319.5625,
+          "bottom": 313.421875,
+          "width": 149.203125,
+          "height": 58.953125
+        },
+        {
+          "name": "Ice cubes0 in stock",
+          "x": 322.1875,
+          "y": 254.46875,
+          "right": 471.375,
+          "bottom": 313.421875,
+          "width": 149.1875,
+          "height": 58.953125
+        },
+        {
+          "name": "Paper cups0 in stock",
+          "x": 474,
+          "y": 254.46875,
+          "right": 623.203125,
+          "bottom": 313.421875,
+          "width": 149.203125,
+          "height": 58.953125
+        },
+        {
+          "name": "−",
+          "x": 538.96875,
+          "y": 319.484375,
+          "right": 565.296875,
+          "bottom": 345.8125,
+          "width": 26.328125,
+          "height": 26.328125
+        },
+        {
+          "name": "+",
+          "x": 596.875,
+          "y": 319.484375,
+          "right": 623.203125,
+          "bottom": 345.8125,
+          "width": 26.328125,
+          "height": 26.328125
+        },
+        {
+          "name": "−",
+          "x": 538.96875,
+          "y": 350.203125,
+          "right": 565.296875,
+          "bottom": 376.53125,
+          "width": 26.328125,
+          "height": 26.328125
+        },
+        {
+          "name": "+",
+          "x": 596.875,
+          "y": 350.203125,
+          "right": 623.203125,
+          "bottom": 376.53125,
+          "width": 26.328125,
+          "height": 26.328125
+        },
+        {
+          "name": "−",
+          "x": 538.96875,
+          "y": 380.921875,
+          "right": 565.296875,
+          "bottom": 407.25,
+          "width": 26.328125,
+          "height": 26.328125
+        },
+        {
+          "name": "+",
+          "x": 596.875,
+          "y": 380.921875,
+          "right": 623.203125,
+          "bottom": 407.25,
+          "width": 26.328125,
+          "height": 26.328125
+        },
+        {
+          "name": "cancel-order",
+          "x": 479.21875,
+          "y": 458.84375,
+          "right": 547.703125,
+          "bottom": 492.84375,
+          "width": 68.484375,
+          "height": 34
+        },
+        {
+          "name": "buy-order",
+          "x": 554.71875,
+          "y": 458.84375,
+          "right": 623.203125,
+          "bottom": 492.84375,
+          "width": 68.484375,
+          "height": 34
+        },
+        {
+          "name": "open",
+          "x": 499.53125,
+          "y": 630.984375,
+          "right": 623.203125,
+          "bottom": 670.734375,
+          "width": 123.671875,
+          "height": 39.75
+        },
+        {
+          "name": "restart",
+          "x": 1014.578125,
+          "y": 687.953125,
+          "right": 1082.796875,
+          "bottom": 713.40625,
+          "width": 68.21875,
+          "height": 25.453125
+        },
+        {
+          "name": "export-save",
+          "x": 1090.6875,
+          "y": 687.953125,
+          "right": 1151.515625,
+          "bottom": 713.40625,
+          "width": 60.828125,
+          "height": 25.453125
+        },
+        {
+          "name": "import-save",
+          "x": 1159.40625,
+          "y": 687.953125,
+          "right": 1221.828125,
+          "bottom": 713.40625,
+          "width": 62.421875,
+          "height": 25.453125
+        }
+      ]
+    },
+    {
+      "name": "1280x720 results",
+      "width": 1280,
+      "height": 720,
+      "scrollWidth": 1280,
+      "scrollHeight": 720,
+      "app": {
+        "x": 0,
+        "y": 0,
+        "right": 1280,
+        "bottom": 720,
+        "width": 1280,
+        "height": 720
+      },
+      "scene": {
+        "x": 648.875,
+        "y": 161.9375,
+        "right": 1269.359375,
+        "bottom": 573.078125,
+        "width": 620.484375,
+        "height": 411.140625
+      },
+      "canvas": {
+        "x": 649.875,
+        "y": 162.9375,
+        "right": 1268.359375,
+        "bottom": 572.078125,
+        "width": 618.484375,
+        "height": 409.140625
+      },
+      "controls": [
+        {
+          "name": "Results",
+          "x": 8.765625,
+          "y": 83.703125,
+          "right": 76.375,
+          "bottom": 149.546875,
+          "width": 67.609375,
+          "height": 65.84375
+        },
+        {
+          "name": "Price",
+          "x": 80.75,
+          "y": 83.703125,
+          "right": 148.359375,
+          "bottom": 149.546875,
+          "width": 67.609375,
+          "height": 65.84375
+        },
+        {
+          "name": "Recipe",
+          "x": 152.734375,
+          "y": 83.703125,
+          "right": 220.34375,
+          "bottom": 149.546875,
+          "width": 67.609375,
+          "height": 65.84375
+        },
+        {
+          "name": "Supplies",
+          "x": 224.71875,
+          "y": 83.703125,
+          "right": 292.328125,
+          "bottom": 149.546875,
+          "width": 67.609375,
+          "height": 65.84375
+        },
+        {
+          "name": "Last day",
+          "x": 23.8125,
+          "y": 211.09375,
+          "right": 99.609375,
+          "bottom": 243.671875,
+          "width": 75.796875,
+          "height": 32.578125
+        },
+        {
+          "name": "Profit & loss",
+          "x": 103.984375,
+          "y": 211.09375,
+          "right": 197.5,
+          "bottom": 243.671875,
+          "width": 93.515625,
+          "height": 32.578125
+        },
+        {
+          "name": "open",
+          "x": 499.53125,
+          "y": 630.984375,
+          "right": 623.203125,
+          "bottom": 670.734375,
+          "width": 123.671875,
+          "height": 39.75
+        },
+        {
+          "name": "restart",
+          "x": 1014.578125,
+          "y": 687.953125,
+          "right": 1082.796875,
+          "bottom": 713.40625,
+          "width": 68.21875,
+          "height": 25.453125
+        },
+        {
+          "name": "export-save",
+          "x": 1090.6875,
+          "y": 687.953125,
+          "right": 1151.515625,
+          "bottom": 713.40625,
+          "width": 60.828125,
+          "height": 25.453125
+        },
+        {
+          "name": "import-save",
+          "x": 1159.40625,
+          "y": 687.953125,
+          "right": 1221.828125,
+          "bottom": 713.40625,
+          "width": 62.421875,
+          "height": 25.453125
+        }
+      ]
+    },
+    {
+      "name": "selling default",
+      "width": 1100,
+      "height": 850,
+      "scrollWidth": 1100,
+      "scrollHeight": 850,
+      "app": {
+        "x": 0,
+        "y": 0,
+        "right": 1100,
+        "bottom": 850,
+        "width": 1100,
+        "height": 850
+      },
+      "scene": {
+        "x": 561,
+        "y": 186,
+        "right": 1087,
+        "bottom": 682.8125,
+        "width": 526,
+        "height": 496.8125
+      },
+      "canvas": {
+        "x": 562,
+        "y": 187,
+        "right": 1086,
+        "bottom": 681.8125,
+        "width": 524,
+        "height": 494.8125
+      },
+      "controls": [
+        {
+          "name": "Results",
+          "x": 10,
+          "y": 96,
+          "right": 87,
+          "bottom": 171,
+          "width": 77,
+          "height": 75
+        },
+        {
+          "name": "Price",
+          "x": 92,
+          "y": 96,
+          "right": 169,
+          "bottom": 171,
+          "width": 77,
+          "height": 75
+        },
+        {
+          "name": "Recipe",
+          "x": 174,
+          "y": 96,
+          "right": 251,
+          "bottom": 171,
+          "width": 77,
+          "height": 75
+        },
+        {
+          "name": "Supplies",
+          "x": 256,
+          "y": 96,
+          "right": 333,
+          "bottom": 171,
+          "width": 77,
+          "height": 75
+        },
+        {
+          "name": "speed",
+          "x": 938.28125,
+          "y": 636.8125,
+          "right": 1027.765625,
+          "bottom": 676.8125,
+          "width": 89.484375,
+          "height": 40
+        },
+        {
+          "name": "skip",
+          "x": 1032.765625,
+          "y": 636.8125,
+          "right": 1081,
+          "bottom": 676.8125,
+          "width": 48.234375,
+          "height": 40
+        },
+        {
+          "name": "restart",
+          "x": 792.25,
+          "y": 813.5,
+          "right": 871.75,
+          "bottom": 842.5,
+          "width": 79.5,
+          "height": 29
+        },
+        {
+          "name": "export-save",
+          "x": 880.75,
+          "y": 813.5,
+          "right": 951.8125,
+          "bottom": 842.5,
+          "width": 71.0625,
+          "height": 29
+        },
+        {
+          "name": "import-save",
+          "x": 960.8125,
+          "y": 813.5,
+          "right": 1033.6875,
+          "bottom": 842.5,
+          "width": 72.875,
+          "height": 29
+        }
+      ]
+    },
+    {
+      "name": "selling 800x600",
+      "width": 800,
+      "height": 600,
+      "scrollWidth": 800,
+      "scrollHeight": 600,
+      "app": {
+        "x": 0,
+        "y": 0,
+        "right": 800,
+        "bottom": 600,
+        "width": 800,
+        "height": 600
+      },
+      "scene": {
+        "x": 407.578125,
+        "y": 134.796875,
+        "right": 790.96875,
+        "bottom": 477.921875,
+        "width": 383.390625,
+        "height": 343.125
+      },
+      "canvas": {
+        "x": 408.578125,
+        "y": 135.796875,
+        "right": 789.96875,
+        "bottom": 476.921875,
+        "width": 381.390625,
+        "height": 341.125
+      },
+      "controls": [
+        {
+          "name": "Results",
+          "x": 7.296875,
+          "y": 69.421875,
+          "right": 63.625,
+          "bottom": 124.296875,
+          "width": 56.328125,
+          "height": 54.875
+        },
+        {
+          "name": "Price",
+          "x": 67.28125,
+          "y": 69.421875,
+          "right": 123.609375,
+          "bottom": 124.296875,
+          "width": 56.328125,
+          "height": 54.875
+        },
+        {
+          "name": "Recipe",
+          "x": 127.265625,
+          "y": 69.421875,
+          "right": 183.59375,
+          "bottom": 124.296875,
+          "width": 56.328125,
+          "height": 54.875
+        },
+        {
+          "name": "Supplies",
+          "x": 187.25,
+          "y": 69.421875,
+          "right": 243.578125,
+          "bottom": 124.296875,
+          "width": 56.328125,
+          "height": 54.875
+        },
+        {
+          "name": "speed",
+          "x": 684.109375,
+          "y": 444.703125,
+          "right": 748.609375,
+          "bottom": 473.546875,
+          "width": 64.5,
+          "height": 28.84375
+        },
+        {
+          "name": "skip",
+          "x": 752.265625,
+          "y": 444.703125,
+          "right": 786.59375,
+          "bottom": 473.546875,
+          "width": 34.328125,
+          "height": 28.84375
+        },
+        {
+          "name": "restart",
+          "x": 577.859375,
+          "y": 573.296875,
+          "right": 635.03125,
+          "bottom": 594.515625,
+          "width": 57.171875,
+          "height": 21.21875
+        },
+        {
+          "name": "export-save",
+          "x": 641.609375,
+          "y": 573.296875,
+          "right": 692.625,
+          "bottom": 594.515625,
+          "width": 51.015625,
+          "height": 21.21875
+        },
+        {
+          "name": "import-save",
+          "x": 699.203125,
+          "y": 573.296875,
+          "right": 751.53125,
+          "bottom": 594.515625,
+          "width": 52.328125,
+          "height": 21.21875
+        }
+      ]
+    },
+    {
+      "name": "results 800x600",
+      "width": 800,
+      "height": 600,
+      "scrollWidth": 800,
+      "scrollHeight": 600,
+      "app": {
+        "x": 0,
+        "y": 0,
+        "right": 800,
+        "bottom": 600,
+        "width": 800,
+        "height": 600
+      },
+      "scene": {
+        "x": 407.578125,
+        "y": 134.796875,
+        "right": 790.96875,
+        "bottom": 477.921875,
+        "width": 383.390625,
+        "height": 343.125
+      },
+      "canvas": {
+        "x": 408.578125,
+        "y": 135.796875,
+        "right": 789.96875,
+        "bottom": 476.921875,
+        "width": 381.390625,
+        "height": 341.125
+      },
+      "controls": [
+        {
+          "name": "Results",
+          "x": 7.296875,
+          "y": 69.421875,
+          "right": 63.625,
+          "bottom": 124.296875,
+          "width": 56.328125,
+          "height": 54.875
+        },
+        {
+          "name": "Price",
+          "x": 67.28125,
+          "y": 69.421875,
+          "right": 123.609375,
+          "bottom": 124.296875,
+          "width": 56.328125,
+          "height": 54.875
+        },
+        {
+          "name": "Recipe",
+          "x": 127.265625,
+          "y": 69.421875,
+          "right": 183.59375,
+          "bottom": 124.296875,
+          "width": 56.328125,
+          "height": 54.875
+        },
+        {
+          "name": "Supplies",
+          "x": 187.25,
+          "y": 69.421875,
+          "right": 243.578125,
+          "bottom": 124.296875,
+          "width": 56.328125,
+          "height": 54.875
+        },
+        {
+          "name": "Last day",
+          "x": 19.984375,
+          "y": 175.765625,
+          "right": 83.484375,
+          "bottom": 203.09375,
+          "width": 63.5,
+          "height": 27.328125
+        },
+        {
+          "name": "Profit & loss",
+          "x": 87.140625,
+          "y": 175.765625,
+          "right": 165.40625,
+          "bottom": 203.09375,
+          "width": 78.265625,
+          "height": 27.328125
+        },
+        {
+          "name": "next",
+          "x": 233.140625,
+          "y": 525.46875,
+          "right": 385.84375,
+          "bottom": 558.78125,
+          "width": 152.703125,
+          "height": 33.3125
+        },
+        {
+          "name": "restart",
+          "x": 577.859375,
+          "y": 573.296875,
+          "right": 635.03125,
+          "bottom": 594.515625,
+          "width": 57.171875,
+          "height": 21.21875
+        },
+        {
+          "name": "export-save",
+          "x": 641.609375,
+          "y": 573.296875,
+          "right": 692.625,
+          "bottom": 594.515625,
+          "width": 51.015625,
+          "height": 21.21875
+        },
+        {
+          "name": "import-save",
+          "x": 699.203125,
+          "y": 573.296875,
+          "right": 751.53125,
+          "bottom": 594.515625,
+          "width": 52.328125,
+          "height": 21.21875
+        }
+      ]
+    }
+  ]
+}
