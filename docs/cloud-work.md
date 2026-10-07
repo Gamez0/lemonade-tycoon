@@ -444,3 +444,57 @@ Next: actual M4 Windows checklist evidence is required before M5 gameplay implem
 under the existing ordered acceptance agreement. M6/M7–M10 independent groundwork above is
 prepared, not accepted milestones. Do not claim overnight duration, automatic restart,
 M10 completion, Steam upload, human playtests or Windows user acceptance from this run.
+
+## Local Windows M4 evidence checkpoint — 2026-10-07 KST
+
+Executed on the user's Windows 10 Education x64 PC, build 19045, Gigabyte H410M DS2V /
+GTX 1650, 1920x1080. Node 22.16.0/npm 8.4.0 are installed: this is **not clean-PC/no Node**.
+No cloud/VM/Windows Sandbox or parallel agent was used. Host reports HypervisorPresent=True;
+this does not establish a VM guest. Actual DPI and human reviewer name remain pending replies.
+
+Preserved the original `refactor/static-scene-registration` worktree at 96d7765, its five
+modified files and three untracked entries, PR #83 and all real user saves/browser profiles.
+Fetched main and created a separate worktree at
+`C:/Users/dobin/Documents/Projects/lemonade-tycoon-m4-windows`, branch
+`verify/m4-windows-device-20261007`, base `aa920a3f49225b3e216be18079afbc533935d2ec`.
+Live #128 MERGED/in main; #129 OPEN at 91b184e/not in main (docs-only +30 lines, read but
+not duplicated here). No merge was performed. Exact evidence commit is obtained with
+`git log -1 --format=%H -- scripts/m4-device-evidence.cjs`; PR metadata carries its URL/head.
+
+Used unexpired successful Actions artifacts, not a rebuilt approximation:
+- old source f03d1740eefc6d5d845b7fa8564f942811d3192d, checkout
+  266b82a0832424ade03d87fb695a1b9c30dc83e6, run 37330395029;
+- new source/checkout aa920a3f49225b3e216be18079afbc533935d2ec, run 37475917496.
+New release-manifest verified all 74 files. Old build predates manifests; recorded its
+metadata/asar hash without fabricating a verified old manifest. Distinct source/asar builds
+were replaced, both prototype version 0.1.0/save v2; no semver migration/updater claim.
+
+Actual results: npm ci, npm test 26/26, test:release 3/3, web production build,
+existing Windows EXE test:desktop and extended device script 5/5 passed. Extended checks
+cover old-to-new exact full save preservation, disposable unpacked-install removal/fresh
+copy, taskkill after sold=1 with exact opening replay/no duplicate final accounting,
+unsupported import/primary recovery/both-corrupt cancel protection, real published
+GitHub Pages <-> native EXE downloads/imports/restarts using isolated Edge contexts,
+and file-based full-loop renderer-offline execution. No dev server running; no game
+code/lockfile changes or reproduced game defect. Self-review strengthened partial-sale
+proof and retained native exports, then reran the final 5/5. Scripts/diff checks passed.
+See `docs/reviews/m4-windows-device-20261007.md` and its committed test-only evidence.
+
+Human requests were sent for reviewer/DPI, UI/main loop/window/Alt-Tab/normal close,
+and physical network disconnect/relaunch. **No actual reply yet: all manual outcomes
+remain pending**, including security prompts and user import/recovery observations.
+Renderer setOffline is not physical network disconnection. Clean-PC/no Node remains
+unavailable. The unpacked archive supports relocation/fresh extraction, not MSI/Steam
+uninstall or an automatic updater. M4/#105 remains open; M2 visual/Steam untouched.
+No billing, purchases, paid services, Steam upload/public sale or scheduler configured.
+
+Next action for cloud work: read this local evidence rather than repeat Linux tests as
+Windows acceptance. Obtain and append actual human replies with KST time/name/DPI;
+the safe manual launcher is `scripts/m4-manual-launch.cmd` and uses only
+`.local-m4/manual-data`. Clean Windows/no Node needs a separate available device/account
+environment and the same artifact/manifest checks. Test-only temp directories and the
+manual window are retained locally; automated sessions were closed. Download artifacts
+again before expiry (or rebuild/dispatch an explicit run if expired). Investigate any
+reported failure and rerun proportional regressions. Keep M5's M4 acceptance dependency
+open until these gates are satisfied. Continue independent authorized preparations only;
+do not infer user acceptance or schedule autonomous retries from this document.

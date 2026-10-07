@@ -1,0 +1,41 @@
+{
+  "platform": "win32",
+  "node": "v22.16.0",
+  "isolatedData": "C:\\Users\\dobin\\AppData\\Local\\Temp\\lemonade-m4-device-wiG7fO",
+  "webURL": "https://gamez0.github.io/lemonade-tycoon/",
+  "checks": [
+    {
+      "name": "different-source package replacement and fresh extraction",
+      "result": "PASS"
+    },
+    {
+      "name": "interrupted partially sold day replays once from exact opening checkpoint",
+      "result": "PASS"
+    },
+    {
+      "name": "unsupported import, primary recovery and both-corrupt restart cancellation",
+      "result": "PASS"
+    },
+    {
+      "name": "actual published web to Windows and Windows to isolated Edge profile",
+      "result": "PASS"
+    },
+    {
+      "name": "bundled file launch and complete loop with renderer network disabled",
+      "result": "PASS"
+    }
+  ],
+  "oldBuild": {
+    "run": "37330395029",
+    "commit": "266b82a0832424ade03d87fb695a1b9c30dc83e6",
+    "source_commit": "f03d1740eefc6d5d845b7fa8564f942811d3192d",
+    "prototype": true
+  },
+  "newBuild": {
+    "prototype": true,
+    "source_commit": "aa920a3f49225b3e216be18079afbc533935d2ec",
+    "commit": "aa920a3f49225b3e216be18079afbc533935d2ec",
+    "run": "37475917496"
+  },
+  "soldBeforeForcedExit": 1
+}

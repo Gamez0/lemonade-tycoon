@@ -32,3 +32,4 @@ playwright-report/
 *.sln
 *.sw?
 desktop-dist/
+.local-m4/
