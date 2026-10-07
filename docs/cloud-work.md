@@ -481,8 +481,9 @@ proof and retained native exports, then reran the final 5/5. Scripts/diff checks
 See `docs/reviews/m4-windows-device-20261007.md` and its committed test-only evidence.
 
 Human requests were sent for reviewer/DPI, UI/main loop/window/Alt-Tab/normal close,
-and physical network disconnect/relaunch. **No actual reply yet: all manual outcomes
-remain pending**, including security prompts and user import/recovery observations.
+and physical network disconnect/relaunch. At initial publication, no reply had arrived;
+the later user-confirmed outcomes are recorded below. Security prompts and user
+import/recovery observations remain pending.
 Renderer setOffline is not physical network disconnection. Clean-PC/no Node remains
 unavailable. The unpacked archive supports relocation/fresh extraction, not MSI/Steam
 uninstall or an automatic updater. M4/#105 remains open; M2 visual/Steam untouched.
@@ -505,3 +506,19 @@ main, branch pushed. Exact locally tested evidence/script commit:
 `34da1bd0459fade85c747cf4f7165364528780c7`. This publication note is documentation-only;
 get its exact successor with `git log -1 --format=%H -- docs/cloud-work.md`.
 No merge. Current-head CI is recorded in PR checks, not inferred from older artifacts.
+
+### User manual response recorded — 2026-10-07 23:27 KST
+
+The chat user confirmed the four-step guided check: `1오케이`, `2오케이`, then
+`3 된다. 4도 된다.`. Human PASS: window resize/Alt-Tab/basic controls, purchases and
+recipe/price -> selling/SKIP/results, X-close/relaunch preserving results/date/cash/stock,
+and NEXT DAY/X-close/relaunch preserving next-day date/cash/stock. These are the chat's
+four numbered steps, **not checklist item 4 forced termination**. No numeric snapshot,
+reviewer nickname, actual DPI or security-prompt statement was supplied. Detailed review
+now distinguishes these confirmed observations from the remaining manual gates.
+
+Next direct check: physical network disconnection -> isolated launcher -> full loop ->
+X-close/relaunch -> restore network and report outcome/method. Ask for actual Windows
+display scale and reviewer name. Other manual transfer/recovery/build-replacement checks,
+clean-PC/no Node, M2 visual and Steam remain open. No runtime changes or new regression
+run required for this response-only documentation update. Commit/push to PR #130; no merge.

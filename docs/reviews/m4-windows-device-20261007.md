@@ -1,7 +1,8 @@
 # M4 Windows 실기기 검증 — 2026-10-07 KST
 
-판정: **M4 진행 중**. 로컬 Windows 패키지 자동 검사는 통과했으나 사용자 직접
-응답, 실제 네트워크 단절, clean PC/no Node는 미확인이다. M2 시각 승인과 Steam
+판정: **M4 진행 중**. 로컬 Windows 패키지 자동 검사와 사용자 기본 화면·플레이·결과/
+다음 날 재실행 확인은 통과했다. 나머지 직접 확인, 실제 네트워크 단절,
+clean PC/no Node는 미확인이다. M2 시각 승인과 Steam
 검증은 별개이며 완료 처리하지 않는다. 게임 결함은 이번 자동 검사에서 재현되지 않았다.
 
 ## 환경과 보호 범위
@@ -116,16 +117,16 @@ production build 통과. 기존 native suite 전 항목 통과. 추가 device sc
 
 | 요청 항목 | 실제 자동 검사 결과 | 직접 확인/한계 |
 | --- | --- | --- |
-| 1 EXE/정상 종료 | PASS: bundled file URL, canvas, native bridge, X와 같은 BrowserWindow.close/flush/relaunch | 사용자 화면·X·보안 경고 응답 대기. Node 설치 PC임 |
+| 1 EXE/정상 종료 | PASS: bundled file URL, canvas, native bridge, X와 같은 BrowserWindow.close/flush/relaunch | 사용자 실행·X 종료 후 재실행 확인 PASS. 보안 경고 별도 응답 없음. Node 설치 PC임 |
 | 2 offline | PASS(제한): Electron context.setOffline(true) 후 reload와 구매→영업→결과 | OS 네트워크 연결 단절은 **미확인**, no Node clean PC도 미완료 |
-| 3 구매/결과/다음 날 저장 | PASS: 준비·결과 JSON byte equality, immediate next-day close/재실행 day=2, history/회계 포함 | 사용자 주요 조작·재실행 관찰 대기 |
+| 3 구매/결과/다음 날 저장 | PASS: 준비·결과 JSON byte equality, immediate next-day close/재실행 day=2, history/회계 포함 | 사용자 플레이·결과/다음 날 종료 후 날짜·현금·재고 일치 PASS. 준비 상태만 종료하는 별도 검사는 미확인 |
 | 4 강제 종료 | PASS: 실제 taskkill /PID /T /F, selling sold=1 이후; 동일 opening JSON 복구; 재영업 결과가 중단 없는 결과와 deep-equal | 사용자 Task Manager 재현·복구 안내 관찰 대기 |
 | 5 실제 Web↔Windows | PASS: 배포 Web의 실제 export download→EXE file import→정상 종료/재실행; EXE download→별도 Edge context import/reload, 전체 JSON 일치 | 자동 UI로 실제 플랫폼 사이 전송함. 사용자 수동 파일 선택/안내는 미확인 |
 | 6 잘못된 import/손상 | PASS: malformed와 version999 거부; primary/backup 불변; primary 손상 backup 복구; 양쪽 손상 보호 및 restart/Escape 취소; valid import/재실행 | 임시 경로에서만 손상. 사용자 에러/복구 메시지 관찰 대기 |
 | 7 서로 다른 build 교체 | PASS: 구build results 전체 JSON→신build 재실행/native export 동일. source SHA 및 asar hash 다름 | unsigned unpacked build 교체이며 installer/updater/semver migration 아님; 직접 확인 대기 |
 | 8 재설치/재배치 | PASS: 동일 test userData, 별도 install copy 실행/종료→그 test install만 삭제→fresh copy/실행, JSON 유지 | 현 배포 방식은 unpacked archive. MSI/uninstaller/Steam 재설치는 제공되지 않음. 직접 확인 대기 |
 | 9 저장 위치 | PASS: 테스트 `%LOCALAPPDATA%\Lemonade Tycoon\save*.json`, install folder에 save.json 없음; package manifest 실행 후도 일치 | 실제 개인 저장 경로는 보존. 직접 탐색기 확인 대기 |
-| 10 창/DPI/Alt-Tab/조작 | canvas 자동 표시만 확인 | **수동 미확인**. DPI 및 Windows 배율 변경도 실행/통과로 표시하지 않음 |
+| 10 창/DPI/Alt-Tab/조작 | canvas 자동 표시만 확인 | 요청한 창 크기·Alt-Tab·기본 조작은 사용자 PASS. 실제 배율, 다중 DPI 및 전체 키보드/Import 조작은 미확인 |
 
 EXE 자동 검사 중 개발 서버를 띄우지 않았다. 8080/8081/5173에 listening process가
 없음을 조회했다. test:desktop은 테스트를 구동하는 Node를 쓰지만 게임은 packaged
@@ -144,10 +145,19 @@ opening-checkpoint/replayed-results는 중단 복구, web-export/native-export�
 
 ## 사용자 직접 확인 절차와 응답 기록
 
-**현재 실제 응답: 없음. 아래 어느 항목도 사용자 PASS로 기록하지 않았다.**
-검사자 이름/Windows 배율, 기본 루프·창·조작, 실제 인터넷 단절에 대한 질문을 채팅으로
-보냈다. 응답이 오면 원문 요지, KST 시각, 관찰 항목, PASS/FAIL/미확인을 이 문서에
-추가한다. 응답 대기는 승인 요청이 아니라 요구된 검사 근거 수집이다.
+2026-10-07 **23:27 KST 기록**. 직접 검사자: 이 채팅의 사용자(이름/닉네임 미제공).
+사용자가 처음 답한 원문은 `1오케이`, `2오케이`, 이번 답변은 `3 된다. 4도 된다.`.
+번호는 아래 원래 10개 checklist가 아니라 채팅으로 전달한 **4단계 간이 검사**다:
+
+- 1: 창 크기 변경·Alt-Tab 복귀·화면/기본 조작 — 사용자 PASS.
+- 2: Supplies 구매→Recipe/Price 변경→OPEN→SKIP→결과 — 사용자 PASS.
+- 3: 결과 상태의 날짜·현금·재고 기록→X 종료→격리 launcher 재실행 비교 — 사용자 PASS.
+- 4: NEXT DAY→날짜·현금·재고 기록→X 종료→격리 launcher 재실행 비교 — 사용자 PASS.
+
+따라서 이 `4` 응답을 강제 종료 검사 통과로 해석하지 않는다. 사용자가 실행 방법을
+질문해 PowerShell에서 launcher를 실행하는 명령을 안내한 후 3/4 성공 응답을 받았다.
+구체적인 수치/스크린샷, 보안 경고 여부, 실제 DPI는 아직 제공되지 않았다.
+실제 네트워크 단절 및 나머지 직접 확인은 대기이며 M2 시각 승인은 아니다.
 
 재실행: 검증 worktree의 `scripts\m4-manual-launch.cmd` 더블클릭. 이 launcher는
 LOCALAPPDATA를 `.local-m4\manual-data`로 격리한다. EXE를 직접 더블클릭하면
