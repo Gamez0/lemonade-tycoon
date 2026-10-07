@@ -981,6 +981,10 @@ html.desktop,
     flex: 1;
     min-height: 0;
     align-items: stretch;
+    grid-template-rows: minmax(0, 1fr);
+}
+.desktop .world-column {
+    min-height: 0;
 }
 .desktop .management-column,
 .desktop .world-frame {
