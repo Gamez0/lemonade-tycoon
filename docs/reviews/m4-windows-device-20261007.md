@@ -29,7 +29,7 @@
 - 기본 `%LOCALAPPDATA%\Lemonade Tycoon`은 검사 시작 시 존재하지 않았다.
   그 경로를 생성/손상/삭제하지 않았다. 실제 브라우저 프로필도 사용하지 않았다.
   네이티브 회귀는 임시 LOCALAPPDATA/APPDATA, 웹 검사는 Playwright의 별도 Edge
-  context를 사용했다. 사용자 직접 확인 창은 `.local-m4\manual-data`를 사용한다.
+  headless context를 사용했다. 사용자 직접 확인 창은 `.local-m4\manual-data`를 사용한다.
   다운로드/패키지/테스트 저장은 `.local-m4/`에 있으며 커밋하지 않는다.
 
 읽은 문서: AGENTS.md, docs/cloud-work.md, docs/roadmap.md,
@@ -182,3 +182,8 @@ offline API 결과와 물리 연결 단절, 개발 PC와 clean PC, 자동 검사
 M4 캡처와 M2/Steam 승인을 분리했다. 결과 문서·증거·재실행 스크립트만 변경한다.
 병합하지 않는다. PR URL/최종 commit은 PR metadata와 cloud-work 체크포인트에서
 확인하며, 사용자 응답이 오면 동일 검증 브랜치에 집중해서 추가한다.
+
+게시: [PR #130](https://github.com/Gamez0/lemonade-tycoon/pull/130), OPEN, main 대상.
+검증된 스크립트/증거 commit은 `2c7747645c133e3ea729b68e5ea0188caefec767`.
+다운로드된 CRLF JSON의 원본 바이트를 git에 보존하며, 후속 attribute에서는 해당
+증거 파일의 CR-at-EOL을 허용해서 whitespace check도 통과한다.

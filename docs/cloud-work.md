@@ -498,3 +498,10 @@ again before expiry (or rebuild/dispatch an explicit run if expired). Investigat
 reported failure and rerun proportional regressions. Keep M5's M4 acceptance dependency
 open until these gates are satisfied. Continue independent authorized preparations only;
 do not infer user acceptance or schedule autonomous retries from this document.
+
+Publication: focused PR https://github.com/Gamez0/lemonade-tycoon/pull/130 is OPEN against
+main, branch pushed. Exact locally tested evidence/script commit:
+`2c7747645c133e3ea729b68e5ea0188caefec767`; metadata CRLF attribute successor:
+`34da1bd0459fade85c747cf4f7165364528780c7`. This publication note is documentation-only;
+get its exact successor with `git log -1 --format=%H -- docs/cloud-work.md`.
+No merge. Current-head CI is recorded in PR checks, not inferred from older artifacts.
