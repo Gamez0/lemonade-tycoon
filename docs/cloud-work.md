@@ -470,3 +470,10 @@ and exact-head regression checks; enabling Dependabot does not resolve these ale
 YAML issue-form IDs/required fields and Dependabot/workflow syntax also validated
 with isolated PyYAML; no project dependency or lockfile changed. PR175 is the concrete
 operations change. Remote final-head checks must pass before merge/protection activation.
+
+Final self-review: main protection confirmed with strict simulation and
+windows / packaged-saves checks from GitHub Actions app15368, admin enforcement,
+resolved conversations and no force pushes/deletion. Audit verification PASS for
+50 previously open issues:11 superseded,5 completed,all retained gates still open.
+PR129 marked historical backlog with current evidence links. Checks run on PRs/main
+pushes/manual dispatch, avoiding duplicate feature-branch push and PR Windows builds.

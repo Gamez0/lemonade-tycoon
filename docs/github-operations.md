@@ -46,7 +46,8 @@ before merging; it is not closed automatically.
 ## Automation and repository protection
 
 `checks.yml` runs simulation, release-policy, strict type/lint and production-browser
-checks plus reusable Windows package/save checks. Obsolete branch runs are cancelled,
+checks plus reusable Windows package/save checks on PRs, main pushes or manual dispatch.
+Feature-branch pushes do not duplicate the PR run. Obsolete branch runs are cancelled,
 Node 22/npm is cached, and browser evidence is retained seven days. Windows artifacts
 retain their existing three-day policy and checksum manifest. Windows manual dispatch
 remains available.
