@@ -1,5 +1,6 @@
 // Original outlined inventory icons shared by the stock strip and controls.
 const drawings = {
+    rent: '<path fill="#eddaa4" d="M3 11 13 3l10 8v12H3Z"/><path fill="#bd8955" d="m1 11 12-10 12 10-3 2-9-7-9 7Z"/><path fill="#70a2aa" d="M6 13h5v5H6Zm9 0h5v5h-5Z"/><path fill="#805d40" d="M11 18h4v5h-4Z"/>',
     sunny: '<path fill="none" stroke="#f7dc56" stroke-width="2" d="M13 1v4m0 16v4M1 13h4m16 0h4M4 4l3 3m12 12 3 3M4 22l3-3M19 7l3-3"/><circle fill="#f2c332" cx="13" cy="13" r="7"/><path fill="none" stroke="#fff19a" d="M8 13a5 5 0 0 1 5-5"/>',
     cloudy: '<path fill="#bccfca" d="M4 20C0 19 1 13 5 12c-1-6 7-9 11-4 5-2 9 2 8 6 4 5-1 8-4 7Z"/><path fill="#f5f3d9" stroke="none" d="M3 16c0-2 2-3 5-2-3-7 5-9 8-4 5-2 7 1 6 4-5-2-7 2-10 2Z"/>',
     rainy: '<path fill="#a6b8c0" d="M4 15C0 14 1 8 5 8c0-6 8-7 11-3 6-2 10 6 6 9Z"/><path fill="#d9e5dc" stroke="none" d="M4 10c1-2 3-1 4-1 0-5 5-6 8-2 3-1 5 0 6 3Z"/><path fill="none" stroke="#9bddf0" stroke-width="2" d="m7 17-2 5m9-5-2 5m9-5-2 5"/>',

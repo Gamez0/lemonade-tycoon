@@ -1,4 +1,4 @@
-import { drawVisitor, settleVisitor } from "./game";
+import { drawVisitor, settleVisitor, dayTraffic } from "./game";
 import type { CustomerEvent, State, Visitor } from "./game";
 
 export interface StreetRules {
@@ -32,7 +32,7 @@ export interface StreetDay {
 
 export const DEFAULT_STREET_RULES: StreetRules = { arrivalEvery: 5, serviceTicks: 8, patienceTicks: 18 };
 
-export function beginStreetDay(game: State, rules: StreetRules = DEFAULT_STREET_RULES): StreetDay {
+export function beginStreetDay(game: State, rules: StreetRules = game.business ?? DEFAULT_STREET_RULES): StreetDay {
     if (game.phase !== "selling") throw new Error("Open the stand before starting the street.");
     if ([rules.arrivalEvery, rules.serviceTicks, rules.patienceTicks].some(n => !Number.isSafeInteger(n) || n < 1))
         throw new Error("Street timing must use positive whole ticks.");
@@ -56,7 +56,7 @@ export function tickStreet(day: StreetDay): { day: StreetDay; events: CustomerEv
     };
 
     if (game.phase === "selling") {
-        if (arrived < game.weather.traffic && (tick - 1) % day.rules.arrivalEvery === 0) {
+        if (arrived < dayTraffic(game) && (tick - 1) % day.rules.arrivalEvery === 0) {
             const draw = drawVisitor(game, arrived + 1);
             game = draw.state;
             arrived++;
@@ -85,7 +85,7 @@ export function finishStreetDay(day: StreetDay): { day: StreetDay; events: Custo
     const events: CustomerEvent[] = [];
     let current = day;
     // Bounded by traffic and rule durations; this guard catches a broken close condition.
-    const limit = (day.game.weather.traffic + 1) * (day.rules.arrivalEvery + day.rules.serviceTicks + day.rules.patienceTicks + 8);
+    const limit = (dayTraffic(day.game) + 1) * (day.rules.arrivalEvery + day.rules.serviceTicks + day.rules.patienceTicks + 8);
     for (let i = 0; i < limit && current.game.phase === "selling"; i++) {
         const next = tickStreet(current);
         current = next.day;

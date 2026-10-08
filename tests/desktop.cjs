@@ -42,11 +42,15 @@ const closeNormally = async session => {
         if (fs.readFileSync(savePath, 'utf8') !== preparation) throw new Error('Preparation changed on relaunch.');
         await session.page.locator('#open').click();
         await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'selling');
-        await expect.poll(() => fs.readFileSync(savePath, 'utf8')).toBe(preparation);
+        await expect.poll(() => JSON.parse(fs.readFileSync(savePath, 'utf8')).state.business?.paid).toBe(true);
+        const opening = JSON.parse(fs.readFileSync(savePath, 'utf8'));
+        const prepared = JSON.parse(preparation);
+        expect({ ...opening.state, business: null }).toEqual(prepared.state);
         stage = 'forced selling termination';
         execFileSync('taskkill', ['/PID', String(session.app.process().pid), '/T', '/F']);
         session = await launch();
         await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
+        expect(JSON.parse(fs.readFileSync(savePath, 'utf8'))).toEqual(opening);
         await session.page.locator('#open').click();
         await session.page.locator('#skip').click();
         await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'results');

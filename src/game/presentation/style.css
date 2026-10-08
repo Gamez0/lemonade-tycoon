@@ -950,6 +950,49 @@ a {
     }
 }
 
+.location-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+}
+.location-list button {
+    padding: 3px;
+    min-width: 0;
+    font-size: 12px;
+}
+.location-list img {
+    display: block;
+    width: 100%;
+    max-height: 48px;
+    object-fit: cover;
+    border: 1px solid #34582f;
+    image-rendering: pixelated;
+}
+.location-list small {
+    display: block;
+    font-weight: normal;
+}
+.rent-details {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2px 8px;
+    margin: 6px 0;
+    font-size: 12px;
+}
+.rent-details dt, .rent-details dd {
+    margin: 0;
+}
+#rent-page p {
+    margin: 6px 0;
+}
+#rent-page .purchase-actions button {
+    padding: 4px;
+    font-size: 11px;
+}
+.toolbar button {
+    min-width: 0;
+    flex: 1;
+}
 /* The native window provides the title bar; fit every game control in its client area. */
 html.desktop,
 .desktop body {

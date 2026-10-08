@@ -1,6 +1,8 @@
-﻿import Phaser from "phaser";
+import Phaser from "phaser";
 import { ITEMS, ITEM_KEYS } from "./game/content/catalog";
 import type { Item } from "./game/content/catalog";
+import { LOCATIONS, LOCATION_IDS } from "./game/content/locations";
+import type { LocationId } from "./game/content/locations";
 import {
     buyOrder,
     capacity,
@@ -12,6 +14,10 @@ import {
     results,
     setPlan,
     unitCost,
+    reserveLocation,
+    expectedTraffic,
+    dayTraffic,
+    isBankrupt,
 } from "./game/simulation/game";
 import type { CustomerEvent, State, Stock } from "./game/simulation/game";
 import { beginStreetDay, finishStreetDay, tickStreet } from "./game/simulation/street-day";
@@ -25,7 +31,7 @@ import { markup } from "./game/presentation/layout";
 import "./game/presentation/style.css";
 
 const money = (cents: number) => `$${(cents / 100).toFixed(2)}`;
-type Page = "recipe" | "price" | "supplies" | "results";
+type Page = "recipe" | "price" | "supplies" | "results" | "rent";
 const emptyOrder = (): Record<Item, number[]> => ({
     lemon: [0, 0, 0],
     sugar: [0, 0, 0],
@@ -41,6 +47,7 @@ let history: State[] = [];
 let order = emptyOrder();
 let selectedSupply: Item = "lemon";
 let currentPage: Page = "recipe";
+let selectedLocation: LocationId = "neighborhood";
 let reportPage: "daily" | "ledger" = "daily";
 let lastFeedback = "Your first customers are just around the corner.";
 let restartArmed = false;
@@ -203,6 +210,16 @@ for (const button of document.querySelectorAll<HTMLButtonElement>("[data-supply]
         selectedSupply = button.dataset.supply as Item;
         render();
     });
+for (const button of document.querySelectorAll<HTMLButtonElement>("[data-location]"))
+    button.addEventListener("click", () => {
+        selectedLocation = button.dataset.location as LocationId;
+        renderRent();
+    });
+element("confirm-rent").addEventListener("click", () => act(() => {
+    if (orderCost() > 0) throw new Error("BUY or CANCEL your pending supply order before reserving a location.");
+    return reserveLocation(state, selectedLocation);
+}));
+element("cancel-rent").addEventListener("click", () => act(() => reserveLocation(state, null)));
 for (const button of document.querySelectorAll<HTMLButtonElement>("[data-bundle]"))
     button.addEventListener("click", () => {
         const i = Number(button.dataset.bundle),
@@ -236,13 +253,13 @@ element("open").addEventListener("click", () =>
         }
         const planned = readPlan();
         const opened = openDay(planned);
-        openingCheckpoint = planned;
+        openingCheckpoint = { ...opened, phase: "preparation" };
         if (!saveBlocked && desktopSave) {
-            queueDesktopSave(encodeSave(planned, history));
+            queueDesktopSave(encodeSave(openingCheckpoint, history));
             text("save-status", "Opening checkpoint queued · reload restarts this day");
         } else if (!saveBlocked) {
             try {
-                writeSave(localStorage, planned, history);
+                writeSave(localStorage, openingCheckpoint, history);
                 text("save-status", "Saved before opening · reload restarts this day");
             } catch { text("save-status", "Storage unavailable · export a backup"); }
         }
@@ -256,6 +273,7 @@ function resetPresentation(): void {
     street = null;
     openingCheckpoint = null;
     currentPage = "recipe";
+    selectedLocation = state.pendingLocation ?? state.location;
     reportPage = "daily";
     selectedSupply = "lemon";
     order = emptyOrder();
@@ -367,7 +385,7 @@ function renderReport(): void {
         "result-intro",
         reportPage === "ledger"
             ? `Business ledger · ${history.length} completed ${history.length === 1 ? "day" : "days"}. Current preparation purchases are not included.`
-            : `Day ${latest.day} · ${sold === 0 ? "No sales. Try a lower price tomorrow." : `${sold} neighbors served.`}`,
+            : `Day ${latest.day} · ${LOCATIONS[latest.location].name} · ${sold === 0 ? "No sales. Try a lower price tomorrow." : `${sold} customers served.`}`,
     );
     const satisfaction = sold === 0 ? null : Math.round(sum("satisfactionTotal") / sold);
     element("report-face").innerHTML = icon(sold > 0 ? "happy" : "expensive");
@@ -400,13 +418,45 @@ function renderReport(): void {
         ["Cups sold", String(sold)],
         ["Revenue", money(sum("revenue"))],
         ["Ingredients used", money(sum("cost"))],
-        ["Profit", money(sum("revenue") - sum("cost"))],
+        ["Profit", money(sum("revenue") - sum("cost") - sum("rent") - sum("moveFee"))],
         ["Supplies bought", money(sum("purchases"))],
         ["Cash change", money(reports.reduce((total, day) => total + results(day).cashChange, 0))],
         ["Price / passed", `${sum("priceRejected")} / ${sum("passed")}`],
         ["Empty / wait", `${sum("soldOut")} / ${sum("abandoned")}`],
         ["Satisfaction", sold === 0 ? "No buyers yet" : `${Math.round(sum("satisfactionTotal") / sold)}%`],
+        ["Rent", money(sum("rent"))],
+        ["Moving fees", money(sum("moveFee"))],
     ]);
+}
+function renderRent(): void {
+    const location = LOCATIONS[selectedLocation], rating = state.locationStats[selectedLocation];
+    for (const id of LOCATION_IDS) {
+        const button = document.querySelector<HTMLButtonElement>(`button[data-location="${id}"]`)!;
+        button.setAttribute("aria-pressed", String(id === selectedLocation));
+        button.disabled = state.phase !== "preparation";
+        text(`location-state-${id}`, !state.unlocked.includes(id) ? "Locked" : state.pendingLocation === id ? "Reserved"
+            : state.location === id ? "Current" : "Available");
+        const image = element<HTMLImageElement>(`thumbnail-${id}`);
+        const preview = !image.getAttribute("src") ? scene.thumbnail(id) : null;
+        if (preview) { image.src = preview; image.hidden = false; }
+    }
+    const moveFee = selectedLocation === state.location ? 0 : location.moveFee;
+    text("rent-description", location.description);
+    rows("rent-details", [
+        ["Daily rent / moving", `${money(location.rent)} / ${money(moveFee)}`],
+        ["Visitors / budget", `${expectedTraffic({ ...state, business: null }, selectedLocation)} / ${Math.round(location.budget * 100)}%`],
+        ["Patience / arrivals", `${(location.patience / 10).toFixed(1)}s / ${(location.arrival / 10).toFixed(1)}s`],
+        ["Popularity / satisfaction", `${Math.round(rating.popularity * 100)}% / ${Math.round(rating.satisfaction * 100)}%`],
+    ]);
+    const locked = !state.unlocked.includes(selectedLocation);
+    text("rent-unlock", locked ? `Unlock: ${location.days} completed days, ${money(location.revenue)} sales, ${Math.round(location.satisfaction * 100)}% satisfaction. Now: ${history.length} days / ${money(state.lifetimeRevenue)}.`
+        : "Unlocked permanently. Charges apply only when you start the day.");
+    const target = state.pendingLocation ?? state.location;
+    const openingCost = state.business ? 0 : LOCATIONS[target].rent + (target === state.location ? 0 : LOCATIONS[target].moveFee);
+    text("rent-reservation", state.business ? "Today's location is already paid. Replay incurs no extra fees."
+        : `${state.pendingLocation ? "Reserved" : "Next opening"}: ${LOCATIONS[target].name} · ${money(openingCost)} due at Start day.`);
+    element<HTMLButtonElement>("confirm-rent").disabled = locked || Boolean(state.business) || state.phase !== "preparation";
+    element<HTMLButtonElement>("cancel-rent").disabled = state.pendingLocation === null || Boolean(state.business) || state.phase !== "preparation";
 }
 function render(): void {
     const report = results(state),
@@ -422,18 +472,24 @@ function render(): void {
     element("weather-art").setAttribute("aria-label", state.weather.label);
     element("weather-art").setAttribute("role", "img");
     text("weather-label", selling ? "Current weather" : closed ? "Today's weather" : "Weather forecast");
-    text("weather-advice", state.weather.label + " · " + (prep ? "steady all day" : "Willow Lane"));
+    text("weather-advice", state.weather.label + " · " + (prep ? "steady all day" : LOCATIONS[state.location].street));
     app.dataset.weather = state.weather.label.toLowerCase();
     text(
         "forecast-news",
         state.day === 1
             ? "A new lemonade stand opens on Willow Lane!"
-            : `${state.weather.traffic} neighbors are expected to pass today. Make every cup count!`,
+            : `${expectedTraffic(state)} visitors expected at ${LOCATIONS[state.pendingLocation ?? state.location].street}.`,
     );
-    text("reputation", `${Math.round(state.reputation * 100)}%`);
-    element<HTMLMeterElement>("reputation-meter").value = Math.round(state.reputation * 100);
+    const rating = state.locationStats[state.location];
+    text("reputation", `${Math.round(rating.popularity * 100)}%`);
+    element<HTMLMeterElement>("reputation-meter").value = Math.round(rating.popularity * 100);
+    text("location-name", LOCATIONS[state.location].name);
+    text("location-description", LOCATIONS[state.location].description);
+    text("location-rent", `Rent: ${LOCATIONS[state.location].rent === 0 ? "FREE" : money(LOCATIONS[state.location].rent) + " / day"}`);
+    document.querySelector(".world-column")!.setAttribute("aria-label", LOCATIONS[state.location].street + " stand");
+    app.dataset.location = state.location;
     element("preparation").hidden = !prep || currentPage === "results";
-    for (const page of ["recipe", "price", "supplies"]) element(`${page}-page`).hidden = page !== currentPage;
+    for (const page of ["recipe", "price", "supplies", "rent"]) element(`${page}-page`).hidden = page !== currentPage;
     element("selling").hidden = !selling;
     element("results").hidden = !(closed || (prep && currentPage === "results"));
     element("day-actions").hidden = !prep;
@@ -442,18 +498,14 @@ function render(): void {
     element("scene-controls").hidden = !selling && !scene.finishing;
     element<HTMLButtonElement>("skip").disabled = !selling;
     element("closed-sign").hidden = !closed || scene.finishing;
-    const satisfaction = prep
-        ? history.length
-            ? results(history[history.length - 1]).satisfaction
-            : null
-        : report.satisfaction;
-    text("location-satisfaction", satisfaction === null ? "—" : satisfaction + "%");
-    element<HTMLMeterElement>("satisfaction-meter").value = satisfaction ?? 0;
+    const satisfaction = Math.round(rating.satisfaction * 100);
+    text("location-satisfaction", satisfaction + "%");
+    element<HTMLMeterElement>("satisfaction-meter").value = satisfaction;
     element("satisfaction-meter").setAttribute(
         "aria-valuetext",
-        satisfaction === null ? "No buyers yet" : satisfaction + "%",
+        satisfaction + "%",
     );
-    element("satisfaction-meter").title = prep ? "Last completed day's buyers" : "Today's buyers";
+    element("satisfaction-meter").title = "This location's satisfaction across completed days";
     text(
         "panel-title",
         selling
@@ -521,11 +573,21 @@ function render(): void {
     );
     text("world-status", prep ? "Ready to open"
         : selling ? `Open · ${street?.waiting.length ?? 0} waiting` : "Closed for today");
-    text("progress-text", prep ? "Willow Lane" : `${state.daily.visitors} / ${state.weather.traffic} neighbors`);
-    element<HTMLProgressElement>("day-progress").value = state.daily.visitors / state.weather.traffic;
+    text("progress-text", prep ? LOCATIONS[state.location].street : `${state.daily.visitors} / ${dayTraffic(state)} visitors`);
+    element<HTMLProgressElement>("day-progress").value = state.daily.visitors / dayTraffic(state);
+    text("setting-location", LOCATIONS[state.location].name);
+    text("setting-rent", `${money(state.daily.rent)} / ${money(state.daily.moveFee)}`);
     text("setting-price", money(state.plan.price));
     text("setting-capacity", capacity(state) + " cups");
     for (const item of ["lemon", "sugar", "ice"] as const) text("setting-" + item, String(state.plan.recipe[item]));
+    const target = state.pendingLocation ?? state.location;
+    const due = state.business ? 0 : LOCATIONS[target].rent + (target === state.location ? 0 : LOCATIONS[target].moveFee);
+    const bankrupt = isBankrupt(state);
+    element("business-warning").hidden = !prep || (!bankrupt && state.cash >= due && !state.pendingLocation);
+    text("business-warning", bankrupt ? "Not enough cash or stock for the cheapest pitcher. Export your save or confirm New business to restart."
+        : state.cash < due ? "Rent is unaffordable. Use Rent to return to the free Neighborhood."
+        : `Reserved: ${LOCATIONS[target].name}. ${money(due)} will be charged at Start day.`);
+    renderRent();
     renderReport();
 }
 async function restore(): Promise<void> {

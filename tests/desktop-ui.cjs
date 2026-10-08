@@ -84,7 +84,7 @@ async function fit(page, name) {
                     BrowserWindow.getAllWindows()[0].setContentSize(width, height),
                 { width, height },
             );
-            for (const tab of ["recipe", "price", "supplies", "results"]) {
+            for (const tab of ["recipe", "price", "supplies", "results", "rent"]) {
                 await page.locator(`[data-page=${tab}]`).click();
                 await page.waitForTimeout(200);
                 await fit(page, `${width}x${height} ${tab}`);
@@ -121,7 +121,7 @@ async function fit(page, name) {
             JSON.stringify({ beforeSpinner: before, afterSpinner: "textfield", pricePersisted: 225, results }, null, 2),
         );
         console.log(
-            "UI checks passed: 12 tab/size combinations, selling/results small, menu/title/margins/scroll, price typing/relaunch",
+            "UI checks passed: 15 tab/size combinations, selling/results small, menu/title/margins/scroll, price typing/relaunch",
         );
     } finally {
         if (app) await app.close();

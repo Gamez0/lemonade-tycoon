@@ -38,3 +38,12 @@ Customer movement remains our sequential walk / wait / depart implementation, wi
 ## M2 follow-up: weather and selling
 
 Original weather glyphs (sun/cloud/rain), clock, calendar and four labeled customer-reaction bubbles extend the shared SVG set. Preparation and selling use different weather labels with the same true daily temperature. The neighborhood now has a connected T-junction and a crossing on the existing pedestrian path. Selling settings are separated into rows with ingredient illustrations; speed sits inside the scene. Report tabs and customer commentary add imagery without introducing fake economic systems. See the follow-up study and refreshed comparison board.
+
+## M5 location scenes — 2026-10-08
+
+`src/game/presentation/art.ts` now authors Riverside Park (pond, trees, benches and
+flower bed) and Downtown (office facades, lamps, parking) alongside the neighborhood.
+All use the same 640×512 projection, cart and pedestrian route. Rent thumbnails are
+generated from these actual textures, and its house icon extends the original SVG set.
+No reference-game images, external art or new licenses are included. These additions
+do not establish user visual acceptance of M2.

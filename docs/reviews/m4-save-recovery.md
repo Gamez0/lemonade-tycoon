@@ -1,5 +1,11 @@
 ﻿# M4 save checkpoint review — 2026-10-01
 
+Current format: M5 v3 adds location progression and a paid opening checkpoint.
+Reload during selling replays that checkpoint without charging rent/moving again.
+v0/v1/v2 imports preserve historical accounting; native save/close/forced-termination
+coverage has since been added. See [M5 review](m5-locations.md) and the Windows device
+review. The dated sections below describe earlier implementation checkpoints.
+
 Browser save foundation is implemented; M4 remains in progress until desktop storage and packaged termination recovery are verified.
 
 - Preparation purchases and plan changes, the checkpoint immediately before opening, completed results, and next-day transitions save automatically. Reload during selling replays that day from its opening checkpoint, including the same random seed. Unconfirmed supply orders are not saved.

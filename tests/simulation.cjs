@@ -116,7 +116,7 @@ test('many seeded days keep numeric and economic invariants', () => {
         const s = finish(openDay(stocked(seed)));
         assert.ok(s.cash >= 0 && Number.isSafeInteger(s.cash));
         assert.ok(s.reputation >= 0 && s.reputation <= 1);
-        assert.equal(s.daily.visitors, s.weather.traffic);
+        assert.equal(s.daily.visitors, s.business.traffic);
         assert.equal(s.cash, 4000 - s.daily.purchases + s.daily.revenue);
     }
 });

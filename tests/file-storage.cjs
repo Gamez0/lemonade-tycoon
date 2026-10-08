@@ -1,4 +1,4 @@
-﻿const { test } = require('node:test');
+const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
@@ -32,5 +32,5 @@ test('damaged primary recovers the previous valid checkpoint', () => withStorage
     const recovered = readSave(createFileStorage(directory));
     assert.equal(recovered.recovered, true);
     assert.deepEqual(recovered.document.state, first);
-    assert.equal(storage.getItem(BACKUP_KEY), JSON.stringify({ version: 2, state: first, history: [] }));
+    assert.equal(storage.getItem(BACKUP_KEY), JSON.stringify({ version: 3, state: first, history: [] }));
 }));

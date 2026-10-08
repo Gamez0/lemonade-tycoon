@@ -20,6 +20,16 @@ Start with $40 and empty supplies. Default recipe is 2 lemon units and 1 sugar u
 
 First goal: reach $75 cash. Continue after reaching it; compare daily profit and experiment with margin versus volume. No forced campaign ending. It is possible to lose money: preserve visibility of ingredient costs and provide New business.
 
-## Deliberate scope limits
+## Initial MVP scope limits
 
 One free suburban location, one service point, no staff, upgrades, ads, rent or purchased commercial art. Unused prepared cups are discarded when the day ends. Leftover ice melts before the next day; lemon, sugar and cup stock carries over. A future refrigerator or ice maker will change the ice economy. Original Lemonade Tycoon remains the visual anchor.
+
+## M5 expansion
+
+Three locations now offer distinct traffic, budgets and patience. Rent provides
+permanent unlocks, browsing and explicit reservation/cancellation. Start day charges
+the visible rent and move-in fee once; interruption resumes the paid opening checkpoint.
+Returning to the Neighborhood is free. Satisfaction and popularity belong to each
+location, with feedback only from completed sales. Bankruptcy keeps the save and
+offers export or a deliberate restart. See [M5 design](research/m5-locations-design.md)
+and [implementation review](reviews/m5-locations.md). Staff/upgrades/ads remain M6.

@@ -14,7 +14,9 @@ test('reload resumes checkpoints and preserves results, ledger and cancelled res
     const preparation = await saved(page);
     await page.locator('#open').click(); await page.reload();
     await expect(page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
-    expect(await saved(page)).toBe(preparation);
+    const checkpoint = JSON.parse(await saved(page));
+    expect(checkpoint.state.business.paid).toBe(true);
+    expect({ ...checkpoint.state, business: null }).toEqual(JSON.parse(preparation).state);
     await page.locator('#open').click(); await page.locator('#skip').click();
     await expect(page.locator('#app')).toHaveAttribute('data-phase', 'results');
     const results = await saved(page);
