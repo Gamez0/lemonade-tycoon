@@ -1,0 +1,22 @@
+name: Feature request
+description: Propose a specific improvement with a clear acceptance condition.
+title: 'feat: '
+labels: [enhancement, 'status:triage']
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Player problem
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Expected outcome and acceptance conditions
+    validations:
+      required: true
+  - type: textarea
+    id: links
+    attributes:
+      label: Related issues and roadmap milestone
+      description: Search existing issues first. Identify the reboot or preserved legacy game.
