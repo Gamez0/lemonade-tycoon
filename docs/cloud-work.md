@@ -634,5 +634,10 @@ rerun or Steam/public release actions.
 Review follow-up: clarified the locked-location requirement as the rating **where you
 sell**, so a new location's neutral initial rating is not mistaken for an impossible
 pre-unlock requirement. This is a wording-only source successor to 7e44115; obtain its
-exact revision from the PR head / `git log -1 -- src/reboot.ts`. Recheck narrow Rent
-and stationary-action regressions, rebuild the local package, and inspect fresh CI.
+exact revision from `git log -1 -- src/reboot.ts`. Exact final source/package checkout:
+`88ee31c6a5102ad3f85a92c85ccec294889e78ce`. Narrow Rent and stationary-action tests
+passed **2/2** after a completed web rebuild. Rebuilt the native package from this
+clean committed source; native UI **15 combinations** and **74-file** manifest PASS.
+The final package's build-info now records both source/checkout as 88ee31c, replacing
+the earlier pre-commit metadata. No other runtime difference from 7e44115. Current-head
+remote results are tracked in PR #131 metadata; do not infer them from older runs.
