@@ -463,3 +463,10 @@ use observed current-head job names. No Steam upload, published release or paid 
 Validation: actionlint 1.7.12 passes workflow syntax and reusable-job permission checks.
 Obtain final-head remote CI before merge. Older game stack and PR129 need subsequent
 base/docs reconciliation; no game PR is merged by this operations task.
+
+Additional review: GitHub reports 23 open development-dependency alerts (7 high,
+14 medium,2 low). Follow-up issue #176 tracks reachability, supported patched updates
+and exact-head regression checks; enabling Dependabot does not resolve these alerts.
+YAML issue-form IDs/required fields and Dependabot/workflow syntax also validated
+with isolated PyYAML; no project dependency or lockfile changed. PR175 is the concrete
+operations change. Remote final-head checks must pass before merge/protection activation.

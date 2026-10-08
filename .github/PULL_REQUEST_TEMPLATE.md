@@ -1,4 +1,4 @@
-﻿## Problem and resulting behavior
+## Problem and resulting behavior
 
 <!-- Use a Conventional Commit title. Explain the trigger and before/after behavior. -->
 
