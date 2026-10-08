@@ -47,3 +47,7 @@ All use the same 640×512 projection, cart and pedestrian route. Rent thumbnails
 generated from these actual textures, and its house icon extends the original SVG set.
 No reference-game images, external art or new licenses are included. These additions
 do not establish user visual acceptance of M2.
+
+## M7/M9 authored audio and store drafts
+
+Original scores are in src/game/content/audio-scores.ts, synthesizer/envelopes in presentation/audio.ts. No external musical recording or copied composition is used. scripts/audio-export.cjs renders WAV listening masters. Volume/mute/focus handling is implemented; human sound approval remains open. scripts/store-capture.cjs composes capsule/library PNG drafts from actual original game art, including a transparent title logo, and captures real gameplay PNG/WebM. Independent draft title: Willow Lane Lemonade. Final art/trailer review and title/distribution-rights confirmation remain open. The desktop package includes repository/Phaser/font/Electron/Chromium notices; legacy/reference images remain excluded.

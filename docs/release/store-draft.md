@@ -1,0 +1,33 @@
+# Store materials draft
+
+Working product title: **Willow Lane Lemonade**. This is a proposed independent
+identity; public-name clearance and contributor distribution rights are pending.
+Compatibility executable/save directory retains Lemonade Tycoon to preserve saves.
+
+Short description:
+Run a little lemonade stand on Willow Lane. Match your recipe to the weather,
+manage stock and prices, keep customers moving, and grow from a quiet neighborhood
+to the riverside park and busy downtown streets.
+
+About:
+Build your business one day at a time. Choose a pitcher recipe, buy ingredients,
+set a cup price and watch pedestrians decide whether to stop. Customers react to
+price, quality, empty stock and long lines. Review your books before opening again.
+
+Earn three distinct locations with different rent, visitors and queue pressure.
+Invest in a refrigerator, ice maker or blender. Hire a server or queue host and
+try local flyers or radio advertising. Every choice has a visible cost and effect.
+
+Compact green panels and original illustrated streets accompany relaxed original
+synthesized music. Individual music/effect volumes and mute are available. Your
+business saves automatically; portable JSON export/import provides personal backup.
+
+Supported-language draft: English interface, no spoken dialogue.
+Feature draft: single player; mouse and keyboard; local save; volume controls.
+Do not select achievements, Cloud, controller, multiplayer or unverified platforms.
+
+Windows x64 is the only candidate platform. Minimum/recommended CPU, GPU, RAM,
+Windows version and disk requirements must be filled from the M8 hardware matrix;
+the current development-machine evidence is insufficient to advertise a minimum.
+Windows 10/11 clean-machine and DPI checks remain pending. No release date/price is
+set. Gameplay screenshots/video and capsule/library images are development drafts.

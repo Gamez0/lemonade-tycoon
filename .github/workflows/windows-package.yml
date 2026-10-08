@@ -26,6 +26,7 @@ jobs:
                   npm run test:desktop
                   npm run test:desktop:ui
                   npm run test:desktop:locations
+                  npm run test:desktop:management
             - name: Record package source
               shell: pwsh
               run: |

@@ -1,3 +1,5 @@
+import { UPGRADES, STAFF, ADS, defaultManagement } from "../content/management";
+import type { Management, Upgrade } from "../content/management";
 import { CUSTOMERS, ITEMS, ITEM_KEYS, WEATHER } from "../content/catalog";
 import type { Item, Weather } from "../content/catalog";
 import { LOCATIONS, LOCATION_IDS, isLocation } from "../content/locations";
@@ -24,6 +26,9 @@ export type Stock = Readonly<Record<Item, number>>;
 export interface Recipe { readonly lemon: number; readonly sugar: number; readonly ice: number }
 export interface Plan { readonly recipe: Recipe; readonly price: number }
 export interface Daily {
+    readonly capital: number;
+    readonly wages: number;
+    readonly advertising: number;
     readonly model: "cup" | "pitcher";
     readonly pitchersMade: number;
     readonly meltedIce: number;
@@ -42,6 +47,7 @@ export interface Daily {
     readonly satisfactionTotal: number;
 }
 export interface State {
+    readonly management: Management;
     readonly phase: "preparation" | "selling" | "results";
     readonly day: number;
     readonly cash: number;
@@ -73,7 +79,7 @@ export interface Visitor {
     readonly willingness: number;
 }
 
-const emptyDaily = (meltedIce = 0): Daily => ({ model: "pitcher", pitchersMade: 0, meltedIce,
+const emptyDaily = (meltedIce = 0): Daily => ({ capital: 0, wages: 0, advertising: 0, model: "pitcher", pitchersMade: 0, meltedIce,
     visitors: 0, sold: 0, rejected: 0, priceRejected: 0, passed: 0, soldOut: 0, abandoned: 0,
     revenue: 0, cost: 0, purchases: 0, rent: 0, moveFee: 0, satisfactionTotal: 0 });
 const PITCHER_CUPS = [10, 11, 12, 14, 16, 20, 25, 33] as const;
@@ -98,7 +104,7 @@ function forecast(seed: number): { seed: number; weather: Weather } {
 }
 export function newGame(seed = 2026): State {
     integer(seed, 0, 4294967295, "Seed");
-    return { phase: "preparation", day: 1, cash: 4000, openingCash: 4000,
+    return { management: defaultManagement(), phase: "preparation", day: 1, cash: 4000, openingCash: 4000,
         stock: { lemon: 0, sugar: 0, ice: 0, cup: 0 }, pitcherCups: 0,
         plan: { recipe: { lemon: 2, sugar: 1, ice: 2 }, price: 150 },
         location: "neighborhood", pendingLocation: null, unlocked: ["neighborhood"],
@@ -159,22 +165,30 @@ export function demand(plan: Plan, weather: Weather, reputation: number, profile
 }
 export function openDay(state: State): State {
     phase(state, "preparation");
-    if (capacity(state) === 0) throw new Error("Buy enough supplies for one pitcher and a cup before opening.");
     // A restored, already-paid opening checkpoint replays the same day without another fee.
-    if (state.business) return { ...state, phase: "selling" };
+    if (state.business) {
+        if (capacity(state) === 0) throw new Error("Buy enough supplies for one pitcher and a cup before opening.");
+        return { ...state, phase: "selling" };
+    }
     const id = state.pendingLocation ?? state.location;
     const location = LOCATIONS[id], rating = state.locationStats[id];
     const moveFee = id === state.location ? 0 : location.moveFee;
-    if (state.cash < location.rent + moveFee)
-        throw new Error("Not enough cash for rent and moving. Cancel the reservation or return to the free Neighborhood.");
+    const staff = STAFF[state.management.staff], advertising = ADS[state.management.advertising];
+    const ice = Math.min(999 - state.stock.ice, state.management.upgrades.iceMaker * 60);
+    if (capacity({ ...state, stock: { ...state.stock, ice: state.stock.ice + ice } }) === 0)
+        throw new Error("Buy enough supplies for one pitcher and a cup before opening.");
+    const production = ice * ITEMS.ice.cost;
+    const fees = location.rent + moveFee + staff.wage + advertising.cost + production;
+    if (state.cash < fees)
+        throw new Error("Not enough cash for opening costs. Reduce advertising, dismiss staff or return to the free Neighborhood.");
     const business: BusinessDay = { location: id, from: state.location,
-        traffic: Math.round(state.weather.traffic * location.traffic * (0.8 + 0.4 * rating.popularity)),
-        budget: location.budget, weights: [...location.weights], patienceTicks: location.patience,
-        arrivalEvery: location.arrival, serviceTicks: 8, satisfaction: rating.satisfaction,
+        traffic: Math.round(state.weather.traffic * location.traffic * (0.8 + 0.4 * rating.popularity) * advertising.traffic),
+        budget: location.budget, weights: [...location.weights], patienceTicks: location.patience + staff.patience,
+        arrivalEvery: Math.max(1, Math.round(location.arrival / advertising.traffic)), serviceTicks: 8 - state.management.upgrades.blender - staff.speed, satisfaction: rating.satisfaction,
         popularity: rating.popularity, rent: location.rent, moveFee, paid: true };
     return { ...state, phase: "selling", location: id, pendingLocation: null, business,
-        reputation: rating.satisfaction, cash: state.cash - location.rent - moveFee,
-        daily: { ...state.daily, rent: location.rent, moveFee } };
+        reputation: rating.satisfaction, cash: state.cash - fees, stock: { ...state.stock, ice: state.stock.ice + ice },
+        daily: { ...state.daily, rent: location.rent, moveFee, wages: staff.wage, advertising: advertising.cost, purchases: state.daily.purchases + production } };
 }
 export function reserveLocation(state: State, id: LocationId | null): State {
     phase(state, "preparation");
@@ -184,7 +198,7 @@ export function reserveLocation(state: State, id: LocationId | null): State {
 }
 export function expectedTraffic(state: State, id = state.pendingLocation ?? state.location): number {
     return state.business?.traffic ?? Math.round(state.weather.traffic * LOCATIONS[id].traffic *
-        (0.8 + 0.4 * state.locationStats[id].popularity));
+        (0.8 + 0.4 * state.locationStats[id].popularity) * ADS[state.management.advertising].traffic);
 }
 export const dayTraffic = (state: State): number => state.business?.traffic ?? state.weather.traffic;
 export function unlockLocations(unlocked: readonly LocationId[], days: number, revenue: number, satisfaction: number): readonly LocationId[] {
@@ -256,12 +270,39 @@ export function stepCustomer(state: State): { state: State; event: CustomerEvent
 export function nextDay(state: State): State {
     phase(state, "results");
     return { ...state, phase: "preparation", day: state.day + 1, openingCash: state.cash,
-        stock: { ...state.stock, ice: 0 }, pitcherCups: 0,
+        stock: { ...state.stock, ice: Math.floor(state.stock.ice * state.management.upgrades.refrigerator / 2) }, pitcherCups: 0,
         business: null, pendingLocation: null,
-        daily: emptyDaily(state.stock.ice), ...forecast(state.seed) };
+        daily: emptyDaily(state.stock.ice - Math.floor(state.stock.ice * state.management.upgrades.refrigerator / 2)), ...forecast(state.seed) };
 }
 export function results(state: State): { profit: number; cashChange: number; satisfaction: number | null } {
-    return { profit: state.daily.revenue - state.daily.cost - state.daily.rent - state.daily.moveFee,
+    return { profit: state.daily.revenue - state.daily.cost - state.daily.rent - state.daily.moveFee - state.daily.wages - state.daily.advertising,
         cashChange: state.cash - state.openingCash,
         satisfaction: state.daily.sold === 0 ? null : Math.round(state.daily.satisfactionTotal / state.daily.sold) };
+}
+
+function editableManagement(state: State): void {
+    phase(state, "preparation");
+    if (state.business) throw new Error("Management is fixed for this paid opening. Change it tomorrow.");
+}
+export function purchaseUpgrade(state: State, id: Upgrade): State {
+    editableManagement(state);
+    const item = UPGRADES[id];
+    if (!Object.prototype.hasOwnProperty.call(UPGRADES, id)) throw new Error("Unknown upgrade.");
+    const level = state.management.upgrades[id];
+    if (level >= 2) throw new Error("This equipment is fully upgraded.");
+    const price = item.prices[level];
+    if (state.cash < price) throw new Error("Not enough cash for this upgrade.");
+    return { ...state, cash: state.cash - price,
+        daily: { ...state.daily, capital: state.daily.capital + price },
+        management: { ...state.management, upgrades: { ...state.management.upgrades, [id]: level + 1 } } };
+}
+export function hireStaff(state: State, id: Management["staff"]): State {
+    editableManagement(state);
+    if (!Object.prototype.hasOwnProperty.call(STAFF, id)) throw new Error("Unknown staff candidate.");
+    return { ...state, management: { ...state.management, staff: id } };
+}
+export function selectAdvertising(state: State, id: Management["advertising"]): State {
+    editableManagement(state);
+    if (!Object.prototype.hasOwnProperty.call(ADS, id)) throw new Error("Unknown advertising.");
+    return { ...state, management: { ...state.management, advertising: id } };
 }

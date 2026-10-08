@@ -27,7 +27,7 @@ async function stock(page, extraIce = false) {
     await page.locator("#buy-order").click();
 }
 async function change(page, id, value) {
-    await tab(page, id === "price" ? "price" : "recipe");
+    await tab(page, id === "price" ? "marketing" : "recipe");
     await page.locator(`#${id}`).fill(value);
     await page.locator(`#${id}`).press("Tab");
 }
@@ -209,7 +209,7 @@ test("all preparation screens retain forecast details and action position across
     for (const width of [375, 520, 640, 768]) {
         await page.setViewportSize({ width, height: 1000 });
         const positions = [];
-        for (const name of ["recipe", "price", "supplies", "results", "rent"]) {
+        for (const name of ["recipe", "marketing", "supplies", "results", "rent", "upgrades", "staff"]) {
             await tab(page, name);
             await expect(page.locator("#forecast-news")).toBeVisible();
             await expect(page.locator("#progress-text")).toBeVisible();

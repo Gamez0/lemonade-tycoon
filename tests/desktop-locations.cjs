@@ -77,7 +77,7 @@ async function close() {
         await page.locator('#save-file').setInputFiles({ name: 'v2-business.json', mimeType: 'application/json',
             buffer: Buffer.from(JSON.stringify({ version: 2, state: old, history: [old] })) });
         await expect(page.locator('#save-status')).toContainText('Imported save');
-        const migrated = read(); expect(migrated.version).toBe(3);
+        const migrated = read(); expect(migrated.version).toBe(4);
         expect(migrated.state.cash).toBe(old.cash); expect(migrated.state.daily.cost).toBe(old.daily.cost);
         await close(); page = await launch(); expect(read()).toEqual(migrated);
         await close();

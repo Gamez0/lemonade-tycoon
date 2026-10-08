@@ -641,3 +641,9 @@ clean committed source; native UI **15 combinations** and **74-file** manifest P
 The final package's build-info now records both source/checkout as 88ee31c, replacing
 the earlier pre-commit metadata. No other runtime difference from 7e44115. Current-head
 remote results are tracked in PR #131 metadata; do not infer them from older runs.
+
+### M6-M10 continuation authorized - 2026-10-08
+
+User explicitly requested development through M10. Active worktree lemonade-tycoon-m4-windows, branch feat/m6-m10-development, stacked on M5/#131. Parent worktree and PR83 unchanged. M6 management, v4 saves, M7 help/original audio/preferences/reduced motion/fullscreen/quit, diagnostics/licensing and M9/M10 candidate materials implemented. Review: docs/reviews/m6-m10-development.md; docs/release holds store/playtest/operations/Steam drafts. No agents, billing, paid service, upload or submission. Existing design values replaced with the tested M6 catalog; no claim these match the original game.
+
+Completed before final checkpoint: unit36, release5, typecheck/lint, production browser17; six engine/emulation flows; native saves and21 tab/size combinations. New native management and corrected v4 migration require final-package rerun. 9720 seeded management days show different ads by equipment level. Local draft assets .local-m4/m9-store and WAVs .local-m4/m7-audio. Final package/source/checksums/CI will be recorded after source commit. M2 visual, human music/long listening,0/5 playtesters, offline/DPI/clean PC, final trailer/hardware specs/rights and real Steam app/depot/install/update gates remain open; do not mark milestones fully accepted.

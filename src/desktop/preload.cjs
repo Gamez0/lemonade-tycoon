@@ -7,3 +7,5 @@ contextBridge.exposeInMainWorld('desktopSave', {
         try { await handler(); } finally { ipcRenderer.send('save:flushed'); }
     }),
 });
+
+contextBridge.exposeInMainWorld('desktopApp', { quit: () => ipcRenderer.invoke('app:quit'), diagnostics: () => ipcRenderer.invoke('app:diagnostics') });

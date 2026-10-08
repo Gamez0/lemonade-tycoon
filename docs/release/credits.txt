@@ -1,0 +1,17 @@
+Willow Lane Lemonade - development candidate 0.2.0-alpha.1
+
+Game rules, generated street/character art, UI icons, capsule composition,
+pentatonic music miniatures and synthesized effects were written for this project.
+Music source: src/game/presentation/audio.ts. No original-game recording, image
+or third-party musical composition is included in the reboot PC distribution.
+Human listening acceptance and contributor distribution-rights confirmation
+remain release checks. The separate legacy preview is excluded from this package.
+
+Repository template: Copyright (c) 2024 Phaser Studio Inc, MIT (LICENSE).
+Phaser 3.88.2: MIT (LICENSE-Phaser.txt).
+Oswald font: SIL Open Font License 1.1 (dist/licenses/OFL-Oswald.txt in app.asar).
+Electron 44.5.1: MIT (package root LICENSE).
+Chromium and third-party runtime notices: package root LICENSES.chromium.html.
+
+Windows only. English interface. Mouse and keyboard.
+No claim of Steam achievements, Steam Cloud, controller, macOS/Linux or Deck support.

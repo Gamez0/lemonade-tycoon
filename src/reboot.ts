@@ -1,3 +1,7 @@
+import { GameAudio } from "./game/presentation/audio";
+import { UPGRADES, STAFF, ADS } from "./game/content/management";
+import type { Upgrade, Management } from "./game/content/management";
+import { purchaseUpgrade, hireStaff, selectAdvertising } from "./game/simulation/game";
 import Phaser from "phaser";
 import { ITEMS, ITEM_KEYS } from "./game/content/catalog";
 import type { Item } from "./game/content/catalog";
@@ -31,7 +35,7 @@ import { markup } from "./game/presentation/layout";
 import "./game/presentation/style.css";
 
 const money = (cents: number) => `$${(cents / 100).toFixed(2)}`;
-type Page = "recipe" | "price" | "supplies" | "results" | "rent";
+type Page = "recipe" | "marketing" | "supplies" | "results" | "rent" | "upgrades" | "staff";
 const emptyOrder = (): Record<Item, number[]> => ({
     lemon: [0, 0, 0],
     sugar: [0, 0, 0],
@@ -39,6 +43,7 @@ const emptyOrder = (): Record<Item, number[]> => ({
     cup: [0, 0, 0],
 });
 const bundleSizes = [1, 2, 5];
+const audio = new GameAudio();
 let state = newGame();
 let reactions = { bought: 0, price: 0, passed: 0, "sold-out": 0, abandoned: 0 };
 let street: StreetDay | null = null;
@@ -53,6 +58,7 @@ let lastFeedback = "Your first customers are just around the corner.";
 let restartArmed = false;
 let fast = false;
 let saveBlocked = false;
+const desktopApp = (window as Window & { desktopApp?: { quit(): Promise<void>; diagnostics(): Promise<unknown> } }).desktopApp;
 const desktopSave = (window as Window & { desktopSave?: AsyncSaveStorage & { onFlush(handler: () => Promise<void>): void } }).desktopSave;
 if (desktopSave) {
     document.documentElement.classList.add("desktop");
@@ -125,6 +131,7 @@ for (const [i] of bundleSizes.entries()) {
 function applyStreet(events: CustomerEvent[]): void {
     for (const event of events) {
         reactions[event.kind]++;
+        if (events.length < 8 && event.kind === "bought") audio.effect("sale");
         lastFeedback = event.kind === "bought" ? `Sold! Satisfaction: ${event.satisfaction}%.`
             : event.kind === "price" ? "Too expensive! A neighbor walked away."
             : event.kind === "sold-out" ? "Sold out! A customer left empty-handed."
@@ -165,10 +172,12 @@ new Phaser.Game({
 function act(action: () => State): void {
     try {
         state = action();
+        audio.effect("buy");
         text("message", "");
         render();
         persist();
     } catch (error) {
+        audio.effect("error");
         text("message", error instanceof Error ? error.message : "Please check your choices.");
     }
 }
@@ -176,7 +185,7 @@ function readPlan(): State {
     for (const id of ["lemon", "sugar", "ice", "price"]) {
         const input = element<HTMLInputElement>(id);
         if (input.value === "" || !input.checkValidity()) {
-            showPage(id === "price" ? "price" : "recipe");
+            showPage(id === "price" ? "marketing" : "recipe");
             input.setAttribute("aria-invalid", "true");
             input.focus();
             throw new Error(`Check ${id}: enter a value from ${input.min} to ${input.max} in steps of ${input.step}.`);
@@ -215,6 +224,12 @@ for (const button of document.querySelectorAll<HTMLButtonElement>("[data-locatio
         selectedLocation = button.dataset.location as LocationId;
         renderRent();
     });
+for (const button of document.querySelectorAll<HTMLButtonElement>("[data-upgrade]"))
+    button.addEventListener("click", () => act(() => purchaseUpgrade(state, button.dataset.upgrade as Upgrade)));
+for (const button of document.querySelectorAll<HTMLButtonElement>("[data-staff]"))
+    button.addEventListener("click", () => act(() => hireStaff(state, button.dataset.staff as Management["staff"])));
+for (const button of document.querySelectorAll<HTMLButtonElement>("[data-advertising]"))
+    button.addEventListener("click", () => act(() => selectAdvertising(state, button.dataset.advertising as Management["advertising"])));
 element("confirm-rent").addEventListener("click", () => act(() => {
     if (orderCost() > 0) throw new Error("BUY or CANCEL your pending supply order before reserving a location.");
     return reserveLocation(state, selectedLocation);
@@ -418,7 +433,7 @@ function renderReport(): void {
         ["Cups sold", String(sold)],
         ["Revenue", money(sum("revenue"))],
         ["Ingredients used", money(sum("cost"))],
-        ["Profit", money(sum("revenue") - sum("cost") - sum("rent") - sum("moveFee"))],
+        ["Profit", money(sum("revenue") - sum("cost") - sum("rent") - sum("moveFee") - sum("wages") - sum("advertising"))],
         ["Supplies bought", money(sum("purchases"))],
         ["Cash change", money(reports.reduce((total, day) => total + results(day).cashChange, 0))],
         ["Price / passed", `${sum("priceRejected")} / ${sum("passed")}`],
@@ -426,7 +441,16 @@ function renderReport(): void {
         ["Satisfaction", sold === 0 ? "No buyers yet" : `${Math.round(sum("satisfactionTotal") / sold)}%`],
         ["Rent", money(sum("rent"))],
         ["Moving fees", money(sum("moveFee"))],
+        ["Wages / advertising", `${money(sum("wages"))} / ${money(sum("advertising"))}`],
+        ["Equipment bought", money(sum("capital"))],
     ]);
+}
+function openingBill(): number {
+    if (state.business) return 0;
+    const target = state.pendingLocation ?? state.location;
+    return LOCATIONS[target].rent + (target === state.location ? 0 : LOCATIONS[target].moveFee) +
+        STAFF[state.management.staff].wage + ADS[state.management.advertising].cost +
+        Math.min(999 - state.stock.ice, state.management.upgrades.iceMaker * 60) * ITEMS.ice.cost;
 }
 function renderRent(): void {
     const location = LOCATIONS[selectedLocation], rating = state.locationStats[selectedLocation];
@@ -452,7 +476,7 @@ function renderRent(): void {
     text("rent-unlock", locked ? `Unlock: ${location.days} completed days, ${money(location.revenue)} sales, ${Math.round(location.satisfaction * 100)}% rating where you sell. Now: ${history.length} days / ${money(state.lifetimeRevenue)}.`
         : "Unlocked permanently. Charges apply only when you start the day.");
     const target = state.pendingLocation ?? state.location;
-    const openingCost = state.business ? 0 : LOCATIONS[target].rent + (target === state.location ? 0 : LOCATIONS[target].moveFee);
+    const openingCost = openingBill();
     text("rent-reservation", state.business ? "Today's location is already paid. Replay incurs no extra fees."
         : `${state.pendingLocation ? "Reserved" : "Next opening"}: ${LOCATIONS[target].name} · ${money(openingCost)} due at Start day.`);
     element<HTMLButtonElement>("confirm-rent").disabled = locked || Boolean(state.business) || state.phase !== "preparation";
@@ -489,7 +513,7 @@ function render(): void {
     document.querySelector(".world-column")!.setAttribute("aria-label", LOCATIONS[state.location].street + " stand");
     app.dataset.location = state.location;
     element("preparation").hidden = !prep || currentPage === "results";
-    for (const page of ["recipe", "price", "supplies", "rent"]) element(`${page}-page`).hidden = page !== currentPage;
+    for (const page of ["recipe", "marketing", "supplies", "rent", "upgrades", "staff"]) element(`${page}-page`).hidden = page !== currentPage;
     element("selling").hidden = !selling;
     element("results").hidden = !(closed || (prep && currentPage === "results"));
     element("day-actions").hidden = !prep;
@@ -519,6 +543,7 @@ function render(): void {
         button.setAttribute("aria-pressed", String(!selling && button.dataset.page === currentPage));
     }
     app.dataset.phase = state.phase;
+    audio.setPhase(state.phase);
     for (const id of ["recipe-controls", "price-controls", "supply-controls"])
         element<HTMLFieldSetElement>(id).disabled = !prep;
     for (const key of ITEM_KEYS) {
@@ -581,12 +606,24 @@ function render(): void {
     text("setting-capacity", capacity(state) + " cups");
     for (const item of ["lemon", "sugar", "ice"] as const) text("setting-" + item, String(state.plan.recipe[item]));
     const target = state.pendingLocation ?? state.location;
-    const due = state.business ? 0 : LOCATIONS[target].rent + (target === state.location ? 0 : LOCATIONS[target].moveFee);
+    const due = openingBill();
+    text("management-bill", `Opening bill ${money(due)} | Wages ${money(STAFF[state.management.staff].wage)} | Ads ${money(ADS[state.management.advertising].cost)}`);
     const bankrupt = isBankrupt(state);
     element("business-warning").hidden = !prep || (!bankrupt && state.cash >= due && !state.pendingLocation);
     text("business-warning", bankrupt ? "Not enough cash or stock for the cheapest pitcher. Export your save or confirm New business to restart."
-        : state.cash < due ? "Rent is unaffordable. Use Rent to return to the free Neighborhood."
+        : state.cash < due ? "Opening costs exceed cash. Reduce ads, dismiss staff or use Rent to return to the free Neighborhood."
         : `Reserved: ${LOCATIONS[target].name}. ${money(due)} will be charged at Start day.`);
+    for (const [id, item] of Object.entries(UPGRADES)) {
+        const level = state.management.upgrades[id as Upgrade];
+        text(`upgrade-effect-${id}`, `Level ${level}/2 | ${level < 2 ? item.effects[level] : item.effects[1]}`);
+        const button = document.querySelector<HTMLButtonElement>(`[data-upgrade="${id}"]`)!;
+        button.textContent = level < 2 ? `BUY ${money(item.prices[level])}` : "MAX LEVEL";
+        button.disabled = !prep || Boolean(state.business) || level === 2 || state.cash < item.prices[level];
+    }
+    for (const button of document.querySelectorAll<HTMLButtonElement>("[data-staff], [data-advertising]")) {
+        button.disabled = !prep || Boolean(state.business);
+        button.setAttribute("aria-pressed", String(button.dataset.staff === state.management.staff || button.dataset.advertising === state.management.advertising));
+    }
     renderRent();
     renderReport();
 }
@@ -612,5 +649,32 @@ async function restore(): Promise<void> {
     render();
     app.hidden = false;
 }
+document.addEventListener("pointerdown", () => audio.activate());
+document.addEventListener("keydown", () => audio.activate());
+element("help-open").addEventListener("click", () => element<HTMLDialogElement>("help-dialog").showModal());
+element("quit-game").hidden = !desktopApp;
+element("export-diagnostics").hidden = !desktopApp;
+element("quit-game").addEventListener("click", () => { void desktopApp?.quit(); });
+element("export-diagnostics").addEventListener("click", async () => {
+    if (!desktopApp) return;
+    const url = URL.createObjectURL(new Blob([JSON.stringify(await desktopApp.diagnostics(), null, 2)], { type: "application/json" }));
+    const link = document.createElement("a"); link.href = url; link.download = "willow-lane-diagnostics.json"; link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+});
+element("help-close").addEventListener("click", () => element<HTMLDialogElement>("help-dialog").close());
+for (const id of ["music-volume", "effects-volume", "mute-audio"]) {
+    const input = element<HTMLInputElement>(id);
+    if (id === "mute-audio") input.checked = audio.settings.muted;
+    else input.value = String((id === "music-volume" ? audio.settings.music : audio.settings.effects) * 100);
+    input.addEventListener("input", () => audio.configure({
+        music: Number(element<HTMLInputElement>("music-volume").value) / 100,
+        effects: Number(element<HTMLInputElement>("effects-volume").value) / 100,
+        muted: element<HTMLInputElement>("mute-audio").checked,
+    }));
+}
+element("fullscreen").addEventListener("click", () => {
+    if (document.fullscreenElement) void document.exitFullscreen().catch(() => {});
+    else void document.documentElement.requestFullscreen().catch(() => {});
+});
 app.hidden = true;
 void restore();
