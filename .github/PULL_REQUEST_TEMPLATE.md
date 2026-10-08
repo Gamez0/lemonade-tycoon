@@ -1,67 +1,20 @@
-<!--
-Make sure the title includes categorization (choose the one that best fits):
--   [Feature]: If the PR is adding feature
--       [Bug]: If the PR is primarily a bug fix
--      [Test]: If the PR is primarily adding or modifying tests
--     [UI/UX]: If the PR is changing UI/UX elements
--     [Audio]: If the PR is adding or changing music/sfx
--    [Sprite]: If the PR is adding or changing sprites
--   [Balance]: If the PR is related to game balance
--  [Refactor]: If the PR is primarily rewriting existing code
--      [Docs]: If the PR is just adding or modifying documentation (such as tsdocs/code comments)
--    [GitHub]: For changes to GitHub workflows/templates/etc
--      [Misc]: If no other category fits the PR
--->
-<!--
-Make sure that this PR is not overlapping with someone else's work
-Please try to keep the PR self-contained (and small)
--->
+## Problem and resulting behavior
 
-## What are the changes the user will see?
+<!-- Use a Conventional Commit title. Explain the trigger and before/after behavior. -->
 
-<!-- Summarize what are the changes from a user perspective on the application -->
+## Related work
 
-## Why am I making these changes?
+<!-- Closes #N only for fully satisfied issues; Refs #N for partial work.
+For stacked PRs, name the prerequisite PR and base branch. -->
 
-<!--
-Explain why you decided to introduce these changes
-Does it come from an issue or another PR? Please link it
-Explain why you believe this can enhance user experience
--->
-<!--
-If there are existing GitHub issues related to the PR that would be fixed,
-you can add "Fixes #[issue number]" (ie: "Fixes #1234") to link an issue to your PR
-so that it will automatically be closed when the PR is merged.
--->
+## Validation
 
-## What are the changes from a developer perspective?
+<!-- Record commands/results and exact-head CI. Include relevant screenshots or
+package evidence. State manual acceptance gates that remain open. -->
 
-<!--
-Explicitly state what are the changes introduced by the PR
-You can make use of a comparison between what was the state before and after your PR changes
-Ex: What files have been changed? What classes/functions/variables/etc have been added or changed?
--->
+## Review
 
-## Screenshots/Videos
-
-<!--
-If your changes are changing anything on the user experience, please provide visual proofs of it
-Please take screenshots/videos before and after your changes, to show what is brought by this PR
--->
-
-## How to test the changes?
-
-<!--
-How can a reviewer test your changes once they check out on your branch?
-Did you make use of the `src/overrides.ts` file?
-Did you introduce any automated tests?
-Do the reviewers need to do something special in order to test your changes?
--->
-
-## Checklist
-
--   [ ] There is no overlap with another PR?
--   [ ] The PR is self-contained and cannot be split into smaller PRs?
--   [ ] Have I provided a clear explanation of the changes?
--   [ ] Have I tested the changes manually?
--   [ ] Have I provided screenshots/videos of the changes (if applicable)?
+- [ ] Changes self-reviewed and unrelated work preserved.
+- [ ] Relevant checks pass for the current commit.
+- [ ] Save compatibility and release effects covered when applicable.
+- [ ] Human, clean-PC and Steam gates have actual evidence or remain open.

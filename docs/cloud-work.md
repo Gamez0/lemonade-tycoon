@@ -444,3 +444,36 @@ Next: actual M4 Windows checklist evidence is required before M5 gameplay implem
 under the existing ordered acceptance agreement. M6/M7–M10 independent groundwork above is
 prepared, not accepted milestones. Do not claim overnight duration, automatic restart,
 M10 completion, Steam upload, human playtests or Windows user acceptance from this run.
+
+### GitHub operations audit - 2026-10-08
+
+User requested repository-wide issue hygiene and useful GitHub features. Isolated
+worktree lemonade-tycoon-github-ops branches from main; parent edits, PR83 and the
+M4-M10 worktree remain untouched. Reviewed open issues against main and PR130-132.
+Eleven legacy requests consolidated into canonical trackers (not completed); five
+fulfilled main requests closed; legacy refactors, Korean README, formatting and
+visual acceptance remain open. Applied status/type/area labels with original bodies
+preserved. Full decisions and working views: docs/github-operations.md.
+
+Changes: issue forms, PR template, weekly grouped Dependabot, reusable Windows CI and
+Pages deployment requiring both CI jobs, caches/concurrency/timeouts and evidence
+retention. Existing CodeQL preserved. Projects access lacks project scope; account
+owner authentication requested, label views work independently. Main protection will
+use observed current-head job names. No Steam upload, published release or paid action.
+Validation: actionlint 1.7.12 passes workflow syntax and reusable-job permission checks.
+Obtain final-head remote CI before merge. Older game stack and PR129 need subsequent
+base/docs reconciliation; no game PR is merged by this operations task.
+
+Additional review: GitHub reports 23 open development-dependency alerts (7 high,
+14 medium,2 low). Follow-up issue #176 tracks reachability, supported patched updates
+and exact-head regression checks; enabling Dependabot does not resolve these alerts.
+YAML issue-form IDs/required fields and Dependabot/workflow syntax also validated
+with isolated PyYAML; no project dependency or lockfile changed. PR175 is the concrete
+operations change. Remote final-head checks must pass before merge/protection activation.
+
+Final self-review: main protection confirmed with strict simulation and
+windows / packaged-saves checks from GitHub Actions app15368, admin enforcement,
+resolved conversations and no force pushes/deletion. Audit verification PASS for
+50 previously open issues:11 superseded,5 completed,all retained gates still open.
+PR129 marked historical backlog with current evidence links. Checks run on PRs/main
+pushes/manual dispatch, avoiding duplicate feature-branch push and PR Windows builds.

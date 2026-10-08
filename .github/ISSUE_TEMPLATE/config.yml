@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Questions and playtest feedback
+    url: https://github.com/Gamez0/lemonade-tycoon/discussions
+    about: Use Discussions for questions and general feedback; use issues for actionable work.
