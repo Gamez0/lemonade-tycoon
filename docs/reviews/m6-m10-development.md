@@ -85,3 +85,8 @@ Store-video follow-up produces a14.68-second1920x1080 H264/AAC MP4 from the actu
 captured gameplay with separately mixed original music; decoded playback is checked.
 It is an editable/listening-review draft, not a certified final trailer. Original
 WAV/raw WebM/PNG inputs and metadata remain local alongside the MP4.
+
+Media self-review found MIME codec commas breaking the initial data-URL payload
+split. The invalid9-byte MP4 was not counted as a playable result. Export now splits
+on ;base64,, verifies payload length and actually decodes both audio/video before
+writing. Rerender and decoded playback PASS; final MP4 size3,757,476bytes.

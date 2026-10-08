@@ -38,10 +38,26 @@ let browser;
             cancelAnimationFrame(frame); recorder.stop(); await stopped;
             source.stop(); for (const track of stream.getTracks()) track.stop(); await audio.close(); URL.revokeObjectURL(inputUrl);
             const blob = new Blob(chunks, { type: mimeType });
-            const base64 = await new Promise(resolve => { const reader = new FileReader(); reader.onload = () => resolve(reader.result.split(',')[1]); reader.readAsDataURL(blob); });
+            const base64 = await new Promise(resolve => { const reader = new FileReader(); reader.onload = () => resolve(reader.result.split(';base64,')[1]); reader.readAsDataURL(blob); });
             return { base64, mimeType: recorder.mimeType, duration: video.duration, bytes: blob.size };
         }, { videoBytes: fs.readFileSync(input).toString('base64'), wave });
-        fs.writeFileSync(path.join(root, 'gameplay-preview.mp4'), Buffer.from(result.base64, 'base64'));
+        const output = Buffer.from(result.base64, 'base64');
+        if (output.length !== result.bytes) throw new Error('Video payload length mismatch.');
+        const playback = await page.evaluate(async base64 => {
+            const v = document.createElement('video'); v.muted = true;
+            const url = URL.createObjectURL(new Blob([Uint8Array.from(atob(base64), c => c.charCodeAt(0))], { type: 'video/mp4' }));
+            v.src = url;
+            try {
+                await new Promise((resolve, reject) => { v.onloadeddata = resolve; v.onerror = () => reject(new Error(v.error?.message ?? 'Video playback failed.')); });
+                await v.play(); await new Promise(resolve => setTimeout(resolve, 1200));
+                return { width: v.videoWidth, height: v.videoHeight, duration: v.duration,
+                    audioBytes: v.webkitAudioDecodedByteCount, videoBytes: v.webkitVideoDecodedByteCount };
+            } finally { v.pause(); URL.revokeObjectURL(url); }
+        }, result.base64);
+        if (playback.width !== 1920 || playback.height !== 1080 || playback.duration < 10 ||
+            !(playback.audioBytes > 0) || !(playback.videoBytes > 0)) throw new Error(`Invalid playback: ${JSON.stringify(playback)}`);
+        fs.writeFileSync(path.join(root, 'gameplay-preview.mp4'), output);
+        fs.writeFileSync(path.join(root, 'playback-verified.json'), JSON.stringify(playback, null, 2));
         delete result.base64;
         fs.writeFileSync(path.join(root, 'video-info.json'), JSON.stringify({ ...result, scope: 'Actual gameplay recording with separately mixed original selling music; development trailer draft, editing/listening review pending', input: path.basename(input) }, null, 2));
         console.log(JSON.stringify(result));

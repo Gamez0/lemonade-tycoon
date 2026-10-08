@@ -676,7 +676,14 @@ DepotID was supplied; prepared preview-only templates, not a real Steam upload.
 
 Media follow-up: scripts/store-video.cjs mixes the original selling WAV onto actual
 clean-source gameplay and renders .local-m4/m9-store/gameplay-preview.mp4,1920x1080,
-14.68seconds,H264(avc1.64002a)/AAC(mp4a.40.2),3,839,475bytes. Playback verification
+14.68seconds,H264(avc1.64002a)/AAC(mp4a.40.2),3,757,476bytes. Playback verification
 checks video dimensions/duration plus decoded audio/video; raw WebM and mix metadata
 are retained. This is a development trailer draft, not an accepted final store trailer.
 No publisher account was contacted. No test preview ports8081/8082/8083 remain listening.
+
+Video correction: first MP4 output was9bytes despite the encoder metadata because
+splitting a MIME data URL at its first comma consumed the comma inside the codec
+list. That initial playback check failed; the earlier preliminary playback claim
+is superseded. Fixed split at ;base64,, assert payload length, and require actual
+video/audio decode before writing. Final MP4 is3,757,476bytes; verified1920x1080,
+14.68s with decoded audio/video in playback-verified.json. No runtime game change.
