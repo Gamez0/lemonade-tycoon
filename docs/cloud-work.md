@@ -647,3 +647,36 @@ remote results are tracked in PR #131 metadata; do not infer them from older run
 User explicitly requested development through M10. Active worktree lemonade-tycoon-m4-windows, branch feat/m6-m10-development, stacked on M5/#131. Parent worktree and PR83 unchanged. M6 management, v4 saves, M7 help/original audio/preferences/reduced motion/fullscreen/quit, diagnostics/licensing and M9/M10 candidate materials implemented. Review: docs/reviews/m6-m10-development.md; docs/release holds store/playtest/operations/Steam drafts. No agents, billing, paid service, upload or submission. Existing design values replaced with the tested M6 catalog; no claim these match the original game.
 
 Completed before final checkpoint: unit36, release5, typecheck/lint, production browser17; six engine/emulation flows; native saves and21 tab/size combinations. New native management and corrected v4 migration require final-package rerun. 9720 seeded management days show different ads by equipment level. Local draft assets .local-m4/m9-store and WAVs .local-m4/m7-audio. Final package/source/checksums/CI will be recorded after source commit. M2 visual, human music/long listening,0/5 playtesters, offline/DPI/clean PC, final trailer/hardware specs/rights and real Steam app/depot/install/update gates remain open; do not mark milestones fully accepted.
+
+Final tested source/checkout 8a0a28184f648a2065043dd29160e508d556b98c, clean build,
+Windows candidate0.2.0-alpha.1 at .local-m4/m10-build/release/Lemonade Tycoon-win32-x64.
+Build metadata node22.16.0/Electron44.5.1/win32/x64/dirty=false. SHA256 manifest74files
+written and verified. ZIP .local-m4/m10-build/Willow-Lane-Lemonade-0.2.0-alpha.1-win-x64.zip:
+1bc23e6e5c889961bd64cef1a761dd9de3ada4f06d1cad1eb7ee71a8aa3569d4 (sidecar retained).
+Final local unit36/36, release5/5, typecheck/lint, browser17/17, native save suite,
+UI21combinations, locations/v2migration and new management suite ALL PASS. Management
+proves equipment/wage/ad/ice costs, forced exit after actual sale, exact paid replay,
+results/relaunch, persistent mute, sanitized diagnostics, actual fullscreen help
+button and Save and quit. Tests only use isolated temp data. Engine/emulation6/6
+rerun on final source; latest frame results remain in .local-m4/m8-engines/results.json.
+Store PNG/WebM regenerated from clean8a0a281; source metadata explicitly records it.
+
+PR132 https://github.com/Gamez0/lemonade-tycoon/pull/132 is stacked on feat/m5-locations.
+Exact8a0a281 remote CI4/4 SUCCESS (push/PR simulation and Windows package jobs), verified
+2026-10-08. No merge. New launcher scripts/m10-preview-launch.cmd uses separate
+.local-m4/m10-manual-data and preserves previous M4/M5 manual saves. No manually
+launched preview/game was left open; native/browser test processes have closed.
+Self-review covered accounting/migration/paid-lock, asset exclusion, metadata,
+privacy and external-gate honesty. Legacy template/Phaser/font/runtime licenses
+are copied into the package; no package-lock/dependency changes. This checkpoint
+adds launcher/media tooling and records prior source evidence; its own CI must be
+inspected separately. Final edited trailer/human music/visual/playtest/support-specs
+and actual Steam partner/install/update evidence remain open. No actual AppID or
+DepotID was supplied; prepared preview-only templates, not a real Steam upload.
+
+Media follow-up: scripts/store-video.cjs mixes the original selling WAV onto actual
+clean-source gameplay and renders .local-m4/m9-store/gameplay-preview.mp4,1920x1080,
+14.68seconds,H264(avc1.64002a)/AAC(mp4a.40.2),3,839,475bytes. Playback verification
+checks video dimensions/duration plus decoded audio/video; raw WebM and mix metadata
+are retained. This is a development trailer draft, not an accepted final store trailer.
+No publisher account was contacted. No test preview ports8081/8082/8083 remain listening.

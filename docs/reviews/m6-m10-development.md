@@ -70,3 +70,18 @@ no minimum-hardware claim from this short measurement. Real Safari is not tested
 
 Remaining release gates are maintained in docs/release/playtest.md and
 steam-readiness.md. M7-M10 are not marked fully accepted from these local artifacts.
+
+## Final source validation
+
+8a0a28184f648a2065043dd29160e508d556b98c: all36 unit tests,5 release tests,
+strict typecheck/lint, full17browser tests, Windows save/UI21/locations/management
+suites pass. New native management also verifies actual Help fullscreen and Save
+and quit, no-double-fee replay after a real sale, persisted mute and diagnostics.
+Clean native package metadata names8a0a281 as both source and checkout;74file
+manifest passes. PR132 has4/4 exact-source CI successes. Full evidence/ZIP hash is
+in cloud-work. Later docs/launcher/media-tool checkpoints do not change runtime.
+
+Store-video follow-up produces a14.68-second1920x1080 H264/AAC MP4 from the actual
+captured gameplay with separately mixed original music; decoded playback is checked.
+It is an editable/listening-review draft, not a certified final trailer. Original
+WAV/raw WebM/PNG inputs and metadata remain local alongside the MP4.

@@ -31,3 +31,10 @@ Windows version and disk requirements must be filled from the M8 hardware matrix
 the current development-machine evidence is insufficient to advertise a minimum.
 Windows 10/11 clean-machine and DPI checks remain pending. No release date/price is
 set. Gameplay screenshots/video and capsule/library images are development drafts.
+
+Local media at .local-m4/m9-store: header920x430, small462x174, main1232x706,
+vertical748x896, library600x900, library-header920x430, hero3840x1240(no text),
+transparent logo1280x720. Six actual gameplay/results screenshots1920x1080 from
+all3locations. Raw WebM plus14.68-second1920x1080 H264/AAC MP4 with original music;
+final editing/visual/listening acceptance pending. Reproduce after npm test/build:
+node scripts/audio-export.cjs, node scripts/store-capture.cjs, node scripts/store-video.cjs.
