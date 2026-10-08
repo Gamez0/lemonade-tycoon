@@ -449,7 +449,7 @@ function renderRent(): void {
         ["Popularity / satisfaction", `${Math.round(rating.popularity * 100)}% / ${Math.round(rating.satisfaction * 100)}%`],
     ]);
     const locked = !state.unlocked.includes(selectedLocation);
-    text("rent-unlock", locked ? `Unlock: ${location.days} completed days, ${money(location.revenue)} sales, ${Math.round(location.satisfaction * 100)}% satisfaction. Now: ${history.length} days / ${money(state.lifetimeRevenue)}.`
+    text("rent-unlock", locked ? `Unlock: ${location.days} completed days, ${money(location.revenue)} sales, ${Math.round(location.satisfaction * 100)}% rating where you sell. Now: ${history.length} days / ${money(state.lifetimeRevenue)}.`
         : "Unlocked permanently. Charges apply only when you start the day.");
     const target = state.pendingLocation ?? state.location;
     const openingCost = state.business ? 0 : LOCATIONS[target].rent + (target === state.location ? 0 : LOCATIONS[target].moveFee);

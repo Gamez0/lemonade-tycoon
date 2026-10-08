@@ -630,3 +630,9 @@ with real seven-tab controls and compatible saves. Stacked changes depend on #13
 retarget after its merge without duplicating UI fixes. User-deferred environment tests
 remain release gates and do not block M6. No parallel agents, paid services, automatic
 rerun or Steam/public release actions.
+
+Review follow-up: clarified the locked-location requirement as the rating **where you
+sell**, so a new location's neutral initial rating is not mistaken for an impossible
+pre-unlock requirement. This is a wording-only source successor to 7e44115; obtain its
+exact revision from the PR head / `git log -1 -- src/reboot.ts`. Recheck narrow Rent
+and stationary-action regressions, rebuild the local package, and inspect fresh CI.
