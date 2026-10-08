@@ -548,3 +548,32 @@ icon/menu/frame/scroll removal and controls at small size, then physical offline
 DPI/reviewer details. New UI package needs user recheck; original 4-step save observations
 still refer to the Actions main artifact. M4/clean-PC/M2/Steam remain open. PR #130 now includes
 these observed Windows UI fixes plus regression/evidence. No merge.
+
+### Continuation validation — 2026-10-08 (KST)
+
+Resumed in the existing clean Windows worktree `lemonade-tycoon-m4-windows` on
+`verify/m4-windows-device-20261007`, head `cd5916cf5e372ac771f39850fa0e3e5893e5571d`.
+The older `.reboot-work` checkpoint is superseded; parent changes remain untouched.
+GitHub reports all seven PR #130 checks successful for that exact head. No merge.
+
+Node22.16.0: npm test **26/26**, test:release **3/3**, typecheck, lint:reboot,
+build-nolog and the full production test:browser **12/12** passed locally.
+The retained UI-fixed EXE (source/checkout `1d84e54bb6e3df496b36f6eac0dc3c017af77c9e`)
+passed test:desktop and test:desktop:ui again: native saves/flush/forced exit/recovery/
+import/export/relocation, 12 tab/size combinations, small selling/results and price
+typing/relaunch. Its manifest verifies **74 files**. `git diff` confirms no package
+runtime source/config/packager differences between that source and the tested PR head.
+
+The first browser attempt returned 404 because this session started preview before
+the asynchronous web build process had fully exited. Stopped that attempt and the
+diagnostic previews; after build exit and HTTP200 verification, reran the entire
+unchanged suite successfully. This was execution ordering, not a product defect.
+No runtime changes were needed. Self-review checked package provenance, desktop-only
+CSS scoping and actual test outcomes. This successor records validation only.
+
+No new human acceptance arrived during verification. Next action remains the user's
+UI-fixed launcher check, then physical offline/DPI and clean Windows/no Node evidence.
+M4/#105, M2 visual acceptance and Steam gates remain open; M5 implementation remains
+pending M4 acceptance. Automated sessions and preview servers started here are closed;
+previous manual game windows were not closed or modified. No agents, paid services,
+scheduler or Steam/public release actions.

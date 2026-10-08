@@ -271,3 +271,17 @@ dev package.json은 넣지 않는다.
 작은 창에서도 주요 버튼이 보이고 조작되는지 직접 확인을 요청한다. 기존
 `m4-manual-launch.cmd`는 원래 Actions 패키지이며 수정판으로 바꾸지 않았다.
 이후 offline/DPI 등 남은 M4 검사를 계속한다. M2/Steam을 완료 처리하지 않는다.
+
+## 후속 전체 회귀 검증 — 2026-10-08 KST
+
+PR #130 head `cd5916cf5e372ac771f39850fa0e3e5893e5571d`에서 로컬 검증을 이어했다.
+단위/저장 26/26, 배포 검사 3/3, typecheck/lint, production web build 및 전체
+browser 12/12 PASS. 기존 수정 EXE의 native save suite와 UI suite도 다시 PASS했고
+manifest 74파일이 일치했다. 패키지 source `1d84e54` 이후 PR head까지 배포 runtime
+소스/config/packager 차이는 없다. 해당 PR head의 원격 검사 7개도 모두 SUCCESS.
+
+첫 browser 시도는 비동기 build 프로세스 종료 전에 시작해서 루트 404로 실패했다.
+시도를 중단하고 build 종료와 HTTP200을 확인한 후 변경 없는 전체 suite를 다시
+실행해 12/12 PASS를 확인했다. 제품 코드 수정은 없으며 처음 실패를 숨기지 않는다.
+새 사용자 시각 수용·물리 단절·DPI·clean-PC 증거는 추가되지 않았다. M4/M2/Steam
+판정은 그대로 열어 두며 병합하지 않는다. 이번에 시작한 preview/자동 앱은 종료했다.
