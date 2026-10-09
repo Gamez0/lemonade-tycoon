@@ -1,6 +1,7 @@
 # Windows candidate operations
 
-Candidate version: 0.2.0-alpha.1. This is a test distribution, not an accepted RC.
+Candidate version: 0.2.0-alpha.2, sourced from package.json. This is a test
+distribution; manual acceptance is deferred for the current engineering run.
 Build with Node22 and committed npm lockfile: npm ci, npm test, typecheck,
 lint:reboot, test:release, build-nolog, test:browser, desktop:package:win. Set
 LEMONADE_DESKTOP_EXE and run desktop, desktop:ui, desktop:locations and
@@ -8,6 +9,24 @@ desktop:management checks. Each suite failure must fail the run immediately.
 Record source and checkout hashes in build-info.json; release-manifest.cjs writes
 and verifies all SHA256 file checksums. Retain the entire distribution directory,
 Electron/Chromium notices and app.asar. Never ship the working tree/public research.
+
+After checks and manifest verification, run scripts/release-zip.ps1 -PackageRoot
+VERIFIED_PACKAGE. It rejects dirty/unversioned metadata and altered manifests,
+checks every compressed file's size/hash including the manifest, and writes a
+source/version-named ZIP, checksum and manifest copy. Existing outputs are preserved.
+Windows CI retains these three files in windows-prototype artifacts; download the
+artifact and extract its product ZIP before running the complete package. The
+already-compressed bundle uses artifact compression-level0 to avoid redundant work.
+CI source/run annotations preserve version, Electron/Node and platform metadata.
+
+For an internal draft, dispatch release-draft.yml on main with its successful
+Reboot checks run_id, or run node scripts/draft-release.cjs RUN_ID from a clean
+matching main checkout. It requires the exact source and both required jobs,
+downloads only that run's version/source-named bundle, verifies its checksum and
+manifest identity, and confirms GitHub's uploaded digests. It creates only a draft
+prerelease and refuses published or different-source releases. Each workflow run
+has read-only checkout permissions except the draft job's contents-write/actions-read.
+No Steam upload, public publication or fee is performed by this workflow.
 
 Business data remains %LOCALAPPDATA%/Lemonade Tycoon/save.json and save.backup.json,
 independent of install location. Export a backup before updates. Version5 migrates

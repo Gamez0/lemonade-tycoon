@@ -9,6 +9,7 @@ const { prepare } = require('../scripts/steam-prepare.cjs');
 const { createDiagnostics } = require('../src/desktop/diagnostics.cjs');
 const { auditPackage } = require('../scripts/audit-package.cjs');
 const asar = require('@electron/asar');
+const { validateRun, validateDraft } = require('../scripts/draft-release.cjs');
 function temporary(run) {
     const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'lemonade-release-'));
     try { run(directory); } finally { fs.rmSync(directory, { recursive: true, force: true }); }
@@ -55,6 +56,20 @@ function fixture(directory) {
     fs.writeFileSync(path.join(directory, 'build-info.json'), JSON.stringify({
         source_commit: 'a'.repeat(40), commit: 'b'.repeat(40), prototype: true }));
 }
+
+test('draft release requires exact successful main checks and preserves published/different-source releases', () => {
+    const head = 'a'.repeat(40);
+    const run = { path: '.github/workflows/checks.yml', head_branch: 'main', event: 'push', head_sha: head, status: 'completed', conclusion: 'success' };
+    const jobs = [{ name: 'simulation', conclusion: 'success' }, { name: 'windows / packaged-saves', conclusion: 'success' }];
+    assert.doesNotThrow(() => validateRun(run, head, jobs));
+    for (const changes of [{ head_sha: 'b'.repeat(40) }, { head_branch: 'feature' }, { event: 'pull_request' }, { path: '.github/workflows/other.yml' }, { conclusion: 'failure' }, { status: 'in_progress' }])
+        assert.throws(() => validateRun({ ...run, ...changes }, head, jobs), /current-main/);
+    assert.throws(() => validateRun(run, head, jobs.slice(0, 1)), /missing\/failed/);
+    assert.throws(() => validateRun(run, head, [{ ...jobs[0], conclusion: 'failure' }, jobs[1]]), /missing\/failed/);
+    assert.doesNotThrow(() => validateDraft({ draft: true, target_commitish: head }, head));
+    assert.throws(() => validateDraft({ draft: false, target_commitish: head }, head), /internal draft/);
+    assert.throws(() => validateDraft({ draft: true, target_commitish: 'b'.repeat(40) }, head), /exact source/);
+});
 test('manifest detects changed, added and missing distribution files', () => temporary(directory => {
     fixture(directory); const initial = writeManifest(directory);
     assert.deepEqual(verifyManifest(directory), initial);

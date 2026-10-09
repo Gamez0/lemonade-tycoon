@@ -1,0 +1,34 @@
+name: Verified Windows release draft
+on:
+    workflow_dispatch:
+        inputs:
+            run_id:
+                description: Successful Reboot checks run for current main
+                required: true
+                type: string
+permissions:
+    contents: read
+concurrency:
+    group: release-draft-${{ github.ref }}
+    cancel-in-progress: false
+jobs:
+    draft:
+        if: github.ref == 'refs/heads/main'
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        permissions:
+            contents: write
+            actions: read
+        steps:
+            - uses: actions/checkout@v7
+              with:
+                  persist-credentials: false
+            - uses: actions/setup-node@v6
+              with:
+                  node-version: 22
+            - name: Prepare internal draft from exact verified CI artifact
+              run: node scripts/draft-release.cjs
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  GH_REPO: ${{ github.repository }}
+                  RELEASE_CHECK_RUN: ${{ inputs.run_id }}

@@ -43,15 +43,22 @@ jobs:
             - name: Record package source
               shell: pwsh
               run: |
-                  $info = @{ commit = '${{ github.sha }}'; source_commit = '${{ github.event.pull_request.head.sha || github.sha }}'; run = '${{ github.run_id }}'; prototype = $true }
+                  $info = Get-Content 'release/Lemonade Tycoon-win32-x64/build-info.json' -Raw | ConvertFrom-Json -AsHashtable
+                  $info.commit = '${{ github.sha }}'
+                  $info.source_commit = '${{ github.event.pull_request.head.sha || github.sha }}'
+                  $info.run = '${{ github.run_id }}'
                   $info | ConvertTo-Json | Set-Content 'release/Lemonade Tycoon-win32-x64/build-info.json'
             - name: Inventory and verify prototype files
               run: |
                   node scripts/release-manifest.cjs "release/Lemonade Tycoon-win32-x64"
                   node scripts/release-manifest.cjs "release/Lemonade Tycoon-win32-x64" --verify
+            - name: Verify distributable ZIP against every package checksum
+              shell: pwsh
+              run: ./scripts/release-zip.ps1 -PackageRoot 'release/Lemonade Tycoon-win32-x64'
             - uses: actions/upload-artifact@v6
               with:
                   name: windows-prototype-${{ github.event.pull_request.head.sha || github.sha }}
-                  path: release/Lemonade Tycoon-win32-x64/
+                  path: release/bundles/
+                  compression-level: 0
                   if-no-files-found: error
                   retention-days: 3
