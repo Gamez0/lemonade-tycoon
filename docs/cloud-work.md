@@ -1173,3 +1173,8 @@ message, full-pitcher requirement and Start day remain readable in classic panel
 An initial browser run overlapped the build and served old/missing assets; reran
 only after build completion, then reran the updated screenshot/viewport check.
 
+First exact-head CI passed all eight native suites but found a narrow-browser
+regression: the extra explanation moved Start day between tabs. Reserve60px more
+panel height in the browser (desktop fit override unchanged), keep the existing
+position invariant test, and rerun the complete current-head checks before merge.
+

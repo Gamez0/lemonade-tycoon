@@ -264,7 +264,7 @@ progress::-moz-progress-bar {
 }
 .panel {
     padding: 10px 13px;
-    min-height: 540px;
+    min-height: 600px;
     display: flex;
     flex-direction: column;
 }
@@ -901,7 +901,7 @@ a {
         gap: 1px;
     }
     .panel {
-        min-height: 540px;
+        min-height: 600px;
         padding: 10px;
     }
     .recipe-row label span {
