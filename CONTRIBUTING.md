@@ -44,6 +44,11 @@ docs(contributing): add branch naming conventions
 
 ## Pull Requests
 
+Use the [GitHub working guide](docs/github-operations.md) and bug/feature forms.
+Link partial work with `Refs #N`; use `Closes #N` only when every acceptance condition
+is satisfied. Stacked PRs must name the prerequisite and base. CI does not replace
+manual acceptance.
+
 - Title follows the same Conventional Commits format
 - One purpose per PR — do not mix `feat`/`fix`/`refactor`
 - Write in English

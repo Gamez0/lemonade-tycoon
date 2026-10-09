@@ -1,0 +1,43 @@
+name: Bug report
+description: Report a reproducible problem in the game or Windows package.
+title: 'bug: '
+labels: [bug, 'status:triage']
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Build or commit
+      description: Include the package version or preview URL and commit if known.
+    validations:
+      required: true
+  - type: dropdown
+    id: target
+    attributes:
+      label: Target
+      options: [Windows package, Browser reboot preview, Legacy game]
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, browser, screen resolution and DPI scale.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Screenshots and sanitized diagnostics
+      description: Include whether cash, stock or saves were affected. Remove personal paths and credentials.

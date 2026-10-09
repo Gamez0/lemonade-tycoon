@@ -1,17 +1,27 @@
 name: Reboot checks
-on: [push, pull_request]
+on:
+    push:
+        branches: [main]
+    pull_request:
+    workflow_dispatch:
+concurrency:
+    group: checks-${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
 permissions:
     contents: read
 jobs:
     simulation:
         runs-on: ubuntu-latest
+        timeout-minutes: 15
         steps:
             - uses: actions/checkout@v4
             - uses: actions/setup-node@v4
               with:
                   node-version: 22
+                  cache: npm
             - run: npm ci
             - run: npm test
+            - run: npm run test:release
             - run: npm run typecheck
             - run: npm run lint:reboot
             - run: npm run build-nolog
@@ -22,3 +32,12 @@ jobs:
               with:
                   name: browser-results
                   path: test-results/
+                  retention-days: 7
+    windows:
+        uses: ./.github/workflows/windows-package.yml
+    deploy:
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        needs: [simulation, windows]
+        permissions:
+            contents: write
+        uses: ./.github/workflows/deploy.yml

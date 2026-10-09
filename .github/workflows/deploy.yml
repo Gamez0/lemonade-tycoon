@@ -1,16 +1,18 @@
-name: Deploy Phaser Game
+name: Deploy tested game preview
 
 on:
-    push:
-        branches:
-            - main # Change this to your default branch if it's different
+    workflow_call:
 
 permissions:
-    contents: write # Required for deploying to GitHub Pages
+    contents: write
 
 jobs:
     deploy:
         runs-on: ubuntu-latest
+        timeout-minutes: 10
+        concurrency:
+            group: pages-preview
+            cancel-in-progress: false
 
         steps:
             - name: Checkout Repository
@@ -31,5 +33,5 @@ jobs:
             - name: Deploy to GitHub Pages
               uses: JamesIves/github-pages-deploy-action@v4
               with:
-                  branch: gh-pages # The branch to deploy to
-                  folder: dist # Change to your build output folder (e.g., public)
+                  branch: gh-pages
+                  folder: dist
