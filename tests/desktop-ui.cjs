@@ -1,5 +1,6 @@
 const { _electron: electron } = require("playwright");
 const { expect } = require("@playwright/test");
+const { profileArgs, verifyProfile } = require('./helpers/desktop-profile.cjs');
 const fs = require("fs"),
     path = require("path"),
     os = require("os"),
@@ -18,8 +19,9 @@ fs.mkdirSync(out, { recursive: true });
 const results = [];
 let app;
 async function launch(exe) {
-    app = await electron.launch({ executablePath: path.resolve(exe), env, args: [`--force-device-scale-factor=${scale}`] });
+    app = await electron.launch({ executablePath: path.resolve(exe), env, args: profileArgs(base, [`--force-device-scale-factor=${scale}`]) });
     const page = await app.firstWindow();
+    await verifyProfile(app, base);
     await expect(page.locator("canvas")).toBeVisible();
     return page;
 }

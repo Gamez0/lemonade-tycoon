@@ -7,6 +7,7 @@ const { campaign, stock } = require('./helpers/business.cjs');
 const { openDay, newGame, purchaseUpgrade, setPlan, buy } = require('../.test-build/simulation/game.js');
 const { encodeSave } = require('../.test-build/simulation/save.js');
 const { beginStreetDay, finishStreetDay } = require('../.test-build/simulation/street-day.js');
+const { profileArgs, verifyProfile } = require('./helpers/desktop-profile.cjs');
 const executable = process.env.LEMONADE_DESKTOP_EXE;
 if (process.platform !== 'win32' || !executable || !fs.existsSync(executable)) throw new Error('Set LEMONADE_DESKTOP_EXE to the Windows executable.');
 const base = fs.mkdtempSync(path.join(os.tmpdir(), 'lemonade-management-'));
@@ -14,7 +15,7 @@ const env = { ...process.env, LOCALAPPDATA: base, APPDATA: path.join(base, 'Roam
 const save = path.join(base, 'Lemonade Tycoon', 'save.json');
 const read = () => { try { return JSON.parse(fs.readFileSync(save, 'utf8')); } catch { return null; } };
 let app;
-async function launch() { app = await electron.launch({ executablePath: path.resolve(executable), env }); const page = await app.firstWindow(); await expect(page.locator('canvas')).toBeVisible(); return page; }
+async function launch() { app = await electron.launch({ executablePath: path.resolve(executable), env, args: profileArgs(base) }); const page = await app.firstWindow(); await verifyProfile(app, base); await expect(page.locator('canvas')).toBeVisible(); return page; }
 async function close() { const closed = app.waitForEvent('close'); await app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].close()); await closed; app = null; }
 (async () => {
     try {
