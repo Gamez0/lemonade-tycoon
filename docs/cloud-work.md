@@ -1020,3 +1020,14 @@ Local release7/7, actionlint1.7.12, Node/PowerShell syntax and diff checks PASS.
 Next: clean alpha2 native build/tests and final-head CI, merge, run successful main
 checks and exercise draft workflow end to end, then reassess remaining runnable
 release tasks. User-deferred manual gates are not reasons to stop this loop.
+
+### 2026-10-09 remove contradictory ice-maker help
+
+Release UI/source inspection found a stale Help paragraph claiming owned ice
+makers buy60/120 ice at normal supply cost, directly contradicting the adjacent
+free-ice paragraph and actual simulation. Corrected it to free production at
+opening. No economic rules changed. Version advances to alpha3 so the next
+integrated candidate preserves alpha2's verified source and existing draft.
+Package/lock root versions and operations updated together, dependency graph
+unchanged. Existing browser management test exercises owned free ice and upgrade
+copy; local targeted test plus current-head CI required before merge.

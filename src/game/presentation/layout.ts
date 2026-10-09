@@ -65,7 +65,7 @@ export const markup = `
 <p>4. START DAY sells automatically. Speed and SKIP change waiting time, not the outcome. Results separates ingredient costs from supply cash purchases.</p>
 <p>5. NEXT DAY keeps leftover supplies; ice melts unless refrigerated. Earn Park after 3 days/$45 sales/55% rating; Downtown after 7 days/$120/65%. Rent and wages charge at opening.</p>
 <p>Ice makers produce free ice at opening, within the storage limit. No electricity or production fee. Bought ice still costs money; free ice is used first and adds no ingredient expense.</p>
-<p>Equipment is permanent. A server speeds service; a host extends patience. Owner only dismisses staff. Ice makers purchase 60/120 ice automatically at normal supply cost. Choose affordable investments.</p>
+<p>Equipment is permanent. A server speeds service; a host extends patience. Owner only dismisses staff. Ice makers produce up to 60/120 free ice at opening. Choose affordable investments.</p>
 <p>Saves are automatic before opening and after results. Closing during sales replays the paid opening without another fee. Export a backup before updating. New business requires a second confirmation.</p>
 <p>Keyboard: Tab / Shift+Tab to move, Enter or Space to activate, Escape closes this help. All feedback is available with sound muted. English is the initial supported language.</p>
 <label>Music <input id="music-volume" type="range" min="0" max="100" value="25"></label>

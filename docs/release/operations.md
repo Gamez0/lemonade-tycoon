@@ -1,6 +1,6 @@
 # Windows candidate operations
 
-Candidate version: 0.2.0-alpha.2, sourced from package.json. This is a test
+Candidate version: 0.2.0-alpha.3, sourced from package.json. This is a test
 distribution; manual acceptance is deferred for the current engineering run.
 Build with Node22 and committed npm lockfile: npm ci, npm test, typecheck,
 lint:reboot, test:release, build-nolog, test:browser, desktop:package:win. Set
