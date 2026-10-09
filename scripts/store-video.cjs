@@ -2,11 +2,14 @@
 const { chromium } = require('playwright');
 const fs = require('node:fs');
 const path = require('node:path');
+const { createHash } = require('node:crypto');
 const root = path.resolve('.local-m4/m9-store');
 const videoRoot = path.join(root, 'video');
-const input = fs.readdirSync(videoRoot).filter(name => name.endsWith('.webm')).map(name => path.join(videoRoot, name))
-    .sort((a, b) => fs.statSync(b).mtimeMs - fs.statSync(a).mtimeMs)[0];
-if (!input) throw new Error('Run npm run store:capture first.');
+const capture = JSON.parse(fs.readFileSync(path.join(root, 'capture-info.json'), 'utf8'));
+if (!capture.rawVideo || !/^[a-zA-Z0-9_-]+\.webm$/.test(capture.rawVideo.file)) throw new Error('Run npm run store:capture to record verified video provenance.');
+const input = path.join(videoRoot, capture.rawVideo.file);
+const videoBytes = fs.readFileSync(input);
+if (createHash('sha256').update(videoBytes).digest('hex') !== capture.rawVideo.sha256) throw new Error('Raw capture checksum mismatch.');
 const wave = fs.readFileSync(path.resolve('.local-m4/m7-audio/selling.wav')).toString('base64');
 let browser;
 (async () => {
@@ -40,7 +43,7 @@ let browser;
             const blob = new Blob(chunks, { type: mimeType });
             const base64 = await new Promise(resolve => { const reader = new FileReader(); reader.onload = () => resolve(reader.result.split(';base64,')[1]); reader.readAsDataURL(blob); });
             return { base64, mimeType: recorder.mimeType, duration: video.duration, bytes: blob.size };
-        }, { videoBytes: fs.readFileSync(input).toString('base64'), wave });
+        }, { videoBytes: videoBytes.toString('base64'), wave });
         const output = Buffer.from(result.base64, 'base64');
         if (output.length !== result.bytes) throw new Error('Video payload length mismatch.');
         const playback = await page.evaluate(async base64 => {
@@ -59,7 +62,9 @@ let browser;
         fs.writeFileSync(path.join(root, 'gameplay-preview.mp4'), output);
         fs.writeFileSync(path.join(root, 'playback-verified.json'), JSON.stringify(playback, null, 2));
         delete result.base64;
-        fs.writeFileSync(path.join(root, 'video-info.json'), JSON.stringify({ ...result, scope: 'Actual gameplay recording with separately mixed original selling music; development trailer draft, editing/listening review pending', input: path.basename(input) }, null, 2));
+        fs.writeFileSync(path.join(root, 'video-info.json'), JSON.stringify({ ...result, source: capture.source, dirty: capture.dirty,
+            sha256: createHash('sha256').update(output).digest('hex'),
+            scope: 'Actual gameplay recording with separately mixed original selling music; development trailer draft, editing/listening review pending', input: path.basename(input) }, null, 2));
         console.log(JSON.stringify(result));
     } finally { await browser?.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });
