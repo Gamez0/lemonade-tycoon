@@ -5,6 +5,8 @@ const fs = require("fs"),
     os = require("os"),
     assert = require("assert/strict");
 const executable = process.env.LEMONADE_DESKTOP_EXE;
+const scale = Number(process.env.LEMONADE_UI_SCALE || 1);
+if (![1, 1.25, 1.5, 2].includes(scale)) throw new Error('Supported UI scales: 1, 1.25, 1.5, 2.');
 if (process.platform !== "win32" || !executable || !fs.existsSync(executable))
     throw new Error("Set LEMONADE_DESKTOP_EXE to the Windows package executable.");
 const base = fs.mkdtempSync(path.join(os.tmpdir(), "lemonade-ui-"));
@@ -16,7 +18,7 @@ fs.mkdirSync(out, { recursive: true });
 const results = [];
 let app;
 async function launch(exe) {
-    app = await electron.launch({ executablePath: path.resolve(exe), env });
+    app = await electron.launch({ executablePath: path.resolve(exe), env, args: [`--force-device-scale-factor=${scale}`] });
     const page = await app.firstWindow();
     await expect(page.locator("canvas")).toBeVisible();
     return page;
@@ -35,6 +37,7 @@ async function fit(page, name) {
         };
         return {
             width: innerWidth,
+            devicePixelRatio,
             height: innerHeight,
             scrollWidth: document.documentElement.scrollWidth,
             scrollHeight: document.documentElement.scrollHeight,
@@ -46,6 +49,7 @@ async function fit(page, name) {
                 .map((x) => ({ name: x.id || x.textContent.trim(), ...box(x) })),
         };
     });
+    assert.ok(Math.abs(geometry.devicePixelRatio - scale) < .01, `Requested scale ${scale}, actual ${geometry.devicePixelRatio}`);
     assert.ok(geometry.scrollWidth <= geometry.width + 1, JSON.stringify(geometry));
     assert.ok(geometry.scrollHeight <= geometry.height + 1, JSON.stringify(geometry));
     assert.ok(Math.abs(geometry.app.width - geometry.width) < 2);
@@ -118,7 +122,7 @@ async function fit(page, name) {
         await close();
         fs.writeFileSync(
             path.join(out, "ui-results.json"),
-            JSON.stringify({ beforeSpinner: before, afterSpinner: "textfield", pricePersisted: 225, results }, null, 2),
+            JSON.stringify({ requestedScale: scale, scope: 'Forced renderer scale; physical Windows DPI acceptance remains separate.', beforeSpinner: before, afterSpinner: "textfield", pricePersisted: 225, results }, null, 2),
         );
         console.log(
             "UI checks passed: 21 tab/size combinations, selling/results small, menu/title/margins/scroll, price typing/relaunch",

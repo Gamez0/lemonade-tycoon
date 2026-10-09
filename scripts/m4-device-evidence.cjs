@@ -7,6 +7,7 @@ const os = require('node:os');
 const assert = require('node:assert/strict');
 const { execFileSync } = require('node:child_process');
 const crypto = require('node:crypto');
+const { decodeSave, encodeSave } = require('../.test-build/simulation/save.js');
 
 const oldExe = process.env.LEMONADE_OLD_EXE;
 const newExe = process.env.LEMONADE_DESKTOP_EXE;
@@ -27,6 +28,8 @@ const raw = () => fs.readFileSync(savePath, 'utf8');
 const hash = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const info = exe => JSON.parse(fs.readFileSync(path.join(path.dirname(exe), 'build-info.json'), 'utf8').replace(/^\uFEFF/, ''));
 report.oldBuild = info(oldExe); report.newBuild = info(newExe);
+report.toolSha256 = hash(__filename);
+report.packageSha256 = { old: hash(path.join(path.dirname(oldExe), 'resources/app.asar')), new: hash(path.join(path.dirname(newExe), 'resources/app.asar')) };
 assert.notEqual(report.oldBuild.source_commit, report.newBuild.source_commit);
 assert.notEqual(hash(path.join(path.dirname(oldExe), 'resources/app.asar')), hash(path.join(path.dirname(newExe), 'resources/app.asar')));
 let session, browser;
@@ -49,13 +52,13 @@ async function stock(page) {
     }
     await page.locator('#buy-order').click();
 }
-async function nativeExport(name) {
+async function nativeExport(name, expected = raw()) {
     const target = path.resolve(output, name);
     await session.app.evaluate(({ BrowserWindow }, target) => {
         BrowserWindow.getAllWindows()[0].webContents.session.once('will-download', (_event, item) => item.setSavePath(target));
     }, target);
     await session.page.locator('#export-save').click();
-    await expect.poll(() => { try { return JSON.parse(fs.readFileSync(target, 'utf8')); } catch { return null; } }).toEqual(JSON.parse(raw()));
+    await expect.poll(() => { try { return JSON.parse(fs.readFileSync(target, 'utf8')); } catch { return null; } }).toEqual(JSON.parse(expected));
     return fs.readFileSync(target);
 }
 async function check(name, action) {
@@ -77,8 +80,20 @@ async function check(name, action) {
             await expect.poll(() => JSON.parse(raw()).state.phase).toBe('results');
             const previous = raw(); fs.writeFileSync(path.join(output, 'old-version-results.json'), previous);
             await close(); await launch(newExe); assert.equal(raw(), previous);
-            const exported = await nativeExport('updated-results.json');
-            assert.deepEqual(JSON.parse(exported), JSON.parse(previous));
+            // Startup preserves the old file; explicit export upgrades its schema.
+            // Compare the migrated document and separately retain historical money.
+            const migrated = decodeSave(previous);
+            const expected = encodeSave(migrated.state, migrated.history);
+            const exported = await nativeExport('updated-results.json', expected);
+            assert.deepEqual(JSON.parse(exported), JSON.parse(expected));
+            const oldDocument = JSON.parse(previous), upgradedDocument = JSON.parse(exported);
+            for (const [index, oldState] of [oldDocument.state, ...oldDocument.history].entries()) {
+                const updated = [upgradedDocument.state, ...upgradedDocument.history][index];
+                for (const field of ['cash', 'openingCash', 'lifetimeRevenue']) assert.equal(updated[field], oldState[field]);
+                for (const [field, value] of Object.entries(oldState.daily)) assert.deepEqual(updated.daily[field], value);
+                assert.deepEqual(updated.stock, oldState.stock);
+            }
+            report.migration = { from: oldDocument.version, to: upgradedDocument.version, historicalAccountingPreserved: true };
             await close(); fs.writeFileSync(path.join(output, 'updated-results.json'), exported);
             // An unpacked prototype has no installer. Removing only a disposable install
             // then re-extracting establishes the distribution's supported reinstall method.
@@ -95,8 +110,9 @@ async function check(name, action) {
         await check('interrupted partially sold day replays once from exact opening checkpoint', async () => {
             await launch(); await session.page.locator('#next').click(); await stock(session.page);
             await expect.poll(() => JSON.parse(raw()).state.day).toBe(2);
-            const opening = raw(); fs.writeFileSync(path.join(output, 'opening-checkpoint.json'), opening);
             await session.page.locator('#open').click();
+            await expect.poll(() => JSON.parse(raw()).state.business?.paid).toBe(true);
+            const opening = raw(); fs.writeFileSync(path.join(output, 'opening-checkpoint.json'), opening);
             await session.page.locator('#speed').click();
             await expect.poll(async () => Number(await session.page.locator('#sold').textContent()), { timeout: 60000 }).toBeGreaterThan(0);
             await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'selling');
