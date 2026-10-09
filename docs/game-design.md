@@ -9,6 +9,7 @@ You run a small neighborhood lemonade stand. Read the forecast, buy ingredients,
 - Opening prevents further preparation edits. Customers visibly walk past or stop to buy.
 - Demand responds to price, temperature, recipe quality and reputation from customer satisfaction, with reproducible random variation.
 - A new pitcher consumes its lemon, sugar and all ice for its yield. Each sale consumes one prepared cup and one paper cup, then adds exactly one price to cash/revenue. Insufficient stock never becomes negative.
+- Prepare the first pitcher at opening. During selling, refill immediately when its last cup sells, if ingredients and paper cups remain. Do not refill after the final visit closes the day. Unsold prepared lemonade is still an ingredient expense. Save v6 checkpoints retain the prepared pitcher and fixed recipe, preventing duplicate production on replay; older histories retain their original accounting.
 - A finite day ends automatically and displays revenue, consumed stock cost, profit, purchase spending, cash change, sales, missed customers and satisfaction (no buyers = no rating).
 - Next day retains cash/stock/reputation, increments the day exactly once and refreshes weather. At least three successive days work without accumulating timers/listeners/results.
 - A restart path handles an unaffordable plan or depleted business. Restart is deliberate, never automatic.

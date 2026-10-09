@@ -76,7 +76,7 @@ async function change(page, id, value) { await page.locator(`#${id}`).fill(Strin
             const sum = field => done.history.reduce((total, entry) => total + entry.daily[field], 0);
             assert.equal(done.state.cash, 4000 + sum('revenue') - sum('purchases') - sum('capital') - sum('rent') - sum('moveFee') - sum('wages') - sum('advertising'));
             assert.equal(done.state.lifetimeRevenue, sum('revenue'));
-            assert.equal(done.state.day, day); assert.equal(done.version, 5);
+            assert.equal(done.state.day, day); assert.equal(done.version, 6);
             const size = fs.statSync(save).size; assert.ok(size < maxSaveBytes, 'Save exceeds native IPC limit');
             report.days.push({ day, location, cash: done.state.cash, sold: d.sold, freeIceUsed: d.freeIceUsed, saveBytes: size });
             if (day % 5 === 0) {

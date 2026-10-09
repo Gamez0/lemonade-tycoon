@@ -1214,3 +1214,50 @@ proportions and preparation flow unchanged; button never shrinks below its heigh
 Next: exact-head required browser/Windows CI and merge, then exact-main alpha6
 draft/asset verification. Human physical-DPI acceptance remains open for retest.
 
+Alpha6 completion: PR201 merged979952c5befd000846d5cbeffc04874005cc7195 after
+exact-head CI37908821154 passed. Main CI37909300124 and draft37909840717 passed.
+ZIP162,986,947 bytes SHA256d80649f8999a61bd809596bcb1970596a015d132191ac15d538ec2261f8b441a.
+Internal draft https://github.com/Gamez0/lemonade-tycoon/releases/tag/untagged-17beccf376ae2d138e15
+All five assets verified;21-file exact-main DPI evidence ZIP SHA256
+058371083dd60daca8638d643e1eeb28df473ff0c5c3dcfae1e089efe093d5c2.
+Viewed actual main175% capture; issue159 records engineering fix and open retest.
+
+### 2026-10-09 prepared first pitcher and immediate refill / full-map audit
+
+User explicitly chose: prepare the first pitcher at opening and refill immediately
+on depletion. Previously production occurred at the first/next purchase. Produce
+one batch at opening; on the last sale prepare the next batch while the day is
+still open and ingredients/paper cups remain. No batch after closing or negative
+stock. Charge ingredients on production even with no buyers; free maker ice
+remains free. Show Pitchers made during selling to expose the actual batch count.
+
+Save v6 retains a fully prepared opening, validates its one-pitcher costs, and
+replays without duplicate production. Import v0–v5 without repricing history;
+empty old paid checkpoints prepare once when reopened. Freeze recipe/price for
+paid replay and avoid false bankruptcy while prepared cups can still be sold.
+Earlier builds cannot read v6: preserve pre-update export for rollback. Updated
+English/Korean README, help, design, recovery and release notes accordingly.
+
+User also suspected crop at175%/1920x1080. Native175% full-map assertions PASS:
+640x512 backing image, object-fit contain; compact observed1096x550 client map
+fully inside scene. Viewed extracted map-source.png: edge houses are cropped in
+the generated original art itself (art.ts explicitly frames a diorama), not a DPI
+crop. No art/camera/scene CSS changed. Tests now assert full image bounds and
+retain map source plus compact selling capture at every forced scale.
+
+Local simulation46/46, typecheck/lint, release8/8, native175% UI and management
+PASS. Full browser run20/21 passed; new clock-controlled refill test failed on
+an unsupported fieldset disabled assertion, corrected to the actual lemon input;
+targeted management5/5 then PASS, including first pitcher/refill and replay.
+An initial test initializer also reset storage on reload; corrected to seed only
+empty storage. Browser checkpoint assertion updated for real prepared state.
+
+Initial old->new native upgrade test hit ENOSPC in disposable install copy; freed
+space by removing only two identified obsolete owned build executables, preserving
+reports, delivered drafts and user work. Paid replay and damaged/future recovery
+already PASS. Published preview still writes v5 until this change deploys, so the
+new-v6-to-old-v5 web import correctly cannot establish a round trip yet.
+Next: exact-head browser/all-native CI, merge, verified alpha7 internal draft,
+then repeat actual delivered old->new upgrade and current published web roundtrip
+after v6 Pages deployment. Preserve failed evidence; do not report5/5 prematurely.
+

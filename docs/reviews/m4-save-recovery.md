@@ -1,11 +1,14 @@
 ﻿# M4 save checkpoint review — 2026-10-01
 
-Current format: M6 v4 adds management and separate capital/wage/advertising accounts
-to the M5 location progression and paid opening checkpoint. Reload during selling
-replays that checkpoint without charging rent/moving/wages/ads/ice production again.
-v0/v1/v2/v3 imports preserve historical accounting; native save/close/forced-termination
-coverage has since been added. See [M5 review](m5-locations.md) and the Windows device
-review. The dated sections below describe earlier implementation checkpoints.
+Current format: v6 retains the first prepared pitcher in the paid opening
+checkpoint. Reload during selling replays it without another recipe charge,
+rent/moving/wages/ads or ice-maker production. Recipe and price stay fixed for
+this opening. v0–v5 imports preserve historical accounting; older empty-pitcher
+checkpoints prepare one pitcher on their next opening. Earlier builds cannot
+read v6 checkpoints; export before updating and retain the pre-update backup
+for rollback. Native save/close/forced-termination coverage has since been added.
+See [M5 review](m5-locations.md) and the Windows device review. The dated sections
+below describe earlier implementation checkpoints.
 
 Browser save foundation is implemented; M4 remains in progress until desktop storage and packaged termination recovery are verified.
 

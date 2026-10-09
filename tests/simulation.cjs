@@ -3,6 +3,44 @@ const assert = require('node:assert/strict');
 const { newGame, setPlan, buy, unitCost, capacity, cupsPerPitcher, pitcherCost, quality, demand, openDay, stepCustomer, nextDay, results } = require('../.test-build/simulation/game.js');
 const { openingReadiness, purchaseUpgrade } = require('../.test-build/simulation/game.js');
 
+test('first pitcher is ready before a visitor and depletion immediately refills the same recipe', () => {
+    const { settleVisitor } = require('../.test-build/simulation/game.js');
+    for (let ice = 0; ice <= 7; ice++) {
+        const recipe = { lemon: 6, sugar: 3, ice }, yieldCups = cupsPerPitcher(recipe);
+        const prepared = setPlan(newGame(), { price: 150, recipe });
+        const stock = { lemon: 18, sugar: 9, ice: 3 * ice * yieldCups, cup: yieldCups + 2 };
+        let state = openDay({ ...prepared, stock });
+        assert.equal(state.pitcherCups, yieldCups);
+        assert.equal(state.daily.pitchersMade, 1);
+        assert.equal(state.daily.sold, 0);
+        assert.equal(state.daily.cost, pitcherCost(recipe));
+        assert.equal(state.stock.lemon, 12);
+        for (let id = 1; id <= yieldCups; id++) state = settleVisitor(state, { id, profile: 0, intent: 'buy', willingness: 500 }).state;
+        assert.equal(state.daily.sold, yieldCups);
+        assert.equal(state.pitcherCups, yieldCups);
+        assert.equal(state.daily.pitchersMade, 2);
+        assert.equal(state.stock.lemon, 6);
+        assert.equal(state.stock.sugar, 3);
+        assert.equal(state.stock.ice, ice * yieldCups);
+        assert.equal(state.daily.cost, 2 * pitcherCost(recipe) + yieldCups * ITEMS.cup.cost);
+    }
+});
+
+test('empty pitcher does not refill when the day closes, cups run out or any batch ingredient is missing', () => {
+    const { settleVisitor } = require('../.test-build/simulation/game.js');
+    const start = openDay(stocked());
+    const visitor = { id: 1, profile: 0, intent: 'buy', willingness: 500 };
+    for (const item of ['lemon', 'sugar', 'ice', 'cup', 'closing']) {
+        const state = { ...start, pitcherCups: 1,
+            stock: { ...start.stock, ...(item === 'closing' ? {} : { [item]: item === 'cup' ? 1 : 0 }) },
+            business: { ...start.business, ...(item === 'closing' ? { traffic: 1 } : {}) } };
+        const next = settleVisitor(state, visitor).state;
+        assert.equal(next.pitcherCups, 0);
+        assert.equal(next.daily.pitchersMade, 1);
+        assert.ok(Object.values(next.stock).every(count => count >= 0));
+    }
+});
+
 test('forecast ice opening reports exact full-pitcher shortage at every recipe boundary', () => {
     for (let ice = 0; ice <= 7; ice++) {
         const recipe = { lemon: 6, sugar: 3, ice };
@@ -30,7 +68,8 @@ test('opening preview includes free maker ice once and retains paid-checkpoint s
     assert.equal(capacity(ready), 0);
     assert.equal(openingReadiness(ready).cups, 16);
     const opened = openDay(ready);
-    assert.equal(opened.stock.ice, 64);
+    assert.equal(opened.stock.ice, 0);
+    assert.equal(opened.pitcherCups, 16);
     const paid = { ...opened, phase: 'preparation', stock: { ...opened.stock, ice: 0 }, pitcherCups: 3 };
     assert.equal(openingReadiness(paid).cups, 3);
     assert.deepEqual(openingReadiness(paid).missing, { lemon: 0, sugar: 0, ice: 0, cup: 0 });
@@ -79,8 +118,8 @@ test('price, weather, recipe and reputation affect demand in intended directions
     assert.ok(quality({ lemon: 2, sugar: 1, ice: 4 }, 32) > quality({ lemon: 2, sugar: 1, ice: 0 }, 32));
 });
 test('every sale reconciles complete stock consumption, cash, revenue and cost', () => {
-    let s = openDay(stocked());
-    const initial = s;
+    const initial = stocked();
+    let s = openDay(initial);
     while (s.phase === 'selling') {
         const before = frozen(s); const step = stepCustomer(s); s = step.state;
         const bought = step.event.kind === 'bought';
@@ -132,9 +171,9 @@ test('one pitcher uses lemons and sugar once, while ice scales yield and melts o
     assert.equal(overnight.stock.ice, 0);
     assert.ok(overnight.daily.meltedIce > 0);
 });
-test('no buyers means zero revenue and no satisfaction; expensive plans fail', () => {
+test('no buyers means zero revenue but the prepared first pitcher still costs ingredients', () => {
     const s = finish(openDay(setPlan(stocked(), { ...newGame().plan, price: 500 })));
-    assert.equal(s.daily.sold, 0); assert.equal(s.daily.cost, 0); assert.equal(s.daily.revenue, 0);
+    assert.equal(s.daily.sold, 0); assert.equal(s.daily.cost, pitcherCost(s.plan.recipe)); assert.equal(s.daily.revenue, 0);
     assert.equal(results(s).satisfaction, null); assert.equal(s.reputation, 0.5);
 });
 test('deterministic replay and ten consecutive days preserve accounts and reset daily data', () => {

@@ -43,6 +43,11 @@ This remains a finite safety limit, not unlimited storage. Browser preview stora
 also depends on its own quota; use exports and the Windows package for long saves.
 Older packages with the2MB import cap cannot restore larger exports even when
 their schema is v5. Retain a suitable pre-update backup when rehearsing rollback.
+
+Alpha7 writes save v6 to retain the prepared opening pitcher. It imports v0–v5
+without repricing their histories. Export before updating; alpha6 and earlier
+cannot read new v6 checkpoints, so retain the original pre-update export for
+rollback. Replaying a v6 opening does not produce/charge the first pitcher twice.
 For isolated QA, set --user-data-dir to a disposable Chromium profile as well as
 isolating APPDATA/LOCALAPPDATA for business files. On Windows these environment
 overrides alone do not isolate Electron's persisted browser/audio settings. Native

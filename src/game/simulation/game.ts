@@ -121,6 +121,9 @@ export function setPlan(state: State, plan: Plan): State {
     integer(plan.recipe.lemon, 1, 6, "Lemon");
     integer(plan.recipe.sugar, 1, 4, "Sugar");
     integer(plan.recipe.ice, 0, 7, "Ice");
+    if (state.business && (plan.price !== state.plan.price ||
+        (["lemon", "sugar", "ice"] as const).some(item => plan.recipe[item] !== state.plan.recipe[item])))
+        throw new Error("Today's recipe and price are fixed for this paid opening. Change them tomorrow.");
     return { ...state, plan: { price: plan.price, recipe: { ...plan.recipe } } };
 }
 export function buy(state: State, item: Item, quantity: number): State {
@@ -188,12 +191,25 @@ export function openingReadiness(state: State): { cups: number; missing: Stock }
         cup: Math.max(0, 1 - stock.cup),
     } };
 }
+/** Charge one complete recipe when it is prepared, including unsold lemonade. */
+function makePitcher(state: State): State {
+    const recipe = state.plan.recipe;
+    const ice = recipe.ice * cupsPerPitcher(recipe);
+    const freeIceUsed = Math.min(state.freeIce, ice);
+    return { ...state, pitcherCups: cupsPerPitcher(recipe),
+        stock: { ...state.stock, lemon: state.stock.lemon - recipe.lemon,
+            sugar: state.stock.sugar - recipe.sugar, ice: state.stock.ice - ice },
+        freeIce: state.freeIce - freeIceUsed,
+        daily: { ...state.daily, pitchersMade: state.daily.pitchersMade + 1,
+            freeIceUsed: state.daily.freeIceUsed + freeIceUsed,
+            cost: state.daily.cost + pitcherCost(recipe) - freeIceUsed * ITEMS.ice.cost } };
+}
 export function openDay(state: State): State {
     phase(state, "preparation");
     // A restored, already-paid opening checkpoint replays the same day without another fee.
     if (state.business) {
         if (capacity(state) === 0) throw new Error("Buy enough supplies for one pitcher and a cup before opening.");
-        return { ...state, phase: "selling" };
+        return { ...(state.pitcherCups === 0 ? makePitcher(state) : state), phase: "selling" };
     }
     const id = state.pendingLocation ?? state.location;
     const location = LOCATIONS[id], rating = state.locationStats[id];
@@ -209,9 +225,9 @@ export function openDay(state: State): State {
         budget: location.budget, weights: [...location.weights], patienceTicks: location.patience + staff.patience,
         arrivalEvery: Math.max(1, Math.round(location.arrival / advertising.traffic)), serviceTicks: 8 - state.management.upgrades.blender - staff.speed, satisfaction: rating.satisfaction,
         popularity: rating.popularity, rent: location.rent, moveFee, paid: true };
-    return { ...state, phase: "selling", location: id, pendingLocation: null, business,
+    return makePitcher({ ...state, phase: "selling", location: id, pendingLocation: null, business,
         reputation: rating.satisfaction, cash: state.cash - fees, stock: { ...state.stock, ice: state.stock.ice + ice }, freeIce: state.freeIce + ice,
-        daily: { ...state.daily, rent: location.rent, moveFee, wages: staff.wage, advertising: advertising.cost } };
+        daily: { ...state.daily, rent: location.rent, moveFee, wages: staff.wage, advertising: advertising.cost } });
 }
 export function reserveLocation(state: State, id: LocationId | null): State {
     phase(state, "preparation");
@@ -231,6 +247,7 @@ export function unlockLocations(unlocked: readonly LocationId[], days: number, r
 /** Minimum legal one-pitcher purchase; no automatic reset or sale of leftover inventory. */
 export function isBankrupt(state: State): boolean {
     if (state.phase !== "preparation") return false;
+    if (state.pitcherCups > 0 && capacity(state) > 0) return false;
     // The cheapest legal recipe is 1 lemon / 1 sugar / no ice and one cup.
     const needed = Math.max(0, 1 - state.stock.lemon) * ITEMS.lemon.cost +
         Math.max(0, 1 - state.stock.sugar) * ITEMS.sugar.cost + Math.max(0, 1 - state.stock.cup) * ITEMS.cup.cost;
@@ -253,16 +270,10 @@ export function settleVisitor(state: State, visitor: Visitor, outcome?: "abandon
     const kind: CustomerEvent["kind"] = outcome ?? (visitor.intent !== "buy" ? visitor.intent
         : capacity(state) === 0 ? "sold-out" : "bought");
     const sold = kind === "bought";
+    if (sold && state.pitcherCups === 0) state = makePitcher(state);
     const satisfaction = sold ? Math.round(clamp(quality(state.plan.recipe, state.weather.temperature) * 0.8
         + clamp(1 - state.plan.price / (visitor.willingness * 1.4)) * 0.2) * 100) : null;
-    const makePitcher = sold && state.pitcherCups === 0;
-    const recipe = state.plan.recipe;
-    const freeIceUsed = makePitcher ? Math.min(state.freeIce, recipe.ice * cupsPerPitcher(recipe)) : 0;
-    const stock: Stock = sold ? {
-        lemon: state.stock.lemon - (makePitcher ? recipe.lemon : 0),
-        sugar: state.stock.sugar - (makePitcher ? recipe.sugar : 0),
-        ice: state.stock.ice - (makePitcher ? recipe.ice * cupsPerPitcher(recipe) : 0), cup: state.stock.cup - 1,
-    } : state.stock;
+    const stock: Stock = sold ? { ...state.stock, cup: state.stock.cup - 1 } : state.stock;
     const daily: Daily = { ...state.daily, visitors: state.daily.visitors + 1,
         sold: state.daily.sold + Number(sold), rejected: state.daily.rejected + Number(kind === "price" || kind === "passed"),
         priceRejected: state.daily.priceRejected + Number(kind === "price"),
@@ -270,9 +281,7 @@ export function settleVisitor(state: State, visitor: Visitor, outcome?: "abandon
         soldOut: state.daily.soldOut + Number(kind === "sold-out"),
         abandoned: state.daily.abandoned + Number(kind === "abandoned"),
         revenue: state.daily.revenue + (sold ? state.plan.price : 0),
-        cost: state.daily.cost + (makePitcher ? pitcherCost(recipe) : 0) + (sold ? ITEMS.cup.cost : 0) - freeIceUsed * ITEMS.ice.cost,
-        freeIceUsed: state.daily.freeIceUsed + freeIceUsed,
-        pitchersMade: state.daily.pitchersMade + Number(makePitcher),
+        cost: state.daily.cost + (sold ? ITEMS.cup.cost : 0),
         satisfactionTotal: state.daily.satisfactionTotal + (satisfaction ?? 0) };
     const finished = daily.visitors >= dayTraffic(state);
     const oldRating = state.locationStats[state.location];
@@ -281,11 +290,12 @@ export function settleVisitor(state: State, visitor: Visitor, outcome?: "abandon
     const locationStats = finished && daily.sold > 0 ? { ...state.locationStats,
         [state.location]: { satisfaction: satisfactionRating, popularity: oldRating.popularity * 0.8 + satisfactionRating * 0.2 } } : state.locationStats;
     const lifetimeRevenue = state.lifetimeRevenue + (finished ? daily.revenue : 0);
-    return { state: { ...state, stock, daily, freeIce: state.freeIce - freeIceUsed, cash: state.cash + (sold ? state.plan.price : 0),
-        pitcherCups: finished ? 0 : state.pitcherCups + (makePitcher ? cupsPerPitcher(recipe) : 0) - Number(sold),
+    const served: State = { ...state, stock, daily, cash: state.cash + (sold ? state.plan.price : 0),
+        pitcherCups: finished ? 0 : state.pitcherCups - Number(sold),
         phase: finished ? "results" : "selling",
         reputation: satisfactionRating, locationStats, lifetimeRevenue,
-        unlocked: finished ? unlockLocations(state.unlocked, state.day, lifetimeRevenue, satisfactionRating) : state.unlocked },
+        unlocked: finished ? unlockLocations(state.unlocked, state.day, lifetimeRevenue, satisfactionRating) : state.unlocked };
+    return { state: sold && !finished && served.pitcherCups === 0 && capacity(served) > 0 ? makePitcher(served) : served,
         event: { id: visitor.id, kind, profile: visitor.profile, satisfaction } };
 }
 export function stepCustomer(state: State): { state: State; event: CustomerEvent } {

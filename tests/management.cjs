@@ -15,8 +15,9 @@ test('ice maker cannot prevent a stocked low-cash business from reopening and re
         assert.deepEqual(openingCosts(state), { fees: 0, ice: 60 });
         const opened = openDay(state);
         assert.equal(opened.cash, cash);
-        assert.equal(opened.stock.ice, 60);
-        assert.equal(opened.freeIce, 60);
+        assert.equal(opened.stock.ice, 49);
+        assert.equal(opened.freeIce, 49);
+        assert.equal(opened.daily.freeIceUsed, 11);
         assert.equal(opened.daily.purchases, state.daily.purchases);
         const restored = decodeSave(encodeSave({ ...opened, phase: 'preparation' }, [])).state;
         assert.deepEqual(openingCosts(restored), { fees: 0, ice: 0 });
@@ -95,7 +96,7 @@ test('ice equipment preserves exact stock, produces free ice, and recovers old v
     let state = purchaseUpgrade(newGame(), 'iceMaker');
     for (const [key, count] of [['lemon', 4], ['sugar', 2], ['cup', 20]]) state = buy(state, key, count);
     const opened = openDay(state);
-    assert.equal(opened.stock.ice, 60);
+    assert.equal(opened.stock.ice, 36);
     assert.equal(opened.daily.purchases, state.daily.purchases);
     assert.equal(opened.cash, state.cash);
     let saved = campaign().state;
@@ -138,7 +139,7 @@ test('refrigeration retains free ice without introducing a cost basis', () => {
         assert.equal(tomorrow.freeIce, Math.floor(done.freeIce * level / 2));
         assert.deepEqual(decodeSave(encodeSave(tomorrow, history)).state, tomorrow);
         const opened = openDay(tomorrow);
-        assert.equal(opened.freeIce, tomorrow.freeIce + 60);
+        assert.equal(opened.freeIce, tomorrow.freeIce + 60 - 24);
         assert.equal(opened.daily.purchases, 0);
     }
 });
@@ -147,8 +148,12 @@ test('v4 charged ice checkpoint migrates without refund or repricing and replays
     const { state: initial, history } = campaign();
     const prepared = purchaseUpgrade(stock(initial), 'iceMaker');
     const opened = openDay(prepared);
-    const old = { ...opened, phase: 'preparation', freeIce: 0, cash: opened.cash - 120,
-        daily: { ...opened.daily, purchases: opened.daily.purchases + 120 } };
+    // Historical v4 opening had not prepared a pitcher yet; reconstruct that schema.
+    const old = { ...opened, phase: 'preparation', freeIce: 0, pitcherCups: 0, cash: opened.cash - 120,
+        stock: { ...opened.stock, lemon: opened.stock.lemon + prepared.plan.recipe.lemon,
+            sugar: opened.stock.sugar + prepared.plan.recipe.sugar,
+            ice: opened.stock.ice + prepared.plan.recipe.ice * require('../.test-build/simulation/game.js').cupsPerPitcher(prepared.plan.recipe) },
+        daily: { ...opened.daily, cost: 0, pitchersMade: 0, freeIceUsed: 0, purchases: opened.daily.purchases + 120 } };
     const document = JSON.parse(JSON.stringify({ version: 4, state: old, history }));
     for (const state of [...document.history, document.state]) { delete state.freeIce; delete state.daily.freeIceUsed; }
     const migrated = decodeSave(JSON.stringify(document));
@@ -158,7 +163,7 @@ test('v4 charged ice checkpoint migrates without refund or repricing and replays
     assert.equal(done.daily.purchases, old.daily.purchases);
     const tomorrow = nextDay(done);
     assert.equal(openDay(tomorrow).daily.purchases, 0);
-    assert.equal(openDay(tomorrow).freeIce, 60);
+    assert.equal(openDay(tomorrow).freeIce, 60 - tomorrow.plan.recipe.ice * require('../.test-build/simulation/game.js').cupsPerPitcher(tomorrow.plan.recipe));
 });
 
 test('management campaigns reconcile every save and replay for thirty days', () => {

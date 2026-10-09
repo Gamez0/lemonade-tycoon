@@ -6,19 +6,43 @@ const { encodeSave, decodeSave, readSave, writeSave, SAVE_KEY, BACKUP_KEY } = re
 const stocked = () => ['lemon', 'sugar', 'ice', 'cup'].reduce((s, key) => buy(s, key, 40), newGame());
 const finish = s => finishStreetDay(beginStreetDay(openDay(s))).day.game;
 const storage = () => { const values = new Map(); return { getItem: key => values.get(key) ?? null, setItem: (key, value) => values.set(key, value) }; };
+
+test('v6 preserves a prepared opening exactly and v5 checkpoints produce once without rewriting history', () => {
+    const state = stocked(), opened = openDay(state);
+    const checkpoint = { ...opened, phase: 'preparation' };
+    const restored = decodeSave(encodeSave(checkpoint, []));
+    assert.equal(restored.version, 6);
+    assert.deepEqual(openDay(restored.state), opened);
+    assert.equal(require('../.test-build/simulation/game.js').isBankrupt({ ...restored.state,
+        cash: 0, stock: { lemon: 0, sugar: 0, ice: 0, cup: 1 } }), false);
+    assert.throws(() => require('../.test-build/simulation/game.js').setPlan(restored.state,
+        { ...state.plan, recipe: { ...state.plan.recipe, ice: 4 } }), /fixed/);
+    const oldCheckpoint = { ...checkpoint, pitcherCups: 0, stock: state.stock,
+        freeIce: 0, daily: { ...checkpoint.daily, cost: 0, pitchersMade: 0, freeIceUsed: 0 } };
+    const migrated = decodeSave(JSON.stringify({ version: 5, state: oldCheckpoint, history: [] }));
+    assert.deepEqual(migrated.state, oldCheckpoint);
+    assert.deepEqual(openDay(migrated.state), opened);
+    const oldDone = finish(state), oldDocument = { version: 5, state: oldDone, history: [oldDone] };
+    assert.deepEqual(decodeSave(JSON.stringify(oldDocument)).history, oldDocument.history);
+    for (const change of [doc => { doc.state.pitcherCups--; }, doc => { doc.state.daily.pitchersMade++; },
+        doc => { doc.state.business = null; }, doc => { doc.state.daily.cost++; }]) {
+        const doc = JSON.parse(encodeSave(checkpoint, [])); change(doc);
+        assert.throws(() => decodeSave(JSON.stringify(doc)), /damaged/);
+    }
+});
 test('preparation, results and multi-day ledger round-trip exactly', () => {
     let state = stocked(); const history = [];
     for (let day = 0; day < 3; day++) {
-        assert.deepEqual(decodeSave(encodeSave(state, history)), { version: 5, state, history });
+        assert.deepEqual(decodeSave(encodeSave(state, history)), { version: 6, state, history });
         state = finish(state); history.push(state);
-        assert.deepEqual(decodeSave(encodeSave(state, history)), { version: 5, state, history });
+        assert.deepEqual(decodeSave(encodeSave(state, history)), { version: 6, state, history });
         state = nextDay(state);
         state = ['lemon', 'sugar', 'ice', 'cup'].reduce((s, key) => buy(s, key, key === 'ice' ? 40 : 20), state);
     }
 });
 test('reject malformed, future, selling, inconsistent accounting and contradictory results', () => {
     assert.throws(() => decodeSave('{'));
-    assert.throws(() => decodeSave(JSON.stringify({ version: 6 })), /version/);
+    assert.throws(() => decodeSave(JSON.stringify({ version: 999 })), /version/);
     assert.throws(() => encodeSave(openDay(stocked()), []), /checkpoint/);
     const state = finish(stocked());
     assert.throws(() => encodeSave({ ...state, cash: state.cash + 1 }, [state]));
@@ -27,13 +51,13 @@ test('reject malformed, future, selling, inconsistent accounting and contradicto
     const legacy = JSON.parse(encodeSave(newGame(), [])); legacy.version = 0;
     delete legacy.state.pitcherCups; delete legacy.state.daily.model;
     delete legacy.state.daily.pitchersMade; delete legacy.state.daily.meltedIce;
-    assert.equal(decodeSave(JSON.stringify(legacy)).version, 5);
+    assert.equal(decodeSave(JSON.stringify(legacy)).version, 6);
 });
 test('recover corrupt or missing primary without overwriting the valid backup', () => {
     const store = storage(); const initial = newGame();
     writeSave(store, initial, []); writeSave(store, stocked(), []);
     store.setItem(SAVE_KEY, '{');
-    assert.deepEqual(readSave(store), { document: { version: 5, state: initial, history: [] }, recovered: true });
+    assert.deepEqual(readSave(store), { document: { version: 6, state: initial, history: [] }, recovered: true });
     writeSave(store, initial, []);
     assert.equal(store.getItem(BACKUP_KEY), encodeSave(initial, []));
     const backupOnly = storage(); backupOnly.setItem(BACKUP_KEY, encodeSave(initial, []));
@@ -54,7 +78,7 @@ test('v1 cup-based results migrate without rewriting old profit, and next day us
     delete oldDay.pitcherCups;
     delete oldDay.daily.model; delete oldDay.daily.pitchersMade; delete oldDay.daily.meltedIce;
     const migrated = decodeSave(JSON.stringify({ version: 1, state: oldDay, history: [oldDay] }));
-    assert.equal(migrated.version, 5);
+    assert.equal(migrated.version, 6);
     assert.equal(migrated.state.daily.model, 'cup');
     assert.equal(migrated.state.daily.cost, oldDay.daily.cost);
     assert.equal(nextDay(migrated.state).daily.model, 'pitcher');
@@ -92,7 +116,7 @@ test('thirty-day street campaigns keep exact saves, replay and cumulative accoun
                 done.daily.passed + done.daily.soldOut + done.daily.abandoned);
             for (const quantity of Object.values(done.stock))
                 assert.ok(Number.isSafeInteger(quantity) && quantity >= 0 && quantity <= 999);
-            assert.deepEqual(decodeSave(encodeSave(done, history)), { version: 5, state: done, history });
+            assert.deepEqual(decodeSave(encodeSave(done, history)), { version: 6, state: done, history });
             state = nextDay(done);
             assert.equal(state.stock.ice, 0);
             assert.equal(state.daily.meltedIce, done.stock.ice);

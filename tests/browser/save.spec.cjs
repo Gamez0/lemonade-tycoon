@@ -16,7 +16,10 @@ test('reload resumes checkpoints and preserves results, ledger and cancelled res
     await expect(page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
     const checkpoint = JSON.parse(await saved(page));
     expect(checkpoint.state.business.paid).toBe(true);
-    expect({ ...checkpoint.state, business: null }).toEqual(JSON.parse(preparation).state);
+    const { openDay } = require('../../.test-build/simulation/game.js');
+    expect(checkpoint.state).toEqual({ ...openDay(JSON.parse(preparation).state), phase: 'preparation' });
+    expect(checkpoint.state.pitcherCups).toBe(12);
+    expect(checkpoint.state.daily.pitchersMade).toBe(1);
     await page.locator('#open').click(); await page.locator('#skip').click();
     await expect(page.locator('#app')).toHaveAttribute('data-phase', 'results');
     const results = await saved(page);

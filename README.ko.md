@@ -35,7 +35,7 @@ Rent에서 무료 Neighborhood, Riverside Park, Downtown을 비교합니다. Par
 
 ## 저장과 Windows 실행
 
-진행 상황은 현재 기기에 자동 저장됩니다. 판매 중 다시 실행하면 비용을 이미 지불한 당일 시작 상태로 돌아갑니다. Export save로 백업을 내보내고 Import save로 복원할 수 있습니다. 브라우저 저장은 동기화되지 않으며 브라우저 데이터 삭제 시 사라질 수 있습니다. v5 저장 형식은 이전 저장을 받아들이면서 과거 현금·매출·재료 원가를 보존합니다. 자세한 내용은 [저장·복구 정책](docs/reviews/m4-save-recovery.md)과 [장소 진행 검토](docs/reviews/m5-locations.md)를 참고하세요.
+진행 상황은 현재 기기에 자동 저장됩니다. 판매 중 다시 실행하면 비용을 이미 지불한 당일 시작 상태로 돌아갑니다. Export save로 백업을 내보내고 Import save로 복원할 수 있습니다. 브라우저 저장은 동기화되지 않으며 브라우저 데이터 삭제 시 사라질 수 있습니다. v6 저장 형식은 이전 저장을 받아들이면서 과거 현금·매출·재료 원가를 보존합니다. 영업 시작 때 첫 피처를 만들고, 판매 중 비면 재료가 있는 한 즉시 다시 만듭니다. 준비된 첫 피처는 재실행해도 중복 생산하지 않습니다. 업데이트 전에 저장을 내보내세요. 이전 실행판은 v6 저장을 읽을 수 없습니다. 자세한 내용은 [저장·복구 정책](docs/reviews/m4-save-recovery.md)과 [장소 진행 검토](docs/reviews/m5-locations.md)를 참고하세요.
 
 ```sh
 npm run desktop:package:win
