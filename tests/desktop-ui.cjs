@@ -7,7 +7,7 @@ const fs = require("fs"),
     assert = require("assert/strict");
 const executable = process.env.LEMONADE_DESKTOP_EXE;
 const scale = Number(process.env.LEMONADE_UI_SCALE || 1);
-if (![1, 1.25, 1.5, 2].includes(scale)) throw new Error('Supported UI scales: 1, 1.25, 1.5, 2.');
+if (![1, 1.25, 1.5, 1.75, 2].includes(scale)) throw new Error('Supported UI scales: 1, 1.25, 1.5, 1.75, 2.');
 if (process.platform !== "win32" || !executable || !fs.existsSync(executable))
     throw new Error("Set LEMONADE_DESKTOP_EXE to the Windows package executable.");
 const base = fs.mkdtempSync(path.join(os.tmpdir(), "lemonade-ui-"));
@@ -37,6 +37,10 @@ async function fit(page, name) {
             const r = el.getBoundingClientRect();
             return { x: r.x, y: r.y, right: r.right, bottom: r.bottom, width: r.width, height: r.height };
         };
+        const panel = document.querySelector(".panel");
+        const panelBox = panel.getBoundingClientRect();
+        const panelStyle = getComputedStyle(panel);
+        const zoom = panelBox.width / panel.offsetWidth;
         return {
             width: innerWidth,
             devicePixelRatio,
@@ -46,11 +50,16 @@ async function fit(page, name) {
             app: box(document.querySelector("#app")),
             scene: box(document.querySelector("#game-container")),
             canvas: box(document.querySelector("canvas")),
+            panel: box(panel),
+            panelContentBottom: panelBox.bottom - (parseFloat(panelStyle.paddingBottom) + parseFloat(panelStyle.borderBottomWidth)) * zoom,
+            next: document.querySelector("#next").getClientRects().length ? box(document.querySelector("#next")) : null,
+            report: box(document.querySelector("#results")),
             controls: [...document.querySelectorAll("button,input:not([type=file])")]
                 .filter((x) => x.getClientRects().length && getComputedStyle(x).visibility !== "hidden")
                 .map((x) => ({ name: x.id || x.textContent.trim(), ...box(x) })),
         };
     });
+    results.push({ name, ...geometry });
     assert.ok(Math.abs(geometry.devicePixelRatio - scale) < .01, `Requested scale ${scale}, actual ${geometry.devicePixelRatio}`);
     assert.ok(geometry.scrollWidth <= geometry.width + 1, JSON.stringify(geometry));
     assert.ok(geometry.scrollHeight <= geometry.height + 1, JSON.stringify(geometry));
@@ -64,7 +73,12 @@ async function fit(page, name) {
             `${name}: ${JSON.stringify(box)}`,
         );
     }
-    results.push({ name, ...geometry });
+    if (geometry.next) {
+        assert.ok(geometry.next.bottom <= geometry.panelContentBottom + 1,
+            `${name}: next-day button exceeds panel content (bottom ${geometry.next.bottom}, limit ${geometry.panelContentBottom})`);
+        assert.ok(geometry.report.bottom <= geometry.next.y + 1,
+            `${name}: report overlaps next-day button: ${JSON.stringify(geometry)}`);
+    }
 }
 (async () => {
     try {
@@ -121,18 +135,37 @@ async function fit(page, name) {
         await expect(page.locator("#app")).toHaveAttribute("data-phase", "results");
         await fit(page, "results 800x600");
         await page.screenshot({ path: path.join(out, "results-small.png") });
+        // 1920x1080 at175% leaves roughly1097x554 client pixels after title/task bars.
+        // Forced renderer DPI models layout; the player's actual monitor remains distinct.
+        await app.evaluate(({ BrowserWindow }) => {
+            const window = BrowserWindow.getAllWindows()[0];
+            window.setMinimumSize(0, 0);
+            window.setContentSize(1097, 554);
+        });
+        await page.waitForTimeout(200);
+        await fit(page, "results 1097x554 daily");
+        await page.locator('[data-report="ledger"]').click();
+        await fit(page, "results 1097x554 ledger");
+        await page.locator('#result-values dd').last().scrollIntoViewIfNeeded();
+        await expect(page.locator('#result-values dd').last()).toBeInViewport();
+        await page.screenshot({ path: path.join(out, "results-175-client.png") });
+        await page.locator('#next').click();
+        await expect(page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
+        await expect(page.locator('#day')).toHaveText('02');
         await close();
         fs.writeFileSync(
             path.join(out, "ui-results.json"),
-            JSON.stringify({ requestedScale: scale, scope: 'Forced renderer scale; physical Windows DPI acceptance remains separate.', beforeSpinner: before, afterSpinner: "textfield", pricePersisted: 225, results }, null, 2),
+            JSON.stringify({ status: 'PASS', requestedScale: scale, scope: 'Forced renderer scale; physical Windows DPI acceptance remains separate.', beforeSpinner: before, afterSpinner: "textfield", pricePersisted: 225, results }, null, 2),
         );
         console.log(
-            "UI checks passed: 21 tab/size combinations, selling/results small, menu/title/margins/scroll, price typing/relaunch",
+            "UI checks passed: 21 tab/size combinations, selling/results small, daily/ledger panel containment, next-day click, menu/title/margins/scroll, price typing/relaunch",
         );
     } finally {
         if (app) await app.close();
     }
 })().catch((e) => {
+    fs.writeFileSync(path.join(out, 'ui-results.json'), JSON.stringify({ status: 'FAIL', requestedScale: scale,
+        scope: 'Forced renderer scale; physical Windows DPI acceptance remains separate.', error: e.message, results }, null, 2));
     console.error(e);
     process.exitCode = 1;
 });
