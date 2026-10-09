@@ -445,6 +445,36 @@ under the existing ordered acceptance agreement. M6/M7–M10 independent groundw
 prepared, not accepted milestones. Do not claim overnight duration, automatic restart,
 M10 completion, Steam upload, human playtests or Windows user acceptance from this run.
 
+## Final verified PC preparation checkpoint — 2026-10-06 UTC
+
+PR #128 https://github.com/Gamez0/lemonade-tycoon/pull/128 MERGED after self-review and all
+seven checks passed on exact final head `76e1596c4fddfaf1b696ff4871685e10fb6bdeb7`.
+Main merge `aa920a3f49225b3e216be18079afbc533935d2ec`; fetch/ancestry confirmed inclusion.
+Windows push run 37475501456 (1m55s) and PR run 37475510261 (1m45s) passed native save,
+PC-only packaging, release regressions, manifest verification and artifact upload.
+Reboot push 37475501482 (1m58s) and PR 37475510005 (2m10s) passed; CodeQL run 37475503509
+and aggregate check passed. This supersedes pending states above.
+Local final evidence: Node22.22.0, unit/save/file 26/26, release regressions 3/3, browser12/12,
+strict typecheck/lint, web and desktop production builds, six-file PC audit, whitespace.
+
+Verified source-specific Windows prototype artifact (non-expired at check, three-day retention):
+https://github.com/Gamez0/lemonade-tycoon/actions/runs/37475510261/artifacts/11419082328
+Source SHA 76e1596; unsigned prototype, not RC or Steam release. M4 manual checklist still applies.
+Final journal-only branch `docs/pc-preparation-checkpoint` starts from aa920a3; its precise SHA
+and focused PR link are recorded in the PR metadata. No redundant gameplay checks for this
+journal entry; its own CI must be verified before any future merge.
+
+Completed runnable independent preparations: M6 economic/UI/save design, M7–M10 acceptance
+plan, PC distribution isolation, file/commit/checksum audit, thirty-day baseline regression,
+SteamPipe placeholder templates. M5 gameplay was not started because the existing M4 acceptance
+prerequisite remains unfulfilled. No milestone completion, human playtest, actual newer-version
+update, clean-PC or Steam account/client verification is claimed. Next: record actual M4 Windows
+manual outcomes and M2 visual approval, then implement M5 against its existing design, M6,
+and the documented later sequence. If explicitly authorized to prototype later gameplay before
+M4 manual acceptance, update that sequencing decision first and keep all acceptance gates open.
+This run stops here; no overnight-duration guarantee, auto-restart, preview server, parallel
+agent, paid API/service, purchase, Steam upload or public sale is configured.
+
 ## Local Windows M4 evidence checkpoint — 2026-10-07 KST
 
 Executed on the user's Windows 10 Education x64 PC, build 19045, Gigabyte H410M DS2V /
@@ -641,3 +671,35 @@ clean committed source; native UI **15 combinations** and **74-file** manifest P
 The final package's build-info now records both source/checkout as 88ee31c, replacing
 the earlier pre-commit metadata. No other runtime difference from 7e44115. Current-head
 remote results are tracked in PR #131 metadata; do not infer them from older runs.
+### GitHub operations audit - 2026-10-08
+
+User requested repository-wide issue hygiene and useful GitHub features. Isolated
+worktree lemonade-tycoon-github-ops branches from main; parent edits, PR83 and the
+M4-M10 worktree remain untouched. Reviewed open issues against main and PR130-132.
+Eleven legacy requests consolidated into canonical trackers (not completed); five
+fulfilled main requests closed; legacy refactors, Korean README, formatting and
+visual acceptance remain open. Applied status/type/area labels with original bodies
+preserved. Full decisions and working views: docs/github-operations.md.
+
+Changes: issue forms, PR template, weekly grouped Dependabot, reusable Windows CI and
+Pages deployment requiring both CI jobs, caches/concurrency/timeouts and evidence
+retention. Existing CodeQL preserved. Projects access lacks project scope; account
+owner authentication requested, label views work independently. Main protection will
+use observed current-head job names. No Steam upload, published release or paid action.
+Validation: actionlint 1.7.12 passes workflow syntax and reusable-job permission checks.
+Obtain final-head remote CI before merge. Older game stack and PR129 need subsequent
+base/docs reconciliation; no game PR is merged by this operations task.
+
+Additional review: GitHub reports 23 open development-dependency alerts (7 high,
+14 medium,2 low). Follow-up issue #176 tracks reachability, supported patched updates
+and exact-head regression checks; enabling Dependabot does not resolve these alerts.
+YAML issue-form IDs/required fields and Dependabot/workflow syntax also validated
+with isolated PyYAML; no project dependency or lockfile changed. PR175 is the concrete
+operations change. Remote final-head checks must pass before merge/protection activation.
+
+Final self-review: main protection confirmed with strict simulation and
+windows / packaged-saves checks from GitHub Actions app15368, admin enforcement,
+resolved conversations and no force pushes/deletion. Audit verification PASS for
+50 previously open issues:11 superseded,5 completed,all retained gates still open.
+PR129 marked historical backlog with current evidence links. Checks run on PRs/main
+pushes/manual dispatch, avoiding duplicate feature-branch push and PR Windows builds.
