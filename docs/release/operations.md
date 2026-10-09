@@ -31,3 +31,13 @@ reproduction with this export. Music failures must not prevent gameplay.
 
 Unsigned/uninstalled portable Electron package; no installer/signing claim.
 Clean-PC and update/reinstall acceptance remain separate from development tests.
+
+For an actual two-package upgrade rehearsal, compile helpers with npm test, set
+LEMONADE_OLD_EXE, LEMONADE_DESKTOP_EXE and LEMONADE_EVIDENCE_ROOT, then run
+npm run test:desktop:upgrade. The tool refuses identical source/bundle pairs and
+isolates all saves. It verifies schema migration while preserving historical
+accounting, replacement/re-extraction, paid partial-sale replay, corrupt-save
+protection, published-preview portability and renderer-network-disabled play.
+Reports retain both build identities and bundle/tool SHA256 hashes. These checks
+establish a development-machine rehearsal, not physical-disconnect, clean-PC,
+Steam-install or human acceptance.
