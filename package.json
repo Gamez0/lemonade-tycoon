@@ -39,7 +39,7 @@
     },
     "devDependencies": {
         "@electron/packager": "^20.3.0",
-        "@eslint/js": "^9.22.0",
+        "@eslint/js": "^10.0.1",
         "@playwright/test": "^1.63.0",
         "@types/webfontloader": "^1.6.38",
         "electron": "^44.5.1",
