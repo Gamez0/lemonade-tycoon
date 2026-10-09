@@ -1261,3 +1261,20 @@ Next: exact-head browser/all-native CI, merge, verified alpha7 internal draft,
 then repeat actual delivered old->new upgrade and current published web roundtrip
 after v6 Pages deployment. Preserve failed evidence; do not report5/5 prematurely.
 
+
+### 2026-10-09 no-scroll native results follow-up
+
+User reported intermittent left scrolling when maximized and prefers no scrolling.
+Reduce native result row padding6->4px and intro/hint margins, retaining font size,
+all accounting rows and the separate next-day button. Keep overflow auto as a safety
+fallback outside supported layouts; supported tested layouts must have no overflow,
+so no scrollbar is visible. Do not hide scrollbars or clip inaccessible content.
+Native UI tests now require result scrollHeight<=clientHeight+1 and selling settings
+inside panel padding, and require the ledger's last row visible without scrolling.
+Local175% UI PASS including compact1096x550 daily/ledger and full map. Check baseline
+and125/150/175/200% then current-head CI before merge. PR202 eager production merged
+070e80cfb84508a9b64306999ab61f595b077b9a, mainCI37913362999 PASS including Pages.
+Alpha7 draft is deliberately pending this player-reported layout follow-up.Self-review follow-up: new strict selling containment reproduced16px overflow at
+1100x850, due to the additional pitcher count. Native settings rows9->5px now fit
+without changing font size or removing information. Retain initial failed JSON
+and check all supported sizes/scales again; never conceal overflow with hidden bars.

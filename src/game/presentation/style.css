@@ -1050,6 +1050,20 @@ html.desktop,
     min-height: 0;
     overflow: auto;
 }
+.desktop #result-values dt,
+.desktop #result-values dd {
+    padding: 4px 0;
+}
+.desktop #results .intro {
+    margin: 6px 0 8px;
+}
+.desktop #results .hint {
+    margin: 5px 0;
+}
+.desktop .settings-table dt,
+.desktop .settings-table dd {
+    padding: 5px 0;
+}
 .desktop #next {
     flex-shrink: 0;
     margin-top: 8px;
