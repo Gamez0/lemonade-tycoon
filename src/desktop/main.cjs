@@ -3,6 +3,10 @@ const path = require('node:path');
 const { createFileStorage } = require('./file-storage.cjs');
 const { maxSaveBytes } = require('./save-limits.json');
 
+// The packaged game uses a small 2D canvas, not WebGL. Software compositing
+// lowers private memory substantially; keep Chromium's sandbox/process isolation.
+app.disableHardwareAcceleration();
+
 let window;
 let closing = false;
 const storage = createFileStorage();

@@ -79,7 +79,8 @@ function element<T extends HTMLElement = HTMLElement>(id: string): T {
     return document.getElementById(id) as T;
 }
 function text(id: string, value: string): void {
-    element(id).textContent = value;
+    const target = element(id);
+    if (target.textContent !== value) target.textContent = value;
 }
 function persist(): void {
     if (state.phase === "selling" || saveBlocked) return;
@@ -120,7 +121,11 @@ function showPage(page: Page): void {
     render();
 }
 function rows(id: string, values: [string, string][]): void {
-    element(id).replaceChildren(
+    const target = element(id);
+    const children = target.children;
+    if (children.length === values.length * 2 && values.every(([label, value], i) =>
+        children[i * 2].textContent === label && children[i * 2 + 1].textContent === value)) return;
+    target.replaceChildren(
         ...values.flatMap(([label, value]) => {
             const dt = document.createElement("dt"),
                 dd = document.createElement("dd");
@@ -176,6 +181,7 @@ new Phaser.Game({
     scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
     scene: [scene],
     audio: { noAudio: true },
+    fps: { target: 20, forceSetTimeOut: true },
 });
 function act(action: () => State): void {
     if (importing) return;
@@ -501,9 +507,13 @@ function render(): void {
     text("day", String(state.day).padStart(2, "0"));
     text("cash", money(state.cash));
     text("weather", state.weather.temperature + "°C");
-    element("weather-art").innerHTML = icon(
-        state.weather.label === "Sunny" ? "sunny" : state.weather.label === "Cloudy" ? "cloudy" : "rainy",
-    );
+    const weatherArt = element("weather-art");
+    if (weatherArt.dataset.weather !== state.weather.label) {
+        weatherArt.innerHTML = icon(
+            state.weather.label === "Sunny" ? "sunny" : state.weather.label === "Cloudy" ? "cloudy" : "rainy",
+        );
+        weatherArt.dataset.weather = state.weather.label;
+    }
     element("weather-art").setAttribute("aria-label", state.weather.label);
     element("weather-art").setAttribute("role", "img");
     text("weather-label", selling ? "Current weather" : closed ? "Today's weather" : "Weather forecast");
@@ -644,8 +654,9 @@ function render(): void {
         button.disabled = !prep || Boolean(state.business);
         button.setAttribute("aria-pressed", String(button.dataset.staff === state.management.staff || button.dataset.advertising === state.management.advertising));
     }
-    renderRent();
-    renderReport();
+    if (prep) renderRent();
+    if (!selling) renderReport();
+    scene.refresh();
 }
 async function restore(): Promise<void> {
     try {
