@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs'), os = require('node:os'), path = require('node:path');
 const { execFileSync } = require('node:child_process');
 const { campaign, stock } = require('./helpers/business.cjs');
-const { openDay } = require('../.test-build/simulation/game.js');
+const { openDay, newGame, purchaseUpgrade, setPlan, buy } = require('../.test-build/simulation/game.js');
 const { encodeSave } = require('../.test-build/simulation/save.js');
 const { beginStreetDay, finishStreetDay } = require('../.test-build/simulation/street-day.js');
 const executable = process.env.LEMONADE_DESKTOP_EXE;
@@ -19,6 +19,25 @@ async function close() { const closed = app.waitForEvent('close'); await app.eva
 (async () => {
     try {
         let page = await launch();
+        let lowCash = purchaseUpgrade(newGame(), 'iceMaker');
+        lowCash = setPlan(lowCash, { price: 175, recipe: { lemon: 1, sugar: 1, ice: 1 } });
+        lowCash = buy(buy(buy(lowCash, 'lemon', 343), 'sugar', 2), 'cup', 8);
+        assert.equal(lowCash.cash, 0);
+        await page.locator('#save-file').setInputFiles({ name: 'low-cash.json', mimeType: 'application/json', buffer: Buffer.from(encodeSave(lowCash, [])) });
+        await expect(page.locator('#save-status')).toContainText('Imported');
+        await page.locator('[data-page=marketing]').click();
+        await expect(page.locator('#management-bill')).toContainText('Opening bill $0.00');
+        await page.locator('#open').click();
+        await expect.poll(() => read()?.state.business?.paid).toBe(true);
+        const freeCheckpoint = read();
+        assert.equal(freeCheckpoint.state.cash, 0);
+        assert.equal(freeCheckpoint.state.freeIce, 60);
+        assert.equal(freeCheckpoint.state.daily.purchases, lowCash.daily.purchases);
+        await close(); page = await launch();
+        assert.deepEqual(read(), freeCheckpoint);
+        await page.locator('#open').click(); await page.locator('#skip').click();
+        await expect.poll(() => read()?.state.phase).toBe('results');
+        assert.deepEqual(read().state, finishStreetDay(beginStreetDay(openDay(freeCheckpoint.state))).day.game);
         const earned = campaign(); earned.state = stock(earned.state);
         await page.locator('#save-file').setInputFiles({ name: 'earned.json', mimeType: 'application/json', buffer: Buffer.from(encodeSave(earned.state, earned.history)) });
         await expect(page.locator('#save-status')).toContainText('Imported');
@@ -36,6 +55,8 @@ async function close() { const closed = app.waitForEvent('close'); await app.eva
         const paid = read();
         assert.equal(paid.state.daily.wages, 250); assert.equal(paid.state.daily.advertising, 450);
         assert.equal(paid.state.stock.ice, prepared.state.stock.ice + 60);
+        assert.equal(paid.state.freeIce, prepared.state.freeIce + 60);
+        assert.equal(paid.state.daily.purchases, prepared.state.daily.purchases);
         const expected = finishStreetDay(beginStreetDay(openDay(paid.state))).day.game;
         await expect.poll(async () => Number(await page.locator('#sold').textContent())).toBeGreaterThan(0);
         const closed = app.waitForEvent('close'); execFileSync('taskkill', ['/PID', String(app.process().pid), '/T', '/F']); await closed; app = null;

@@ -24,6 +24,12 @@ fees, preserving prior cup/pitcher costs. Ledger validation includes fees, unloc
 eligibility and contract lineage. Presentation never infers costs from animations.
 
 M6 savev4 adds management selections/levels and capital,wages,advertising accounts.
+
+Save v5 adds zero-cost ice inventory (`freeIce`) and consumed free ice
+(`daily.freeIceUsed`). Opening adds free equipment output; batches consume it first
+and exclude it from ingredient expense. Refrigeration retains its zero cost basis.
+Versions 0–4 migrate with no free ice, preserving existing purchases/costs and paid
+opening checkpoints. Both UI and simulation use `openingCosts` for actual opening fees.
 Opening combines rent/moving/wages/ads/ice-production purchases atomically. Ads also
 shorten arrivals; service/patience and fees are fixed for paid replay. Refrigerator
 changes next-day ice carryover. Equipment capital is reconciled against lifetime

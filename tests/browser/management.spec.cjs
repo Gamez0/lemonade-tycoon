@@ -1,6 +1,32 @@
 const { test, expect } = require('@playwright/test');
 const { campaign } = require('../helpers/business.cjs');
 const { encodeSave } = require('../../.test-build/simulation/save.js');
+const { newGame, purchaseUpgrade, setPlan, buy } = require('../../.test-build/simulation/game.js');
+
+test('low-cash ice-maker owner sees affordable opening costs and can resume selling', async ({ page }) => {
+    let state = purchaseUpgrade(newGame(), 'iceMaker');
+    state = setPlan(state, { price: 175, recipe: { lemon: 1, sugar: 1, ice: 1 } });
+    state = buy(buy(buy(state, 'lemon', 344), 'sugar', 1), 'cup', 7);
+    const raw = encodeSave(state, []);
+    await page.addInitScript(raw => {
+        if (!localStorage.getItem('lemonade-tycoon.reboot.save')) localStorage.setItem('lemonade-tycoon.reboot.save', raw);
+    }, raw);
+    await page.goto('/');
+    await expect(page.locator('#management-bill')).toContainText('Opening bill $0.00');
+    await page.locator('[data-page=upgrades]').click();
+    await expect(page.locator('#upgrade-effect-iceMaker')).toContainText('free ice');
+    await page.locator('#open').click();
+    await expect(page.locator('#selling')).toBeVisible();
+    await page.reload();
+    await page.locator('#open').click();
+    await expect(page.locator('#selling')).toBeVisible();
+    await page.locator('#skip').click();
+    await expect(page.locator('#results')).toBeVisible();
+    const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('lemonade-tycoon.reboot.save')));
+    expect(saved.state.daily.purchases).toBe(state.daily.purchases);
+    expect(saved.state.cash).toBe(state.cash + saved.state.daily.revenue);
+    expect(saved.state.daily.freeIceUsed).toBeGreaterThan(0);
+});
 test('seven screens purchase, hire, advertise, restore and account for a paid replay', async ({ page }) => {
     const earned = campaign();
     const raw = encodeSave(earned.state, earned.history);

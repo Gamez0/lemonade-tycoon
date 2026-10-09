@@ -37,6 +37,9 @@ Linux browser/file-storage results cannot establish Windows package acceptance.
 
 - Preserve the classic compact green panels, beveled controls and neighborhood
   art direction. Keep pitcher production, ice melt and historical-save accounting.
+- Follow the original game's flow and intentional simplifications. Do not add
+  realistic overheads or restrictions without a gameplay reason. The user specified
+  that purchased ice makers produce free ice, with no electricity/production fee.
 - Routine implementation, fixes, branches, pushes and PRs are authorized within
   the existing roadmap. Use a self-review and passing CI for the current commit
   before any merge. Do not claim remote actions happened without evidence/access.

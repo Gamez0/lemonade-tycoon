@@ -14,6 +14,7 @@ import {
     newGame,
     nextDay,
     openDay,
+    openingCosts,
     quality,
     results,
     setPlan,
@@ -446,11 +447,7 @@ function renderReport(): void {
     ]);
 }
 function openingBill(): number {
-    if (state.business) return 0;
-    const target = state.pendingLocation ?? state.location;
-    return LOCATIONS[target].rent + (target === state.location ? 0 : LOCATIONS[target].moveFee) +
-        STAFF[state.management.staff].wage + ADS[state.management.advertising].cost +
-        Math.min(999 - state.stock.ice, state.management.upgrades.iceMaker * 60) * ITEMS.ice.cost;
+    return openingCosts(state).fees;
 }
 function renderRent(): void {
     const location = LOCATIONS[selectedLocation], rating = state.locationStats[selectedLocation];
@@ -577,7 +574,7 @@ function render(): void {
     text("order-total", money(cost));
     element<HTMLButtonElement>("cancel-order").disabled = cost === 0;
     text("capacity", `${capacity(state)} cups`);
-    text("unit-cost", money(unitCost(state.plan.recipe)));
+    text("unit-cost", money(unitCost(state.plan.recipe, state.freeIce + openingCosts(state).ice)));
     text("pitcher-yield", `${cupsPerPitcher(state.plan.recipe)} cups per pitcher`);
     text("pitcher-cups", `${state.pitcherCups} cups`);
     text(

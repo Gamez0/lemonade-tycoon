@@ -33,3 +33,20 @@ Returning to the Neighborhood is free. Satisfaction and popularity belong to eac
 location, with feedback only from completed sales. Bankruptcy keeps the save and
 offers export or a deliberate restart. See [M5 design](research/m5-locations-design.md)
 and [implementation review](reviews/m5-locations.md). Staff/upgrades/ads remain M6.
+
+## M6 ice-maker recovery
+
+Per user instruction on 2026-10-09, purchased ice makers produce free ice at opening,
+limited only by equipment output and free stock space. There is no electricity or
+per-unit production charge. Buying ice in Supplies still costs $0.02 per unit.
+Opening costs use the same calculation in the interface and simulation. Paid
+checkpoints preserve the actual production; replay never produces ice again.
+Existing saved purchase costs and historical books are preserved without refunds.
+Free ice is consumed before purchased ice and contributes no ingredient expense.
+Refrigeration retains its zero cost basis. The per-cup hint estimates the next
+pitcher using available free ice, including the next opening's production.
+
+Design guidance: use the original game's business flow and deliberate simplifications
+as the starting point. Do not add realistic overheads or restrictions solely because
+they exist in real life. Distinguish user-directed rules and this project's balance
+values from verified original behavior.

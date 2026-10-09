@@ -44,7 +44,7 @@ export const markup = `
    </div>
    <div id="selling" hidden><dl class="settings-table"><dt>Location</dt><dd id="setting-location"></dd><dt>Rent / moving</dt><dd id="setting-rent"></dd><dt>Cup price</dt><dd id="setting-price"></dd><dt>Pitcher / ice per cup</dt><dd class="setting-recipe">${(["lemon", "sugar", "ice"] as const).map((item) => `<span>${icon(item)}<b id="setting-${item}"></b></span>`).join("")}</dd><dt>In pitcher</dt><dd id="pitcher-cups"></dd><dt>Ready to serve</dt><dd id="setting-capacity"></dd></dl><p class="hint">Today's recipe and price stay fixed until closing.</p></div>
    <div id="results" hidden><nav class="report-tabs" aria-label="Report period"><button data-report="daily" aria-pressed="true">${icon("calendar")}Last day</button><button data-report="ledger" aria-pressed="false">${icon("results")}Profit &amp; loss</button></nav><p class="intro" id="result-intro"></p><div class="report-content"><dl id="result-values"></dl><aside id="report-commentary"><span id="report-face"></span><strong id="report-verdict"></strong><p id="report-response"></p></aside></div><p class="hint">Profit subtracts ingredients, rent and moving. Cash change subtracts purchases, rent and moving.</p></div>
-   <div id="day-actions"><div class="cost-line"><span>Average cost / cup</span><strong id="unit-cost"></strong></div><div class="capacity"><span>Ready to serve</span><strong id="capacity"></strong></div><button id="open" class="primary">Start day <span>▶</span></button></div>
+   <div id="day-actions"><div class="cost-line"><span>Next pitcher / cup</span><strong id="unit-cost"></strong></div><div class="capacity"><span>Ready to serve</span><strong id="capacity"></strong></div><button id="open" class="primary">Start day <span>▶</span></button></div>
    <button id="next" class="primary" hidden>Prepare next day <span>▶</span></button>
    <p id="business-warning" class="hint" role="status" hidden></p><p id="message" role="status" aria-live="polite"></p>
   </section>
@@ -64,6 +64,7 @@ export const markup = `
 <p>3. Marketing: enter your price directly. Try $1.75 first. Ads bring more visitors, but charge every day. Extra traffic needs enough stock and fast service.</p>
 <p>4. START DAY sells automatically. Speed and SKIP change waiting time, not the outcome. Results separates ingredient costs from supply cash purchases.</p>
 <p>5. NEXT DAY keeps leftover supplies; ice melts unless refrigerated. Earn Park after 3 days/$45 sales/55% rating; Downtown after 7 days/$120/65%. Rent and wages charge at opening.</p>
+<p>Ice makers produce free ice at opening, within the storage limit. No electricity or production fee. Bought ice still costs money; free ice is used first and adds no ingredient expense.</p>
 <p>Equipment is permanent. A server speeds service; a host extends patience. Owner only dismisses staff. Ice makers purchase 60/120 ice automatically at normal supply cost. Choose affordable investments.</p>
 <p>Saves are automatic before opening and after results. Closing during sales replays the paid opening without another fee. Export a backup before updating. New business requires a second confirmation.</p>
 <p>Keyboard: Tab / Shift+Tab to move, Enter or Space to activate, Escape closes this help. All feedback is available with sound muted. English is the initial supported language.</p>

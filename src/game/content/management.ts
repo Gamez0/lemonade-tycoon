@@ -1,6 +1,6 @@
 export const UPGRADES = {
     refrigerator: { name: "Refrigerator", prices: [900, 1700], effects: ["Keep 50% of leftover ice", "Keep all leftover ice"] },
-    iceMaker: { name: "Ice maker", prices: [1200, 2200], effects: ["Produce up to 60 ice at opening ($1.20)", "Produce up to 120 ice at opening ($2.40)"] },
+    iceMaker: { name: "Ice maker", prices: [1200, 2200], effects: ["Produce up to 60 free ice at opening", "Produce up to 120 free ice at opening"] },
     blender: { name: "Blender", prices: [1400, 2600], effects: ["Service takes 7 ticks", "Service takes 6 ticks"] },
 } as const;
 export type Upgrade = keyof typeof UPGRADES;
