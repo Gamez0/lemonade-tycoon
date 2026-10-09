@@ -972,3 +972,22 @@ then PASS separately; the current native audio verifies focus, actual context
 suspension/recovery and mute/unmute. Existing user profile was not reset or guessed.
 Current gameplay source remains e3f6305; follow-up changes are QA isolation/docs.
 Rerun final-head CI, merge only on success, then continue native campaign work.
+
+## 2026-10-09 next loop: thirty-day native campaign
+
+Working branch test/native-campaign follows audio/profile-isolation PR191.
+New campaign starts an actual fresh Windows business with no imported mature save,
+uses normal recipe/supply/management/Rent controls and runs30 business days.
+Neighborhood10,Park10,Downtown10; earned unlocks and every equipment level, owner/
+host/server and none/flyers/radio choices are exercised. Independently reconcile
+cash from all history income/purchase/capital/rent/moving/wage/ad fields every day,
+check lifetime sales and free-ice use, verify result history/day/version and bound
+save size to native IPC capacity. Six actual close/relaunch cycles retain exact
+results; final ledger screenshot/report retained. Local actual EXE sourcee3f6305
+PASS30/30, maximum save40,407bytes. This is not human or30-real-day acceptance.
+
+Add test:desktop:campaign to native CI and retained Windows evidence. Shared profile
+isolation protects personal prefs as well as business data. Node syntax and git
+diff checks PASS. PR191 final-head CI must pass and merge before this dependent
+campaign PR can merge; validate current main base/head afterward. Next: automate
+reviewable release artifacts/version metadata so verified build handoff is repeatable.
