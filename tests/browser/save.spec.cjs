@@ -1,4 +1,4 @@
-﻿const { test, expect } = require('@playwright/test');
+const { test, expect } = require('@playwright/test');
 const key = 'lemonade-tycoon.reboot.save';
 const saved = page => page.evaluate(key => localStorage.getItem(key), key);
 async function stock(page) {

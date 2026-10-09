@@ -84,13 +84,13 @@ async function fit(page, name) {
                     BrowserWindow.getAllWindows()[0].setContentSize(width, height),
                 { width, height },
             );
-            for (const tab of ["recipe", "price", "supplies", "results", "rent"]) {
+            for (const tab of ["recipe", "marketing", "supplies", "results", "rent", "upgrades", "staff"]) {
                 await page.locator(`[data-page=${tab}]`).click();
                 await page.waitForTimeout(200);
                 await fit(page, `${width}x${height} ${tab}`);
             }
         }
-        await page.locator("[data-page=price]").click();
+        await page.locator("[data-page=marketing]").click();
         assert.equal(await page.locator("#price").evaluate((x) => getComputedStyle(x).appearance), "textfield");
         await page.locator("#price").fill("2.25");
         await page.locator("#price").press("Tab");
@@ -98,7 +98,7 @@ async function fit(page, name) {
         await page.screenshot({ path: path.join(out, "price-fixed.png") });
         await close();
         page = await launch(executable);
-        await page.locator("[data-page=price]").click();
+        await page.locator("[data-page=marketing]").click();
         await expect(page.locator("#price")).toHaveValue("2.25");
         await page.locator("[data-page=supplies]").click();
         for (const item of ["lemon", "sugar", "ice", "cup"]) {
@@ -121,7 +121,7 @@ async function fit(page, name) {
             JSON.stringify({ beforeSpinner: before, afterSpinner: "textfield", pricePersisted: 225, results }, null, 2),
         );
         console.log(
-            "UI checks passed: 15 tab/size combinations, selling/results small, menu/title/margins/scroll, price typing/relaunch",
+            "UI checks passed: 21 tab/size combinations, selling/results small, menu/title/margins/scroll, price typing/relaunch",
         );
     } finally {
         if (app) await app.close();

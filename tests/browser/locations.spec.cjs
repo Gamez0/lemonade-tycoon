@@ -95,7 +95,7 @@ test('pending supplies block contracts, unaffordable rent is atomic, and bankrup
     await page.locator('[data-page=rent]').click();
     await page.locator('button[data-location=downtown]').click(); await page.locator('#confirm-rent').click();
     const before = await saved(page);
-    await page.locator('#open').click(); await expect(page.locator('#message')).toContainText('Not enough cash for rent');
+    await page.locator('#open').click(); await expect(page.locator('#message')).toContainText('Not enough cash for opening costs');
     expect(await saved(page)).toEqual(before);
     await page.locator('button[data-location=neighborhood]').click(); await page.locator('#confirm-rent').click();
     expect((await saved(page)).state.pendingLocation).toBe(null);

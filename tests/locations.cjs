@@ -28,7 +28,7 @@ test('rent and moving are atomic; paid checkpoints replay without duplicate char
     assert.equal(reserved.location, 'neighborhood');
     assert.deepEqual(reserveLocation(reserved, null), state);
     const poor = { ...reserved, cash: 799 };
-    assert.throws(() => openDay(poor), /rent/);
+    assert.throws(() => openDay(poor), /opening costs/);
     assert.equal(poor.cash, 799);
     assert.throws(() => openDay({ ...reserved, stock: { ...reserved.stock, cup: 0 } }), /supplies/);
     const opened = openDay(reserved);
@@ -82,7 +82,7 @@ test('v2 and earlier accounting migrate exactly; malformed v3 progression cannot
     for (const key of ['location', 'pendingLocation', 'unlocked', 'locationStats', 'lifetimeRevenue', 'business']) delete old[key];
     delete old.daily.rent; delete old.daily.moveFee;
     const migrated = decodeSave(JSON.stringify({ version: 2, state: old, history: [old] }));
-    assert.equal(migrated.version, 3);
+    assert.equal(migrated.version, 5);
     for (const key of ['cash', 'stock', 'plan', 'seed', 'reputation', 'weather']) assert.deepEqual(migrated.state[key], old[key]);
     for (const key of Object.keys(old.daily)) assert.equal(migrated.state.daily[key], old.daily[key]);
     assert.equal(migrated.state.business.traffic, old.weather.traffic);

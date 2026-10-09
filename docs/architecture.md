@@ -12,7 +12,7 @@ Tests compile the simulation in isolation and execute with Node's built-in test 
 
 `src/reboot.ts` owns DOM controls and state snapshots. The street scene previews the deterministic next customer's profile without committing a transaction, then advances simulation once at arrival. The last customer's exit gates the next-day control. Restart clears animation state and speed immediately. Canvas rendering is sufficient for the small original pixel textures and avoids a WebGL requirement.
 
-The current simulation produces pitchers when a buyer needs one, counts prepared cups, discards remaining prepared cups at closing, and melts leftover ice before the next preparation. Service delay and queues are separate fixed-tick street rules. Staff and upgrades remain M6 work.
+The current simulation produces pitchers when a buyer needs one, counts prepared cups, discards remaining prepared cups at closing, and melts leftover ice before the next preparation. Service delay and queues are separate fixed-tick street rules. M6 equipment and staff modify paid service rules.
 
 M5 adds a location catalog, pending reservation, permanent unlocks, cumulative revenue
 and per-location satisfaction/popularity. Opening atomically pays rent/moving and
@@ -22,3 +22,18 @@ phase=preparation and paid fees, so replay reuses them. Next day clears the snap
 Save v3 migrates earlier documents with neutral historical neighborhood rules and zero
 fees, preserving prior cup/pitcher costs. Ledger validation includes fees, unlock
 eligibility and contract lineage. Presentation never infers costs from animations.
+
+M6 savev4 adds management selections/levels and capital,wages,advertising accounts.
+
+Save v5 adds zero-cost ice inventory (`freeIce`) and consumed free ice
+(`daily.freeIceUsed`). Opening adds free equipment output; batches consume it first
+and exclude it from ingredient expense. Refrigeration retains its zero cost basis.
+Versions 0–4 migrate with no free ice, preserving existing purchases/costs and paid
+opening checkpoints. Both UI and simulation use `openingCosts` for actual opening fees.
+Opening combines rent/moving/wages/ads/ice-production purchases atomically. Ads also
+shorten arrivals; service/patience and fees are fixed for paid replay. Refrigerator
+changes next-day ice carryover. Equipment capital is reconciled against lifetime
+purchase ledger. Independent audio preferences never enter business accounting.
+Original score notes live in content/audio-scores.ts; WebAudio presentation respects
+volume/mute/visibility/focus and does not advance simulation. Desktop diagnostics
+expose fixed event names only; Save and quit reuses the native flush handshake.

@@ -1,0 +1,7 @@
+"DepotBuild"
+{
+ "DepotID" "REPLACE_WITH_WINDOWS_DEPOT_ID"
+ "FileMapping" { "LocalPath" "*" "DepotPath" "." "Recursive" "1" }
+ "FileExclusion" "*.pdb"
+ "FileExclusion" "*.tmp"
+}

@@ -22,9 +22,12 @@ jobs:
               shell: pwsh
               run: |
                   $env:LEMONADE_DESKTOP_EXE = Join-Path $env:GITHUB_WORKSPACE 'release/Lemonade Tycoon-win32-x64/Lemonade Tycoon.exe'
-                  npm run test:desktop
-                  npm run test:desktop:ui
-                  npm run test:desktop:locations
+                  foreach ($suite in @('test:desktop', 'test:desktop:ui', 'test:desktop:locations', 'test:desktop:management')) {
+                      npm run $suite
+                      if ($LASTEXITCODE -ne 0) {
+                          throw "Windows package suite $suite failed with exit code $LASTEXITCODE"
+                      }
+                  }
             - name: Record package source
               shell: pwsh
               run: |

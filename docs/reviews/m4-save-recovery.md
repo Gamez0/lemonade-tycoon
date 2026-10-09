@@ -1,8 +1,9 @@
 ﻿# M4 save checkpoint review — 2026-10-01
 
-Current format: M5 v3 adds location progression and a paid opening checkpoint.
-Reload during selling replays that checkpoint without charging rent/moving again.
-v0/v1/v2 imports preserve historical accounting; native save/close/forced-termination
+Current format: M6 v4 adds management and separate capital/wage/advertising accounts
+to the M5 location progression and paid opening checkpoint. Reload during selling
+replays that checkpoint without charging rent/moving/wages/ads/ice production again.
+v0/v1/v2/v3 imports preserve historical accounting; native save/close/forced-termination
 coverage has since been added. See [M5 review](m5-locations.md) and the Windows device
 review. The dated sections below describe earlier implementation checkpoints.
 

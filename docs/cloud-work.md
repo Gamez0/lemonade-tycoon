@@ -671,6 +671,96 @@ clean committed source; native UI **15 combinations** and **74-file** manifest P
 The final package's build-info now records both source/checkout as 88ee31c, replacing
 the earlier pre-commit metadata. No other runtime difference from 7e44115. Current-head
 remote results are tracked in PR #131 metadata; do not infer them from older runs.
+
+### M6-M10 continuation authorized - 2026-10-08
+
+User explicitly requested development through M10. Active worktree lemonade-tycoon-m4-windows, branch feat/m6-m10-development, stacked on M5/#131. Parent worktree and PR83 unchanged. M6 management, v4 saves, M7 help/original audio/preferences/reduced motion/fullscreen/quit, diagnostics/licensing and M9/M10 candidate materials implemented. Review: docs/reviews/m6-m10-development.md; docs/release holds store/playtest/operations/Steam drafts. No agents, billing, paid service, upload or submission. Existing design values replaced with the tested M6 catalog; no claim these match the original game.
+
+Completed before final checkpoint: unit36, release5, typecheck/lint, production browser17; six engine/emulation flows; native saves and21 tab/size combinations. New native management and corrected v4 migration require final-package rerun. 9720 seeded management days show different ads by equipment level. Local draft assets .local-m4/m9-store and WAVs .local-m4/m7-audio. Final package/source/checksums/CI will be recorded after source commit. M2 visual, human music/long listening,0/5 playtesters, offline/DPI/clean PC, final trailer/hardware specs/rights and real Steam app/depot/install/update gates remain open; do not mark milestones fully accepted.
+
+Final tested source/checkout 8a0a28184f648a2065043dd29160e508d556b98c, clean build,
+Windows candidate0.2.0-alpha.1 at .local-m4/m10-build/release/Lemonade Tycoon-win32-x64.
+Build metadata node22.16.0/Electron44.5.1/win32/x64/dirty=false. SHA256 manifest74files
+written and verified. ZIP .local-m4/m10-build/Willow-Lane-Lemonade-0.2.0-alpha.1-win-x64.zip:
+1bc23e6e5c889961bd64cef1a761dd9de3ada4f06d1cad1eb7ee71a8aa3569d4 (sidecar retained).
+Final local unit36/36, release5/5, typecheck/lint, browser17/17, native save suite,
+UI21combinations, locations/v2migration and new management suite ALL PASS. Management
+proves equipment/wage/ad/ice costs, forced exit after actual sale, exact paid replay,
+results/relaunch, persistent mute, sanitized diagnostics, actual fullscreen help
+button and Save and quit. Tests only use isolated temp data. Engine/emulation6/6
+rerun on final source; latest frame results remain in .local-m4/m8-engines/results.json.
+Store PNG/WebM regenerated from clean8a0a281; source metadata explicitly records it.
+
+PR132 https://github.com/Gamez0/lemonade-tycoon/pull/132 is stacked on feat/m5-locations.
+Exact8a0a281 remote CI4/4 SUCCESS (push/PR simulation and Windows package jobs), verified
+2026-10-08. No merge. New launcher scripts/m10-preview-launch.cmd uses separate
+.local-m4/m10-manual-data and preserves previous M4/M5 manual saves. No manually
+launched preview/game was left open; native/browser test processes have closed.
+Self-review covered accounting/migration/paid-lock, asset exclusion, metadata,
+privacy and external-gate honesty. Legacy template/Phaser/font/runtime licenses
+are copied into the package; no package-lock/dependency changes. This checkpoint
+adds launcher/media tooling and records prior source evidence; its own CI must be
+inspected separately. Final edited trailer/human music/visual/playtest/support-specs
+and actual Steam partner/install/update evidence remain open. No actual AppID or
+DepotID was supplied; prepared preview-only templates, not a real Steam upload.
+
+Media follow-up: scripts/store-video.cjs mixes the original selling WAV onto actual
+clean-source gameplay and renders .local-m4/m9-store/gameplay-preview.mp4,1920x1080,
+14.68seconds,H264(avc1.64002a)/AAC(mp4a.40.2),3,757,476bytes. Playback verification
+checks video dimensions/duration plus decoded audio/video; raw WebM and mix metadata
+are retained. This is a development trailer draft, not an accepted final store trailer.
+No publisher account was contacted. No test preview ports8081/8082/8083 remain listening.
+
+Video correction: first MP4 output was9bytes despite the encoder metadata because
+splitting a MIME data URL at its first comma consumed the comma inside the codec
+list. That initial playback check failed; the earlier preliminary playback claim
+is superseded. Fixed split at ;base64,, assert payload length, and require actual
+video/audio decode before writing. Final MP4 is3,757,476bytes; verified1920x1080,
+14.68s with decoded audio/video in playback-verified.json. No runtime game change.
+
+### Free ice-maker continuation — 2026-10-09 (KST)
+
+Resumed the latest Windows worktree, not the superseded .reboot-work. PR130/131/132
+were OPEN with successful exact-head checks on inspection; no merge. Parent worktree
+changes were untouched. User clarified that the original's intentional gameplay
+simplifications should guide design and that ice makers produce ice without
+electricity/production fees. This supersedes M6's charged-production rule.
+
+Runtime source 3d16873c78713b60f957534e715c8413592cd3f3 removes the charge and adds
+free-stock consumption/cost basis, refrigerator preservation, shared opening costs,
+UI/help and save v5 migration. Old purchases/results/paid checkpoints remain exact;
+no refunds or duplicate production. AGENTS/design record the user's design guidance.
+Review: docs/reviews/free-ice-maker.md. Changed content/simulation/save/reboot/layout,
+unit/browser/native regression expectations, README/architecture/design/review notes.
+No lockfile, dependency, assets, public release, Steam action or agents.
+
+Final local unit **41/41**, release **5/5**, strict typecheck, zero-warning reboot
+lint, web production build and full browser **18/18** PASS. New cases cover zero cash,
+mixed paid/free ingredient expense, storage caps/both levels, all refrigerator levels,
+v4 charged-checkpoint migration and thirty-day management replay with free production.
+The first locally written regression used incorrect fixture ingredient prices and
+failed before correction; no product pass was claimed for that attempt. The proposed
+cash-limited paid-production change was discarded after the user's free-production
+instruction. Final tested implementation contains no production charge.
+
+Windows package `.local-m4/free-ice-build/release/Lemonade Tycoon-win32-x64/`:
+desktop six-file audit, native management (including zero-cash opening, persisted free
+stock and exact replay), saves/recovery/relocation, locations/v2 migration and UI
+**21 combinations** all PASS. Its **74-file manifest** is written/verified. Metadata
+records source/checkout 3d16873, Node22.16.0/Electron44.5.1 and `dirty=true`: documentation
+and the isolated launcher were edited while packaging completed. Explicit runtime/
+config/packager diff against that source is empty; no claim of a clean RC package.
+Follow-up edits change docs, launcher and the native-test success message only.
+
+`scripts/free-ice-preview-launch.cmd` uses separate `.local-m4/free-ice-manual-data`,
+preserving personal/M4/M5/M10 saves. Old media and balance evidence refer to earlier
+paid-production source; regenerate accepted media/economic evidence before release.
+No manually launched game or preview server left running. Test ports8080–8083 were
+not listening after completion. M2 visual, music/human playtest, physical offline/DPI/
+clean-PC, final name/rights/support specs and real Steam gates remain open.
+
+Next: inspect successor PR132 head CI; playtest the corrected package and continue
+the remaining acceptance work. No merge is claimed by this checkpoint.
 ### GitHub operations audit - 2026-10-08
 
 User requested repository-wide issue hygiene and useful GitHub features. Isolated

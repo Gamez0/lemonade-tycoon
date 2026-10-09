@@ -1,0 +1,10 @@
+"AppBuild"
+{
+ "AppID" "REPLACE_WITH_REAL_APP_ID"
+ "Desc" "Willow Lane development candidate - replace with source hash"
+ "ContentRoot" "REPLACE_WITH_VERIFIED_WINDOWS_PACKAGE_DIRECTORY"
+ "BuildOutput" "../steam-build-cache"
+ "Preview" "1"
+ "SetLive" ""
+ "Depots" { "REPLACE_WITH_WINDOWS_DEPOT_ID" "depot_build.template.vdf" }
+}

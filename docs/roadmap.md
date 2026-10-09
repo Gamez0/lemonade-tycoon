@@ -58,7 +58,7 @@
 
 **선행 단계:** M4 구현·자동 검증. 2026-10-08 사용자 승인으로 인터넷 물리 단절·DPI·깨끗한 Windows/no Node 검증을 출시 전 필수 확인으로 유보하고 M5 착수를 허용한다. M4 전체 완료나 Steam 준비 완료로 표시하지 않는다. **기존 맥락:** #34, #58, #59, #60, #75.
 
-## M6 — Upgrades staff and advertising · 계획
+## M6 — Upgrades staff and advertising · 구현·검증 진행
 
 [마일스톤](https://github.com/Gamez0/lemonade-tycoon/milestone/6) · [추적 이슈 #107](https://github.com/Gamez0/lemonade-tycoon/issues/107)
 
@@ -70,7 +70,7 @@
 
 **선행 단계:** M5. **기존 맥락:** #74, #73, #35, #72, #32.
 
-## M7 — Feature complete PC alpha · 계획
+## M7 — Feature complete PC alpha · 구현, 수용 검증 대기
 
 [마일스톤](https://github.com/Gamez0/lemonade-tycoon/milestone/7) · [추적 이슈 #108](https://github.com/Gamez0/lemonade-tycoon/issues/108)
 
@@ -82,7 +82,7 @@
 
 **PC/Steam 완료 조건:** 음악 #113을 포함한 콘텐츠 완성과 함께 Windows x64 데스크톱 실행 파일을 만든다. 패키징 방식은 프로토타입으로 선택하고, Node/개발 서버 없이 깨끗한 PC에서 실행·오프라인 플레이·저장·정상 종료를 검증한다. 창/전체 화면, 해상도/DPI, 포커스 복귀와 사용자 데이터 경로를 확인한다. 패키징 조사는 M4부터 가능하며 M7 종료 시 기능 동결한다.
 
-## M8 — Playtested PC beta · 계획
+## M8 — Playtested PC beta · 자동 검증, 사람 검증 대기
 
 [마일스톤](https://github.com/Gamez0/lemonade-tycoon/milestone/8) · [추적 이슈 #109](https://github.com/Gamez0/lemonade-tycoon/issues/109)
 
@@ -94,7 +94,7 @@
 
 **PC/Steam 완료 조건:** Windows 데스크톱 패키지가 필수 테스트 대상이다. 최소 사양 후보와 해상도/DPI 조합을 정해 설치·실행·업데이트·저장 유지·재설치·장시간 플레이·Alt-Tab·음악 복귀를 검증한다. 웹/모바일 검증은 보조 프리뷰 회귀 검사다. macOS/Linux/Steam Deck/컨트롤러 지원은 별도 범위이며 검증 전에 지원한다고 표시하지 않는다.
 
-## M9 — PC release candidate · 계획
+## M9 — PC release candidate · 후보 자료 준비
 
 [마일스톤](https://github.com/Gamez0/lemonade-tycoon/milestone/9) · [추적 이슈 #110](https://github.com/Gamez0/lemonade-tycoon/issues/110)
 
@@ -104,7 +104,7 @@
 
 **선행 단계:** M8. 음악 검증: #113. 문서 맥락: #38, #43.
 
-## M10 — Steam submission readiness · 계획
+## M10 — Steam submission readiness · 로컬 자료 준비, 플랫폼 검증 대기
 
 [마일스톤](https://github.com/Gamez0/lemonade-tycoon/milestone/10) · [추적 이슈 #111](https://github.com/Gamez0/lemonade-tycoon/issues/111)
 
@@ -128,3 +128,16 @@
 - 로컬 출시 후보와 제출 자료가 준비된 상태, 실제 Steam 비공개 브랜치 검증 상태, Valve 심사 결과를 별도로 기록한다. 계정/AppID 또는 배포 권한이 없으면 해당 외부 검증은 미완료로 남긴다.
 - 원작을 참고했다는 사실만으로 판매 가능/불가능을 이 문서에서 단정하지 않는다. 실제 배포 전 명칭·미술·음악·코드 등 배포 권한을 확인하고 필요한 교체/허락을 추적한다. 현재 작업은 고전풍 게임 완성과 제출 준비이며, 자동으로 공개나 판매를 진행하지 않는다.
 - 공식 근거 (2026-09-29 확인): [빌드와 스토어 심사](https://partner.steamgames.com/doc/store/review_process), [SteamPipe 업로드/빌드 구성](https://partner.steamgames.com/doc/sdk/uploading), [온보딩 및 배포 콘텐츠 권리 조건](https://partner.steamgames.com/doc/gettingstarted/onboarding). 착수 시 최신 요구 사항을 다시 확인한다.
+
+## 2026-10-08 M10 continuation
+
+The user authorized runnable development through M10. M6 management and M7 help/audio are implemented; M8 automated checks and M9/M10 candidate materials are in [the review](reviews/m6-m10-development.md). Overall M7/M8/M9/M10 acceptance remains open: music/visual listening, five human testers, physical offline/DPI/clean Windows, final trailer/rights/support specs and actual Steam partner/install/update verification. Deferred gates do not stop independent preparation and are not marked passed.
+
+## 2026-10-09 delivery ownership
+
+The user delegates delivery of a sellable game to the agent, including implementation,
+tests, merges, GitHub feature evaluation/adoption, CI/CD and milestone management.
+Routine completion includes self-review, current-head passing CI and main integration;
+do not leave implementation PRs open merely because milestone acceptance is pending.
+Keep those gates visible until actual evidence exists. Request only genuinely missing
+external access or decisions outside existing authorization, with concrete prepared work.

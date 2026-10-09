@@ -1,4 +1,4 @@
-﻿@font-face {
+@font-face {
     font-family: "Tycoon Condensed";
     src: url("../../../public/fonts/Oswald-wght.ttf") format("truetype");
     font-style: normal;
@@ -1057,3 +1057,16 @@ html.desktop,
     margin: 0 !important;
     object-fit: contain;
 }
+
+.management-choice { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; margin: 5px 0; font-size: 12px; }
+.management-choice span { grid-column: 1; }
+.management-choice button { grid-column: 2; grid-row: 1 / 3; }
+.management-option { display: block; width: 100%; margin: 5px 0; font-size: 12px; }
+.advertising-options { display: flex; flex-wrap: wrap; gap: 3px; }
+.advertising-options button { font-size: 11px; padding: 3px; }
+.toolbar button { font-size: 12px; padding-inline: 5px; }
+
+dialog { max-width: 620px; max-height: 85dvh; overflow: auto; color: #233522; background: #c5dca1; border: 3px ridge #678c52; }
+dialog p { font-size: 14px; }
+dialog label { display: block; margin: 7px 0; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0s !important; transition-duration: 0s !important; } }
