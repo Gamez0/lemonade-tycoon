@@ -1092,3 +1092,43 @@ restocking. Final long-save PASS:2,060,386-byte1600-day input,1601-day continuat
 without overwrite. Existing packaged save/flush/forced-exit/recovery/import/export/
 relocation suite also PASS. Runtime/schema/accounting unchanged except capacity.
 
+### 2026-10-09 alpha4 delivered engineering handoff
+
+PR197 passed exact-head checks and merged598af170a117414399aef827f5c1f7d689442c9b.
+Main checks37890734957 passed simulation/browser/release and all eight packaged
+Windows suites, then Pages deployment. Draft workflow37891107418 passed on its
+first attempt. Candidate source remains frozen598af17, version0.2.0-alpha.4.
+ZIP162,986,664 bytes SHA256
+2e1d93f2791fbe6da2ca2f5b3004cc8c1e76b4f2c760cab86abf156133f40b75.
+Internal draft: https://github.com/Gamez0/lemonade-tycoon/releases/tag/untagged-b1f7b723a0084d1b737b
+Nine attached assets and all upload digests verified; no public distribution.
+
+Exact-main CI long-save report confirms1600-day2,060,386-byte input, day1601
+continuation,2,061,925-byte final save and oversized-file/multi-byte IPC protection.
+Preserved sixteen exact-run native reports/screenshots in the evidence ZIP,
+SHA256c5bd9222a3d9dc287d08e492ad283c453942757c9912203b3058cd968792a7fe,
+plus its checksum. Media/listening ZIPs retain explicit source617611e; art/score/
+capture/export sources are unchanged by the capacity fix. They are not falsely
+relabeled as new alpha4 captures or human-approved final materials.
+
+Additional clean local b0a311c evidence: the1600-day business fits all seven tabs
+at800x600; natural4x day1601 (no SKIP) gives430 frame intervals, median16.7ms,
+p95 16.8ms, max50ms on recorded i3-10100/Windows10/~16GiB development hardware.
+Not minimum hardware, physical DPI or long-session/human acceptance. Updated
+issues108/110/113/161/167/168/162 with actual evidence and manual deferral, without
+closing human gates. Original dirty parent worktree and user PR83 preserved.
+
+All game/automation PRs through197 are merged. This final documentation update
+records actual outcomes and current GitHub capabilities; it does not rebuild or
+retarget the frozen alpha4 candidate. Keep its source/hash stable through docs-only
+main updates. The next real product change requires a new candidate version.
+
+Next: finish this documentation PR through current-head CI/merge, then reassess
+only concrete authorized release work. Steam AppID/DepotID and partner credentials
+are unavailable; repository Actions variables and secret names are both empty.
+Real Steam install/upload/submission cannot be inferred or simulated as complete.
+Human playtest/clean-PC/physical-DPI tasks remain explicitly deferred and must not
+be requested again as a reason to stop engineering. Do not invent unrelated scope
+or claim background work/schedules. Observe the goal's repeated-block rule if no
+independent authorized task remains and the same external information is absent.
+
