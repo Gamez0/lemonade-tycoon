@@ -9,8 +9,8 @@ jobs:
         runs-on: windows-latest
         timeout-minutes: 20
         steps:
-            - uses: actions/checkout@v4
-            - uses: actions/setup-node@v4
+            - uses: actions/checkout@v7
+            - uses: actions/setup-node@v6
               with:
                   node-version: 22
                   cache: npm
@@ -35,7 +35,7 @@ jobs:
               run: |
                   node scripts/release-manifest.cjs "release/Lemonade Tycoon-win32-x64"
                   node scripts/release-manifest.cjs "release/Lemonade Tycoon-win32-x64" --verify
-            - uses: actions/upload-artifact@v4
+            - uses: actions/upload-artifact@v6
               with:
                   name: windows-prototype-${{ github.event.pull_request.head.sha || github.sha }}
                   path: release/Lemonade Tycoon-win32-x64/
