@@ -47,7 +47,17 @@ async function close() {
         await page.locator('#export-save').click();
         await expect.poll(() => fs.existsSync(exported)).toBe(true);
         assert.deepEqual(decodeSave(fs.readFileSync(exported, 'utf8')), decodeSave(raw));
-        await page.locator('#open').click(); await page.locator('#skip').click();
+        // The imported next-day checkpoint correctly has melted overnight ice.
+        // Replenish through the same UI before attempting the next business day.
+        await page.locator('[data-page=supplies]').click();
+        for (const item of ['lemon', 'sugar', 'ice', 'cup']) {
+            await page.locator(`[data-supply=${item}]`).click();
+            await page.locator('[data-bundle="0"][data-delta="1"]').click();
+        }
+        await page.locator('#buy-order').click();
+        await page.locator('#open').click();
+        await expect(page.locator('#app')).toHaveAttribute('data-phase', 'selling');
+        await page.locator('#skip').click();
         await expect(page.locator('#app')).toHaveAttribute('data-phase', 'results');
         await expect.poll(() => decodeSave(fs.readFileSync(save, 'utf8')).history.length).toBe(1601);
         const done = fs.readFileSync(save, 'utf8');

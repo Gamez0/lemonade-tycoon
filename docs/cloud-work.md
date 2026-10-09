@@ -1084,3 +1084,11 @@ Audit allows/requires the new limits file; Windows CI retains the long-save repo
 Candidate advances alpha4. Next: local type/lint/release/package checks and the
 regression on a clean new package, then exact-head CI, merge and verified draft.
 
+Local clean package b0a311c archive audit16 files PASS; typecheck, lint, release8/8
+and actionlint PASS. New long-save test initially restored/exported successfully
+but attempted opening without replenishing melted ice; corrected its actual UI
+restocking. Final long-save PASS:2,060,386-byte1600-day input,1601-day continuation,
+2,061,925-byte final save, export/relaunch and oversized file/multi-byte IPC rejection
+without overwrite. Existing packaged save/flush/forced-exit/recovery/import/export/
+relocation suite also PASS. Runtime/schema/accounting unchanged except capacity.
+
