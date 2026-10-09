@@ -940,3 +940,22 @@ or distribution fee/account setting changed. Node syntax and git diff checks PAS
 Current-head CI governs merge. Next: refresh release/issue evidence with delivered
 media and native rehearsal, then identify genuinely remaining external gates from
 the actual tracker; no implementation task should remain open merely for acceptance.
+
+## 2026-10-09 loop steering and audio recovery
+
+User explicitly defers manual human playtests, clean Windows PC and physical DPI
+for this execution. They remain unclaimed evidence, but must not stop independent
+engineering or cause repeated requests for the user to perform them. AGENTS and
+restart prompt now reflect this latest instruction. Continue reassessment loops.
+
+PR190 shipped-notice audit passed exact-head CI and merged0ad9fed. Next audio
+recovery regression reproduces a real fault with an actual browser AudioContext:
+suspend activated music, return focus, context stays suspended and no notes sound.
+Focused regression fails on old build, passes after sync resumes non-running
+contexts before scheduling. Eligible/mute/hidden/focus guards are rechecked after
+async resume; closed contexts and resume rejection leave gameplay available.
+Typecheck, zero-warning lint and production build PASS. Add shared real-audio
+probe/verification to browser and native Windows suite; no fake sound approval.
+Full browser/native verification and current-head CI still required before merge.
+Next independent task: sustained native campaign/save-growth validation, then
+release-artifact refresh from the latest integrated gameplay source.

@@ -35,6 +35,12 @@ Linux browser/file-storage results cannot establish Windows package acceptance.
 
 ## Working agreement
 
+- Latest steering (2026-10-09): manual human playtests, clean Windows PC and
+  physical DPI checks are deferred for this execution. Keep their acceptance
+  evidence honest, but do not treat them as blockers or ask the user to perform
+  them before continuing independent engineering. Repeat task reassessment,
+  implementation, validation and main integration toward release.
+
 - Continuation rule (user correction, 2026-10-09): passing tests, merging PRs,
   preparing an alpha artifact or sending a progress report does not complete the
   delegated game delivery. Before ending active work, inspect the remaining

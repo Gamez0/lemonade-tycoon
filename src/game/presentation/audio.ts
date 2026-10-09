@@ -42,6 +42,15 @@ export class GameAudio {
     private sync(): void {
         this.stop();
         if (!this.unlocked || !this.context || this.settings.muted || document.hidden || !document.hasFocus()) return;
+        // A focus return can follow a browser/device suspension. Restart the
+        // context before scheduling notes; merely restarting the timer stays silent.
+        if (this.context.state !== "running") {
+            if (this.context.state === "closed") return;
+            void this.context.resume().then(() => {
+                if (this.context?.state === "running") this.sync();
+            }).catch(() => { /* A later user gesture can retry without blocking play. */ });
+            return;
+        }
         // Original pentatonic miniatures: a slow porch tune, a brisk market tune,
         // and a short settling cadence. Timing is independent of simulation speed.
         this.timer = window.setInterval(() => {
