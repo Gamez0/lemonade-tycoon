@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain, Menu } = require('electron');
 const path = require('node:path');
 const { createFileStorage } = require('./file-storage.cjs');
+const { maxSaveBytes } = require('./save-limits.json');
 
 let window;
 let closing = false;
@@ -17,7 +18,7 @@ ipcMain.handle('save:get', (event, key) => {
 });
 ipcMain.handle('save:set', (event, key, value) => {
     authorized(event);
-    if (typeof value !== 'string' || value.length > 2_000_000) throw new Error('Save file is too large.');
+    if (typeof value !== 'string' || Buffer.byteLength(value, 'utf8') > maxSaveBytes) throw new Error('Save file is too large.');
     try { storage.setItem(key, value); } catch (error) { diagnostics.record('save-failed'); throw error; }
 });
 ipcMain.on('save:flushed', event => {
