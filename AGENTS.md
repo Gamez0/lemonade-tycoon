@@ -35,6 +35,16 @@ Linux browser/file-storage results cannot establish Windows package acceptance.
 
 ## Working agreement
 
+- The user delegates delivery of a sellable game: own implementation, meaningful
+  tests, self-review, current-head CI, merges, CI/CD, GitHub feature adoption,
+  milestone/issue upkeep and reviewable release artifacts. Finish routine work
+  through main integration without repeatedly asking for approval. Keep account,
+  payment and actual distribution actions within explicit session authorization.
+- A human/manual release acceptance gate is not a reason to leave reviewed,
+  tested implementation PRs unmerged. Preserve the open gate in issues/docs while
+  integrating code. Reconcile stacked PR bases, obsolete checkpoints and branch
+  protection checks as part of finishing the work.
+
 - Preserve the classic compact green panels, beveled controls and neighborhood
   art direction. Keep pitcher production, ice melt and historical-save accounting.
 - Follow the original game's flow and intentional simplifications. Do not add

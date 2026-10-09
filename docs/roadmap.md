@@ -132,3 +132,12 @@
 ## 2026-10-08 M10 continuation
 
 The user authorized runnable development through M10. M6 management and M7 help/audio are implemented; M8 automated checks and M9/M10 candidate materials are in [the review](reviews/m6-m10-development.md). Overall M7/M8/M9/M10 acceptance remains open: music/visual listening, five human testers, physical offline/DPI/clean Windows, final trailer/rights/support specs and actual Steam partner/install/update verification. Deferred gates do not stop independent preparation and are not marked passed.
+
+## 2026-10-09 delivery ownership
+
+The user delegates delivery of a sellable game to the agent, including implementation,
+tests, merges, GitHub feature evaluation/adoption, CI/CD and milestone management.
+Routine completion includes self-review, current-head passing CI and main integration;
+do not leave implementation PRs open merely because milestone acceptance is pending.
+Keep those gates visible until actual evidence exists. Request only genuinely missing
+external access or decisions outside existing authorization, with concrete prepared work.
