@@ -7,10 +7,47 @@ const { writeManifest, verifyManifest } = require('../scripts/release-manifest.c
 const { auditDesktop } = require('../scripts/audit-desktop.cjs');
 const { prepare } = require('../scripts/steam-prepare.cjs');
 const { createDiagnostics } = require('../src/desktop/diagnostics.cjs');
+const { auditPackage } = require('../scripts/audit-package.cjs');
+const asar = require('@electron/asar');
 function temporary(run) {
     const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'lemonade-release-'));
     try { run(directory); } finally { fs.rmSync(directory, { recursive: true, force: true }); }
 }
+
+test('shipped archive audit rejects missing notices, altered licenses and embedded research', async () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'lemonade-notices-'));
+    try {
+        const stage = path.join(root, 'stage');
+        const write = (file, bytes) => { fs.mkdirSync(path.dirname(path.join(stage, file)), { recursive: true }); fs.writeFileSync(path.join(stage, file), bytes); };
+        for (const file of ['package.json', 'dist/index.html', 'dist/assets/game.js', 'dist/assets/font.ttf', ...['main.cjs', 'preload.cjs', 'file-storage.cjs', 'diagnostics.cjs', 'icon.ico'].map(name => `src/desktop/${name}`)]) write(file, 'fixture');
+        write('CREDITS.txt', 'Willow Lane Lemonade');
+        write('LICENSE', fs.readFileSync(path.resolve(__dirname, '../LICENSE')));
+        const phaserNotice = fs.readFileSync(path.resolve(__dirname, '../node_modules/phaser/LICENSE.md'));
+        write('LICENSE-Phaser.txt', phaserNotice);
+        write('dist/licenses/OFL-Oswald.txt', fs.readFileSync(path.resolve(__dirname, '../public/fonts/OFL-Oswald.txt')));
+        let variant = 0;
+        const pack = async () => {
+            const output = path.join(root, `package-${variant++}`);
+            fs.mkdirSync(path.join(output, 'resources'), { recursive: true });
+            fs.writeFileSync(path.join(output, 'LICENSE'), 'Copyright (c) Electron contributors');
+            fs.writeFileSync(path.join(output, 'LICENSES.chromium.html'), '<html>runtime notice fixture</html>');
+            await asar.createPackage(stage, path.join(output, 'resources/app.asar'));
+            return output;
+        };
+        const valid = await pack();
+        assert.ok(auditPackage(valid).notices['dist/licenses/OFL-Oswald.txt']);
+        fs.unlinkSync(path.join(valid, 'LICENSES.chromium.html'));
+        assert.throws(() => auditPackage(valid), /ENOENT/);
+        fs.unlinkSync(path.join(stage, 'LICENSE-Phaser.txt'));
+        const missing = await pack(); assert.throws(() => auditPackage(missing), /Missing shipped/);
+        write('LICENSE-Phaser.txt', phaserNotice);
+        write('dist/assets/reference.png', 'research');
+        const contaminated = await pack(); assert.throws(() => auditPackage(contaminated), /Unapproved shipped/);
+        fs.unlinkSync(path.join(stage, 'dist/assets/reference.png'));
+        write('dist/licenses/OFL-Oswald.txt', 'truncated');
+        const altered = await pack(); assert.throws(() => auditPackage(altered), /differs from source/);
+    } finally { fs.rmSync(root, { recursive: true, force: true }); }
+});
 function fixture(directory) {
     fs.mkdirSync(path.join(directory, 'resources'));
     for (const file of ['Lemonade Tycoon.exe', 'resources/app.asar', 'LICENSE', 'LICENSES.chromium.html'])

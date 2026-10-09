@@ -18,6 +18,8 @@ jobs:
             - run: npm test
             - run: npm run test:release
             - run: npm run desktop:package:win
+            - name: Audit shipped archive and license notices
+              run: node scripts/audit-package.cjs "release/Lemonade Tycoon-win32-x64"
             - name: Test packaged save and recovery
               shell: pwsh
               run: |
