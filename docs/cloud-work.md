@@ -761,6 +761,54 @@ clean-PC, final name/rights/support specs and real Steam gates remain open.
 
 Next: inspect successor PR132 head CI; playtest the corrected package and continue
 the remaining acceptance work. No merge is claimed by this checkpoint.
+
+### Delivery ownership and main integration — 2026-10-09 (KST)
+
+The user reiterated that the agent owns delivery of a sellable game, including
+tests, merges, GitHub feature evaluation/adoption, CI/CD and milestone upkeep.
+Routine work should proceed to completion without repeated approval requests.
+This is recorded in AGENTS and the roadmap. Human release acceptance and genuinely
+external account/payment/distribution prerequisites remain explicit; they are not
+reasons to leave reviewed implementation code unmerged.
+
+Reviewed the open PRs and reconciled the game stack with merged GitHub operations
+#175. Preserved both journal histories, modern issue templates and reusable CI,
+and imported the unique older #129 checkpoint before closing that superseded PR.
+Each implementation was self-reviewed, refreshed against the actual main branch,
+tested at its exact head and merged without bypassing protection:
+
+- #130 head 87efdc2412ed8e1bc2d1e8a67bfc8069618449ec; Linux/browser, native Windows,
+  CodeQL all PASS. Main merge cc14000b0c8b1ae4d643d6e74fc3bef4c14a65e8.
+- #131 head c09b9ddfc6675ad67be28e0316be796f940e76ac; Linux/browser, native Windows,
+  CodeQL all PASS. Main merge 652fd9f392d0bd4464a99d5f4c72aa4d24e40a11.
+- #132 head 5d8130cb1d049808752a1eb97deaac227c29ee75; Linux/browser, all four native
+  Windows suites, CodeQL all PASS. Main merge 770fc6bb0aaff07edc7c7cb3db3e1f3e6e851c11.
+
+Closed completed integration leaves #136/#144/#149; parent/manual milestones remain
+open. PR83 and the parent's uncommitted changes remain untouched. Fixed a CI flaw:
+PowerShell now checks every native suite exit code and immediately fails, rather
+than potentially returning the final successful command's exit status.
+
+Consolidated dependency work is PR185, initially stacked on #132 and automatically
+retargeted to main after merge. It updates compatible proposals #177–183 and handles
+the actual peer failures together (ESLint 10 needs matching @eslint/js; TypeScript 7
+is outside typescript-eslint's <6.1 support). Suppress only the unsupported compiler
+range, not all future compiler updates. npm audit reports **0 known vulnerabilities**
+for the new lock, distinct from GitHub's still-open main alerts until refreshed.
+Local unit41/41, release5/5, strict type/lint, web/desktop builds/six-file audit and
+full browser18/18 PASS. Current-head remote CI is required before merging; close
+superseded bot PRs and #176 only after main inclusion/actual alert resolution.
+
+Added read-only PR Dependency review with moderate severity threshold, and a
+repository-relevant feature decision matrix in docs/github-operations.md. Its first
+run passed and identifies GitHub Actions app15368; require its actual check after
+main integration. Existing Projects scope is unavailable; paid Copilot Agents are
+not available to the user. No agent service purchase, published release or Steam
+submission occurred. No agents in parallel and no preview server intentionally left
+running. Main's existing tested preview deployment remains part of authorized CI/CD.
+
+Next: finish PR185 through exact-head CI/main integration, verify main preview,
+security alerts and final artifact provenance; then continue remaining delivery gates.
 ### GitHub operations audit - 2026-10-08
 
 User requested repository-wide issue hygiene and useful GitHub features. Isolated
