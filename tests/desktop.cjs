@@ -4,6 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const os = require('node:os');
 const { execFileSync } = require('node:child_process');
+const { profileArgs, verifyProfile } = require('./helpers/desktop-profile.cjs');
 
 let stage = 'launch and preparation save';
 const executablePath = process.env.LEMONADE_DESKTOP_EXE;
@@ -13,8 +14,9 @@ const env = { ...process.env, LOCALAPPDATA: base, APPDATA: path.join(base, 'Roam
 delete env.ELECTRON_RUN_AS_NODE;
 const savePath = path.join(base, 'Lemonade Tycoon', 'save.json');
 const launch = async (target = executablePath) => {
-    const app = await electron.launch({ executablePath: target, env, timeout: 60000 });
+    const app = await electron.launch({ executablePath: target, env, timeout: 60000, args: profileArgs(base) });
     const page = await app.firstWindow();
+    await verifyProfile(app, base);
     await expect(page.locator('#app')).toBeVisible();
     await expect(page.locator('canvas')).toBeVisible();
     if (!await page.evaluate(() => Boolean(window.desktopSave))) throw new Error('Native save bridge is missing.');

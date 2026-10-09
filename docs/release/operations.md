@@ -15,6 +15,10 @@ v0-v4 without rewriting historical purchases or profit. It tracks zero-cost ice
 from owned ice makers; old charged checkpoints remain paid. Future versions reject
 safely. A forced exit replays the paid opening without new fees or ice production.
 Audio preferences use the application's local storage and do not alter the ledger.
+For isolated QA, set --user-data-dir to a disposable Chromium profile as well as
+isolating APPDATA/LOCALAPPDATA for business files. On Windows these environment
+overrides alone do not isolate Electron's persisted browser/audio settings. Native
+tests verify actual userData and session storage paths before acting.
 
 Rollback: retain previous complete package plus exported pre-update JSON. Close
 the current game, back up current save and backup files, run the previous package

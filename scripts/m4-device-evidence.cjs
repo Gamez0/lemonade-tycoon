@@ -8,6 +8,7 @@ const assert = require('node:assert/strict');
 const { execFileSync } = require('node:child_process');
 const crypto = require('node:crypto');
 const { decodeSave, encodeSave } = require('../.test-build/simulation/save.js');
+const { profileArgs, verifyProfile } = require('../tests/helpers/desktop-profile.cjs');
 
 const oldExe = process.env.LEMONADE_OLD_EXE;
 const newExe = process.env.LEMONADE_DESKTOP_EXE;
@@ -34,8 +35,9 @@ assert.notEqual(report.oldBuild.source_commit, report.newBuild.source_commit);
 assert.notEqual(hash(path.join(path.dirname(oldExe), 'resources/app.asar')), hash(path.join(path.dirname(newExe), 'resources/app.asar')));
 let session, browser;
 async function launch(exe = newExe) {
-    const app = await electron.launch({ executablePath: exe, env, timeout: 60000 });
+    const app = await electron.launch({ executablePath: exe, env, timeout: 60000, args: profileArgs(base) });
     session = { app, page: await app.firstWindow() };
+    await verifyProfile(app, base);
     await expect(session.page.locator('canvas')).toBeVisible();
     return session;
 }

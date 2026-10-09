@@ -940,3 +940,35 @@ or distribution fee/account setting changed. Node syntax and git diff checks PAS
 Current-head CI governs merge. Next: refresh release/issue evidence with delivered
 media and native rehearsal, then identify genuinely remaining external gates from
 the actual tracker; no implementation task should remain open merely for acceptance.
+
+## 2026-10-09 loop steering and audio recovery
+
+User explicitly defers manual human playtests, clean Windows PC and physical DPI
+for this execution. They remain unclaimed evidence, but must not stop independent
+engineering or cause repeated requests for the user to perform them. AGENTS and
+restart prompt now reflect this latest instruction. Continue reassessment loops.
+
+PR190 shipped-notice audit passed exact-head CI and merged0ad9fed. Next audio
+recovery regression reproduces a real fault with an actual browser AudioContext:
+suspend activated music, return focus, context stays suspended and no notes sound.
+Focused regression fails on old build, passes after sync resumes non-running
+contexts before scheduling. Eligible/mute/hidden/focus guards are rechecked after
+async resume; closed contexts and resume rejection leave gameplay available.
+Typecheck, zero-warning lint and production build PASS. Add shared real-audio
+probe/verification to browser and native Windows suite; no fake sound approval.
+Full browser/native verification and current-head CI still required before merge.
+Next independent task: sustained native campaign/save-growth validation, then
+release-artifact refresh from the latest integrated gameplay source.
+
+Audio follow-up: full browser19/19 PASS and clean native package sourcee3f6305
+built. Native audio initially failed because the preceding native management test
+persisted mute in a shared Chromium profile: APPDATA/LOCALAPPDATA overrides isolate
+business files, but Windows Electron browser preferences require --user-data-dir.
+Remote Windows failure confirms the same sequential-test contamination; not a pass.
+Add an explicit temporary profile to every native suite and device-evidence tool,
+and verify actual app userData/session storage paths before taking test actions.
+Manual isolated launchers use dedicated profiles too. Native audio and management
+then PASS separately; the current native audio verifies focus, actual context
+suspension/recovery and mute/unmute. Existing user profile was not reset or guessed.
+Current gameplay source remains e3f6305; follow-up changes are QA isolation/docs.
+Rerun final-head CI, merge only on success, then continue native campaign work.

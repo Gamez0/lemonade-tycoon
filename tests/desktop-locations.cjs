@@ -8,6 +8,7 @@ const { campaign, stock } = require('./helpers/business.cjs');
 const { openDay, reserveLocation } = require('../.test-build/simulation/game.js');
 const { beginStreetDay, finishStreetDay } = require('../.test-build/simulation/street-day.js');
 const { encodeSave } = require('../.test-build/simulation/save.js');
+const { profileArgs, verifyProfile } = require('./helpers/desktop-profile.cjs');
 const executablePath = process.env.LEMONADE_DESKTOP_EXE;
 if (process.platform !== 'win32' || !executablePath || !fs.existsSync(executablePath))
     throw new Error('Set LEMONADE_DESKTOP_EXE to the Windows package.');
@@ -18,8 +19,9 @@ const primary = path.join(base, 'Lemonade Tycoon', 'save.json');
 const read = () => JSON.parse(fs.readFileSync(primary, 'utf8'));
 let app;
 async function launch() {
-    app = await electron.launch({ executablePath, env });
+    app = await electron.launch({ executablePath, env, args: profileArgs(base) });
     const page = await app.firstWindow();
+    await verifyProfile(app, base);
     await expect(page.locator('canvas')).toBeVisible();
     return page;
 }
