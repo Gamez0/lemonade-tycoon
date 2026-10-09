@@ -1,5 +1,7 @@
 # Willow Lane Lemonade
 
+English · [한국어](README.ko.md)
+
 [![Checks](https://github.com/Gamez0/lemonade-tycoon/actions/workflows/checks.yml/badge.svg?branch=main)](https://github.com/Gamez0/lemonade-tycoon/actions/workflows/checks.yml)
 
 [Milestones](https://github.com/Gamez0/lemonade-tycoon/milestones) · [GitHub working guide](docs/github-operations.md) · [Questions and feedback](https://github.com/Gamez0/lemonade-tycoon/discussions)
