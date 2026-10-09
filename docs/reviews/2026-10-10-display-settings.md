@@ -1,8 +1,10 @@
 # Windows display settings (#205)
 
 The user requested window size/fullscreen selection and continued delivery.
-Windows Help / Settings now offers Windowed and Fullscreen with Apply. Window
-sizes are logical client pixels under Windows scaling, not monitor mode changes.
+Windows Help / Settings now offers Windowed and Fullscreen with Apply. Settings
+text/controls keep contrast on the light dialog; CLOSE remains in its sticky
+heading when the long help scrolls. Window sizes are logical client pixels under
+Windows scaling, not monitor mode changes.
 Fullscreen fills the current monitor. The web preview retains DOM fullscreen.
 
 Preferences live in `%LOCALAPPDATA%/Lemonade Tycoon/display.json`, separate from

@@ -1131,4 +1131,7 @@ html.desktop,
 dialog { max-width: 620px; max-height: 85dvh; overflow: auto; color: #233522; background: #c5dca1; border: 3px ridge #678c52; }
 dialog p { font-size: 14px; }
 dialog label { display: block; margin: 7px 0; }
+dialog .help-heading { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #c5dca1; }
+dialog h2, #display-settings .hint { color: inherit; }
+#display-settings select { max-width: 100%; color: inherit; background: #dcebbd; border: 2px inset #678c52; font: inherit; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0s !important; transition-duration: 0s !important; } }

@@ -1363,3 +1363,6 @@ reapplies the size following Windows' initial per-monitor DPI event. Resource
 guards PASS: idle draws0, normal1.37%/148.8MiB private, accelerated1.68%/155.3MiB
 on this machine; no minimum-spec claim. Current source self-reviewed, no dirty
 parent/user-owned files included. Proceed to exact-head CI, merge and delivery.
+175% screenshot review additionally caught low contrast in new display hints.
+Use inherited dark dialog text/classic select styling and keep CLOSE in a sticky
+heading. Recheck the changed dialog and fresh-head required CI before merge.

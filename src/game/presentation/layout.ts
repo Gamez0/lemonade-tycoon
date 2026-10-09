@@ -58,7 +58,7 @@ export const markup = `
  </section>
 </main>
 <footer><button id="help-open" class="text-button">Help / Sound</button><span id="goal"></span><button id="restart" class="text-button">New business</button><button id="export-save" class="text-button">Export save</button><button id="import-save" class="text-button">Import save</button><input id="save-file" class="sr-only" type="file" accept=".json,application/json"><a href="./legacy.html">Legacy game</a><small id="save-status" role="status">Saved on this device</small></footer>
-<dialog id="help-dialog" aria-labelledby="help-title"><h2 id="help-title">Willow Lane · Help and settings</h2>
+<dialog id="help-dialog" aria-labelledby="help-title"><div class="help-heading"><h2 id="help-title">Willow Lane · Help and settings</h2><button id="help-close">CLOSE</button></div>
 <fieldset id="display-settings" hidden><legend>Display</legend>
 <label>Screen mode <select id="display-mode"><option value="windowed">Windowed</option><option value="fullscreen">Fullscreen</option></select></label>
 <label>Window size <select id="display-size"></select></label>
@@ -76,4 +76,4 @@ export const markup = `
 <label>Effects <input id="effects-volume" type="range" min="0" max="100" value="35"></label>
 <label><input id="mute-audio" type="checkbox"> Mute all sound</label>
 <p>Original code-generated music and effects. Art drawn for this project. Oswald font: SIL Open Font License. Phaser: MIT. Electron and Chromium license notices accompany the Windows package.</p>
-<button id="fullscreen">Toggle fullscreen</button><button id="export-diagnostics" hidden>Export diagnostics</button><button id="quit-game" hidden>Save and quit</button><button id="help-close">CLOSE</button></dialog>`;
+<button id="fullscreen">Toggle fullscreen</button><button id="export-diagnostics" hidden>Export diagnostics</button><button id="quit-game" hidden>Save and quit</button></dialog>`;
