@@ -1132,3 +1132,18 @@ be requested again as a reason to stop engineering. Do not invent unrelated scop
 or claim background work/schedules. Observe the goal's repeated-block rule if no
 independent authorized task remains and the same external information is absent.
 
+### 2026-10-09 observed runner migration / release CI stability
+
+Previous goal turn made concrete progress through game/save fixes and alpha4
+delivery. This continuation verified live main run37892058553 after documentation
+PR198 merged1f36852. Its actual annotation announces ubuntu-latest switching to
+Ubuntu26 starting October19. Official runner-images issue14748 confirms the planned
+transition; successful alpha4 job logs show Ubuntu24.04.5 / ubuntu-24.04 image.
+
+Pin the four repository Linux jobs (checks, Pages, dependency review, draft release)
+to ubuntu-24.04 so the OS baseline does not silently change during release work.
+No game, dependency, Windows target, permissions or frozen alpha4 source changes.
+Hosted Ubuntu24 image updates remain enabled; future OS migration needs a separate
+verified change. Self-review: exactly four runner-label edits plus explanation;
+actionlint and current-head remote checks required before merge.
+

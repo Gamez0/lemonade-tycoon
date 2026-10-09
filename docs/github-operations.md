@@ -90,6 +90,12 @@ The real alpha4 path passed checks37890734957 and draft37891107418. It remains
 an internal prerelease; a documentation-only main commit must not retarget that
 frozen candidate or reuse its version for a different source.
 
+Repository Linux jobs explicitly use `ubuntu-24.04`, the image verified by the
+alpha4 checks. GitHub's [announced Ubuntu26 transition](https://github.com/actions/runner-images/issues/14748)
+starts October19,2026 and changes `ubuntu-latest`. Keep the release baseline stable
+and validate a future OS upgrade separately. The label still receives hosted-image
+updates; this is an OS-version pin, not an immutable image or security-update freeze.
+
 ## Feature coverage and delivery decisions — 2026-10-09
 
 Routine implementation must finish through self-review, exact-head passing CI and
