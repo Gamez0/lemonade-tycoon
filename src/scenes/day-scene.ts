@@ -13,7 +13,7 @@ import WeatherNewsContainer from "../ui/weather-news-container";
 import MapContainer from "../ui/map-container";
 import { RentedLocation } from "../models/location";
 import { Recipe } from "../models/recipe";
-import { GameDataFromDayScene, GameDataFromPreparationScene, PreparationScene } from "./preparation-scene";
+import { GameDataFromDayScene, GameDataFromPreparationScene } from "./preparation-scene";
 import Price from "../models/price";
 import CustomerQueue from "../models/customerQueue";
 import LemonadePitcher from "../models/lemonadePitcher";
@@ -100,11 +100,8 @@ export class DayScene extends Scene {
 
     customerListByHour: CustomerListByHour;
 
-    sceneKey: string;
-
-    constructor(key: string) {
-        super({ key });
-        this.sceneKey = key;
+    constructor() {
+        super({ key: "DayScene" });
     }
 
     init(data: GameDataFromPreparationScene) {
@@ -338,7 +335,6 @@ export class DayScene extends Scene {
     }
 
     switchToPreparationScene() {
-        const preparationScene = new PreparationScene(`preparation-${this._date.getDateString()}`);
         const data: GameDataFromDayScene = {
             budget: this.budget,
             supplies: this.supplies,
@@ -348,12 +344,7 @@ export class DayScene extends Scene {
             price: this.price,
             todayResult: this.todayResult,
         };
-        this.scene.add(`preparation-${this._date.getDateString()}`, preparationScene, true, data);
-        this.scene.start(`preparation-${this._date.getDateString()}`);
-
-        this.scene.get(this.scene.key).sys.shutdown();
-        this.scene.stop(this.scene.key);
-        this.scene.remove(this.scene.key);
+        this.scene.start("PreparationScene", data);
     }
 
     createAnimation() {
