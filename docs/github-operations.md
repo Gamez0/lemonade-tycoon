@@ -82,6 +82,14 @@ intended candidate is agreed. The current Windows alpha is not an accepted RC.
 Published Releases, Steam uploads/submission and public sales are separate actions;
 this organization change does not publish candidate artifacts.
 
+Verified draft delivery now uses `scripts/release-zip.ps1` in Windows CI and
+dispatch-only `release-draft.yml`. The draft job takes an already successful,
+exact-source main checks run, verifies the downloaded ZIP/checksum/manifest and
+GitHub asset digests, and refuses published or different-source releases.
+The real alpha4 path passed checks37890734957 and draft37891107418. It remains
+an internal prerelease; a documentation-only main commit must not retarget that
+frozen candidate or reuse its version for a different source.
+
 ## Feature coverage and delivery decisions — 2026-10-09
 
 Routine implementation must finish through self-review, exact-head passing CI and
@@ -99,8 +107,8 @@ branch protection rather than bypassing it to clear the PR list.
 | Pages and deployment environments | Use for the tested development preview; deployment follows successful Linux and Windows jobs. |
 | Dependabot alerts/security updates/version proposals | Use with review; consolidate compatible updates and document incompatible compiler proposals. |
 | CodeQL and secret scanning/push protection | Enabled and verified; preserve them. |
-| Dependency graph and Dependency review | Add PR-time vulnerability checks and require the observed check after validation. |
-| Releases, tags, versioned assets and checksums | Prepare private draft candidates after main integration; publish only under actual release authorization. |
+| Dependency graph and Dependency review | Use; PR-time vulnerability checks and the observed dependency-review check are required. |
+| Releases, tags, versioned assets and checksums | Use the verified Windows ZIP/internal draft workflow; preserve source identities and uploaded digests. Public publication remains separate. |
 | Discussions | Enabled; general feedback belongs here, actionable work belongs in issues. |
 | Insights, dependency and Actions history | Use as evidence for development/security/CI cost and failures; milestone issue counts are not quality or time estimates. |
 | Wiki | Disabled; versioned docs in the repository are the maintained source. |
