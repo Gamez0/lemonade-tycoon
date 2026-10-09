@@ -918,3 +918,25 @@ immediate failure propagation. Node syntax and git diff checks PASS; remote fina
 head CI governs merge. Next: audit shipped content notices/source provenance and
 prepare a reviewable rights inventory while native QA CI runs. No checkpoint ends
 this delegated delivery goal; remaining external evidence stays explicitly open.
+
+## 2026-10-09 next release step: shipped notices and provenance
+
+Native-upgrade/UI PR189 passed exact-head Linux/browser, Windows(all scales),
+Dependency review and CodeQL and merged to main76cac06. Continue on
+fix/package-notice-audit. Inspected actual Windows candidate d1fb1ae archive:
+15 allowed files, project/Phaser/font notices match their maintained source bytes,
+Electron/Chromium runtime notices present. Added post-packaging archive audit to
+Windows CI; it rejects missing/altered notices, unknown content, links and unpacked
+files. Added meaningful failure-injection cases: omitted runtime/Phaser notices,
+research PNG contamination and altered font license. Release tests6/6 PASS and
+actual package audit PASS. Initial checks revealed Windows-native ASAR paths and
+Electron's license has a copyright heading rather than the literal MIT License;
+corrected comparisons using actual archive/API/notice bytes before reporting PASS.
+
+Rights/source register now identifies code/art/icons/score/store-media sources and
+preserved notices. It deliberately does not claim name/contributor clearance from
+Git history. Original-game reference/legacy files remain excluded. No game behavior
+or distribution fee/account setting changed. Node syntax and git diff checks PASS.
+Current-head CI governs merge. Next: refresh release/issue evidence with delivered
+media and native rehearsal, then identify genuinely remaining external gates from
+the actual tracker; no implementation task should remain open merely for acceptance.

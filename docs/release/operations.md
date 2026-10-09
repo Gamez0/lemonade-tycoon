@@ -32,6 +32,11 @@ reproduction with this export. Music failures must not prevent gameplay.
 Unsigned/uninstalled portable Electron package; no installer/signing claim.
 Clean-PC and update/reinstall acceptance remain separate from development tests.
 
+Audit the actual shipped archive and notices with node scripts/audit-package.cjs
+VERIFIED_PACKAGE; Windows CI performs this immediately after packaging. Source and
+notice inventory: [rights register](rights-register.md). Final name/contributor
+acceptance remains open even when every notice matches.
+
 For an actual two-package upgrade rehearsal, compile helpers with npm test, set
 LEMONADE_OLD_EXE, LEMONADE_DESKTOP_EXE and LEMONADE_EVIDENCE_ROOT, then run
 npm run test:desktop:upgrade. The tool refuses identical source/bundle pairs and
