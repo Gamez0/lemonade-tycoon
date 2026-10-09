@@ -6,7 +6,7 @@ const { createHash } = require('node:crypto');
 const root = path.resolve('.local-m4/m9-store');
 const videoRoot = path.join(root, 'video');
 const capture = JSON.parse(fs.readFileSync(path.join(root, 'capture-info.json'), 'utf8'));
-if (!capture.rawVideo || !/^[a-zA-Z0-9_-]+\.webm$/.test(capture.rawVideo.file)) throw new Error('Run npm run store:capture to record verified video provenance.');
+if (!capture.rawVideo || !/^[a-zA-Z0-9_@-]+\.webm$/.test(capture.rawVideo.file)) throw new Error('Run npm run store:capture to record verified video provenance.');
 const input = path.join(videoRoot, capture.rawVideo.file);
 const videoBytes = fs.readFileSync(input);
 if (createHash('sha256').update(videoBytes).digest('hex') !== capture.rawVideo.sha256) throw new Error('Raw capture checksum mismatch.');
