@@ -6,6 +6,43 @@ const { encodeSave, decodeSave } = require('../.test-build/simulation/save.js');
 const { stock, campaign } = require('./helpers/business.cjs');
 const finish = state => finishStreetDay(beginStreetDay(openDay(state))).day.game;
 
+test('all192 recipes across weather and management choices conserve inventory, free ice, money and portable saves', () => {
+    const { buyOrder, openingReadiness, pitcherCost } = require('../.test-build/simulation/game.js');
+    const { WEATHER } = require('../.test-build/content/catalog.js');
+    const variants = [state => state, state => purchaseUpgrade(state, 'iceMaker'),
+        state => purchaseUpgrade(state, 'refrigerator'),
+        state => selectAdvertising(hireStaff(purchaseUpgrade(state, 'blender'), 'server'), 'flyers')];
+    let cases = 0;
+    for (let lemon = 1; lemon <= 6; lemon++) for (let sugar = 1; sugar <= 4; sugar++) for (let ice = 0; ice <= 7; ice++) {
+        for (const [weatherIndex, weather] of WEATHER.entries()) for (const [variantIndex, configure] of variants.entries()) {
+            const price = [25, 175, 500][(weatherIndex + variantIndex) % 3];
+            let state = configure({ ...newGame(2026 + cases), weather });
+            state = buyOrder(setPlan(state, { price, recipe: { lemon, sugar, ice } }), { lemon: 60, sugar: 40, ice: 500, cup: 60 });
+            const before = JSON.stringify(state), supply = state.stock;
+            const { fees, ice: produced } = openingCosts(state);
+            assert.ok(openingReadiness(state).cups > 0);
+            const opened = openDay(state);
+            const checkpoint = { ...opened, phase: 'preparation' };
+            assert.deepEqual(openDay(decodeSave(encodeSave(checkpoint, [])).state), opened);
+            const done = finishStreetDay(beginStreetDay(opened)).day.game, daily = done.daily;
+            assert.equal(JSON.stringify(state), before, 'opening must not mutate preparation');
+            assert.equal(done.stock.lemon, supply.lemon - daily.pitchersMade * lemon);
+            assert.equal(done.stock.sugar, supply.sugar - daily.pitchersMade * sugar);
+            assert.equal(done.stock.ice, supply.ice + produced - daily.pitchersMade * ice * require('../.test-build/simulation/game.js').cupsPerPitcher(state.plan.recipe));
+            assert.equal(done.stock.cup, supply.cup - daily.sold);
+            assert.equal(done.cash, state.cash - fees + daily.sold * price);
+            assert.equal(daily.cost, daily.pitchersMade * pitcherCost(state.plan.recipe) + daily.sold * 6 - daily.freeIceUsed * 2);
+            assert.equal(done.freeIce, state.freeIce + produced - daily.freeIceUsed);
+            assert.ok(Object.values(done.stock).every(count => Number.isSafeInteger(count) && count >= 0 && count <= 999));
+            assert.deepEqual(decodeSave(encodeSave(done, [done])).state, done);
+            const tomorrow = nextDay(done);
+            assert.deepEqual(decodeSave(encodeSave(tomorrow, [done])).state, tomorrow);
+            cases++;
+        }
+    }
+    assert.equal(cases, 3072);
+});
+
 test('ice maker cannot prevent a stocked low-cash business from reopening and replaying', () => {
     for (const [lemons, sugar, cups, cash] of [[343, 2, 8, 0], [344, 1, 7, 2], [344, 1, 6, 8]]) {
         let state = purchaseUpgrade(newGame(), 'iceMaker');

@@ -1278,3 +1278,54 @@ Alpha7 draft is deliberately pending this player-reported layout follow-up.Self-
 1100x850, due to the additional pitcher count. Native settings rows9->5px now fit
 without changing font size or removing information. Retain initial failed JSON
 and check all supported sizes/scales again; never conceal overflow with hidden bars.
+Alpha7 completed: PR202/203 merged, source1430211d18d2d4aaed6beca86ba0fc37884ed342,
+mainCI37914639854 and draft37915215787 PASS. Downloaded ZIP SHA256
+3ea28c9a69b25dd3b005609cf1e0089a7ca3758f59e83ccbec2f7d09fcfb1e88;
+all74 package files and7 uploaded assets verified. Delivered alpha5->alpha7 real
+upgrade/current-web/Edge/replay/re-extraction/renderer-offline checks all5 PASS,
+v5->v6 retains historical accounts. Evidence attached and issues105/108/138/162
+updated without closing manual/external gates. Draft:
+https://github.com/Gamez0/lemonade-tycoon/releases/tag/untagged-9402773a31183cff3add
+
+### 2026-10-09 comprehensive player-requested audit / alpha8
+
+User requested broad display/game/code review and deeper original reference.
+Read current model, street, schema/history, sync/async/file adapters, renderer,
+CSS/layout, scene/native bridge and prior research/release gates. Downloaded and
+viewed original Windows recipe/selling/results screenshots and indexed PC FAQ;
+original run/timing formulas remain unverified. Findings and scope decisions:
+docs/reviews/2026-10-09-comprehensive-audit.md.
+
+Reproduced/fixed: newer-primary overwritten via older backup; imports omitted from
+normal-close flush/write serialization; prepared-day ledger pushes START DAY out
+of panel; depleted buyers remain in impossible queue; zero-sale report wrongly
+requests lower minimum price; hardcoded Year1/stale feedback on unrelated tabs.
+Preserve v6 and historical accounting, first-batch/immediate-refill and free ice.
+Pause editing/ticks during import, serialize import writes, close waits whole file
+read/write, failure unlocks without changing active business. Future schema blocks
+auto recovery; malformed metadata still recovers a valid backup. Use data-view
+rather than colliding with data-page navigation; caught/fixed by native testing.
+
+Local52/52 simulation PASS, including3072 all192-recipe/weather/management cases
+with exact inventory/free-ice/cash and opening/results/next-day save roundtrips.
+Browser25/25 PASS; typecheck/lint/release8/8/asset audit PASS. Actual native175%
+UI PASS includes maximized/fullscreen, first-day and established-business tabs,
+prepared/result daily+ledger no-scroll, invalid-price/cross-tab/oversized-order
+feedback, panel-contained opening/next buttons and full map. Actual native delayed
+import+immediate close and future-primary-with-backup protection PASS. Final all
+supported scales/management/locations running; all-native current-head CI required.
+
+Self-review: no new content/system scope, no old ledger repricing, no hidden scroll
+bars or clipped controls, no user-owned PR83/parent-worktree changes. Source
+reference distinguishes known original behavior from approved simplifications.
+Next: current-head CI/merge, exact-main alpha8 draft and downloaded upgrade replay;
+continue independently runnable release work, leave unavailable human/Steam gates
+explicit rather than declaring overall acceptance complete.
+Remote follow-up: first-head WindowsCI37918242354 found150% maximum viewport
+683x465 causing report scroll522>client477. Local monitor had passed; preserved
+failed CI JSON. Browser <=700px rules stacked report/settings inside the already
+scaled native layout. Explicit native two-column report/settings/layout/control
+and ratings, reset world grid row/toolbar ordering. Browser responsive layout is
+unchanged. Add explicit683x465 and512x350 native preparation/history/selling cases
+so small logical clients are covered independently of the runner's monitor.
+Repackage/recheck all scales and exact-head required CI before merge.Second-head CI37920412342: Windows175% preparation/history reported a real2px overflow after client rounding1097x554->1099x555. Reduce financial table row padding4->3px and add1099x555 history coverage; local175%97 cases PASS. Browser25/26 passed; the shortage test still assumed Recipe remained selected after the new actionable Supplies redirect. Update that test to assert Supplies and explicitly return to Recipe before changing ice; do not remove shortage/conservation assertions. Full next-head CI required.

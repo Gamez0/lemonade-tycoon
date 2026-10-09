@@ -1,6 +1,58 @@
 const { test, expect } = require('@playwright/test');
 const key = 'lemonade-tycoon.reboot.save';
 const saved = page => page.evaluate(key => localStorage.getItem(key), key);
+
+test('native import pauses editing and normal-close flush waits for file reading and serialized writes', async ({ page }) => {
+    const { newGame, buy } = require('../../.test-build/simulation/game.js');
+    const { encodeSave } = require('../../.test-build/simulation/save.js');
+    const imported = encodeSave(buy(newGame(), 'lemon', 3), []);
+    await page.addInitScript(() => {
+        let active = 0;
+        window.importTrace = { overlap: false };
+        const read = File.prototype.text;
+        File.prototype.text = async function () {
+            await new Promise(resolve => setTimeout(resolve, 180));
+            return read.call(this);
+        };
+        window.desktopSave = {
+            getItem: async key => localStorage.getItem(key),
+            setItem: async (key, raw) => {
+                if (++active > 1) window.importTrace.overlap = true;
+                await new Promise(resolve => setTimeout(resolve, 80));
+                localStorage.setItem(key, raw); active--;
+            },
+            onFlush: handler => { window.flushImportForTest = handler; },
+        };
+    });
+    await page.goto('/');
+    await expect(page.locator('#save-status')).toHaveText('Saved on this PC');
+    await page.locator('#save-file').setInputFiles({ name: 'import.json', mimeType: 'application/json', buffer: Buffer.from(imported) });
+    const wasBusy = await page.locator('#app').evaluate(app => app.inert && app.getAttribute('aria-busy') === 'true');
+    // A close during File.text must include the import, not just the older save queue.
+    await page.evaluate(() => window.flushImportForTest());
+    expect(await saved(page)).toBe(imported);
+    expect(wasBusy).toBe(true);
+    await expect(page.locator('#inventory-lemon')).toHaveText('3');
+    await expect(page.locator('#app')).toHaveAttribute('aria-busy', 'false');
+    expect(await page.locator('#app').evaluate(app => app.inert)).toBe(false);
+    expect(await page.evaluate(() => window.importTrace.overlap)).toBe(false);
+});
+
+test('a newer primary with an older valid backup is left untouched on startup and edits', async ({ page }) => {
+    const { newGame } = require('../../.test-build/simulation/game.js');
+    const { encodeSave } = require('../../.test-build/simulation/save.js');
+    const backup = encodeSave(newGame(), []);
+    const future = JSON.stringify({ ...JSON.parse(backup), version: 999 });
+    await page.addInitScript(({ future, backup }) => {
+        localStorage.setItem('lemonade-tycoon.reboot.save', future);
+        localStorage.setItem('lemonade-tycoon.reboot.backup', backup);
+    }, { future, backup });
+    await page.goto('/');
+    await expect(page.locator('#save-status')).toContainText('Unsupported save version');
+    await page.locator('#lemon').fill('3'); await page.locator('#lemon').press('Tab');
+    expect(await saved(page)).toBe(future);
+    expect(await page.evaluate(() => localStorage.getItem('lemonade-tycoon.reboot.backup'))).toBe(backup);
+});
 async function stock(page) {
     await page.locator('[data-page="supplies"]').click();
     for (const item of ['lemon', 'sugar', 'ice', 'cup']) {

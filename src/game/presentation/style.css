@@ -1030,9 +1030,39 @@ html.desktop,
     min-height: 0;
     align-items: stretch;
     grid-template-rows: minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.desktop .control-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.desktop .toolbar {
+    order: 0;
+}
+.desktop .toolbar button {
+    flex: 1;
+    width: auto;
+}
+.desktop footer {
+    flex-wrap: nowrap;
+}
+.desktop footer > span {
+    flex-basis: auto;
+}
+.desktop .report-content {
+    grid-template-columns: 1.25fr 1fr;
+}
+.desktop .settings-table {
+    grid-template-columns: 105px 1fr;
+}
+.desktop .settings-table dt {
+    border-bottom: 1px solid #40ae3e;
+}
+.desktop .location-ratings {
+    grid-template-columns: 1fr 1fr;
 }
 .desktop .world-column {
     min-height: 0;
+    grid-row: auto;
 }
 .desktop .management-column,
 .desktop .world-frame {
@@ -1045,14 +1075,18 @@ html.desktop,
     flex: 1;
     min-height: 0;
 }
-.desktop #app[data-phase="results"] #results {
+.desktop #results {
     flex: 1;
     min-height: 0;
     overflow: auto;
 }
+.desktop #app[data-view="results"] #day-actions .cost-line,
+.desktop #app[data-view="results"] #day-actions .capacity {
+    display: none;
+}
 .desktop #result-values dt,
 .desktop #result-values dd {
-    padding: 4px 0;
+    padding: 3px 0;
 }
 .desktop #results .intro {
     margin: 6px 0 8px;
@@ -1062,7 +1096,7 @@ html.desktop,
 }
 .desktop .settings-table dt,
 .desktop .settings-table dd {
-    padding: 5px 0;
+    padding: 4px 0;
 }
 .desktop #next {
     flex-shrink: 0;

@@ -61,6 +61,8 @@ let lastFeedback = "Your first customers are just around the corner.";
 let restartArmed = false;
 let fast = false;
 let saveBlocked = false;
+let importing = false;
+let pendingImport = Promise.resolve();
 const desktopApp = (window as Window & { desktopApp?: { quit(): Promise<void>; diagnostics(): Promise<unknown> } }).desktopApp;
 const desktopSave = (window as Window & { desktopSave?: AsyncSaveStorage & { onFlush(handler: () => Promise<void>): void } }).desktopSave;
 if (desktopSave) {
@@ -70,7 +72,7 @@ if (desktopSave) {
     window.addEventListener("resize", fitDesktop);
 }
 let saveQueue = Promise.resolve();
-desktopSave?.onFlush(() => saveQueue);
+desktopSave?.onFlush(async () => { await pendingImport; await saveQueue; });
 const app = document.querySelector<HTMLDivElement>("#app")!;
 app.innerHTML = markup;
 function element<T extends HTMLElement = HTMLElement>(id: string): T {
@@ -94,12 +96,14 @@ function persist(): void {
         text("save-status", "Storage unavailable · export a backup");
     }
 }
-function queueDesktopSave(raw: string, status = "Saved on this PC"): void {
-    saveQueue = saveQueue.then(() => writeSaveAsync(desktopSave!, raw)).then(() => {
+function queueDesktopSave(raw: string, status = "Saved on this PC"): Promise<void> {
+    const write = saveQueue.then(() => writeSaveAsync(desktopSave!, raw));
+    saveQueue = write.then(() => {
         text("save-status", status);
     }).catch(() => {
         text("save-status", "Storage unavailable · export a backup");
     });
+    return write;
 }
 function quantities(): Stock {
     const quantity = (item: Item) =>
@@ -112,6 +116,7 @@ function orderCost(): number {
 }
 function showPage(page: Page): void {
     currentPage = page;
+    text("message", "");
     render();
 }
 function rows(id: string, values: [string, string][]): void {
@@ -152,7 +157,7 @@ const scene = new StreetScene({
     state: () => state,
     street: () => street,
     tick: () => {
-        if (!street) return;
+        if (!street || importing) return;
         const next = tickStreet(street);
         street = next.day;
         state = street.game;
@@ -173,6 +178,7 @@ new Phaser.Game({
     audio: { noAudio: true },
 });
 function act(action: () => State): void {
+    if (importing) return;
     try {
         state = action();
         audio.effect("buy");
@@ -270,6 +276,8 @@ element("open").addEventListener("click", () =>
             throw new Error("BUY or CANCEL your pending order before starting the day.");
         }
         const planned = readPlan();
+        if (openingReadiness(planned).cups === 0) showPage("supplies");
+        else if (planned.cash < openingCosts(planned).fees) showPage("rent");
         const opened = openDay(planned);
         openingCheckpoint = { ...opened, phase: "preparation" };
         if (!saveBlocked && desktopSave) {
@@ -330,6 +338,7 @@ element("next").addEventListener("click", () => {
     });
 });
 element("restart").addEventListener("click", () => {
+    if (importing) return;
     if (!restartArmed) {
         restartArmed = true;
         text("restart", "Confirm new business");
@@ -363,27 +372,37 @@ element("export-save").addEventListener("click", () => {
     } catch (error) { text("save-status", error instanceof Error ? error.message : "Export failed"); }
 });
 element("import-save").addEventListener("click", () => element<HTMLInputElement>("save-file").click());
-element<HTMLInputElement>("save-file").addEventListener("change", async (event) => {
+element<HTMLInputElement>("save-file").addEventListener("change", (event) => {
     const input = event.currentTarget as HTMLInputElement;
     const file = input.files?.[0];
-    if (!file) return;
-    try {
-        if (file.size > maxSaveBytes) throw new Error("Save file is too large.");
-        const imported = decodeSave(await file.text());
-        if (desktopSave) {
-            await saveQueue;
-            await writeSaveAsync(desktopSave, encodeSave(imported.state, imported.history));
-        } else writeSave(localStorage, imported.state, imported.history);
-        state = imported.state;
-        history = [...imported.history];
-        saveBlocked = false;
-        resetPresentation();
-        currentPage = state.phase === "results" ? "results" : "recipe";
-        lastFeedback = "Imported business restored.";
-        render();
-        text("save-status", "Imported save · saved on this device");
-    } catch (error) { text("save-status", error instanceof Error ? error.message : "Import failed"); }
-    input.value = "";
+    if (!file || importing) return;
+    importing = true;
+    app.inert = true;
+    app.setAttribute("aria-busy", "true");
+    text("save-status", "Importing save...");
+    pendingImport = (async () => {
+        try {
+            if (file.size > maxSaveBytes) throw new Error("Save file is too large.");
+            const imported = decodeSave(await file.text());
+            if (desktopSave) {
+                await queueDesktopSave(encodeSave(imported.state, imported.history));
+            } else writeSave(localStorage, imported.state, imported.history);
+            state = imported.state;
+            history = [...imported.history];
+            saveBlocked = false;
+            resetPresentation();
+            currentPage = state.phase === "results" ? "results" : "recipe";
+            lastFeedback = "Imported business restored.";
+            render();
+            text("save-status", "Imported save · saved on this device");
+        } catch (error) { text("save-status", error instanceof Error ? error.message : "Import failed"); }
+        finally {
+            input.value = "";
+            importing = false;
+            app.inert = false;
+            app.setAttribute("aria-busy", "false");
+        }
+    })();
 });
 function renderReport(): void {
     for (const button of document.querySelectorAll<HTMLButtonElement>("[data-report]"))
@@ -403,7 +422,7 @@ function renderReport(): void {
         "result-intro",
         reportPage === "ledger"
             ? `Business ledger · ${history.length} completed ${history.length === 1 ? "day" : "days"}. Current preparation purchases are not included.`
-            : `Day ${latest.day} · ${LOCATIONS[latest.location].name} · ${sold === 0 ? "No sales. Try a lower price tomorrow." : `${sold} customers served.`}`,
+            : `Day ${latest.day} · ${LOCATIONS[latest.location].name} · ${sold === 0 ? "No sales." : `${sold} customers served.`}`,
     );
     const satisfaction = sold === 0 ? null : Math.round(sum("satisfactionTotal") / sold);
     element("report-face").innerHTML = icon(sold > 0 ? "happy" : "expensive");
@@ -415,22 +434,15 @@ function renderReport(): void {
               ? "A refreshing success!"
               : "Room to improve!",
     );
-    text(
-        "report-response",
-        sold === 0
-            ? "No buyers yet. Try a lower cup price."
-            : "Customer satisfaction: " +
-                  satisfaction +
-                  "%. " +
-                  sum("soldOut") +
-                  " visitors missed out on empty stock. " +
-                  sum("abandoned") +
-                  " left the line. " +
-                  sum("priceRejected") +
-                  " found the price too high; " +
-                  sum("passed") +
-                  " passed by.",
-    );
+    const noSalesAdvice = sum("soldOut") > 0 ? "Buy enough supplies for tomorrow."
+        : sum("abandoned") > 0 ? "Improve service or help the waiting line."
+        : sum("priceRejected") > 0 ? "Try a lower cup price."
+        : reportPage === "daily" && quality(latest.plan.recipe, latest.weather.temperature) < 0.7
+          ? "Adjust your recipe to the forecast."
+          : "Try another location or advertising to reach more buyers.";
+    text("report-response", (sold === 0 ? noSalesAdvice : `Customer satisfaction: ${satisfaction}%.`) +
+        ` ${sum("soldOut")} visitors missed out on empty stock. ${sum("abandoned")} left the line. ` +
+        `${sum("priceRejected")} found the price too high; ${sum("passed")} passed by.`);
 
     rows("result-values", [
         ["Cups sold", String(sold)],
@@ -542,6 +554,7 @@ function render(): void {
         button.setAttribute("aria-pressed", String(!selling && button.dataset.page === currentPage));
     }
     app.dataset.phase = state.phase;
+    app.dataset.view = currentPage;
     audio.setPhase(state.phase);
     for (const id of ["recipe-controls", "price-controls", "supply-controls"])
         element<HTMLFieldSetElement>(id).disabled = !prep || (id !== "supply-controls" && Boolean(state.business));
