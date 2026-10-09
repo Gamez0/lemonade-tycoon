@@ -213,7 +213,7 @@ async function fit(page, name) {
         await page.locator('#next').click();
         await expect(page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
         await expect(page.locator('#day')).toHaveText('02');
-        for (const [width, height] of [[1100, 850], [800, 600], [1097, 554], [683, 465], [512, 350]]) {
+        for (const [width, height] of [[1100, 850], [800, 600], [1097, 554], [1099, 555], [683, 465], [512, 350]]) {
             await app.evaluate(({ BrowserWindow }, { width, height }) =>
                 BrowserWindow.getAllWindows()[0].setContentSize(width, height), { width, height });
             for (const tab of ['results', 'recipe', 'marketing', 'supplies', 'rent', 'upgrades', 'staff']) {

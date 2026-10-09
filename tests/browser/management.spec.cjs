@@ -78,6 +78,8 @@ test('four-ice recipe explains 60 versus 64 shortage and recovers after an actua
     await page.setViewportSize({ width: 1280, height: 1000 });
     await page.locator('#open').click();
     await expect(page.locator('#selling')).toBeHidden();
+    await expect(page.locator('#supplies-page')).toBeVisible();
+    await page.locator('[data-page=recipe]').click();
     await page.locator('#ice').fill('3');
     await page.locator('#ice').press('Tab');
     await expect(page.locator('#capacity')).toHaveText('14 cups');

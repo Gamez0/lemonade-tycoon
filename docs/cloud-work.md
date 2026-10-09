@@ -1328,4 +1328,4 @@ scaled native layout. Explicit native two-column report/settings/layout/control
 and ratings, reset world grid row/toolbar ordering. Browser responsive layout is
 unchanged. Add explicit683x465 and512x350 native preparation/history/selling cases
 so small logical clients are covered independently of the runner's monitor.
-Repackage/recheck all scales and exact-head required CI before merge.
+Repackage/recheck all scales and exact-head required CI before merge.Second-head CI37920412342: Windows175% preparation/history reported a real2px overflow after client rounding1097x554->1099x555. Reduce financial table row padding4->3px and add1099x555 history coverage; local175%97 cases PASS. Browser25/26 passed; the shortage test still assumed Recipe remained selected after the new actionable Supplies redirect. Update that test to assert Supplies and explicitly return to Recipe before changing ice; do not remove shortage/conservation assertions. Full next-head CI required.
