@@ -64,9 +64,11 @@ async function fit(page, name) {
             panelContentBottom: panelBox.bottom - (parseFloat(panelStyle.paddingBottom) + parseFloat(panelStyle.borderBottomWidth)) * zoom,
             next: document.querySelector("#next").getClientRects().length ? box(document.querySelector("#next")) : null,
             report: box(document.querySelector("#results")),
+            reportVisible: document.querySelector('#results').getClientRects().length > 0,
             reportScroll: { height: document.querySelector('#results').scrollHeight,
                 client: document.querySelector('#results').clientHeight },
             selling: document.querySelector('#selling').getClientRects().length ? box(document.querySelector('#selling')) : null,
+            open: document.querySelector('#open').getClientRects().length ? box(document.querySelector('#open')) : null,
             controls: [...document.querySelectorAll("button,input:not([type=file])")]
                 .filter((x) => x.getClientRects().length && getComputedStyle(x).visibility !== "hidden")
                 .map((x) => ({ name: x.id || x.textContent.trim(), ...box(x) })),
@@ -91,9 +93,11 @@ async function fit(page, name) {
             `${name}: ${JSON.stringify(box)}`,
         );
     }
-    if (geometry.next) {
+    if (geometry.reportVisible) {
         assert.ok(geometry.reportScroll.height <= geometry.reportScroll.client + 1,
             `${name}: full results should fit without scrolling: ${JSON.stringify(geometry.reportScroll)}`);
+    }
+    if (geometry.next) {
         assert.ok(geometry.next.bottom <= geometry.panelContentBottom + 1,
             `${name}: next-day button exceeds panel content (bottom ${geometry.next.bottom}, limit ${geometry.panelContentBottom})`);
         assert.ok(geometry.report.bottom <= geometry.next.y + 1,
@@ -101,6 +105,8 @@ async function fit(page, name) {
     }
     if (geometry.selling) assert.ok(geometry.selling.bottom <= geometry.panelContentBottom + 1,
         `${name}: selling settings exceed panel content`);
+    if (geometry.open) assert.ok(geometry.open.bottom <= geometry.panelContentBottom + 1,
+        `${name}: opening button exceeds panel padding`);
 }
 (async () => {
     try {
@@ -169,6 +175,19 @@ async function fit(page, name) {
         await expect(page.locator("#app")).toHaveAttribute("data-phase", "results");
         await fit(page, "results 800x600");
         await page.screenshot({ path: path.join(out, "results-small.png") });
+        for (const mode of ['maximized', 'fullscreen']) {
+            await app.evaluate(({ BrowserWindow }, mode) => {
+                const window = BrowserWindow.getAllWindows()[0];
+                if (mode === 'maximized') window.maximize();
+                else window.setFullScreen(true);
+            }, mode);
+            await page.waitForTimeout(250);
+            await fit(page, `results ${mode}`);
+        }
+        await app.evaluate(({ BrowserWindow }) => {
+            const window = BrowserWindow.getAllWindows()[0]; window.setFullScreen(false); window.unmaximize();
+        });
+        await page.waitForTimeout(200);
         // 1920x1080 at175% leaves roughly1097x554 client pixels after title/task bars.
         // Forced renderer DPI models layout; the player's actual monitor remains distinct.
         await app.evaluate(({ BrowserWindow }) => {
@@ -185,13 +204,47 @@ async function fit(page, name) {
         await page.locator('#next').click();
         await expect(page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
         await expect(page.locator('#day')).toHaveText('02');
+        for (const [width, height] of [[1100, 850], [800, 600], [1097, 554]]) {
+            await app.evaluate(({ BrowserWindow }, { width, height }) =>
+                BrowserWindow.getAllWindows()[0].setContentSize(width, height), { width, height });
+            for (const tab of ['results', 'recipe', 'marketing', 'supplies', 'rent', 'upgrades', 'staff']) {
+                await page.locator(`[data-page="${tab}"]`).click();
+                await page.waitForTimeout(100);
+                await fit(page, `${width}x${height} preparation with history ${tab}`);
+                if (tab === 'results') {
+                    await page.locator('[data-report="ledger"]').click();
+                    await fit(page, `${width}x${height} preparation with history ledger`);
+                    await expect(page.locator('#result-values dd').last()).toBeInViewport();
+                }
+            }
+        }
+        await page.locator('[data-page="marketing"]').click();
+        await page.locator('#price').fill('5.01'); await page.locator('#price').press('Tab');
+        await expect(page.locator('#message')).toContainText('Check price');
+        await fit(page, 'invalid price feedback');
+        await page.locator('[data-page="results"]').click();
+        await expect(page.locator('#message')).toBeEmpty();
+        await fit(page, 'report after invalid price');
+        await page.locator('#open').click();
+        await expect(page.locator('#message')).toContainText('Check price');
+        await expect(page.locator('#price')).toBeVisible();
+        await page.locator('#price').fill('2.25'); await page.locator('#price').press('Tab');
+        await page.locator('[data-page="supplies"]').click();
+        await page.locator('[data-supply="ice"]').click();
+        const beforeFailedOrder = fs.readFileSync(save, 'utf8');
+        for (let i = 0; i < 4; i++) await page.locator('[data-bundle="2"][data-delta="1"]').click();
+        await page.locator('#buy-order').click();
+        await expect(page.locator('#message')).toContainText('Order quantity');
+        assert.equal(fs.readFileSync(save, 'utf8'), beforeFailedOrder);
+        await fit(page, 'oversized order feedback');
+        await page.locator('#cancel-order').click();
         await close();
         fs.writeFileSync(
             path.join(out, "ui-results.json"),
             JSON.stringify({ status: 'PASS', requestedScale: scale, scope: 'Forced renderer scale; physical Windows DPI acceptance remains separate.', beforeSpinner: before, afterSpinner: "textfield", pricePersisted: 225, results }, null, 2),
         );
         console.log(
-            "UI checks passed: 21 tab/size combinations, selling/results small, daily/ledger panel containment, next-day click, menu/title/margins/scroll, price typing/relaunch",
+            "UI checks passed: fresh/established business tabs, selling/results small, daily/ledger no-scroll containment, opening/next-day buttons, map, price typing/relaunch",
         );
     } finally {
         if (app) await app.close();

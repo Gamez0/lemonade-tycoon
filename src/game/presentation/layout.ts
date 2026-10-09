@@ -14,7 +14,7 @@ export const markup = `
  ${(["results", "rent", "upgrades", "staff", "marketing", "recipe", "supplies"] as const).map((page) => `<button data-page="${page}" aria-pressed="${page === "recipe"}" aria-controls="${page === "results" ? "results" : `${page}-page`}">${icon(page === "marketing" ? "price" : page === "upgrades" ? "supplies" : page === "staff" ? "happy" : page)}${page[0].toUpperCase() + page.slice(1)}</button>`).join("")}
  </nav>
  <section class="forecast" aria-label="Forecast">
-  <div class="forecast-weather"><strong class="date-line">Year 1 · Day <span id="day">01</span></strong><span class="label" id="weather-label">Weather forecast</span><div class="weather-reading"><span id="weather-art"></span><strong id="weather"></strong></div><span id="weather-advice" class="weather-advice"></span></div>
+  <div class="forecast-weather"><strong class="date-line">Day <span id="day">01</span></strong><span class="label" id="weather-label">Weather forecast</span><div class="weather-reading"><span id="weather-art"></span><strong id="weather"></strong></div><span id="weather-advice" class="weather-advice"></span></div>
   <div class="forecast-news"><p id="forecast-news"></p><div class="day-clock">${icon("clock")}<span id="world-status"></span></div><span id="progress-text"></span><progress id="day-progress" max="1" value="0" aria-label="Day progress"></progress></div>
  </section>
 </div>

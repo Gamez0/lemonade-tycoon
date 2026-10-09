@@ -1045,10 +1045,14 @@ html.desktop,
     flex: 1;
     min-height: 0;
 }
-.desktop #app[data-phase="results"] #results {
+.desktop #results {
     flex: 1;
     min-height: 0;
     overflow: auto;
+}
+.desktop #app[data-view="results"] #day-actions .cost-line,
+.desktop #app[data-view="results"] #day-actions .capacity {
+    display: none;
 }
 .desktop #result-values dt,
 .desktop #result-values dd {

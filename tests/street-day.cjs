@@ -7,6 +7,36 @@ const stock = (seed = 2026) => game.buyOrder(game.newGame(seed), {
     lemon: 120, sugar: 120, ice: 120, cup: 120,
 });
 const start = (seed, rules) => street.beginStreetDay(game.openDay(stock(seed)), rules);
+
+test('out-of-stock buyers leave immediately instead of joining an impossible service queue', () => {
+    const opened = game.openDay(game.setPlan(stock(2026), { price: 25, recipe: { lemon: 2, sugar: 1, ice: 0 } }));
+    let day = street.beginStreetDay({ ...opened, stock: { ...opened.stock, cup: 0 } });
+    let empty = 0;
+    for (let tick = 0; tick < 80; tick++) {
+        const next = street.tickStreet(day); day = next.day;
+        empty += next.events.filter(event => event.kind === 'sold-out').length;
+        assert.equal(day.waiting.length, 0);
+        assert.equal(day.serving, null);
+    }
+    assert.ok(empty > 0);
+    assert.equal(day.game.daily.abandoned, 0);
+    assert.equal(day.game.daily.sold, 0);
+    assert.equal(day.game.cash, opened.cash);
+});
+
+test('selling the final available cup releases the existing line without fake wait departures', () => {
+    const opened = game.openDay({ ...stock(), stock: { lemon: 120, sugar: 120, ice: 120, cup: 1 } });
+    const buyer = id => ({ id, profile: 0, intent: 'buy', willingness: 500 });
+    const day = { ...street.beginStreetDay(opened), arrived: 3,
+        serving: { visitor: buyer(1), doneAt: 1 },
+        waiting: [{ visitor: buyer(2), joinedAt: 0 }, { visitor: buyer(3), joinedAt: 0 }] };
+    const next = street.tickStreet(day);
+    assert.deepEqual(next.events.filter(event => event.id <= 3).map(event => event.kind), ['bought', 'sold-out', 'sold-out']);
+    assert.equal(next.day.waiting.length, 0);
+    assert.equal(next.day.serving, null);
+    assert.equal(next.day.game.daily.abandoned, 0);
+    assert.equal(next.day.game.stock.cup, 0);
+});
 const accounted = day => {
     const d = day.game.daily;
     assert.equal(d.visitors, d.sold + d.rejected + d.soldOut + d.abandoned);

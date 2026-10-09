@@ -7,6 +7,24 @@ const stocked = () => ['lemon', 'sugar', 'ice', 'cup'].reduce((s, key) => buy(s,
 const finish = s => finishStreetDay(beginStreetDay(openDay(s))).day.game;
 const storage = () => { const values = new Map(); return { getItem: key => values.get(key) ?? null, setItem: (key, value) => values.set(key, value) }; };
 
+test('newer primary never falls back to an older backup or replaces either file', () => {
+    const store = storage();
+    const prior = encodeSave(newGame(), []);
+    const future = JSON.stringify({ ...JSON.parse(prior), version: 999 });
+    store.setItem(SAVE_KEY, future); store.setItem(BACKUP_KEY, prior);
+    assert.throws(() => readSave(store), /Unsupported save version/);
+    assert.equal(store.getItem(SAVE_KEY), future);
+    assert.equal(store.getItem(BACKUP_KEY), prior);
+});
+
+test('malformed schema metadata still recovers a valid backup', () => {
+    for (const raw of ['null', '{}', '{"version":"6"}', '{"version":-1}']) {
+        const store = storage(); const backup = encodeSave(newGame(), []);
+        store.setItem(SAVE_KEY, raw); store.setItem(BACKUP_KEY, backup);
+        assert.deepEqual(readSave(store), { document: JSON.parse(backup), recovered: true });
+    }
+});
+
 test('v6 preserves a prepared opening exactly and v5 checkpoints produce once without rewriting history', () => {
     const state = stocked(), opened = openDay(state);
     const checkpoint = { ...opened, phase: 'preparation' };

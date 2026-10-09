@@ -93,6 +93,23 @@ const closeNormally = async session => {
         await closeNormally(session); session = null;
         // A second installation directory must still use the same user-data root.
         // This simulates relocation, not an installer update or clean-PC acceptance.
+        stage = 'normal close during delayed portable import';
+        session = await launch();
+        const importDocument = JSON.parse(fs.readFileSync(savePath, 'utf8'));
+        importDocument.state.plan.price = 225;
+        const importRaw = JSON.stringify(importDocument);
+        await session.page.evaluate(() => {
+            const read = File.prototype.text;
+            File.prototype.text = async function () {
+                await new Promise(resolve => setTimeout(resolve, 250));
+                return read.call(this);
+            };
+        });
+        await session.page.locator('#save-file').setInputFiles({ name: 'delayed.json', mimeType: 'application/json', buffer: Buffer.from(importRaw) });
+        await closeNormally(session); session = await launch();
+        await expect(session.page.locator('#price')).toHaveValue('2.25');
+        expect(JSON.parse(fs.readFileSync(savePath, 'utf8'))).toEqual(importDocument);
+        await closeNormally(session); session = null;
         stage = 'same-build installation relocation';
         const replacement = path.join(base, 'replacement-install');
         fs.cpSync(path.dirname(executablePath), replacement, { recursive: true });
@@ -101,6 +118,17 @@ const closeNormally = async session => {
         await expect(session.page.locator('#day')).toHaveText('02');
         if (fs.readFileSync(savePath, 'utf8') !== beforeRelocation) throw new Error('Relocation changed the save.');
         await closeNormally(session); session = null;
+        stage = 'newer-primary protection with an older valid backup';
+        const backupBeforeFuture = fs.readFileSync(path.join(base, 'Lemonade Tycoon', 'save.backup.json'), 'utf8');
+        const future = JSON.stringify({ ...JSON.parse(beforeRelocation), version: 999 });
+        fs.writeFileSync(savePath, future);
+        session = await launch();
+        await expect(session.page.locator('#save-status')).toContainText('Unsupported save version');
+        await session.page.locator('#lemon').fill('3'); await session.page.locator('#lemon').press('Tab');
+        await closeNormally(session); session = null;
+        expect(fs.readFileSync(savePath, 'utf8')).toBe(future);
+        expect(fs.readFileSync(path.join(base, 'Lemonade Tycoon', 'save.backup.json'), 'utf8')).toBe(backupBeforeFuture);
+        fs.writeFileSync(savePath, beforeRelocation);
         stage = 'corrupt-primary backup recovery';
         const backup = JSON.parse(fs.readFileSync(path.join(base, 'Lemonade Tycoon', 'save.backup.json'), 'utf8'));
         fs.writeFileSync(savePath, '{', 'utf8');

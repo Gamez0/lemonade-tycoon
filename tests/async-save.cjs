@@ -4,6 +4,17 @@ const { newGame, buy } = require('../.test-build/simulation/game.js');
 const { encodeSave, SAVE_KEY, BACKUP_KEY } = require('../.test-build/simulation/save.js');
 const { writeSaveAsync, readSaveAsync } = require('../.test-build/simulation/async-save.js');
 
+test('async newer primary is protected even when an older valid backup exists', async () => {
+    const prior = encodeSave(newGame(), []);
+    const future = JSON.stringify({ ...JSON.parse(prior), version: 999 });
+    const values = new Map([[SAVE_KEY, future], [BACKUP_KEY, prior]]);
+    const storage = { getItem: async key => values.get(key) ?? null,
+        setItem: async (key, raw) => values.set(key, raw) };
+    await assert.rejects(readSaveAsync(storage), /Unsupported save version/);
+    assert.equal(values.get(SAVE_KEY), future);
+    assert.equal(values.get(BACKUP_KEY), prior);
+});
+
 test('async backup I/O failure rejects without replacing the primary', async () => {
     const prior = encodeSave(newGame(), []);
     const values = new Map([[SAVE_KEY, prior]]);

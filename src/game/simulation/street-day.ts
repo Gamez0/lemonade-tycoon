@@ -1,4 +1,4 @@
-import { drawVisitor, settleVisitor, dayTraffic } from "./game";
+import { drawVisitor, settleVisitor, dayTraffic, capacity } from "./game";
 import type { CustomerEvent, State, Visitor } from "./game";
 
 export interface StreetRules {
@@ -60,18 +60,23 @@ export function tickStreet(day: StreetDay): { day: StreetDay; events: CustomerEv
             const draw = drawVisitor(game, arrived + 1);
             game = draw.state;
             arrived++;
-            if (draw.visitor.intent === "buy") waiting.push({ visitor: draw.visitor, joinedAt: tick });
+            if (draw.visitor.intent === "buy" && capacity(game) > 0) waiting.push({ visitor: draw.visitor, joinedAt: tick });
             else settle(draw.visitor);
         }
         const patient: WaitingVisitor[] = [];
         for (const person of waiting) {
-            if (tick - person.joinedAt >= day.rules.patienceTicks) settle(person.visitor, "abandoned");
+            if (capacity(game) === 0) settle(person.visitor);
+            else if (tick - person.joinedAt >= day.rules.patienceTicks) settle(person.visitor, "abandoned");
             else patient.push(person);
         }
         waiting = patient;
         if (serving && tick >= serving.doneAt) {
             settle(serving.visitor);
             serving = null;
+        }
+        if (capacity(game) === 0 && waiting.length) {
+            for (const person of waiting) settle(person.visitor);
+            waiting = [];
         }
         if (!serving && waiting.length && game.phase === "selling") {
             const first = waiting.shift()!;

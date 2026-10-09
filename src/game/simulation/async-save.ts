@@ -1,4 +1,4 @@
-import { BACKUP_KEY, decodeSave, SAVE_KEY } from './save';
+import { BACKUP_KEY, decodeSave, SAVE_KEY, UnsupportedSaveVersionError } from './save';
 import type { SaveDocument } from './save';
 
 export interface AsyncSaveStorage {
@@ -27,6 +27,7 @@ export async function readSaveAsync(storage: AsyncSaveStorage): Promise<{ docume
     }
     try { return { document: decodeSave(primary), recovered: false }; }
     catch (error) {
+        if (error instanceof UnsupportedSaveVersionError) throw error;
         const backup = await storage.getItem(BACKUP_KEY);
         if (backup !== null) {
             try { return { document: decodeSave(backup), recovered: true }; }

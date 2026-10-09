@@ -13,6 +13,10 @@ export interface SaveDocument {
     readonly state: State;
     readonly history: readonly State[];
 }
+/** A different schema is not corrupt data: never automatically replace it with a backup. */
+export class UnsupportedSaveVersionError extends Error {
+    constructor() { super("Unsupported save version. Keep the file as a backup."); }
+}
 
 const record = (value: unknown): value is Record<string, unknown> =>
     typeof value === "object" && value !== null && !Array.isArray(value);
@@ -119,8 +123,10 @@ function validState(value: unknown, legacy = false, preM5 = false, preM6 = false
 export function decodeSave(raw: string): SaveDocument {
     let input: unknown;
     try { input = JSON.parse(raw); } catch { throw new Error("Save file is not valid JSON."); }
-    if (!record(input) || ![0, 1, 2, 3, 4, 5, 6].includes(input.version as number))
+    if (!record(input) || ![0, 1, 2, 3, 4, 5, 6].includes(input.version as number)) {
+        if (record(input) && integer(input.version) && input.version > 6) throw new UnsupportedSaveVersionError();
         throw new Error("Unsupported save version. Keep the file as a backup.");
+    }
     const legacy = input.version === 0 || input.version === 1;
     const preM5 = (input.version as number) < 3;
     const preM6 = (input.version as number) < 4;
@@ -225,6 +231,7 @@ export function readSave(storage: SaveStorage): { document: SaveDocument | null;
     }
     try { return { document: decodeSave(primary), recovered: false }; }
     catch (error) {
+        if (error instanceof UnsupportedSaveVersionError) throw error;
         const backup = storage.getItem(BACKUP_KEY);
         if (backup) {
             try { return { document: decodeSave(backup), recovered: true }; } catch { /* Report primary failure. */ }
