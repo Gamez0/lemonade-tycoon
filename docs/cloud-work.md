@@ -809,6 +809,17 @@ running. Main's existing tested preview deployment remains part of authorized CI
 
 Next: finish PR185 through exact-head CI/main integration, verify main preview,
 security alerts and final artifact provenance; then continue remaining delivery gates.
+
+Final local dependency candidate: source/checkout
+d1fb1ae487597239562790251e97e506ab1d0e32, Node22.16.0/Electron44.5.1,
+dirty=false, Windows0.2.0-alpha.1 in the integration worktree's release directory.
+All four native save/UI/locations/management suites PASS, UI21 combinations and
+74-file manifest written/verified. Tests use isolated temporary business data.
+Source successor edits only operations/review/journal documentation; runtime,
+desktop configuration and packager remain identical. Full browser18/18 PASS.
+Corrected release operations to actual savev5 migration and mandatory management
+checks. Remote current-head review/CI and actual GitHub alert resolution still
+govern merge/closure; PR and release metadata will record the final outcomes.
 ### GitHub operations audit - 2026-10-08
 
 User requested repository-wide issue hygiene and useful GitHub features. Isolated

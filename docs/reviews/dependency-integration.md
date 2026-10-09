@@ -24,8 +24,10 @@ After observing a successful run, add its real check name to branch protection.
 Local checks so far: unit 41/41, release 5/5, strict typecheck, zero-warning lint,
 web and desktop builds/six-file asset audit PASS. `npm audit` reports zero known
 vulnerabilities across runtime and development dependencies for this lockfile.
-Full browser, exact-head remote Windows and security-alert closure are tracked in
-the PR and continuation journal; do not count proposed updates as remediation.
+Full browser **18/18** and all four locally packaged Windows suites also PASS,
+including 21 UI tab/size combinations. Package source/checkout is clean d1fb1ae;
+its 74-file SHA256 manifest verifies. Exact-head remote Windows and security-alert
+closure are tracked in the PR; do not count proposed updates as remediation.
 
 Review covers peer compatibility, unchanged game/runtime save rules, bundling,
 targeted lock changes, action permissions and preservation of required test names.
