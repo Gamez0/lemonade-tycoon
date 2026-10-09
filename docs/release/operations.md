@@ -41,3 +41,10 @@ protection, published-preview portability and renderer-network-disabled play.
 Reports retain both build identities and bundle/tool SHA256 hashes. These checks
 establish a development-machine rehearsal, not physical-disconnect, clean-PC,
 Steam-install or human acceptance.
+
+CI additionally runs test:desktop:dpi at forced renderer scales125%,150%,200%,
+alongside the baseline100% UI suite. Every scale checks all21 tab/window-size
+combinations, selling/results fit and price typing/save/relaunch, and confirms
+the requested devicePixelRatio actually applies. Screenshots/geometry are retained
+as windows-ui artifacts. This catches rendering regressions but does not replace
+physical monitor DPI, minimum hardware or human readability checks.

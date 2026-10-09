@@ -892,3 +892,29 @@ No final human visual/music acceptance claimed. Media/runtime game rules unchang
 Current-head required CI must pass before merge. Next independently runnable task:
 old/new native Windows package replacement, reinstall and save migration rehearsal;
 then audit shipped notices/provenance and prepare exact remaining release evidence.
+
+## 2026-10-09 next release step: native upgrade and renderer-scale checks
+
+After media PR188 passed exact-head CI it merged to main aa2348c. Current source
+branch test/native-upgrade continues independently. Two-package rehearsal exposed
+obsolete tool expectations: v4-to-v5 export intentionally upgrades schema, and the
+paid replay checkpoint must be captured after opening commits, not before opening.
+Corrected tool checks migrated schema plus independent unchanged historical money,
+stock and daily fields; wait for paid=true before storing/replaying the opening.
+Reports include both clean game build identities and package/tool SHA256 hashes.
+
+Actual old8a0a281 to newd1fb1ae Windows EXE rehearsal PASS5/5: replacement and
+re-extraction, partial-sale forced-exit replay, corrupt/future-save protection,
+published Pages to native/isolated Edge portability, renderer-disabled-network loop.
+Observed v4->v5 and historicalAccountingPreserved=true, one real sale before forced
+exit. Final evidence at .local-m4/release-upgrade-20261009-final. No personal saves
+or installations touched. Native game code unchanged; human/physical gates remain.
+
+Added optional UI forced scales and a wrapper covering125%,150%,200%. Local runs
+PASS at each real requested devicePixelRatio, all21 tab/window combinations per
+scale plus selling/results and persisted price. Baseline100% remains the normal
+suite. Windows CI now includes these checks and retains UI evidence7days, preserves
+immediate failure propagation. Node syntax and git diff checks PASS; remote final
+head CI governs merge. Next: audit shipped content notices/source provenance and
+prepare a reviewable rights inventory while native QA CI runs. No checkpoint ends
+this delegated delivery goal; remaining external evidence stays explicitly open.
