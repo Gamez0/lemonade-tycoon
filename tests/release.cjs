@@ -35,7 +35,7 @@ test('shipped archive audit rejects missing notices, altered licenses and embedd
     try {
         const stage = path.join(root, 'stage');
         const write = (file, bytes) => { fs.mkdirSync(path.dirname(path.join(stage, file)), { recursive: true }); fs.writeFileSync(path.join(stage, file), bytes); };
-        for (const file of ['package.json', 'dist/index.html', 'dist/assets/game.js', 'dist/assets/font.ttf', ...['main.cjs', 'preload.cjs', 'file-storage.cjs', 'diagnostics.cjs', 'icon.ico', 'save-limits.json'].map(name => `src/desktop/${name}`)]) write(file, 'fixture');
+        for (const file of ['package.json', 'dist/index.html', 'dist/assets/game.js', 'dist/assets/font.ttf', ...['main.cjs', 'preload.cjs', 'file-storage.cjs', 'display-settings.cjs', 'diagnostics.cjs', 'icon.ico', 'save-limits.json'].map(name => `src/desktop/${name}`)]) write(file, 'fixture');
         write('CREDITS.txt', 'Willow Lane Lemonade');
         write('LICENSE', fs.readFileSync(path.resolve(__dirname, '../LICENSE')));
         const phaserNotice = fs.readFileSync(path.resolve(__dirname, '../node_modules/phaser/LICENSE.md'));

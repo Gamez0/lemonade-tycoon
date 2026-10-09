@@ -58,7 +58,11 @@ export const markup = `
  </section>
 </main>
 <footer><button id="help-open" class="text-button">Help / Sound</button><span id="goal"></span><button id="restart" class="text-button">New business</button><button id="export-save" class="text-button">Export save</button><button id="import-save" class="text-button">Import save</button><input id="save-file" class="sr-only" type="file" accept=".json,application/json"><a href="./legacy.html">Legacy game</a><small id="save-status" role="status">Saved on this device</small></footer>
-<dialog id="help-dialog" aria-labelledby="help-title"><h2 id="help-title">Willow Lane ? Help and sound</h2>
+<dialog id="help-dialog" aria-labelledby="help-title"><h2 id="help-title">Willow Lane · Help and settings</h2>
+<fieldset id="display-settings" hidden><legend>Display</legend>
+<label>Screen mode <select id="display-mode"><option value="windowed">Windowed</option><option value="fullscreen">Fullscreen</option></select></label>
+<label>Window size <select id="display-size"></select></label>
+<p class="hint" id="display-info"></p><button id="display-apply">APPLY DISPLAY</button><p id="display-status" role="status"></p></fieldset>
 <p>1. Supplies: select ingredient bundles and press BUY. Start with lemons, sugar, ice and cups.</p>
 <p>2. Recipe: use 2 lemons / 1 sugar per pitcher. Match ice to the forecast: 1 below 21 degrees C, 2 at 21-24 degrees C, 3 at 25-29 degrees C, 4 at 30 degrees C or warmer. More ice reduces pitcher yield.</p>
 <p>3. Marketing: enter your price directly. Try $1.75 first. Ads bring more visitors, but charge every day. Extra traffic needs enough stock and fast service.</p>

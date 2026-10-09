@@ -14,7 +14,7 @@ if (!path.resolve(stage).startsWith(buildRoot + path.sep)) throw new Error('Inva
 fs.rmSync(stage, { recursive: true, force: true });
 fs.mkdirSync(path.join(stage, 'src', 'desktop'), { recursive: true });
 fs.cpSync(path.join(root, 'desktop-dist'), path.join(stage, 'dist'), { recursive: true });
-for (const name of ['main.cjs', 'preload.cjs', 'file-storage.cjs', 'icon.ico', 'diagnostics.cjs', 'save-limits.json'])
+for (const name of ['main.cjs', 'preload.cjs', 'file-storage.cjs', 'display-settings.cjs', 'icon.ico', 'diagnostics.cjs', 'save-limits.json'])
     fs.copyFileSync(path.join(root, 'src', 'desktop', name), path.join(stage, 'src', 'desktop', name));
 fs.copyFileSync(path.join(root, 'LICENSE'), path.join(stage, 'LICENSE'));
 fs.copyFileSync(path.join(root, 'node_modules', 'phaser', 'LICENSE.md'), path.join(stage, 'LICENSE-Phaser.txt'));

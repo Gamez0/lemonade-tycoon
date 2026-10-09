@@ -1,7 +1,7 @@
 {
     "name": "willow-lane-lemonade",
     "description": "A classic Windows lemonade stand management game.",
-    "version": "0.2.0-alpha.9",
+    "version": "0.2.0-alpha.10",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Gamez0/lemonade-tycoon.git"
@@ -13,7 +13,7 @@
     },
     "homepage": "https://github.com/Gamez0/lemonade-tycoon",
     "scripts": {
-        "test": "tsc -p tsconfig.simulation.json && node --test tests/simulation.cjs tests/street-day.cjs tests/save.cjs tests/async-save.cjs tests/file-storage.cjs tests/locations.cjs tests/management.cjs",
+        "test": "tsc -p tsconfig.simulation.json && node --test tests/simulation.cjs tests/street-day.cjs tests/save.cjs tests/async-save.cjs tests/file-storage.cjs tests/locations.cjs tests/management.cjs tests/display-settings.cjs",
         "dev": "node log.js dev & vite --config vite/config.dev.mjs",
         "build": "node log.js build & vite build --config vite/config.prod.mjs",
         "dev-nolog": "vite --config vite/config.dev.mjs",
@@ -34,6 +34,7 @@
         "test:desktop:locations": "node tests/desktop-locations.cjs",
         "test:desktop:upgrade": "node scripts/m4-device-evidence.cjs",
         "test:desktop:dpi": "node scripts/desktop-dpi.cjs",
+        "test:desktop:display": "node tests/desktop-display.cjs",
         "test:desktop:audio": "node tests/desktop-audio.cjs",
         "test:desktop:campaign": "node tests/desktop-campaign.cjs",
         "test:desktop:performance": "node scripts/desktop-performance.cjs",

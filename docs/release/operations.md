@@ -1,12 +1,14 @@
 # Windows candidate operations
 
-Candidate version: 0.2.0-alpha.4, sourced from package.json. This is a test
+Candidate version is sourced from package.json (alpha10 for the display-settings
+candidate). This is a test
 distribution; manual acceptance is deferred for the current engineering run.
 Build with Node22 and committed npm lockfile: npm ci, npm test, typecheck,
 lint:reboot, test:release, build-nolog, test:browser, desktop:package:win. Set
 LEMONADE_DESKTOP_EXE and run test:desktop, test:desktop:ui, test:desktop:dpi,
-test:desktop:locations, test:desktop:management, test:desktop:audio and
-test:desktop:campaign and test:desktop:long-save. Each suite failure must fail the run immediately.
+test:desktop:locations, test:desktop:management, test:desktop:audio,
+test:desktop:display, test:desktop:campaign, test:desktop:long-save and
+test:desktop:performance. Each suite failure must fail the run immediately.
 Record source and checkout hashes in build-info.json; release-manifest.cjs writes
 and verifies all SHA256 file checksums. Retain the entire distribution directory,
 Electron/Chromium notices and app.asar. Never ship the working tree/public research.
@@ -59,7 +61,7 @@ from a separate folder and import the pre-update export. An older application
 cannot read a newer save version: do not overwrite current data with rejected JSON.
 Use isolated APPDATA/LOCALAPPDATA for rehearsals, never real player business data.
 
-Help / Sound > Export diagnostics includes runtime/version and bounded event log.
+Help / Settings > Export diagnostics includes runtime/version and bounded event log.
 diagnostics.jsonl records timestamp and predefined event names only (startup,
 save-failed, renderer-gone, load-failed, close-timeout), never full saves, usernames,
 paths, raw exceptions or credentials. It is capped at approximately64KiB and may
@@ -84,12 +86,21 @@ Reports retain both build identities and bundle/tool SHA256 hashes. These checks
 establish a development-machine rehearsal, not physical-disconnect, clean-PC,
 Steam-install or human acceptance.
 
-CI additionally runs test:desktop:dpi at forced renderer scales125%,150%,200%,
-alongside the baseline100% UI suite. Every scale checks all21 tab/window-size
+CI additionally runs test:desktop:dpi at forced renderer scales125%,150%,175%,200%,
+alongside the baseline100% UI suite. Every scale checks all97 tab/window-size
 combinations, selling/results fit and price typing/save/relaunch, and confirms
 the requested devicePixelRatio actually applies. Screenshots/geometry are retained
 as windows-ui artifacts. This catches rendering regressions but does not replace
 physical monitor DPI, minimum hardware or human readability checks.
+
+Help / Settings > Display selects Windowed/Fullscreen and a client size that fits
+the current work area. Window sizes follow Windows scaling; fullscreen fills the
+current monitor. Apply persists mode/size in display.json beside business files,
+without changing save.json or save.backup.json. The next launch restores the
+selection; unavailable sizes fit safely. Back up display.json as well if retaining
+preferences during rollback. Old versions ignore it. Corrupt/newer display settings
+are preserved until explicit Apply. The native display suite checks all available
+sizes, both modes/relaunch, safe fallback and no panel scroll across100-200%.
 
 test:desktop:campaign drives a new business through thirty actual native UI days,
 earned locations, all equipment levels and staff/advertising choices. Every day

@@ -1,4 +1,5 @@
-const { app, BrowserWindow, ipcMain, Menu } = require('electron');
+const { app, BrowserWindow, ipcMain, Menu, screen } = require('electron');
+const { createPreferences, createDisplayController, fitSize } = require('./display-settings.cjs');
 const path = require('node:path');
 const { createFileStorage } = require('./file-storage.cjs');
 const { maxSaveBytes } = require('./save-limits.json');
@@ -9,6 +10,7 @@ app.disableHardwareAcceleration();
 
 let window;
 let closing = false;
+let displayController;
 const storage = createFileStorage();
 const diagnostics = require('./diagnostics.cjs').createDiagnostics();
 
@@ -32,16 +34,23 @@ ipcMain.on('save:flushed', event => {
 });
 
 ipcMain.handle('app:quit', event => { authorized(event); window.close(); });
+ipcMain.handle('display:get', event => { authorized(event); return displayController.state(); });
+ipcMain.handle('display:set', (event, value) => { authorized(event); return displayController.apply(value); });
 ipcMain.handle('app:diagnostics', event => { authorized(event); return { version: app.getVersion(), electron: process.versions.electron, platform: process.platform, architecture: process.arch, events: diagnostics.read() }; });
 
 app.whenReady().then(() => {
     diagnostics.record('startup');
     Menu.setApplicationMenu(null);
+    const preferences = createPreferences();
+    const workArea = screen.getPrimaryDisplay().workArea;
+    const initial = fitSize(preferences.get(), workArea);
     window = new BrowserWindow({
-        width: 1100,
-        height: 850,
-        minWidth: 800,
-        minHeight: 600,
+        x: workArea.x + Math.max(0, Math.floor((workArea.width - initial.width - 32) / 2)),
+        y: workArea.y + Math.max(0, Math.floor((workArea.height - initial.height - 64) / 2)),
+        width: initial.width,
+        height: initial.height,
+        minWidth: Math.min(800, initial.width),
+        minHeight: Math.min(600, initial.height),
         useContentSize: true,
         icon: path.join(__dirname, 'icon.ico'),
         backgroundColor: '#9bc77e',
@@ -52,6 +61,7 @@ app.whenReady().then(() => {
             sandbox: true,
         },
     });
+    displayController = createDisplayController(window, screen, preferences);
     window.webContents.on('render-process-gone', () => diagnostics.record('renderer-gone'));
     window.webContents.on('did-fail-load', () => diagnostics.record('load-failed'));
     window.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));

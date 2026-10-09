@@ -74,10 +74,10 @@ async function close() { const closed = app.waitForEvent('close'); await app.eva
         assert.equal(diagnostic.version, require('../package.json').version); assert.match(diagnostic.events, /startup/);
         assert.ok(!diagnostic.events.includes(base));
         await page.locator('#fullscreen').click();
-        await expect.poll(() => page.evaluate(() => Boolean(document.fullscreenElement))).toBe(true);
+        await expect.poll(() => app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].isFullScreen())).toBe(true);
         await expect.poll(() => app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].isFullScreen())).toBe(true);
         await page.locator('#fullscreen').click();
-        await expect.poll(() => page.evaluate(() => Boolean(document.fullscreenElement))).toBe(false);
+        await expect.poll(() => app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].isFullScreen())).toBe(false);
         const quit = app.waitForEvent('close'); await page.locator('#quit-game').click(); await quit; app = null;
         assert.deepEqual(read().state, expected);
         console.log('Windows management: zero-cash free ice, equipment/wage/ad costs, forced replay, results, mute, diagnostics, fullscreen and Save and quit PASS.');
