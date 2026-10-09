@@ -1,4 +1,4 @@
-Willow Lane Lemonade - development candidate 0.2.0-alpha.1
+Willow Lane Lemonade - development candidate
 
 Game rules, generated street/character art, UI icons, capsule composition,
 pentatonic music miniatures and synthesized effects were written for this project.

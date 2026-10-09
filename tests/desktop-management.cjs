@@ -68,7 +68,7 @@ async function close() { const closed = app.waitForEvent('close'); await app.eva
         await close(); page = await launch(); assert.deepEqual(read().state, expected);
         await page.locator('#help-open').click(); await expect(page.locator('#mute-audio')).toBeChecked();
         const diagnostic = await page.evaluate(() => window.desktopApp.diagnostics());
-        assert.equal(diagnostic.version, '0.2.0-alpha.1'); assert.match(diagnostic.events, /startup/);
+        assert.equal(diagnostic.version, require('../package.json').version); assert.match(diagnostic.events, /startup/);
         assert.ok(!diagnostic.events.includes(base));
         await page.locator('#fullscreen').click();
         await expect.poll(() => page.evaluate(() => Boolean(document.fullscreenElement))).toBe(true);

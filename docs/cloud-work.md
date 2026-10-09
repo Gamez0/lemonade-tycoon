@@ -991,3 +991,32 @@ isolation protects personal prefs as well as business data. Node syntax and git
 diff checks PASS. PR191 final-head CI must pass and merge before this dependent
 campaign PR can merge; validate current main base/head afterward. Next: automate
 reviewable release artifacts/version metadata so verified build handoff is repeatable.
+
+## 2026-10-09 next loop: repeatable verified release artifacts
+
+Campaign PR192 passed refreshed-main exact-head CI and mergedcb4cdb8; audio/profile
+PR191 mergedfef4150. Continue build/repeatable-release-artifacts. Centralize candidate
+version in package.json and update only four root metadata values in npm lock
+(no dependency resolution changes). Package/credits/build-info/diagnostics derive
+0.2.0-alpha.2 from that source; Electron/Phaser versions come from installed locked
+packages. Correct template repository/description metadata while preserving template
+license/credits and compatibility executable/save/profile identity.
+
+Windows CI now preserves all build-info fields when adding source/run annotations,
+then writes a version/source-named distributable ZIP, checksum and manifest copy.
+Archive generation verifies all package and manifest entry bytes and refuses dirty
+metadata, nested output or replacing prior output. Standard forward-slash entries
+work on Windows PowerShell/.NET Framework and pwsh/.NET; initial legacy-backslash
+and unloaded-compression-enum failures corrected before PASS. Actual existing clean
+74-file candidate ZIP smoke PASS, dirty/nested/existing-output rejection PASS.
+
+Added dispatch-only internal draft workflow. It requires clean exact main and a
+successful matching Reboot checks run with simulation and Windows jobs, verifies
+artifact inventory/hash/source, refuses published/different-source releases, creates
+only a prerelease draft and checks final GitHub digests. Action token permissions
+scoped to draft job; checkout credentials not persisted. Failure-injection gates
+cover wrong source/branch/event/workflow/status and published/other-source release.
+Local release7/7, actionlint1.7.12, Node/PowerShell syntax and diff checks PASS.
+Next: clean alpha2 native build/tests and final-head CI, merge, run successful main
+checks and exercise draft workflow end to end, then reassess remaining runnable
+release tasks. User-deferred manual gates are not reasons to stop this loop.

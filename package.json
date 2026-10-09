@@ -1,18 +1,17 @@
 {
-    "name": "template-vite-ts",
-    "description": "A Phaser 3 TypeScript template using Vite.",
-    "version": "1.3.2",
+    "name": "willow-lane-lemonade",
+    "description": "A classic Windows lemonade stand management game.",
+    "version": "0.2.0-alpha.2",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/phaserjs/template-vite-ts.git"
+        "url": "git+https://github.com/Gamez0/lemonade-tycoon.git"
     },
-    "author": "Phaser Studio <support@phaser.io> (https://phaser.io/)",
     "license": "MIT",
     "licenseUrl": "http://www.opensource.org/licenses/mit-license.php",
     "bugs": {
-        "url": "https://github.com/phaserjs/template-vite-ts/issues"
+        "url": "https://github.com/Gamez0/lemonade-tycoon/issues"
     },
-    "homepage": "https://github.com/phaserjs/template-vite-ts#readme",
+    "homepage": "https://github.com/Gamez0/lemonade-tycoon",
     "scripts": {
         "test": "tsc -p tsconfig.simulation.json && node --test tests/simulation.cjs tests/street-day.cjs tests/save.cjs tests/async-save.cjs tests/file-storage.cjs tests/locations.cjs tests/management.cjs",
         "dev": "node log.js dev & vite --config vite/config.dev.mjs",
