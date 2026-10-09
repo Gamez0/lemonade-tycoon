@@ -1,6 +1,45 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { newGame, setPlan, buy, unitCost, capacity, cupsPerPitcher, pitcherCost, quality, demand, openDay, stepCustomer, nextDay, results } = require('../.test-build/simulation/game.js');
+const { openingReadiness, purchaseUpgrade } = require('../.test-build/simulation/game.js');
+
+test('forecast ice opening reports exact full-pitcher shortage at every recipe boundary', () => {
+    for (let ice = 0; ice <= 7; ice++) {
+        const recipe = { lemon: 6, sugar: 3, ice };
+        const needed = ice * cupsPerPitcher(recipe);
+        const base = setPlan(newGame(), { price: 150, recipe });
+        const ready = { ...base, stock: { lemon: 80, sugar: 40, ice: needed, cup: 40 } };
+        assert.equal(openingReadiness(ready).cups, Math.min(40, cupsPerPitcher(recipe) * (ice === 0 ? 13 : 1)));
+        assert.deepEqual(openingReadiness(ready).missing, { lemon: 0, sugar: 0, ice: 0, cup: 0 });
+        assert.equal(openDay(ready).phase, 'selling');
+        if (ice > 0) {
+            const short = { ...ready, stock: { ...ready.stock, ice: needed - 1 } };
+            assert.equal(openingReadiness(short).cups, 0);
+            assert.equal(openingReadiness(short).missing.ice, 1);
+            assert.throws(() => openDay(short), /supplies/);
+        }
+    }
+    const screenshot = { ...setPlan(newGame(), { price: 150, recipe: { lemon: 6, sugar: 3, ice: 4 } }),
+        stock: { lemon: 80, sugar: 40, ice: 60, cup: 40 } };
+    assert.deepEqual(openingReadiness(screenshot), { cups: 0, missing: { lemon: 0, sugar: 0, ice: 4, cup: 0 } });
+});
+
+test('opening preview includes free maker ice once and retains paid-checkpoint stock', () => {
+    const base = setPlan(purchaseUpgrade(newGame(), 'iceMaker'), { price: 150, recipe: { lemon: 2, sugar: 1, ice: 4 } });
+    const ready = { ...base, stock: { lemon: 2, sugar: 1, ice: 4, cup: 20 } };
+    assert.equal(capacity(ready), 0);
+    assert.equal(openingReadiness(ready).cups, 16);
+    const opened = openDay(ready);
+    assert.equal(opened.stock.ice, 64);
+    const paid = { ...opened, phase: 'preparation', stock: { ...opened.stock, ice: 0 }, pitcherCups: 3 };
+    assert.equal(openingReadiness(paid).cups, 3);
+    assert.deepEqual(openingReadiness(paid).missing, { lemon: 0, sugar: 0, ice: 0, cup: 0 });
+    assert.equal(openDay(paid).stock.ice, 0);
+    const empty = { ...paid, pitcherCups: 0 };
+    assert.equal(openingReadiness(empty).cups, 0);
+    assert.equal(openingReadiness(empty).missing.ice, 64);
+    assert.throws(() => openDay(empty), /supplies/);
+});
 const { WEATHER, ITEM_KEYS, ITEMS } = require('../.test-build/content/catalog.js');
 const stocked = (seed = 2026, quantity = 80) => ITEM_KEYS.reduce((s, key) => buy(s, key, quantity), newGame(seed));
 function finish(state) { while (state.phase === 'selling') state = stepCustomer(state).state; return state; }

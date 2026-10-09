@@ -12,6 +12,8 @@ test('low-cash ice-maker owner sees affordable opening costs and can resume sell
         if (!localStorage.getItem('lemonade-tycoon.reboot.save')) localStorage.setItem('lemonade-tycoon.reboot.save', raw);
     }, raw);
     await page.goto('/');
+    await expect(page.locator('#capacity')).toHaveText('7 cups');
+    await expect(page.locator('#supply-warning')).toBeHidden();
     await expect(page.locator('#management-bill')).toContainText('Opening bill $0.00');
     await page.locator('[data-page=upgrades]').click();
     await expect(page.locator('#upgrade-effect-iceMaker')).toContainText('free ice');
@@ -26,6 +28,42 @@ test('low-cash ice-maker owner sees affordable opening costs and can resume sell
     expect(saved.state.daily.purchases).toBe(state.daily.purchases);
     expect(saved.state.cash).toBe(state.cash + saved.state.daily.revenue);
     expect(saved.state.daily.freeIceUsed).toBeGreaterThan(0);
+});
+
+test('four-ice recipe explains 60 versus 64 shortage and recovers after an actual purchase', async ({ page }) => {
+    let state = setPlan(newGame(), { price: 150, recipe: { lemon: 6, sugar: 3, ice: 4 } });
+    for (const [item, quantity] of [['lemon', 80], ['sugar', 40], ['ice', 60], ['cup', 40]]) state = buy(state, item, quantity);
+    await page.addInitScript(raw => {
+        if (!localStorage.getItem('lemonade-tycoon.reboot.save')) localStorage.setItem('lemonade-tycoon.reboot.save', raw);
+    }, encodeSave(state, []));
+    await page.goto('/');
+    await expect(page.locator('#capacity')).toHaveText('0 cups');
+    await expect(page.locator('#pitcher-yield')).toContainText('64 ice needed per pitcher');
+    await expect(page.locator('#supply-warning')).toHaveText('Need 4 ice cubes to open. Buy supplies or adjust your recipe.');
+    await expect(page.locator('#world-status')).toHaveText('Supplies needed');
+    await page.locator('#app').screenshot({ path: 'test-results/four-ice-shortage.png' });
+    await page.setViewportSize({ width: 800, height: 600 });
+    await expect(page.locator('#supply-warning')).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    await page.setViewportSize({ width: 1280, height: 1000 });
+    await page.locator('#open').click();
+    await expect(page.locator('#selling')).toBeHidden();
+    await page.locator('#ice').fill('3');
+    await page.locator('#ice').press('Tab');
+    await expect(page.locator('#capacity')).toHaveText('14 cups');
+    await expect(page.locator('#supply-warning')).toBeHidden();
+    await page.locator('#ice').fill('4');
+    await page.locator('#ice').press('Tab');
+    await page.locator('[data-page=supplies]').click();
+    await expect(page.locator('#supply-warning')).toContainText('Need 4 ice cubes');
+    await page.locator('[data-supply=ice]').click();
+    await page.locator('[data-bundle="0"][data-delta="1"]').click();
+    await page.locator('#buy-order').click();
+    await expect(page.locator('#capacity')).toHaveText('16 cups');
+    await expect(page.locator('#supply-warning')).toBeHidden();
+    await expect(page.locator('#world-status')).toHaveText('Ready to open');
+    await page.locator('#open').click();
+    await expect(page.locator('#selling')).toBeVisible();
 });
 test('seven screens purchase, hire, advertise, restore and account for a paid replay', async ({ page }) => {
     const earned = campaign();

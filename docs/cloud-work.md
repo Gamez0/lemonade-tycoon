@@ -1147,3 +1147,29 @@ Hosted Ubuntu24 image updates remain enabled; future OS migration needs a separa
 verified change. Self-review: exactly four runner-label edits plus explanation;
 actionlint and current-head remote checks required before merge.
 
+### 2026-10-09 human-reported four-ice opening confusion
+
+User's alpha4 screenshot: recipe6 lemon /3 sugar /4 ice, stock80/40/60/40,
+capacity0. Existing full-pitcher rule requires4*16=64 ice, so stock is four short.
+Keep the established batch-production/accounting rule; correct the missing UI
+explanation rather than silently changing historical or current economy.
+Show ice per whole pitcher, precise missing supplies on every preparation tab,
+and Supplies needed status. Opening capacity now includes the maker's free ice
+using the same preview as openDay, without producing twice on paid replay.
+Advance the next candidate to alpha5; alpha4 remains frozen.
+
+Self-review: stock is never mutated by preview, paid replay produces no extra
+ice, prepared cups can still open without another pitcher, ice0 avoids division.
+Regression tests cover all eight ice recipes at exact/short boundaries, the
+reported60/64 case, free maker/replay and actual UI recipe/purchase recovery.
+Next: finish local checks and exact-head Windows/browser CI, merge, then create
+and verify the alpha5 internal draft from successful main CI for user retesting.
+
+Local checks: simulation43/43, release8/8, typecheck and reboot lint PASS.
+Browser management4/4 PASS on the completed production build, including actual
+60-ice shortage -> lower recipe -> restore4 ice -> buy -> open recovery, and
+800x600 no horizontal overflow. Viewed the shortage screenshot: precise four-ice
+message, full-pitcher requirement and Start day remain readable in classic panels.
+An initial browser run overlapped the build and served old/missing assets; reran
+only after build completion, then reran the updated screenshot/viewport check.
+
