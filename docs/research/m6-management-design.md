@@ -8,9 +8,9 @@ reboot uses its established pitcher, ingredient consumption and queue accounting
 rather than copying legacy manufacturing delays. These are newly designed values.
 
 Three equipment families have two permanent purchase levels: refrigerator keeps
-50/100% leftover ice, ice maker produces 60/120 ice at normal supply cost, blender
-reduces service from 8 to 7/6 ticks. Ice production is convenience, not free stock;
-its exact purchase amount is included in supply cash expenses at opening. Staff
+50/100% leftover ice, ice maker produces 60/120 free ice, blender
+reduces service from 8 to 7/6 ticks. Per the 2026-10-09 user correction, there is no
+ice production/electricity fee. Free stock contributes no ingredient expense. Staff
 choice: owner, server ($2.50/day; 2 ticks faster), host ($1.80/day; +12 patience).
 Advertising: none, flyers ($1.80/day; +20% traffic), radio ($4.50/day; +45%).
 Staff and ads charge atomically with rent at opening. Paid checkpoints lock these
@@ -21,6 +21,8 @@ requiring matching stock/service; no ad is an appropriate low-budget choice.
 Save v4 migrates v0-v3 with zero management costs/default equipment. Validate
 integer levels, known choices, wages/ads against the paid opening, equipment
 payments against lifetime capital ledger and ordinary cash reconciliation.
+Save v5 additionally tracks free ice inventory/consumption, preserving all old
+charged production and historical results on migration; see the free-ice review.
 
 M7 language scope: English only for the first candidate, explicitly indicated in
 help/store materials. Korean translation is not claimed. Original code-generated

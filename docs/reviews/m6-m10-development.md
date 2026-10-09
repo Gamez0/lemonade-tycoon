@@ -1,5 +1,9 @@
 # M6-M10 development and preparation
 
+2026-10-09 correction: owned ice makers now produce free ice. Save v5 tracks its
+zero cost basis and preserves old charged purchases/results. The original paid
+production description and v4 below are historical; see [the correction](free-ice-maker.md).
+
 2026-10-08 user authorization: continue through M10. This supersedes milestone
 stop conditions for runnable development. Physical disconnect, DPI and clean
 Windows checks remain deferred release gates. No parallel agents were used.

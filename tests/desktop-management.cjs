@@ -76,6 +76,6 @@ async function close() { const closed = app.waitForEvent('close'); await app.eva
         await expect.poll(() => page.evaluate(() => Boolean(document.fullscreenElement))).toBe(false);
         const quit = app.waitForEvent('close'); await page.locator('#quit-game').click(); await quit; app = null;
         assert.deepEqual(read().state, expected);
-        console.log('Windows management: equipment, wage/ad/ice costs, forced replay, results, mute, diagnostics, fullscreen and Save and quit PASS.');
+        console.log('Windows management: zero-cash free ice, equipment/wage/ad costs, forced replay, results, mute, diagnostics, fullscreen and Save and quit PASS.');
     } finally { if (app) await app.close().catch(() => {}); fs.rmSync(base, { recursive: true, force: true }); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

@@ -38,3 +38,7 @@ transparent logo1280x720. Six actual gameplay/results screenshots1920x1080 from
 all3locations. Raw WebM plus14.68-second1920x1080 H264/AAC MP4 with original music;
 final editing/visual/listening acceptance pending. Reproduce after npm test/build:
 node scripts/audio-export.cjs, node scripts/store-capture.cjs, node scripts/store-video.cjs.
+
+The retained media was captured before the 2026-10-09 free-ice correction and is
+development reference material. Regenerate from the accepted final gameplay source
+before selecting final store screenshots/trailer; do not present it as current-build evidence.

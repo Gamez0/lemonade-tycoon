@@ -687,3 +687,47 @@ list. That initial playback check failed; the earlier preliminary playback claim
 is superseded. Fixed split at ;base64,, assert payload length, and require actual
 video/audio decode before writing. Final MP4 is3,757,476bytes; verified1920x1080,
 14.68s with decoded audio/video in playback-verified.json. No runtime game change.
+
+### Free ice-maker continuation — 2026-10-09 (KST)
+
+Resumed the latest Windows worktree, not the superseded .reboot-work. PR130/131/132
+were OPEN with successful exact-head checks on inspection; no merge. Parent worktree
+changes were untouched. User clarified that the original's intentional gameplay
+simplifications should guide design and that ice makers produce ice without
+electricity/production fees. This supersedes M6's charged-production rule.
+
+Runtime source 3d16873c78713b60f957534e715c8413592cd3f3 removes the charge and adds
+free-stock consumption/cost basis, refrigerator preservation, shared opening costs,
+UI/help and save v5 migration. Old purchases/results/paid checkpoints remain exact;
+no refunds or duplicate production. AGENTS/design record the user's design guidance.
+Review: docs/reviews/free-ice-maker.md. Changed content/simulation/save/reboot/layout,
+unit/browser/native regression expectations, README/architecture/design/review notes.
+No lockfile, dependency, assets, public release, Steam action or agents.
+
+Final local unit **41/41**, release **5/5**, strict typecheck, zero-warning reboot
+lint, web production build and full browser **18/18** PASS. New cases cover zero cash,
+mixed paid/free ingredient expense, storage caps/both levels, all refrigerator levels,
+v4 charged-checkpoint migration and thirty-day management replay with free production.
+The first locally written regression used incorrect fixture ingredient prices and
+failed before correction; no product pass was claimed for that attempt. The proposed
+cash-limited paid-production change was discarded after the user's free-production
+instruction. Final tested implementation contains no production charge.
+
+Windows package `.local-m4/free-ice-build/release/Lemonade Tycoon-win32-x64/`:
+desktop six-file audit, native management (including zero-cash opening, persisted free
+stock and exact replay), saves/recovery/relocation, locations/v2 migration and UI
+**21 combinations** all PASS. Its **74-file manifest** is written/verified. Metadata
+records source/checkout 3d16873, Node22.16.0/Electron44.5.1 and `dirty=true`: documentation
+and the isolated launcher were edited while packaging completed. Explicit runtime/
+config/packager diff against that source is empty; no claim of a clean RC package.
+Follow-up edits change docs, launcher and the native-test success message only.
+
+`scripts/free-ice-preview-launch.cmd` uses separate `.local-m4/free-ice-manual-data`,
+preserving personal/M4/M5/M10 saves. Old media and balance evidence refer to earlier
+paid-production source; regenerate accepted media/economic evidence before release.
+No manually launched game or preview server left running. Test ports8080–8083 were
+not listening after completion. M2 visual, music/human playtest, physical offline/DPI/
+clean-PC, final name/rights/support specs and real Steam gates remain open.
+
+Next: inspect successor PR132 head CI; playtest the corrected package and continue
+the remaining acceptance work. No merge is claimed by this checkpoint.
