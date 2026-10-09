@@ -81,3 +81,34 @@ Use draft Releases with a versioned ZIP, checksum, changelog and known gates whe
 intended candidate is agreed. The current Windows alpha is not an accepted RC.
 Published Releases, Steam uploads/submission and public sales are separate actions;
 this organization change does not publish candidate artifacts.
+
+## Feature coverage and delivery decisions — 2026-10-09
+
+Routine implementation must finish through self-review, exact-head passing CI and
+main integration. Human release acceptance is tracked separately; it does not block
+merging implementation. Reconcile stacked bases before merging and preserve current
+branch protection rather than bypassing it to clear the PR list.
+
+| GitHub capability | Current decision |
+| --- | --- |
+| Code, branches, PRs, diffs, review conversations | Use; reviewed agent changes are merged after current CI, user-owned PR83 remains separate. |
+| Issues, forms, labels, milestones, sub-issues/dependencies | Use for implementation, acceptance and release gates; close integration tasks only after main includes the source. |
+| Projects and automatic board workflows | Recommended; account token lacks project scope. Existing label views remain usable; do not claim a board exists. |
+| Actions, reusable workflows, cache, concurrency, job summaries/logs, artifacts | Use; keep Linux/browser and all native Windows suites required and fail on any suite error. |
+| Branch protection and rulesets | Use; required exact job names, current-base checks, resolved conversations, no deletion/force push. |
+| Pages and deployment environments | Use for the tested development preview; deployment follows successful Linux and Windows jobs. |
+| Dependabot alerts/security updates/version proposals | Use with review; consolidate compatible updates and document incompatible compiler proposals. |
+| CodeQL and secret scanning/push protection | Enabled and verified; preserve them. |
+| Dependency graph and Dependency review | Add PR-time vulnerability checks and require the observed check after validation. |
+| Releases, tags, versioned assets and checksums | Prepare private draft candidates after main integration; publish only under actual release authorization. |
+| Discussions | Enabled; general feedback belongs here, actionable work belongs in issues. |
+| Insights, dependency and Actions history | Use as evidence for development/security/CI cost and failures; milestone issue counts are not quality or time estimates. |
+| Wiki | Disabled; versioned docs in the repository are the maintained source. |
+| Packages/container registry | Not needed for the current Windows executable; no separate library/container distribution. |
+| Codespaces/dev containers | Optional; cloud browsers cannot establish native Windows acceptance. Current local Windows/Actions workflow is sufficient. |
+| Copilot/partner Agents, custom agents and agentic workflows | Reviewed separately using official docs; user lacks the required paid Copilot access. Do not purchase or enable paid agents; existing Codex plus GitHub workflows remains usable. |
+| Marketplace apps, webhooks, organization-only governance | Add only for a concrete uncovered need; avoid duplicating existing automation or broadening access without a reason. |
+
+This covers the repository-relevant feature families, not a claim that every
+GitHub product is required. No paid service, public release or Steam submission
+is enabled by this review. Remaining access-dependent work stays explicit.
