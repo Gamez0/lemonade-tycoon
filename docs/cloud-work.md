@@ -1021,6 +1021,18 @@ Next: clean alpha2 native build/tests and final-head CI, merge, run successful m
 checks and exercise draft workflow end to end, then reassess remaining runnable
 release tasks. User-deferred manual gates are not reasons to stop this loop.
 
+### 2026-10-09 release draft creation response fix
+
+Main a433ff5 checks37887999195 passed. Draft workflow37888326801 created the
+alpha2 draft but its immediate list lookup did not return that draft, stopping
+before asset upload. Actual release407542958 confirms draft=true and exact source.
+Changed creation to consume the REST POST response directly, validate its ID,
+tag and draft/source, and preserve existing upload/digest checks. This removes
+the extra post-create list lookup without adding permissions or publication.
+Regression checks enforce direct returned identity and reject unsafe responses.
+The original exact-source workflow is being retried to complete the existing
+draft; no different-source draft is retargeted or silently replaced.
+
 ### 2026-10-09 Korean contributor documentation / continued release loop
 
 PR193 merged after passing exact-head CI. Clean alpha2 package source0b5bc27
