@@ -276,6 +276,8 @@ element("open").addEventListener("click", () =>
             throw new Error("BUY or CANCEL your pending order before starting the day.");
         }
         const planned = readPlan();
+        if (openingReadiness(planned).cups === 0) showPage("supplies");
+        else if (planned.cash < openingCosts(planned).fees) showPage("rent");
         const opened = openDay(planned);
         openingCheckpoint = { ...opened, phase: "preparation" };
         if (!saveBlocked && desktopSave) {

@@ -1321,3 +1321,11 @@ reference distinguishes known original behavior from approved simplifications.
 Next: current-head CI/merge, exact-main alpha8 draft and downloaded upgrade replay;
 continue independently runnable release work, leave unavailable human/Steam gates
 explicit rather than declaring overall acceptance complete.
+Remote follow-up: first-head WindowsCI37918242354 found150% maximum viewport
+683x465 causing report scroll522>client477. Local monitor had passed; preserved
+failed CI JSON. Browser <=700px rules stacked report/settings inside the already
+scaled native layout. Explicit native two-column report/settings/layout/control
+and ratings, reset world grid row/toolbar ordering. Browser responsive layout is
+unchanged. Add explicit683x465 and512x350 native preparation/history/selling cases
+so small logical clients are covered independently of the runner's monitor.
+Repackage/recheck all scales and exact-head required CI before merge.

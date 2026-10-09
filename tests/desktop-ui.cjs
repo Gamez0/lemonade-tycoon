@@ -120,12 +120,15 @@ async function fit(page, name) {
             await close();
         }
         page = await launch(executable);
+        await app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].setMinimumSize(0, 0));
         assert.equal(await app.evaluate(({ Menu }) => Menu.getApplicationMenu()), null);
         await expect(page.locator(".masthead")).toBeHidden();
         for (const [width, height] of [
             [1100, 850],
             [800, 600],
             [1280, 720],
+            [683, 465],
+            [512, 350],
         ]) {
             await app.evaluate(
                 ({ BrowserWindow }, { width, height }) =>
@@ -169,6 +172,12 @@ async function fit(page, name) {
         await page.waitForTimeout(200);
         await fit(page, 'selling 1097x554 full map');
         await page.screenshot({ path: path.join(out, 'selling-175-client.png') });
+        for (const [width, height] of [[683, 465], [512, 350]]) {
+            await app.evaluate(({ BrowserWindow }, { width, height }) =>
+                BrowserWindow.getAllWindows()[0].setContentSize(width, height), { width, height });
+            await page.waitForTimeout(100);
+            await fit(page, `${width}x${height} selling small native client`);
+        }
         await app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].setContentSize(800, 600));
         await page.waitForTimeout(200);
         await page.locator("#skip").click();
@@ -204,7 +213,7 @@ async function fit(page, name) {
         await page.locator('#next').click();
         await expect(page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
         await expect(page.locator('#day')).toHaveText('02');
-        for (const [width, height] of [[1100, 850], [800, 600], [1097, 554]]) {
+        for (const [width, height] of [[1100, 850], [800, 600], [1097, 554], [683, 465], [512, 350]]) {
             await app.evaluate(({ BrowserWindow }, { width, height }) =>
                 BrowserWindow.getAllWindows()[0].setContentSize(width, height), { width, height });
             for (const tab of ['results', 'recipe', 'marketing', 'supplies', 'rent', 'upgrades', 'staff']) {
@@ -238,6 +247,11 @@ async function fit(page, name) {
         assert.equal(fs.readFileSync(save, 'utf8'), beforeFailedOrder);
         await fit(page, 'oversized order feedback');
         await page.locator('#cancel-order').click();
+        await page.locator('[data-page="results"]').click();
+        await page.locator('#open').click();
+        await expect(page.locator('#supplies-page')).toBeVisible();
+        await expect(page.locator('#message')).toContainText('Buy enough supplies');
+        await fit(page, 'opening shortage redirects from report to supplies');
         await close();
         fs.writeFileSync(
             path.join(out, "ui-results.json"),

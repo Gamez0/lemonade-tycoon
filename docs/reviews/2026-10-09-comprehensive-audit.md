@@ -77,3 +77,7 @@ native tests. Forced renderer scale is not physical-DPI/clean-PC acceptance.
 Next: final browser/all-native current-head CI, merge, exact-main alpha8 draft,
 downloaded-package verification and old->new/current-web upgrade rehearsal.
 Existing user-owned PR83/parent worktree and deferred external gates stay intact.
+
+### Small-client CI follow-up
+
+The first Windows CI run exposed a 683x465 client at 150% where browser narrow-screen stacking overlapped native scaling. Desktop layout now explicitly retains two columns, a single footer row, and compact settings spacing. Native checks also cover 683x465 and 512x350, completed-history daily/ledger views, maximized/fullscreen results, and actionable opening errors. All five local renderer scales pass after the correction. A valid low-cash reserved-contract fixture verifies opening-fee rejection preserves the save and routes to Rent; missing stock routes to Supplies. Final exact-head CI remains the merge gate.
