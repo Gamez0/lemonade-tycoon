@@ -1,5 +1,9 @@
 # Willow Lane Lemonade
 
+[![Checks](https://github.com/Gamez0/lemonade-tycoon/actions/workflows/checks.yml/badge.svg?branch=main)](https://github.com/Gamez0/lemonade-tycoon/actions/workflows/checks.yml)
+
+[Milestones](https://github.com/Gamez0/lemonade-tycoon/milestones) · [GitHub working guide](docs/github-operations.md) · [Questions and feedback](https://github.com/Gamez0/lemonade-tycoon/discussions)
+
 A neighborhood lemonade business built with Phaser and TypeScript. Buy supplies, adjust a recipe and price, watch customers visit, and improve tomorrow.
 
 The presentation follows classic PC tycoon games: compact green management panels, beveled buttons, illustrated inventory, and original diagonal location scenes with a little parasol cart. Seven illustrated tabs switch Results, Rent, Upgrades, Staff, Marketing, Recipe and Supplies in a fixed two-column frame. The 5:4 street stays beside the work panel.
