@@ -35,6 +35,15 @@ Linux browser/file-storage results cannot establish Windows package acceptance.
 
 ## Working agreement
 
+- Continuation rule (user correction, 2026-10-09): passing tests, merging PRs,
+  preparing an alpha artifact or sending a progress report does not complete the
+  delegated game delivery. Before ending active work, inspect the remaining
+  approved release tasks and continue every independently runnable task. Stop
+  only when the user asks, the authorized outcome is achieved, or further progress
+  actually requires unavailable access, human evidence or a decision. Report the
+  concrete blocker and prepared next action; do not silently turn a checkpoint
+  into a waiting state or imply background execution after the turn ends.
+
 - The user delegates delivery of a sellable game: own implementation, meaningful
   tests, self-review, current-head CI, merges, CI/CD, GitHub feature adoption,
   milestone/issue upkeep and reviewable release artifacts. Finish routine work

@@ -1,5 +1,23 @@
 # Cloud development handoff — 2026-10-05
 
+## Continuation correction — 2026-10-09
+
+The user explicitly corrected stopping after intermediate delivery checkpoints.
+Tests, merges and alpha artifacts are progress, not completion of the delegated
+sellable-game delivery. Apply the continuation rule in AGENTS.md before ending
+active work. Inspect remaining authorized tasks, continue runnable work and report
+specific external blockers only when independent progress is exhausted. Do not
+claim work continues in the background without a confirmed execution service.
+
+Verification: reviewed live open issues and PRs; only user-owned draft PR83 remains.
+Release gates include actual human play/listening acceptance, physical-device and
+clean-Windows evidence, final rights/media acceptance and Steam partner access.
+These gates remain open; passing automation cannot substitute for their evidence.
+This correction changes work instructions only; no game behavior or dependency
+changes and no duplicate gameplay tests are needed. Self-review: preserves scope,
+user-owned work and truthful release acceptance. Next: merge this instruction change
+after current-head required checks, then assess remaining release preparation.
+
 ## Goal and source
 
 Continue the approved roadmap toward a Windows PC game ready for Steam submission
