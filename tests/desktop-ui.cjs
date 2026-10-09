@@ -41,6 +41,10 @@ async function fit(page, name) {
         const panelBox = panel.getBoundingClientRect();
         const panelStyle = getComputedStyle(panel);
         const zoom = panelBox.width / panel.offsetWidth;
+        const canvas = document.querySelector("canvas");
+        const canvasBox = canvas.getBoundingClientRect();
+        const imageScale = Math.min(canvasBox.width / canvas.width, canvasBox.height / canvas.height);
+        const imageWidth = canvas.width * imageScale, imageHeight = canvas.height * imageScale;
         return {
             width: innerWidth,
             devicePixelRatio,
@@ -50,6 +54,12 @@ async function fit(page, name) {
             app: box(document.querySelector("#app")),
             scene: box(document.querySelector("#game-container")),
             canvas: box(document.querySelector("canvas")),
+            canvasPixels: { width: canvas.width, height: canvas.height },
+            canvasFit: getComputedStyle(canvas).objectFit,
+            map: { x: canvasBox.x + (canvasBox.width - imageWidth) / 2,
+                y: canvasBox.y + (canvasBox.height - imageHeight) / 2,
+                right: canvasBox.x + (canvasBox.width + imageWidth) / 2,
+                bottom: canvasBox.y + (canvasBox.height + imageHeight) / 2 },
             panel: box(panel),
             panelContentBottom: panelBox.bottom - (parseFloat(panelStyle.paddingBottom) + parseFloat(panelStyle.borderBottomWidth)) * zoom,
             next: document.querySelector("#next").getClientRects().length ? box(document.querySelector("#next")) : null,
@@ -67,6 +77,11 @@ async function fit(page, name) {
     assert.ok(Math.abs(geometry.app.height - geometry.height) < 2);
     assert.ok(Math.abs(geometry.canvas.width - geometry.scene.width) < 3);
     assert.ok(Math.abs(geometry.canvas.height - geometry.scene.height) < 3);
+    assert.deepEqual(geometry.canvasPixels, { width: 640, height: 512 });
+    assert.equal(geometry.canvasFit, 'contain');
+    assert.ok(geometry.map.x >= geometry.scene.x - 1 && geometry.map.y >= geometry.scene.y - 1 &&
+        geometry.map.right <= geometry.scene.right + 1 && geometry.map.bottom <= geometry.scene.bottom + 1,
+        `${name}: full map image leaves scene bounds`);
     for (const box of geometry.controls) {
         assert.ok(
             box.x >= -1 && box.y >= -1 && box.right <= geometry.width + 1 && box.bottom <= geometry.height + 1,
@@ -110,6 +125,8 @@ async function fit(page, name) {
                 await fit(page, `${width}x${height} ${tab}`);
             }
         }
+        const mapImage = await page.locator('canvas').evaluate(canvas => canvas.toDataURL('image/png'));
+        fs.writeFileSync(path.join(out, 'map-source.png'), Buffer.from(mapImage.split(',')[1], 'base64'));
         await page.locator("[data-page=marketing]").click();
         assert.equal(await page.locator("#price").evaluate((x) => getComputedStyle(x).appearance), "textfield");
         await page.locator("#price").fill("2.25");
@@ -127,10 +144,20 @@ async function fit(page, name) {
         }
         await page.locator("#buy-order").click();
         await page.locator("#open").click();
+        await expect.poll(() => JSON.parse(fs.readFileSync(save, 'utf8')).state.pitcherCups).toBe(12);
+        await expect(page.locator('#setting-pitchers')).toHaveText('1');
         await fit(page, "selling default");
         await app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].setContentSize(800, 600));
         await page.waitForTimeout(200);
         await fit(page, "selling 800x600");
+        await app.evaluate(({ BrowserWindow }) => {
+            const window = BrowserWindow.getAllWindows()[0]; window.setMinimumSize(0, 0); window.setContentSize(1097, 554);
+        });
+        await page.waitForTimeout(200);
+        await fit(page, 'selling 1097x554 full map');
+        await page.screenshot({ path: path.join(out, 'selling-175-client.png') });
+        await app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].setContentSize(800, 600));
+        await page.waitForTimeout(200);
         await page.locator("#skip").click();
         await expect(page.locator("#app")).toHaveAttribute("data-phase", "results");
         await fit(page, "results 800x600");

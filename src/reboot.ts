@@ -544,7 +544,7 @@ function render(): void {
     app.dataset.phase = state.phase;
     audio.setPhase(state.phase);
     for (const id of ["recipe-controls", "price-controls", "supply-controls"])
-        element<HTMLFieldSetElement>(id).disabled = !prep;
+        element<HTMLFieldSetElement>(id).disabled = !prep || (id !== "supply-controls" && Boolean(state.business));
     for (const key of ITEM_KEYS) {
         text(`stock-${key}`, `${state.stock[key]} in stock`);
         text(`inventory-${key}`, String(state.stock[key]));
@@ -586,6 +586,7 @@ function render(): void {
     text("unit-cost", money(unitCost(state.plan.recipe, state.freeIce + openingCosts(state).ice)));
     text("pitcher-yield", `${cupsPerPitcher(state.plan.recipe)} cups per pitcher; ${state.plan.recipe.ice * cupsPerPitcher(state.plan.recipe)} ice needed per pitcher.`);
     text("pitcher-cups", `${state.pitcherCups} cups`);
+    text("setting-pitchers", String(state.daily.pitchersMade));
     text(
         "recipe-hint",
         `Forecast fit: ${Math.round(quality(state.plan.recipe, state.weather.temperature) * 100)}%. Try ${state.weather.temperature >= 30 ? 4 : state.weather.temperature >= 25 ? 3 : state.weather.temperature >= 21 ? 2 : 1} ice for today's weather.${state.daily.meltedIce ? ` ${state.daily.meltedIce} ice melted overnight.` : ""}`,

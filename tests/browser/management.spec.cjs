@@ -3,6 +3,36 @@ const { campaign } = require('../helpers/business.cjs');
 const { encodeSave } = require('../../.test-build/simulation/save.js');
 const { newGame, purchaseUpgrade, setPlan, buy } = require('../../.test-build/simulation/game.js');
 
+test('opening prepares a pitcher and its last sale immediately prepares the next recipe batch', async ({ page }) => {
+    let state = setPlan(newGame(), { price: 25, recipe: { lemon: 2, sugar: 1, ice: 0 } });
+    for (const [item, quantity] of [['lemon', 6], ['sugar', 3], ['cup', 25]]) state = buy(state, item, quantity);
+    await page.clock.install();
+    await page.addInitScript(raw => {
+        if (!localStorage.getItem('lemonade-tycoon.reboot.save')) localStorage.setItem('lemonade-tycoon.reboot.save', raw);
+    }, encodeSave(state, []));
+    await page.goto('/');
+    await page.clock.runFor(500);
+    await page.locator('#open').click();
+    await expect(page.locator('#pitcher-cups')).toHaveText('10 cups');
+    await expect(page.locator('#setting-pitchers')).toHaveText('1');
+    await expect(page.locator('#inventory-lemon')).toHaveText('4');
+    for (let tick = 0; tick < 400; tick++) {
+        if (await page.locator('#sold').innerText() === '10') break;
+        await page.clock.runFor(200);
+    }
+    await expect(page.locator('#sold')).toHaveText('10');
+    await expect(page.locator('#pitcher-cups')).toHaveText('10 cups');
+    await expect(page.locator('#setting-pitchers')).toHaveText('2');
+    await expect(page.locator('#inventory-lemon')).toHaveText('2');
+    await expect(page.locator('#inventory-sugar')).toHaveText('1');
+    await page.reload(); await page.clock.runFor(500);
+    await expect(page.locator('#lemon')).toBeDisabled();
+    await page.locator('#open').click();
+    await expect(page.locator('#setting-pitchers')).toHaveText('1');
+    await expect(page.locator('#pitcher-cups')).toHaveText('10 cups');
+    await expect(page.locator('#inventory-lemon')).toHaveText('4');
+});
+
 test('low-cash ice-maker owner sees affordable opening costs and can resume selling', async ({ page }) => {
     let state = purchaseUpgrade(newGame(), 'iceMaker');
     state = setPlan(state, { price: 175, recipe: { lemon: 1, sugar: 1, ice: 1 } });

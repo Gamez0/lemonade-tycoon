@@ -32,7 +32,8 @@ async function close() { const closed = app.waitForEvent('close'); await app.eva
         await expect.poll(() => read()?.state.business?.paid).toBe(true);
         const freeCheckpoint = read();
         assert.equal(freeCheckpoint.state.cash, 0);
-        assert.equal(freeCheckpoint.state.freeIce, 60);
+        assert.equal(freeCheckpoint.state.freeIce, 49);
+        assert.equal(freeCheckpoint.state.daily.freeIceUsed, 11);
         assert.equal(freeCheckpoint.state.daily.purchases, lowCash.daily.purchases);
         await close(); page = await launch();
         assert.deepEqual(read(), freeCheckpoint);
@@ -55,8 +56,10 @@ async function close() { const closed = app.waitForEvent('close'); await app.eva
         await expect.poll(() => read()?.state.business?.paid).toBe(true);
         const paid = read();
         assert.equal(paid.state.daily.wages, 250); assert.equal(paid.state.daily.advertising, 450);
-        assert.equal(paid.state.stock.ice, prepared.state.stock.ice + 60);
-        assert.equal(paid.state.freeIce, prepared.state.freeIce + 60);
+        const madeIce = paid.state.plan.recipe.ice * require('../.test-build/simulation/game.js').cupsPerPitcher(paid.state.plan.recipe);
+        assert.equal(paid.state.stock.ice, prepared.state.stock.ice + 60 - madeIce);
+        assert.equal(paid.state.freeIce, Math.max(0, prepared.state.freeIce + 60 - madeIce));
+        assert.equal(paid.state.daily.pitchersMade, 1);
         assert.equal(paid.state.daily.purchases, prepared.state.daily.purchases);
         const expected = finishStreetDay(beginStreetDay(openDay(paid.state))).day.game;
         await expect.poll(async () => Number(await page.locator('#sold').textContent())).toBeGreaterThan(0);

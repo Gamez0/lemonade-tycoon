@@ -47,7 +47,10 @@ const closeNormally = async session => {
         await expect.poll(() => JSON.parse(fs.readFileSync(savePath, 'utf8')).state.business?.paid).toBe(true);
         const opening = JSON.parse(fs.readFileSync(savePath, 'utf8'));
         const prepared = JSON.parse(preparation);
-        expect({ ...opening.state, business: null }).toEqual(prepared.state);
+        const { openDay } = require('../.test-build/simulation/game.js');
+        expect(opening.state).toEqual({ ...openDay(prepared.state), phase: 'preparation' });
+        expect(opening.state.pitcherCups).toBe(12);
+        expect(opening.state.daily.pitchersMade).toBe(1);
         stage = 'forced selling termination';
         execFileSync('taskkill', ['/PID', String(session.app.process().pid), '/T', '/F']);
         session = await launch();
