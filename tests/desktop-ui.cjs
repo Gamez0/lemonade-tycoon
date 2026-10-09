@@ -64,6 +64,9 @@ async function fit(page, name) {
             panelContentBottom: panelBox.bottom - (parseFloat(panelStyle.paddingBottom) + parseFloat(panelStyle.borderBottomWidth)) * zoom,
             next: document.querySelector("#next").getClientRects().length ? box(document.querySelector("#next")) : null,
             report: box(document.querySelector("#results")),
+            reportScroll: { height: document.querySelector('#results').scrollHeight,
+                client: document.querySelector('#results').clientHeight },
+            selling: document.querySelector('#selling').getClientRects().length ? box(document.querySelector('#selling')) : null,
             controls: [...document.querySelectorAll("button,input:not([type=file])")]
                 .filter((x) => x.getClientRects().length && getComputedStyle(x).visibility !== "hidden")
                 .map((x) => ({ name: x.id || x.textContent.trim(), ...box(x) })),
@@ -89,11 +92,15 @@ async function fit(page, name) {
         );
     }
     if (geometry.next) {
+        assert.ok(geometry.reportScroll.height <= geometry.reportScroll.client + 1,
+            `${name}: full results should fit without scrolling: ${JSON.stringify(geometry.reportScroll)}`);
         assert.ok(geometry.next.bottom <= geometry.panelContentBottom + 1,
             `${name}: next-day button exceeds panel content (bottom ${geometry.next.bottom}, limit ${geometry.panelContentBottom})`);
         assert.ok(geometry.report.bottom <= geometry.next.y + 1,
             `${name}: report overlaps next-day button: ${JSON.stringify(geometry)}`);
     }
+    if (geometry.selling) assert.ok(geometry.selling.bottom <= geometry.panelContentBottom + 1,
+        `${name}: selling settings exceed panel content`);
 }
 (async () => {
     try {
@@ -173,7 +180,6 @@ async function fit(page, name) {
         await fit(page, "results 1097x554 daily");
         await page.locator('[data-report="ledger"]').click();
         await fit(page, "results 1097x554 ledger");
-        await page.locator('#result-values dd').last().scrollIntoViewIfNeeded();
         await expect(page.locator('#result-values dd').last()).toBeInViewport();
         await page.screenshot({ path: path.join(out, "results-175-client.png") });
         await page.locator('#next').click();
