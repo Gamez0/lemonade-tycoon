@@ -1065,3 +1065,22 @@ alpha/manual/Steam boundaries. Corrected the operations command list to include
 all current native suites. Self-review: commands and thresholds match README,
 package.json and operations; local relative Markdown links and diff checked.
 Documentation does not claim Korean game localization. No runtime files changed.
+
+### 2026-10-09 long-business save capacity regression
+
+PR196 merged617611e after refreshed-main CI; main checks37889269921 and first-run
+draft workflow37889608388 passed. Alpha3 internal draft retains package/checksum/
+manifest and same-source store/listening draft ZIPs; all seven asset digests checked.
+Published preview Help now says free ice. Continued actual long-save work from161:
+legitimate1600-day v5 history is2,060,386 bytes; shipped alpha2 import rejects it.
+Regression reproduces that exact failure through the actual delivered native UI.
+
+Raise native/import capacity to16,000,000 bytes from one packaged JSON constant,
+count native UTF8 bytes rather than characters, preserve v5/full history and keep
+oversized rejection. Added actual native long-save suite: import/export/relaunch,
+day1601, oversized-file and multi-byte IPC rejection without overwriting good data.
+This does not claim unlimited capacity, browser quota or human long-session tests.
+Audit allows/requires the new limits file; Windows CI retains the long-save report.
+Candidate advances alpha4. Next: local type/lint/release/package checks and the
+regression on a clean new package, then exact-head CI, merge and verified draft.
+

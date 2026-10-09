@@ -18,7 +18,7 @@ and contributor-rights acceptance remain open in issue167.
 | Chromium/runtime components | Packaged runtime | LICENSES.chromium.html at package root | Retain complete notice file |
 | Reference screenshots/legacy assets | docs/research and public/assets | Excluded from PC inputs and archive | Keep excluded from PC/store distribution |
 
-The current package's fifteen archive files were inspected. Three project/font
+The reviewed candidate's fifteen archive files were inspected. Three project/font
 notices match source bytes; both runtime notices are present. No separate reference
 or legacy image/audio files are included. Desktop builds use publicDir=false and
 one reboot entry. Artwork and sound use the code sources above; git author records

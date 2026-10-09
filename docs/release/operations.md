@@ -1,12 +1,12 @@
 # Windows candidate operations
 
-Candidate version: 0.2.0-alpha.3, sourced from package.json. This is a test
+Candidate version: 0.2.0-alpha.4, sourced from package.json. This is a test
 distribution; manual acceptance is deferred for the current engineering run.
 Build with Node22 and committed npm lockfile: npm ci, npm test, typecheck,
 lint:reboot, test:release, build-nolog, test:browser, desktop:package:win. Set
 LEMONADE_DESKTOP_EXE and run test:desktop, test:desktop:ui, test:desktop:dpi,
 test:desktop:locations, test:desktop:management, test:desktop:audio and
-test:desktop:campaign. Each suite failure must fail the run immediately.
+test:desktop:campaign and test:desktop:long-save. Each suite failure must fail the run immediately.
 Record source and checkout hashes in build-info.json; release-manifest.cjs writes
 and verifies all SHA256 file checksums. Retain the entire distribution directory,
 Electron/Chromium notices and app.asar. Never ship the working tree/public research.
@@ -35,6 +35,14 @@ v0-v4 without rewriting historical purchases or profit. It tracks zero-cost ice
 from owned ice makers; old charged checkpoints remain paid. Future versions reject
 safely. A forced exit replays the paid opening without new fees or ice production.
 Audio preferences use the application's local storage and do not alter the ledger.
+Native writes and portable imports share a16,000,000-byte UTF8/file limit.
+The former2MB cap rejected a legitimate1600-day v5 export. Long-history native
+regression checks preserve all historical records through import/export, relaunch
+and a further business day; oversized files/UTF8 payloads must not replace saves.
+This remains a finite safety limit, not unlimited storage. Browser preview storage
+also depends on its own quota; use exports and the Windows package for long saves.
+Older packages with the2MB import cap cannot restore larger exports even when
+their schema is v5. Retain a suitable pre-update backup when rehearsing rollback.
 For isolated QA, set --user-data-dir to a disposable Chromium profile as well as
 isolating APPDATA/LOCALAPPDATA for business files. On Windows these environment
 overrides alone do not isolate Electron's persisted browser/audio settings. Native

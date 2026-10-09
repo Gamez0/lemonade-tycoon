@@ -1,4 +1,5 @@
 import { GameAudio } from "./game/presentation/audio";
+import { maxSaveBytes } from "./desktop/save-limits.json";
 import { UPGRADES, STAFF, ADS } from "./game/content/management";
 import type { Upgrade, Management } from "./game/content/management";
 import { purchaseUpgrade, hireStaff, selectAdvertising } from "./game/simulation/game";
@@ -366,7 +367,7 @@ element<HTMLInputElement>("save-file").addEventListener("change", async (event) 
     const file = input.files?.[0];
     if (!file) return;
     try {
-        if (file.size > 2_000_000) throw new Error("Save file is too large.");
+        if (file.size > maxSaveBytes) throw new Error("Save file is too large.");
         const imported = decodeSave(await file.text());
         if (desktopSave) {
             await saveQueue;

@@ -2,6 +2,7 @@ const { _electron: electron } = require('playwright');
 const { expect } = require('@playwright/test');
 const fs = require('node:fs'), path = require('node:path'), os = require('node:os'), assert = require('node:assert/strict');
 const { profileArgs, verifyProfile } = require('./helpers/desktop-profile.cjs');
+const { maxSaveBytes } = require('../src/desktop/save-limits.json');
 const executable = process.env.LEMONADE_DESKTOP_EXE;
 if (process.platform !== 'win32' || !executable || !fs.existsSync(executable)) throw new Error('Set LEMONADE_DESKTOP_EXE to a Windows package.');
 const base = fs.mkdtempSync(path.join(os.tmpdir(), 'lemonade-campaign-'));
@@ -76,7 +77,7 @@ async function change(page, id, value) { await page.locator(`#${id}`).fill(Strin
             assert.equal(done.state.cash, 4000 + sum('revenue') - sum('purchases') - sum('capital') - sum('rent') - sum('moveFee') - sum('wages') - sum('advertising'));
             assert.equal(done.state.lifetimeRevenue, sum('revenue'));
             assert.equal(done.state.day, day); assert.equal(done.version, 5);
-            const size = fs.statSync(save).size; assert.ok(size < 2_000_000, 'Save exceeds native IPC limit');
+            const size = fs.statSync(save).size; assert.ok(size < maxSaveBytes, 'Save exceeds native IPC limit');
             report.days.push({ day, location, cash: done.state.cash, sold: d.sold, freeIceUsed: d.freeIceUsed, saveBytes: size });
             if (day % 5 === 0) {
                 await close(); page = await launch(); assert.deepEqual(read(), done);
