@@ -1030,7 +1030,13 @@ opening. No economic rules changed. Version advances to alpha3 so the next
 integrated candidate preserves alpha2's verified source and existing draft.
 Package/lock root versions and operations updated together, dependency graph
 unchanged. Existing browser management test exercises owned free ice and upgrade
-copy; local targeted test plus current-head CI required before merge.
+copy; targeted browser3/3 passed. PR195 merged54a7be8 after exact-head CI.
+Alpha2 draft retry37888326801 succeeded with ZIP, checksum and manifest digests
+verified. Delivered ZIP SHA2565a8c2d3f74f2dfb16d879f56a1ae14535968ebdc7ceb2fc685479a62f4be31c0.
+Downloaded ZIP and all74 manifest files verified; short natural4x-day development
+performance report attached with matching upload digest. Not minimum hardware
+acceptance. Refreshed this PR on actual main before its final checks.
+
 ### 2026-10-09 release draft creation response fix
 
 Main a433ff5 checks37887999195 passed. Draft workflow37888326801 created the
