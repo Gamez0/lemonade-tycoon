@@ -1031,6 +1031,17 @@ integrated candidate preserves alpha2's verified source and existing draft.
 Package/lock root versions and operations updated together, dependency graph
 unchanged. Existing browser management test exercises owned free ice and upgrade
 copy; local targeted test plus current-head CI required before merge.
+### 2026-10-09 release draft creation response fix
+
+Main a433ff5 checks37887999195 passed. Draft workflow37888326801 created the
+alpha2 draft but its immediate list lookup did not return that draft, stopping
+before asset upload. Actual release407542958 confirms draft=true and exact source.
+Changed creation to consume the REST POST response directly, validate its ID,
+tag and draft/source, and preserve existing upload/digest checks. This removes
+the extra post-create list lookup without adding permissions or publication.
+Regression checks enforce direct returned identity and reject unsafe responses.
+The original exact-source workflow is being retried to complete the existing
+draft; no different-source draft is retargeted or silently replaced.
 
 ### 2026-10-09 Korean contributor documentation / continued release loop
 

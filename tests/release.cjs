@@ -9,7 +9,22 @@ const { prepare } = require('../scripts/steam-prepare.cjs');
 const { createDiagnostics } = require('../src/desktop/diagnostics.cjs');
 const { auditPackage } = require('../scripts/audit-package.cjs');
 const asar = require('@electron/asar');
-const { validateRun, validateDraft } = require('../scripts/draft-release.cjs');
+const { validateRun, validateDraft, createDraft } = require('../scripts/draft-release.cjs');
+
+test('draft creation uses the returned identity without an eventually consistent list lookup', () => {
+    const head = 'a'.repeat(40), version = '0.2.0-alpha.2';
+    const response = { id: 123, tag_name: `v${version}`, draft: true, target_commitish: head, assets: [] };
+    const requests = [];
+    const request = (endpoint, payload) => { requests.push({ endpoint, payload }); return response; };
+    assert.equal(createDraft(request, 'owner/game', version, head, 'Verified notes'), response);
+    assert.equal(requests.length, 1);
+    assert.equal(requests[0].payload.draft, true);
+    assert.equal(requests[0].payload.prerelease, true);
+    assert.equal(requests[0].payload.body, 'Verified notes');
+    assert.throws(() => createDraft(() => ({ ...response, draft: false }), 'owner/game', version, head, ''), /internal draft/);
+    assert.throws(() => createDraft(() => ({ ...response, id: 0 }), 'owner/game', version, head, ''), /identity/);
+    assert.throws(() => createDraft(() => ({ ...response, tag_name: 'another' }), 'owner/game', version, head, ''), /identity/);
+});
 function temporary(run) {
     const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'lemonade-release-'));
     try { run(directory); } finally { fs.rmSync(directory, { recursive: true, force: true }); }

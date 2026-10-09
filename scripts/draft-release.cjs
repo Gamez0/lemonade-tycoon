@@ -13,6 +13,15 @@ function validateDraft(release, head) {
 const gh = args => execFileSync('gh', args, { encoding: 'utf8' });
 const api = endpoint => JSON.parse(gh(['api', endpoint]));
 const sha = file => createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+function createDraft(request, repo, version, head, notes) {
+    const release = request(`repos/${repo}/releases`, { tag_name: `v${version}`,
+        target_commitish: head, name: `Windows alpha ${version} - verified draft`,
+        body: notes, draft: true, prerelease: true });
+    validateDraft(release, head);
+    if (!Number.isSafeInteger(release.id) || release.id <= 0 || release.tag_name !== `v${version}`)
+        throw new Error('Invalid created draft identity.');
+    return release;
+}
 async function main() {
     const runId = process.argv[2] || process.env.RELEASE_CHECK_RUN;
     if (!/^\d+$/.test(runId || '')) throw new Error('Provide the successful main checks run ID.');
@@ -42,10 +51,12 @@ async function main() {
         const body = path.join(work, 'release-notes.md');
         fs.writeFileSync(body, `Internal Windows alpha ${version}; draft only.\n\nSource/checkout: ${head}.\nVerified checks: ${run.html_url}.\n\nThis ZIP is the exact Windows CI artifact, with complete package checksums verified before upload. Required browser/simulation and native save/UI/scales/locations/management/audio/campaign suites passed.\n\nUnsigned portable Windows x64, English interface. Extract the complete product ZIP and launch Lemonade Tycoon.exe; retain all notices. Export a save before updating; v5 migration preserves historical accounting. The compatibility executable/save directory remains unchanged.\n\nZIP: ${fileName}\nSHA256: ${digest}\n\nManual playtest/clean-PC/physical-DPI acceptance is deferred by the user for this engineering run; no human/device approval is claimed. Final rights/media and actual Steam partner/install/submission evidence remain separate. No public release, Steam upload or paid action occurs here.\n`);
         if (!release) {
-            gh(['release', 'create', tag, '--repo', repo, '--draft', '--prerelease', '--target', head, '--title', `Windows alpha ${version} · verified draft`, '--notes-file', body]);
-            release = api(`repos/${repo}/releases`).find(candidate => candidate.tag_name === tag);
-            if (!release) throw new Error('Created draft was not returned by GitHub.');
-            validateDraft(release, head);
+            // Use the POST response: listing may lag immediately after creation.
+            release = createDraft((endpoint, payload) => {
+                const input = path.join(work, 'create-draft.json');
+                fs.writeFileSync(input, JSON.stringify(payload));
+                return JSON.parse(gh(['api', '-X', 'POST', endpoint, '--input', input]));
+            }, repo, version, head, fs.readFileSync(body, 'utf8'));
         }
         for (const file of expected) {
             const existing = release.assets.find(asset => asset.name === file);
@@ -65,4 +76,4 @@ async function main() {
     }
 }
 if (require.main === module) main().catch(error => { console.error(error.message); process.exitCode = 1; });
-module.exports = { validateRun, validateDraft };
+module.exports = { validateRun, validateDraft, createDraft };
