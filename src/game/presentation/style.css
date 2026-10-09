@@ -1045,6 +1045,15 @@ html.desktop,
     flex: 1;
     min-height: 0;
 }
+.desktop #app[data-phase="results"] #results {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+}
+.desktop #next {
+    flex-shrink: 0;
+    margin-top: 8px;
+}
 .desktop .daily-strip {
     flex-shrink: 0;
 }

@@ -1178,3 +1178,39 @@ regression: the extra explanation moved Start day between tabs. Reserve60px more
 panel height in the browser (desktop fit override unchanged), keep the existing
 position invariant test, and rerun the complete current-head checks before merge.
 
+Alpha5 completion: PR200 merged b2571a86289909c54d3e27ae7aa06cfcfe0cc3a8 after
+final exact-head CI37906924970. Main CI37907459269 and draft37907956573 passed;
+local complete browser20/20 passed. ZIP162,986,922 bytes SHA256
+64ad1af0727ecd7ad3cd0cee41e4ec316cbf5da46b7112f3a8414a24cd4389e2.
+Internal alpha5 URL: https://github.com/Gamez0/lemonade-tycoon/releases/tag/untagged-edf283841f1bdb7f7b2a
+All three asset digests verified; live Pages showed the exact four-ice warning
+and64-ice requirement without runtime errors. Issue108 updated; prior alpha4
+source/assets remain frozen. No physical DPI approval inferred from that report.
+
+### 2026-10-09 reported175% results button containment
+
+Player reports Prepare next day crossing the results-panel edge at1920x1080,
+Windows175% scaling. Previously forced DPI tests covered100/125/150/200% and
+viewport containment, so did not detect a button consuming panel bottom padding.
+Verified downloaded alpha5 ZIP against64ad1af...; stronger native175% test FAILs:
+results800x600 button bottom709.616 > panel content bottom700.926 logical pixels.
+This is engineering reproduction at forced scale, separate from the user's monitor.
+
+Desktop results content can now shrink/scroll within available height. Reserve
+next-day button height and8px separation; keep button inside panel padding.
+Keep all result fields reachable through scrolling; no simulation/save change.
+Include175% in required native DPI suite and assert panel content containment,
+non-overlap, compact1097x554 client daily/ledger and actual next-day click.
+Native test writes FAIL geometry as well as PASS evidence for future regressions.
+Advance next internal candidate to alpha6 without retargeting alpha5.
+
+Local rebuilt dirty development package:175% native suite PASS, daily/ledger
+1096x550 observed client size, button bottom512.268 <= content bottom512.266
+within subpixel tolerance; gap5.357 screen/logical pixels after UI fit. Viewed
+results-175-client.png: button/arrow fully inside panel, footer separate, full
+ledger reachable. Typecheck/lint/release8/8 and desktop asset audit PASS.
+Self-review: overflow applies only to native closed-day result content, browser
+proportions and preparation flow unchanged; button never shrinks below its height.
+Next: exact-head required browser/Windows CI and merge, then exact-main alpha6
+draft/asset verification. Human physical-DPI acceptance remains open for retest.
+
