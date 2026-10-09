@@ -870,3 +870,25 @@ resolved conversations and no force pushes/deletion. Audit verification PASS for
 50 previously open issues:11 superseded,5 completed,all retained gates still open.
 PR129 marked historical backlog with current evidence links. Checks run on PRs/main
 pushes/manual dispatch, avoiding duplicate feature-branch push and PR Windows builds.
+
+## 2026-10-09 continuous release preparation: store media
+
+User explicitly requested repeated reassessment through release, without stopping at
+intermediate checkpoints. Current main baf2556 is the baseline; working branch
+fix/store-media-framing. Regenerated free-ice-current media, then visual review found
+small-capsule cart cropping and pasted rectangular background seams. Fixed capture
+to frame a continuous actual scene with a readable title and cart. Fourteen PNG
+sizes and SHA256 hashes are verified. Raw video identity/hash binds export to the
+same capture instead of choosing the newest arbitrary file; final MP4 records
+source/hash and checks real decoded audio/video playback.
+
+Clean capture source384d153d31f6b86b07ba4473a973af700b7b9321, dirty=false.
+Unit41/41 and production build PASS; capture PASS; MP4 1920x1080,14.32seconds,
+3,698,236bytes, SHA2568fef85c7ec0e08cec8ff5c99e7715331a35a15a81aa6e476cfe64b471ec76365.
+Initial video export rejected Playwright's page@ filename under an overstrict
+filename check; corrected bounded filename support and reran from clean source.
+Small/main capsules visually inspected; no pasted patch and cart remains visible.
+No final human visual/music acceptance claimed. Media/runtime game rules unchanged.
+Current-head required CI must pass before merge. Next independently runnable task:
+old/new native Windows package replacement, reinstall and save migration rehearsal;
+then audit shipped notices/provenance and prepare exact remaining release evidence.

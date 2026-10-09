@@ -3,6 +3,7 @@ const { expect } = require('@playwright/test');
 const { spawn } = require('node:child_process');
 const fs = require('node:fs');
 const path = require('node:path');
+const { createHash } = require('node:crypto');
 const { campaign, stock } = require('../tests/helpers/business.cjs');
 const { reserveLocation } = require('../.test-build/simulation/game.js');
 const { encodeSave } = require('../.test-build/simulation/save.js');
@@ -30,23 +31,30 @@ let browser, context;
                 if (name !== 'logo') {
                     c.fillStyle = '#a7c878'; c.fillRect(0, 0, width, height);
                     const image = new Image(); image.src = 'data:image/png;base64,' + scene; await image.decode();
-                    const scale = Math.max(width / image.width, height / image.height);
-                    c.drawImage(image, (width - image.width * scale) / 2, (height - image.height * scale) / 2, image.width * scale, image.height * scale);
-                    // Bring the actual game cart into the foreground, below the title.
-                    if (name !== 'hero' && name !== 'small') {
-                        const cartW = width * .23, cartH = cartW * 1.22;
-                        c.imageSmoothingEnabled = false;
-                        c.drawImage(image, image.width * 228 / 640, image.height * 157 / 512, image.width * 84 / 640, image.height * 100 / 512, width * .65, height - cartH - height * .06, cartW, cartH);
+                    // Frame one continuous scene around the real cart. Copying a
+                    // rectangular cart crop also copied its pavement/tree backdrop.
+                    const scale = Math.max(width / image.width, height / image.height) * (name === 'hero' ? 1 : name === 'small' ? 2.5 : 1.5);
+                    const cartX = image.width * (236 + 72 * .4) / 640;
+                    const cartY = image.height * (167 + 88 * .4) / 512;
+                    const targetX = width * (name === 'small' ? .8 : .63);
+                    const targetY = height * (name === 'small' ? .62 : .7);
+                    const x = Math.max(width - image.width * scale, Math.min(0, targetX - cartX * scale));
+                    const y = Math.max(height - image.height * scale, Math.min(0, targetY - cartY * scale));
+                    c.imageSmoothingEnabled = false;
+                    c.drawImage(image, x, y, image.width * scale, image.height * scale);
+                    if (name !== 'hero') {
+                        c.fillStyle = '#1b422bbb';
+                        c.fillRect(0, 0, name === 'small' ? width * .64 : width, name === 'small' ? height : height * .48);
                     }
-                    if (name !== 'hero') { c.fillStyle = '#1b422bbb'; c.fillRect(0, 0, width, height * .48); }
                 }
                 if (name !== 'hero') {
-                    const size = Math.min(width / 7.5, height / 4.6);
+                    const size = Math.min(width / (name === 'small' ? 10.5 : 7.5), height / 4.6);
                     c.font = `700 ${size}px TycoonCondensed, sans-serif`;
                     c.textAlign = 'center'; c.textBaseline = 'middle'; c.lineJoin = 'round';
                     c.lineWidth = Math.max(2, size / 16); c.strokeStyle = '#1e422d'; c.fillStyle = '#fff1a4';
-                    const firstY = name === 'logo' ? height * .35 : height * .18;
-                    for (const [text, y] of [['Willow Lane', firstY], ['Lemonade', firstY + size * 1.08]]) { c.strokeText(text, width / 2, y); c.fillText(text, width / 2, y); }
+                    const firstY = name === 'logo' ? height * .35 : name === 'small' ? height * .35 : height * .18;
+                    const textX = width * (name === 'small' ? .32 : .5);
+                    for (const [text, y] of [['Willow Lane', firstY], ['Lemonade', firstY + size * 1.08]]) { c.strokeText(text, textX, y); c.fillText(text, textX, y); }
                 }
                 return canvas.toDataURL('image/png').split(',')[1];
             }, { scene, name, width, height });
@@ -65,8 +73,16 @@ let browser, context;
             await page.screenshot({ path: path.join(out, `results-${id}.png`) });
             await page.waitForTimeout(1200);
         }
+        const rawVideoPath = await page.video().path();
         await context.close(); context = null;
-        fs.writeFileSync(path.join(out, 'capture-info.json'), JSON.stringify({ title: 'Willow Lane Lemonade', status: 'development drafts, review pending', source: require('node:child_process').execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(), dirty: Boolean(require('node:child_process').execFileSync('git', ['status', '--porcelain'], { encoding: 'utf8' }).trim()), sizes, screenshotSize: [1920, 1080], video: 'raw silent gameplay capture; editing and final audio mix pending' }, null, 2));
+        const rawVideo = { file: path.basename(rawVideoPath), sha256: createHash('sha256').update(fs.readFileSync(rawVideoPath)).digest('hex') };
+        const images = Object.fromEntries([...Object.keys(sizes), ...['neighborhood', 'park', 'downtown'].flatMap(id => [`gameplay-${id}`, `results-${id}`])].map(name => {
+            const bytes = fs.readFileSync(path.join(out, `${name}.png`));
+            const expected = sizes[name] ?? [1920, 1080];
+            if (!bytes.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])) || bytes.readUInt32BE(16) !== expected[0] || bytes.readUInt32BE(20) !== expected[1]) throw new Error(`Invalid store image: ${name}`);
+            return [`${name}.png`, { bytes: bytes.length, sha256: createHash('sha256').update(bytes).digest('hex'), size: expected }];
+        }));
+        fs.writeFileSync(path.join(out, 'capture-info.json'), JSON.stringify({ title: 'Willow Lane Lemonade', status: 'development drafts, review pending', source: require('node:child_process').execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(), dirty: Boolean(require('node:child_process').execFileSync('git', ['status', '--porcelain'], { encoding: 'utf8' }).trim()), sizes, images, rawVideo, screenshotSize: [1920, 1080], video: 'raw silent gameplay capture; editing and final audio mix pending' }, null, 2));
         console.log(`Store drafts: ${out}`);
     } finally { await context?.close(); await browser?.close(); server.kill(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });
