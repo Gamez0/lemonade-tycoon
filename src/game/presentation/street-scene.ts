@@ -2,6 +2,8 @@ import Phaser from "phaser";
 import { CART, createArt, STREET } from "./art";
 import type { StreetDay, WalkingVisitor } from "../simulation/street-day";
 import type { State } from "../simulation/game";
+import { LOCATIONS, LOCATION_IDS } from "../content/locations";
+import type { LocationId } from "../content/locations";
 
 interface StreetHooks {
     state: () => State;
@@ -16,6 +18,8 @@ export class StreetScene extends Phaser.Scene {
     private bubbles = new Map<number, Phaser.GameObjects.Text>();
     private sign?: Phaser.GameObjects.Text;
     private sky?: Phaser.GameObjects.Rectangle;
+    private background?: Phaser.GameObjects.Image;
+    private previews = new Map<LocationId, string>();
     private elapsed = 0;
     private speed = 1;
 
@@ -30,7 +34,11 @@ export class StreetScene extends Phaser.Scene {
 
     create(): void {
         createArt(this);
-        this.add.image(0, 0, "neighborhood").setOrigin(0);
+        this.background = this.add.image(0, 0, this.hooks.state().location).setOrigin(0);
+        for (const id of LOCATION_IDS) {
+            const source = this.textures.get(id).getSourceImage();
+            if (source instanceof HTMLCanvasElement) this.previews.set(id, source.toDataURL());
+        }
         this.add.image(CART.x, CART.y, "stand").setOrigin(0).setScale(0.8);
         this.sign = this.add.text(CART.x + 23, CART.y + 53, "FRESH", {
             fontFamily: "monospace", fontSize: "7px", color: "#574b31", backgroundColor: "#fff0bd",
@@ -42,6 +50,7 @@ export class StreetScene extends Phaser.Scene {
     }
 
     setSpeed(speed: number): void { this.speed = speed; }
+    thumbnail(id: LocationId): string | null { return this.previews.get(id) ?? null; }
 
     resetDay(): void {
         this.elapsed = 0;
@@ -115,6 +124,10 @@ export class StreetScene extends Phaser.Scene {
 
     update(_time: number, delta: number): void {
         const state = this.hooks.state();
+        if (this.background?.texture.key !== state.location) {
+            this.background?.setTexture(state.location);
+            this.game.canvas.setAttribute("aria-label", `A lemonade stand at ${LOCATIONS[state.location].street}. People walk, queue, buy or leave.`);
+        }
         this.sky?.setAlpha(state.weather.label === "Rainy" ? 0.19 : state.weather.label === "Cloudy" ? 0.08 : 0);
         this.sign?.setText(state.phase === "selling" ? "OPEN" : "FRESH");
         const street = this.hooks.street();

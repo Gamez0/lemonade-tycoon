@@ -6,7 +6,7 @@
 
 A neighborhood lemonade business built with Phaser and TypeScript. Buy supplies, adjust a recipe and price, watch customers visit, and improve tomorrow.
 
-The presentation follows classic PC tycoon games: compact green management panels, beveled buttons, illustrated inventory, and an original diagonal neighborhood with a little parasol cart. Four illustrated tabs switch Results, Price, Recipe and Supplies in a fixed two-column frame. The 5:4 neighborhood stays beside the work panel.
+The presentation follows classic PC tycoon games: compact green management panels, beveled buttons, illustrated inventory, and original diagonal location scenes with a little parasol cart. Five illustrated tabs switch Results, Rent, Price, Recipe and Supplies in a fixed two-column frame. The 5:4 street stays beside the work panel.
 
 ## Run locally
 
@@ -21,11 +21,13 @@ Open http://localhost:8080 for the reboot. The preserved earlier game is at http
 
 ## Playing
 
-Start with $40 and empty stock. In Supplies, select ingredients and add bundles to your order. BUY commits the whole order; CANCEL discards it. Cash and stock stay unchanged until checkout. Choose lemon/sugar/ice units per cup and set a price from $0.25 to $5.00. The forecast-fit hint helps tune the recipe. Open the stand to lock preparation and watch several people walk, queue, buy, pass, or leave after waiting. The speed button runs the day at 4x. SKIP resolves the remaining visits and queue with the same fixed-time rules and opens the results.
+Start with $40 and empty stock. In Supplies, select ingredients and add bundles to your order. BUY commits the whole order; CANCEL discards it. Cash and stock stay unchanged until checkout. Choose lemon/sugar units per pitcher and ice per cup and set a price from $0.25 to $5.00. The forecast-fit hint helps tune the recipe. Open the stand to lock preparation and watch several people walk, queue, buy, pass, or leave after waiting. The speed button runs the day at 4x. SKIP resolves the remaining visits and queue with the same fixed-time rules and opens the results.
 
-Results offers Last day and a cumulative Profit & loss ledger for completed days; it remains available during the next preparation. Reports distinguish profit (sales minus ingredients consumed) from cash change (sales minus supplies purchased). Leftover supplies, cash and reputation carry into the next day. Aim for $75 cash; play can continue afterward. Choose **New business** twice to reset; Escape or moving focus cancels confirmation.
+Results offers Last day and a cumulative Profit & loss ledger for completed days; it remains available during the next preparation. Profit subtracts ingredients consumed, rent and moving fees; cash change subtracts supplies purchased, rent and moving fees. Leftover supplies, cash and local ratings carry into the next day; leftover ice melts. Aim for $75 cash; play can continue afterward. Choose **New business** twice to reset; Escape or moving focus cancels confirmation.
 
-Progress saves automatically on this device. Reload during selling returns to the checkpoint just before opening that day. Use Export save for a portable backup and Import save to restore it; browser data can be cleared and is not synced. See [save and recovery policy](docs/reviews/m4-save-recovery.md). The MVP has one free location, silent original pixel artwork, and no staff or upgrades yet. The legacy entry retains its previous behavior and external font dependency.
+Rent compares the free Neighborhood, Riverside Park and Downtown. Park unlocks after 3 completed days, $45 total sales and 55% satisfaction; Downtown needs 7 days, $120 sales and 65% satisfaction. Unlocks persist. Browse without changing the current scene, then confirm a reservation. Park costs $2/day plus $1 when moving in; Downtown costs $5/day plus $3 when moving in. Returning to the Neighborhood is free. Fees are charged once when opening, with no repeat charge on interrupted-day replay. Park has more patient visitors; Downtown offers higher budgets with faster arrivals and short queues. Each location keeps its own satisfaction and popularity.
+
+Progress saves automatically on this device. Reload during selling returns to the paid opening checkpoint for that day. Use Export save for a portable backup and Import save to restore it; browser data can be cleared and is not synced. The v3 format accepts earlier saves without changing historical cash, revenue or ingredient costs. See [save and recovery policy](docs/reviews/m4-save-recovery.md) and [M5 review](docs/reviews/m5-locations.md). The game has silent original pixel artwork and no staff or upgrades yet. The legacy entry retains its previous behavior and external font dependency.
 
 For a Windows desktop prototype, run `npm run desktop:package:win` and launch the executable from `release/Lemonade Tycoon-win32-x64/`. Saves are written to `%LOCALAPPDATA%\Lemonade Tycoon`, independently of the installation folder. See the [Windows package review](docs/reviews/m4-desktop-package.md) for testing and remaining release work.
 

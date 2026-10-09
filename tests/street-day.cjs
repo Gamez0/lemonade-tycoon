@@ -11,7 +11,7 @@ const accounted = day => {
     const d = day.game.daily;
     assert.equal(d.visitors, d.sold + d.rejected + d.soldOut + d.abandoned);
     assert.equal(d.rejected, d.priceRejected + d.passed);
-    assert.equal(day.arrived, day.game.weather.traffic);
+    assert.equal(day.arrived, day.game.business.traffic);
     assert.equal(day.waiting.length, 0);
     assert.equal(day.serving, null);
     assert.equal(day.game.cash, day.game.openingCash - d.purchases + d.revenue);
@@ -33,7 +33,7 @@ test('several independent people share the street and every arrival settles once
     }
     assert.ok(maxPeople >= 3, 'the street should contain multiple people at once');
     assert.deepEqual([...settled].sort((a, b) => a - b),
-        Array.from({ length: day.game.weather.traffic }, (_, i) => i + 1));
+        Array.from({ length: day.game.business.traffic }, (_, i) => i + 1));
     accounted(day);
     while (day.walking.length) day = street.tickStreet(day).day;
     assert.equal(day.walking.length, 0);

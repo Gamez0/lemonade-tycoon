@@ -1,5 +1,6 @@
 ﻿import { ITEMS, ITEM_KEYS } from "../content/catalog";
 import { icon } from "./icons";
+import { LOCATIONS, LOCATION_IDS } from "../content/locations";
 
 export const markup = `
 <header class="masthead"><h1>${icon("lemon")} Lemonade Tycoon</h1><span class="edition">Willow Lane</span></header>
@@ -9,7 +10,7 @@ export const markup = `
 </section>
 <div class="control-row">
  <nav class="toolbar" aria-label="Business screens">
- ${(["results", "price", "recipe", "supplies"] as const).map((page) => `<button data-page="${page}" aria-pressed="${page === "recipe"}" aria-controls="${page === "results" ? "results" : `${page}-page`}">${icon(page)}${page[0].toUpperCase() + page.slice(1)}</button>`).join("")}
+ ${(["results", "rent", "price", "recipe", "supplies"] as const).map((page) => `<button data-page="${page}" aria-pressed="${page === "recipe"}" aria-controls="${page === "results" ? "results" : `${page}-page`}">${icon(page)}${page[0].toUpperCase() + page.slice(1)}</button>`).join("")}
  </nav>
  <section class="forecast" aria-label="Forecast">
   <div class="forecast-weather"><strong class="date-line">Year 1 · Day <span id="day">01</span></strong><span class="label" id="weather-label">Weather forecast</span><div class="weather-reading"><span id="weather-art"></span><strong id="weather"></strong></div><span id="weather-advice" class="weather-advice"></span></div>
@@ -22,6 +23,12 @@ export const markup = `
   <section class="panel" aria-labelledby="panel-title">
    <h2 id="panel-title">Recipe</h2>
    <div id="preparation">
+    <div id="rent-page" class="control-page" hidden>
+     <div class="location-list" aria-label="Locations">${LOCATION_IDS.map(id => `<button data-location="${id}" aria-pressed="false"><img id="thumbnail-${id}" alt="" hidden><span>${LOCATIONS[id].name}<small id="location-state-${id}"></small></span></button>`).join("")}</div>
+     <p id="rent-description" class="hint"></p><dl id="rent-details" class="rent-details"></dl>
+     <p id="rent-unlock" class="hint"></p><p id="rent-reservation" class="hint" role="status"></p>
+     <div class="purchase-actions"><button id="cancel-rent">CANCEL RESERVATION</button><button id="confirm-rent">CONFIRM LOCATION</button></div>
+    </div>
     <div id="recipe-page" class="control-page"><p class="intro">Adjust your recipe to the forecast.<br>Add ice on warm days.<br>Balance the ingredients for better sales.</p>
      <fieldset id="recipe-controls"><legend class="sr-only">Pitcher recipe</legend>
      ${(["lemon", "sugar", "ice"] as const).map((item) => `<div class="recipe-row"><label for="${item}">${icon(item)}<span>${ITEMS[item].name}</span></label><div class="spinner"><button type="button" data-adjust="${item}" data-direction="-1" aria-label="Decrease ${item}">−</button><input id="${item}" type="number" min="${item === "ice" ? 0 : 1}" max="${item === "sugar" ? 4 : item === "ice" ? 7 : 6}" step="1" value="${item === "sugar" ? 1 : 2}"><button type="button" data-adjust="${item}" data-direction="1" aria-label="Increase ${item}">+</button></div></div>`).join("")}
@@ -32,18 +39,18 @@ export const markup = `
      <div id="supplies"></div><p id="order-summary" class="hint"></p><div class="order-total"><span>Order total</span><strong id="order-total"></strong></div><div class="purchase-actions"><button id="cancel-order">CANCEL</button><button id="buy-order">BUY</button></div>
     </fieldset></div>
    </div>
-   <div id="selling" hidden><dl class="settings-table"><dt>Location</dt><dd>The Neighborhood</dd><dt>Rent</dt><dd>FREE</dd><dt>Cup price</dt><dd id="setting-price"></dd><dt>Pitcher / ice per cup</dt><dd class="setting-recipe">${(["lemon", "sugar", "ice"] as const).map((item) => `<span>${icon(item)}<b id="setting-${item}"></b></span>`).join("")}</dd><dt>In pitcher</dt><dd id="pitcher-cups"></dd><dt>Ready to serve</dt><dd id="setting-capacity"></dd></dl><p class="hint">Today's recipe and price stay fixed until closing.</p></div>
-   <div id="results" hidden><nav class="report-tabs" aria-label="Report period"><button data-report="daily" aria-pressed="true">${icon("calendar")}Last day</button><button data-report="ledger" aria-pressed="false">${icon("results")}Profit &amp; loss</button></nav><p class="intro" id="result-intro"></p><div class="report-content"><dl id="result-values"></dl><aside id="report-commentary"><span id="report-face"></span><strong id="report-verdict"></strong><p id="report-response"></p></aside></div><p class="hint">Profit subtracts ingredients used. Cash change subtracts supplies bought. Leftovers carry over.</p></div>
+   <div id="selling" hidden><dl class="settings-table"><dt>Location</dt><dd id="setting-location"></dd><dt>Rent / moving</dt><dd id="setting-rent"></dd><dt>Cup price</dt><dd id="setting-price"></dd><dt>Pitcher / ice per cup</dt><dd class="setting-recipe">${(["lemon", "sugar", "ice"] as const).map((item) => `<span>${icon(item)}<b id="setting-${item}"></b></span>`).join("")}</dd><dt>In pitcher</dt><dd id="pitcher-cups"></dd><dt>Ready to serve</dt><dd id="setting-capacity"></dd></dl><p class="hint">Today's recipe and price stay fixed until closing.</p></div>
+   <div id="results" hidden><nav class="report-tabs" aria-label="Report period"><button data-report="daily" aria-pressed="true">${icon("calendar")}Last day</button><button data-report="ledger" aria-pressed="false">${icon("results")}Profit &amp; loss</button></nav><p class="intro" id="result-intro"></p><div class="report-content"><dl id="result-values"></dl><aside id="report-commentary"><span id="report-face"></span><strong id="report-verdict"></strong><p id="report-response"></p></aside></div><p class="hint">Profit subtracts ingredients, rent and moving. Cash change subtracts purchases, rent and moving.</p></div>
    <div id="day-actions"><div class="cost-line"><span>Average cost / cup</span><strong id="unit-cost"></strong></div><div class="capacity"><span>Ready to serve</span><strong id="capacity"></strong></div><button id="open" class="primary">Start day <span>▶</span></button></div>
    <button id="next" class="primary" hidden>Prepare next day <span>▶</span></button>
-   <p id="message" role="status" aria-live="polite"></p>
+   <p id="business-warning" class="hint" role="status" hidden></p><p id="message" role="status" aria-live="polite"></p>
   </section>
  </section>
  <section class="world-column" aria-label="Willow Lane stand">
   <div class="world-frame"><div class="scene-window"><div id="game-container"></div><div id="scene-controls" hidden><button id="speed" class="scene-speed"><span aria-hidden="true">▶▶</span> <span id="speed-label">Speed: 1×</span></button><button id="skip" class="scene-skip" title="Finish the remaining visits now">SKIP</button></div><span id="closed-sign" hidden>DAY COMPLETE</span></div>
-   <div class="location-heading"><h2>The Neighborhood</h2><span class="rent-tag">Rent: FREE</span></div>
-   <p class="location-description">A quiet street and a few thirsty neighbors. The perfect place to start your lemonade empire.</p>
-   <div class="location-ratings"><div><div class="rating-line"><label for="reputation-meter">Reputation</label><strong id="reputation"></strong></div><meter id="reputation-meter" min="0" max="100" value="50">50%</meter></div><div><div class="rating-line"><label for="satisfaction-meter">Satisfaction</label><strong id="location-satisfaction"></strong></div><meter id="satisfaction-meter" min="0" max="100" value="0">No buyers yet</meter></div></div>
+   <div class="location-heading"><h2 id="location-name">The Neighborhood</h2><span id="location-rent" class="rent-tag">Rent: FREE</span></div>
+   <p id="location-description" class="location-description"></p>
+   <div class="location-ratings"><div><div class="rating-line"><label for="reputation-meter">Popularity</label><strong id="reputation"></strong></div><meter id="reputation-meter" min="0" max="100" value="50">50%</meter></div><div><div class="rating-line"><label for="satisfaction-meter">Satisfaction</label><strong id="location-satisfaction"></strong></div><meter id="satisfaction-meter" min="0" max="100" value="50">50%</meter></div></div>
   </div>
  </section>
 </main>

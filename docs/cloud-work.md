@@ -607,6 +607,70 @@ M4/#105, M2 visual acceptance and Steam gates remain open; M5 implementation rem
 pending M4 acceptance. Automated sessions and preview servers started here are closed;
 previous manual game windows were not closed or modified. No agents, paid services,
 scheduler or Steam/public release actions.
+
+### M5 authorized and implemented — 2026-10-08 (KST)
+
+The user explicitly asked to defer physical internet-disconnection, DPI and clean
+Windows/no-Node checks and proceed to M5, then authorized remaining development.
+This supersedes the earlier M5 stop condition. Those environment checks remain
+required before release; M4 overall acceptance, M2 visual acceptance and Steam
+external verification are not marked complete.
+
+Branch `feat/m5-locations`, exact tested implementation/source commit
+`7e44115d4d27690ef63009944924963603b215a5`, follows PR #130 at
+`84b7de907f7e33f6cbde4cf035a5660cef58fcf8`. Focused stacked PR:
+https://github.com/Gamez0/lemonade-tycoon/pull/131 (base is the #130 branch to show M5
+only). No merge. Current-head remote checks must be inspected separately from local
+checks and prior heads. This documentation-only checkpoint succeeds the source commit.
+
+Implemented three locations, original park/downtown textures with actual thumbnails,
+Rent browse/lock requirements/reservation/cancel, permanently earned unlocks, free
+return, atomic one-time rent/moving, fixed daily business snapshot, per-location
+satisfaction/popularity, fee-aware daily/cumulative accounting, bankruptcy/export/
+deliberate restart and v3 migration preserving v0/v1/v2 historical books. Changes are
+in content/simulation/presentation/reboot, focused tests/Windows CI, README/design/
+architecture/roadmap and `docs/reviews/m5-locations.md`. No lockfile/dependency changes.
+
+Final local checks on the identical source captured in 7e44115: unit/save/location
+**32/32**, release **3/3**, strict typecheck, zero-warning reboot lint, web production
+build/full browser **15/15**, desktop build/six-file audit, native save suite, new native
+locations suite and native UI **15 tab/size combinations** PASS. Native M5 proves an
+earned imported business, persisted Downtown reservation, charged checkpoint, taskkill
+after a real sale, exact no-double-fee/revenue replay, results relaunch/export, free
+return and v2 import/relaunch. All automated native data is isolated in temp directories.
+
+Corrections from actual failures: scoped location selectors to buttons (app attribute
+collision), shortened Rent content/thumbnail height to restore stationary Start day
+at narrow breakpoints (19px shift). Added explicit unearned-unlock and contract-lineage
+validation. Full final unit/browser/native checks passed after these corrections.
+
+`node scripts/m5-balance.cjs` compared 3,600 seeded business days (4 seeds x 30 days x
+10 price/recipe combinations x 3 locations); the tested forecast-recipe optimum was
+$1.75 at Neighborhood/Park and $2.75 Downtown. Full figures/reproduction and finite
+sample limits are in the review. M8 human balance testing is not replaced by this.
+
+Local package: `.local-m4/m5-build/release/Lemonade Tycoon-win32-x64/`, assembled from
+the subsequently committed identical source. `scripts/m5-preview-launch.cmd` starts
+it with separate `.local-m4/m5-manual-data`; it never targets real saves or the retained
+M4 manual business. The manifest/build-info records pre-commit checkout and source
+identity separately. No new manual window or preview server is left running here.
+
+Next: inspect PR #131's final-head CI and self-review, then M6 upgrades/staff/marketing
+with real seven-tab controls and compatible saves. Stacked changes depend on #130;
+retarget after its merge without duplicating UI fixes. User-deferred environment tests
+remain release gates and do not block M6. No parallel agents, paid services, automatic
+rerun or Steam/public release actions.
+
+Review follow-up: clarified the locked-location requirement as the rating **where you
+sell**, so a new location's neutral initial rating is not mistaken for an impossible
+pre-unlock requirement. This is a wording-only source successor to 7e44115; obtain its
+exact revision from `git log -1 -- src/reboot.ts`. Exact final source/package checkout:
+`88ee31c6a5102ad3f85a92c85ccec294889e78ce`. Narrow Rent and stationary-action tests
+passed **2/2** after a completed web rebuild. Rebuilt the native package from this
+clean committed source; native UI **15 combinations** and **74-file** manifest PASS.
+The final package's build-info now records both source/checkout as 88ee31c, replacing
+the earlier pre-commit metadata. No other runtime difference from 7e44115. Current-head
+remote results are tracked in PR #131 metadata; do not infer them from older runs.
 ### GitHub operations audit - 2026-10-08
 
 User requested repository-wide issue hygiene and useful GitHub features. Isolated

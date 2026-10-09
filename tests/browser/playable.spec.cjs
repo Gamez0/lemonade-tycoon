@@ -1,4 +1,4 @@
-﻿const { test, expect } = require("@playwright/test");
+const { test, expect } = require("@playwright/test");
 
 test.beforeEach(async ({ page }) => {
     const errors = [];
@@ -209,7 +209,7 @@ test("all preparation screens retain forecast details and action position across
     for (const width of [375, 520, 640, 768]) {
         await page.setViewportSize({ width, height: 1000 });
         const positions = [];
-        for (const name of ["recipe", "price", "supplies", "results"]) {
+        for (const name of ["recipe", "price", "supplies", "results", "rent"]) {
             await tab(page, name);
             await expect(page.locator("#forecast-news")).toBeVisible();
             await expect(page.locator("#progress-text")).toBeVisible();
@@ -263,7 +263,7 @@ for (const timing of ["immediately", "after a committed visit", "after changing 
         expect(cents(await page.locator("#cash").textContent())).toBe(expected.cash);
         await expect(page.locator("#reaction-abandoned")).toHaveText(String(expected.daily.abandoned));
         const counts = await page.locator(".reactions strong").allTextContents();
-        expect(counts.map(Number).reduce((a, b) => a + b, 0)).toBe(expected.weather.traffic);
+        expect(counts.map(Number).reduce((a, b) => a + b, 0)).toBe(expected.business.traffic);
         for (const item of ["lemon", "sugar", "ice", "cup"]) {
             await expect(page.locator(`#inventory-${item}`)).toHaveText(String(expected.stock[item]));
         }
