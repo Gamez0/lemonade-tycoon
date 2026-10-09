@@ -57,3 +57,10 @@ combinations, selling/results fit and price typing/save/relaunch, and confirms
 the requested devicePixelRatio actually applies. Screenshots/geometry are retained
 as windows-ui artifacts. This catches rendering regressions but does not replace
 physical monitor DPI, minimum hardware or human readability checks.
+
+test:desktop:campaign drives a new business through thirty actual native UI days,
+earned locations, all equipment levels and staff/advertising choices. Every day
+independently reconciles cash and cumulative income/expense fields; six relaunches
+must preserve exact results and free-ice use must occur. Save growth remains under
+the native IPC limit. CI retains the report and final ledger screenshot. This is
+automated business-day coverage, not a human or thirty-real-day playtest.

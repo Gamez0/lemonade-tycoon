@@ -36,6 +36,7 @@
         "test:desktop:upgrade": "node scripts/m4-device-evidence.cjs",
         "test:desktop:dpi": "node scripts/desktop-dpi.cjs",
         "test:desktop:audio": "node tests/desktop-audio.cjs",
+        "test:desktop:campaign": "node tests/desktop-campaign.cjs",
         "build:desktop": "vite build --config vite/config.desktop.mjs && node scripts/audit-desktop.cjs desktop-dist",
         "test:release": "node --test tests/release.cjs",
         "release:manifest": "node scripts/release-manifest.cjs"
