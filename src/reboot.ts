@@ -16,6 +16,7 @@ import {
     nextDay,
     openDay,
     openingCosts,
+    openingReadiness,
     quality,
     results,
     setPlan,
@@ -574,9 +575,16 @@ function render(): void {
     );
     text("order-total", money(cost));
     element<HTMLButtonElement>("cancel-order").disabled = cost === 0;
-    text("capacity", `${capacity(state)} cups`);
+    const readiness = openingReadiness(state);
+    const missingSupplies = ITEM_KEYS.filter((item) => readiness.missing[item] > 0)
+        .map((item) => `${readiness.missing[item]} ${ITEMS[item].name.toLowerCase()}`).join(", ");
+    text("capacity", `${prep ? readiness.cups : capacity(state)} cups`);
+    element("supply-warning").hidden = !prep || readiness.cups > 0;
+    text("supply-warning", `Need ${missingSupplies} to open. Buy supplies or adjust your recipe.`);
+    if (prep && readiness.cups === 0) element("open").setAttribute("aria-describedby", "supply-warning");
+    else element("open").removeAttribute("aria-describedby");
     text("unit-cost", money(unitCost(state.plan.recipe, state.freeIce + openingCosts(state).ice)));
-    text("pitcher-yield", `${cupsPerPitcher(state.plan.recipe)} cups per pitcher`);
+    text("pitcher-yield", `${cupsPerPitcher(state.plan.recipe)} cups per pitcher; ${state.plan.recipe.ice * cupsPerPitcher(state.plan.recipe)} ice needed per pitcher.`);
     text("pitcher-cups", `${state.pitcherCups} cups`);
     text(
         "recipe-hint",
@@ -594,7 +602,7 @@ function render(): void {
             ? "First goal reached: $75 in the till!"
             : `Goal: $75 in the till · ${money(7500 - state.cash)} to go`,
     );
-    text("world-status", prep ? "Ready to open"
+    text("world-status", prep ? readiness.cups === 0 ? "Supplies needed" : "Ready to open"
         : selling ? `Open · ${street?.waiting.length ?? 0} waiting` : "Closed for today");
     text("progress-text", prep ? LOCATIONS[state.location].street : `${state.daily.visitors} / ${dayTraffic(state)} visitors`);
     element<HTMLProgressElement>("day-progress").value = state.daily.visitors / dayTraffic(state);

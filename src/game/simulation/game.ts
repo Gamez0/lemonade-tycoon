@@ -176,6 +176,18 @@ export function openingCosts(state: State): { fees: number; ice: number } {
     const ice = Math.min(999 - state.stock.ice, state.management.upgrades.iceMaker * 60);
     return { fees, ice };
 }
+/** Preview the same opening stock used by openDay, including free ice production. */
+export function openingReadiness(state: State): { cups: number; missing: Stock } {
+    const stock = { ...state.stock, ice: state.stock.ice + openingCosts(state).ice };
+    const recipe = state.plan.recipe;
+    const needsPitcher = state.pitcherCups === 0;
+    return { cups: capacity({ ...state, stock }), missing: {
+        lemon: Math.max(0, (needsPitcher ? recipe.lemon : 0) - stock.lemon),
+        sugar: Math.max(0, (needsPitcher ? recipe.sugar : 0) - stock.sugar),
+        ice: Math.max(0, (needsPitcher ? recipe.ice * cupsPerPitcher(recipe) : 0) - stock.ice),
+        cup: Math.max(0, 1 - stock.cup),
+    } };
+}
 export function openDay(state: State): State {
     phase(state, "preparation");
     // A restored, already-paid opening checkpoint replays the same day without another fee.
@@ -188,7 +200,7 @@ export function openDay(state: State): State {
     const moveFee = id === state.location ? 0 : location.moveFee;
     const staff = STAFF[state.management.staff], advertising = ADS[state.management.advertising];
     const { fees, ice } = openingCosts(state);
-    if (capacity({ ...state, stock: { ...state.stock, ice: state.stock.ice + ice } }) === 0)
+    if (openingReadiness(state).cups === 0)
         throw new Error("Buy enough supplies for one pitcher and a cup before opening.");
     if (state.cash < fees)
         throw new Error("Not enough cash for opening costs. Reduce advertising, dismiss staff or return to the free Neighborhood.");

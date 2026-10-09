@@ -401,6 +401,11 @@ input[aria-invalid="true"] {
     margin-top: auto;
     padding-top: 8px;
 }
+@media (max-width: 768px) {
+    .panel {
+        min-height: 600px;
+    }
+}
 .cost-line,
 .capacity,
 .order-total {
@@ -901,7 +906,7 @@ a {
         gap: 1px;
     }
     .panel {
-        min-height: 540px;
+        min-height: 600px;
         padding: 10px;
     }
     .recipe-row label span {
