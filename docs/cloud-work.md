@@ -1031,3 +1031,20 @@ integrated candidate preserves alpha2's verified source and existing draft.
 Package/lock root versions and operations updated together, dependency graph
 unchanged. Existing browser management test exercises owned free ice and upgrade
 copy; local targeted test plus current-head CI required before merge.
+
+### 2026-10-09 Korean contributor documentation / continued release loop
+
+PR193 merged after passing exact-head CI. Clean alpha2 package source0b5bc27
+passed all seven native suites, including actual audio suspension recovery and
+thirty business days. Its 74-file verified ZIP SHA256 is
+48dd0fa7121970b8c8b36b4bcea4e8cd8f05197dc2c309f5b1fa31546c70d922.
+Updated issues138/139/159/161 with explicit manual-test deferral and actual
+engineering evidence without closing acceptance. Main-source checks run37887999195
+and the dispatch-only draft workflow are being verified independently.
+
+Addressed existing backlog43 with README.ko.md and reciprocal language links.
+Translation describes current gameplay, savev5/free ice, native QA and honest
+alpha/manual/Steam boundaries. Corrected the operations command list to include
+all current native suites. Self-review: commands and thresholds match README,
+package.json and operations; local relative Markdown links and diff checked.
+Documentation does not claim Korean game localization. No runtime files changed.
