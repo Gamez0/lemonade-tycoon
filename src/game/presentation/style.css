@@ -264,7 +264,7 @@ progress::-moz-progress-bar {
 }
 .panel {
     padding: 10px 13px;
-    min-height: 600px;
+    min-height: 540px;
     display: flex;
     flex-direction: column;
 }
@@ -400,6 +400,11 @@ input[aria-invalid="true"] {
 #day-actions {
     margin-top: auto;
     padding-top: 8px;
+}
+@media (max-width: 768px) {
+    .panel {
+        min-height: 600px;
+    }
 }
 .cost-line,
 .capacity,
