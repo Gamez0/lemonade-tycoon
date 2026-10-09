@@ -27,6 +27,7 @@
         "desktop:run": "npm run build-nolog && electron .",
         "desktop:package:win": "npm run build:desktop && node scripts/package-win.cjs",
         "test:desktop": "node tests/desktop.cjs",
+        "test:desktop:ui": "node tests/desktop-ui.cjs",
         "build:desktop": "vite build --config vite/config.desktop.mjs && node scripts/audit-desktop.cjs desktop-dist",
         "test:release": "node --test tests/release.cjs",
         "release:manifest": "node scripts/release-manifest.cjs"

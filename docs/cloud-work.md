@@ -445,6 +445,168 @@ under the existing ordered acceptance agreement. M6/M7–M10 independent groundw
 prepared, not accepted milestones. Do not claim overnight duration, automatic restart,
 M10 completion, Steam upload, human playtests or Windows user acceptance from this run.
 
+## Final verified PC preparation checkpoint — 2026-10-06 UTC
+
+PR #128 https://github.com/Gamez0/lemonade-tycoon/pull/128 MERGED after self-review and all
+seven checks passed on exact final head `76e1596c4fddfaf1b696ff4871685e10fb6bdeb7`.
+Main merge `aa920a3f49225b3e216be18079afbc533935d2ec`; fetch/ancestry confirmed inclusion.
+Windows push run 37475501456 (1m55s) and PR run 37475510261 (1m45s) passed native save,
+PC-only packaging, release regressions, manifest verification and artifact upload.
+Reboot push 37475501482 (1m58s) and PR 37475510005 (2m10s) passed; CodeQL run 37475503509
+and aggregate check passed. This supersedes pending states above.
+Local final evidence: Node22.22.0, unit/save/file 26/26, release regressions 3/3, browser12/12,
+strict typecheck/lint, web and desktop production builds, six-file PC audit, whitespace.
+
+Verified source-specific Windows prototype artifact (non-expired at check, three-day retention):
+https://github.com/Gamez0/lemonade-tycoon/actions/runs/37475510261/artifacts/11419082328
+Source SHA 76e1596; unsigned prototype, not RC or Steam release. M4 manual checklist still applies.
+Final journal-only branch `docs/pc-preparation-checkpoint` starts from aa920a3; its precise SHA
+and focused PR link are recorded in the PR metadata. No redundant gameplay checks for this
+journal entry; its own CI must be verified before any future merge.
+
+Completed runnable independent preparations: M6 economic/UI/save design, M7–M10 acceptance
+plan, PC distribution isolation, file/commit/checksum audit, thirty-day baseline regression,
+SteamPipe placeholder templates. M5 gameplay was not started because the existing M4 acceptance
+prerequisite remains unfulfilled. No milestone completion, human playtest, actual newer-version
+update, clean-PC or Steam account/client verification is claimed. Next: record actual M4 Windows
+manual outcomes and M2 visual approval, then implement M5 against its existing design, M6,
+and the documented later sequence. If explicitly authorized to prototype later gameplay before
+M4 manual acceptance, update that sequencing decision first and keep all acceptance gates open.
+This run stops here; no overnight-duration guarantee, auto-restart, preview server, parallel
+agent, paid API/service, purchase, Steam upload or public sale is configured.
+
+## Local Windows M4 evidence checkpoint — 2026-10-07 KST
+
+Executed on the user's Windows 10 Education x64 PC, build 19045, Gigabyte H410M DS2V /
+GTX 1650, 1920x1080. Node 22.16.0/npm 8.4.0 are installed: this is **not clean-PC/no Node**.
+No cloud/VM/Windows Sandbox or parallel agent was used. Host reports HypervisorPresent=True;
+this does not establish a VM guest. Actual DPI and human reviewer name remain pending replies.
+
+Preserved the original `refactor/static-scene-registration` worktree at 96d7765, its five
+modified files and three untracked entries, PR #83 and all real user saves/browser profiles.
+Fetched main and created a separate worktree at
+`C:/Users/dobin/Documents/Projects/lemonade-tycoon-m4-windows`, branch
+`verify/m4-windows-device-20261007`, base `aa920a3f49225b3e216be18079afbc533935d2ec`.
+Live #128 MERGED/in main; #129 OPEN at 91b184e/not in main (docs-only +30 lines, read but
+not duplicated here). No merge was performed. Exact evidence commit is obtained with
+`git log -1 --format=%H -- scripts/m4-device-evidence.cjs`; PR metadata carries its URL/head.
+
+Used unexpired successful Actions artifacts, not a rebuilt approximation:
+- old source f03d1740eefc6d5d845b7fa8564f942811d3192d, checkout
+  266b82a0832424ade03d87fb695a1b9c30dc83e6, run 37330395029;
+- new source/checkout aa920a3f49225b3e216be18079afbc533935d2ec, run 37475917496.
+New release-manifest verified all 74 files. Old build predates manifests; recorded its
+metadata/asar hash without fabricating a verified old manifest. Distinct source/asar builds
+were replaced, both prototype version 0.1.0/save v2; no semver migration/updater claim.
+
+Actual results: npm ci, npm test 26/26, test:release 3/3, web production build,
+existing Windows EXE test:desktop and extended device script 5/5 passed. Extended checks
+cover old-to-new exact full save preservation, disposable unpacked-install removal/fresh
+copy, taskkill after sold=1 with exact opening replay/no duplicate final accounting,
+unsupported import/primary recovery/both-corrupt cancel protection, real published
+GitHub Pages <-> native EXE downloads/imports/restarts using isolated Edge contexts,
+and file-based full-loop renderer-offline execution. No dev server running; no game
+code/lockfile changes or reproduced game defect. Self-review strengthened partial-sale
+proof and retained native exports, then reran the final 5/5. Scripts/diff checks passed.
+See `docs/reviews/m4-windows-device-20261007.md` and its committed test-only evidence.
+
+Human requests were sent for reviewer/DPI, UI/main loop/window/Alt-Tab/normal close,
+and physical network disconnect/relaunch. At initial publication, no reply had arrived;
+the later user-confirmed outcomes are recorded below. Security prompts and user
+import/recovery observations remain pending.
+Renderer setOffline is not physical network disconnection. Clean-PC/no Node remains
+unavailable. The unpacked archive supports relocation/fresh extraction, not MSI/Steam
+uninstall or an automatic updater. M4/#105 remains open; M2 visual/Steam untouched.
+No billing, purchases, paid services, Steam upload/public sale or scheduler configured.
+
+Next action for cloud work: read this local evidence rather than repeat Linux tests as
+Windows acceptance. Obtain and append actual human replies with KST time/name/DPI;
+the safe manual launcher is `scripts/m4-manual-launch.cmd` and uses only
+`.local-m4/manual-data`. Clean Windows/no Node needs a separate available device/account
+environment and the same artifact/manifest checks. Test-only temp directories and the
+manual window are retained locally; automated sessions were closed. Download artifacts
+again before expiry (or rebuild/dispatch an explicit run if expired). Investigate any
+reported failure and rerun proportional regressions. Keep M5's M4 acceptance dependency
+open until these gates are satisfied. Continue independent authorized preparations only;
+do not infer user acceptance or schedule autonomous retries from this document.
+
+Publication: focused PR https://github.com/Gamez0/lemonade-tycoon/pull/130 is OPEN against
+main, branch pushed. Exact locally tested evidence/script commit:
+`2c7747645c133e3ea729b68e5ea0188caefec767`; metadata CRLF attribute successor:
+`34da1bd0459fade85c747cf4f7165364528780c7`. This publication note is documentation-only;
+get its exact successor with `git log -1 --format=%H -- docs/cloud-work.md`.
+No merge. Current-head CI is recorded in PR checks, not inferred from older artifacts.
+
+### User manual response recorded — 2026-10-07 23:27 KST
+
+The chat user confirmed the four-step guided check: `1오케이`, `2오케이`, then
+`3 된다. 4도 된다.`. Human PASS: window resize/Alt-Tab/basic controls, purchases and
+recipe/price -> selling/SKIP/results, X-close/relaunch preserving results/date/cash/stock,
+and NEXT DAY/X-close/relaunch preserving next-day date/cash/stock. These are the chat's
+four numbered steps, **not checklist item 4 forced termination**. No numeric snapshot,
+reviewer nickname, actual DPI or security-prompt statement was supplied. Detailed review
+now distinguishes these confirmed observations from the remaining manual gates.
+
+Next direct check: physical network disconnection -> isolated launcher -> full loop ->
+X-close/relaunch -> restore network and report outcome/method. Ask for actual Windows
+display scale and reviewer name. Other manual transfer/recovery/build-replacement checks,
+clean-PC/no Node, M2 visual and Steam remain open. No runtime changes or new regression
+run required for this response-only documentation update. Commit/push to PR #130; no merge.
+
+### User-reported Windows UI corrections — 2026-10-07 23:41 KST
+
+User then reported/screenshotted native arrows still on Price, web-like outer margins/
+duplicate title, default Electron icon/menu and right page scrolling. The initial screen
+PASS does not override these specific findings or constitute M2 approval. Root causes:
+recipe-only spinner CSS, unchanged web max-width/margins/min-heights, default native chrome.
+Corrected Price CSS, bridge-gated desktop layout, native menu/title/icon and content fitting.
+Reused original authored lemon vector for ICO; no external art/image generation/purchases.
+
+Local final package source/checkout `1d84e54bb6e3df496b36f6eac0dc3c017af77c9e`, Node22.16.0,
+npm8.4.0/Electron44.5.1, build-info run=local-windows-ui-fix. Stored separately in
+`.local-m4/fixed-package`, original Actions packages/test business preserved. Manifest74 PASS.
+Meaningful EXE UI regression added to Windows CI: 12 tab/size combinations, small selling/
+results, all controls/canvas/root within viewport, no document scroll, menu/masthead absent,
+price2.25 typing/save/relaunch. Found actual intermediate 1280x720 START DAY clipping after
+canvas fit; corrected grid row min-size and reran PASS. Final native save suite also PASS;
+type/lint/build/JS checks and isolated production Edge web layout/price-save check PASS.
+No full browser-suite or new human acceptance claimed. Detailed evidence/repro in the M4 review.
+
+Next: have user X-close the old manual window and run `scripts/m4-price-fix-launch.cmd`;
+it uses the same isolated manual-data, not real business storage. Confirm arrows/native
+icon/menu/frame/scroll removal and controls at small size, then physical offline and actual
+DPI/reviewer details. New UI package needs user recheck; original 4-step save observations
+still refer to the Actions main artifact. M4/clean-PC/M2/Steam remain open. PR #130 now includes
+these observed Windows UI fixes plus regression/evidence. No merge.
+
+### Continuation validation — 2026-10-08 (KST)
+
+Resumed in the existing clean Windows worktree `lemonade-tycoon-m4-windows` on
+`verify/m4-windows-device-20261007`, head `cd5916cf5e372ac771f39850fa0e3e5893e5571d`.
+The older `.reboot-work` checkpoint is superseded; parent changes remain untouched.
+GitHub reports all seven PR #130 checks successful for that exact head. No merge.
+
+Node22.16.0: npm test **26/26**, test:release **3/3**, typecheck, lint:reboot,
+build-nolog and the full production test:browser **12/12** passed locally.
+The retained UI-fixed EXE (source/checkout `1d84e54bb6e3df496b36f6eac0dc3c017af77c9e`)
+passed test:desktop and test:desktop:ui again: native saves/flush/forced exit/recovery/
+import/export/relocation, 12 tab/size combinations, small selling/results and price
+typing/relaunch. Its manifest verifies **74 files**. `git diff` confirms no package
+runtime source/config/packager differences between that source and the tested PR head.
+
+The first browser attempt returned 404 because this session started preview before
+the asynchronous web build process had fully exited. Stopped that attempt and the
+diagnostic previews; after build exit and HTTP200 verification, reran the entire
+unchanged suite successfully. This was execution ordering, not a product defect.
+No runtime changes were needed. Self-review checked package provenance, desktop-only
+CSS scoping and actual test outcomes. This successor records validation only.
+
+No new human acceptance arrived during verification. Next action remains the user's
+UI-fixed launcher check, then physical offline/DPI and clean Windows/no Node evidence.
+M4/#105, M2 visual acceptance and Steam gates remain open; M5 implementation remains
+pending M4 acceptance. Automated sessions and preview servers started here are closed;
+previous manual game windows were not closed or modified. No agents, paid services,
+scheduler or Steam/public release actions.
 ### GitHub operations audit - 2026-10-08
 
 User requested repository-wide issue hygiene and useful GitHub features. Isolated

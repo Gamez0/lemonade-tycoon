@@ -23,6 +23,7 @@ jobs:
               run: |
                   $env:LEMONADE_DESKTOP_EXE = Join-Path $env:GITHUB_WORKSPACE 'release/Lemonade Tycoon-win32-x64/Lemonade Tycoon.exe'
                   npm run test:desktop
+                  npm run test:desktop:ui
             - name: Record package source
               shell: pwsh
               run: |

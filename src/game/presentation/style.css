@@ -365,11 +365,14 @@ input {
         "Trebuchet MS",
         sans-serif;
 }
-.recipe-row input[type="number"] {
+.recipe-row input[type="number"],
+#price {
     appearance: textfield;
 }
 .recipe-row input[type="number"]::-webkit-inner-spin-button,
-.recipe-row input[type="number"]::-webkit-outer-spin-button {
+.recipe-row input[type="number"]::-webkit-outer-spin-button,
+#price::-webkit-inner-spin-button,
+#price::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
@@ -945,4 +948,69 @@ a {
     #result-values dd {
         font-size: 10px;
     }
+}
+
+/* The native window provides the title bar; fit every game control in its client area. */
+html.desktop,
+.desktop body {
+    height: 100%;
+    overflow: hidden;
+}
+.desktop #app {
+    zoom: var(--desktop-ui-scale, 1);
+    width: calc(100vw / var(--desktop-ui-scale, 1));
+    height: calc(100dvh / var(--desktop-ui-scale, 1));
+    margin: 0;
+    border: 0;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+}
+.desktop .masthead {
+    display: none;
+}
+.desktop footer a[href="./legacy.html"] {
+    display: none;
+}
+.desktop .resource-bar,
+.desktop .control-row,
+.desktop footer {
+    flex-shrink: 0;
+}
+.desktop .layout {
+    flex: 1;
+    min-height: 0;
+    align-items: stretch;
+    grid-template-rows: minmax(0, 1fr);
+}
+.desktop .world-column {
+    min-height: 0;
+}
+.desktop .management-column,
+.desktop .world-frame {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    height: 100%;
+}
+.desktop #app .panel {
+    flex: 1;
+    min-height: 0;
+}
+.desktop .daily-strip {
+    flex-shrink: 0;
+}
+.desktop .scene-window {
+    flex: 1;
+    min-height: 0;
+}
+.desktop #game-container {
+    height: 100%;
+    aspect-ratio: auto;
+}
+.desktop canvas {
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    object-fit: contain;
 }
