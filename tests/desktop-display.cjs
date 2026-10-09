@@ -28,6 +28,11 @@ fs.mkdirSync(out, { recursive: true });
         }
         async function geometry(name) {
             await expect.poll(() => page.evaluate(() => document.documentElement.scrollHeight <= innerHeight + 1)).toBe(true);
+            await expect.poll(() => page.evaluate(() => {
+                const panel = document.querySelector('.panel');
+                return panel.scrollHeight <= panel.clientHeight + 1
+                    && Math.abs(Number(document.documentElement.style.getPropertyValue('--desktop-ui-scale')) - Math.min(1, innerHeight / 820)) < .001;
+            })).toBe(true);
             const measured = await app.evaluate(({ BrowserWindow, screen }) => {
                 const win = BrowserWindow.getAllWindows()[0];
                 return { bounds: win.getBounds(), content: win.getContentBounds(), full: win.isFullScreen(),
