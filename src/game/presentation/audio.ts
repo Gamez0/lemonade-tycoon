@@ -18,12 +18,13 @@ export class GameAudio {
             }
         } catch { /* Audio preferences never block the game. */ }
         document.addEventListener("visibilitychange", () => this.sync());
-        window.addEventListener("blur", () => this.stop());
+        window.addEventListener("blur", () => this.sync());
         window.addEventListener("focus", () => this.sync());
     }
     activate(): void {
         if (this.unlocked && this.context?.state === "running") return;
         this.unlocked = true;
+        if (this.settings.muted || (this.settings.music === 0 && this.settings.effects === 0)) return;
         try {
             this.context ??= new AudioContext();
             void this.context.resume().then(() => this.sync()).catch(() => {});
@@ -32,7 +33,8 @@ export class GameAudio {
     configure(settings: AudioSettings): void {
         this.settings = settings;
         try { localStorage.setItem(KEY, JSON.stringify(settings)); } catch { /* Session settings still work. */ }
-        this.sync();
+        if (this.unlocked && !this.context) this.activate();
+        else this.sync();
     }
     setPhase(phase: string): void {
         if (phase === this.phase) return;
@@ -41,7 +43,12 @@ export class GameAudio {
     private stop(): void { window.clearInterval(this.timer); this.timer = 0; }
     private sync(): void {
         this.stop();
-        if (!this.unlocked || !this.context || this.settings.muted || document.hidden || !document.hasFocus()) return;
+        if (!this.unlocked || !this.context) return;
+        if (this.settings.muted || document.hidden || !document.hasFocus() ||
+            (this.settings.music === 0 && this.settings.effects === 0)) {
+            if (this.context.state === "running") void this.context.suspend().catch(() => {});
+            return;
+        }
         // A focus return can follow a browser/device suspension. Restart the
         // context before scheduling notes; merely restarting the timer stays silent.
         if (this.context.state !== "running") {
@@ -51,6 +58,7 @@ export class GameAudio {
             }).catch(() => { /* A later user gesture can retry without blocking play. */ });
             return;
         }
+        if (this.settings.music === 0) return;
         // Original pentatonic miniatures: a slow porch tune, a brisk market tune,
         // and a short settling cadence. Timing is independent of simulation speed.
         this.timer = window.setInterval(() => {

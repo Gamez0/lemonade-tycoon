@@ -22,6 +22,7 @@ export class StreetScene extends Phaser.Scene {
     private previews = new Map<LocationId, string>();
     private elapsed = 0;
     private speed = 1;
+    private resize?: ResizeObserver;
     private motion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     get finishing(): boolean {
@@ -47,8 +48,14 @@ export class StreetScene extends Phaser.Scene {
         this.sky = this.add.rectangle(0, 0, 640, 512, 0x536b83, 0).setOrigin(0).setDepth(1000);
         this.game.canvas.setAttribute("aria-label", "A lemonade stand on Willow Lane. Several people can walk, wait in line, buy, or leave.");
         this.game.canvas.setAttribute("role", "img");
+        this.resize = new ResizeObserver(() => this.refresh());
+        this.resize.observe(this.game.canvas.parentElement!);
+        this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.resize?.disconnect());
         this.hooks.changed();
     }
+
+    // Static frames stay on the canvas; resume only when state or size changes.
+    refresh(): void { if (this.game?.loop.started) this.game.loop.wake(); }
 
     setSpeed(speed: number): void { this.speed = speed; }
     thumbnail(id: LocationId): string | null { return this.previews.get(id) ?? null; }
@@ -132,7 +139,10 @@ export class StreetScene extends Phaser.Scene {
         this.sky?.setAlpha(state.weather.label === "Rainy" ? 0.19 : state.weather.label === "Cloudy" ? 0.08 : 0);
         this.sign?.setText(state.phase === "selling" ? "OPEN" : "FRESH");
         const street = this.hooks.street();
-        if (!street || (street.game.phase !== "selling" && street.walking.length === 0)) return;
+        if (!street || (street.game.phase !== "selling" && street.walking.length === 0)) {
+            this.game.loop.sleep();
+            return;
+        }
         this.elapsed += Math.min(delta, 100) * this.speed;
         let changed = false;
         while (this.elapsed >= 100) {
