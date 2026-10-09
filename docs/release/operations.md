@@ -4,8 +4,9 @@ Candidate version: 0.2.0-alpha.2, sourced from package.json. This is a test
 distribution; manual acceptance is deferred for the current engineering run.
 Build with Node22 and committed npm lockfile: npm ci, npm test, typecheck,
 lint:reboot, test:release, build-nolog, test:browser, desktop:package:win. Set
-LEMONADE_DESKTOP_EXE and run desktop, desktop:ui, desktop:locations and
-desktop:management checks. Each suite failure must fail the run immediately.
+LEMONADE_DESKTOP_EXE and run test:desktop, test:desktop:ui, test:desktop:dpi,
+test:desktop:locations, test:desktop:management, test:desktop:audio and
+test:desktop:campaign. Each suite failure must fail the run immediately.
 Record source and checkout hashes in build-info.json; release-manifest.cjs writes
 and verifies all SHA256 file checksums. Retain the entire distribution directory,
 Electron/Chromium notices and app.asar. Never ship the working tree/public research.
