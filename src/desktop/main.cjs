@@ -1,4 +1,5 @@
-const { app, BrowserWindow, ipcMain, Menu, screen } = require('electron');
+const { app, BrowserWindow, ipcMain, Menu, screen, dialog } = require('electron');
+const { createCloseCheckpoint } = require('./close-checkpoint.cjs');
 const { createPreferences, createDisplayController, fitSize } = require('./display-settings.cjs');
 const path = require('node:path');
 const { createFileStorage } = require('./file-storage.cjs');
@@ -9,7 +10,7 @@ const { maxSaveBytes } = require('./save-limits.json');
 app.disableHardwareAcceleration();
 
 let window;
-let closing = false;
+let closeCheckpoint;
 let displayController;
 const storage = createFileStorage();
 const diagnostics = require('./diagnostics.cjs').createDiagnostics();
@@ -27,10 +28,9 @@ ipcMain.handle('save:set', (event, key, value) => {
     if (typeof value !== 'string' || Buffer.byteLength(value, 'utf8') > maxSaveBytes) throw new Error('Save file is too large.');
     try { storage.setItem(key, value); } catch (error) { diagnostics.record('save-failed'); throw error; }
 });
-ipcMain.on('save:flushed', event => {
+ipcMain.on('save:flushed', (event, request, success) => {
     authorized(event);
-    closing = true;
-    window.close();
+    closeCheckpoint.acknowledge(request, success);
 });
 
 ipcMain.handle('app:quit', event => { authorized(event); window.close(); });
@@ -68,18 +68,22 @@ app.whenReady().then(() => {
     window.webContents.on('will-navigate', (event, url) => {
         if (url !== window.webContents.getURL()) event.preventDefault();
     });
-    window.on('close', event => {
-        if (closing || window.webContents.isDestroyed()) return;
-        event.preventDefault();
-        window.webContents.send('save:flush');
-        setTimeout(() => {
-            if (!window.isDestroyed()) {
-                diagnostics.record('close-timeout');
-                closing = true;
-                window.close();
-            }
-        }, 5000);
+    closeCheckpoint = createCloseCheckpoint({
+        flush: request => window.webContents.send('save:flush', request),
+        resume: () => { if (!window.webContents.isDestroyed()) window.webContents.send('save:resume'); },
+        close: () => { if (!window.isDestroyed()) window.close(); },
+        record: event => diagnostics.record(event),
+        warn: async () => {
+            const { response } = await dialog.showMessageBox(window, {
+                type: 'warning', title: 'Business could not be saved',
+                message: 'Your latest business could not be saved.',
+                detail: 'Keep playing to retry or export a backup. Closing without saving may lose your latest changes.',
+                buttons: ['Keep playing', 'Close without saving'], defaultId: 0, cancelId: 0, noLink: true,
+            });
+            return response === 1;
+        },
     });
+    window.on('close', event => closeCheckpoint.request(event));
     window.loadFile(path.join(__dirname, '../../dist/index.html'));
 });
 
