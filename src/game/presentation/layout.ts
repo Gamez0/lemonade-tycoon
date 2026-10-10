@@ -64,10 +64,10 @@ export const markup = `
 <label>Window size <select id="display-size"></select></label>
 <p class="hint" id="display-info"></p><button id="display-apply">APPLY DISPLAY</button><p id="display-status" role="status"></p></fieldset>
 <p>1. Supplies: select ingredient bundles and press BUY. Start with lemons, sugar, ice and cups.</p>
-<p>2. Recipe: use 2 lemons / 1 sugar per pitcher. Match ice to the forecast: 1 below 21 degrees C, 2 at 21-24 degrees C, 3 at 25-29 degrees C, 4 at 30 degrees C or warmer. More ice reduces pitcher yield.</p>
+<p>2. Recipe: use 2 lemons / 1 sugar per pitcher. Match ice to the forecast: 1 below 21 degrees C, 2 at 21-24 degrees C, 3 at 25-29 degrees C, 4 at 30 degrees C or warmer. More ice increases cups per pitcher and requires more ice for each batch.</p>
 <p>3. Marketing: enter your price directly. Try $1.75 first. Ads bring more visitors, but charge every day. Extra traffic needs enough stock and fast service.</p>
 <p>4. START DAY prepares the first pitcher and sells automatically. Empty pitchers refill immediately while supplies last. Speed and SKIP change waiting time, not the outcome. Results separates ingredient costs from supply cash purchases.</p>
-<p>5. NEXT DAY keeps leftover supplies; ice melts unless refrigerated. Earn Park after 3 days/$45 sales/55% rating; Downtown after 7 days/$120/65%. Rent and wages charge at opening.</p>
+<p>5. NEXT DAY keeps leftover lemons, sugar and paper cups. Leftover ice melts; a level 1 refrigerator keeps half (rounded down), and level 2 keeps all. Earn Park after 3 days/$45 sales/55% rating; Downtown after 7 days/$120/65%. Rent and wages charge at opening.</p>
 <p>Ice makers produce free ice at opening, within the storage limit. No electricity or production fee. Bought ice still costs money; free ice is used first and adds no ingredient expense.</p>
 <p>Equipment is permanent. A server speeds service; a host extends patience. Owner only dismisses staff. Ice makers produce up to 60/120 free ice at opening. Choose affordable investments.</p>
 <p>Saves are automatic before opening and after results. Closing during sales replays the paid opening without another fee. Export a backup before updating. New business requires a second confirmation.</p>
