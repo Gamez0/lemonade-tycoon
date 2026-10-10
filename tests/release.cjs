@@ -147,6 +147,27 @@ test('Steam preparation rejects invalid targets, detects package changes and sta
     assert.throws(() => prepare({ appId: 12345, depotId: 12346, contentRoot: content, output }), /checksum/);
 }));
 
+test('Windows Steam output cannot enter the depot through different path casing', { skip: process.platform !== 'win32' }, () => temporary(directory => {
+    const content = path.join(directory, 'Content'); fs.mkdirSync(content); fixture(content); writeManifest(content);
+    const output = path.join(directory, 'content', 'generated');
+    assert.throws(() => prepare({ appId: 12345, depotId: 12346, contentRoot: content, output }), /outside/);
+    assert.equal(fs.existsSync(output), false);
+    assert.doesNotThrow(() => verifyManifest(content));
+}));
+
+test('Steam output resolves directory aliases before writing and allows an external sibling', () => temporary(directory => {
+    const content = path.join(directory, 'content'); fs.mkdirSync(content); fixture(content); writeManifest(content);
+    const alias = path.join(directory, 'alias');
+    fs.symlinkSync(content, alias, process.platform === 'win32' ? 'junction' : 'dir');
+    const output = path.join(alias, 'not-created', 'scripts');
+    assert.throws(() => prepare({ appId: 12345, depotId: 12346, contentRoot: content, output }), /outside/);
+    assert.equal(fs.existsSync(path.join(content, 'not-created')), false);
+    const sibling = path.join(directory, 'content-scripts');
+    assert.equal(prepare({ appId: 12345, depotId: 12346, contentRoot: alias, output: sibling }).previewOnly, true);
+    assert.ok(fs.existsSync(path.join(sibling, 'app_build_12345.vdf')));
+    assert.doesNotThrow(() => verifyManifest(content));
+}));
+
 test('diagnostics allow fixed events only and keep bounded logs without raw errors or saves', () => temporary(directory => {
     const diagnostics = createDiagnostics(directory);
     diagnostics.record('startup'); diagnostics.record('save-failed');
