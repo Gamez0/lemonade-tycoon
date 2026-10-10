@@ -39,6 +39,34 @@ const closeNormally = async session => {
         await session.page.locator('#buy-order').click();
         await expect.poll(() => JSON.parse(fs.readFileSync(savePath, 'utf8')).state.stock.cup).toBeGreaterThan(0);
         const preparation = fs.readFileSync(savePath, 'utf8');
+        stage = 'normal close freezes a delayed disk write against late UI events';
+        await session.app.evaluate(({ ipcMain, BrowserWindow }, directory) => {
+            const require = process.getBuiltinModule('module').createRequire(process.resourcesPath + '/app.asar/package.json');
+            const path = require('node:path');
+            const { createFileStorage } = require(path.join(process.resourcesPath, 'app.asar/src/desktop/file-storage.cjs'));
+            const storage = createFileStorage(directory);
+            ipcMain.removeHandler('save:set');
+            ipcMain.handle('save:set', async (event, key, value) => {
+                if (event.sender !== BrowserWindow.getAllWindows()[0].webContents) throw new Error('Unknown save caller.');
+                await new Promise(resolve => setTimeout(resolve, 300));
+                storage.setItem(key, value);
+            });
+        }, path.dirname(savePath));
+        await session.page.locator('[data-page="recipe"]').click();
+        await session.page.locator('#lemon').fill('3'); await session.page.locator('#lemon').press('Tab');
+        const closedWithPendingSave = session.app.waitForEvent('close');
+        await session.app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].close());
+        expect(await session.page.locator('#app').evaluate(app => app.inert)).toBe(true);
+        await session.page.evaluate(() => {
+            const input = document.querySelector('#lemon');
+            input.value = '4'; input.dispatchEvent(new Event('change'));
+        });
+        await closedWithPendingSave; session = await launch();
+        await expect(session.page.locator('#lemon')).toHaveValue('3');
+        expect(JSON.parse(fs.readFileSync(savePath, 'utf8')).state.plan.recipe.lemon).toBe(3);
+        // Restore this suite's baseline before testing its existing opening replay.
+        await session.page.locator('#lemon').fill('2'); await session.page.locator('#lemon').press('Tab');
+        await expect.poll(() => fs.readFileSync(savePath, 'utf8')).toBe(preparation);
         await closeNormally(session); session = await launch();
         await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
         if (fs.readFileSync(savePath, 'utf8') !== preparation) throw new Error('Preparation changed on relaunch.');
@@ -51,6 +79,13 @@ const closeNormally = async session => {
         expect(opening.state).toEqual({ ...openDay(prepared.state), phase: 'preparation' });
         expect(opening.state.pitcherCups).toBe(12);
         expect(opening.state.daily.pitchersMade).toBe(1);
+        stage = 'normal selling close preserves the paid opening';
+        await closeNormally(session); session = await launch();
+        await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
+        expect(JSON.parse(fs.readFileSync(savePath, 'utf8'))).toEqual(opening);
+        await session.page.locator('#open').click();
+        await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'selling');
+        await expect.poll(() => JSON.parse(fs.readFileSync(savePath, 'utf8'))).toEqual(opening);
         stage = 'forced selling termination';
         execFileSync('taskkill', ['/PID', String(session.app.process().pid), '/T', '/F']);
         session = await launch();

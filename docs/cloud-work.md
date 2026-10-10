@@ -1462,3 +1462,23 @@ lookup. Local release9/9 and Node syntax/whitespace PASS. New cases exercise ren
 and duplicate drafts, changed source/id/prerelease and unrelated versions. Require
 fresh remote current-head checks before merge. While CI runs, continue reviewing
 runtime/save/browser compatibility failure paths rather than ending at this PR.
+
+## 2026-10-10 close-checkpoint and guidance audit
+
+PR209 integrated as ebc7a4977a60f3a8b08071dfe8f6b8f28d48195f after current-head
+required checks38021562880 PASS. Runtime audit continues in
+`D:/lemonade-runtime-audit`, branch fix/native-close-save-race, alpha11 candidate.
+Discovered and reproduced a normal-close race: controls remain editable and sale
+transactions continue while the captured checkpoint flushes. Freeze renderer
+events/transactions, include pending startup/import and keep import completion
+locked. Browser save8/8, actual Windows native saves including delayed-write late
+events and normal/forced selling replay, typecheck/lint/release9/9 PASS. Chromium,
+installed Edge, Firefox, WebKit and two mobile emulations6/6 PASS. Production/save
+v6/free-ice rules remain unchanged. Require fresh current-head CI before merge.
+
+Review: docs/reviews/2026-10-10-close-checkpoint.md. Next work is already identified:
+help says more ice reduces pitcher output although the rule increases10->33cups,
+and level1 refrigeration only keeps half the leftover ice. Correct the guidance
+against live rules in a separate focused change, then inspect actual disk-write
+failure/close handling. Do not end after this integration or relabel these tests
+as deferred human/physical acceptance.
