@@ -1482,3 +1482,22 @@ and level1 refrigeration only keeps half the leftover ice. Correct the guidance
 against live rules in a separate focused change, then inspect actual disk-write
 failure/close handling. Do not end after this integration or relabel these tests
 as deferred human/physical acceptance.
+
+## 2026-10-10 save-failure close continuation
+
+PR211 integrated as 5fff7733cf5398209c715d0287912e9fd10a6ce1 after required current-
+head checks38022096821 and CodeQL PASS. Help corrections #212/PR213 are under CI;
+existing help browser test/typecheck/build PASS and human #154 remains open.
+
+The next audit reproduced silent data loss after native disk failure: flush
+returned success with the old recipe on disk. Track durable checkpoints, retry
+unsaved state and propagate failure; replace silent timeout-close with a native
+Keep playing/default or explicit-discard decision. Request ids ignore late/stale
+acks. See docs/reviews/2026-10-10-close-save-failure.md. Local simulation58/58,
+browser save9/9, release9/9, typecheck/lint and actual Windows native fault tests
+PASS, including five-second timeout cancellation and late response retention.
+Controller renderer-unavailable coverage added in final review. Alpha12 candidate
+contains the runtime changes; CI must pass its exact final head before merging.
+Continue auditing approved release paths while CI runs, then integrate and prepare
+an exact-main draft. Alpha10 remains the existing delivered package; no claim that
+these later fixes are already in that artifact. User-owned parent/PR83 preserved.
