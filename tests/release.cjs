@@ -9,11 +9,27 @@ const { prepare } = require('../scripts/steam-prepare.cjs');
 const { createDiagnostics } = require('../src/desktop/diagnostics.cjs');
 const { auditPackage } = require('../scripts/audit-package.cjs');
 const asar = require('@electron/asar');
-const { validateRun, validateDraft, createDraft } = require('../scripts/draft-release.cjs');
+const { validateRun, validateDraft, createDraft, findDraft } = require('../scripts/draft-release.cjs');
+
+test('draft reruns reject renamed or duplicate version identities before creating another release', () => {
+    const head = 'a'.repeat(40), version = '0.2.0-alpha.10';
+    const draft = { id: 123, tag_name: `v${version}`, name: `Windows alpha ${version} - verified draft`, draft: true, prerelease: true, target_commitish: head, assets: [] };
+    assert.equal(findDraft([draft], version, head), draft);
+    assert.equal(findDraft([], version, head), undefined);
+    assert.throws(() => findDraft([{ ...draft, tag_name: 'untagged-changed' }], version, head), /identity/);
+    assert.throws(() => findDraft([draft, { ...draft, id: 456, tag_name: 'untagged-changed' }], version, head), /Multiple/);
+    assert.throws(() => findDraft([{ ...draft, draft: false }], version, head), /internal draft/);
+    assert.throws(() => findDraft([{ ...draft, target_commitish: 'b'.repeat(40) }], version, head), /exact source/);
+    assert.equal(findDraft([{ ...draft, name: 'Unrelated', tag_name: 'v0.1.0', assets: [] }], version, head), undefined);
+    // Edited display names must not hide an already-uploaded same-version bundle.
+    assert.throws(() => findDraft([{ ...draft, name: 'Edited notes', tag_name: 'untagged-changed', assets: [{ name: `Willow-Lane-Lemonade-${version}-win-x64-aaaaaaa.zip` }] }], version, head), /identity/);
+    assert.throws(() => validateDraft({ ...draft, id: 456 }, head, version, 123), /identity/);
+    assert.throws(() => validateDraft({ ...draft, prerelease: false }, head, version, 123), /identity/);
+});
 
 test('draft creation uses the returned identity without an eventually consistent list lookup', () => {
     const head = 'a'.repeat(40), version = '0.2.0-alpha.2';
-    const response = { id: 123, tag_name: `v${version}`, draft: true, target_commitish: head, assets: [] };
+    const response = { id: 123, tag_name: `v${version}`, draft: true, prerelease: true, target_commitish: head, assets: [] };
     const requests = [];
     const request = (endpoint, payload) => { requests.push({ endpoint, payload }); return response; };
     assert.equal(createDraft(request, 'owner/game', version, head, 'Verified notes'), response);
@@ -24,6 +40,7 @@ test('draft creation uses the returned identity without an eventually consistent
     assert.throws(() => createDraft(() => ({ ...response, draft: false }), 'owner/game', version, head, ''), /internal draft/);
     assert.throws(() => createDraft(() => ({ ...response, id: 0 }), 'owner/game', version, head, ''), /identity/);
     assert.throws(() => createDraft(() => ({ ...response, tag_name: 'another' }), 'owner/game', version, head, ''), /identity/);
+    assert.throws(() => createDraft(() => ({ ...response, prerelease: false }), 'owner/game', version, head, ''), /identity/);
 });
 function temporary(run) {
     const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'lemonade-release-'));

@@ -1366,3 +1366,99 @@ parent/user-owned files included. Proceed to exact-head CI, merge and delivery.
 175% screenshot review additionally caught low contrast in new display hints.
 Use inherited dark dialog text/classic select styling and keep CLOSE in a sticky
 heading. Recheck the changed dialog and fresh-head required CI before merge.
+
+## 2026-10-10 explicit user pause
+
+User is shutting down to sleep and explicitly requested pause. Stop work; no
+merge, new release or further testing after this handoff. Current branch
+feat/display-settings, PR207, head2c0c14e003dadd91168e8d2dece7ae9afbcd6876.
+Implementation and self-review complete. Local54 unit/save,8 release,29 browser
+PASS; native display53 checks across100-200% PASS after waiting for settled resize
+layout;175%97 UI geometry/management/resource guards PASS. Final visual review
+fixes dark display hint/select contrast and a sticky CLOSE heading; targeted
+help keyboard/mute test and final native53 rerun PASS. No user-owned work changed.
+Final-head CodeQL/dependency review passed. Reboot checks37972882436 finished before cancellation reached GitHub: status completed, conclusion success. No run was cancelled. PR207
+remains unmerged and alpha10 has not been delivered. Existing alpha9 remains the
+verified delivered package. No local test/preview session is left running by this
+turn. Handoff remains uncommitted to avoid triggering work after requested pause.
+
+Resume: Reboot checks37972882436 completed SUCCESS at the paused head. Confirm
+head and all required checks remain current, then integrate PR207 without rerunning
+passing unchanged tests. Preserve this uncommitted handoff while switching branches. Then exact-main checks/Pages, alpha10 internal draft,
+download/extract/hash and74file verification, actual alpha9->alpha10 five-check
+upgrade plus native display restore, attach/verify evidence, update PR207/#205 and
+remaining gates. Reassess approved runnable release tasks, keep human/physical/
+clean-PC/rights/media/Steam gates honest. Latest review:
+docs/reviews/2026-10-10-display-settings.md. Actual local final display evidence:
+.local-m4/display-candidate-settled/results.json and display-settings-175.png.
+
+## 2026-10-10 resumed delivery and remaining gates
+
+The user explicitly resumed the paused work and reiterated loop engineering.
+The working directory supplied by the client is the legacy parent worktree;
+`.reboot-work/docs/handoff.md` is also obsolete. Use this integration worktree,
+its AGENTS.md, this latest handoff and live GitHub state. Parent/PR83 changes
+remain untouched. An initial legacy-only verification was discarded; no legacy
+test edits were retained or confused with current delivery evidence.
+
+PR207 current-head required checks37972882436 confirmed PASS, then squash merged
+at4c104a1f191f51716fcac07dfba72f8cdbe2269f. Exact-main checks38020284664 and Pages
+PASS; verified draft38020691185 PASS. Clean exact-main detached delivery worktree:
+`D:/lemonade-alpha10-release`, with ignored evidence/output only and a dependency
+junction to this integration worktree. Preserve this uncommitted handoff history.
+
+Actual downloaded alpha10 ZIP SHA256
+79cbda9f3f5eff93fdd986f991dfbb55bb203b69623dc3b22a00cf75eaf31177;
+all74 manifest files, embedded manifest and all11 uploaded asset digests verified.
+Archive/content/license audit PASS. Actual alpha9->downloaded-alpha10 upgrade5/5
+PASS: replacement/re-extraction, exact paid partial-sale replay, invalid/corrupt
+save protection, current published web/native/isolated Edge portability and
+renderer-offline loop. Downloaded display53 mode/size/relaunch/fallback checks
+across100/125/150/175/200% PASS. CI display41 checks depend on runner work area;
+native geometry485 cases plus campaign/long-save/audio/resource checks PASS.
+CI idle paints0;20-day post-GC retained JS growth0.212MiB. No minimum-spec claim.
+
+Continued the loop beyond merging: refreshed exact-main store media14 PNGs and
+13.007second1920x1080 H264/AAC video with decoded audio/video verification; three
+original score WAVs pass format/peak/no-clipping checks. Byte-verified media18,
+listening4, CI evidence35 and delivered upgrade/display10 archived files. Internal
+draft: https://github.com/Gamez0/lemonade-tycoon/releases/tag/untagged-e4bda0878d56d15efb0c
+PR207 and issues205/108/162/113/168 updated with evidence; M8 actual tasks4/8 closed.
+
+Remaining approved tasks reassessed after delivery. Independent implementation,
+automated checks and reviewable local Steam/store materials are prepared. Remaining
+acceptance requires evidence not available from this development run: human visual,
+new-player/playtest/listening approval; deferred physical network/DPI, actual mobile,
+clean Windows/minimum-system tests; title/contributor distribution authority and
+final media selection; real Steam AppID/DepotID/partner access/private install/update.
+Repository Actions variable/secret-name inventories are empty; Dependabot open0.
+Keep these gates open. Legacy refactors/PR83 are separate, not release blockers.
+Do not invent features, repeat unchanged passing tests, claim public sales/Steam
+submission or imply background execution to fill those evidence gaps. Next concrete
+action is apply supplied acceptance/rights feedback or configure supplied authorized
+Steam IDs/access against the verified manifest and prepared preview-only VDF tool.
+No local preview or test session remains running from this delivery.
+
+## 2026-10-10 loop correction and release rerun audit
+
+The user corrected ending after a "single loop". Alpha delivery is a checkpoint,
+not completion. The earlier conclusion that independent work was exhausted was
+too broad: live release-note updates had exposed a tooling defect that still
+needed a repository fix. AGENTS.md now records the distinction explicitly.
+
+Audit finding: draft discovery looked only at tag_name. A GitHub draft metadata
+update changed that identity to an untagged value; a later rerun could create a
+duplicate same-version draft rather than preserving the existing release. Search
+also by the generated version name and uploaded version-named package assets;
+reject changed or multiple identities before any mutation. Validate exact release
+id, version tag, prerelease flag and source again after upload. Do not automatically
+retag, publish, overwrite, or change another source. Existing release assets stay
+untouched. No game/runtime/save changes in this fix.
+
+Self-review: package name matching includes the exact version delimiter, detects
+renamed display names through assets, and preserves published/different-source
+releases. Creation still uses its returned id without an eventual-consistency list
+lookup. Local release9/9 and Node syntax/whitespace PASS. New cases exercise renamed
+and duplicate drafts, changed source/id/prerelease and unrelated versions. Require
+fresh remote current-head checks before merge. While CI runs, continue reviewing
+runtime/save/browser compatibility failure paths rather than ending at this PR.
