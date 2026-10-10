@@ -62,7 +62,9 @@ let restartArmed = false;
 let fast = false;
 let saveBlocked = false;
 let importing = false;
+let closing = false;
 let pendingImport = Promise.resolve();
+let pendingRestore = Promise.resolve();
 type DisplaySettings = { mode: "windowed" | "fullscreen"; width: number; height: number; sizes: { width: number; height: number }[]; screen: { width: number; height: number }; scale: number; warning: string };
 const desktopApp = (window as Window & { desktopApp?: { quit(): Promise<void>; diagnostics(): Promise<unknown>; display(): Promise<DisplaySettings>; setDisplay(value: { mode: string; width: number; height: number }): Promise<DisplaySettings> } }).desktopApp;
 const desktopSave = (window as Window & { desktopSave?: AsyncSaveStorage & { onFlush(handler: () => Promise<void>): void } }).desktopSave;
@@ -73,9 +75,23 @@ if (desktopSave) {
     window.addEventListener("resize", fitDesktop);
 }
 let saveQueue = Promise.resolve();
-desktopSave?.onFlush(async () => { await pendingImport; await saveQueue; });
 const app = document.querySelector<HTMLDivElement>("#app")!;
 app.innerHTML = markup;
+desktopSave?.onFlush(async () => {
+    closing = true;
+    app.inert = true;
+    app.setAttribute("aria-busy", "true");
+    await pendingRestore;
+    await pendingImport;
+    await saveQueue;
+});
+// Closing captures the final checkpoint. Already queued UI events cannot add a
+// newer purchase, plan, import or SKIP while that checkpoint reaches the disk.
+for (const type of ["click", "change", "input", "keydown"]) app.addEventListener(type, event => {
+    if (!closing) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+}, true);
 function element<T extends HTMLElement = HTMLElement>(id: string): T {
     return document.getElementById(id) as T;
 }
@@ -163,7 +179,7 @@ const scene = new StreetScene({
     state: () => state,
     street: () => street,
     tick: () => {
-        if (!street || importing) return;
+        if (!street || importing || closing) return;
         const next = tickStreet(street);
         street = next.day;
         state = street.game;
@@ -185,7 +201,7 @@ new Phaser.Game({
     fps: { target: 20, forceSetTimeOut: true },
 });
 function act(action: () => State): void {
-    if (importing) return;
+    if (importing || closing) return;
     try {
         state = action();
         audio.effect("buy");
@@ -327,7 +343,7 @@ element("speed").addEventListener("click", () => {
     text("speed-label", `Speed: ${fast ? 4 : 1}×`);
 });
 element("skip").addEventListener("click", () => {
-    if (state.phase !== "selling" || !street) return;
+    if (closing || importing || state.phase !== "selling" || !street) return;
     const done = finishStreetDay(street);
     street = done.day;
     state = street.game;
@@ -345,7 +361,7 @@ element("next").addEventListener("click", () => {
     });
 });
 element("restart").addEventListener("click", () => {
-    if (importing) return;
+    if (importing || closing) return;
     if (!restartArmed) {
         restartArmed = true;
         text("restart", "Confirm new business");
@@ -382,7 +398,7 @@ element("import-save").addEventListener("click", () => element<HTMLInputElement>
 element<HTMLInputElement>("save-file").addEventListener("change", (event) => {
     const input = event.currentTarget as HTMLInputElement;
     const file = input.files?.[0];
-    if (!file || importing) return;
+    if (!file || importing || closing) return;
     importing = true;
     app.inert = true;
     app.setAttribute("aria-busy", "true");
@@ -406,8 +422,8 @@ element<HTMLInputElement>("save-file").addEventListener("change", (event) => {
         finally {
             input.value = "";
             importing = false;
-            app.inert = false;
-            app.setAttribute("aria-busy", "false");
+            app.inert = closing;
+            app.setAttribute("aria-busy", String(closing));
         }
     })();
 });
@@ -743,4 +759,4 @@ element("fullscreen").addEventListener("click", () => {
     else void document.documentElement.requestFullscreen().catch(() => {});
 });
 app.hidden = true;
-void restore();
+pendingRestore = restore();
