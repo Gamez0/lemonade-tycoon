@@ -93,7 +93,11 @@ fs.mkdirSync(out, { recursive: true });
             fs.writeFileSync(prefs, JSON.stringify({ version: 1, mode: 'windowed', width: 8000, height: 8000 }));
             await launch(); await geometry('oversized-prior-monitor-safe-fallback'); await close();
             fs.writeFileSync(prefs, '{broken');
-            await launch(); await geometry('corrupt-preferences-safe-fallback'); await close();
+            await launch(); await geometry('corrupt-preferences-safe-fallback');
+            // Native fullscreen transitions must not overwrite an unreadable file.
+            await app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].emit('leave-full-screen'));
+            assert.equal(fs.readFileSync(prefs, 'utf8'), '{broken');
+            await close();
             assert.equal(fs.readFileSync(prefs, 'utf8'), '{broken');
         } finally {
             if (app) await app.close().catch(() => {});

@@ -31,10 +31,8 @@ test('display preferences restore separately from business files; corrupt/newer 
             assert.deepEqual(loaded.get(), DEFAULT);
             assert.ok(loaded.warning());
             assert.equal(fs.readFileSync(file, 'utf8'), raw);
-            if (raw.includes('99')) {
-                loaded.set({ ...DEFAULT, mode: 'windowed' });
-                assert.equal(fs.readFileSync(file, 'utf8'), raw);
-            }
+            loaded.set({ ...DEFAULT, mode: 'windowed' });
+            assert.equal(fs.readFileSync(file, 'utf8'), raw);
             loaded.set(DEFAULT, true);
             assert.deepEqual(JSON.parse(fs.readFileSync(file, 'utf8')), DEFAULT);
         }
