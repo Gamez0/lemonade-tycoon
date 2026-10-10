@@ -1,11 +1,24 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { verifyManifest } = require('./release-manifest.cjs');
+function resolvedOutput(value) {
+    let parent = path.resolve(value);
+    const suffix = [];
+    while (!fs.existsSync(parent)) {
+        suffix.unshift(path.basename(parent));
+        const next = path.dirname(parent);
+        if (next === parent) throw new Error('Output filesystem root is unavailable.');
+        parent = next;
+    }
+    return path.join(fs.realpathSync(parent), ...suffix);
+}
 function prepare({ appId, depotId, contentRoot, output }) {
     if (![appId, depotId].every(id => /^[1-9]\d{2,9}$/.test(String(id))) || String(appId) === '480' || String(appId) === String(depotId))
         throw new Error('Provide distinct real Steam AppID and Windows DepotID; sample IDs are not upload targets.');
-    const content = path.resolve(contentRoot), target = path.resolve(output);
-    if (target === content || target.startsWith(content + path.sep)) throw new Error('Build scripts/output must be outside depot content.');
+    const content = fs.realpathSync(path.resolve(contentRoot)), target = resolvedOutput(output);
+    const relative = path.relative(content, target);
+    if (!relative || (relative !== '..' && !relative.startsWith('..' + path.sep) && !path.isAbsolute(relative)))
+        throw new Error('Build scripts/output must be outside depot content.');
     const manifest = verifyManifest(content);
     const quote = value => {
         if (/["\r\n\0]/.test(String(value))) throw new Error('Invalid VDF value.');
