@@ -63,7 +63,8 @@ let fast = false;
 let saveBlocked = false;
 let importing = false;
 let pendingImport = Promise.resolve();
-const desktopApp = (window as Window & { desktopApp?: { quit(): Promise<void>; diagnostics(): Promise<unknown> } }).desktopApp;
+type DisplaySettings = { mode: "windowed" | "fullscreen"; width: number; height: number; sizes: { width: number; height: number }[]; screen: { width: number; height: number }; scale: number; warning: string };
+const desktopApp = (window as Window & { desktopApp?: { quit(): Promise<void>; diagnostics(): Promise<unknown>; display(): Promise<DisplaySettings>; setDisplay(value: { mode: string; width: number; height: number }): Promise<DisplaySettings> } }).desktopApp;
 const desktopSave = (window as Window & { desktopSave?: AsyncSaveStorage & { onFlush(handler: () => Promise<void>): void } }).desktopSave;
 if (desktopSave) {
     document.documentElement.classList.add("desktop");
@@ -682,7 +683,37 @@ async function restore(): Promise<void> {
 }
 document.addEventListener("pointerdown", () => audio.activate());
 document.addEventListener("keydown", () => audio.activate());
-element("help-open").addEventListener("click", () => element<HTMLDialogElement>("help-dialog").showModal());
+function renderDisplay(settings: DisplaySettings): void {
+    const mode = element<HTMLSelectElement>("display-mode");
+    mode.value = settings.mode;
+    const size = element<HTMLSelectElement>("display-size");
+    size.replaceChildren(...settings.sizes.map(({ width, height }) => new Option(`${width} × ${height}`, `${width}x${height}`)));
+    size.value = `${settings.width}x${settings.height}`;
+    size.disabled = settings.mode === "fullscreen";
+    text("display-info", `Window sizes use Windows scaling (${Math.round(settings.scale * 100)}%). Fullscreen fills this screen.`);
+    text("display-status", settings.warning);
+}
+element("display-settings").hidden = !desktopApp;
+if (desktopApp) text("help-open", "Help / Settings");
+element("help-open").addEventListener("click", () => {
+    element<HTMLDialogElement>("help-dialog").showModal();
+    if (desktopApp) void desktopApp.display().then(renderDisplay).catch(() => text("display-status", "Display settings unavailable."));
+});
+element("display-mode").addEventListener("change", () => {
+    element<HTMLSelectElement>("display-size").disabled = element<HTMLSelectElement>("display-mode").value === "fullscreen";
+});
+element("display-apply").addEventListener("click", async () => {
+    if (!desktopApp) return;
+    const button = element<HTMLButtonElement>("display-apply");
+    button.disabled = true;
+    try {
+        const [width, height] = element<HTMLSelectElement>("display-size").value.split("x").map(Number);
+        const settings = await desktopApp.setDisplay({ mode: element<HTMLSelectElement>("display-mode").value, width, height });
+        renderDisplay(settings);
+        text("display-status", settings.warning || "Applied. Restored on your next launch.");
+    } catch { text("display-status", "Display could not be changed. Reopen settings and choose a size that fits this screen."); }
+    finally { button.disabled = false; }
+});
 element("quit-game").hidden = !desktopApp;
 element("export-diagnostics").hidden = !desktopApp;
 element("quit-game").addEventListener("click", () => { void desktopApp?.quit(); });
@@ -704,6 +735,10 @@ for (const id of ["music-volume", "effects-volume", "mute-audio"]) {
     }));
 }
 element("fullscreen").addEventListener("click", () => {
+    if (desktopApp) {
+        void desktopApp.display().then(settings => desktopApp.setDisplay({ ...settings, mode: settings.mode === "fullscreen" ? "windowed" : "fullscreen" })).then(renderDisplay).catch(() => text("display-status", "Display could not be changed."));
+        return;
+    }
     if (document.fullscreenElement) void document.exitFullscreen().catch(() => {});
     else void document.documentElement.requestFullscreen().catch(() => {});
 });

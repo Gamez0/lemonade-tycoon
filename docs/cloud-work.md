@@ -1336,3 +1336,33 @@ Alpha8/PR204 delivered: main f298339016fae583db79a8adf6dc517f6020e259, checks379
 User now requests CPU/RAM/resource audit in the spirit of small classic games. Branch perf/resource-audit: measure actual delivered alpha8 and optimized packages; event-driven static canvas,20fps active loop, unchanged text/row/SVG reuse, avoid hidden rent/history refresh, suspend muted/background audio and avoid creating contexts for stored mute. Resize regression caught/fixed with external observer and shutdown cleanup. Sequential compositor A/B lowers normal-selling private bytes239->147MiB at2.48->2.59% reported CPU; use software for this small2D native package and retain sandbox/process isolation. Add package probe,20-day live-heap retention and CI paint/memory guards; alpha9 candidate. Detailed evidence/protocol/runtime footprint limits in docs/reviews/2026-10-09-resource-audit.md. Typecheck/lint/release checks and targeted browser behavior tests pass so far; final current-head/fullnative CI and downloaded release verification remain required. No ancient-PC/minimum-spec acceptance claimed; physical clean-PC/human gates stay deferred.
 
 Final local source: preparation0.21%CPU/138MiB private, normal selling1.93%/151MiB, accelerated2.45%/157MiB; static frames0 and20-day retained JS growth0.234MiB. Native175%97 geometry checks and actual audio suspend/focus/mute recovery PASS. Browser three new performance/audio regressions PASS;52model rules unchanged. All final required remote checks remain necessary. CJS files pass node syntax checks; existing general ESLint config lacks Node CJS globals and produces baseline-style warnings, so do not claim whole-repo strict lint. Reboot strict lint/typecheck/release8/8 pass. Native software PNG visually reviewed; preserve reference art and no-scroll layout. Probe profile cleanup resolves and verifies the owned temporary prefix before removal.
+
+## 2026-10-10 display settings continuation
+
+PR206 is merged at f9bbf875e4dd021b6562db58f1699292c368c3d9. Main checks37925675227
+and alpha9 draft37926281858 PASS. Downloaded alpha8->alpha9 all5 upgrade checks
+PASS; all74 manifest files and9 uploaded assets verified. Final draft
+https://github.com/Gamez0/lemonade-tycoon/releases/tag/untagged-b90cf005234bb3e45abb.
+Live PR206 and issues108/161 carry final controlled foreground/resource evidence.
+
+User requests more remaining work. Branch feat/display-settings implements #205:
+native Windowed/Fullscreen/window-size Apply, independent atomic preferences,
+launch restore, safe monitor-size fallback and truthful read/write feedback.
+Review: docs/reviews/2026-10-10-display-settings.md. Preserve v6/production/free ice,
+native security and event-driven resource fixes. No parent worktree/PR83 edits.
+Local54 unit and8 release tests,29 browser tests, strict typecheck/lint and shipped
+notice/content audit PASS. Native175%97 UI geometry and management/fullscreen/save
+and quit PASS. Display tests reproduced fractional-frame option instability and
+different-DPI secondary-monitor restore; fixed stable reserve/minimum bounds and
+explicit primary startup position. Final all-scale display/resource/current-head
+CI, main integration and downloaded alpha10 verification remain necessary.
+After delivery inspect remaining approved tasks again; human/clean-PC/physical
+DPI, rights/media acceptance and Steam access are kept open, not inferred passed.
+Final local display53 checks across all five scales PASS after ready-to-show
+reapplies the size following Windows' initial per-monitor DPI event. Resource
+guards PASS: idle draws0, normal1.37%/148.8MiB private, accelerated1.68%/155.3MiB
+on this machine; no minimum-spec claim. Current source self-reviewed, no dirty
+parent/user-owned files included. Proceed to exact-head CI, merge and delivery.
+175% screenshot review additionally caught low contrast in new display hints.
+Use inherited dark dialog text/classic select styling and keep CLOSE in a sticky
+heading. Recheck the changed dialog and fresh-head required CI before merge.
