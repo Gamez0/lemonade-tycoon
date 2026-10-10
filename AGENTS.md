@@ -50,6 +50,13 @@ Linux browser/file-storage results cannot establish Windows package acceptance.
   concrete blocker and prepared next action; do not silently turn a checkpoint
   into a waiting state or imply background execution after the turn ends.
 
+- Loop clarification (2026-10-10): finishing a task means reassess and begin the
+  next runnable task within the same active turn. A list of deferred acceptance
+  gates is not an exhaustive engineering audit. Review shipped behavior, failure
+  paths, test coverage and release tooling for demonstrated defects before
+  claiming independent work is exhausted; integrate each meaningful fix and
+  repeat. Do not end a turn merely because one alpha or PR is finished.
+
 - The user delegates delivery of a sellable game: own implementation, meaningful
   tests, self-review, current-head CI, merges, CI/CD, GitHub feature adoption,
   milestone/issue upkeep and reviewable release artifacts. Finish routine work

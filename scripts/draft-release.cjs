@@ -7,8 +7,20 @@ function validateRun(run, head, jobs) {
         run.head_sha !== head || run.status !== 'completed' || run.conclusion !== 'success') throw new Error('A successful current-main Reboot checks run is required.');
     for (const name of ['simulation', 'windows / packaged-saves']) if (!jobs.some(job => job.name === name && job.conclusion === 'success')) throw new Error(`Required release check missing/failed: ${name}`);
 }
-function validateDraft(release, head) {
+function validateDraft(release, head, version, id) {
     if (release.draft !== true || release.target_commitish !== head) throw new Error('Existing release must be an internal draft for this exact source.');
+    if (version !== undefined && (!Number.isSafeInteger(release.id) || release.id <= 0 ||
+        release.tag_name !== `v${version}` || release.prerelease !== true || (id !== undefined && release.id !== id)))
+        throw new Error('Invalid draft identity. Preserve the release and restore its version tag before retrying.');
+}
+function findDraft(releases, version, head) {
+    const prefix = `Willow-Lane-Lemonade-${version}-win-x64-`;
+    const candidates = releases.filter(release => release.tag_name === `v${version}` ||
+        release.name === `Windows alpha ${version} - verified draft` ||
+        release.assets?.some(asset => asset.name.startsWith(prefix)));
+    if (candidates.length > 1) throw new Error('Multiple releases match this version. Preserve them and reconcile their identities before retrying.');
+    if (candidates[0]) validateDraft(candidates[0], head, version);
+    return candidates[0];
 }
 const gh = args => execFileSync('gh', args, { encoding: 'utf8' });
 const api = endpoint => JSON.parse(gh(['api', endpoint]));
@@ -20,6 +32,7 @@ function createDraft(request, repo, version, head, notes) {
     validateDraft(release, head);
     if (!Number.isSafeInteger(release.id) || release.id <= 0 || release.tag_name !== `v${version}`)
         throw new Error('Invalid created draft identity.');
+    validateDraft(release, head, version);
     return release;
 }
 async function main() {
@@ -46,8 +59,7 @@ async function main() {
         const tag = `v${version}`;
         // Preserve all published releases and refuse to silently retarget an older draft.
         const releases = JSON.parse(gh(['api', '--paginate', '--slurp', `repos/${repo}/releases?per_page=100`])).flat();
-        let release = releases.find(candidate => candidate.tag_name === tag);
-        if (release) validateDraft(release, head);
+        let release = findDraft(releases, version, head);
         const body = path.join(work, 'release-notes.md');
         fs.writeFileSync(body, `Internal Windows alpha ${version}; draft only.\n\nSource/checkout: ${head}.\nVerified checks: ${run.html_url}.\n\nThis ZIP is the exact Windows CI artifact, with complete package checksums verified before upload. Required browser/simulation and native save/UI/scales/locations/management/audio/campaign suites passed.\n\nUnsigned portable Windows x64, English interface. Extract the complete product ZIP and launch Lemonade Tycoon.exe; retain all notices. Export a save before updating; Older saves migrate to v6 while preserving historical accounting; export before updating, as older builds cannot read v6 checkpoints. The compatibility executable/save directory remains unchanged.\n\nZIP: ${fileName}\nSHA256: ${digest}\n\nManual playtest/clean-PC/physical-DPI acceptance is deferred by the user for this engineering run; no human/device approval is claimed. Final rights/media and actual Steam partner/install/submission evidence remain separate. No public release, Steam upload or paid action occurs here.\n`);
         if (!release) {
@@ -67,7 +79,7 @@ async function main() {
             gh(['release', 'upload', tag, path.join(work, file), '--repo', repo]);
         }
         const final = api(`repos/${repo}/releases/${release.id}`);
-        validateDraft(final, head);
+        validateDraft(final, head, version, release.id);
         for (const file of expected) if (!final.assets.some(asset => asset.name === file && asset.digest === `sha256:${sha(path.join(work, file))}`)) throw new Error(`Uploaded digest not verified: ${file}`);
         console.log(JSON.stringify({ draft: true, version, source: head, run: runId, url: final.html_url, zipSha256: digest }));
     } finally {
@@ -76,4 +88,4 @@ async function main() {
     }
 }
 if (require.main === module) main().catch(error => { console.error(error.message); process.exitCode = 1; });
-module.exports = { validateRun, validateDraft, createDraft };
+module.exports = { validateRun, validateDraft, createDraft, findDraft };
