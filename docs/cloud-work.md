@@ -1564,3 +1564,13 @@ the cache guard passed current-head checks38386507331 and merged as0194066.
 Reconciled PR225 onto that main, retained all three Steam regressions alongside
 ZIP/Unicode coverage and reran release15/15 PASS. Final PR225 CI must pass before
 integration; then exact-main checks/draft/download/runtime verification remain.
+
+## 2026-10-13 compatible maintenance
+
+Pending Dependabot PR220/221 cover routine Actions and Electron/Playwright updates.
+Consolidated their narrowly scoped commits on the PR225 candidate so all current
+failure-path regressions validate the combined runtime/tooling. See the dependency
+review; require fresh exact-head CI and current-base reconciliation before merging.
+Vite8 currently fails real builds due to manualChunks API incompatibility; Phaser4
+is a separate engine migration. Keep both major proposals outside this release
+maintenance and keep the shipped-artifact/source acceptance gates intact.
