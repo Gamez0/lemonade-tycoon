@@ -1,11 +1,19 @@
 # M10 Steam preparation
 
+Current user scope, confirmed2026-10-13: complete the game, verified Windows
+distribution and submission materials before Steam account setup or actual upload.
+Missing partner access/IDs does not block this engineering handoff. Actual Steam
+installation, update and Valve review stay in later release operations. Human,
+physical-device and distribution-rights acceptance is still recorded separately.
+
+Account-independent Korean handoff: [등록 전 인수인계](pre-upload-handoff.ko.md).
+
 Status: local materials only. Real AppID/DepotID and partner permission have not
 been supplied. No Steam upload, installation, review submission, fee or public
 release was performed. M8 human/environment gates and rights/name clearance remain
 open. A prototype manifest and generated VDF are not evidence of Steam acceptance.
 
-Official documentation checked 2026-10-08:
+Upload/review/store/library documentation rechecked2026-10-13; onboarding checked2026-10-08:
 [SteamPipe](https://partner.steamgames.com/doc/sdk/uploading),
 [review](https://partner.steamgames.com/doc/store/review_process),
 [onboarding](https://partner.steamgames.com/doc/gettingstarted/onboarding),
@@ -40,7 +48,7 @@ the preview mappings. Do not put a password in a committed file or CLI history.
 For an authorized private upload, change Preview to0, upload, and assign the build
 manually to a password-protected test branch in Steamworks. Keep default unpublished.
 
-## Actual external acceptance (all pending)
+## Later release operations and acceptance (pending)
 
 - Confirm account onboarding, correct AppID/depot ownership, upload role and rights.
 - Finish M2 visual, music listening, five human testers and deferred Windows checks.

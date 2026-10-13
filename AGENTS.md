@@ -35,6 +35,14 @@ Linux browser/file-storage results cannot establish Windows package acceptance.
 
 ## Working agreement
 
+- Latest steering (2026-10-13): the user is not ready to upload to Steam. Deliver
+  the completed game, verified Windows distribution and Steam submission materials
+  independently of partner onboarding/AppID/DepotID. Account setup, actual upload,
+  Steam-client verification and Valve review are later release operations, not
+  blockers for current engineering preparation. Do not ask for those IDs again in
+  this run or imply platform approval. Existing human/physical acceptance remains
+  deferred and honestly recorded. Continue runnable release-quality work.
+
 - Latest steering (2026-10-09): manual human playtests, clean Windows PC and
   physical DPI checks are deferred for this execution. Keep their acceptance
   evidence honest, but do not treat them as blockers or ask the user to perform

@@ -1,5 +1,16 @@
 # Cloud development handoff — 2026-10-05
 
+## Latest scope clarification — 2026-10-13
+
+The user is not ready for actual Steam uploading and asked whether the game can
+reach release preparation anyway. Yes: finish game engineering, verified Windows
+distribution and complete submission materials without requiring account/IDs.
+Partner onboarding, actual private upload/install/update and Valve review are later
+release operations, not blockers for the current handoff. Do not request Steam IDs
+again. Human/physical/rights acceptance stays honest and deferred; do not claim
+public release readiness or platform approval. Continue independent engineering
+and deliver a reviewable package/materials/checklist bundle, beyond a single PR.
+
 ## Continuation correction — 2026-10-09
 
 The user explicitly corrected stopping after intermediate delivery checkpoints.
@@ -1582,3 +1593,11 @@ fresh final-head required checks before merging. Then create the alpha13 interna
 draft from the exact successful main run; verify downloaded hashes, embedded
 manifest/notices and delivered alpha10-to-alpha13 upgrade before recording delivery.
 No preview is left running by the current local checks.
+
+User clarification on2026-10-13 explicitly defers actual Steam uploading/account
+setup. Updated AGENTS/roadmap/Steam guide so missing IDs are not an engineering
+blocker, and added Korean pre-upload handoff describing the deliverable bundle,
+execution/save/rollback, future templates and honest acceptance boundaries.
+Official Steam upload/review/store/library docs were rechecked on this date.
+Finalize this documentation with the maintenance PR before freezing alpha13;
+then deliver package, media, checksums and the account-independent guide together.
