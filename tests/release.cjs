@@ -168,6 +168,16 @@ test('Steam output resolves directory aliases before writing and allows an exter
     assert.doesNotThrow(() => verifyManifest(content));
 }));
 
+test('Steam cache aliases cannot route build output into a verified depot', () => temporary(directory => {
+    const content = path.join(directory, 'content'); fs.mkdirSync(content); fixture(content); writeManifest(content);
+    const output = path.join(directory, 'scripts'); fs.mkdirSync(output);
+    fs.symlinkSync(content, path.join(output, 'cache'), process.platform === 'win32' ? 'junction' : 'dir');
+    assert.throws(() => prepare({ appId: 12345, depotId: 12346, contentRoot: content, output }), /outside/);
+    assert.equal(fs.existsSync(path.join(output, 'app_build_12345.vdf')), false);
+    assert.equal(fs.existsSync(path.join(output, 'depot_build_12346.vdf')), false);
+    assert.doesNotThrow(() => verifyManifest(content));
+}));
+
 test('diagnostics allow fixed events only and keep bounded logs without raw errors or saves', () => temporary(directory => {
     const diagnostics = createDiagnostics(directory);
     diagnostics.record('startup'); diagnostics.record('save-failed');

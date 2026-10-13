@@ -22,3 +22,12 @@ and casing rather than lowering path strings, and the package checksum gate stil
 runs. This addresses ordinary path selection; it does not claim protection against
 another process changing junctions during execution. Real Steam access remains an
 external acceptance gate.
+
+## 2026-10-13 continuation
+
+Additional Windows reproduction: an external scripts directory with `cache`
+junctioned to the verified depot still generated a BuildOutput inside that depot.
+The added regression failed before the fix. Resolve and validate the cache as well
+as the script directory before creating either VDF; write its resolved location
+into BuildOutput. Release tests 12/12, Node syntax and whitespace checks pass.
+No Steam command was run. Fresh current-head CI is required after this follow-up.
