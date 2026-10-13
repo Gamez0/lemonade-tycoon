@@ -10,7 +10,7 @@ jobs:
         timeout-minutes: 20
         steps:
             - uses: actions/checkout@v7
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version: 22
                   cache: npm
@@ -31,7 +31,7 @@ jobs:
                           throw "Windows package suite $suite failed with exit code $LASTEXITCODE"
                       }
                   }
-            - uses: actions/upload-artifact@v6
+            - uses: actions/upload-artifact@v7
               if: always()
               with:
                   name: windows-ui-${{ github.event.pull_request.head.sha || github.sha }}
@@ -59,7 +59,7 @@ jobs:
             - name: Verify distributable ZIP against every package checksum
               shell: pwsh
               run: ./scripts/release-zip.ps1 -PackageRoot 'release/Lemonade Tycoon-win32-x64'
-            - uses: actions/upload-artifact@v6
+            - uses: actions/upload-artifact@v7
               with:
                   name: windows-prototype-${{ github.event.pull_request.head.sha || github.sha }}
                   path: release/bundles/

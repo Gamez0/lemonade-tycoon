@@ -15,7 +15,7 @@ jobs:
         timeout-minutes: 15
         steps:
             - uses: actions/checkout@v7
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version: 22
                   cache: npm
@@ -27,7 +27,7 @@ jobs:
             - run: npm run build-nolog
             - run: npx playwright install --with-deps chromium
             - run: npm run test:browser
-            - uses: actions/upload-artifact@v6
+            - uses: actions/upload-artifact@v7
               if: always()
               with:
                   name: browser-results

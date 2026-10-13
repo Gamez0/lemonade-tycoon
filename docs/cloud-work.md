@@ -1,5 +1,16 @@
 # Cloud development handoff — 2026-10-05
 
+## Latest scope clarification — 2026-10-13
+
+The user is not ready for actual Steam uploading and asked whether the game can
+reach release preparation anyway. Yes: finish game engineering, verified Windows
+distribution and complete submission materials without requiring account/IDs.
+Partner onboarding, actual private upload/install/update and Valve review are later
+release operations, not blockers for the current handoff. Do not request Steam IDs
+again. Human/physical/rights acceptance stays honest and deferred; do not claim
+public release readiness or platform approval. Continue independent engineering
+and deliver a reviewable package/materials/checklist bundle, beyond a single PR.
+
 ## Continuation correction — 2026-10-09
 
 The user explicitly corrected stopping after intermediate delivery checkpoints.
@@ -1564,3 +1575,36 @@ the cache guard passed current-head checks38386507331 and merged as0194066.
 Reconciled PR225 onto that main, retained all three Steam regressions alongside
 ZIP/Unicode coverage and reran release15/15 PASS. Final PR225 CI must pass before
 integration; then exact-main checks/draft/download/runtime verification remain.
+
+## 2026-10-13 compatible maintenance
+
+Pending Dependabot PR220/221 cover routine Actions and Electron/Playwright updates.
+Consolidated their narrowly scoped commits on the PR225 candidate so all current
+failure-path regressions validate the combined runtime/tooling. See the dependency
+review; require fresh exact-head CI and current-base reconciliation before merging.
+Vite8 currently fails real builds due to manualChunks API incompatibility; Phaser4
+is a separate engine migration. Keep both major proposals outside this release
+maintenance and keep the shipped-artifact/source acceptance gates intact.
+
+ZIP PR225 passed exact-head checks38387387016 and integrated as8e8263a. Runtime
+maintenance PR226 is now based on that main; local npm ci reports zero known
+vulnerabilities, simulation/storage59/59, release15/15, typecheck/lint PASS. Require
+fresh final-head required checks before merging. Then create the alpha13 internal
+draft from the exact successful main run; verify downloaded hashes, embedded
+manifest/notices and delivered alpha10-to-alpha13 upgrade before recording delivery.
+No preview is left running by the current local checks.
+
+User clarification on2026-10-13 explicitly defers actual Steam uploading/account
+setup. Updated AGENTS/roadmap/Steam guide so missing IDs are not an engineering
+blocker, and added Korean pre-upload handoff describing the deliverable bundle,
+execution/save/rollback, future templates and honest acceptance boundaries.
+Official Steam upload/review/store/library docs were rechecked on this date.
+Finalize this documentation with the maintenance PR before freezing alpha13;
+then deliver package, media, checksums and the account-independent guide together.
+
+Final materials audit added the missing account-independent Content Survey draft
+and alpha13-vs-delivered-alpha10 changelog. Reviewed Valve's current survey guide;
+AI-assisted player-facing art/audio authoring is inventoried, while runtime source
+has no AI service/model integration. Draft answers/ratings remain owner-reviewed
+later, not submitted or approved. This is the final source/materials candidate;
+freeze after its fresh required CI, then produce the exact-main delivery bundle.
