@@ -5,7 +5,11 @@ param(
 $ErrorActionPreference = 'Stop'
 $packagePath = (Resolve-Path -LiteralPath $PackageRoot).Path
 $outputPath = if ([System.IO.Path]::IsPathRooted($OutputDirectory)) { [System.IO.Path]::GetFullPath($OutputDirectory) } else { [System.IO.Path]::GetFullPath((Join-Path (Get-Location).Path $OutputDirectory)) }
-if ($outputPath -eq $packagePath -or $outputPath.StartsWith($packagePath + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)) { throw 'ZIP output must be outside the package' }
+$resolvedPaths = node (Join-Path $PSScriptRoot 'release-output.cjs') $packagePath $outputPath
+if ($LASTEXITCODE -ne 0) { throw 'ZIP output validation failed' }
+$resolvedPaths = $resolvedPaths | ConvertFrom-Json
+$packagePath = $resolvedPaths.content
+$outputPath = $resolvedPaths.output
 $info = Get-Content -LiteralPath (Join-Path $packagePath 'build-info.json') -Raw | ConvertFrom-Json
 if ($info.dirty -ne $false -or $info.prototype -ne $true -or $info.source_commit -notmatch '^[a-f0-9]{40}$' -or $info.version -notmatch '^\d+\.\d+\.\d+(?:-[a-zA-Z0-9.-]+)?$') { throw 'Clean versioned source metadata required' }
 node scripts/audit-package.cjs $packagePath

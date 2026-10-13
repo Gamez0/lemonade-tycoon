@@ -1544,3 +1544,23 @@ PR219 local simulation/storage/controller/preferences59/59, typecheck/lint PASS.
 Next: finish these integrations, prepare an exact-main internal draft and verify
 its downloaded package. Human/physical/rights/Steam gates remain open; no public
 distribution or Steam upload is authorized here.
+## 2026-10-13 ZIP boundary audit
+
+Continued after PR215 integration. The ZIP tool had the same lexical alias gap as
+Steam output: an external junction to the verified package bypassed exclusion.
+Actual PowerShell regression failed before correction. Resolve existing ancestors
+before all output/metadata work and use canonical paths for writes. Local release
+12/12, syntax and whitespace PASS; keep full real-package ZIP generation in CI.
+Review: docs/reviews/2026-10-13-release-zip-boundary.md. Reconcile latest main, run
+fresh current-head CI, integrate and include in the next exact-main internal draft.
+Do not change the frozen alpha10 or claim external acceptance.
+
+The helper's first review found a native stdout encoding regression for Korean
+paths under legacy Windows PowerShell console pages. Reproduced with the real
+script, corrected using ASCII JSON escapes and retained a legacy-console test.
+
+PR219 passed current-head checks38385789863 and merged as89e7a2f. PR217 including
+the cache guard passed current-head checks38386507331 and merged as0194066.
+Reconciled PR225 onto that main, retained all three Steam regressions alongside
+ZIP/Unicode coverage and reran release15/15 PASS. Final PR225 CI must pass before
+integration; then exact-main checks/draft/download/runtime verification remain.
