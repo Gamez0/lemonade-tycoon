@@ -10,7 +10,7 @@ Resolve the package and the nearest existing output ancestor with Node's native
 realpath, append nonexistent children and reject same/child output before reading
 metadata or creating files. PowerShell uses these resolved paths for every write.
 External siblings and package aliases remain supported. No package/version/game
-change. Release tests 12/12, syntax and whitespace pass on local Windows; the
+change. Release tests 15/15 after latest-main reconciliation, syntax and whitespace pass on local Windows; the
 actual PowerShell junction regression runs in Windows CI and helper coverage runs
 on both platforms. Full real-package ZIP generation remains in required CI.
 

@@ -1558,3 +1558,9 @@ Do not change the frozen alpha10 or claim external acceptance.
 The helper's first review found a native stdout encoding regression for Korean
 paths under legacy Windows PowerShell console pages. Reproduced with the real
 script, corrected using ASCII JSON escapes and retained a legacy-console test.
+
+PR219 passed current-head checks38385789863 and merged as89e7a2f. PR217 including
+the cache guard passed current-head checks38386507331 and merged as0194066.
+Reconciled PR225 onto that main, retained all three Steam regressions alongside
+ZIP/Unicode coverage and reran release15/15 PASS. Final PR225 CI must pass before
+integration; then exact-main checks/draft/download/runtime verification remain.
