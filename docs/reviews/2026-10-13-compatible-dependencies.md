@@ -19,3 +19,8 @@ current Vite6 remains the release baseline. Phaser4 requires a separate engine
 migration review, including retained legacy compatibility and visual acceptance.
 Neither major proposal is silently integrated with release fixes or counted as a
 release requirement. No new game features, billing or public distribution.
+
+Local combined validation: npm ci installed the committed lock and reported zero
+vulnerabilities; simulation/storage59/59, release15/15, typecheck and strict lint
+passed. PR225 passed exact-head checks38387387016 and merged as8e8263a; rebased
+this candidate onto that main and require fresh checks for its final head.

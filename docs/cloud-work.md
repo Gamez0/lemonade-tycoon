@@ -1574,3 +1574,11 @@ review; require fresh exact-head CI and current-base reconciliation before mergi
 Vite8 currently fails real builds due to manualChunks API incompatibility; Phaser4
 is a separate engine migration. Keep both major proposals outside this release
 maintenance and keep the shipped-artifact/source acceptance gates intact.
+
+ZIP PR225 passed exact-head checks38387387016 and integrated as8e8263a. Runtime
+maintenance PR226 is now based on that main; local npm ci reports zero known
+vulnerabilities, simulation/storage59/59, release15/15, typecheck/lint PASS. Require
+fresh final-head required checks before merging. Then create the alpha13 internal
+draft from the exact successful main run; verify downloaded hashes, embedded
+manifest/notices and delivered alpha10-to-alpha13 upgrade before recording delivery.
+No preview is left running by the current local checks.
