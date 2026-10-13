@@ -1501,3 +1501,30 @@ contains the runtime changes; CI must pass its exact final head before merging.
 Continue auditing approved release paths while CI runs, then integrate and prepare
 an exact-main draft. Alpha10 remains the existing delivered package; no claim that
 these later fixes are already in that artifact. User-owned parent/PR83 preserved.
+
+## 2026-10-10 display preservation and upgrade continuation
+
+Help PR213 integrated as 710c0d2 after exact-head CI38022515387 PASS. Save-failure
+PR215 passed CI38022740778 but strict main protection required its updated base
+following the help merge; rebased to1451cb29da9b74ee2dcf431ebb6d8a8b6ebe362f and
+fresh checks38023098092 are running. Do not bypass strict protection.
+
+Release preparation audit #216/PR217 reproduced Windows path casing and directory
+aliases allowing Steam VDF output inside the verified depot. Resolve filesystem
+paths before writes; local release11/11 PASS. Preview-only scope is preserved.
+
+Display audit #218 extends the existing preservation test to implicit writes for
+corrupt data; this reproduced an overwrite that only the future-version case had
+previously checked. Protect every existing unreadable preference until explicit
+Apply. Native display53/53 across100–200% PASS, including the native mode event.
+Actual delivered alpha10 to local alpha13 candidate upgrade5/5 PASS. Update the
+upgrade helper to choose explicit discard for its deliberately corrupt protected
+session; old silent-close assumptions must not hang the new policy. Operations
+now describe the failure-aware close and fixed diagnostics event.
+
+Worktree D:/lemonade-display-recovery-audit is temporarily based on PR215's updated
+branch to validate the combined candidate; reconcile its base after PR215 merges.
+Commit/version the alpha13 metadata, require fresh final-head CI and integrate.
+Then prepare the exact-main draft artifact and verify its downloaded bytes/runtime
+before updating release tracking. Continue runnable release-path audits, not an
+end-of-loop report. Physical/human/Steam access gates remain honestly open.

@@ -1,7 +1,6 @@
 # Windows candidate operations
 
-Candidate version is sourced from package.json (alpha10 for the display-settings
-candidate). This is a test
+Candidate version is sourced from package.json. This is a test
 distribution; manual acceptance is deferred for the current engineering run.
 Build with Node22 and committed npm lockfile: npm ci, npm test, typecheck,
 lint:reboot, test:release, build-nolog, test:browser, desktop:package:win. Set
@@ -63,10 +62,16 @@ Use isolated APPDATA/LOCALAPPDATA for rehearsals, never real player business dat
 
 Help / Settings > Export diagnostics includes runtime/version and bounded event log.
 diagnostics.jsonl records timestamp and predefined event names only (startup,
-save-failed, renderer-gone, load-failed, close-timeout), never full saves, usernames,
+save-failed, renderer-gone, load-failed, close-timeout, close-save-failed), never full saves, usernames,
 paths, raw exceptions or credentials. It is capped at approximately64KiB and may
 be manually deleted while the game is closed. Report source hash, OS/display and
 reproduction with this export. Music failures must not prevent gameplay.
+
+Normal close pauses edits and sales while saving the final checkpoint. If saving
+fails or takes more than five seconds, Keep playing is the default: retry saving
+or export a backup before closing. Close without saving explicitly discards
+unsaved changes. Corrupt/future business files remain protected until a valid
+import or confirmed new business; closing does not replace them automatically.
 
 Unsigned/uninstalled portable Electron package; no installer/signing claim.
 Clean-PC and update/reinstall acceptance remain separate from development tests.

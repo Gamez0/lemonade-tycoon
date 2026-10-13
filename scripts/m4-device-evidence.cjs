@@ -149,6 +149,15 @@ async function check(name, action) {
             fs.writeFileSync(savePath, '{'); fs.writeFileSync(backupPath, '{'); await launch();
             await expect(session.page.locator('#save-status')).toContainText('not valid JSON');
             await session.page.locator('#restart').click(); await session.page.locator('#restart').press('Escape');
+            // The protected session cannot save. Exercise explicit discard rather
+            // than assuming the new failure-aware close silently exits.
+            await session.app.evaluate(({ dialog }) => {
+                dialog.showMessageBox = async (_window, options) => {
+                    if (options.defaultId !== 0 || options.buttons[1] !== 'Close without saving')
+                        throw new Error('Protected close warning is missing.');
+                    return { response: 1 };
+                };
+            });
             await close(); assert.equal(raw(), '{'); assert.equal(fs.readFileSync(backupPath, 'utf8'), '{');
         });
         await check('actual published web to Windows and Windows to isolated Edge profile', async () => {

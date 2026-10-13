@@ -37,7 +37,10 @@ function createPreferences(directory = windowsSaveDirectory()) {
         } else if (valid(parsed)) settings = { version: 1, mode: parsed.mode, width: parsed.width, height: parsed.height };
         else throw new Error('Invalid preferences.');
     } catch (error) {
-        if (error.code !== 'ENOENT') warning = 'Display settings could not be read. Using a safe window.';
+        if (error.code !== 'ENOENT') {
+            protectedFile = true;
+            warning = 'Display settings could not be read. Using a safe window. Apply to replace them.';
+        }
     }
     return {
         get: () => ({ ...settings }),
