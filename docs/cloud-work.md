@@ -1544,3 +1544,13 @@ PR219 local simulation/storage/controller/preferences59/59, typecheck/lint PASS.
 Next: finish these integrations, prepare an exact-main internal draft and verify
 its downloaded package. Human/physical/rights/Steam gates remain open; no public
 distribution or Steam upload is authorized here.
+## 2026-10-13 ZIP boundary audit
+
+Continued after PR215 integration. The ZIP tool had the same lexical alias gap as
+Steam output: an external junction to the verified package bypassed exclusion.
+Actual PowerShell regression failed before correction. Resolve existing ancestors
+before all output/metadata work and use canonical paths for writes. Local release
+11/11, syntax and whitespace PASS; keep full real-package ZIP generation in CI.
+Review: docs/reviews/2026-10-13-release-zip-boundary.md. Reconcile latest main, run
+fresh current-head CI, integrate and include in the next exact-main internal draft.
+Do not change the frozen alpha10 or claim external acceptance.
