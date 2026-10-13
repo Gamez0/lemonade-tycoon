@@ -2,6 +2,37 @@ const { test, expect } = require('@playwright/test');
 const key = 'lemonade-tycoon.reboot.save';
 const saved = page => page.evaluate(key => localStorage.getItem(key), key);
 
+test('failed native saves prevent silent close and can retry after resuming', async ({ page }) => {
+    await page.addInitScript(() => {
+        window.failSave = false;
+        window.desktopSave = {
+            getItem: async key => localStorage.getItem(key),
+            setItem: async (key, raw) => {
+                if (window.failSave) throw new Error('Disk unavailable');
+                localStorage.setItem(key, raw);
+            },
+            onFlush: handler => { window.flushDesktopSave = handler; },
+        };
+    });
+    await page.goto('/');
+    await expect.poll(() => saved(page)).not.toBeNull();
+    const baseline = await saved(page);
+    await page.evaluate(() => { window.failSave = true; });
+    await page.locator('#lemon').fill('3'); await page.locator('#lemon').press('Tab');
+    await expect(page.locator('#save-status')).toContainText('Storage unavailable');
+    const failed = await page.evaluate(async () => {
+        try { await window.flushDesktopSave(); return false; } catch { return true; }
+    });
+    expect(failed).toBe(true);
+    expect(await saved(page)).toBe(baseline);
+    expect(await page.locator('#app').evaluate(app => app.inert)).toBe(true);
+    await page.evaluate(() => window.flushDesktopSave(false));
+    expect(await page.locator('#app').evaluate(app => app.inert)).toBe(false);
+    await expect(page.locator('#lemon')).toHaveValue('3');
+    await page.evaluate(() => { window.failSave = false; return window.flushDesktopSave(); });
+    expect(JSON.parse(await saved(page)).state.plan.recipe.lemon).toBe(3);
+});
+
 async function delayedDesktop(page) {
     await page.addInitScript(() => {
         window.holdWrites = false;

@@ -67,7 +67,7 @@ let pendingImport = Promise.resolve();
 let pendingRestore = Promise.resolve();
 type DisplaySettings = { mode: "windowed" | "fullscreen"; width: number; height: number; sizes: { width: number; height: number }[]; screen: { width: number; height: number }; scale: number; warning: string };
 const desktopApp = (window as Window & { desktopApp?: { quit(): Promise<void>; diagnostics(): Promise<unknown>; display(): Promise<DisplaySettings>; setDisplay(value: { mode: string; width: number; height: number }): Promise<DisplaySettings> } }).desktopApp;
-const desktopSave = (window as Window & { desktopSave?: AsyncSaveStorage & { onFlush(handler: () => Promise<void>): void } }).desktopSave;
+const desktopSave = (window as Window & { desktopSave?: AsyncSaveStorage & { onFlush(handler: (request?: boolean) => Promise<void>): void } }).desktopSave;
 if (desktopSave) {
     document.documentElement.classList.add("desktop");
     const fitDesktop = () => document.documentElement.style.setProperty("--desktop-ui-scale", String(Math.min(1, window.innerHeight / 820)));
@@ -75,15 +75,20 @@ if (desktopSave) {
     window.addEventListener("resize", fitDesktop);
 }
 let saveQueue = Promise.resolve();
+let savedSnapshot: string | null = null;
 const app = document.querySelector<HTMLDivElement>("#app")!;
 app.innerHTML = markup;
-desktopSave?.onFlush(async () => {
-    closing = true;
-    app.inert = true;
-    app.setAttribute("aria-busy", "true");
+desktopSave?.onFlush(async (request = true) => {
+    closing = request;
+    app.inert = closing || importing;
+    app.setAttribute("aria-busy", String(app.inert));
+    if (!request) return;
     await pendingRestore;
     await pendingImport;
     await saveQueue;
+    if (saveBlocked) throw new Error("Existing save is protected; export your current business before closing.");
+    const checkpoint = encodeSave(state.phase === "selling" ? openingCheckpoint! : state, history);
+    if (checkpoint !== savedSnapshot) await queueDesktopSave(checkpoint);
 });
 // Closing captures the final checkpoint. Already queued UI events cannot add a
 // newer purchase, plan, import or SKIP while that checkpoint reaches the disk.
@@ -117,6 +122,7 @@ function persist(): void {
 function queueDesktopSave(raw: string, status = "Saved on this PC"): Promise<void> {
     const write = saveQueue.then(() => writeSaveAsync(desktopSave!, raw));
     saveQueue = write.then(() => {
+        savedSnapshot = raw;
         text("save-status", status);
     }).catch(() => {
         text("save-status", "Storage unavailable · export a backup");
@@ -681,6 +687,7 @@ async function restore(): Promise<void> {
         if (loaded.document) {
             state = loaded.document.state;
             history = [...loaded.document.history];
+            if (desktopSave && !loaded.recovered) savedSnapshot = encodeSave(state, history);
             resetPresentation();
             currentPage = state.phase === "results" ? "results" : "recipe";
             lastFeedback = loaded.recovered ? "Recovered from the previous valid save." : "Business restored from this device.";

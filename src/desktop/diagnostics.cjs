@@ -1,7 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { windowsSaveDirectory } = require('./file-storage.cjs');
-const EVENTS = new Set(['startup', 'save-failed', 'renderer-gone', 'load-failed', 'close-timeout']);
+const EVENTS = new Set(['startup', 'save-failed', 'renderer-gone', 'load-failed', 'close-timeout', 'close-save-failed']);
 function createDiagnostics(directory = windowsSaveDirectory()) {
     const file = path.join(directory, 'diagnostics.jsonl');
     return {

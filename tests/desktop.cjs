@@ -67,6 +67,76 @@ const closeNormally = async session => {
         // Restore this suite's baseline before testing its existing opening replay.
         await session.page.locator('#lemon').fill('2'); await session.page.locator('#lemon').press('Tab');
         await expect.poll(() => fs.readFileSync(savePath, 'utf8')).toBe(preparation);
+        stage = 'failed disk close keeps playing, retries and explicitly discards';
+        await session.app.evaluate(({ ipcMain, dialog, BrowserWindow }, directory) => {
+            const require = process.getBuiltinModule('module').createRequire(process.resourcesPath + '/app.asar/package.json');
+            const { createFileStorage } = require(process.resourcesPath + '/app.asar/src/desktop/file-storage.cjs');
+            const storage = createFileStorage(directory);
+            globalThis.closeFault = { fail: true, response: 0, dialogs: [] };
+            dialog.showMessageBox = async (_window, options) => {
+                globalThis.closeFault.dialogs.push(options);
+                return { response: globalThis.closeFault.response };
+            };
+            ipcMain.removeHandler('save:set');
+            ipcMain.handle('save:set', (event, key, value) => {
+                if (event.sender !== BrowserWindow.getAllWindows()[0].webContents) throw new Error('Unknown save caller.');
+                if (globalThis.closeFault.fail) throw new Error('Injected disk failure');
+                storage.setItem(key, value);
+            });
+        }, path.dirname(savePath));
+        await session.page.locator('#lemon').fill('3'); await session.page.locator('#lemon').press('Tab');
+        await expect(session.page.locator('#save-status')).toContainText('Storage unavailable');
+        await session.app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].close());
+        await expect.poll(() => session.app.evaluate(() => globalThis.closeFault.dialogs.length)).toBe(1);
+        await expect.poll(() => session.page.locator('#app').evaluate(app => app.inert)).toBe(false);
+        await expect(session.page.locator('#lemon')).toHaveValue('3');
+        expect(fs.readFileSync(savePath, 'utf8')).toBe(preparation);
+        const warning = await session.app.evaluate(() => globalThis.closeFault.dialogs[0]);
+        expect(warning.defaultId).toBe(0); expect(warning.cancelId).toBe(0);
+        expect(warning.buttons).toEqual(['Keep playing', 'Close without saving']);
+        await session.app.evaluate(() => { globalThis.closeFault.fail = false; });
+        await closeNormally(session); session = await launch();
+        await expect(session.page.locator('#lemon')).toHaveValue('3');
+        const durableRecipe = fs.readFileSync(savePath, 'utf8');
+        await session.app.evaluate(({ ipcMain, dialog }) => {
+            ipcMain.removeHandler('save:set');
+            ipcMain.handle('save:set', () => { throw new Error('Injected disk failure'); });
+            dialog.showMessageBox = async () => ({ response: 1 });
+        });
+        await session.page.locator('#lemon').fill('4'); await session.page.locator('#lemon').press('Tab');
+        await expect(session.page.locator('#save-status')).toContainText('Storage unavailable');
+        await closeNormally(session); session = await launch();
+        await expect(session.page.locator('#lemon')).toHaveValue('3');
+        expect(fs.readFileSync(savePath, 'utf8')).toBe(durableRecipe);
+        await session.page.locator('#lemon').fill('2'); await session.page.locator('#lemon').press('Tab');
+        await expect.poll(() => fs.readFileSync(savePath, 'utf8')).toBe(preparation);
+        stage = 'close timeout keeps playing and ignores its late acknowledgement';
+        await session.app.evaluate(({ ipcMain, dialog, BrowserWindow }, directory) => {
+            const require = process.getBuiltinModule('module').createRequire(process.resourcesPath + '/app.asar/package.json');
+            const { createFileStorage } = require(process.resourcesPath + '/app.asar/src/desktop/file-storage.cjs');
+            const storage = createFileStorage(directory);
+            globalThis.closeTimeout = { dialogs: 0, release: null, hold: true };
+            dialog.showMessageBox = async () => { globalThis.closeTimeout.dialogs++; return { response: 0 }; };
+            ipcMain.removeHandler('save:set');
+            ipcMain.handle('save:set', async (event, key, value) => {
+                if (event.sender !== BrowserWindow.getAllWindows()[0].webContents) throw new Error('Unknown save caller.');
+                if (globalThis.closeTimeout.hold) await new Promise(resolve => { globalThis.closeTimeout.release = resolve; });
+                storage.setItem(key, value);
+            });
+        }, path.dirname(savePath));
+        await session.page.locator('#lemon').fill('3'); await session.page.locator('#lemon').press('Tab');
+        await expect.poll(() => session.app.evaluate(() => typeof globalThis.closeTimeout.release)).toBe('function');
+        await session.app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].close());
+        await expect.poll(() => session.app.evaluate(() => globalThis.closeTimeout.dialogs), { timeout: 10000 }).toBe(1);
+        await expect.poll(() => session.page.locator('#app').evaluate(app => app.inert)).toBe(false);
+        await session.app.evaluate(() => { globalThis.closeTimeout.hold = false; globalThis.closeTimeout.release(); });
+        await expect.poll(() => JSON.parse(fs.readFileSync(savePath, 'utf8')).state.plan.recipe.lemon).toBe(3);
+        await session.page.waitForTimeout(300);
+        expect(await session.app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows().length)).toBe(1);
+        await closeNormally(session); session = await launch();
+        await expect(session.page.locator('#lemon')).toHaveValue('3');
+        await session.page.locator('#lemon').fill('2'); await session.page.locator('#lemon').press('Tab');
+        await expect.poll(() => fs.readFileSync(savePath, 'utf8')).toBe(preparation);
         await closeNormally(session); session = await launch();
         await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
         if (fs.readFileSync(savePath, 'utf8') !== preparation) throw new Error('Preparation changed on relaunch.');
@@ -160,6 +230,8 @@ const closeNormally = async session => {
         session = await launch();
         await expect(session.page.locator('#save-status')).toContainText('Unsupported save version');
         await session.page.locator('#lemon').fill('3'); await session.page.locator('#lemon').press('Tab');
+        // Explicitly discard this session's edits while retaining the protected future files.
+        await session.app.evaluate(({ dialog }) => { dialog.showMessageBox = async () => ({ response: 1 }); });
         await closeNormally(session); session = null;
         expect(fs.readFileSync(savePath, 'utf8')).toBe(future);
         expect(fs.readFileSync(path.join(base, 'Lemonade Tycoon', 'save.backup.json'), 'utf8')).toBe(backupBeforeFuture);

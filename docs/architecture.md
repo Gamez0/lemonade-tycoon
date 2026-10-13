@@ -37,3 +37,7 @@ purchase ledger. Independent audio preferences never enter business accounting.
 Original score notes live in content/audio-scores.ts; WebAudio presentation respects
 volume/mute/visibility/focus and does not advance simulation. Desktop diagnostics
 expose fixed event names only; Save and quit reuses the native flush handshake.
+Normal close freezes gameplay and waits for startup/import and the last checkpoint.
+Only a durable checkpoint acknowledgement closes automatically. Failed saves or
+five-second timeouts offer Keep playing (default) or explicit Close without saving;
+request ids prevent cancelled requests from closing a later session.
