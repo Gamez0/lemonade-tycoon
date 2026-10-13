@@ -205,6 +205,18 @@ test('Windows release ZIP rejects aliased output inside the package before readi
     assert.equal(fs.existsSync(path.join(content, 'not-created')), false);
 }));
 
+test('Windows ZIP canonical paths retain Unicode through a legacy console encoding', { skip: process.platform !== 'win32' }, () => temporary(directory => {
+    const { spawnSync } = require('node:child_process');
+    const content = path.join(directory, '\uac8c\uc784'); fs.mkdirSync(content);
+    fs.writeFileSync(path.join(content, 'build-info.json'), JSON.stringify({ dirty: false, prototype: true, source_commit: 'a'.repeat(40), version: '0.2.0-alpha.13' }));
+    const launcher = path.join(directory, 'legacy-console.ps1');
+    fs.writeFileSync(launcher, 'param($Tool, $PackageRoot, $OutputDirectory)\n[Console]::OutputEncoding = [Text.Encoding]::GetEncoding(437)\n& $Tool -PackageRoot $PackageRoot -OutputDirectory $OutputDirectory\n');
+    const result = spawnSync('powershell.exe', ['-NoProfile', '-NonInteractive', '-File', launcher, '-Tool', path.resolve(__dirname, '../scripts/release-zip.ps1'), '-PackageRoot', content, '-OutputDirectory', path.join(directory, '\ubc30\ud3ec')], { encoding: 'utf8' });
+    // Missing archive is intentional: reaching its audit proves metadata was read
+    // from the real Unicode directory, rather than a garbled native-pipe path.
+    assert.match(result.stdout + result.stderr, /Shipped archive audit failed/);
+}));
+
 test('diagnostics allow fixed events only and keep bounded logs without raw errors or saves', () => temporary(directory => {
     const diagnostics = createDiagnostics(directory);
     diagnostics.record('startup'); diagnostics.record('save-failed');

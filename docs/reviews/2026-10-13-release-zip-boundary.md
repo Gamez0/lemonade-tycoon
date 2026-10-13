@@ -10,7 +10,7 @@ Resolve the package and the nearest existing output ancestor with Node's native
 realpath, append nonexistent children and reject same/child output before reading
 metadata or creating files. PowerShell uses these resolved paths for every write.
 External siblings and package aliases remain supported. No package/version/game
-change. Release tests 11/11, syntax and whitespace pass on local Windows; the
+change. Release tests 12/12, syntax and whitespace pass on local Windows; the
 actual PowerShell junction regression runs in Windows CI and helper coverage runs
 on both platforms. Full real-package ZIP generation remains in required CI.
 
@@ -18,3 +18,9 @@ Self-review: validation uses the script directory, captures failure before JSON
 parsing, and retains all original checksum/no-overwrite checks. No recursive delete
 or link mutation is added. Concurrent external junction changes are outside this
 ordinary path-selection guard; human/clean-PC/Steam acceptance remains open.
+
+Review also reproduced Unicode path corruption when Windows PowerShell decoded
+the helper's native UTF-8 output with a legacy console code page. Emit ASCII JSON
+escapes so decoded canonical paths retain every Unicode character without changing
+global shell encoding. The actual PowerShell legacy-console test initially failed
+to read the existing Korean-path metadata and now reaches the archive audit.

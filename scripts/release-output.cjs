@@ -19,7 +19,10 @@ function resolveOutput(packageRoot, outputDirectory) {
 }
 
 if (require.main === module) {
-    try { console.log(JSON.stringify(resolveOutput(process.argv[2], process.argv[3]))); }
+    // Windows PowerShell decodes native stdout using the console code page.
+    // ASCII JSON escapes preserve Unicode paths without changing shell settings.
+    try { console.log(JSON.stringify(resolveOutput(process.argv[2], process.argv[3]))
+        .replace(/[\u007f-\uffff]/g, character => `\\u${character.charCodeAt(0).toString(16).padStart(4, '0')}`)); }
     catch (error) { console.error(error.message); process.exitCode = 1; }
 }
 module.exports = { resolveOutput };
