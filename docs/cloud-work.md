@@ -1528,3 +1528,19 @@ Commit/version the alpha13 metadata, require fresh final-head CI and integrate.
 Then prepare the exact-main draft artifact and verify its downloaded bytes/runtime
 before updating release tracking. Continue runnable release-path audits, not an
 end-of-loop report. Physical/human/Steam access gates remain honestly open.
+## 2026-10-13 resumed integration
+
+Recovered the actual October10 checkpoint from the newer D-drive worktrees; the
+legacy parent and `.reboot-work` remain untouched. PR215 exact-head required CI
+38023098092 passed and was squash merged as9860a5a. Rebased PR219 onto that main
+and changed its base to main; rebased PR217 as well. Require their fresh current
+checks and strict-base reconciliation before integration.
+
+Re-auditing PR217 reproduced an overlooked cache junction: external scripts may
+still declare BuildOutput inside the verified depot. The new regression failed
+before correction. Resolve/validate the cache destination before any VDF writes;
+release12/12, syntax and whitespace PASS. See the updated output-boundary review.
+PR219 local simulation/storage/controller/preferences59/59, typecheck/lint PASS.
+Next: finish these integrations, prepare an exact-main internal draft and verify
+its downloaded package. Human/physical/rights/Steam gates remain open; no public
+distribution or Steam upload is authorized here.
