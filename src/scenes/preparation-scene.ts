@@ -9,7 +9,6 @@ import { RentedLocation } from "../models/location";
 import WeatherNewsContainer from "../ui/weather-news-container";
 import WeatherForecast, { Atmosphere, Season, TemperatureByTime, TemperatureRanges, Time } from "../types/weather-forecast";
 import MapContainer from "../ui/map-container";
-import { DayScene } from "./day-scene";
 import _Date from "../models/_date";
 import { Recipe } from "../models/recipe";
 import Price from "../models/price";
@@ -55,11 +54,8 @@ export class PreparationScene extends Scene {
     mapContainer: MapContainer;
     speakerButton: Phaser.GameObjects.Image;
 
-    private sceneKey: string;
-
-    constructor(key: string) {
-        super({ key });
-        this.sceneKey = key;
+    constructor() {
+        super({ key: "PreparationScene" });
     }
 
     preload() {
@@ -130,14 +126,10 @@ export class PreparationScene extends Scene {
         this.startButton = new TextButton(this, 410, 700, "START GAME");
         this.startButton.setInteractive();
         this.startButton.on("pointerdown", () => {
-            // Check if the player has enough money to rent the location
             if (this.budget.amount < this.rentedLocation.getFee()) {
                 alert("You don't have enough money to rent the location.");
                 return;
             }
-            // Create a new instance of the DayScene
-            const dayScene = new DayScene(`day-${this._date.getDateString()}`);
-            // // Add the new instance to the scene manager
             const data: GameDataFromPreparationScene = {
                 budget: this.budget,
                 supplies: this.supplies,
@@ -148,11 +140,10 @@ export class PreparationScene extends Scene {
                 recipe: this.recipe,
                 price: this.price,
             };
-            this.scene.add(`day-${this._date.getDateString()}`, dayScene, true, data);
-            this.scene.start(`day-${this._date.getDateString()}`);
-            this.scene.get(this.sceneKey).sys.shutdown();
-            this.scene.stop(this.sceneKey);
-            this.scene.remove(this.sceneKey);
+            this.scene.start("DayScene", data);
+        });
+
+        this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
             this.sound.remove(this.bgm);
         });
     }
