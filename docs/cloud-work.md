@@ -1601,3 +1601,10 @@ execution/save/rollback, future templates and honest acceptance boundaries.
 Official Steam upload/review/store/library docs were rechecked on this date.
 Finalize this documentation with the maintenance PR before freezing alpha13;
 then deliver package, media, checksums and the account-independent guide together.
+
+Final materials audit added the missing account-independent Content Survey draft
+and alpha13-vs-delivered-alpha10 changelog. Reviewed Valve's current survey guide;
+AI-assisted player-facing art/audio authoring is inventoried, while runtime source
+has no AI service/model integration. Draft answers/ratings remain owner-reviewed
+later, not submitted or approved. This is the final source/materials candidate;
+freeze after its fresh required CI, then produce the exact-main delivery bundle.

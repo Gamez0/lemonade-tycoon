@@ -7,6 +7,7 @@ installation, update and Valve review stay in later release operations. Human,
 physical-device and distribution-rights acceptance is still recorded separately.
 
 Account-independent Korean handoff: [등록 전 인수인계](pre-upload-handoff.ko.md).
+Includes [content survey draft](content-survey-draft.md) and [changes](changelog.md).
 
 Status: local materials only. Real AppID/DepotID and partner permission have not
 been supplied. No Steam upload, installation, review submission, fee or public
