@@ -139,6 +139,13 @@ The user authorized runnable development through M10. M6 management and M7 help/
 
 ## 2026-10-09 delivery ownership
 
+2026-10-13 GitHub 감사에서 M5/M6 개발 작업과 계정 없는 M10 등록 전 준비를
+종료했다. 실제 Steam #172–174는 M11 후속 운영으로 분리했다. M2/M4/M7–M9의
+사람·물리 환경·권리 수용은 계속 열려 있다. 이후 사용자의 원작 비교·고객
+모델 요청에 따라 M2 화면 차이와 M3 구매→대기→맛 평가 보완 작업을 추가한다.
+기능 작업의 종료를 원작 충실도나 출시 품질 전체의 완료로 표현하지 않는다.
+조사·구현 근거: [alpha13 직접 플레이 비교](research/alpha13-play-comparison.md).
+
 The user delegates delivery of a sellable game to the agent, including implementation,
 tests, merges, GitHub feature evaluation/adoption, CI/CD and milestone management.
 Routine completion includes self-review, current-head passing CI and main integration;

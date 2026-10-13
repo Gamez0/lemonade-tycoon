@@ -4,6 +4,7 @@ import type { StreetDay, WalkingVisitor } from "../simulation/street-day";
 import type { State } from "../simulation/game";
 import { LOCATIONS, LOCATION_IDS } from "../content/locations";
 import type { LocationId } from "../content/locations";
+import { tasteReaction } from "./taste-feedback";
 
 interface StreetHooks {
     state: () => State;
@@ -70,7 +71,7 @@ export class StreetScene extends Phaser.Scene {
 
     private reaction(person: WalkingVisitor): string {
         switch (person.kind) {
-            case "bought": return ":)";
+            case "bought": return tasteReaction(person.tasteComplaints, person.satisfaction);
             case "price": return "$";
             case "sold-out": return "!";
             case "abandoned": return "...";

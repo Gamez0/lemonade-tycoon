@@ -35,6 +35,13 @@ Linux browser/file-storage results cannot establish Windows package acceptance.
 
 ## Working agreement
 
+- Latest steering (2026-10-14 KST): the user explicitly paused today's work after
+  the original trial ended. Resume only on the user's request. Read
+  `docs/research/original-116-live-audit.md` and the pause checkpoint in
+  `docs/cloud-work.md`. If a new limited original-play opportunity arises,
+  prioritize original observation and evidence capture before product code or
+  test work; the user corrected this ordering explicitly.
+
 - Latest steering (2026-10-13): the user is not ready to upload to Steam. Deliver
   the completed game, verified Windows distribution and Steam submission materials
   independently of partner onboarding/AppID/DepotID. Account setup, actual upload,

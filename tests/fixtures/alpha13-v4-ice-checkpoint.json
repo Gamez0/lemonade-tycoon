@@ -1,0 +1,401 @@
+{
+  "source": "29135dcd4ae1ecb2cc6863db61fbebcdfd81946a",
+  "description": "Captured using frozen alpha13 rules; v4 fields reconstructed from its pre-pitcher charged-ice schema.",
+  "document": {
+    "version": 4,
+    "state": {
+      "management": {
+        "upgrades": {
+          "refrigerator": 0,
+          "iceMaker": 1,
+          "blender": 0
+        },
+        "staff": "none",
+        "advertising": "none"
+      },
+      "phase": "preparation",
+      "day": 2,
+      "cash": 4705,
+      "openingCash": 6855,
+      "stock": {
+        "lemon": 40,
+        "sugar": 20,
+        "ice": 380,
+        "cup": 80
+      },
+      "pitcherCups": 0,
+      "plan": {
+        "price": 175,
+        "recipe": {
+          "lemon": 2,
+          "sugar": 1,
+          "ice": 3
+        }
+      },
+      "location": "neighborhood",
+      "pendingLocation": null,
+      "unlocked": [
+        "neighborhood"
+      ],
+      "locationStats": {
+        "neighborhood": {
+          "satisfaction": 0.6422399999999999,
+          "popularity": 0.528448
+        },
+        "park": {
+          "satisfaction": 0.5,
+          "popularity": 0.5
+        },
+        "downtown": {
+          "satisfaction": 0.5,
+          "popularity": 0.5
+        }
+      },
+      "lifetimeRevenue": 4375,
+      "business": {
+        "location": "neighborhood",
+        "from": "neighborhood",
+        "traffic": 45,
+        "budget": 1,
+        "weights": [
+          1,
+          1,
+          1
+        ],
+        "patienceTicks": 18,
+        "arrivalEvery": 5,
+        "serviceTicks": 8,
+        "satisfaction": 0.6422399999999999,
+        "popularity": 0.528448,
+        "rent": 0,
+        "moveFee": 0,
+        "paid": true
+      },
+      "reputation": 0.6422399999999999,
+      "daily": {
+        "capital": 1200,
+        "wages": 0,
+        "advertising": 0,
+        "model": "pitcher",
+        "pitchersMade": 0,
+        "meltedIce": 192,
+        "visitors": 0,
+        "sold": 0,
+        "rejected": 0,
+        "priceRejected": 0,
+        "passed": 0,
+        "soldOut": 0,
+        "abandoned": 0,
+        "revenue": 0,
+        "cost": 0,
+        "purchases": 950,
+        "rent": 0,
+        "moveFee": 0,
+        "satisfactionTotal": 0
+      },
+      "seed": 4006663292,
+      "weather": {
+        "label": "Sunny",
+        "temperature": 28,
+        "traffic": 44
+      }
+    },
+    "history": [
+      {
+        "management": {
+          "upgrades": {
+            "refrigerator": 0,
+            "iceMaker": 0,
+            "blender": 0
+          },
+          "staff": "none",
+          "advertising": "none"
+        },
+        "phase": "results",
+        "day": 1,
+        "cash": 6855,
+        "openingCash": 4000,
+        "stock": {
+          "lemon": 36,
+          "sugar": 18,
+          "ice": 192,
+          "cup": 55
+        },
+        "pitcherCups": 0,
+        "plan": {
+          "price": 175,
+          "recipe": {
+            "lemon": 2,
+            "sugar": 1,
+            "ice": 4
+          }
+        },
+        "location": "neighborhood",
+        "pendingLocation": null,
+        "unlocked": [
+          "neighborhood"
+        ],
+        "locationStats": {
+          "neighborhood": {
+            "satisfaction": 0.6422399999999999,
+            "popularity": 0.528448
+          },
+          "park": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "downtown": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          }
+        },
+        "lifetimeRevenue": 4375,
+        "business": {
+          "location": "neighborhood",
+          "from": "neighborhood",
+          "traffic": 48,
+          "budget": 1,
+          "weights": [
+            1,
+            1,
+            1
+          ],
+          "patienceTicks": 18,
+          "arrivalEvery": 5,
+          "serviceTicks": 8,
+          "satisfaction": 0.5,
+          "popularity": 0.5,
+          "rent": 0,
+          "moveFee": 0,
+          "paid": true
+        },
+        "reputation": 0.6422399999999999,
+        "daily": {
+          "capital": 0,
+          "wages": 0,
+          "advertising": 0,
+          "model": "pitcher",
+          "pitchersMade": 2,
+          "meltedIce": 0,
+          "visitors": 48,
+          "sold": 25,
+          "rejected": 22,
+          "priceRejected": 0,
+          "passed": 22,
+          "soldOut": 0,
+          "abandoned": 1,
+          "revenue": 4375,
+          "cost": 446,
+          "purchases": 1520,
+          "rent": 0,
+          "moveFee": 0,
+          "satisfactionTotal": 2266
+        },
+        "seed": 2853450577,
+        "weather": {
+          "label": "Sunny",
+          "temperature": 32,
+          "traffic": 48
+        }
+      }
+    ]
+  },
+  "migrated": {
+    "management": {
+      "upgrades": {
+        "refrigerator": 0,
+        "iceMaker": 1,
+        "blender": 0
+      },
+      "staff": "none",
+      "advertising": "none"
+    },
+    "phase": "preparation",
+    "day": 2,
+    "cash": 4705,
+    "openingCash": 6855,
+    "stock": {
+      "lemon": 40,
+      "sugar": 20,
+      "ice": 380,
+      "cup": 80
+    },
+    "freeIce": 0,
+    "pitcherCups": 0,
+    "plan": {
+      "price": 175,
+      "recipe": {
+        "lemon": 2,
+        "sugar": 1,
+        "ice": 3
+      }
+    },
+    "location": "neighborhood",
+    "pendingLocation": null,
+    "unlocked": [
+      "neighborhood"
+    ],
+    "locationStats": {
+      "neighborhood": {
+        "satisfaction": 0.6422399999999999,
+        "popularity": 0.528448
+      },
+      "park": {
+        "satisfaction": 0.5,
+        "popularity": 0.5
+      },
+      "downtown": {
+        "satisfaction": 0.5,
+        "popularity": 0.5
+      }
+    },
+    "lifetimeRevenue": 4375,
+    "business": {
+      "location": "neighborhood",
+      "from": "neighborhood",
+      "traffic": 45,
+      "budget": 1,
+      "weights": [
+        1,
+        1,
+        1
+      ],
+      "patienceTicks": 18,
+      "arrivalEvery": 5,
+      "serviceTicks": 8,
+      "satisfaction": 0.6422399999999999,
+      "popularity": 0.528448,
+      "rent": 0,
+      "moveFee": 0,
+      "paid": true
+    },
+    "reputation": 0.6422399999999999,
+    "daily": {
+      "freeIceUsed": 0,
+      "capital": 1200,
+      "wages": 0,
+      "advertising": 0,
+      "model": "pitcher",
+      "pitchersMade": 0,
+      "meltedIce": 192,
+      "visitors": 0,
+      "sold": 0,
+      "rejected": 0,
+      "priceRejected": 0,
+      "passed": 0,
+      "soldOut": 0,
+      "abandoned": 0,
+      "revenue": 0,
+      "cost": 0,
+      "purchases": 950,
+      "rent": 0,
+      "moveFee": 0,
+      "satisfactionTotal": 0
+    },
+    "seed": 4006663292,
+    "weather": {
+      "label": "Sunny",
+      "temperature": 28,
+      "traffic": 44
+    }
+  },
+  "expected": {
+    "management": {
+      "upgrades": {
+        "refrigerator": 0,
+        "iceMaker": 1,
+        "blender": 0
+      },
+      "staff": "none",
+      "advertising": "none"
+    },
+    "phase": "results",
+    "day": 2,
+    "cash": 9255,
+    "openingCash": 6855,
+    "stock": {
+      "lemon": 36,
+      "sugar": 18,
+      "ice": 296,
+      "cup": 54
+    },
+    "freeIce": 0,
+    "pitcherCups": 0,
+    "plan": {
+      "price": 175,
+      "recipe": {
+        "lemon": 2,
+        "sugar": 1,
+        "ice": 3
+      }
+    },
+    "location": "neighborhood",
+    "pendingLocation": null,
+    "unlocked": [
+      "neighborhood"
+    ],
+    "locationStats": {
+      "neighborhood": {
+        "satisfaction": 0.7331290769230768,
+        "popularity": 0.5693842153846154
+      },
+      "park": {
+        "satisfaction": 0.5,
+        "popularity": 0.5
+      },
+      "downtown": {
+        "satisfaction": 0.5,
+        "popularity": 0.5
+      }
+    },
+    "lifetimeRevenue": 8925,
+    "business": {
+      "location": "neighborhood",
+      "from": "neighborhood",
+      "traffic": 45,
+      "budget": 1,
+      "weights": [
+        1,
+        1,
+        1
+      ],
+      "patienceTicks": 18,
+      "arrivalEvery": 5,
+      "serviceTicks": 8,
+      "satisfaction": 0.6422399999999999,
+      "popularity": 0.528448,
+      "rent": 0,
+      "moveFee": 0,
+      "paid": true
+    },
+    "reputation": 0.7331290769230768,
+    "daily": {
+      "freeIceUsed": 0,
+      "capital": 1200,
+      "wages": 0,
+      "advertising": 0,
+      "model": "pitcher",
+      "pitchersMade": 2,
+      "meltedIce": 192,
+      "visitors": 45,
+      "sold": 26,
+      "rejected": 19,
+      "priceRejected": 0,
+      "passed": 19,
+      "soldOut": 0,
+      "abandoned": 0,
+      "revenue": 4550,
+      "cost": 364,
+      "purchases": 950,
+      "rent": 0,
+      "moveFee": 0,
+      "satisfactionTotal": 2345
+    },
+    "seed": 3013403033,
+    "weather": {
+      "label": "Sunny",
+      "temperature": 28,
+      "traffic": 44
+    }
+  }
+}

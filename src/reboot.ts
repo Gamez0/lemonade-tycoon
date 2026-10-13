@@ -4,7 +4,7 @@ import { UPGRADES, STAFF, ADS } from "./game/content/management";
 import type { Upgrade, Management } from "./game/content/management";
 import { purchaseUpgrade, hireStaff, selectAdvertising } from "./game/simulation/game";
 import Phaser from "phaser";
-import { ITEMS, ITEM_KEYS } from "./game/content/catalog";
+import { ITEMS, ITEM_KEYS, CUSTOMERS } from "./game/content/catalog";
 import type { Item } from "./game/content/catalog";
 import { LOCATIONS, LOCATION_IDS } from "./game/content/locations";
 import type { LocationId } from "./game/content/locations";
@@ -18,7 +18,9 @@ import {
     openingCosts,
     openingReadiness,
     quality,
+    recipeTaste,
     results,
+    satisfactionCustomers,
     setPlan,
     unitCost,
     reserveLocation,
@@ -34,6 +36,7 @@ import { readSaveAsync, writeSaveAsync } from "./game/simulation/async-save";
 import type { AsyncSaveStorage } from "./game/simulation/async-save";
 import { StreetScene } from "./game/presentation/street-scene";
 import { icon } from "./game/presentation/icons";
+import { tasteReaction, tasteAdvice } from "./game/presentation/taste-feedback";
 import { markup } from "./game/presentation/layout";
 import "./game/presentation/style.css";
 
@@ -168,7 +171,7 @@ function applyStreet(events: CustomerEvent[]): void {
     for (const event of events) {
         reactions[event.kind]++;
         if (events.length < 8 && event.kind === "bought") audio.effect("sale");
-        lastFeedback = event.kind === "bought" ? `Sold! Satisfaction: ${event.satisfaction}%.`
+        lastFeedback = event.kind === "bought" ? `${tasteReaction(event.tasteComplaints, event.satisfaction)} Satisfaction: ${event.satisfaction}%.`
             : event.kind === "price" ? "Too expensive! A neighbor walked away."
             : event.kind === "sold-out" ? "Sold out! A customer left empty-handed."
             : event.kind === "abandoned" ? "The line took too long. A customer left."
@@ -453,8 +456,9 @@ function renderReport(): void {
             ? `Business ledger · ${history.length} completed ${history.length === 1 ? "day" : "days"}. Current preparation purchases are not included.`
             : `Day ${latest.day} · ${LOCATIONS[latest.location].name} · ${sold === 0 ? "No sales." : `${sold} customers served.`}`,
     );
-    const satisfaction = sold === 0 ? null : Math.round(sum("satisfactionTotal") / sold);
-    element("report-face").innerHTML = icon(sold > 0 ? "happy" : "expensive");
+    const satisfaction = sold === 0 ? null : Math[reports.some(report => report.business?.customerModel === "purchase-first-v1") ? "floor" : "round"](sum("satisfactionTotal") /
+        reports.reduce((total, report) => total + satisfactionCustomers(report), 0));
+    element("report-face").innerHTML = icon(sold === 0 ? "expensive" : satisfaction !== null && satisfaction < 70 ? "unhappy" : "happy");
     text(
         "report-verdict",
         sold === 0
@@ -471,7 +475,8 @@ function renderReport(): void {
           : "Try another location or advertising to reach more buyers.";
     text("report-response", (sold === 0 ? noSalesAdvice : `Customer satisfaction: ${satisfaction}%.`) +
         ` ${sum("soldOut")} visitors missed out on empty stock. ${sum("abandoned")} left the line. ` +
-        `${sum("priceRejected")} found the price too high; ${sum("passed")} passed by.`);
+        `${sum("priceRejected")} found the price too high; ${sum("passed")} passed by.` +
+        (reportPage === "daily" ? ` ${tasteAdvice(recipeTaste(latest.plan.recipe, latest.weather.temperature).complaints)}` : ""));
 
     rows("result-values", [
         ["Cups sold", String(sold)],
@@ -505,11 +510,17 @@ function renderRent(): void {
         if (preview) { image.src = preview; image.hidden = false; }
     }
     const moveFee = selectedLocation === state.location ? 0 : location.moveFee;
+    const legacyBusiness = state.business?.location === selectedLocation && state.business.customerModel === undefined
+        ? state.business : null;
+    const patience = legacyBusiness ? [legacyBusiness.patienceTicks] : CUSTOMERS.map(customer => Math.max(1,
+        Math.round((location.patience + STAFF[state.management.staff].patience) * customer.patience)));
+    const totalWeights = location.weights.reduce((total: number, weight) => total + weight, 0);
     text("rent-description", location.description);
     rows("rent-details", [
         ["Daily rent / moving", `${money(location.rent)} / ${money(moveFee)}`],
         ["Visitors / budget", `${expectedTraffic({ ...state, business: null }, selectedLocation)} / ${Math.round(location.budget * 100)}%`],
-        ["Patience / arrivals", `${(location.patience / 10).toFixed(1)}s / ${(location.arrival / 10).toFixed(1)}s`],
+        ["Wait range / arrivals", `${(Math.min(...patience) / 10).toFixed(1)}–${(Math.max(...patience) / 10).toFixed(1)}s / ${(location.arrival / 10).toFixed(1)}s`],
+        ["Office workers", `${Math.round(location.weights[1] / totalWeights * 100)}% · shortest wait`],
         ["Popularity / satisfaction", `${Math.round(rating.popularity * 100)}% / ${Math.round(rating.satisfaction * 100)}%`],
     ]);
     const locked = !state.unlocked.includes(selectedLocation);
@@ -635,7 +646,7 @@ function render(): void {
     text("setting-pitchers", String(state.daily.pitchersMade));
     text(
         "recipe-hint",
-        `Forecast fit: ${Math.round(quality(state.plan.recipe, state.weather.temperature) * 100)}%. Try ${state.weather.temperature >= 30 ? 4 : state.weather.temperature >= 25 ? 3 : state.weather.temperature >= 21 ? 2 : 1} ice for today's weather.${state.daily.meltedIce ? ` ${state.daily.meltedIce} ice melted overnight.` : ""}`,
+        `Recipe taste score: ${Math.round(quality(state.plan.recipe, state.weather.temperature) * 100)}%. At least ${recipeTaste(state.plan.recipe, state.weather.temperature).preferredIce} ice cools today's drink. More ice needs more balanced lemon and sugar.${state.daily.meltedIce ? ` ${state.daily.meltedIce} ice melted overnight.` : ""}`,
     );
     text("sold", String(state.daily.sold));
     text("revenue", money(state.daily.revenue));

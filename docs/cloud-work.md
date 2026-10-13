@@ -1,5 +1,62 @@
 # Cloud development handoff — 2026-10-05
 
+## Paused by user — 2026-10-14 00:00 KST
+
+The user ended today's work after the original trial expired. No active goal or
+background continuation is configured. Resume only when asked. User correction:
+limited original-play time must be used for observation before implementation.
+
+Working tree: `D:/lemonade-taste-audit`, branch `fix/weather-taste-feedback`, based
+on frozen main `29135dc`. This is a work-in-progress checkpoint, not a release.
+The legacy ROOT checkout contains user-owned changes and must remain untouched.
+The frozen alpha13 delivery and draft release also remain unchanged.
+
+Original research: `docs/research/original-116-live-audit.md`. Original 1.1.6 was
+played legitimately in TEST. All 10 full map scenes, 13 equipment cards and
+descriptions, 2 staff cards/descriptions, preparation/report/help screens and
+live animation/weather/reaction samples were captured. Read-only code inspection
+identified taste thresholds, concentration/dilution, inclusive random outcomes,
+11 customer profiles and all 10 location mixtures. Important findings: 2:1 alone
+is insufficient; excess ice dilutes rather than directly imposing a cold penalty;
+Mall temperature is 20°C; recipe limits are 0–20/0–10/0–7; original ice is used
+per sale, and daily satisfaction includes customers lost to stock/price/waiting.
+Advanced equipment effects were not all purchased and measured. The last attempt
+to record more train-station animation was interrupted by trial expiration; do
+not claim its whole planned batch completed.
+
+Private evidence/tools are ignored under `.local-m4/original-runtime` and
+`.local-m4/*.ps1/*.cjs`. Keep original assets, executable, dumps, private menu
+captures and user company names out of Git/product/store assets. Original game
+process exited after trial expiration. The administrative controller is stopped.
+Its stop request has no response JSON; if restarting the controller later, mark
+that old stop request acknowledged first, or it will immediately exit again.
+
+Implementation draft: alpha14/save v7; purchase-before-taste decisions, individual
+office patience/map mix, recovered flavor score and reproducible buyer reactions,
+expanded recipe bounds, ice per sold cup, report denominator, UI advice and old
+paid-day replay protection. Existing economy prices/three locations/three customer
+profiles/forecast/management remain our adaptation, not complete original parity.
+
+Latest verification after these changes: simulation/save/accounting 65/65, including
+3,072 recipe/weather/management cases and frozen alpha13 v6/v4 compatibility data;
+typecheck and reboot lint passed. Earlier browser 19/19 and packaged taste 3/3
+were BEFORE the recovered-model/ice changes and are not current validation.
+
+Next work, on resume:
+1. Correct remaining UI text and browser/native expectations for ice per cup
+   (`src/reboot.ts` still says ice needed per pitcher; browser management's 60/64
+   shortage case, native management's free-ice-at-opening assertions are stale).
+   Recheck zero-ingredient bankruptcy messaging and old report advice.
+2. Refresh `docs/research/alpha13-play-comparison.md` and release candidate notes
+   against this primary research; keep original/customer abstractions explicit.
+3. Build, run relevant browser checks, repackage Windows and run affected native
+   suites (taste, management, campaign, save replay). Earlier dirty package is stale.
+4. Review the full diff and compatibility rules. Open the implementation PR only
+   when reviewable/current checks pass; get exact-head CI before integration.
+5. Keep GitHub #228 (M3 customer rules) and #229 (M2 visual/interaction differences)
+   honest. Main integration, current Windows artifacts and original visual parity
+   are pending. Do not retarget or overwrite frozen alpha13 release assets.
+
 ## Latest scope clarification — 2026-10-13
 
 The user is not ready for actual Steam uploading and asked whether the game can

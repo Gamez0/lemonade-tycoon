@@ -45,7 +45,8 @@ const accounted = day => {
     assert.equal(day.waiting.length, 0);
     assert.equal(day.serving, null);
     assert.equal(day.game.cash, day.game.openingCash - d.purchases + d.revenue);
-    assert.equal(d.cost, d.pitchersMade * game.pitcherCost(day.game.plan.recipe) + d.sold * 6);
+    const recipe = day.game.plan.recipe;
+    assert.equal(d.cost, d.pitchersMade * (recipe.lemon * 8 + recipe.sugar * 4) + d.sold * (6 + recipe.ice * 2));
     assert.ok(Object.values(day.game.stock).every(value => value >= 0));
 };
 
@@ -106,7 +107,7 @@ test('high prices and one-cup stock keep distinct rejection and empty-stock reas
     accounted(noSales);
     assert.equal(noSales.game.daily.sold, 0);
     assert.equal(noSales.game.daily.abandoned, 0);
-    const limited = game.openDay({ ...stock(), stock: { lemon: 2, sugar: 1, ice: 24, cup: 1 } });
+    const limited = game.openDay({ ...stock(), stock: { lemon: 6, sugar: 3, ice: stock().plan.recipe.ice, cup: 1 } });
     const empty = street.finishStreetDay(street.beginStreetDay(limited)).day;
     accounted(empty);
     assert.equal(empty.game.daily.sold, 1);

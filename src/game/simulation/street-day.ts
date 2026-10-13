@@ -1,5 +1,6 @@
 import { drawVisitor, settleVisitor, dayTraffic, capacity } from "./game";
 import type { CustomerEvent, State, Visitor } from "./game";
+import { CUSTOMERS } from "../content/catalog";
 
 export interface StreetRules {
     readonly arrivalEvery: number;
@@ -19,6 +20,8 @@ export interface WalkingVisitor {
     readonly kind: CustomerEvent["kind"];
     readonly startedAt: number;
     readonly until: number;
+    readonly satisfaction: CustomerEvent["satisfaction"];
+    readonly tasteComplaints: CustomerEvent["tasteComplaints"];
 }
 export interface StreetDay {
     readonly game: State;
@@ -31,6 +34,10 @@ export interface StreetDay {
 }
 
 export const DEFAULT_STREET_RULES: StreetRules = { arrivalEvery: 5, serviceTicks: 8, patienceTicks: 18 };
+export const visitorPatienceTicks = (day: StreetDay, visitor: Visitor): number =>
+    day.game.business?.customerModel === "purchase-first-v1"
+        ? Math.max(1, Math.round(day.rules.patienceTicks * CUSTOMERS[visitor.profile].patience))
+        : day.rules.patienceTicks;
 
 export function beginStreetDay(game: State, rules: StreetRules = game.business ?? DEFAULT_STREET_RULES): StreetDay {
     if (game.phase !== "selling") throw new Error("Open the stand before starting the street.");
@@ -52,7 +59,8 @@ export function tickStreet(day: StreetDay): { day: StreetDay; events: CustomerEv
         const result = settleVisitor(game, visitor, outcome);
         game = result.state;
         events.push(result.event);
-        walking.push({ visitor, kind: result.event.kind, startedAt: tick, until: tick + 22 });
+        walking.push({ visitor, kind: result.event.kind, startedAt: tick, until: tick + 22,
+            satisfaction: result.event.satisfaction, tasteComplaints: result.event.tasteComplaints });
     };
 
     if (game.phase === "selling") {
@@ -66,7 +74,7 @@ export function tickStreet(day: StreetDay): { day: StreetDay; events: CustomerEv
         const patient: WaitingVisitor[] = [];
         for (const person of waiting) {
             if (capacity(game) === 0) settle(person.visitor);
-            else if (tick - person.joinedAt >= day.rules.patienceTicks) settle(person.visitor, "abandoned");
+            else if (tick - person.joinedAt >= visitorPatienceTicks(day, person.visitor)) settle(person.visitor, "abandoned");
             else patient.push(person);
         }
         waiting = patient;

@@ -5,6 +5,7 @@ const drawings = {
     cloudy: '<path fill="#bccfca" d="M4 20C0 19 1 13 5 12c-1-6 7-9 11-4 5-2 9 2 8 6 4 5-1 8-4 7Z"/><path fill="#f5f3d9" stroke="none" d="M3 16c0-2 2-3 5-2-3-7 5-9 8-4 5-2 7 1 6 4-5-2-7 2-10 2Z"/>',
     rainy: '<path fill="#a6b8c0" d="M4 15C0 14 1 8 5 8c0-6 8-7 11-3 6-2 10 6 6 9Z"/><path fill="#d9e5dc" stroke="none" d="M4 10c1-2 3-1 4-1 0-5 5-6 8-2 3-1 5 0 6 3Z"/><path fill="none" stroke="#9bddf0" stroke-width="2" d="m7 17-2 5m9-5-2 5m9-5-2 5"/>',
     happy: '<path fill="#f7f1c9" d="M2 3h22v16H12l-5 5v-5H2Z"/><path fill="none" d="M7 8v2m11-2v2M7 12q6 7 12 0"/>',
+    unhappy: '<path fill="#f7f1c9" d="M2 3h22v16H12l-5 5v-5H2Z"/><path fill="none" d="M7 8v2m11-2v2M7 16q6-7 12 0"/>',
     expensive:
         '<path fill="#f7f1c9" d="M2 3h22v16H12l-5 5v-5H2Z"/><path fill="none" d="M17 7h-7l-2 3 9 3-2 3H8m5-11v13"/>',
     passing:
