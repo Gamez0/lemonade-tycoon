@@ -36,6 +36,19 @@ Review: `docs/reviews/customer-purchase-taste.md`. #228 remains an incremental
 customer-model correction; eleven original profiles/ten locations and full visual
 parity must not be claimed from the three-profile/three-place adaptation.
 
+PR230 opened: https://github.com/Gamez0/lemonade-tycoon/pull/230. Product source
+e8405fc passes browser35/35, native taste/replay3/3, management,30-day campaign and
+full save/recovery/import/export/relocation. Initial PR Windows CI/native save
+failure was a test restoring the former two-lemon default; all three restore
+points now use the captured actual baseline. Current play/save guides updated.
+Require the follow-up head's green CI before integration.
+
+Latest user steering: match the original neighborhood's forms/layout, including
+pixel texture; changing the drawing tool is authorized. Next M2 work should use
+the actual original Suburbs map, matching geometry/scale and integer raster
+pixels, rather than adding decoration to the old approximate scene. Keep original
+assets as local study only and compare at the same displayed map size.
+
 ## Historical pause — 2026-10-14 00:00 KST
 
 The user ended today's work after the original trial expired. No active goal or

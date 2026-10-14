@@ -52,3 +52,11 @@ taste/management/campaign/save suites must run for the final candidate. Require
 exact-head GitHub CI before main integration. Human visual #97, remaining M2 #229,
 physical/clean-PC and actual Steam acceptance remain open. No original executable,
 research screenshots, memory dumps or private company captures are shipped.
+
+Final local product source e8405fc: full browser35/35, native taste/real-v6 replay
+3/3, management, thirty-day campaign and save/recovery/import/export/relocation
+PASS. The general native save test initially failed because three baseline
+restores hardcoded the previous two-lemon default; they now restore the captured
+baseline's actual recipe, and the complete suite passes. The final follow-up also
+updates current English/Korean save/play guides. Exact-head CI is still required;
+the first PR Windows job reproduces that obsolete test baseline failure.
