@@ -35,9 +35,10 @@ Linux browser/file-storage results cannot establish Windows package acceptance.
 
 ## Working agreement
 
-- Latest steering (2026-10-14 KST): the user explicitly paused today's work after
-  the original trial ended. Resume only on the user's request. Read
-  `docs/research/original-116-live-audit.md` and the pause checkpoint in
+- Latest steering (2026-10-14 KST): the user resumed the paused original-game
+  follow-up and requested worktree/disk cleanup. The active checkout is
+  `D:/lemonade-taste-audit`; alpha13 delivery remains frozen. Read
+  `docs/research/original-116-live-audit.md` and the latest checkpoint in
   `docs/cloud-work.md`. If a new limited original-play opportunity arises,
   prioritize original observation and evidence capture before product code or
   test work; the user corrected this ordering explicitly.

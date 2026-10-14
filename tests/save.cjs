@@ -95,7 +95,7 @@ test('storage failure leaves the prior primary available', () => {
     assert.equal(store.getItem(SAVE_KEY), prior);
 });
 test('v1 cup-based results migrate without rewriting old profit, and next day uses pitchers', () => {
-    const old = finish(stocked());
+    const old = require('./fixtures/alpha13-customer-model.json').cases[0].expected;
     const oldCost = old.plan.recipe.lemon * 8 + old.plan.recipe.sugar * 4 + old.plan.recipe.ice * 2 + 6;
     const oldDay = { ...old, daily: { ...old.daily, cost: old.daily.sold * oldCost } };
     delete oldDay.pitcherCups;

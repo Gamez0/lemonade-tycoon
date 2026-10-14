@@ -2,7 +2,7 @@ const fs = require('node:fs'), path = require('node:path'), os = require('node:o
 const assert = require('node:assert/strict');
 const { _electron: electron } = require('playwright');
 const { expect } = require('@playwright/test');
-const { newGame, setPlan, buyOrder } = require('../.test-build/simulation/game.js');
+const { newGame, setPlan, buyOrder, results } = require('../.test-build/simulation/game.js');
 const { encodeSave } = require('../.test-build/simulation/save.js');
 const { WEATHER } = require('../.test-build/content/catalog.js');
 const { profileArgs, verifyProfile } = require('./helpers/desktop-profile.cjs');
@@ -17,7 +17,7 @@ let app;
         const env = { ...process.env, APPDATA: path.join(base, 'Roaming'), LOCALAPPDATA: base }; delete env.ELECTRON_RUN_AS_NODE;
         app = await electron.launch({ executablePath, env, args: profileArgs(base), timeout: 60000 });
         await verifyProfile(app, base); const page = await app.firstWindow();
-        await expect(page.locator('canvas')).toBeVisible(); assert.ok(page.url().startsWith('file:'));
+        await expect(page.locator('canvas')).toBeVisible({ timeout: 30000 }); assert.ok(page.url().startsWith('file:'));
         await page.clock.install();
         const read = () => page.evaluate(async () => JSON.parse(await window.desktopSave.getItem('lemonade-tycoon.reboot.save')));
         for (const [name, weather, ice, reaction, advice] of [
@@ -43,7 +43,8 @@ let app;
             assert.equal(saved.state.business.customerModel, 'purchase-first-v1');
             assert.ok(saved.state.daily.sold > 0);
             await page.locator('#app').screenshot({ path: path.join(out, name + '-results.png') });
-            observations.push({ name, sold: saved.state.daily.sold, satisfaction: saved.state.daily.satisfactionTotal / saved.state.daily.sold,
+            observations.push({ name, sold: saved.state.daily.sold, buyerSatisfaction: saved.state.daily.satisfactionTotal / saved.state.daily.sold,
+                dailySatisfaction: results(saved.state).satisfaction,
                 feedback: await page.locator('#report-response').textContent() });
         }
         const legacy = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/alpha13-customer-model.json'), 'utf8')).cases[0];

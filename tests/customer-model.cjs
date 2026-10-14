@@ -104,7 +104,9 @@ test('office workers leave at their own deadline while other customers keep wait
     assert.ok(LOCATIONS.downtown.weights[1] / LOCATIONS.downtown.weights.reduce((a,b) => a+b) >
         LOCATIONS.park.weights[1] / LOCATIONS.park.weights.reduce((a,b) => a+b));
     const host = street.beginStreetDay(game.openDay(game.hireStaff(prepared(opened.plan.recipe), 'host')));
-    assert.ok(street.visitorPatienceTicks(host, visitor(3, 1)) > 9);
+    for (const profile of [0, 1, 2])
+        assert.equal(street.visitorPatienceTicks(host, visitor(3, profile)) -
+            street.visitorPatienceTicks(street.beginStreetDay(opened), visitor(3, profile)), 12);
 });
 
 test('real alpha13 v6 paid openings retain exact old outcomes after migration and v7 protects future model data', () => {
@@ -123,4 +125,24 @@ test('real alpha13 v6 paid openings retain exact old outcomes after migration an
     assert.deepEqual(game.openDay(decodeSave(raw).state), opened);
     const wrong = JSON.parse(raw); wrong.state.business.customerModel = 'unknown-model';
     assert.throws(() => decodeSave(JSON.stringify(wrong)), /damaged/);
+});
+
+test('old saves cannot introduce zero-sugar legacy replay or smuggle the new model under an old version', () => {
+    const fixture = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/alpha13-customer-model.json'), 'utf8'));
+    for (const version of [6, 7]) {
+        const invalid = structuredClone(fixture.cases[0].document);
+        invalid.version = version;
+        invalid.state.plan.recipe.sugar = 0;
+        assert.throws(() => decodeSave(JSON.stringify(invalid)), /damaged/);
+    }
+    const unpaid = JSON.parse(encodeSave(game.setPlan(game.newGame(), {
+        price: 100, recipe: { lemon: 0, sugar: 0, ice: 0 },
+    }), []));
+    assert.deepEqual(decodeSave(JSON.stringify(unpaid)).state.plan.recipe, { lemon: 0, sugar: 0, ice: 0 });
+    unpaid.version = 6;
+    assert.throws(() => decodeSave(JSON.stringify(unpaid)), /damaged/);
+    const opened = game.openDay(prepared({ lemon: 6, sugar: 3, ice: 2 }));
+    const downgraded = JSON.parse(encodeSave({ ...opened, phase: 'preparation' }, []));
+    downgraded.version = 6;
+    assert.throws(() => decodeSave(JSON.stringify(downgraded)), /damaged/);
 });

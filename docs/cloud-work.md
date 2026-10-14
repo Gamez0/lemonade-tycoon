@@ -1,6 +1,42 @@
 # Cloud development handoff — 2026-10-05
 
-## Paused by user — 2026-10-14 00:00 KST
+## Resumed by user — 2026-10-14 KST
+
+The user resumed work and also requested disk/worktree cleanup. Active product
+work remains `D:/lemonade-taste-audit`, `fix/weather-taste-feedback`; the
+alpha13 delivery stays frozen. The earlier pause below is historical.
+
+Cleanup reduced registered worktrees from 18 to 3: the user-owned legacy root,
+frozen alpha13 delivery and active alpha14 implementation. Removed worktree
+branches/commits are retained. Private research, test evidence and uncommitted
+handoff/diagnostic files were preserved under
+`D:/lemonade-worktree-archive/2026-10-14`, with per-worktree source/branch/commit
+records. The modified integration handoff has a full file backup and patch.
+Shared dependencies moved to `D:/lemonade-shared-dependencies/alpha14/node_modules`;
+active and delivery worktrees use junctions there. Do not remove that shared
+directory while either worktree uses it. Original user changes remain untouched.
+
+Current fixes: ice-per-sale UI and browser/native expectations; valid old opening
+test construction; expanded recipe validation expectations; zero-ingredient
+bankruptcy explanation; daily taste advice restricted to new-model days with
+actual buyers. The browser's first full run had 31 passes and four failures
+(three obsolete expectations/fixture construction, one narrow-layout movement).
+The first native taste attempt hit its 5-second startup expectation; the second
+passes all three taste/real-v6 replay cases with a 30-second startup limit.
+Native management passes. Full browser recheck and final packaging/review/CI
+remain in progress. Do not treat the earlier dirty package as final delivery.
+
+Self-review additionally corrected legacy-save recipe/model bounds and the full
+12-tick host bonus across customer profiles. Model/storage/accounting is now
+66/66 PASS; typecheck/lint and release tooling15/15 PASS. The remaining 640px Rent
+layout regression passes after a common620px mobile panel minimum. Full browser
+checks started before the final host refinement were interrupted intentionally;
+final-head browser/package/native validation must use the rebuilt source.
+Review: `docs/reviews/customer-purchase-taste.md`. #228 remains an incremental
+customer-model correction; eleven original profiles/ten locations and full visual
+parity must not be claimed from the three-profile/three-place adaptation.
+
+## Historical pause — 2026-10-14 00:00 KST
 
 The user ended today's work after the original trial expired. No active goal or
 background continuation is configured. Resume only when asked. User correction:

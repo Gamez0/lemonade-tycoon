@@ -403,7 +403,7 @@ input[aria-invalid="true"] {
 }
 @media (max-width: 768px) {
     .panel {
-        min-height: 600px;
+        min-height: 620px;
     }
 }
 .cost-line,
@@ -906,7 +906,7 @@ a {
         gap: 1px;
     }
     .panel {
-        min-height: 600px;
+        min-height: 620px;
         padding: 10px;
     }
     .recipe-row label span {

@@ -470,13 +470,14 @@ function renderReport(): void {
     const noSalesAdvice = sum("soldOut") > 0 ? "Buy enough supplies for tomorrow."
         : sum("abandoned") > 0 ? "Improve service or help the waiting line."
         : sum("priceRejected") > 0 ? "Try a lower cup price."
-        : reportPage === "daily" && quality(latest.plan.recipe, latest.weather.temperature) < 0.7
+        : reportPage === "daily" && latest.business?.customerModel !== "purchase-first-v1" && quality(latest.plan.recipe, latest.weather.temperature) < 0.7
           ? "Adjust your recipe to the forecast."
           : "Try another location or advertising to reach more buyers.";
     text("report-response", (sold === 0 ? noSalesAdvice : `Customer satisfaction: ${satisfaction}%.`) +
         ` ${sum("soldOut")} visitors missed out on empty stock. ${sum("abandoned")} left the line. ` +
         `${sum("priceRejected")} found the price too high; ${sum("passed")} passed by.` +
-        (reportPage === "daily" ? ` ${tasteAdvice(recipeTaste(latest.plan.recipe, latest.weather.temperature).complaints)}` : ""));
+        (reportPage === "daily" && sold > 0 && latest.business?.customerModel === "purchase-first-v1"
+            ? ` ${tasteAdvice(recipeTaste(latest.plan.recipe, latest.weather.temperature).complaints)}` : ""));
 
     rows("result-values", [
         ["Cups sold", String(sold)],
@@ -641,12 +642,17 @@ function render(): void {
     if (prep && readiness.cups === 0) element("open").setAttribute("aria-describedby", "supply-warning");
     else element("open").removeAttribute("aria-describedby");
     text("unit-cost", money(unitCost(state.plan.recipe, state.freeIce + openingCosts(state).ice)));
-    text("pitcher-yield", `${cupsPerPitcher(state.plan.recipe)} cups per pitcher; ${state.plan.recipe.ice * cupsPerPitcher(state.plan.recipe)} ice needed per pitcher.`);
+    const legacyPaidDay = state.business !== null && state.business.customerModel !== "purchase-first-v1";
+    text("pitcher-yield", `${cupsPerPitcher(state.plan.recipe)} cups per pitcher; ` + (legacyPaidDay
+        ? `${state.plan.recipe.ice * cupsPerPitcher(state.plan.recipe)} ice reserved per pitcher for this saved day.`
+        : `${state.plan.recipe.ice} ice used per sold cup.`));
     text("pitcher-cups", `${state.pitcherCups} cups`);
     text("setting-pitchers", String(state.daily.pitchersMade));
     text(
         "recipe-hint",
-        `Recipe taste score: ${Math.round(quality(state.plan.recipe, state.weather.temperature) * 100)}%. At least ${recipeTaste(state.plan.recipe, state.weather.temperature).preferredIce} ice cools today's drink. More ice needs more balanced lemon and sugar.${state.daily.meltedIce ? ` ${state.daily.meltedIce} ice melted overnight.` : ""}`,
+        (legacyPaidDay ? "This saved day keeps its original recipe and customer rules." :
+            `Taste score: ${Math.round(quality(state.plan.recipe, state.weather.temperature) * 100)}%. Cooling needs ${recipeTaste(state.plan.recipe, state.weather.temperature).preferredIce} ice per cup. Extra ice needs balanced lemon and sugar.`) +
+            (state.daily.meltedIce ? ` ${state.daily.meltedIce} ice melted overnight.` : ""),
     );
     text("sold", String(state.daily.sold));
     text("revenue", money(state.daily.revenue));
@@ -674,7 +680,9 @@ function render(): void {
     text("management-bill", `Opening bill ${money(due)} | Wages ${money(STAFF[state.management.staff].wage)} | Ads ${money(ADS[state.management.advertising].cost)}`);
     const bankrupt = isBankrupt(state);
     element("business-warning").hidden = !prep || (!bankrupt && state.cash >= due && !state.pendingLocation);
-    text("business-warning", bankrupt ? "Not enough cash or stock for the cheapest pitcher. Export your save or confirm New business to restart."
+    text("business-warning", bankrupt ? (state.business
+        ? "Not enough cash or stock to resume today's paid recipe. Export your save or confirm New business to restart."
+        : "Not enough cash or stock for a paper cup, even with a zero-ingredient recipe. Export your save or confirm New business to restart.")
         : state.cash < due ? "Opening costs exceed cash. Reduce ads, dismiss staff or use Rent to return to the free Neighborhood."
         : `Reserved: ${LOCATIONS[target].name}. ${money(due)} will be charged at Start day.`);
     for (const [id, item] of Object.entries(UPGRADES)) {

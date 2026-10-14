@@ -2,8 +2,9 @@
 
 ## 0.2.0-alpha.14 — customer stages, 2026-10-13
 
-Work-in-progress checkpoint, paused 2026-10-14. Not built or released from the
-latest recovered-model changes; browser/native verification is pending.
+Resumed 2026-10-14. Implementation candidate with new Windows/browser regression
+checks; integration and exact-source release delivery remain pending. The frozen
+alpha13 package is unchanged.
 
 - Today's untried recipe no longer determines whether a visitor buys or joins the
   queue. Price, customer budget, weather and existing reputation determine that

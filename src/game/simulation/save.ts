@@ -57,7 +57,7 @@ function validLocations(value: Record<string, unknown>): boolean {
     return true;
 }
 
-function validState(value: unknown, legacy = false, preM5 = false, preM6 = false, preFreeIce = false, preEagerPitcher = false): value is State {
+function validState(value: unknown, legacy = false, preM5 = false, preM6 = false, preFreeIce = false, preEagerPitcher = false, preCustomerModel = false): value is State {
     if (!record(value) || !["preparation", "results"].includes(String(value.phase)) ||
         !integer(value.day, 1) || !integer(value.cash) || !integer(value.openingCash) ||
         !integer(value.seed, 0, 4294967295) || !fraction(value.reputation) ||
@@ -76,8 +76,11 @@ function validState(value: unknown, legacy = false, preM5 = false, preM6 = false
     if (!ITEM_KEYS.every(item => integer(stock[item], 0, 999))) return false;
     if (!preFreeIce && (!integer(value.freeIce, 0, stock.ice as number) || !integer(value.daily.freeIceUsed))) return false;
     const plan = value.plan;
+    const oldRecipe = preCustomerModel || (record(value.business) && value.business.customerModel === undefined);
+    if (preCustomerModel && record(value.business) && value.business.customerModel !== undefined) return false;
     if (!integer(plan.price, 25, 500) || !record(plan.recipe) ||
-        !integer(plan.recipe.lemon, 0, 20) || !integer(plan.recipe.sugar, 0, 10) ||
+        !integer(plan.recipe.lemon, oldRecipe ? 1 : 0, oldRecipe ? 6 : 20) ||
+        !integer(plan.recipe.sugar, oldRecipe ? 1 : 0, oldRecipe ? 4 : 10) ||
         !integer(plan.recipe.ice, 0, legacy ? 6 : 7)) return false;
     const forecast = value.weather;
     if (!WEATHER.some(weather => weather.label === forecast.label &&
@@ -137,10 +140,11 @@ export function decodeSave(raw: string): SaveDocument {
     const preM6 = (input.version as number) < 4;
     const preFreeIce = (input.version as number) < 5;
     const preEagerPitcher = (input.version as number) < 6;
+    const preCustomerModel = (input.version as number) < 7;
     if (!Array.isArray(input.history) ||
-        !input.history.every(day => validState(day, legacy, preM5, preM6, preFreeIce, preEagerPitcher)) || input.history.some(day => day.phase !== "results"))
+        !input.history.every(day => validState(day, legacy, preM5, preM6, preFreeIce, preEagerPitcher, preCustomerModel)) || input.history.some(day => day.phase !== "results"))
         throw new Error("Save data is damaged or incomplete.");
-    if (!validState(input.state, legacy, preM5, preM6, preFreeIce, preEagerPitcher)) throw new Error("Save data is damaged or incomplete.");
+    if (!validState(input.state, legacy, preM5, preM6, preFreeIce, preEagerPitcher, preCustomerModel)) throw new Error("Save data is damaged or incomplete.");
     let revenue = 0;
     let unlocked: readonly LocationId[] = ["neighborhood"];
     const migrate = (day: State, lifetimeRevenue: number): State => {

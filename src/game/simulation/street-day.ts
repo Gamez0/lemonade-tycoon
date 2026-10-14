@@ -1,6 +1,7 @@
 import { drawVisitor, settleVisitor, dayTraffic, capacity } from "./game";
 import type { CustomerEvent, State, Visitor } from "./game";
 import { CUSTOMERS } from "../content/catalog";
+import { STAFF } from "../content/management";
 
 export interface StreetRules {
     readonly arrivalEvery: number;
@@ -34,10 +35,12 @@ export interface StreetDay {
 }
 
 export const DEFAULT_STREET_RULES: StreetRules = { arrivalEvery: 5, serviceTicks: 8, patienceTicks: 18 };
-export const visitorPatienceTicks = (day: StreetDay, visitor: Visitor): number =>
-    day.game.business?.customerModel === "purchase-first-v1"
-        ? Math.max(1, Math.round(day.rules.patienceTicks * CUSTOMERS[visitor.profile].patience))
-        : day.rules.patienceTicks;
+export const visitorPatienceTicks = (day: StreetDay, visitor: Visitor): number => {
+    if (day.game.business?.customerModel !== "purchase-first-v1") return day.rules.patienceTicks;
+    const staffPatience = STAFF[day.game.management.staff].patience;
+    const basePatience = Math.max(1, day.rules.patienceTicks - staffPatience);
+    return Math.max(1, Math.round(basePatience * CUSTOMERS[visitor.profile].patience) + staffPatience);
+};
 
 export function beginStreetDay(game: State, rules: StreetRules = game.business ?? DEFAULT_STREET_RULES): StreetDay {
     if (game.phase !== "selling") throw new Error("Open the stand before starting the street.");
