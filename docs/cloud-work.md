@@ -19,6 +19,15 @@ PR238 remains a separate current-head CI candidate for typography/catalogue and
 Staff scrollbar fixes; do not confuse the later local summary change with that
 PR's exact source.
 
+PR238 merged as `e9f85b2` after required CI for head591cda4 passed, including the
+full Windows suite and small-window Staff scrollbar regression. Selling summary
+is PR239; its local browser and Windows UI/management checks passed. Next recipe
+increment groups lemon/sugar per pitcher, moves the illustrated yield beside the
+ingredients, separates cup ice, and illustrates each supply bundle. Historical
+paid openings keep an explicit ice-reservation heading. Five focused browser
+purchase/quantity/breakpoint/management checks pass; final native/source checks
+remain before integration.
+
 The user resumed engineering with GitHub Projects as the execution queue:
 https://github.com/users/Gamez0/projects/2/views/6 and issue #237. Read Running
 first, otherwise smallest Ready Order; implement, verify, record, then start the
