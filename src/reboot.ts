@@ -267,6 +267,17 @@ for (const button of document.querySelectorAll<HTMLButtonElement>("[data-locatio
     });
 for (const button of document.querySelectorAll<HTMLButtonElement>("[data-upgrade]"))
     button.addEventListener("click", () => act(() => purchaseUpgrade(state, button.dataset.upgrade as Upgrade)));
+for (const name of ["upgrades", "staff"]) {
+    const catalog = element(`${name}-catalog`);
+    const cards = Array.from(catalog.children) as HTMLElement[];
+    const index = () => Math.max(0, Math.min(cards.length - 1, Math.round(catalog.scrollLeft / (catalog.clientWidth || 1))));
+    catalog.addEventListener("scroll", () => text(`${name}-position`, `${index() + 1} / ${cards.length}`));
+    for (const button of document.querySelectorAll<HTMLButtonElement>(`[data-catalog="${name}"]`))
+        button.addEventListener("click", () => {
+            const next = (index() + Number(button.dataset.catalogStep) + cards.length) % cards.length;
+            catalog.scrollTo({ left: next * catalog.clientWidth, behavior: "instant" });
+        });
+}
 for (const button of document.querySelectorAll<HTMLButtonElement>("[data-staff]"))
     button.addEventListener("click", () => act(() => hireStaff(state, button.dataset.staff as Management["staff"])));
 for (const button of document.querySelectorAll<HTMLButtonElement>("[data-advertising]"))
@@ -695,6 +706,8 @@ function render(): void {
     for (const button of document.querySelectorAll<HTMLButtonElement>("[data-staff], [data-advertising]")) {
         button.disabled = !prep || Boolean(state.business);
         button.setAttribute("aria-pressed", String(button.dataset.staff === state.management.staff || button.dataset.advertising === state.management.advertising));
+        if (button.dataset.staff) button.textContent = button.dataset.staff === state.management.staff
+            ? "CURRENT" : button.dataset.staff === "none" ? "WORK ALONE" : "HIRE";
     }
     if (prep) renderRent();
     if (!selling) renderReport();
