@@ -73,7 +73,9 @@ async function close() {
         expect(read().state.daily.rent).toBe(0); expect(read().state.daily.moveFee).toBe(0);
         await page.locator('#skip').click(); await expect.poll(() => read().state.phase).toBe('results');
         // Import an actual pre-M5 shape. History accounting must survive the format upgrade.
-        const old = JSON.parse(JSON.stringify(campaign(2026, 1).history[0]));
+        // A v7 day uses per-sale ice and cannot become v2 by deleting fields.
+        // Reuse an actual pre-customer-model result with historical accounting.
+        const old = JSON.parse(JSON.stringify(require('./fixtures/alpha13-customer-model.json').cases[0].expected));
         for (const key of ['location', 'pendingLocation', 'unlocked', 'locationStats', 'lifetimeRevenue', 'business']) delete old[key];
         delete old.daily.rent; delete old.daily.moveFee;
         await page.locator('#save-file').setInputFiles({ name: 'v2-business.json', mimeType: 'application/json',

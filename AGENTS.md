@@ -2,6 +2,14 @@
 
 ## Read first
 
+- Current execution queue (2026-10-16):
+  https://github.com/users/Gamez0/projects/2/views/6 and issue #237.
+  Run `python scripts/github-backlog.py --check --next`; resume Running first,
+  otherwise the smallest Ready Order. Read its issue acceptance criteria, update
+  Execution/Status when starting, verify and record the result, then start the
+  next runnable task. Do not rediscover already recorded work or close manual
+  gates using automated evidence. See `docs/reviews/product-baseline.md`.
+
 - `docs/cloud-work.md`: current cloud handoff, ordered work and stopping conditions.
 - `docs/roadmap.md`: approved Windows PC / Steam submission scope and acceptance gates.
 - `docs/handoff.md`: historical context; newer cloud handoff and live GitHub state take precedence.

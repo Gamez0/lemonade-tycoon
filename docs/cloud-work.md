@@ -1,5 +1,27 @@
 # Cloud development handoff — 2026-10-05
 
+## Active engineering loop — 2026-10-16 KST
+
+The user resumed engineering with GitHub Projects as the execution queue:
+https://github.com/users/Gamez0/projects/2/views/6 and issue #237. Read Running
+first, otherwise smallest Ready Order; implement, verify, record, then start the
+next runnable task. Historical pause notes are superseded by this request.
+
+#231 established the [product baseline](reviews/product-baseline.md). Parent
+legacy/PR83, active taste-audit research checkout and frozen alpha13 are preserved.
+Product work is now in `D:/lemonade-loop`, main-derived branch
+`fix/backlog-save-import`, fast-forwarded to PR230 `281489b` for diagnosis.
+
+#228 Running: required Windows failure is in `tests/desktop-locations.cjs` v2
+import. Reproduced by decoding the test's field-stripped v7 day as v2: its new
+per-sale ice accounting is incompatible with old pitcher accounting. Replaced
+the fabricated history with the captured alpha13 historical fixture already
+covered by migration unit tests. Save validation stays strict. Model/storage
+baseline66/66 passed; release15/15, typecheck/lint and rebuilt Windows locations,
+taste/v6 replay3/3 and general save/recovery/import/export all pass. Full browser
+and current-head remote CI remain to be recorded before integration.
+No main integration or new delivery is established by this checkpoint.
+
 ## Resumed by user — 2026-10-14 KST
 
 The user resumed work and also requested disk/worktree cleanup. Active product
