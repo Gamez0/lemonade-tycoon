@@ -7,6 +7,7 @@ import type { LocationId } from "../content/locations";
 
 export interface LocationRating { readonly satisfaction: number; readonly popularity: number }
 export interface BusinessDay {
+    readonly customerModel?: "purchase-first-v1";
     readonly location: LocationId;
     readonly from: LocationId;
     readonly traffic: number;
@@ -24,6 +25,13 @@ export interface BusinessDay {
 
 export type Stock = Readonly<Record<Item, number>>;
 export interface Recipe { readonly lemon: number; readonly sugar: number; readonly ice: number }
+export type TasteComplaint = "too-weak" | "too-warm" | "too-sour" | "too-sweet";
+export interface RecipeTaste {
+    readonly quality: number;
+    readonly score: number;
+    readonly preferredIce: number;
+    readonly complaints: readonly TasteComplaint[];
+}
 export interface Plan { readonly recipe: Recipe; readonly price: number }
 export interface Daily {
     readonly freeIceUsed: number;
@@ -73,6 +81,7 @@ export interface CustomerEvent {
     readonly kind: "bought" | "price" | "passed" | "sold-out" | "abandoned";
     readonly profile: number;
     readonly satisfaction: number | null;
+    readonly tasteComplaints: readonly TasteComplaint[];
 }
 export interface Visitor {
     readonly id: number;
@@ -108,7 +117,7 @@ export function newGame(seed = 2026): State {
     integer(seed, 0, 4294967295, "Seed");
     return { management: defaultManagement(), phase: "preparation", day: 1, cash: 4000, openingCash: 4000,
         stock: { lemon: 0, sugar: 0, ice: 0, cup: 0 }, freeIce: 0, pitcherCups: 0,
-        plan: { recipe: { lemon: 2, sugar: 1, ice: 2 }, price: 150 },
+        plan: { recipe: { lemon: 6, sugar: 3, ice: 2 }, price: 150 },
         location: "neighborhood", pendingLocation: null, unlocked: ["neighborhood"],
         locationStats: { neighborhood: { satisfaction: 0.5, popularity: 0.5 },
             park: { satisfaction: 0.5, popularity: 0.5 }, downtown: { satisfaction: 0.5, popularity: 0.5 } },
@@ -118,8 +127,8 @@ export function newGame(seed = 2026): State {
 export function setPlan(state: State, plan: Plan): State {
     phase(state, "preparation");
     integer(plan.price, 25, 500, "Price (cents)");
-    integer(plan.recipe.lemon, 1, 6, "Lemon");
-    integer(plan.recipe.sugar, 1, 4, "Sugar");
+    integer(plan.recipe.lemon, 0, 20, "Lemon");
+    integer(plan.recipe.sugar, 0, 10, "Sugar");
     integer(plan.recipe.ice, 0, 7, "Ice");
     if (state.business && (plan.price !== state.plan.price ||
         (["lemon", "sugar", "ice"] as const).some(item => plan.recipe[item] !== state.plan.recipe[item])))
@@ -150,19 +159,51 @@ export function unitCost(recipe: Recipe, freeIce = 0): number {
 }
 export function capacity(state: State): number {
     const { stock, plan: { recipe } } = state;
-    const newPitchers = Math.min(Math.floor(stock.lemon / recipe.lemon), Math.floor(stock.sugar / recipe.sugar),
-        recipe.ice === 0 ? Infinity : Math.floor(stock.ice / (recipe.ice * cupsPerPitcher(recipe))));
-    return Math.min(stock.cup, state.pitcherCups + newPitchers * cupsPerPitcher(recipe));
+    const legacy = state.business !== null && state.business.customerModel !== "purchase-first-v1";
+    const newPitchers = Math.min(recipe.lemon === 0 ? Infinity : Math.floor(stock.lemon / recipe.lemon),
+        recipe.sugar === 0 ? Infinity : Math.floor(stock.sugar / recipe.sugar),
+        !legacy || recipe.ice === 0 ? Infinity : Math.floor(stock.ice / (recipe.ice * cupsPerPitcher(recipe))));
+    const iceCups = legacy || recipe.ice === 0 ? Infinity : Math.floor(stock.ice / recipe.ice);
+    return Math.min(stock.cup, iceCups, state.pitcherCups + newPitchers * cupsPerPitcher(recipe));
+}
+/** Recovered from original 1.1.6 and cross-checked against live TEST days. */
+export function recipeTaste(recipe: Recipe, temperature: number): RecipeTaste {
+    const preferredIce = clamp(Math.ceil((temperature - 25) / 5), 0, 7);
+    const complaints: TasteComplaint[] = [];
+    let score = 100;
+    if (temperature > 5 * (recipe.ice + 4) + 5) {
+        score = 50;
+        complaints.push("too-warm");
+    }
+    const dilution = Math.trunc(10000 / (100 - 10 * recipe.ice));
+    const concentration = Math.trunc(4 * dilution / 10) + 2 * Math.trunc(2 * dilution / 10);
+    if (concentration - 10 * (2 * recipe.sugar + recipe.lemon) > 20) {
+        score -= 60;
+        complaints.push("too-weak");
+    } else if (2 * recipe.sugar - recipe.lemon > 1) {
+        score -= 40;
+        complaints.push("too-sweet");
+    } else if (2 * recipe.sugar - recipe.lemon < -1) {
+        score -= 50;
+        complaints.push("too-sour");
+    }
+    return { quality: clamp(score / 100), score, preferredIce, complaints };
 }
 export function quality(recipe: Recipe, temperature: number): number {
-    const balance = Math.abs(recipe.lemon / recipe.sugar - 2) * 0.2;
-    const preferredIce = temperature >= 30 ? 4 : temperature >= 25 ? 3 : temperature >= 21 ? 2 : 1;
-    return clamp(1 - balance - Math.abs(recipe.ice - preferredIce) * 0.12);
+    return recipeTaste(recipe, temperature).quality;
 }
-export function demand(plan: Plan, weather: Weather, reputation: number, profile: number, variation: number): {
+/** Frozen alpha13 rule for paid openings created before the new customer model. */
+function legacyQuality(recipe: Recipe, temperature: number): number {
+    const balance = Math.abs(recipe.lemon / recipe.sugar - 2) * 0.2;
+    const ice = temperature >= 30 ? 4 : temperature >= 25 ? 3 : temperature >= 21 ? 2 : 1;
+    return clamp(1 - balance - Math.abs(recipe.ice - ice) * 0.12);
+}
+export function demand(plan: Plan, weather: Weather, reputation: number, profile: number, variation: number, legacyTaste = false): {
     willingness: number; probability: number;
 } {
-    const taste = quality(plan.recipe, weather.temperature);
+    // Customers cannot know today's recipe before tasting it. Existing paid
+    // openings retain the old model so replacing the game never rewrites their day.
+    const taste = legacyTaste ? legacyQuality(plan.recipe, weather.temperature) : 1;
     const willingness = Math.round((115 + (weather.temperature - 18) * 5 + taste * 75 + reputation * 40)
         * CUSTOMERS[profile].budget * (0.85 + variation * 0.3));
     const probability = clamp(0.25 + taste * 0.35 + reputation * 0.2 + (weather.temperature - 18) * 0.008
@@ -187,14 +228,15 @@ export function openingReadiness(state: State): { cups: number; missing: Stock }
     return { cups: capacity({ ...state, stock }), missing: {
         lemon: Math.max(0, (needsPitcher ? recipe.lemon : 0) - stock.lemon),
         sugar: Math.max(0, (needsPitcher ? recipe.sugar : 0) - stock.sugar),
-        ice: Math.max(0, (needsPitcher ? recipe.ice * cupsPerPitcher(recipe) : 0) - stock.ice),
+        ice: Math.max(0, (state.business && state.business.customerModel !== "purchase-first-v1"
+            ? needsPitcher ? recipe.ice * cupsPerPitcher(recipe) : 0 : recipe.ice) - stock.ice),
         cup: Math.max(0, 1 - stock.cup),
     } };
 }
-/** Charge one complete recipe when it is prepared, including unsold lemonade. */
+/** Lemons/sugar are prepared by pitcher; new days add ice when a cup sells. */
 function makePitcher(state: State): State {
     const recipe = state.plan.recipe;
-    const ice = recipe.ice * cupsPerPitcher(recipe);
+    const ice = state.business?.customerModel === "purchase-first-v1" ? 0 : recipe.ice * cupsPerPitcher(recipe);
     const freeIceUsed = Math.min(state.freeIce, ice);
     return { ...state, pitcherCups: cupsPerPitcher(recipe),
         stock: { ...state.stock, lemon: state.stock.lemon - recipe.lemon,
@@ -202,7 +244,8 @@ function makePitcher(state: State): State {
         freeIce: state.freeIce - freeIceUsed,
         daily: { ...state.daily, pitchersMade: state.daily.pitchersMade + 1,
             freeIceUsed: state.daily.freeIceUsed + freeIceUsed,
-            cost: state.daily.cost + pitcherCost(recipe) - freeIceUsed * ITEMS.ice.cost } };
+            cost: state.daily.cost + recipe.lemon * ITEMS.lemon.cost + recipe.sugar * ITEMS.sugar.cost
+                + (ice - freeIceUsed) * ITEMS.ice.cost } };
 }
 export function openDay(state: State): State {
     phase(state, "preparation");
@@ -220,7 +263,7 @@ export function openDay(state: State): State {
         throw new Error("Buy enough supplies for one pitcher and a cup before opening.");
     if (state.cash < fees)
         throw new Error("Not enough cash for opening costs. Reduce advertising, dismiss staff or return to the free Neighborhood.");
-    const business: BusinessDay = { location: id, from: state.location,
+    const business: BusinessDay = { customerModel: "purchase-first-v1", location: id, from: state.location,
         traffic: Math.round(state.weather.traffic * location.traffic * (0.8 + 0.4 * rating.popularity) * advertising.traffic),
         budget: location.budget, weights: [...location.weights], patienceTicks: location.patience + staff.patience,
         arrivalEvery: Math.max(1, Math.round(location.arrival / advertising.traffic)), serviceTicks: 8 - state.management.upgrades.blender - staff.speed, satisfaction: rating.satisfaction,
@@ -248,9 +291,10 @@ export function unlockLocations(unlocked: readonly LocationId[], days: number, r
 export function isBankrupt(state: State): boolean {
     if (state.phase !== "preparation") return false;
     if (state.pitcherCups > 0 && capacity(state) > 0) return false;
-    // The cheapest legal recipe is 1 lemon / 1 sugar / no ice and one cup.
-    const needed = Math.max(0, 1 - state.stock.lemon) * ITEMS.lemon.cost +
-        Math.max(0, 1 - state.stock.sugar) * ITEMS.sugar.cost + Math.max(0, 1 - state.stock.cup) * ITEMS.cup.cost;
+    // A paid recipe is fixed; an unpaid day can still sell a weak, zero-ingredient drink.
+    const missing = state.business ? openingReadiness(state).missing
+        : { lemon: 0, sugar: 0, ice: 0, cup: Math.max(0, 1 - state.stock.cup) };
+    const needed = ITEM_KEYS.reduce((total, item) => total + missing[item] * ITEMS[item].cost, 0);
     return state.cash < needed;
 }
 export function drawVisitor(state: State, id: number): { state: State; visitor: Visitor } {
@@ -259,7 +303,8 @@ export function drawVisitor(state: State, id: number): { state: State; visitor: 
     const weights = state.business!.weights;
     let profile = 0, roll = a.value * weights.reduce((total, weight) => total + weight, 0);
     while (profile < weights.length - 1 && roll >= weights[profile]) roll -= weights[profile++];
-    const decision = demand(state.plan, state.weather, state.business!.satisfaction, profile, b.value);
+    const decision = demand(state.plan, state.weather, state.business!.satisfaction, profile, b.value,
+        state.business!.customerModel !== "purchase-first-v1");
     const willingness = Math.round(decision.willingness * state.business!.budget);
     const intent: Visitor["intent"] = state.plan.price > willingness ? "price"
         : c.value >= decision.probability ? "passed" : "buy";
@@ -271,9 +316,17 @@ export function settleVisitor(state: State, visitor: Visitor, outcome?: "abandon
         : capacity(state) === 0 ? "sold-out" : "bought");
     const sold = kind === "bought";
     if (sold && state.pitcherCups === 0) state = makePitcher(state);
-    const satisfaction = sold ? Math.round(clamp(quality(state.plan.recipe, state.weather.temperature) * 0.8
-        + clamp(1 - state.plan.price / (visitor.willingness * 1.4)) * 0.2) * 100) : null;
-    const stock: Stock = sold ? { ...state.stock, cup: state.stock.cup - 1 } : state.stock;
+    const currentModel = state.business!.customerModel === "purchase-first-v1";
+    const taste = recipeTaste(state.plan.recipe, state.weather.temperature);
+    // Derive a reproducible taste draw without consuming arrival randomness.
+    // Every buyer samples the same draw regardless of the chosen recipe.
+    const tasteDraw = Math.floor(random((state.seed ^ Math.imul(visitor.id, 0x9e3779b1)) >>> 0).value * 101);
+    const satisfaction = !sold ? null : currentModel ? (tasteDraw <= taste.score ? 100 : 0)
+        : Math.round(clamp(legacyQuality(state.plan.recipe, state.weather.temperature) * 0.8
+            + clamp(1 - state.plan.price / (visitor.willingness * 1.4)) * 0.2) * 100);
+    const usedIce = sold && currentModel ? state.plan.recipe.ice : 0;
+    const freeIceUsed = Math.min(state.freeIce, usedIce);
+    const stock: Stock = sold ? { ...state.stock, cup: state.stock.cup - 1, ice: state.stock.ice - usedIce } : state.stock;
     const daily: Daily = { ...state.daily, visitors: state.daily.visitors + 1,
         sold: state.daily.sold + Number(sold), rejected: state.daily.rejected + Number(kind === "price" || kind === "passed"),
         priceRejected: state.daily.priceRejected + Number(kind === "price"),
@@ -281,22 +334,25 @@ export function settleVisitor(state: State, visitor: Visitor, outcome?: "abandon
         soldOut: state.daily.soldOut + Number(kind === "sold-out"),
         abandoned: state.daily.abandoned + Number(kind === "abandoned"),
         revenue: state.daily.revenue + (sold ? state.plan.price : 0),
-        cost: state.daily.cost + (sold ? ITEMS.cup.cost : 0),
+        cost: state.daily.cost + (sold ? ITEMS.cup.cost + (usedIce - freeIceUsed) * ITEMS.ice.cost : 0),
+        freeIceUsed: state.daily.freeIceUsed + freeIceUsed,
         satisfactionTotal: state.daily.satisfactionTotal + (satisfaction ?? 0) };
     const finished = daily.visitors >= dayTraffic(state);
     const oldRating = state.locationStats[state.location];
+    const satisfactionCount = daily.sold + (currentModel ? daily.priceRejected + daily.soldOut + daily.abandoned : 0);
     const satisfactionRating = finished && daily.sold > 0 ?
-        clamp(oldRating.satisfaction * 0.65 + daily.satisfactionTotal / daily.sold / 100 * 0.35) : oldRating.satisfaction;
+        clamp(oldRating.satisfaction * 0.65 + daily.satisfactionTotal / satisfactionCount / 100 * 0.35) : oldRating.satisfaction;
     const locationStats = finished && daily.sold > 0 ? { ...state.locationStats,
         [state.location]: { satisfaction: satisfactionRating, popularity: oldRating.popularity * 0.8 + satisfactionRating * 0.2 } } : state.locationStats;
     const lifetimeRevenue = state.lifetimeRevenue + (finished ? daily.revenue : 0);
-    const served: State = { ...state, stock, daily, cash: state.cash + (sold ? state.plan.price : 0),
+    const served: State = { ...state, stock, daily, freeIce: state.freeIce - freeIceUsed, cash: state.cash + (sold ? state.plan.price : 0),
         pitcherCups: finished ? 0 : state.pitcherCups - Number(sold),
         phase: finished ? "results" : "selling",
         reputation: satisfactionRating, locationStats, lifetimeRevenue,
         unlocked: finished ? unlockLocations(state.unlocked, state.day, lifetimeRevenue, satisfactionRating) : state.unlocked };
     return { state: sold && !finished && served.pitcherCups === 0 && capacity(served) > 0 ? makePitcher(served) : served,
-        event: { id: visitor.id, kind, profile: visitor.profile, satisfaction } };
+        event: { id: visitor.id, kind, profile: visitor.profile, satisfaction,
+            tasteComplaints: sold && currentModel && satisfaction === 0 ? taste.complaints : [] } };
 }
 export function stepCustomer(state: State): { state: State; event: CustomerEvent } {
     const draw = drawVisitor(state, state.daily.visitors + 1);
@@ -313,7 +369,13 @@ export function nextDay(state: State): State {
 export function results(state: State): { profit: number; cashChange: number; satisfaction: number | null } {
     return { profit: state.daily.revenue - state.daily.cost - state.daily.rent - state.daily.moveFee - state.daily.wages - state.daily.advertising,
         cashChange: state.cash - state.openingCash,
-        satisfaction: state.daily.sold === 0 ? null : Math.round(state.daily.satisfactionTotal / state.daily.sold) };
+        satisfaction: state.daily.sold === 0 ? null :
+            Math[state.business?.customerModel === "purchase-first-v1" ? "floor" : "round"](
+                state.daily.satisfactionTotal / satisfactionCustomers(state)) };
+}
+export function satisfactionCustomers(state: State): number {
+    return state.daily.sold + (state.business?.customerModel === "purchase-first-v1"
+        ? state.daily.priceRejected + state.daily.soldOut + state.daily.abandoned : 0);
 }
 
 function editableManagement(state: State): void {

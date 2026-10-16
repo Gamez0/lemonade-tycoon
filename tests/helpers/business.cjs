@@ -2,7 +2,7 @@ const { newGame, buy, setPlan, openDay, nextDay } = require('../../.test-build/s
 const { beginStreetDay, finishStreetDay } = require('../../.test-build/simulation/street-day.js');
 function stock(state, price = 175) {
     const ice = state.weather.temperature >= 30 ? 4 : state.weather.temperature >= 25 ? 3 : state.weather.temperature >= 21 ? 2 : 1;
-    state = setPlan(state, { price, recipe: { lemon: 2, sugar: 1, ice } });
+    state = setPlan(state, { price, recipe: { lemon: 6, sugar: 3, ice } });
     for (const [key, target] of [['lemon', 40], ['sugar', 20], ['ice', 320], ['cup', 80]])
         if (state.stock[key] < target) state = buy(state, key, target - state.stock[key]);
     return state;

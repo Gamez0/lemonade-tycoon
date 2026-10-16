@@ -1,5 +1,133 @@
 # Cloud development handoff — 2026-10-05
 
+## Active engineering loop — 2026-10-16 KST
+
+The user resumed engineering with GitHub Projects as the execution queue:
+https://github.com/users/Gamez0/projects/2/views/6 and issue #237. Read Running
+first, otherwise smallest Ready Order; implement, verify, record, then start the
+next runnable task. Historical pause notes are superseded by this request.
+
+#231 established the [product baseline](reviews/product-baseline.md). Parent
+legacy/PR83, active taste-audit research checkout and frozen alpha13 are preserved.
+Product work is now in `D:/lemonade-loop`, main-derived branch
+`fix/backlog-save-import`, fast-forwarded to PR230 `281489b` for diagnosis.
+
+#228 Running: required Windows failure is in `tests/desktop-locations.cjs` v2
+import. Reproduced by decoding the test's field-stripped v7 day as v2: its new
+per-sale ice accounting is incompatible with old pitcher accounting. Replaced
+the fabricated history with the captured alpha13 historical fixture already
+covered by migration unit tests. Save validation stays strict. Model/storage
+baseline66/66 passed; release15/15, typecheck/lint and rebuilt Windows locations,
+taste/v6 replay3/3 and general save/recovery/import/export all pass. Full browser
+and current-head remote CI remain to be recorded before integration.
+No main integration or new delivery is established by this checkpoint.
+
+## Resumed by user — 2026-10-14 KST
+
+The user resumed work and also requested disk/worktree cleanup. Active product
+work remains `D:/lemonade-taste-audit`, `fix/weather-taste-feedback`; the
+alpha13 delivery stays frozen. The earlier pause below is historical.
+
+Cleanup reduced registered worktrees from 18 to 3: the user-owned legacy root,
+frozen alpha13 delivery and active alpha14 implementation. Removed worktree
+branches/commits are retained. Private research, test evidence and uncommitted
+handoff/diagnostic files were preserved under
+`D:/lemonade-worktree-archive/2026-10-14`, with per-worktree source/branch/commit
+records. The modified integration handoff has a full file backup and patch.
+Shared dependencies moved to `D:/lemonade-shared-dependencies/alpha14/node_modules`;
+active and delivery worktrees use junctions there. Do not remove that shared
+directory while either worktree uses it. Original user changes remain untouched.
+
+Current fixes: ice-per-sale UI and browser/native expectations; valid old opening
+test construction; expanded recipe validation expectations; zero-ingredient
+bankruptcy explanation; daily taste advice restricted to new-model days with
+actual buyers. The browser's first full run had 31 passes and four failures
+(three obsolete expectations/fixture construction, one narrow-layout movement).
+The first native taste attempt hit its 5-second startup expectation; the second
+passes all three taste/real-v6 replay cases with a 30-second startup limit.
+Native management passes. Full browser recheck and final packaging/review/CI
+remain in progress. Do not treat the earlier dirty package as final delivery.
+
+Self-review additionally corrected legacy-save recipe/model bounds and the full
+12-tick host bonus across customer profiles. Model/storage/accounting is now
+66/66 PASS; typecheck/lint and release tooling15/15 PASS. The remaining 640px Rent
+layout regression passes after a common620px mobile panel minimum. Full browser
+checks started before the final host refinement were interrupted intentionally;
+final-head browser/package/native validation must use the rebuilt source.
+Review: `docs/reviews/customer-purchase-taste.md`. #228 remains an incremental
+customer-model correction; eleven original profiles/ten locations and full visual
+parity must not be claimed from the three-profile/three-place adaptation.
+
+PR230 opened: https://github.com/Gamez0/lemonade-tycoon/pull/230. Product source
+e8405fc passes browser35/35, native taste/replay3/3, management,30-day campaign and
+full save/recovery/import/export/relocation. Initial PR Windows CI/native save
+failure was a test restoring the former two-lemon default; all three restore
+points now use the captured actual baseline. Current play/save guides updated.
+Require the follow-up head's green CI before integration.
+
+Latest user steering: match the original neighborhood's forms/layout, including
+pixel texture; changing the drawing tool is authorized. Next M2 work should use
+the actual original Suburbs map, matching geometry/scale and integer raster
+pixels, rather than adding decoration to the old approximate scene. Keep original
+assets as local study only and compare at the same displayed map size.
+
+## Historical pause — 2026-10-14 00:00 KST
+
+The user ended today's work after the original trial expired. No active goal or
+background continuation is configured. Resume only when asked. User correction:
+limited original-play time must be used for observation before implementation.
+
+Working tree: `D:/lemonade-taste-audit`, branch `fix/weather-taste-feedback`, based
+on frozen main `29135dc`. This is a work-in-progress checkpoint, not a release.
+The legacy ROOT checkout contains user-owned changes and must remain untouched.
+The frozen alpha13 delivery and draft release also remain unchanged.
+
+Original research: `docs/research/original-116-live-audit.md`. Original 1.1.6 was
+played legitimately in TEST. All 10 full map scenes, 13 equipment cards and
+descriptions, 2 staff cards/descriptions, preparation/report/help screens and
+live animation/weather/reaction samples were captured. Read-only code inspection
+identified taste thresholds, concentration/dilution, inclusive random outcomes,
+11 customer profiles and all 10 location mixtures. Important findings: 2:1 alone
+is insufficient; excess ice dilutes rather than directly imposing a cold penalty;
+Mall temperature is 20°C; recipe limits are 0–20/0–10/0–7; original ice is used
+per sale, and daily satisfaction includes customers lost to stock/price/waiting.
+Advanced equipment effects were not all purchased and measured. The last attempt
+to record more train-station animation was interrupted by trial expiration; do
+not claim its whole planned batch completed.
+
+Private evidence/tools are ignored under `.local-m4/original-runtime` and
+`.local-m4/*.ps1/*.cjs`. Keep original assets, executable, dumps, private menu
+captures and user company names out of Git/product/store assets. Original game
+process exited after trial expiration. The administrative controller is stopped.
+Its stop request has no response JSON; if restarting the controller later, mark
+that old stop request acknowledged first, or it will immediately exit again.
+
+Implementation draft: alpha14/save v7; purchase-before-taste decisions, individual
+office patience/map mix, recovered flavor score and reproducible buyer reactions,
+expanded recipe bounds, ice per sold cup, report denominator, UI advice and old
+paid-day replay protection. Existing economy prices/three locations/three customer
+profiles/forecast/management remain our adaptation, not complete original parity.
+
+Latest verification after these changes: simulation/save/accounting 65/65, including
+3,072 recipe/weather/management cases and frozen alpha13 v6/v4 compatibility data;
+typecheck and reboot lint passed. Earlier browser 19/19 and packaged taste 3/3
+were BEFORE the recovered-model/ice changes and are not current validation.
+
+Next work, on resume:
+1. Correct remaining UI text and browser/native expectations for ice per cup
+   (`src/reboot.ts` still says ice needed per pitcher; browser management's 60/64
+   shortage case, native management's free-ice-at-opening assertions are stale).
+   Recheck zero-ingredient bankruptcy messaging and old report advice.
+2. Refresh `docs/research/alpha13-play-comparison.md` and release candidate notes
+   against this primary research; keep original/customer abstractions explicit.
+3. Build, run relevant browser checks, repackage Windows and run affected native
+   suites (taste, management, campaign, save replay). Earlier dirty package is stale.
+4. Review the full diff and compatibility rules. Open the implementation PR only
+   when reviewable/current checks pass; get exact-head CI before integration.
+5. Keep GitHub #228 (M3 customer rules) and #229 (M2 visual/interaction differences)
+   honest. Main integration, current Windows artifacts and original visual parity
+   are pending. Do not retarget or overwrite frozen alpha13 release assets.
+
 ## Latest scope clarification — 2026-10-13
 
 The user is not ready for actual Steam uploading and asked whether the game can

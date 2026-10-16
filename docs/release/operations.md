@@ -49,6 +49,11 @@ Alpha7 writes save v6 to retain the prepared opening pitcher. It imports v0–v5
 without repricing their histories. Export before updating; alpha6 and earlier
 cannot read new v6 checkpoints, so retain the original pre-update export for
 rollback. Replaying a v6 opening does not produce/charge the first pitcher twice.
+Alpha14 writes v7 for the purchase-first customer model. Existing v0–v6 records
+keep historical accounting; a paid opening without the new model marker replays
+the old purchase/patience rules exactly. The next opening adopts the new model.
+Alpha13 and earlier reject v7 as a future save. Keep a pre-update export for
+rollback; do not import a new v7 export into the earlier package.
 For isolated QA, set --user-data-dir to a disposable Chromium profile as well as
 isolating APPDATA/LOCALAPPDATA for business files. On Windows these environment
 overrides alone do not isolate Electron's persisted browser/audio settings. Native

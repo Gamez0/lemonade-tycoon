@@ -1,6 +1,6 @@
 import { defaultManagement, UPGRADES, STAFF, ADS } from "../content/management";
 import { ITEMS, ITEM_KEYS, WEATHER } from "../content/catalog";
-import { cupsPerPitcher, pitcherCost, unlockLocations } from "./game";
+import { cupsPerPitcher, unlockLocations } from "./game";
 import type { State } from "./game";
 import { isLocation, LOCATION_IDS, LOCATIONS } from "../content/locations";
 import type { LocationId } from "../content/locations";
@@ -9,7 +9,7 @@ export const SAVE_KEY = "lemonade-tycoon.reboot.save";
 export const BACKUP_KEY = "lemonade-tycoon.reboot.backup";
 export type SaveStorage = Pick<Storage, "getItem" | "setItem">;
 export interface SaveDocument {
-    readonly version: 6;
+    readonly version: 7;
     readonly state: State;
     readonly history: readonly State[];
 }
@@ -41,7 +41,8 @@ function validLocations(value: Record<string, unknown>): boolean {
     if (!integer(daily.rent, 0, 1_000_000) || !integer(daily.moveFee, 0, 1_000_000)) return false;
     if (value.business === null) return value.phase === "preparation" && daily.rent === 0 && daily.moveFee === 0;
     const b = value.business;
-    if (!record(b) || b.location !== value.location || !isLocation(b.from) || !value.unlocked.includes(b.from) ||
+    if (!record(b) || (b.customerModel !== undefined && b.customerModel !== "purchase-first-v1") ||
+        b.location !== value.location || !isLocation(b.from) || !value.unlocked.includes(b.from) ||
         value.pendingLocation !== null || b.paid !== true || !integer(b.traffic, 1, 500) ||
         typeof b.budget !== "number" || !Number.isFinite(b.budget) || b.budget < 0.1 || b.budget > 5 ||
         !Array.isArray(b.weights) || b.weights.length !== 3 || !b.weights.every(w => integer(w, 1, 100)) ||
@@ -56,7 +57,7 @@ function validLocations(value: Record<string, unknown>): boolean {
     return true;
 }
 
-function validState(value: unknown, legacy = false, preM5 = false, preM6 = false, preFreeIce = false, preEagerPitcher = false): value is State {
+function validState(value: unknown, legacy = false, preM5 = false, preM6 = false, preFreeIce = false, preEagerPitcher = false, preCustomerModel = false): value is State {
     if (!record(value) || !["preparation", "results"].includes(String(value.phase)) ||
         !integer(value.day, 1) || !integer(value.cash) || !integer(value.openingCash) ||
         !integer(value.seed, 0, 4294967295) || !fraction(value.reputation) ||
@@ -75,8 +76,11 @@ function validState(value: unknown, legacy = false, preM5 = false, preM6 = false
     if (!ITEM_KEYS.every(item => integer(stock[item], 0, 999))) return false;
     if (!preFreeIce && (!integer(value.freeIce, 0, stock.ice as number) || !integer(value.daily.freeIceUsed))) return false;
     const plan = value.plan;
+    const oldRecipe = preCustomerModel || (record(value.business) && value.business.customerModel === undefined);
+    if (preCustomerModel && record(value.business) && value.business.customerModel !== undefined) return false;
     if (!integer(plan.price, 25, 500) || !record(plan.recipe) ||
-        !integer(plan.recipe.lemon, 1, 6) || !integer(plan.recipe.sugar, 1, 4) ||
+        !integer(plan.recipe.lemon, oldRecipe ? 1 : 0, oldRecipe ? 6 : 20) ||
+        !integer(plan.recipe.sugar, oldRecipe ? 1 : 0, oldRecipe ? 4 : 10) ||
         !integer(plan.recipe.ice, 0, legacy ? 6 : 7)) return false;
     const forecast = value.weather;
     if (!WEATHER.some(weather => weather.label === forecast.label &&
@@ -104,10 +108,14 @@ function validState(value: unknown, legacy = false, preM5 = false, preM6 = false
     const oldCost = recipe.lemon * ITEMS.lemon.cost + recipe.sugar * ITEMS.sugar.cost +
         recipe.ice * ITEMS.ice.cost + ITEMS.cup.cost;
     const freeIceUsed = preFreeIce ? 0 : daily.freeIceUsed as number;
-    if (!preFreeIce && (freeIceUsed > (daily.pitchersMade as number) * recipe.ice * cupsPerPitcher(recipe) ||
+    const perCupIce = record(value.business) && value.business.customerModel === "purchase-first-v1";
+    const usedIce = perCupIce ? (daily.sold as number) * recipe.ice
+        : (daily.pitchersMade as number) * recipe.ice * cupsPerPitcher(recipe);
+    if (!preFreeIce && (freeIceUsed > usedIce ||
         (daily.model === "cup" && freeIceUsed !== 0) || (value.phase === "preparation" && !preparedOpening && freeIceUsed !== 0))) return false;
     const expectedCost = legacy || daily.model === "cup" ? (daily.sold as number) * oldCost
-        : (daily.pitchersMade as number) * pitcherCost(recipe) + (daily.sold as number) * ITEMS.cup.cost - freeIceUsed * ITEMS.ice.cost;
+        : (daily.pitchersMade as number) * (recipe.lemon * ITEMS.lemon.cost + recipe.sugar * ITEMS.sugar.cost)
+            + usedIce * ITEMS.ice.cost + (daily.sold as number) * ITEMS.cup.cost - freeIceUsed * ITEMS.ice.cost;
     if (daily.revenue !== (daily.sold as number) * (plan.price as number) ||
         daily.cost !== expectedCost ||
         (!legacy && daily.model === "pitcher" && (daily.sold as number) >
@@ -123,8 +131,8 @@ function validState(value: unknown, legacy = false, preM5 = false, preM6 = false
 export function decodeSave(raw: string): SaveDocument {
     let input: unknown;
     try { input = JSON.parse(raw); } catch { throw new Error("Save file is not valid JSON."); }
-    if (!record(input) || ![0, 1, 2, 3, 4, 5, 6].includes(input.version as number)) {
-        if (record(input) && integer(input.version) && input.version > 6) throw new UnsupportedSaveVersionError();
+    if (!record(input) || ![0, 1, 2, 3, 4, 5, 6, 7].includes(input.version as number)) {
+        if (record(input) && integer(input.version) && input.version > 7) throw new UnsupportedSaveVersionError();
         throw new Error("Unsupported save version. Keep the file as a backup.");
     }
     const legacy = input.version === 0 || input.version === 1;
@@ -132,10 +140,11 @@ export function decodeSave(raw: string): SaveDocument {
     const preM6 = (input.version as number) < 4;
     const preFreeIce = (input.version as number) < 5;
     const preEagerPitcher = (input.version as number) < 6;
+    const preCustomerModel = (input.version as number) < 7;
     if (!Array.isArray(input.history) ||
-        !input.history.every(day => validState(day, legacy, preM5, preM6, preFreeIce, preEagerPitcher)) || input.history.some(day => day.phase !== "results"))
+        !input.history.every(day => validState(day, legacy, preM5, preM6, preFreeIce, preEagerPitcher, preCustomerModel)) || input.history.some(day => day.phase !== "results"))
         throw new Error("Save data is damaged or incomplete.");
-    if (!validState(input.state, legacy, preM5, preM6, preFreeIce, preEagerPitcher)) throw new Error("Save data is damaged or incomplete.");
+    if (!validState(input.state, legacy, preM5, preM6, preFreeIce, preEagerPitcher, preCustomerModel)) throw new Error("Save data is damaged or incomplete.");
     let revenue = 0;
     let unlocked: readonly LocationId[] = ["neighborhood"];
     const migrate = (day: State, lifetimeRevenue: number): State => {
@@ -203,12 +212,12 @@ export function decodeSave(raw: string): SaveDocument {
     };
     if (!history.every(paidEquipment) || (state.phase === "preparation" && !paidEquipment(state)))
         throw new Error("Save equipment purchases do not match the ledger.");
-    return { version: 6, state, history };
+    return { version: 7, state, history };
 }
 
 export function encodeSave(state: State, history: readonly State[]): string {
     if (state.phase === "selling") throw new Error("Save a checkpoint before opening the stand.");
-    return JSON.stringify(decodeSave(JSON.stringify({ version: 6, state, history })));
+    return JSON.stringify(decodeSave(JSON.stringify({ version: 7, state, history })));
 }
 
 export function writeSave(storage: SaveStorage, state: State, history: readonly State[]): void {

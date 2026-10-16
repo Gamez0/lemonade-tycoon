@@ -65,7 +65,8 @@ const closeNormally = async session => {
         await expect(session.page.locator('#lemon')).toHaveValue('3');
         expect(JSON.parse(fs.readFileSync(savePath, 'utf8')).state.plan.recipe.lemon).toBe(3);
         // Restore this suite's baseline before testing its existing opening replay.
-        await session.page.locator('#lemon').fill('2'); await session.page.locator('#lemon').press('Tab');
+        await session.page.locator('#lemon').fill(String(JSON.parse(preparation).state.plan.recipe.lemon));
+        await session.page.locator('#lemon').press('Tab');
         await expect.poll(() => fs.readFileSync(savePath, 'utf8')).toBe(preparation);
         stage = 'failed disk close keeps playing, retries and explicitly discards';
         await session.app.evaluate(({ ipcMain, dialog, BrowserWindow }, directory) => {
@@ -108,7 +109,8 @@ const closeNormally = async session => {
         await closeNormally(session); session = await launch();
         await expect(session.page.locator('#lemon')).toHaveValue('3');
         expect(fs.readFileSync(savePath, 'utf8')).toBe(durableRecipe);
-        await session.page.locator('#lemon').fill('2'); await session.page.locator('#lemon').press('Tab');
+        await session.page.locator('#lemon').fill(String(JSON.parse(preparation).state.plan.recipe.lemon));
+        await session.page.locator('#lemon').press('Tab');
         await expect.poll(() => fs.readFileSync(savePath, 'utf8')).toBe(preparation);
         stage = 'close timeout keeps playing and ignores its late acknowledgement';
         await session.app.evaluate(({ ipcMain, dialog, BrowserWindow }, directory) => {
@@ -135,7 +137,8 @@ const closeNormally = async session => {
         expect(await session.app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows().length)).toBe(1);
         await closeNormally(session); session = await launch();
         await expect(session.page.locator('#lemon')).toHaveValue('3');
-        await session.page.locator('#lemon').fill('2'); await session.page.locator('#lemon').press('Tab');
+        await session.page.locator('#lemon').fill(String(JSON.parse(preparation).state.plan.recipe.lemon));
+        await session.page.locator('#lemon').press('Tab');
         await expect.poll(() => fs.readFileSync(savePath, 'utf8')).toBe(preparation);
         await closeNormally(session); session = await launch();
         await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'preparation');

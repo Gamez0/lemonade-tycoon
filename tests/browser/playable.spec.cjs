@@ -61,7 +61,7 @@ test("three days keep daily and cumulative books and classic geometry", async ({
     await expect(page.locator("#supplies-page")).toBeHidden();
     await page.locator("#app").screenshot({ path: "test-results/m2-recipe.png" });
     await change(page, "price", "1.75");
-    await expect(page.locator("#unit-cost")).toHaveText("$0.15");
+    await expect(page.locator("#unit-cost")).toHaveText("$0.18");
     await page.locator("#app").screenshot({ path: "test-results/m2-price.png" });
     const geometry = await page.evaluate(() => {
         const box = (selector) => document.querySelector(selector).getBoundingClientRect();
@@ -151,13 +151,13 @@ test("purchase drafts survive tabs; cancel and rejected checkout never change st
     await expect(page.locator("#cash")).toHaveText("$40.00");
     await expect(page.locator("#order-total")).toHaveText("$44.00");
     await page.locator("#cancel-order").click();
-    await change(page, "lemon", "0");
+    await change(page, "lemon", "21");
     await expect(page.locator("#message")).toContainText("Check lemon");
     await tab(page, "supplies");
     await add(page, "cup");
     await page.locator("#buy-order").click();
     await expect(page.locator("#recipe-page")).toBeVisible();
-    await expect(page.locator("#lemon")).toHaveValue("0");
+    await expect(page.locator("#lemon")).toHaveValue("21");
     await expect(page.locator("#cash")).toHaveText("$40.00");
     await change(page, "lemon", "2");
     await change(page, "ice", "");
@@ -216,7 +216,7 @@ test("all preparation screens retain forecast details and action position across
             positions.push((await page.locator("#open").boundingBox()).y);
             expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
         }
-        expect(Math.max(...positions) - Math.min(...positions)).toBeLessThanOrEqual(1);
+        expect(Math.max(...positions) - Math.min(...positions), JSON.stringify({ width, positions })).toBeLessThanOrEqual(1);
     }
 });
 

@@ -77,12 +77,12 @@ test('snapshots keep distinct location demand and queues; only completed local r
 });
 
 test('v2 and earlier accounting migrate exactly; malformed v3 progression cannot replace saves', () => {
-    const first = campaign(2026, 1).history[0];
+    const first = require('./fixtures/alpha13-customer-model.json').cases[0].expected;
     const old = JSON.parse(JSON.stringify(first));
     for (const key of ['location', 'pendingLocation', 'unlocked', 'locationStats', 'lifetimeRevenue', 'business']) delete old[key];
     delete old.daily.rent; delete old.daily.moveFee;
     const migrated = decodeSave(JSON.stringify({ version: 2, state: old, history: [old] }));
-    assert.equal(migrated.version, 6);
+    assert.equal(migrated.version, 7);
     for (const key of ['cash', 'stock', 'plan', 'seed', 'reputation', 'weather']) assert.deepEqual(migrated.state[key], old[key]);
     for (const key of Object.keys(old.daily)) assert.equal(migrated.state.daily[key], old.daily[key]);
     assert.equal(migrated.state.business.traffic, old.weather.traffic);
@@ -137,8 +137,9 @@ test('thirty days visiting all three locations reconcile fees, saves, ice melt a
 
 test('bankruptcy checks cheapest legal pitcher and preserves free recovery and reset choice', () => {
     const state = newGame();
-    assert.equal(isBankrupt({ ...state, cash: 17 }), true);
-    assert.equal(isBankrupt({ ...state, cash: 18 }), false);
+    assert.equal(isBankrupt({ ...state, cash: 5 }), true);
+    assert.equal(isBankrupt({ ...state, cash: 6 }), false);
+    assert.equal(isBankrupt({ ...state, cash: 0, stock: { lemon: 0, sugar: 0, ice: 0, cup: 1 } }), false);
     assert.equal(isBankrupt({ ...state, cash: 0, stock: { lemon: 1, sugar: 1, ice: 0, cup: 1 } }), false);
     assert.equal(reserveLocation({ ...state, cash: 0 }, 'neighborhood').cash, 0);
 });

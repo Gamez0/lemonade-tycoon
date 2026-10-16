@@ -103,7 +103,7 @@ test('pending supplies block contracts, unaffordable rent is atomic, and bankrup
         daily: { ...poor.daily, purchases: poor.openingCash } };
     await page.locator('#save-file').setInputFiles({ name: 'broke.json', mimeType: 'application/json',
         buffer: Buffer.from(encodeSave(broke, initial.history)) });
-    await expect(page.locator('#business-warning')).toContainText('cheapest pitcher');
+    await expect(page.locator('#business-warning')).toContainText('paper cup');
     await expect(page.locator('#export-save')).toBeEnabled();
     await page.locator('#restart').click(); await page.locator('#restart').press('Escape');
     await page.reload(); expect((await saved(page)).state.cash).toBe(0);

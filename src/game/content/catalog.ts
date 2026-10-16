@@ -16,7 +16,7 @@ export const WEATHER = [
 ] as const;
 export type Weather = (typeof WEATHER)[number];
 export const CUSTOMERS = [
-    { name: "Neighbor", budget: 0.95 },
-    { name: "Walker", budget: 1.15 },
-    { name: "Student", budget: 0.8 },
+    { name: "Neighbor", budget: 0.95, patience: 1 },
+    { name: "Office worker", budget: 1.15, patience: 0.5 },
+    { name: "Student", budget: 0.8, patience: 1.25 },
 ] as const;
