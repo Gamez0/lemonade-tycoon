@@ -2,6 +2,15 @@
 
 ## Active engineering loop — 2026-10-16 KST
 
+Latest checkpoint: PR230 merged as `b1203c9` after head7cecf1c required CI passed
+(simulation/browser and full Windows package suites). #228 stays open for full
+profile mapping; its purchase/taste/ice/save increment is integrated. #229 is
+Running on `fix/classic-ui-readability` with body typography, illustrated equipment
+and staff catalogues and a user-reported small-window Staff horizontal scrollbar
+fix. See [review](reviews/classic-ui-catalogues.md). Parent legacy changes remain
+untouched. Continue Ready work after recording this increment; no human visual
+acceptance, new alpha delivery or Steam submission is implied.
+
 The user resumed engineering with GitHub Projects as the execution queue:
 https://github.com/users/Gamez0/projects/2/views/6 and issue #237. Read Running
 first, otherwise smallest Ready Order; implement, verify, record, then start the

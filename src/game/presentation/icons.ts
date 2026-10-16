@@ -1,5 +1,11 @@
 // Original outlined inventory icons shared by the stock strip and controls.
 const drawings = {
+    refrigerator: '<path fill="#d4e4d6" d="M5 2h16v22H5Z"/><path fill="#f7f7da" d="M7 4h12v7H7Zm0 9h12v9H7Z"/><path fill="none" d="M5 12h16M9 6v3m0 6v4"/><path fill="#587b64" d="M6 24h3v1H6Zm11 0h3v1h-3Z"/>',
+    iceMaker: '<path fill="#a6c7ca" d="M3 3h20v21H3Z"/><path fill="#e9f3db" d="M5 5h16v5H5Z"/><path fill="#31575b" d="M6 12h14v9H6Z"/><path fill="#9edfea" d="m9 14 4-2 4 2v5l-4 2-4-2Z"/><path fill="#f4ffff" d="m9 14 4 2 4-2-4-2Z"/><path fill="#70a534" d="M18 6h2v2h-2Z"/>',
+    blender: '<path fill="#d5e8d6" d="M6 3h14l-2 13H8Z"/><path fill="#f5dc43" d="m8 9 10 0-1 6H9Z"/><path fill="none" stroke-width="2" d="M20 6h3v7h-4"/><path fill="#dceac4" d="M6 1h14v3H6Z"/><path fill="#8fa68b" d="M8 17h10l3 7H5Z"/><path fill="#e64933" d="M12 20h3v2h-3Z"/>',
+    owner: '<path fill="#e7c39b" d="M8 4h10v10H8Z"/><path fill="#865a34" d="M7 3h12v4H7Z"/><path fill="#e7d948" d="m7 15 6-2 6 2 3 10H4Z"/><path fill="#fff3bd" d="M9 17h8v8H9Z"/><path fill="none" d="M10 8v2m6-2v2m-6 2h6"/>',
+    server: '<path fill="#ba835e" d="M8 4h10v10H8Z"/><path fill="#403e35" d="M7 2h12v5H7Z"/><path fill="#dfecda" d="m7 15 6-2 6 2 3 10H4Z"/><path fill="#3a7184" d="m11 15 2 2 2-2-1 9h-2Z"/><path fill="none" d="M10 8v2m6-2v2m-6 2h6"/>',
+    host: '<path fill="#e4b98d" d="M8 4h10v10H8Z"/><path fill="#98563c" d="M7 2h12v5H7Zm0 4h2v9H6Zm10 0h2l1 9h-3Z"/><path fill="#6a9d68" d="m7 15 6-2 6 2 3 10H4Z"/><path fill="#fff0ac" d="m9 15 4 4 4-4-4 1Z"/><path fill="none" d="M10 8v2m6-2v2m-6 2h6"/>',
     rent: '<path fill="#eddaa4" d="M3 11 13 3l10 8v12H3Z"/><path fill="#bd8955" d="m1 11 12-10 12 10-3 2-9-7-9 7Z"/><path fill="#70a2aa" d="M6 13h5v5H6Zm9 0h5v5h-5Z"/><path fill="#805d40" d="M11 18h4v5h-4Z"/>',
     sunny: '<path fill="none" stroke="#f7dc56" stroke-width="2" d="M13 1v4m0 16v4M1 13h4m16 0h4M4 4l3 3m12 12 3 3M4 22l3-3M19 7l3-3"/><circle fill="#f2c332" cx="13" cy="13" r="7"/><path fill="none" stroke="#fff19a" d="M8 13a5 5 0 0 1 5-5"/>',
     cloudy: '<path fill="#bccfca" d="M4 20C0 19 1 13 5 12c-1-6 7-9 11-4 5-2 9 2 8 6 4 5-1 8-4 7Z"/><path fill="#f5f3d9" stroke="none" d="M3 16c0-2 2-3 5-2-3-7 5-9 8-4 5-2 7 1 6 4-5-2-7 2-10 2Z"/>',

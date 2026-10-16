@@ -70,7 +70,13 @@ async function fit(page, name) {
             selling: document.querySelector('#selling').getClientRects().length ? box(document.querySelector('#selling')) : null,
             open: document.querySelector('#open').getClientRects().length ? box(document.querySelector('#open')) : null,
             controls: [...document.querySelectorAll("button,input:not([type=file])")]
-                .filter((x) => x.getClientRects().length && getComputedStyle(x).visibility !== "hidden")
+                .filter((x) => {
+                    if (!x.getClientRects().length || getComputedStyle(x).visibility === "hidden") return false;
+                    const catalogue = x.closest('.management-catalog');
+                    if (!catalogue) return true;
+                    const a = x.getBoundingClientRect(), b = catalogue.getBoundingClientRect();
+                    return a.right > b.x && a.x < b.right;
+                })
                 .map((x) => ({ name: x.id || x.textContent.trim(), ...box(x) })),
         };
     });
@@ -139,6 +145,13 @@ async function fit(page, name) {
                 await page.locator(`[data-page=${tab}]`).click();
                 await page.waitForTimeout(200);
                 await fit(page, `${width}x${height} ${tab}`);
+                if (tab === 'upgrades' || tab === 'staff') {
+                    for (let card = 0; card < 3; card++) {
+                        await page.locator(`[data-catalog="${tab}"][data-catalog-step="1"]`).click();
+                        await page.waitForTimeout(100);
+                        await fit(page, `${width}x${height} ${tab} card ${card + 1}`);
+                    }
+                }
             }
         }
         const mapImage = await page.locator('canvas').evaluate(canvas => canvas.toDataURL('image/png'));
