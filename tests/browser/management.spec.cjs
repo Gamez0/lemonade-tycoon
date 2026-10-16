@@ -124,10 +124,15 @@ test('seven screens purchase, hire, advertise, restore and account for a paid re
     await page.locator('#buy-order').click();
     await page.locator('#open').click();
     await expect(page.locator('#selling')).toBeVisible();
+    await expect(page.locator('#setting-equipment')).toHaveText('Blender 1/2');
+    await expect(page.locator('#setting-management')).toHaveText('Jamie · server / Local flyers');
     await page.reload();
     await page.locator('[data-page=staff]').click();
     await expect(page.locator('[data-staff=none]')).toBeDisabled();
-    await page.locator('#open').click(); await page.locator('#skip').click();
+    await page.locator('#open').click();
+    await expect(page.locator('#setting-equipment')).toHaveText('Blender 1/2');
+    await expect(page.locator('#setting-management')).toHaveText('Jamie · server / Local flyers');
+    await page.locator('#skip').click();
     await expect(page.locator('#results')).toBeVisible();
     await expect(page.locator('#result-values')).toContainText('$2.50 / $1.80');
     await expect(page.locator('#result-values')).toContainText('$14.00');
