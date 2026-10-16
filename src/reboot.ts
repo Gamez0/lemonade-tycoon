@@ -164,7 +164,7 @@ function rows(id: string, values: [string, string][]): void {
 for (const [i] of bundleSizes.entries()) {
     const row = document.createElement("div");
     row.className = "bundle-row";
-    row.innerHTML = `<span id="bundle-label-${i}"></span><strong id="bundle-price-${i}"></strong><div class="spinner"><button data-bundle="${i}" data-delta="-1">−</button><output id="bundle-count-${i}">0</output><button data-bundle="${i}" data-delta="1">+</button></div>`;
+    row.innerHTML = `<span class="bundle-label"><span id="bundle-art-${i}"></span><span id="bundle-label-${i}"></span></span><strong id="bundle-price-${i}"></strong><div class="spinner"><button data-bundle="${i}" data-delta="-1">−</button><output id="bundle-count-${i}">0</output><button data-bundle="${i}" data-delta="1">+</button></div>`;
     element("supplies").append(row);
 }
 function applyStreet(events: CustomerEvent[]): void {
@@ -622,6 +622,11 @@ function render(): void {
         button.setAttribute("aria-pressed", String(button.dataset.supply === selectedSupply));
     bundleSizes.forEach((size, i) => {
         const quantity = size * ITEMS[selectedSupply].bundle;
+        const art = element(`bundle-art-${i}`);
+        if (art.dataset.item !== selectedSupply) {
+            art.innerHTML = icon(selectedSupply);
+            art.dataset.item = selectedSupply;
+        }
         text(`bundle-label-${i}`, `${quantity} ${ITEMS[selectedSupply].name}`);
         text(`bundle-price-${i}`, money(quantity * ITEMS[selectedSupply].cost));
         text(`bundle-count-${i}`, String(order[selectedSupply][i]));
@@ -654,6 +659,7 @@ function render(): void {
     else element("open").removeAttribute("aria-describedby");
     text("unit-cost", money(unitCost(state.plan.recipe, state.freeIce + openingCosts(state).ice)));
     const legacyPaidDay = state.business !== null && state.business.customerModel !== "purchase-first-v1";
+    text("ice-basis", legacyPaidDay ? "Ice reserved at opening" : "Per sold cup");
     text("pitcher-yield", `${cupsPerPitcher(state.plan.recipe)} cups per pitcher; ` + (legacyPaidDay
         ? `${state.plan.recipe.ice * cupsPerPitcher(state.plan.recipe)} ice reserved per pitcher for this saved day.`
         : `${state.plan.recipe.ice} ice used per sold cup.`));
