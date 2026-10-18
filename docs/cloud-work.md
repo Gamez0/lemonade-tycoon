@@ -1,5 +1,16 @@
 # Cloud development handoff — 2026-10-05
 
+## Resumed checkpoint — 2026-10-18 KST
+
+PR239 passed its exact-head required CI and merged as `79d6ab0`. PR240 was rebased
+onto that main as `9289979`; require its fresh CI before merging. Its focused
+purchase/storage/ice/management/breakpoint browser checks passed again (5/5).
+Continued #229 on `fix/customer-report-clarity`: distinguish buyer taste from the
+overall rating, reproduced using a real two-day simulation with queue departures.
+Browser report/taste checks3/3, typecheck/lint/build pass; rebuilt native UI and
+remote checks are next. See `reviews/customer-report-clarity.md`. Parent legacy
+changes, original resources and frozen alpha13 are preserved.
+
 ## Active engineering loop — 2026-10-16 KST
 
 Latest checkpoint: PR230 merged as `b1203c9` after head7cecf1c required CI passed

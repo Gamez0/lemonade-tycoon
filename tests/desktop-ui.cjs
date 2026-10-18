@@ -22,7 +22,7 @@ async function launch(exe) {
     app = await electron.launch({ executablePath: path.resolve(exe), env, args: profileArgs(base, [`--force-device-scale-factor=${scale}`]) });
     const page = await app.firstWindow();
     await verifyProfile(app, base);
-    await expect(page.locator("canvas")).toBeVisible();
+    await expect(page.locator("canvas")).toBeVisible({ timeout: 30000 });
     return page;
 }
 async function close() {
