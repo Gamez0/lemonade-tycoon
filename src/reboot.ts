@@ -60,6 +60,7 @@ let selectedSupply: Item = "lemon";
 let currentPage: Page = "recipe";
 let selectedLocation: LocationId = "neighborhood";
 let reportPage: "daily" | "ledger" = "daily";
+let reportDay: number | null = null;
 let lastFeedback = "Your first customers are just around the corner.";
 let restartArmed = false;
 let fast = false;
@@ -181,6 +182,7 @@ function applyStreet(events: CustomerEvent[]): void {
         history.push(state);
         currentPage = "results";
         reportPage = "daily";
+        reportDay = null;
         persist();
     }
 }
@@ -312,6 +314,10 @@ for (const button of document.querySelectorAll<HTMLButtonElement>("[data-report]
         reportPage = button.dataset.report as typeof reportPage;
         render();
     });
+element("report-day").addEventListener("change", () => {
+    reportDay = Number(element<HTMLSelectElement>("report-day").value);
+    render();
+});
 element("open").addEventListener("click", () =>
     act(() => {
         if (orderCost() > 0) {
@@ -344,6 +350,7 @@ function resetPresentation(): void {
     currentPage = "recipe";
     selectedLocation = state.pendingLocation ?? state.location;
     reportPage = "daily";
+    reportDay = null;
     selectedSupply = "lemon";
     order = emptyOrder();
     scene.resetDay();
@@ -450,7 +457,13 @@ element<HTMLInputElement>("save-file").addEventListener("change", (event) => {
 function renderReport(): void {
     for (const button of document.querySelectorAll<HTMLButtonElement>("[data-report]"))
         button.setAttribute("aria-pressed", String(button.dataset.report === reportPage));
-    const latest = history[history.length - 1];
+    const latest = (reportDay === null ? undefined : history.find(report => report.day === reportDay)) ?? history[history.length - 1];
+    const dayPicker = element<HTMLSelectElement>("report-day");
+    element("report-day-picker").hidden = reportPage !== "daily" || history.length === 0;
+    if (dayPicker.options.length !== history.length) {
+        dayPicker.replaceChildren(...history.map(report => new Option(`Day ${report.day}`, String(report.day))));
+    }
+    if (latest) dayPicker.value = String(latest.day);
     if (!latest) {
         text("result-intro", "No completed days yet. Open your stand to start the books!");
         rows("result-values", []);
@@ -588,6 +601,7 @@ function render(): void {
     element("results").hidden = !(closed || (prep && currentPage === "results"));
     element("day-actions").hidden = !prep;
     element("next").hidden = !closed;
+    text("next-day-label", `Prepare day ${state.day + 1}`);
     element<HTMLButtonElement>("next").disabled = scene.finishing;
     element("scene-controls").hidden = !selling && !scene.finishing;
     element<HTMLButtonElement>("skip").disabled = !selling;
