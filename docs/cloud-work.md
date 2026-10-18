@@ -11,6 +11,14 @@ fix. See [review](reviews/classic-ui-catalogues.md). Parent legacy changes remai
 untouched. Continue Ready work after recording this increment; no human visual
 acceptance, new alpha delivery or Steam submission is implied.
 
+Next #229 increment: selling settings now show owned equipment levels and the
+active staff/advertising choice. The existing management browser flow verifies
+these values before and after paid-opening restore (PASS); typecheck/lint pass.
+Rebuilt Windows UI/management checks are running for the extended settings table.
+PR238 remains a separate current-head CI candidate for typography/catalogue and
+Staff scrollbar fixes; do not confuse the later local summary change with that
+PR's exact source.
+
 The user resumed engineering with GitHub Projects as the execution queue:
 https://github.com/users/Gamez0/projects/2/views/6 and issue #237. Read Running
 first, otherwise smallest Ready Order; implement, verify, record, then start the

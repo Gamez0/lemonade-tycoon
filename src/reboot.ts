@@ -684,6 +684,10 @@ function render(): void {
     text("setting-location", LOCATIONS[state.location].name);
     text("setting-rent", `${money(state.daily.rent)} / ${money(state.daily.moveFee)}`);
     text("setting-price", money(state.plan.price));
+    text("setting-equipment", Object.entries(UPGRADES)
+        .filter(([id]) => state.management.upgrades[id as Upgrade] > 0)
+        .map(([id, item]) => `${item.name} ${state.management.upgrades[id as Upgrade]}/2`).join(" · ") || "No upgrades");
+    text("setting-management", `${STAFF[state.management.staff].name} / ${ADS[state.management.advertising].name}`);
     text("setting-capacity", capacity(state) + " cups");
     for (const item of ["lemon", "sugar", "ice"] as const) text("setting-" + item, String(state.plan.recipe[item]));
     const target = state.pendingLocation ?? state.location;
