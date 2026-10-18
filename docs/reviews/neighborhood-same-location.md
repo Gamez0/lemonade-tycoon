@@ -44,5 +44,8 @@ unchanged. The existing rent thumbnail comes from the same generated texture.
 
 Initial actual-browser capture inspected at native displayed size:
 `.local-m4/same-location-20261018/raster-draft.png`. Typecheck/lint pass; complete
-browser and rebuilt native checks are running. This is an authored adaptation,
+browser38/38 and rebuilt Windows UI/management checks pass. Six actual live
+walking frames were captured and inspected around the service stop, marked
+crossing and upper sidewalk; no renderer errors occurred. Remote current-head
+CI remains required. This is an authored adaptation,
 not full original visual parity; sprites and full customer identity remain open.

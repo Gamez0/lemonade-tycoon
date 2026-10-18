@@ -2,6 +2,16 @@
 
 ## Resumed checkpoint — 2026-10-18 KST
 
+PR240 subsequently integrated as `a8f82a8` after required final-head CI passed.
+PR243 is now main-based head `ad73f41` with fresh CI running. DraftPR244 is the
+next #229 increment: independently authored300×240 integer raster neighborhood,
+reversed branch, left lawn cart, left/foreground-right houses and location-aware
+cart/sign/walking route. Local complete browser38/38, typecheck/lint/build,
+rebuilt Windows UI/management PASS. Actual walking frames and native map reviewed.
+See `reviews/neighborhood-same-location.md`. Require PR243 current-head checks,
+then rebase PR244 onto its integrated main and require final-head checks. #229
+report presentation review and #97 user visual acceptance remain open.
+
 PR239 passed its exact-head required CI and merged as `79d6ab0`. PR240 was rebased
 onto that main as `9289979`; require its fresh CI before merging. Its focused
 purchase/storage/ice/management/breakpoint browser checks passed again (5/5).
