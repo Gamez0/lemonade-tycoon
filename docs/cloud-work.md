@@ -1,5 +1,28 @@
 # Cloud development handoff — 2026-10-05
 
+## Integration checkpoint — 2026-10-19 KST
+
+PR239 `79d6ab0`, PR240 `a8f82a8`, PR243 `ea42728` and PR244 `3a0f612`
+integrated after their exact final-head required browser/simulation and full
+Windows CI passed. The product now includes selling equipment/staff/ads,
+grouped pitcher recipe and illustrated bundles, explicit buyer/overall ratings,
+and independently authored300×240 neighborhood composition with corrected
+pedestrian scale/path. Original resources and parent legacy work are preserved.
+
+PR245 (`feat/report-day-navigation`) adds completed-day selection and labels
+the real upcoming day on the next-day action. Focused report/three-day/taste
+checks6/6 passed, with final preparation/results/actual-next-day checks2/2 and
+typecheck/lint/build passing after the label refinement. Rebuilt Windows UI and
+management passed before that final text refinement; require its final main-based
+head CI before integration. See `reviews/report-composition-comparison.md`.
+Private native evidence is in `.local-m4/final-ui-20261018`; comparison and live
+walking frames are in `.local-m4/same-location-20261018` (not product assets).
+
+#229 remains Running for report presentation follow-up. Year/month calendar,
+graph/stock report tabs and full eleven-profile fidelity are not implemented.
+Do not close #97 or other manual gates using automated checks. Follow live
+Projects/issue evidence for subsequent integration and the next runnable action.
+
 ## Resumed checkpoint — 2026-10-18 KST
 
 PR240 subsequently integrated as `a8f82a8` after required final-head CI passed.

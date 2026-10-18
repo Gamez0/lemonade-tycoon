@@ -46,3 +46,9 @@ to latest Day2 (96%). Focused report/three-day/older taste/feedback checks6/6 an
 rebuilt Windows UI/next-day containment at all five window sizes pass, as do
 typecheck, lint and production build. Current-head remote CI and prerequisite
 integration remain required before this increment's integration.
+
+Final review: the next-day action now names the actual upcoming business day.
+Selecting an older report cannot imply a historical replay or rewind. Both
+preparation and closed-day versions of the two-day regression pass (2/2),
+including selecting Day1 and then actually preparing Day3. Typecheck/lint/build
+pass after this final label change; final-head remote CI covers its integration.

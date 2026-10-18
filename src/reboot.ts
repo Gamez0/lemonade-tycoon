@@ -601,6 +601,7 @@ function render(): void {
     element("results").hidden = !(closed || (prep && currentPage === "results"));
     element("day-actions").hidden = !prep;
     element("next").hidden = !closed;
+    text("next-day-label", `Prepare day ${state.day + 1}`);
     element<HTMLButtonElement>("next").disabled = scene.finishing;
     element("scene-controls").hidden = !selling && !scene.finishing;
     element<HTMLButtonElement>("skip").disabled = !selling;
