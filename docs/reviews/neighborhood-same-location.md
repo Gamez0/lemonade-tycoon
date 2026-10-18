@@ -28,3 +28,21 @@ from this observation, without importing source-game assets. Review at300×240 a
 2× alongside this baseline, then verify live arrivals, queue, service and exits,
 location switching/thumbnails and native containment. This review identifies the
 remaining mismatch; it does not complete #229 art work or #97 visual acceptance.
+
+## Authored raster candidate
+
+`neighborhood-raster.ts` now draws a new300×240 scene using integer rectangle,
+scanline-polygon and Bresenham outlines, then scales it without smoothing for the
+existing640×512 world. The left house, upper houses, lower-right foreground roof,
+left lawn cart and reversed branch replace the previous composition. No reference
+pixels are read by the renderer. Park/Downtown retain their own prior artwork.
+
+The cart/sign move with location changes; neighborhood pedestrians follow the
+branch, cross at its marked mouth and continue along the upper sidewalk, avoiding
+the foreground roof. Simulation arrival/service timing, rules and saves stay
+unchanged. The existing rent thumbnail comes from the same generated texture.
+
+Initial actual-browser capture inspected at native displayed size:
+`.local-m4/same-location-20261018/raster-draft.png`. Typecheck/lint pass; complete
+browser and rebuilt native checks are running. This is an authored adaptation,
+not full original visual parity; sprites and full customer identity remain open.

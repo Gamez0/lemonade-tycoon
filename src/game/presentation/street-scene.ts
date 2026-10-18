@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { CART, createArt, STREET } from "./art";
+import { CART, createArt, STREET as sharedStreet } from "./art";
 import type { StreetDay, WalkingVisitor } from "../simulation/street-day";
 import type { State } from "../simulation/game";
 import { LOCATIONS, LOCATION_IDS } from "../content/locations";
@@ -20,6 +20,7 @@ export class StreetScene extends Phaser.Scene {
     private sign?: Phaser.GameObjects.Text;
     private sky?: Phaser.GameObjects.Rectangle;
     private background?: Phaser.GameObjects.Image;
+    private cart?: Phaser.GameObjects.Image;
     private previews = new Map<LocationId, string>();
     private elapsed = 0;
     private speed = 1;
@@ -42,7 +43,7 @@ export class StreetScene extends Phaser.Scene {
             const source = this.textures.get(id).getSourceImage();
             if (source instanceof HTMLCanvasElement) this.previews.set(id, source.toDataURL());
         }
-        this.add.image(CART.x, CART.y, "stand").setOrigin(0).setScale(0.8);
+        this.cart = this.add.image(CART.x, CART.y, "stand").setOrigin(0).setScale(0.8);
         this.sign = this.add.text(CART.x + 23, CART.y + 53, "FRESH", {
             fontFamily: "monospace", fontSize: "7px", color: "#574b31", backgroundColor: "#fff0bd",
         }).setOrigin(0.5);
@@ -80,6 +81,14 @@ export class StreetScene extends Phaser.Scene {
     }
 
     private drawPeople(day: StreetDay): void {
+        // The neighborhood's branch meets a crossing, then the upper sidewalk.
+        // Keep pedestrians clear of the foreground roof rather than extending
+        // the branch's diagonal through the opposite gardens.
+        const streetLayout = this.hooks.state().location === "neighborhood"
+            ? { stopX: 267, pavementY: (x: number) => x <= 333 ? -x / 2 + 471
+                : x < 420 ? 304.5 - (x - 333) * 69.5 / 87 : x / 2 + 25 }
+            : sharedStreet;
+        const walkingOffset = this.hooks.state().location === "neighborhood" ? 0 : 38;
         const visible = new Set<number>();
         const show = (id: number, profile: number, pose: number, x: number, y: number,
             label?: string, facingStand = false) => {
@@ -105,22 +114,22 @@ export class StreetScene extends Phaser.Scene {
         };
         if (day.serving) {
             const { visitor } = day.serving;
-            show(visitor.id, visitor.profile, 0, STREET.stopX + 19, STREET.pavementY(STREET.stopX + 19),
+            show(visitor.id, visitor.profile, 0, streetLayout.stopX + 19, streetLayout.pavementY(streetLayout.stopX + 19),
                 undefined, true);
         }
         day.waiting.forEach((person, index) => {
-            const target = STREET.stopX + 58 + index * 38;
+            const target = streetLayout.stopX + 58 + index * 38;
             const progress = this.motion.matches ? 1 : Math.min(1, (day.tick - person.joinedAt) / 3);
             const x = 660 + (target - 660) * progress;
             show(person.visitor.id, person.visitor.profile, progress < 1 ? day.tick % 2 : 0,
-                x, STREET.pavementY(x) + 38 * (1 - progress), undefined, progress >= 1);
+                x, streetLayout.pavementY(x) + 38 * (1 - progress), undefined, progress >= 1);
         });
         for (const person of day.walking) {
             const progress = this.motion.matches ? 0.55 : (day.tick - person.startedAt) / (person.until - person.startedAt);
-            const from = person.kind === "passed" || person.kind === "price" ? -20 : STREET.stopX + 19;
+            const from = person.kind === "passed" || person.kind === "price" ? -20 : streetLayout.stopX + 19;
             const x = from + (680 - from) * progress;
             show(person.visitor.id, person.visitor.profile,
-                person.kind === "bought" ? 3 : day.tick % 2, x, STREET.pavementY(x) + 38,
+                person.kind === "bought" ? 3 : day.tick % 2, x, streetLayout.pavementY(x) + walkingOffset,
                 progress < 0.65 && person.kind !== "passed" ? this.reaction(person) : undefined);
         }
         for (const [id, sprite] of this.people) if (!visible.has(id)) {
@@ -133,6 +142,9 @@ export class StreetScene extends Phaser.Scene {
 
     update(_time: number, delta: number): void {
         const state = this.hooks.state();
+        const cart = state.location === "neighborhood" ? { x: 200, y: 240 } : CART;
+        this.cart?.setPosition(cart.x, cart.y);
+        this.sign?.setPosition(cart.x + 23, cart.y + 53);
         if (this.background?.texture.key !== state.location) {
             this.background?.setTexture(state.location);
             this.game.canvas.setAttribute("aria-label", `A lemonade stand at ${LOCATIONS[state.location].street}. People walk, queue, buy or leave.`);
