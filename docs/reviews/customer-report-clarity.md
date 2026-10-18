@@ -13,6 +13,9 @@ rating-basis notice. No formula, save schema or accounting change.
 
 Browser regression restores an actual simulated two-day save and checks the daily,
 cumulative and reload views. The new test and both existing hot/cold taste tests
-pass (3/3); typecheck, lint and production build pass. Native UI containment and
-current-head CI remain required before integration. #229 report composition and
+pass (3/3); typecheck, lint and production build pass. Rebuilt Windows UI checks
+pass all five window sizes, daily/ledger containment and replay. The first native
+run exceeded the old five-second canvas startup wait on relaunch; a thirty-second
+startup allowance passed without changing geometry checks. Current-head CI
+remains required before integration. #229 report composition and
 same-location art comparison remain open, as does human visual acceptance #97.
