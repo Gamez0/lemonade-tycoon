@@ -484,7 +484,10 @@ function renderReport(): void {
         : reportPage === "daily" && latest.business?.customerModel !== "purchase-first-v1" && quality(latest.plan.recipe, latest.weather.temperature) < 0.7
           ? "Adjust your recipe to the forecast."
           : "Try another location or advertising to reach more buyers.";
-    text("report-response", (sold === 0 ? noSalesAdvice : `Customer satisfaction: ${satisfaction}%.`) +
+    const ratingBasis = reports.every(report => report.business?.customerModel === "purchase-first-v1")
+        ? " Includes buyers and visitors lost to price, stock or waiting; passers-by are excluded."
+        : " Older saved days retain their original rating basis.";
+    text("report-response", (sold === 0 ? noSalesAdvice : `Overall satisfaction: ${satisfaction}%.${ratingBasis}`) +
         ` ${sum("soldOut")} visitors missed out on empty stock. ${sum("abandoned")} left the line. ` +
         `${sum("priceRejected")} found the price too high; ${sum("passed")} passed by.` +
         (reportPage === "daily" && sold > 0 && latest.business?.customerModel === "purchase-first-v1"
@@ -499,7 +502,7 @@ function renderReport(): void {
         ["Cash change", money(reports.reduce((total, day) => total + results(day).cashChange, 0))],
         ["Price / passed", `${sum("priceRejected")} / ${sum("passed")}`],
         ["Empty / wait", `${sum("soldOut")} / ${sum("abandoned")}`],
-        ["Satisfaction", sold === 0 ? "No buyers yet" : `${Math.round(sum("satisfactionTotal") / sold)}%`],
+        ["Buyer taste", sold === 0 ? "No buyers yet" : `${Math.round(sum("satisfactionTotal") / sold)}%`],
         ["Rent", money(sum("rent"))],
         ["Moving fees", money(sum("moveFee"))],
         ["Wages / advertising", `${money(sum("wages"))} / ${money(sum("advertising"))}`],
