@@ -750,6 +750,8 @@ dd {
     width: 28px;
     height: 28px;
 }
+.report-day-picker { display: flex; align-items: center; gap: 8px; margin-top: 6px; font-size: 11px; }
+.report-day-picker select { width: auto; min-width: 80px; max-width: 140px; padding: 2px 4px; font: inherit; }
 .report-content {
     display: grid;
     grid-template-columns: 1.25fr 1fr;
