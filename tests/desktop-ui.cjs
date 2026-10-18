@@ -219,6 +219,10 @@ async function fit(page, name) {
         });
         await page.waitForTimeout(200);
         await fit(page, "results 1097x554 daily");
+        await page.locator('[data-report="graph"]').click();
+        await fit(page, "results 1097x554 graph");
+        await expect(page.locator('#profit-graph svg')).toBeVisible();
+        await page.screenshot({ path: path.join(out, "profit-graph-175-client.png") });
         await page.locator('[data-report="ledger"]').click();
         await fit(page, "results 1097x554 ledger");
         await expect(page.locator('#result-values dd').last()).toBeInViewport();
@@ -234,9 +238,12 @@ async function fit(page, name) {
                 await page.waitForTimeout(100);
                 await fit(page, `${width}x${height} preparation with history ${tab}`);
                 if (tab === 'results') {
-                    await page.locator('[data-report="ledger"]').click();
-                    await fit(page, `${width}x${height} preparation with history ledger`);
-                    await expect(page.locator('#result-values dd').last()).toBeInViewport();
+                    for (const report of ['daily', 'ledger', 'graph']) {
+                        await page.locator(`[data-report="${report}"]`).click();
+                        await fit(page, `${width}x${height} preparation with history ${report}`);
+                        if (report === 'graph') await expect(page.locator('#profit-graph svg')).toBeVisible();
+                        else await expect(page.locator('#result-values dd').last()).toBeInViewport();
+                    }
                 }
             }
         }
