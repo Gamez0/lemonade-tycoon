@@ -49,3 +49,11 @@ walking frames were captured and inspected around the service stop, marked
 crossing and upper sidewalk; no renderer errors occurred. Remote current-head
 CI remains required. This is an authored adaptation,
 not full original visual parity; sprites and full customer identity remain open.
+
+Compared the actual original Suburbs selling capture `reaction-early.png` (not
+just the static decoded map) to live authored selling frames. Its pedestrian is
+about24px tall at a300px map width; the old product34px sprite rendered at that
+width was only16px tall. Neighborhood sprites now render at1.4× (about22px at the
+same displayed width), with reaction panels raised to clear their heads. This
+keeps Park/Downtown unchanged. The three authored profiles still do not reproduce
+all eleven original identities or their detailed costumes/directions.

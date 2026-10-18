@@ -89,6 +89,7 @@ export class StreetScene extends Phaser.Scene {
                 : x < 420 ? 304.5 - (x - 333) * 69.5 / 87 : x / 2 + 25 }
             : sharedStreet;
         const walkingOffset = this.hooks.state().location === "neighborhood" ? 0 : 38;
+        const peopleScale = this.hooks.state().location === "neighborhood" ? 1.4 : 1;
         const visible = new Set<number>();
         const show = (id: number, profile: number, pose: number, x: number, y: number,
             label?: string, facingStand = false) => {
@@ -99,7 +100,7 @@ export class StreetScene extends Phaser.Scene {
                 this.people.set(id, sprite);
             }
             sprite.setPosition(Math.round(x), Math.round(y)).setTexture(`customer-${profile}-${this.motion.matches ? 0 : pose}`)
-                .setFlipX(facingStand).setDepth(y);
+                .setScale(peopleScale).setFlipX(facingStand).setDepth(y);
             let bubble = this.bubbles.get(id);
             if (label) {
                 if (!bubble) {
@@ -109,7 +110,7 @@ export class StreetScene extends Phaser.Scene {
                     }).setOrigin(0.5).setDepth(y + 40);
                     this.bubbles.set(id, bubble);
                 }
-                bubble.setText(label).setPosition(x, y - 48).setVisible(true);
+                bubble.setText(label).setPosition(x, y - (peopleScale > 1 ? 64 : 48)).setVisible(true);
             } else bubble?.setVisible(false);
         };
         if (day.serving) {
