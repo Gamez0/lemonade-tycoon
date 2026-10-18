@@ -1,27 +1,27 @@
 # Cloud development handoff — 2026-10-05
 
-## Integration checkpoint — 2026-10-19 KST
+## Integration checkpoint - 2026-10-19 KST
 
-PR239 `79d6ab0`, PR240 `a8f82a8`, PR243 `ea42728` and PR244 `3a0f612`
-integrated after their exact final-head required browser/simulation and full
-Windows CI passed. The product now includes selling equipment/staff/ads,
-grouped pitcher recipe and illustrated bundles, explicit buyer/overall ratings,
-and independently authored300×240 neighborhood composition with corrected
-pedestrian scale/path. Original resources and parent legacy work are preserved.
+PR239 `79d6ab0`, PR240 `a8f82a8`, PR243 `ea42728`, PR244 `3a0f612`
+and PR245 `02cd0ff` integrated after each exact final-head required CI passed,
+including full Windows packaging/save/UI checks. Main includes selling settings,
+grouped pitcher recipe/illustrated bundles, buyer/overall rating labels, an
+independently authored300x240 neighborhood and corrected pedestrian scale/path,
+plus completed-day report browsing and explicit upcoming-day actions.
 
-PR245 (`feat/report-day-navigation`) adds completed-day selection and labels
-the real upcoming day on the next-day action. Focused report/three-day/taste
-checks6/6 passed, with final preparation/results/actual-next-day checks2/2 and
-typecheck/lint/build passing after the label refinement. Rebuilt Windows UI and
-management passed before that final text refinement; require its final main-based
-head CI before integration. See `reviews/report-composition-comparison.md`.
-Private native evidence is in `.local-m4/final-ui-20261018`; comparison and live
-walking frames are in `.local-m4/same-location-20261018` (not product assets).
+Current next increment: `feat/daily-profit-graph`, main-derived, plots actual
+completed-day profit/loss for the latest30 days. Graph browser2/2 and existing
+report/audit5/5 pass; typecheck/lint/build pass. Rebuilt Windows UI passed new
+graph containment at1097x554 and six sizes with established history; that native
+run preceded the final bounded-bar/text refinement. Require final-head remote
+CI before integrating. Review: `reviews/daily-profit-graph.md`.
 
-#229 remains Running for report presentation follow-up. Year/month calendar,
-graph/stock report tabs and full eleven-profile fidelity are not implemented.
-Do not close #97 or other manual gates using automated checks. Follow live
-Projects/issue evidence for subsequent integration and the next runnable action.
+Private evidence: `.local-m4/graph-ui-20261019`, `.local-m4/final-ui-20261018`
+and `.local-m4/same-location-20261018`. No original pixels enter product assets.
+Preserve the parent legacy work, original resources and frozen alpha13. #229
+remains Running for report follow-up; stock report tabs, Year/Month calendar and
+full eleven-profile fidelity remain incomplete. #97 and other manual gates stay
+open. Live Projects/issue evidence takes precedence over historical notes below.
 
 ## Resumed checkpoint — 2026-10-18 KST
 

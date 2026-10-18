@@ -1,3 +1,4 @@
+import { profitGraph } from "./game/presentation/profit-graph";
 import { GameAudio } from "./game/presentation/audio";
 import { maxSaveBytes } from "./desktop/save-limits.json";
 import { UPGRADES, STAFF, ADS } from "./game/content/management";
@@ -59,7 +60,7 @@ let order = emptyOrder();
 let selectedSupply: Item = "lemon";
 let currentPage: Page = "recipe";
 let selectedLocation: LocationId = "neighborhood";
-let reportPage: "daily" | "ledger" = "daily";
+let reportPage: "daily" | "ledger" | "graph" = "daily";
 let reportDay: number | null = null;
 let lastFeedback = "Your first customers are just around the corner.";
 let restartArmed = false;
@@ -464,6 +465,14 @@ function renderReport(): void {
         dayPicker.replaceChildren(...history.map(report => new Option(`Day ${report.day}`, String(report.day))));
     }
     if (latest) dayPicker.value = String(latest.day);
+    const graph = reportPage === "graph" && history.length > 0;
+    element("profit-graph").hidden = !graph;
+    document.querySelector<HTMLElement>(".report-content")!.hidden = graph;
+    if (graph) {
+        text("result-intro", `Daily profit: latest ${Math.min(30, history.length)} completed ${history.length === 1 ? "day" : "days"}. Day numbers on the horizontal axis.`);
+        element("profit-graph").innerHTML = profitGraph(history, money);
+        return;
+    }
     if (!latest) {
         text("result-intro", "No completed days yet. Open your stand to start the books!");
         rows("result-values", []);
