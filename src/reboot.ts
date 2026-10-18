@@ -457,7 +457,7 @@ element<HTMLInputElement>("save-file").addEventListener("change", (event) => {
 function renderReport(): void {
     for (const button of document.querySelectorAll<HTMLButtonElement>("[data-report]"))
         button.setAttribute("aria-pressed", String(button.dataset.report === reportPage));
-    const latest = history.find(report => report.day === reportDay) ?? history[history.length - 1];
+    const latest = (reportDay === null ? undefined : history.find(report => report.day === reportDay)) ?? history[history.length - 1];
     const dayPicker = element<HTMLSelectElement>("report-day");
     element("report-day-picker").hidden = reportPage !== "daily" || history.length === 0;
     if (dayPicker.options.length !== history.length) {

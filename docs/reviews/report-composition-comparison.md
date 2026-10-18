@@ -42,5 +42,7 @@ state or the save schema. No Year/Month calendar is invented for the day-only ga
 
 Extended the actual two-day save regression to select Day1 (92% and two waiting
 departures), switch to cumulative (94% and three), return to Day1 and reload back
-to latest Day2 (96%). Native layout/next-day and older taste/feedback checks are
-being verified before this increment's integration.
+to latest Day2 (96%). Focused report/three-day/older taste/feedback checks6/6 and
+rebuilt Windows UI/next-day containment at all five window sizes pass, as do
+typecheck, lint and production build. Current-head remote CI and prerequisite
+integration remain required before this increment's integration.
