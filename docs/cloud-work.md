@@ -9,17 +9,24 @@ grouped pitcher recipe/illustrated bundles, buyer/overall rating labels, an
 independently authored300x240 neighborhood and corrected pedestrian scale/path,
 plus completed-day report browsing and explicit upcoming-day actions.
 
-Current next increment: `feat/daily-profit-graph`, main-derived, plots actual
-completed-day profit/loss for the latest30 days. Graph browser2/2 and existing
-report/audit5/5 pass; typecheck/lint/build pass. Rebuilt Windows UI passed new
-graph containment at1097x554 and six sizes with established history; that native
-run preceded the final bounded-bar/text refinement. Require final-head remote
-CI before integrating. Review: `reviews/daily-profit-graph.md`.
+PR246 `497f428` integrated after final-head CI39139358492, including complete
+browser/simulation and Windows checks. Daily profit/loss graph is now integrated.
+
+Current next increment: `feat/balance-sheet-report`, main-derived. A fourth
+report tab shows current cash, paid stock, cumulative equipment acquisition cost,
+assets, initial capital, net asset change and equity. Free ice has zero book
+value; current net asset change includes stock lost overnight and is distinct
+from existing trading profit. No price, transaction or save-schema change.
+Model/storage66/66, focused browser11/11, typecheck/lint/build and rebuilt native
+UI including all four report tabs pass. Require exact-head remote CI before
+integration. Review: `reviews/current-balance-sheet.md`. Native evidence:
+`.local-m4/balance-ui-20261019`; actual overnight inputs/results:
+`.local-m4/balance-report-audit-20261019.json`.
 
 Private evidence: `.local-m4/graph-ui-20261019`, `.local-m4/final-ui-20261018`
 and `.local-m4/same-location-20261018`. No original pixels enter product assets.
 Preserve the parent legacy work, original resources and frozen alpha13. #229
-remains Running for report follow-up; stock report tabs, Year/Month calendar and
+remains Running for report follow-up; Year/Month calendar/weather parity and
 full eleven-profile fidelity remain incomplete. #97 and other manual gates stay
 open. Live Projects/issue evidence takes precedence over historical notes below.
 
