@@ -1,4 +1,5 @@
 ﻿import Phaser from "phaser";
+import { neighborhoodRaster } from "./neighborhood-raster";
 
 // Original code-authored artwork. Fine outlines and a shared 2:1 ground projection.
 // No source-game image or sprite is embedded here.
@@ -24,49 +25,6 @@ export function createArt(scene: Phaser.Scene): void {
         g.fillStyle(color).fillEllipse(x, y, w, h);
         if (outline) g.lineStyle(1, ink, 1).strokeEllipse(x, y, w, h);
     };
-    rect(0, 0, 640, 512, 0x3f9e56);
-    for (let i = 0; i < 4800; i++) {
-        const x = (i * 137 + 17) % 640,
-            y = (i * 79 + Math.floor(i / 640) * 31) % 512;
-        rect(x, y, 1, 1, i % 3 ? 0x51aa61 : 0x348b48);
-    }
-    // One continuous T-junction, using y = x/2 + c and y = -x/2 + c.
-    // The pavement and asphalt each have a single outline: no curb crosses the mouth.
-    poly([-20, 91, 115, 158.5, 432, 0, 648, 0, 223, 212.5, 660, 431, 660, 549, -20, 209], 0xd4d5c6);
-    poly([-20, 115, 115, 182.5, 480, 0, 600, 0, 175, 212.5, 660, 455, 660, 525, -20, 185], 0x626665);
-    line(-20, 119, 115, 186.5, 0x90958d);
-    line(115, 186.5, 488, 0, 0x90958d);
-    line(175, 216.5, 608, 0, 0x90958d);
-    line(175, 216.5, 660, 459, 0x90958d);
-    line(-20, 181, 660, 521, 0x3f4948);
-    for (let x = -40; x < 680; x += 27) {
-        // Stop paving joints at the junction opening, then continue along the branch.
-        if (x < 115 || x > 247) line(x, x / 2 + 101, x - 24, x / 2 + 113, 0x989f95);
-        line(x, x / 2 + 195, x - 24, x / 2 + 207, 0x989f95);
-    }
-    for (let x = 145; x < 650; x += 27) {
-        line(x, 216 - x / 2, x + 24, 228 - x / 2, 0x989f95);
-        if (x > 175) line(x, 300 - x / 2, x + 24, 312 - x / 2, 0x989f95);
-    }
-    // Leave the intersection clear instead of running dashes through turning traffic.
-    for (let x = -10; x < 640; x += 83) {
-        if (x > 40 && x < 200) continue;
-        poly([x, x / 2 + 159, x + 28, x / 2 + 173, x + 26, x / 2 + 176, x - 2, x / 2 + 162], 0xd7d6bb, false);
-    }
-    for (let x = 225; x < 580; x += 62) {
-        poly([x, 269 - x / 2, x + 25, 256.5 - x / 2, x + 27, 259.5 - x / 2, x + 2, 272 - x / 2], 0xd7d6bb, false);
-    }
-    // A short crossing carries the existing pedestrian route across the side street.
-    for (let x = 134; x <= 179; x += 9) {
-        const y = STREET.pavementY(x);
-        poly([x, y, x + 4, y + 2, x + 14, y - 3, x + 10, y - 5], 0xe2e0c9, false);
-    }
-    // Drain grate, street markings, service cover.
-    ellipse(348, 320, 22, 11, 0x515c58);
-    for (let k = -5; k <= 5; k += 3) line(340, 320 + k / 2, 356, 320 + k / 2, 0x778179);
-    poly([85, 166, 101, 174, 96, 177, 80, 169], 0x3b4b46);
-    for (let k = 0; k < 5; k++) line(83 + k * 3, 167 + k * 1.5, 80 + k * 3, 169 + k * 1.5, 0x9ba99b);
-
     const fence = (x: number, y: number, length: number, slope: number) => {
         for (let i = 0; i <= length; i += 7) {
             const yy = y + i * slope;
@@ -85,137 +43,7 @@ export function createArt(scene: Phaser.Scene): void {
         for (let n = 0; n < 14; n++)
             rect(x - 10 * size + ((n * 7) % 20) * size, y - 48 * size + ((n * 11) % 26) * size, 2, 1, 0x338c4c);
     };
-    const house = (
-        x: number,
-        y: number,
-        w: number,
-        d: number,
-        h: number,
-        front: number,
-        side: number,
-        roof: number,
-    ) => {
-        const rise = 30;
-        poly([x, y, x + w, y + w / 2, x + w + d + 15, y + (w - d) / 2 + 8, x + d + 15, y - d / 2], 0x347b45, false);
-        // Front and side walls follow the same ground axes.
-        poly([x, y - h, x + w, y + w / 2 - h, x + w, y + w / 2, x, y], front);
-        poly(
-            [x + w, y + w / 2 - h, x + w + d, y + (w - d) / 2 - h, x + w + d, y + (w - d) / 2, x + w, y + w / 2],
-            side,
-        );
-        line(x, y - 6, x + w, y + w / 2 - 6, 0xd8d3b5);
-        line(x + w, y + w / 2 - 6, x + w + d, y + (w - d) / 2 - 6, 0x767568);
-        // Window coordinates lie directly on each wall plane.
-        const window = (offset: number, elevation: number, right: boolean) => {
-            const wx = right ? x + w + offset : x + offset;
-            const wy = right ? y + w / 2 - offset / 2 - elevation : y + offset / 2 - elevation;
-            const slope = right ? -0.5 : 0.5;
-            poly([wx, wy, wx + 16, wy + 16 * slope, wx + 16, wy + 16 * slope + 25, wx, wy + 25], 0xebe6c9);
-            poly(
-                [
-                    wx + 3,
-                    wy + 4,
-                    wx + 13,
-                    wy + 13 * slope + 3,
-                    wx + 13,
-                    wy + 13 * slope + 20,
-                    wx + 3,
-                    wy + 3 * slope + 21,
-                ],
-                0x609998,
-            );
-            line(wx + 8, wy + 8 * slope + 3, wx + 8, wy + 8 * slope + 22, 0xe2e8c9);
-            line(wx + 2, wy + 13, wx + 14, wy + 13 + 12 * slope, 0xe2e8c9);
-            line(wx - 2, wy + 26, wx + 18, wy + 26 + 20 * slope, ink);
-        };
-        for (const offset of [12, w - 27]) window(offset, h - 14, false);
-        for (const offset of [16, d - 31]) window(offset, h - 18, true);
-        if (h > 85) for (const offset of [12, w - 27]) window(offset, 45, false);
-        const doorX = x + w / 2 - 8,
-            doorY = y + (w / 2 - 8) / 2;
-        poly([doorX, doorY - 35, doorX + 17, doorY - 26.5, doorX + 17, doorY + 8.5, doorX, doorY], 0x66594c);
-        rect(doorX + 12, doorY - 10, 2, 2, 0xf4d975);
-        poly([doorX, doorY, doorX + 17, doorY + 8.5, doorX + 9, doorY + 12.5, doorX - 8, doorY + 4], 0xc6c9bd);
-        // Roof has gables, overhang, shingle seams and a brick chimney.
-        poly([x, y - h, x + w / 2, y + w / 4 - h - rise, x + w, y + w / 2 - h], front);
-        poly(
-            [
-                x - 5,
-                y - h - 1,
-                x + w / 2,
-                y + w / 4 - h - rise - 3,
-                x + w / 2 + d + 5,
-                y + w / 4 - d / 2 - h - rise - 3,
-                x + d,
-                y - d / 2 - h - 3,
-            ],
-            roof,
-        );
-        poly(
-            [
-                x + w / 2,
-                y + w / 4 - h - rise - 3,
-                x + w + 5,
-                y + w / 2 - h - 2,
-                x + w + d + 5,
-                y + (w - d) / 2 - h - 2,
-                x + w / 2 + d + 5,
-                y + w / 4 - d / 2 - h - rise - 3,
-            ],
-            0x547b7a,
-        );
-        for (let i = 1; i < 6; i++) {
-            const t = i / 6;
-            const xx = x + w / 2 + t * (w / 2 + 5),
-                yy = y + w / 4 - h - rise - 3 + t * (w / 4 + rise + 1);
-            line(xx, yy, xx + d + 5, yy - d / 2, 0x6c9390);
-        }
-        line(x + w / 2, y + w / 4 - h - rise - 4, x + w / 2 + d, y + w / 4 - d / 2 - h - rise - 4, 0xd6d4b8);
-        const cx = x + w / 2 + d * 0.55,
-            cy = y + w / 4 - d * 0.275 - h - rise + 8;
-        poly([cx, cy, cx + 12, cy + 6, cx + 12, cy - 16, cx, cy - 22], 0xa77562);
-        poly([cx + 12, cy + 6, cx + 20, cy + 2, cx + 20, cy - 20, cx + 12, cy - 16], 0x80594e);
-        poly([cx, cy - 22, cx + 8, cy - 26, cx + 20, cy - 20, cx + 12, cy - 16], 0xd6b49b);
-        line(cx + 2, cy - 11, cx + 11, cy - 6, 0x694c42);
-    };
-    fence(3, 100, 130, 0.5);
-    fence(354, 208, 176, -0.5);
-    tree(595, 153, 1.3);
-    tree(568, 205, 1.05);
-    house(-23, 88, 106, 93, 94, 0xbe9ac0, 0x906e95, 0xb9a7ad);
-    house(361, 243, 108, 98, 109, 0xd1ad74, 0xa08658, 0x80aca8);
-    // Path from the second front door to the sidewalk, edged flower bed.
-    poly([394, 263, 414, 273, 392, 284, 372, 274], 0xc6c9b9);
-    poly([327, 231, 350, 242, 337, 249, 314, 237], 0x6a6243);
-    for (let i = 0; i < 7; i++) {
-        rect(319 + i * 4, 233 + i * 2, 2, 5, 0x226b32);
-        rect(318 + i * 4, 231 + i * 2, 4, 3, i % 2 ? 0xf2de64 : 0xd78ea1);
-    }
-    tree(153, 150, 0.8);
-    tree(308, 232, 0.85);
-    // Mailbox, bin and a modest street lamp along the verge.
-    rect(110, 155, 3, 17, 0x596954);
-    poly([103, 152, 111, 148, 120, 153, 112, 157], 0x639799);
-    poly([103, 152, 112, 157, 112, 164, 103, 159], 0x416f79);
-    poly([112, 157, 120, 153, 120, 160, 112, 164], 0x315c67);
-    line(117, 152, 117, 147, 0xc7aa62);
-    rect(92, 228, 3, 48, 0x40584f);
-    poly([84, 227, 91, 219, 103, 223, 98, 232], 0x263e3c);
-    poly([88, 225, 94, 222, 99, 224, 96, 229], 0xf0eab0);
-    ellipse(94, 275, 13, 5, 0x7e9580);
-    // Foreground garden and cropped house frame the street like a little diorama.
-    fence(-12, 342, 173, 0.5);
-    tree(188, 378, 1.3);
-    house(-68, 438, 130, 103, 96, 0xdbc28c, 0xa99870, 0x82b2aa);
-    // Lower garden fills the taller 5:4 viewport without stretching the street.
-    poly([110, 456, 197, 412, 220, 424, 132, 468], 0xc5c6ad);
-    fence(228, 468, 148, -0.5);
-    tree(265, 459, 1.2);
-    tree(376, 490, 1.5);
-    tree(574, 414, 1.2);
-    fence(560, 388, 90, -0.5);
-    g.generateTexture("neighborhood", 640, 512);
-    g.clear();
+    scene.textures.addCanvas("neighborhood", neighborhoodRaster());
 
     // Location scenes keep the cart and pedestrian route on the same ground plane.
     for (const id of ["park", "downtown"] as const) {
