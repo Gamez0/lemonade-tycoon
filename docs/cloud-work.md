@@ -1,5 +1,15 @@
 # Cloud development handoff — 2026-10-05
 
+## Resumed checkpoint - 2026-10-19 KST
+
+PR247 integrated as `d9868df` after self-review and all exact-head checks for
+`95ee04b`, including Windows packaged-saves run39140085400, passed.
+#229 remains Running. `research/calendar-weather-transition` derives the career
+header from the recovered original 30-day/12-month formula, keeping cumulative
+save/report identifiers. See `research/career-calendar-weather.md` for exact
+addresses, captured-image hash and weather follow-up. Parent legacy work,
+original resources, frozen alpha13 and #97 manual acceptance remain preserved.
+
 ## Integration checkpoint - 2026-10-19 KST
 
 PR239 `79d6ab0`, PR240 `a8f82a8`, PR243 `ea42728`, PR244 `3a0f612`
