@@ -27,10 +27,11 @@ for (const [name, weather, ice, reaction, advice] of [
     await expect(page.locator('#report-response')).toContainText(advice);
     await page.locator('#app').screenshot({ path: 'test-results/taste-' + ice + '-results.png' });
     await page.reload(); await page.clock.runFor(500);
+    await page.locator('[data-page=results]').click();
     await expect(page.locator('#report-response')).toContainText(advice);
     await page.locator('[data-report="ledger"]').click();
     await expect(page.locator('#report-response')).not.toContainText(advice);
-    await page.locator('#next').click();
+    await page.locator('[data-page=recipe]').click();
     await page.locator('[data-page="recipe"]').click();
     await expect(page.locator('#lemon')).toHaveValue('6');
     await expect(page.locator('#sugar')).toHaveValue('3');

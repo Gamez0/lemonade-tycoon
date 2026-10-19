@@ -60,7 +60,7 @@ async function close() {
         await page.locator('#open').click();
         await expect(page.locator('#app')).toHaveAttribute('data-phase', 'selling');
         await page.locator('#skip').click();
-        await expect(page.locator('#app')).toHaveAttribute('data-phase', 'results');
+        await expect(page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
         await expect.poll(() => decodeSave(fs.readFileSync(save, 'utf8')).history.length).toBe(1601);
         const done = fs.readFileSync(save, 'utf8');
         await page.locator('#save-file').setInputFiles({ name: 'oversized.json', mimeType: 'application/json', buffer: Buffer.alloc(maxSaveBytes + 1, 32) });
@@ -72,7 +72,7 @@ async function close() {
         }, maxSaveBytes);
         assert.match(failure, /Save file is too large/); assert.equal(fs.readFileSync(save, 'utf8'), done);
         await close(); page = await launch();
-        await expect(page.locator('#app')).toHaveAttribute('data-phase', 'results');
+        await expect(page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
         assert.deepEqual(decodeSave(fs.readFileSync(save, 'utf8')), decodeSave(done));
         report.result = 'PASS'; report.finalBytes = Buffer.byteLength(done);
         console.log('Windows long save:1600-day import/export/relaunch, day1601 continuation and oversized UTF8/file rejection without overwrite PASS.');

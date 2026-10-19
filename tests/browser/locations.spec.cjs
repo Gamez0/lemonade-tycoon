@@ -58,12 +58,12 @@ test('reservation, charged opening replay, park results and free return reconcil
     await page.locator('#open').click();
     expect(await saved(page)).toEqual(paid);
     await page.locator('#skip').click();
-    await expect(page.locator('#app')).toHaveAttribute('data-phase', 'results');
+    await expect(page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
     const done = await saved(page);
-    expect(done.state.cash).toBe(initial.state.cash - 300 + done.state.daily.revenue);
+    expect(done.state.cash).toBe(initial.state.cash - 300 + done.history.at(-1).daily.revenue);
     await expect(page.locator('#result-values')).toContainText('Rent');
     await page.screenshot({ path: 'test-results/m5-park-results.png', fullPage: true });
-    await page.locator('#next').click();
+    await page.locator('[data-page=recipe]').click();
     await page.locator('[data-page=rent]').click();
     await page.locator('button[data-location=neighborhood]').click();
     await page.locator('#confirm-rent').click();

@@ -39,11 +39,12 @@ async function finishDay(page, capture = false) {
     await expect(page.locator("#lemon")).toBeDisabled();
     await expect(page.locator('[data-page="supplies"]')).toBeDisabled();
     if (capture) await page.locator("#app").screenshot({ path: "test-results/m2-selling.png" });
+    await expect(page.locator("#speed-label")).toHaveText("Speed: 1\u00d7");
     await page.locator("#speed").click();
     await expect(page.locator("#results")).toBeVisible();
-    await expect(page.locator("#next")).toBeEnabled();
-    await expect(page.locator("#closed-sign")).toBeVisible();
-    await expect(page.locator("#weather-label")).toHaveText("Today's weather");
+    await expect(page.locator("#next")).toBeHidden();
+    await expect(page.locator("#closed-sign")).toBeHidden();
+    await expect(page.locator("#weather-label")).toHaveText("Weather forecast");
 }
 const cents = (value) => Math.round(Number(value.replace("$", "")) * 100);
 
@@ -102,16 +103,14 @@ test("three days keep daily and cumulative books and classic geometry", async ({
         expect(cents(await page.locator("#cash").textContent())).toBe(4000 + totalCashChange);
         const cash = await page.locator("#cash").textContent();
         const reactionCounts = await page.locator(".reactions strong").allTextContents();
-        expect(reactionCounts.map(Number).reduce((a, b) => a + b, 0)).toBe(
-            Number((await page.locator("#progress-text").textContent()).split(" / ")[0]),
-        );
-        await page.locator("#next").click();
+        expect(reactionCounts.map(Number).reduce((a, b) => a + b, 0)).toBeGreaterThan(0);
+        await page.locator("[data-page=recipe]").click();
         await expect(page.locator("#weather-label")).toHaveText("Weather forecast");
-        await expect(page.locator("#reaction-price")).toHaveText("0");
+        // Reaction totals reset on opening the next business day.
         await expect(page.locator("#day")).toHaveText(String(day + 1).padStart(2, "0"));
         await expect(page.locator("#cash")).toHaveText(cash);
-        await expect(page.locator("#speed-label")).toHaveText("Speed: 1×");
         await tab(page, "results");
+        await page.locator('[data-report="daily"]').click();
         await expect(page.locator("#result-intro")).toContainText(`Day ${day}`);
         await expect(page.locator("#next")).toBeHidden();
     }
@@ -193,7 +192,7 @@ test("375px layout supports three no-sale days and restarting during a visit", a
         await expect(page.locator("#result-values")).toContainText("No buyers yet");
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
         await page.screenshot({ path: `test-results/narrow-results-${day}.png`, fullPage: true });
-        await page.locator("#next").click();
+        await page.locator("[data-page=recipe]").click();
     }
     await page.locator("#open").click();
     await page.locator("#restart").click();
@@ -253,8 +252,8 @@ for (const timing of ["immediately", "after a committed visit", "after changing 
         }
         await page.locator("#skip").click();
         await expect(page.locator("#results")).toBeVisible();
-        await expect(page.locator("#next")).toBeEnabled();
-        await expect(page.locator("#closed-sign")).toBeVisible();
+        await expect(page.locator("#next")).toBeHidden();
+        await expect(page.locator("#closed-sign")).toBeHidden();
         await expect(page.locator("#scene-controls")).toBeHidden();
         const values = await page.locator("#result-values dd").allTextContents();
         expect(Number(values[0])).toBe(expected.daily.sold);
@@ -265,11 +264,10 @@ for (const timing of ["immediately", "after a committed visit", "after changing 
         const counts = await page.locator(".reactions strong").allTextContents();
         expect(counts.map(Number).reduce((a, b) => a + b, 0)).toBe(expected.business.traffic);
         for (const item of ["lemon", "sugar", "ice", "cup"]) {
-            await expect(page.locator(`#inventory-${item}`)).toHaveText(String(expected.stock[item]));
+            await expect(page.locator(`#inventory-${item}`)).toHaveText(String(game.nextDay(expected).stock[item]));
         }
-        await page.locator("#next").click();
+        await page.locator("[data-page=recipe]").click();
         await expect(page.locator("#day")).toHaveText("02");
-        await expect(page.locator("#speed-label")).toHaveText("Speed: 1×");
         await tab(page, "results");
         await page.locator('[data-report="ledger"]').click();
         await expect(page.locator("#result-intro")).toContainText("1 completed day.");

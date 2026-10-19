@@ -200,7 +200,7 @@ async function fit(page, name) {
         await app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].setContentSize(800, 600));
         await page.waitForTimeout(200);
         await page.locator("#skip").click();
-        await expect(page.locator("#app")).toHaveAttribute("data-phase", "results");
+        await expect(page.locator("#app")).toHaveAttribute("data-phase", "preparation");
         await fit(page, "results 800x600");
         await page.screenshot({ path: path.join(out, "results-small.png") });
         for (const mode of ['maximized', 'fullscreen']) {
@@ -237,7 +237,7 @@ async function fit(page, name) {
         await fit(page, "results 1097x554 ledger");
         await expect(page.locator('#result-values dd').last()).toBeInViewport();
         await page.screenshot({ path: path.join(out, "results-175-client.png") });
-        await page.locator('#next').click();
+        await page.locator('[data-page=recipe]').click();
         await expect(page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
         await expect(page.locator('#day')).toHaveText('02');
         for (const [width, height] of [[1100, 850], [800, 600], [1097, 554], [1099, 555], [683, 465], [512, 350]]) {
