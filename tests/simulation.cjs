@@ -227,3 +227,15 @@ test('staged multi-item checkout commits everything or nothing', () => {
     assert.throws(() => buyOrder(before, { lemon: 0, sugar: 0, ice: 0, cup: 0 }), /Choose/);
     assert.throws(() => buyOrder(openDay(after), order), /preparation/);
 });
+
+
+test('career dates follow the recovered 30-day month and 360-day year without changing saves', () => {
+    const { careerDate } = require('../.test-build/simulation/calendar.js');
+    for (const [day, year, month, date] of [[1,1,1,1], [30,1,1,30], [31,1,2,1],
+        [360,1,12,30], [361,2,1,1], [1601,5,6,11]]) {
+        assert.deepEqual(careerDate(day), { year, month, day: date });
+    }
+    for (const day of [0, -1, 1.5, NaN, Infinity, Number.MAX_SAFE_INTEGER + 1]) {
+        assert.throws(() => careerDate(day));
+    }
+});

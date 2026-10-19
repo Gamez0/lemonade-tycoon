@@ -38,7 +38,9 @@ async function close() {
         await expect.poll(() => decodeSave(fs.readFileSync(save, 'utf8')).history.length).toBe(1600);
         assert.deepEqual(decodeSave(fs.readFileSync(save, 'utf8')), decodeSave(raw));
         await close(); page = await launch();
-        await expect(page.locator('#day')).toHaveText('1601');
+        await expect(page.locator('#year')).toHaveText('5');
+        await expect(page.locator('#month')).toHaveText('6');
+        await expect(page.locator('#day')).toHaveText('11');
         assert.deepEqual(decodeSave(fs.readFileSync(save, 'utf8')), decodeSave(raw));
         const exported = path.join(base, 'exported-long-business.json');
         await app.evaluate(({ BrowserWindow }, file) => {

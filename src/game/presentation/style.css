@@ -192,6 +192,7 @@ a:focus-visible {
     display: block;
     font-size: 13px;
 }
+.date-part { white-space: nowrap; }
 .forecast .label {
     display: block;
     margin-top: 5px;

@@ -1,3 +1,4 @@
+import { careerDate } from "./game/simulation/calendar";
 import { balanceSheet } from "./game/presentation/balance-sheet";
 import { profitGraph } from "./game/presentation/profit-graph";
 import { GameAudio } from "./game/presentation/audio";
@@ -590,7 +591,11 @@ function render(): void {
         prep = state.phase === "preparation",
         selling = state.phase === "selling",
         closed = state.phase === "results";
-    text("day", String(state.day).padStart(2, "0"));
+    const date = careerDate(state.day);
+    text("year", String(date.year));
+    text("month", String(date.month));
+    text("day", String(date.day).padStart(2, "0"));
+    element("career-date").title = `Business day ${state.day}`;
     text("cash", money(state.cash));
     text("weather", state.weather.temperature + "°C");
     const weatherArt = element("weather-art");
