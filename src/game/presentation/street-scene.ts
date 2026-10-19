@@ -5,6 +5,7 @@ import type { State } from "../simulation/game";
 import { LOCATIONS, LOCATION_IDS } from "../content/locations";
 import type { LocationId } from "../content/locations";
 import { tasteReaction } from "./taste-feedback";
+import { NEIGHBORHOOD_ASSETS } from "./neighborhood-assets";
 
 interface StreetHooks {
     state: () => State;
@@ -34,6 +35,10 @@ export class StreetScene extends Phaser.Scene {
     constructor(hooks: StreetHooks) {
         super("Neighborhood");
         this.hooks = hooks;
+    }
+
+    preload(): void {
+        for (const [key, url] of Object.entries(NEIGHBORHOOD_ASSETS)) this.load.image(key, url);
     }
 
     create(): void {

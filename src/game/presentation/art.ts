@@ -1,7 +1,9 @@
 ﻿import Phaser from "phaser";
 import { neighborhoodRaster } from "./neighborhood-raster";
+import type { NeighborhoodImages } from "./painted-neighborhood";
 
-// Original code-authored artwork. Fine outlines and a shared 2:1 ground projection.
+// Code-authored scenes/sprites and original generated Neighborhood raster assets.
+// Fine outlines and a shared 2:1 ground projection.
 // No source-game image or sprite is embedded here.
 export const STREET = { stopX: 267, pavementY: (x: number) => x / 2 + 112 };
 export const CART = { x: 236, y: 167 };
@@ -43,7 +45,13 @@ export function createArt(scene: Phaser.Scene): void {
         for (let n = 0; n < 14; n++)
             rect(x - 10 * size + ((n * 7) % 20) * size, y - 48 * size + ((n * 11) % 26) * size, 2, 1, 0x338c4c);
     };
-    scene.textures.addCanvas("neighborhood", neighborhoodRaster());
+    const neighborhoodImages: NeighborhoodImages = {
+        left: scene.textures.get("neighborhood-house-left").getSourceImage() as HTMLImageElement,
+        cottage: scene.textures.get("neighborhood-cottage").getSourceImage() as HTMLImageElement,
+        tree: scene.textures.get("neighborhood-tree").getSourceImage() as HTMLImageElement,
+        hedge: scene.textures.get("neighborhood-hedge").getSourceImage() as HTMLImageElement,
+    };
+    scene.textures.addCanvas("neighborhood", neighborhoodRaster(neighborhoodImages));
 
     // Location scenes keep the cart and pedestrian route on the same ground plane.
     for (const id of ["park", "downtown"] as const) {
