@@ -1,5 +1,22 @@
 # Cloud development handoff — 2026-10-05
 
+## User-directed Neighborhood refinement - 2026-10-19 KST
+
+PR248 integrated as3a27f6d after all checks for c37824e, including complete
+Windows packaged-saves39257521927, passed. The stale performance day41 assertion
+now checks both career fields and cumulative day; local Windows performance passed.
+
+User accepted the broad Neighborhood composition but requested better houses
+and smaller props. PR249 refines roof/wall construction, windows, porch, dormer,
+chimney, trees, hedges, mailbox and manhole. Worktree D:/lemonade-calendar-ci.
+Type/lint/build, focused browser15/15 and rebuilt actual Windows UI all passed.
+Review: reviews/neighborhood-house-design.md. Private before/after and live walking
+captures: .local-m4/house-design. Require final-head CI before integration.
+
+D:/lemonade-loop retains all six incomplete eager-next-day files; that increment
+is separate and not yet validated. Parent legacy work, original resources, frozen
+alpha13 and #97 manual acceptance remain preserved. #229 stays Running.
+
 ## Resumed checkpoint - 2026-10-19 KST
 
 PR247 integrated as `d9868df` after self-review and all exact-head checks for

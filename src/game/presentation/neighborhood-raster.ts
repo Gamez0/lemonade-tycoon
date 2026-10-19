@@ -62,54 +62,131 @@ export function neighborhoodRaster(): HTMLCanvasElement {
     const hedge = (x: number, y: number, length: number) => {
         poly([[x, y], [x + length, y + length / 2], [x + length, y + length / 2 - 12], [x, y - 12]], "#23733a");
         poly([[x, y - 12], [x + 6, y - 15], [x + length + 6, y + length / 2 - 15], [x + length, y + length / 2 - 12]], "#3fa34b");
-        for (let i = 4; i < length; i += 7) rect(x + i, y + i / 2 - 9, 2, 2, "#348d40");
+        poly([[x + length, y + length / 2], [x + length + 6, y + length / 2 - 3],
+            [x + length + 6, y + length / 2 - 15], [x + length, y + length / 2 - 12]], "#1a6034");
+        for (let i = 3; i < length; i += 4) {
+            rect(x + i, y + i / 2 - 10, 2, 2, "#348d40");
+            rect(x + i + 1, y + i / 2 - 5, 1, 2, "#175d32");
+            rect(x + i + 3, y + i / 2 - 14, 2, 1, "#5ca957");
+        }
     };
     const window = (x: number, y: number, slope: number, width = 10, height = 16) => {
-        poly([[x, y], [x + width, y + width * slope], [x + width, y + width * slope + height], [x, y + height]], "#a3c8cd");
-        line(x + 2, y + 2, x + width - 2, y + (width - 2) * slope + 2, "#eff3d8");
-        line(x + width / 2, y + width / 2 * slope, x + width / 2, y + width / 2 * slope + height, "#566c66");
-        line(x, y + height / 2, x + width, y + width * slope + height / 2, "#e1e7ca");
+        const corners = (inset: number) => [[x + inset, y + inset + inset * slope],
+            [x + width - inset, y + inset + (width - inset) * slope],
+            [x + width - inset, y + height - inset + (width - inset) * slope],
+            [x + inset, y + height - inset + inset * slope]];
+        poly(corners(0), "#4c5554");
+        poly(corners(1), "#ded7bd", false);
+        poly(corners(2), "#6097a8", false);
+        line(x + 2, y + height - 4 + 2 * slope, x + width - 3, y + 3 + (width - 3) * slope, "#acd6d5");
+        line(x + width / 2, y + 1 + width / 2 * slope, x + width / 2, y + height - 2 + width / 2 * slope, "#e9e3cc");
+        line(x + 1, y + height / 2 + slope, x + width - 1, y + height / 2 + (width - 1) * slope, "#e9e3cc");
+        line(x - 1, y + height + 1 - slope, x + width + 1, y + height + 1 + (width + 1) * slope, "#e4d9c1");
     };
-    // Low houses across the upper street and their paths to the curb.
+    // Upper bungalow: one continuous facade, a shaded end and an overhanging roof.
     hedge(76, 6, 65);
-    poly([[156, 30], [170, 37], [183, 31], [169, 24]], "#bcc2b6");
-    poly([[161, -10], [205, 12], [205, 51], [161, 29]], "#b28c56");
-    poly([[205, 12], [240, -6], [240, 33], [205, 51]], "#897445");
-    poly([[153, -15], [206, 12], [244, -7], [192, -34]], "#327149");
-    window(174, 6, 0.5); window(220, 6, -0.5);
-    poly([[197, 31], [204, 35], [204, 47], [197, 43]], "#526962");
+    poly([[191, 46], [203, 52], [212, 47], [200, 41]], "#bac0b2");
+    poly([[161, -10], [205, 12], [205, 51], [161, 29]], "#b89c6b");
+    poly([[205, 12], [240, -6], [240, 33], [205, 51]], "#8c784e");
+    for (let y = 1; y < 34; y += 5) line(163, y, 203, y + 20, "#a58b5f");
+    poly([[153, -15], [206, 12], [244, -7], [192, -34]], "#326c50");
+    line(154, -14, 206, 13, "#d7d6b6"); line(206, 13, 243, -6, "#233e35");
+    window(170, 4, 0.5, 12, 17); window(220, 6, -0.5, 11, 17);
+    poly([[192, 23], [201, 27], [201, 47], [192, 43]], "#ded0ad");
+    poly([[194, 26], [199, 29], [199, 45], [194, 42]], "#526f6d");
+    rect(198, 36, 1, 1, "#d9bd71");
+    poly([[189, 22], [193, 18], [205, 24], [202, 28]], "#426f59");
     hedge(260, 76, 45);
-    // Cropped tall left house frames the lawn rather than occupying its center.
-    poly([[-14, 30], [77, 75], [77, 120], [-14, 165]], "#806486");
-    poly([[-14, 30], [21, 12], [77, 40], [77, 120], [21, 148], [-14, 130]], "#947a9d");
-    poly([[-23, 49], [38, -15], [94, 23], [81, 65], [10, 101]], "#b5a1a4");
-    window(24, 101, -0.5, 13, 19); window(58, 84, -0.5, 11, 17);
-    window(58, 56, -0.5, 11, 17);
-    poly([[20, 127], [30, 122], [30, 141], [20, 146]], "#5a5145");
-    poly([[16, 127], [22, 120], [35, 114], [32, 121]], "#c3abb0");
-    poly([[15, 148], [30, 140], [42, 146], [27, 154]], "#b8c0b2");
-    // Rounded tree silhouette still uses explicit integer spans, never ellipses.
+    // Left house: roof ridge and eaves share the facade's 1:2 direction.
+    // Windows stay below the eave; the porch connects to a separate front step.
+    poly([[-20, 108], [80, 58], [80, 123], [-20, 173]], "#8e7094");
+    for (let y = 115; y < 170; y += 6) line(-18, y, 78, y - 48, "#85668b");
+    line(78, 62, 78, 122, "#bea4b4");
+    line(-18, 169, 80, 120, "#645468");
+    poly([[-40, 51], [58, 2], [84, 60], [-16, 110]], "#b5a1a4");
+    line(-39, 51, 58, 3, "#dbbfc0");
+    line(-16, 111, 84, 61, "#55494f");
+    line(-16, 108, 83, 59, "#d0b5b7");
+    for (let row = 1; row < 5; row++) {
+        const dx = row * 5, dy = row * 11;
+        line(-40 + dx, 51 + dy, 58 + dx, 2 + dy, "#a49095");
+    }
+    window(20, 103, -0.5, 12, 18); window(57, 84, -0.5, 12, 18);
+    window(48, 114, -0.5, 20, 18);
+    // A shallow flower box has a visible top, shaded face and distinct blooms.
+    poly([[47, 133], [69, 122], [72, 124], [50, 135]], "#73804a");
+    poly([[50, 135], [72, 124], [72, 128], [50, 139]], "#725444");
+    for (let i = 0; i < 6; i++) {
+        rect(51 + i * 3, 132 - i * 1.5, 2, 2, i % 2 ? "#ddbd55" : "#e3a0a0");
+    }
+    poly([[14, 128], [28, 121], [28, 145], [14, 152]], "#d0bca7");
+    poly([[17, 129], [26, 124], [26, 144], [17, 149]], "#65594e");
+    window(19, 128, -0.5, 5, 8);
+    rect(24, 140, 1, 1, "#d1b775");
+    line(11, 131, 11, 153, "#c8b5a1"); line(31, 121, 31, 143, "#c8b5a1");
+    poly([[8, 128], [14, 117], [30, 109], [35, 115]], "#c4aeb0");
+    poly([[8, 128], [35, 115], [35, 118], [8, 131]], "#7b686d");
+    poly([[10, 154], [29, 144], [39, 149], [20, 159]], "#b9bbaa");
+    line(20, 160, 39, 150, "#777f73");
+    // Integer ellipse spans keep foliage round at the authored resolution.
+    const oval = (x: number, y: number, rx: number, ry: number, color: string) => {
+        for (let row = -ry; row <= ry; row++) {
+            const span = Math.floor(rx * Math.sqrt(1 - row * row / (ry * ry)));
+            rect(x - span, y + row, span * 2 + 1, 1, color);
+        }
+    };
     const tree = (x: number, y: number) => {
-        rect(x, y - 8, 2, 12, "#665038");
-        poly([[x - 7, y - 6], [x - 11, y - 14], [x - 8, y - 23], [x, y - 27], [x + 8, y - 23], [x + 10, y - 13], [x + 5, y - 6]], "#266d3e");
-        poly([[x - 8, y - 16], [x - 5, y - 23], [x + 1, y - 25], [x + 6, y - 19], [x + 3, y - 12], [x - 4, y - 10]], "#3d9c50", false);
-        for (let i = 0; i < 9; i++) rect(x - 5 + (i * 7) % 10, y - 21 + (i * 3) % 10, 1, 1, "#57ae5d");
+        oval(x + 4, y + 3, 10, 3, "#26723e");
+        rect(x - 1, y - 14, 4, 18, "#514a31");
+        rect(x, y - 13, 2, 16, "#a5834c");
+        line(x, y - 7, x - 5, y - 13, "#685437");
+        oval(x, y - 19, 12, 14, "#245b36");
+        oval(x - 2, y - 21, 10, 12, "#368d46");
+        oval(x - 4, y - 24, 7, 8, "#459e50");
+        for (let i = 0; i < 21; i++) {
+            const px = (i * 7) % 17 - 8, py = (i * 11) % 19 - 9;
+            if (px * px / 100 + py * py / 144 < 0.85)
+                rect(x + px, y - 21 + py, 2, 1, i % 3 ? "#337e40" : "#68b15b");
+        }
     };
     tree(53, 171);
-    rect(202, 45, 1, 10, "#354d43"); rect(200, 42, 5, 4, "#77a2a2");
-    // Large foreground roof crops the lower right, leaving the service pavement clear.
-    poly([[202, 201], [260, 172], [320, 202], [320, 260], [202, 260]], "#a0a16e");
-    poly([[185, 202], [222, 144], [310, 187], [320, 228], [255, 260]], "#84a9a5");
-    poly([[185, 202], [222, 144], [215, 218]], "#617e76");
-    line(222, 144, 310, 187, "#b5d1be");
-    poly([[208, 156], [216, 160], [216, 171], [208, 167]], "#8a7367");
-    poly([[216, 160], [221, 157], [221, 168], [216, 171]], "#62584e");
-    poly([[264, 196], [265, 177], [280, 193]], "#5f8581");
-    window(265, 186, 0.5, 10, 11);
+    // Mailbox stands by its own curb approach, clear of the bungalow's doorway.
+    rect(232, 91, 2, 11, "#6b5942");
+    poly([[228, 88], [232, 86], [237, 88], [233, 91]], "#a6c6bc");
+    poly([[228, 88], [233, 91], [233, 95], [228, 92]], "#628f8c");
+    poly([[233, 91], [237, 88], [237, 92], [233, 95]], "#416a68");
+    rect(235, 88, 1, 4, "#a8513d");
+    // Foreground cottage: a gabled end supports a single continuous roof plane.
+    poly([[185, 202], [273, 246], [273, 282], [185, 238]], "#b6b184");
+    poly([[185, 202], [222, 144], [259, 181], [259, 239]], "#95966b");
+    line(188, 205, 188, 238, "#d2cc9b");
+    window(198, 216, 0.5, 14, 20);
+    poly([[181, 203], [222, 142], [314, 188], [273, 249]], "#88aaa7");
+    for (let row = 1; row < 7; row++) {
+        const dx = -row * 5, dy = row * 8;
+        line(222 + dx, 144 + dy, 311 + dx, 188 + dy, "#7d9e9b");
+    }
+    line(222, 142, 314, 188, "#bbd1c4");
+    line(181, 203, 273, 249, "#45645e");
+    line(183, 202, 274, 247, "#c0d2ba");
+    // A dormer sits on the roof rather than appearing as a floating window.
+    poly([[249, 205], [260, 183], [272, 211], [260, 217]], "#547b76");
+    poly([[249, 205], [260, 192], [269, 215], [260, 219]], "#c8c5a4");
+    window(254, 204, 0.5, 9, 10);
+    line(247, 205, 259, 182, "#3d5b55");
+    line(259, 182, 273, 210, "#b6d0bd");
+    // Brick chimney has a dark open flue and a projecting cap.
+    poly([[210, 156], [216, 159], [216, 174], [210, 171]], "#9a8171");
+    poly([[216, 159], [222, 156], [222, 171], [216, 174]], "#715e55");
+    for (let y = 162; y < 173; y += 4) line(211, y, 215, y + 2, "#c1a18a");
+    poly([[208, 155], [215, 151], [224, 155], [216, 160]], "#b19b87");
+    poly([[212, 155], [216, 153], [220, 155], [216, 157]], "#423e38");
     hedge(121, 238, 34); tree(159, 244);
-    // Service cover on the asphalt, not the customer's service stop.
-    poly([[136, 186], [142, 183], [148, 186], [148, 190], [141, 193], [135, 190]], "#626964");
-    line(138, 187, 145, 187, "#353f39"); line(138, 190, 145, 190, "#353f39");
+    // Recessed oval service cover follows the road plane.
+    oval(142, 188, 8, 4, "#303e38");
+    oval(142, 187, 7, 3, "#737a70");
+    oval(142, 187, 5, 2, "#4f5a53");
+    for (let x = 138; x < 148; x += 3) line(x, 186, x - 2, 189, "#879085");
 
     const display = document.createElement("canvas");
     display.width = 640; display.height = 512;
