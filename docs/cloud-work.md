@@ -1,5 +1,23 @@
 # Cloud development handoff — 2026-10-05
 
+## Integrated structural art; immediate preparation follow-up - 2026-10-20 KST
+
+PR250 integratedbf1c159 after final7f1279d self-review and every required check
+passed, including complete Windows39276947163. Both build and shipped-ASAR audits
+share the narrow four-raster predicate. Actual final-position Windows UI and six
+live walking frames passed. Review/provenance: reviews/neighborhood-structural-raster.md
+and art/studies/neighborhood. Private side-by-side board remains in
+D:/lemonade-calendar-ci/.local-m4/house-structure/painted-context.html.
+#229/#97 remain open; this does not declare aesthetic acceptance or a release.
+
+Continued the previously preserved eager-next-day work in D:/lemonade-loop.
+Full browser49/49 and all8 previous actual Windows suites pass; committed and
+rebased cleanly onto new art main asf0e0333. The final old test assumption about
+returning from ledger to Daily was fixed by explicitly selecting Daily.
+Review: reviews/immediate-next-day-preparation.md. Rebuild and require fresh
+exact-head remote full checks for the combined art/transition implementation.
+Parent legacy work, original resources and frozen alpha13 remain preserved.
+
 ## Neighborhood structural/raster candidate - 2026-10-20 KST
 
 User resumed the recorded art plan. Branch art/house-structure-studies in
