@@ -1,3 +1,4 @@
+import { balanceSheet } from "./game/presentation/balance-sheet";
 import { profitGraph } from "./game/presentation/profit-graph";
 import { GameAudio } from "./game/presentation/audio";
 import { maxSaveBytes } from "./desktop/save-limits.json";
@@ -60,7 +61,7 @@ let order = emptyOrder();
 let selectedSupply: Item = "lemon";
 let currentPage: Page = "recipe";
 let selectedLocation: LocationId = "neighborhood";
-let reportPage: "daily" | "ledger" | "graph" = "daily";
+let reportPage: "daily" | "ledger" | "graph" | "balance" = "daily";
 let reportDay: number | null = null;
 let lastFeedback = "Your first customers are just around the corner.";
 let restartArmed = false;
@@ -468,6 +469,20 @@ function renderReport(): void {
     const graph = reportPage === "graph" && history.length > 0;
     element("profit-graph").hidden = !graph;
     document.querySelector<HTMLElement>(".report-content")!.hidden = graph;
+    const balance = reportPage === "balance";
+    document.querySelector<HTMLElement>(".report-content")!.classList.toggle("balance-report", balance);
+    if (balance) {
+        const book = balanceSheet(state);
+        text("result-intro", `Current balance sheet: day ${state.day}. Paid supplies and equipment at cost; free ice has zero value. Net asset change includes overnight stock loss, unlike trading profit.`);
+        element("report-commentary").hidden = true;
+        rows("result-values", [
+            ["Cash", money(book.cash)], ["Paid supplies", money(book.inventory)],
+            ["Equipment at cost", money(book.equipment)], ["Total assets", money(book.assets)],
+            ["Initial capital", money(book.capital)], ["Net asset change", money(book.netAssetChange)],
+            ["Total equity", money(book.capital + book.netAssetChange)],
+        ]);
+        return;
+    }
     if (graph) {
         text("result-intro", `Daily profit: latest ${Math.min(30, history.length)} completed ${history.length === 1 ? "day" : "days"}. Day numbers on the horizontal axis.`);
         element("profit-graph").innerHTML = profitGraph(history, money);

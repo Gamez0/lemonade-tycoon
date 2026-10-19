@@ -113,9 +113,10 @@ function forecast(seed: number): { seed: number; weather: Weather } {
     const roll = random(seed);
     return { seed: roll.seed, weather: WEATHER[Math.floor(roll.value * WEATHER.length)] };
 }
+export const INITIAL_CAPITAL = 4000;
 export function newGame(seed = 2026): State {
     integer(seed, 0, 4294967295, "Seed");
-    return { management: defaultManagement(), phase: "preparation", day: 1, cash: 4000, openingCash: 4000,
+    return { management: defaultManagement(), phase: "preparation", day: 1, cash: INITIAL_CAPITAL, openingCash: INITIAL_CAPITAL,
         stock: { lemon: 0, sugar: 0, ice: 0, cup: 0 }, freeIce: 0, pitcherCups: 0,
         plan: { recipe: { lemon: 6, sugar: 3, ice: 2 }, price: 150 },
         location: "neighborhood", pendingLocation: null, unlocked: ["neighborhood"],

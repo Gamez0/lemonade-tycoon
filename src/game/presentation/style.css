@@ -759,6 +759,8 @@ dd {
     grid-template-columns: 1.25fr 1fr;
     gap: 12px;
 }
+.desktop .report-content.balance-report,
+.report-content.balance-report { grid-template-columns: 1fr; }
 #result-values {
     margin-top: 0;
     column-gap: 6px;
