@@ -49,3 +49,13 @@ Model/storage 67/67; TypeScript passed. Browser rollover restore, historical rep
 selection, reload and narrow containment checks added. Final browser/build/lint
 and current-head CI evidence will be recorded in the PR before integration.
 Human visual acceptance #97 remains open.
+
+## Resume CI repair - 2026-10-19 KST
+
+Exact-head Windows run39238557744 failed only in desktop-performance at the
+old cumulative-day41 assertion: the calendar correctly displayed day11/month2.
+The performance scenario now checks both the cumulative header title and calendar
+day/month, including day60 to61 rollover. Syntax and diff checks passed.
+The repaired script passed against the existing actual Windows calendar package,
+including all idle/selling/minimized samples and the20-day retention scenario.
+Current-head remote checks are required before merge.

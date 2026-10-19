@@ -145,7 +145,10 @@ async function sample(name, seconds = 6) {
                 mimeType: "application/json",
                 buffer: Buffer.from(encodeSave(funded, fixture.history)),
             });
-        await expect(page.locator("#day")).toHaveText("41");
+        await expect(page.locator("#day")).toHaveText("11");
+        await expect(page.locator("#month")).toHaveText("2");
+        await expect(page.locator("#year")).toHaveText("1");
+        await expect(page.locator("#career-date")).toHaveAttribute("title", "Business day 41");
         const cdp = await page.context().newCDPSession(page);
         await cdp.send("HeapProfiler.collectGarbage");
         const heapBefore = await cdp.send("Runtime.getHeapUsage");
@@ -155,7 +158,9 @@ async function sample(name, seconds = 6) {
             await page.locator("#skip").click();
             await expect(page.locator("#next")).toBeEnabled();
             await page.locator("#next").click();
-            await expect(page.locator("#day")).toHaveText(String(day + 1));
+            await expect(page.locator("#career-date")).toHaveAttribute("title", `Business day ${day + 1}`);
+            await expect(page.locator("#day")).toHaveText(String(day % 30 + 1).padStart(2, "0"));
+            await expect(page.locator("#month")).toHaveText(day === 60 ? "3" : "2");
         }
         await cdp.send("HeapProfiler.collectGarbage");
         const heapAfter = await cdp.send("Runtime.getHeapUsage");
