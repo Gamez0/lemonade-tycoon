@@ -191,12 +191,12 @@ test('reload resumes checkpoints and preserves results, ledger and cancelled res
     expect(checkpoint.state.pitcherCups).toBe(12);
     expect(checkpoint.state.daily.pitchersMade).toBe(1);
     await page.locator('#open').click(); await page.locator('#skip').click();
-    await expect(page.locator('#app')).toHaveAttribute('data-phase', 'results');
+    await expect(page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
     const results = await saved(page);
     await page.reload();
-    await expect(page.locator('#app')).toHaveAttribute('data-phase', 'results');
+    await expect(page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
     expect(await saved(page)).toBe(results);
-    await page.locator('#next').click();
+    await page.locator('[data-page=recipe]').click();
     await expect(page.locator('#day')).toHaveText('02');
     const next = await saved(page);
     await page.locator('#restart').click(); await page.locator('#restart').press('Escape');
@@ -238,8 +238,8 @@ test('desktop writes serialize and normal-close flush waits for the latest check
     });
     await page.goto('/'); await stock(page);
     await page.locator('#open').click(); await page.locator('#skip').click();
-    await expect(page.locator('#app')).toHaveAttribute('data-phase', 'results');
-    await page.locator('#next').click();
+    await expect(page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
+    await page.locator('[data-page=recipe]').click();
     await page.evaluate(() => window.flushDesktopSave());
     const latest = JSON.parse(await saved(page));
     expect(latest.state.day).toBe(2);

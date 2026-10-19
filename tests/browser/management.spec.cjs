@@ -55,9 +55,11 @@ test('low-cash ice-maker owner sees affordable opening costs and can resume sell
     await page.locator('#skip').click();
     await expect(page.locator('#results')).toBeVisible();
     const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('lemonade-tycoon.reboot.save')));
-    expect(saved.state.daily.purchases).toBe(state.daily.purchases);
-    expect(saved.state.cash).toBe(state.cash + saved.state.daily.revenue);
-    expect(saved.state.daily.freeIceUsed).toBeGreaterThan(0);
+    const report = saved.history.at(-1);
+    expect(report.daily.purchases).toBe(state.daily.purchases);
+    expect(saved.state.cash).toBe(state.cash + report.daily.revenue);
+    expect(report.daily.freeIceUsed).toBeGreaterThan(0);
+    expect(saved.state.daily.freeIceUsed).toBe(0);
 });
 
 test('four-ice recipe needs ice for one sale and recovers after an actual purchase', async ({ page }) => {

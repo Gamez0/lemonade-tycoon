@@ -43,14 +43,18 @@ test("static canvas sleeps, edits and resizing repaint, selling resumes and resu
     expect(await page.evaluate(() => window.__weatherChanges)).toBe(0);
     await expect(page.locator("#progress-text")).not.toHaveText(/^0 \//);
     await page.locator("#skip").click();
-    await expect(page.locator("#next")).toBeEnabled();
+    await expect(page.locator("#next")).toBeHidden();
     await page.waitForTimeout(350);
     const closed = await page.evaluate(() => window.__draws);
     await page.waitForTimeout(600);
     expect(await page.evaluate(() => window.__draws)).toBe(closed);
-    await page.locator("#next").click();
+    await page.locator("[data-page=recipe]").click();
     await expect(page.locator("#day")).toHaveText("02");
     await expect.poll(() => page.evaluate(() => window.__draws)).toBeGreaterThan(closed);
+    await page.waitForTimeout(350);
+    const preparation = await page.evaluate(() => window.__draws);
+    await page.waitForTimeout(600);
+    expect(await page.evaluate(() => window.__draws)).toBe(preparation);
 });
 
 test("muted audio suspends its context and resumes after unmute", async ({ page }) => {

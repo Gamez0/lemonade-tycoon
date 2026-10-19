@@ -5,7 +5,7 @@ const path = require('node:path');
 const os = require('node:os');
 const { execFileSync } = require('node:child_process');
 const { campaign, stock } = require('./helpers/business.cjs');
-const { openDay, reserveLocation } = require('../.test-build/simulation/game.js');
+const { openDay, nextDay, reserveLocation } = require('../.test-build/simulation/game.js');
 const { beginStreetDay, finishStreetDay } = require('../.test-build/simulation/street-day.js');
 const { encodeSave } = require('../.test-build/simulation/save.js');
 const { profileArgs, verifyProfile } = require('./helpers/desktop-profile.cjs');
@@ -52,9 +52,10 @@ async function close() {
         expect(read()).toEqual(checkpoint);
         await expect(page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
         await page.locator('#open').click(); await page.locator('#skip').click();
-        await expect.poll(() => read().state.phase).toBe('results');
+        await expect.poll(() => read().state.business).toBe(null);
         const expected = finishStreetDay(beginStreetDay(openDay(reserveLocation(initial.state, 'downtown')))).day.game;
-        expect(read().state).toEqual(expected);
+        expect(read().state).toEqual(nextDay(expected));
+        expect(read().history.at(-1)).toEqual(expected);
         const results = read(); await close(); page = await launch(); expect(read()).toEqual(results);
         const exportPath = path.join(base, 'native-business.json');
         await app.evaluate(({ BrowserWindow }, output) => {
@@ -64,14 +65,14 @@ async function close() {
         await expect.poll(() => {
             try { return JSON.parse(fs.readFileSync(exportPath, 'utf8')); } catch { return null; }
         }).toEqual(results);
-        await page.locator('#next').click();
+        await page.locator('[data-page=recipe]').click();
         await page.locator('[data-page=rent]').click(); await page.locator('button[data-location=neighborhood]').click();
         await page.locator('#confirm-rent').click();
         await page.locator('[data-page=recipe]').click(); await page.locator('#ice').fill('0'); await page.locator('#ice').press('Tab');
         await page.locator('#open').click();
         await expect.poll(() => read().state.location).toBe('neighborhood');
         expect(read().state.daily.rent).toBe(0); expect(read().state.daily.moveFee).toBe(0);
-        await page.locator('#skip').click(); await expect.poll(() => read().state.phase).toBe('results');
+        await page.locator('#skip').click(); await expect.poll(() => read().state.business).toBe(null);
         // Import an actual pre-M5 shape. History accounting must survive the format upgrade.
         // A v7 day uses per-sale ice and cannot become v2 by deleting fields.
         // Reuse an actual pre-customer-model result with historical accounting.

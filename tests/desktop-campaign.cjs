@@ -71,24 +71,25 @@ async function change(page, id, value) { await page.locator(`#${id}`).fill(Strin
             assert.equal(paid.state.location, location);
             await page.locator('#skip').click(); await expect(page.locator('#results')).toBeVisible();
             await expect.poll(() => read()?.history.length).toBe(day);
-            const done = read(), d = done.state.daily;
+            const done = read(), d = done.history.at(-1).daily;
             assert.equal(done.state.cash, paid.state.cash + d.revenue);
             const sum = field => done.history.reduce((total, entry) => total + entry.daily[field], 0);
             assert.equal(done.state.cash, 4000 + sum('revenue') - sum('purchases') - sum('capital') - sum('rent') - sum('moveFee') - sum('wages') - sum('advertising'));
             assert.equal(done.state.lifetimeRevenue, sum('revenue'));
-            assert.equal(done.state.day, day); assert.equal(done.version, 7);
+            assert.equal(done.state.day, day + 1); assert.equal(done.version, 7);
             const size = fs.statSync(save).size; assert.ok(size < maxSaveBytes, 'Save exceeds native IPC limit');
             report.days.push({ day, location, cash: done.state.cash, sold: d.sold, freeIceUsed: d.freeIceUsed, saveBytes: size });
             if (day % 5 === 0) {
                 await close(); page = await launch(); assert.deepEqual(read(), done);
-                await expect(page.locator('#app')).toHaveAttribute('data-phase', 'results');
+                await expect(page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
             }
-            if (day < 30) { await page.locator('#next').click(); await expect.poll(() => read()?.state.day).toBe(day + 1); }
+            if (day < 30) { await page.locator('[data-page=recipe]').click(); await expect.poll(() => read()?.state.day).toBe(day + 1); }
             console.log(`PASS native campaign day${day} ${location}`);
         }
         const final = read();
         assert.deepEqual(final.state.management.upgrades, { refrigerator: 2, iceMaker: 2, blender: 2 });
         assert.ok(report.days.some(day => day.freeIceUsed > 0));
+        await page.locator('[data-page=results]').click();
         await page.locator('[data-report=ledger]').click();
         await expect(page.locator('#result-intro')).toContainText('30 completed days');
         await page.screenshot({ path: path.join(out, 'thirty-day-ledger.png') });

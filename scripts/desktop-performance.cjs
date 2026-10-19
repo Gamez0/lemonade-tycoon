@@ -156,8 +156,8 @@ async function sample(name, seconds = 6) {
             await page.locator("#open").click();
             await expect(page.locator("#selling")).toBeVisible();
             await page.locator("#skip").click();
-            await expect(page.locator("#next")).toBeEnabled();
-            await page.locator("#next").click();
+            await expect(page.locator("#results")).toBeVisible();
+            await page.locator("[data-page=recipe]").click();
             await expect(page.locator("#career-date")).toHaveAttribute("title", `Business day ${day + 1}`);
             await expect(page.locator("#day")).toHaveText(String(day % 30 + 1).padStart(2, "0"));
             await expect(page.locator("#month")).toHaveText(day === 60 ? "3" : "2");
