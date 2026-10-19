@@ -18,4 +18,9 @@ export default [
             "@typescript-eslint/no-require-imports": "warn",
         },
     },
+    {
+        files: ["scripts/art-studies/**/*.cjs"],
+        languageOptions: { globals: globals.node },
+        rules: { "@typescript-eslint/no-require-imports": "off" },
+    },
 ];

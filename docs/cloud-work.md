@@ -1,5 +1,28 @@
 # Cloud development handoff — 2026-10-05
 
+## Neighborhood structural/raster candidate - 2026-10-20 KST
+
+User resumed the recorded art plan. Branch art/house-structure-studies in
+D:/lemonade-calendar-ci adds complete/cropped three-value house studies, gable/hip
+visibility studies and blockout with actual cart/customer textures. The schematic
+model remained inadequate as final art, so built-in image generation produced
+independent transparent house/cottage/tree/hedge assets from our OWN studies.
+No original-game pixels were generation inputs. Exact prompts/provenance and
+reproduction scripts are in art/studies/neighborhood. First house rejected for
+perspective drift; v2 selected. Compare .local-m4/house-structure/painted-context.html.
+
+Candidate is connected to the game on this branch. Road/walking geometry and
+rules/saves are unchanged; curb seams are clipped off grass/asphalt, entrance
+paths follow ground axes, upper roofs no longer overlap. Type/lint/build, release
+audit15/15, browser47/47 and rebuilt Windows UI/location/performance passed.
+Actual UI review found the left tree on pavement; final12px lawn adjustment is
+being rebuilt/reviewed. Require exact-head remote CI and self-review before main.
+See reviews/neighborhood-structural-raster.md. #229/#97 remain open.
+
+D:/lemonade-loop retains separate uncommitted next-day preparation changes and
+test fixes; its complete49-test rerun is still pending. Parent legacy work,
+original resources and frozen alpha13 remain preserved.
+
 ## Latest user steering: art analysis before more drawing - 2026-10-19 KST
 
 PR248 integrated3a27f6d; PR249 integrated56ddb48 after all final-head required

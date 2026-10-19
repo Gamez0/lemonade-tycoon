@@ -1,0 +1,66 @@
+{
+  "tool": "built-in image_gen",
+  "date_kst": "2026-10-20",
+  "reference_policy": "Only project-owned structural studies and own generated style references; no source-game pixels.",
+  "visual_acceptance": "Open in #97; technical validation does not establish aesthetic acceptance.",
+  "assets": [
+    {
+      "file": "left-house-painted-v1.png",
+      "prompt": "left-house-painted-v1.prompt.txt",
+      "sha256": "18ee1b6d89615c48c2f19d07cf75650de000f3ce6bfca0f7f7e2d151fd4410e5",
+      "width": 1402,
+      "height": 1122,
+      "reference_images": [
+        ".local-m4/house-structure/A.png"
+      ],
+      "product_asset": null
+    },
+    {
+      "file": "left-house-painted-v2.png",
+      "prompt": "left-house-painted-v2.prompt.txt",
+      "sha256": "ee6f1300942b6370c655886f750fafd250b47f40e14cd99bd39fc1406d82cfdf",
+      "width": 1402,
+      "height": 1122,
+      "reference_images": [
+        "art/studies/neighborhood/left-house-painted-v1.png",
+        ".local-m4/house-structure/A.png"
+      ],
+      "product_asset": "src/game/assets/neighborhood-house-left.png"
+    },
+    {
+      "file": "foreground-cottage-v1.png",
+      "prompt": "foreground-cottage-v1.prompt.txt",
+      "sha256": "ebf27386f7b780508b53c3e0c3457bc7172bf3dc5f71a299faa419da2f7badb3",
+      "width": 1402,
+      "height": 1122,
+      "reference_images": [
+        ".local-m4/house-structure/D.png",
+        "art/studies/neighborhood/left-house-painted-v2.png"
+      ],
+      "product_asset": "src/game/assets/neighborhood-cottage.png"
+    },
+    {
+      "file": "yard-tree-v1.png",
+      "prompt": "yard-tree-v1.prompt.txt",
+      "sha256": "a9a54f3357dd871e8b00634e8161c628899594cdd1d1e1231704d2efd0381ee9",
+      "width": 1402,
+      "height": 1122,
+      "reference_images": [
+        "art/studies/neighborhood/left-house-painted-v2.png"
+      ],
+      "product_asset": "src/game/assets/neighborhood-tree.png"
+    },
+    {
+      "file": "garden-hedge-v1.png",
+      "prompt": "garden-hedge-v1.prompt.txt",
+      "sha256": "ddc616e72f08980c608b16273712d4a809d09d39ea0e69a07531da4d2bc25e20",
+      "width": 1514,
+      "height": 1039,
+      "reference_images": [
+        ".local-m4/house-structure/hedge-structure.png",
+        "art/studies/neighborhood/yard-tree-v1.png"
+      ],
+      "product_asset": "src/game/assets/neighborhood-hedge.png"
+    }
+  ]
+}

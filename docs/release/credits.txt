@@ -7,6 +7,11 @@ or third-party musical composition is included in the reboot PC distribution.
 Human listening acceptance and contributor distribution-rights confirmation
 remain release checks. The separate legacy preview is excluded from this package.
 
+Neighborhood houses, tree and hedge: generated with OpenAI image generation from
+project-owned structural studies, then reviewed at the game's logical resolution.
+Their prompts and provenance are in art/studies/neighborhood. No original-game
+pixels were used as generation inputs or copied into these raster assets.
+
 Repository template: Copyright (c) 2024 Phaser Studio Inc, MIT (LICENSE).
 Phaser 3.88.2: MIT (LICENSE-Phaser.txt).
 Oswald font: SIL Open Font License 1.1 (dist/licenses/OFL-Oswald.txt in app.asar).

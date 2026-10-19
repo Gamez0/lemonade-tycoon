@@ -16,7 +16,8 @@ function auditDesktop(directory) {
         if (!files.includes(required)) throw new Error(`Missing desktop asset: ${required}`);
     if (!files.some(file => /^assets\/[^/]+\.ttf$/.test(file))) throw new Error('Missing bundled font');
     for (const file of files)
-        if (!(file === 'index.html' || file === 'licenses/OFL-Oswald.txt' || /^assets\/[^/]+\.(js|css|ttf)$/.test(file)))
+        if (!(file === 'index.html' || file === 'licenses/OFL-Oswald.txt' || /^assets\/[^/]+\.(js|css|ttf)$/.test(file)
+            || /^assets\/neighborhood-(?:house-left|cottage|tree|hedge)-[\w-]+\.png$/.test(file)))
             throw new Error(`Unapproved desktop asset: ${file}`);
     return files.sort();
 }

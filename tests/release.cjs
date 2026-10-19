@@ -127,6 +127,8 @@ test('desktop audit rejects legacy and research content', () => temporary(direct
     for (const file of ['index.html', 'licenses/OFL-Oswald.txt', 'assets/font.ttf', 'assets/game.js'])
         fs.writeFileSync(path.join(directory, file), 'fixture');
     assert.equal(auditDesktop(directory).length, 4);
+    fs.writeFileSync(path.join(directory, 'assets/neighborhood-house-left-AbCd1234.png'), 'authored raster');
+    assert.equal(auditDesktop(directory).length, 5);
     fs.writeFileSync(path.join(directory, 'legacy.html'), 'legacy');
     assert.throws(() => auditDesktop(directory), /Unapproved/);
     fs.unlinkSync(path.join(directory, 'legacy.html'));

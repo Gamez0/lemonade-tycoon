@@ -1,6 +1,8 @@
-// Independently authored 300x240 scene. All edges are integer pixels, including
-// polygon spans and outlines; no source-game image is loaded or sampled.
-export function neighborhoodRaster(): HTMLCanvasElement {
+import { paintedNeighborhood, type NeighborhoodImages } from "./painted-neighborhood";
+
+// A 300x240 logical scene with integer street spans and optional painted sprites.
+// No source-game image is loaded or sampled.
+export function neighborhoodRaster(images?: NeighborhoodImages): HTMLCanvasElement {
     const canvas = document.createElement("canvas");
     canvas.width = 300; canvas.height = 240;
     const ctx = canvas.getContext("2d")!;
@@ -39,8 +41,8 @@ export function neighborhoodRaster(): HTMLCanvasElement {
         }
         if (outline) vertices.forEach(([x, y], i) => line(x, y, ...vertices[(i + 1) % vertices.length] as [number, number]));
     };
-    rect(0, 0, 300, 240, "#258d45");
-    for (let i = 0; i < 1750; i++) rect((i * 73 + 11) % 300, (i * 43 + Math.floor(i / 300) * 17) % 240,
+    rect(0, 0, 300, 240, images ? "#328b48" : "#258d45");
+    for (let i = 0; !images && i < 1750; i++) rect((i * 73 + 11) % 300, (i * 43 + Math.floor(i / 300) * 17) % 240,
         1, 1, i % 3 ? "#31984c" : "#187b3d");
     // Continuous pavement and asphalt outlines; the lower-left branch opens
     // into the through street without a curb running across its mouth.
@@ -53,11 +55,37 @@ export function neighborhoodRaster(): HTMLCanvasElement {
         const x = 158 + i * 7, y = 141 - i * 5.6;
         poly([[x, y], [x + 3, y - 2], [x + 9, y + 1], [x + 6, y + 3]], "#c5c7b6", false);
     }
+    if (images) {
+        // A seam belongs to the pavement, never the grass or the street.
+        ctx.save();
+        ctx.beginPath();
+        for (const points of [
+            [[-12, 3], [312, 165], [312, 221], [216, 173], [-12, 287], [-12, 209], [168, 119], [-12, 59]],
+            [[-12, 17], [312, 179], [312, 207], [216, 159], [-12, 273], [-12, 237], [180, 141], [-12, 45]],
+        ]) {
+            points.forEach(([x, y], i) => i ? ctx.lineTo(x, y) : ctx.moveTo(x, y));
+            ctx.closePath();
+        }
+        ctx.clip("evenodd");
+    }
     for (let x = -12; x < 320; x += 22) {
         line(x, x / 2 + 9, x - 12, x / 2 + 15, "#929b92");
         if (x < 168 || x > 240) line(x, x / 2 + 61, x - 12, x / 2 + 67, "#929b92");
         if (x < 180) line(x, 221 - x / 2, x + 12, 227 - x / 2, "#929b92");
         line(x, 259 - x / 2, x + 12, 265 - x / 2, "#929b92");
+    }
+    const displayCanvas = () => {
+        const display = document.createElement("canvas");
+        display.width = 640; display.height = 512;
+        const scaled = display.getContext("2d")!;
+        scaled.imageSmoothingEnabled = false;
+        scaled.drawImage(canvas, 0, 0, display.width, display.height);
+        return display;
+    };
+    if (images) {
+        ctx.restore();
+        paintedNeighborhood(ctx, images);
+        return displayCanvas();
     }
     const hedge = (x: number, y: number, length: number) => {
         poly([[x, y], [x + length, y + length / 2], [x + length, y + length / 2 - 12], [x, y - 12]], "#23733a");
@@ -188,10 +216,5 @@ export function neighborhoodRaster(): HTMLCanvasElement {
     oval(142, 187, 5, 2, "#4f5a53");
     for (let x = 138; x < 148; x += 3) line(x, 186, x - 2, 189, "#879085");
 
-    const display = document.createElement("canvas");
-    display.width = 640; display.height = 512;
-    const scaled = display.getContext("2d")!;
-    scaled.imageSmoothingEnabled = false;
-    scaled.drawImage(canvas, 0, 0, display.width, display.height);
-    return display;
+    return displayCanvas();
 }
