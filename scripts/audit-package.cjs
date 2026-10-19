@@ -3,6 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { createHash } = require('node:crypto');
 const asar = require('@electron/asar');
+const { isDesktopAsset } = require('./desktop-assets.cjs');
 
 function auditPackage(directory) {
     const native = file => file.split('/').join(path.sep);
@@ -16,7 +17,8 @@ function auditPackage(directory) {
     const exact = ['CREDITS.txt', 'LICENSE', 'LICENSE-Phaser.txt', 'package.json', 'dist/index.html', 'dist/licenses/OFL-Oswald.txt',
         ...['main.cjs', 'preload.cjs', 'file-storage.cjs', 'display-settings.cjs', 'close-checkpoint.cjs', 'diagnostics.cjs', 'icon.ico', 'save-limits.json'].map(file => `src/desktop/${file}`)];
     for (const file of exact) if (!leaves.includes(file)) throw new Error(`Missing shipped file/notice: ${file}`);
-    for (const file of leaves) if (!exact.includes(file) && !/^dist\/assets\/[^/]+\.(js|css|ttf)$/.test(file)) throw new Error(`Unapproved shipped content: ${file}`);
+    for (const file of leaves) if (!exact.includes(file) && !(file.startsWith('dist/') && isDesktopAsset(file.slice(5))))
+        throw new Error(`Unapproved shipped content: ${file}`);
     if (!leaves.some(file => /^dist\/assets\/[^/]+\.ttf$/.test(file))) throw new Error('Missing shipped font');
     const notices = {};
     for (const [file, source] of [['LICENSE', 'LICENSE'], ['LICENSE-Phaser.txt', 'node_modules/phaser/LICENSE.md'], ['dist/licenses/OFL-Oswald.txt', 'public/fonts/OFL-Oswald.txt']]) {

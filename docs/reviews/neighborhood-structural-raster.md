@@ -73,3 +73,10 @@ pixels onto the lawn. The final placement is being rebuilt and visually checked;
 require current-head remote CI before integration. #229 remains open and #97 user visual
 acceptance remains open. This candidate does not claim all original art,
 customer identities, other locations or exact pixel parity.
+
+Final-position Windows UI and six actual walking frames subsequently passed.
+The first remote Windows run39276256958 caught the shipped-ASAR allowlist still
+rejecting PNGs even though the build-directory audit accepted them. Both audits
+now share the same narrow asset predicate; the release fixture includes a valid
+Neighborhood PNG while arbitrary reference PNGs remain rejected. Verify the
+actual packaged archive locally and require the repaired final-head remote run.

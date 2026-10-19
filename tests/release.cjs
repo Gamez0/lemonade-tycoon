@@ -58,6 +58,7 @@ test('shipped archive audit rejects missing notices, altered licenses and embedd
         const phaserNotice = fs.readFileSync(path.resolve(__dirname, '../node_modules/phaser/LICENSE.md'));
         write('LICENSE-Phaser.txt', phaserNotice);
         write('dist/licenses/OFL-Oswald.txt', fs.readFileSync(path.resolve(__dirname, '../public/fonts/OFL-Oswald.txt')));
+        write('dist/assets/neighborhood-cottage-AbCd1234.png', 'selected raster fixture');
         let variant = 0;
         const pack = async () => {
             const output = path.join(root, `package-${variant++}`);
