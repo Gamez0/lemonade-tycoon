@@ -1,5 +1,24 @@
 # Cloud development handoff — 2026-10-05
 
+## Latest user steering: art analysis before more drawing - 2026-10-19 KST
+
+PR248 integrated3a27f6d; PR249 integrated56ddb48 after all final-head required
+checks including Windows passed. The user rejected the map quality again and
+requested thorough analysis/planning. Technical checks are not visual acceptance.
+No further product art was changed after that request. See
+reviews/neighborhood-redesign-plan.md and private .local-m4/house-design/analysis.html
+for the structured diagnosis, scale/rendering findings and staged redesign.
+Next art increment: an isolated left-house structural study in three values,
+not more decoration across the map. #229 and #97 remain open.
+
+D:/lemonade-loop retains the uncommitted eager-next-day increment and updated
+browser/native tests. Type/lint/build passed; precise skip/normal transition
+tests passed. Whole browser run45/49 exposed old-state expectations; those four
+assertions were corrected but the full suite has NOT been rerun. Local actual
+Windows save/UI/locations/management/taste/campaign/long-save/performance all8
+passed. No commit/push/PR exists for this increment. No local project process
+or preview listener remains. Preserve parent legacy work and original resources.
+
 ## User-directed Neighborhood refinement - 2026-10-19 KST
 
 PR248 integrated as3a27f6d after all checks for c37824e, including complete

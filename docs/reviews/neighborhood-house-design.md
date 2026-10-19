@@ -1,5 +1,14 @@
 # Neighborhood houses and small props - 2026-10-19 KST
 
+## Subsequent user rejection
+
+After PR249 integrated as56ddb48, the user again rejected the map's visual
+quality and requested thorough analysis and planning before further drawing.
+The technical validation below does not establish acceptable house design.
+Use `neighborhood-redesign-plan.md` as the next art workflow: isolated house
+structure and proportions before material lines and small decorations. #229
+art work and #97 visual acceptance remain open.
+
 The user accepted the broad neighborhood composition but identified poor house
 design and smaller objects. This increment preserves the road, lawn, cart,
 walking route and 300x240 authored grid while repairing local construction.
