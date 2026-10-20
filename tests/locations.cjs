@@ -7,6 +7,31 @@ const { LOCATIONS, LOCATION_IDS } = require('../.test-build/content/locations.js
 
 const { stock, campaign } = require('./helpers/business.cjs');
 
+test('v8 saves preserve old locations and ownership while adding neutral ratings for seven venues', () => {
+    const business = campaign();
+    const prior = JSON.parse(encodeSave(business.state, business.history)); prior.version = 8;
+    const oldIds = ['neighborhood', 'park', 'downtown'];
+    for (const day of [prior.state, ...prior.history]) {
+        day.unlocked = day.unlocked.filter(id => oldIds.includes(id));
+        day.locationStats = Object.fromEntries(Object.entries(day.locationStats).filter(([id]) => oldIds.includes(id)));
+    }
+    const migrated = decodeSave(JSON.stringify(prior));
+    assert.equal(migrated.version, 9);
+    assert.equal(migrated.state.cash, prior.state.cash);
+    assert.deepEqual(migrated.state.unlocked, prior.state.unlocked);
+    assert.deepEqual(migrated.state.management, prior.state.management);
+    assert.deepEqual(migrated.state.business, prior.state.business);
+    assert.equal(Object.keys(migrated.state.locationStats).length, 10);
+    assert.deepEqual(migrated.state.locationStats.beach, { satisfaction: .5, popularity: .5 });
+    assert.deepEqual(decodeSave(encodeSave(migrated.state, migrated.history)), migrated);
+    const forged = structuredClone(prior); forged.state.location = 'beach'; forged.state.unlocked.push('beach');
+    assert.throws(() => decodeSave(JSON.stringify(forged)), /damaged/);
+    const nonneutral = structuredClone(prior); nonneutral.state.locationStats.beach = { satisfaction: 1, popularity: 1 };
+    assert.throws(() => decodeSave(JSON.stringify(nonneutral)), /damaged/);
+    const missing = JSON.parse(encodeSave(migrated.state, migrated.history)); delete missing.state.locationStats.beach;
+    assert.throws(() => decodeSave(JSON.stringify(missing)), /damaged/);
+});
+
 test('unlock thresholds are inclusive and unlocks persist after satisfaction declines', () => {
     assert.deepEqual(unlockLocations(['neighborhood'], 2, 4500, .55), ['neighborhood']);
     assert.deepEqual(unlockLocations(['neighborhood'], 3, 4499, .55), ['neighborhood']);
@@ -82,7 +107,7 @@ test('v2 and earlier accounting migrate exactly; malformed v3 progression cannot
     for (const key of ['location', 'pendingLocation', 'unlocked', 'locationStats', 'lifetimeRevenue', 'business']) delete old[key];
     delete old.daily.rent; delete old.daily.moveFee;
     const migrated = decodeSave(JSON.stringify({ version: 2, state: old, history: [old] }));
-    assert.equal(migrated.version, 8);
+    assert.equal(migrated.version, 9);
     for (const key of ['cash', 'stock', 'plan', 'seed', 'reputation', 'weather']) assert.deepEqual(migrated.state[key], old[key]);
     for (const key of Object.keys(old.daily)) assert.equal(migrated.state.daily[key], old.daily[key]);
     assert.equal(migrated.state.business.traffic, old.weather.traffic);
@@ -110,7 +135,7 @@ test('v2 and earlier accounting migrate exactly; malformed v3 progression cannot
     assert.deepEqual(readSave(storage).document.state, checkpoint);
 });
 
-test('thirty days visiting all three locations reconcile fees, saves, ice melt and replay across seeds', () => {
+test('thirty days visiting all ten locations reconcile fees, saves, ice melt and replay across seeds', () => {
     for (const seed of [0, 42, 2026, 4294967295]) {
         let state = newGame(seed), revenue = 0, purchases = 0, fees = 0;
         const history = [], visited = new Set();
@@ -131,7 +156,7 @@ test('thirty days visiting all three locations reconcile fees, saves, ice melt a
             state = nextDay(done);
             assert.equal(state.stock.ice, 0); assert.equal(state.daily.meltedIce, done.stock.ice);
         }
-        assert.equal(visited.size, 3);
+        assert.equal(visited.size, LOCATION_IDS.length);
     }
 });
 

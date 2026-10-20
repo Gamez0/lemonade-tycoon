@@ -975,10 +975,14 @@ a {
 
 .location-list {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-flow: column;
+    grid-auto-columns: calc((100% - 8px) / 3);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
     gap: 4px;
 }
 .location-list button {
+    scroll-snap-align: start;
     padding: 3px;
     min-width: 0;
     font-size: 12px;

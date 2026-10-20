@@ -3,7 +3,7 @@ const crypto = require('node:crypto');
 const { encodeSave } = require('../../.test-build/simulation/save.js');
 const { fundedStandBusiness: funded } = require('../helpers/stand-business.cjs');
 const key = 'lemonade-tycoon.reboot.save';
-for (const location of ['neighborhood', 'park', 'downtown']) test(`${location}: all stand tiers change only the separate stand, persist and keep the same map`, async ({ page }) => {
+for (const location of require('../../.test-build/content/locations.js').LOCATION_IDS) test(`${location}: all stand tiers change only the separate stand, persist and keep the same map`, async ({ page }) => {
     const business = funded(location), raw = encodeSave(business.state, business.history);
     await page.addInitScript(({ key, raw }) => { if (!localStorage.getItem(key)) localStorage.setItem(key, raw); }, { key, raw });
     await page.goto('/'); const canvas = page.locator('canvas');
@@ -24,7 +24,7 @@ for (const location of ['neighborhood', 'park', 'downtown']) test(`${location}: 
         const frame = await canvas.screenshot({ path: `test-results/stand-${location}-${level}.png` });
         frames.add(crypto.createHash('sha256').update(frame).digest('hex'));
         await page.reload(); await expect(canvas).toHaveAttribute('data-stand-level', String(level));
-        expect(await page.evaluate(key => JSON.parse(localStorage.getItem(key)).version, key)).toBe(8);
+        expect(await page.evaluate(key => JSON.parse(localStorage.getItem(key)).version, key)).toBe(9);
         await page.locator('[data-page=rent]').click();
         expect(await page.locator(`#thumbnail-${location}`).getAttribute('src')).toBe(background);
     }

@@ -2,14 +2,14 @@ import { defaultManagement, UPGRADES, STAFF, ADS } from "../content/management";
 import { ITEMS, ITEM_KEYS, WEATHER } from "../content/catalog";
 import { cupsPerPitcher, unlockLocations } from "./game";
 import type { State } from "./game";
-import { isLocation, LOCATION_IDS, LOCATIONS } from "../content/locations";
+import { isLocation, LOCATION_IDS, LOCATIONS, LEGACY_LOCATION_IDS, defaultLocationStats } from "../content/locations";
 import type { LocationId } from "../content/locations";
 
 export const SAVE_KEY = "lemonade-tycoon.reboot.save";
 export const BACKUP_KEY = "lemonade-tycoon.reboot.backup";
 export type SaveStorage = Pick<Storage, "getItem" | "setItem">;
 export interface SaveDocument {
-    readonly version: 8;
+    readonly version: 9;
     readonly state: State;
     readonly history: readonly State[];
 }
@@ -25,14 +25,21 @@ const integer = (value: unknown, min = 0, max = Number.MAX_SAFE_INTEGER): value 
 const fraction = (value: unknown): value is number =>
     typeof value === "number" && Number.isFinite(value) && value >= 0 && value <= 1;
 
-function validLocations(value: Record<string, unknown>): boolean {
-    if (!isLocation(value.location) || !integer(value.lifetimeRevenue) ||
-        !Array.isArray(value.unlocked) || !value.unlocked.every(isLocation) ||
+function validLocations(value: Record<string, unknown>, preTenLocations = false): boolean {
+    const ids: readonly LocationId[] = preTenLocations ? LEGACY_LOCATION_IDS : LOCATION_IDS;
+    const allowed = (id: unknown): id is LocationId => isLocation(id) && ids.includes(id);
+    if (preTenLocations && record(value.locationStats) && LOCATION_IDS.some(id => {
+        if (allowed(id)) return false;
+        const rating = (value.locationStats as Record<string, unknown>)[id];
+        return rating !== undefined && (!record(rating) || rating.satisfaction !== 0.5 || rating.popularity !== 0.5);
+    })) return false;
+    if (!allowed(value.location) || !integer(value.lifetimeRevenue) ||
+        !Array.isArray(value.unlocked) || !value.unlocked.every(allowed) ||
         new Set(value.unlocked).size !== value.unlocked.length || !value.unlocked.includes("neighborhood") ||
         !value.unlocked.includes(value.location) ||
-        (value.pendingLocation !== null && (!isLocation(value.pendingLocation) ||
+        (value.pendingLocation !== null && (!allowed(value.pendingLocation) ||
             !value.unlocked.includes(value.pendingLocation) || value.pendingLocation === value.location)) ||
-        !record(value.locationStats) || !LOCATION_IDS.every(id => {
+        !record(value.locationStats) || !ids.every(id => {
             const rating = (value.locationStats as Record<string, unknown>)[id];
             return record(rating) && fraction(rating.satisfaction) && fraction(rating.popularity);
         }) || !record(value.daily)) return false;
@@ -42,7 +49,7 @@ function validLocations(value: Record<string, unknown>): boolean {
     if (value.business === null) return value.phase === "preparation" && daily.rent === 0 && daily.moveFee === 0;
     const b = value.business;
     if (!record(b) || (b.customerModel !== undefined && b.customerModel !== "purchase-first-v1") ||
-        b.location !== value.location || !isLocation(b.from) || !value.unlocked.includes(b.from) ||
+        b.location !== value.location || !allowed(b.from) || !value.unlocked.includes(b.from) ||
         value.pendingLocation !== null || b.paid !== true || !integer(b.traffic, 1, 500) ||
         typeof b.budget !== "number" || !Number.isFinite(b.budget) || b.budget < 0.1 || b.budget > 5 ||
         !Array.isArray(b.weights) || b.weights.length !== 3 || !b.weights.every(w => integer(w, 1, 100)) ||
@@ -57,7 +64,7 @@ function validLocations(value: Record<string, unknown>): boolean {
     return true;
 }
 
-function validState(value: unknown, legacy = false, preM5 = false, preM6 = false, preFreeIce = false, preEagerPitcher = false, preCustomerModel = false, preStand = false): value is State {
+function validState(value: unknown, legacy = false, preM5 = false, preM6 = false, preFreeIce = false, preEagerPitcher = false, preCustomerModel = false, preStand = false, preTenLocations = false): value is State {
     if (!record(value) || !["preparation", "results"].includes(String(value.phase)) ||
         !integer(value.day, 1) || !integer(value.cash) || !integer(value.openingCash) ||
         !integer(value.seed, 0, 4294967295) || !fraction(value.reputation) ||
@@ -98,7 +105,7 @@ function validState(value: unknown, legacy = false, preM5 = false, preM6 = false
     for (const key of ["visitors", "sold", "rejected", "priceRejected", "passed", "soldOut",
         "abandoned", "revenue", "cost", "purchases", "satisfactionTotal"])
         if (!integer(daily[key])) return false;
-    if (!preM5 && !validLocations(value)) return false;
+    if (!preM5 && !validLocations(value, preTenLocations)) return false;
     const traffic = !preM5 && record(value.business) ? value.business.traffic as number : forecast.traffic as number;
     if ((daily.visitors as number) > traffic || (daily.sold as number) > (daily.visitors as number) ||
         daily.rejected !== (daily.priceRejected as number) + (daily.passed as number) ||
@@ -134,8 +141,8 @@ function validState(value: unknown, legacy = false, preM5 = false, preM6 = false
 export function decodeSave(raw: string): SaveDocument {
     let input: unknown;
     try { input = JSON.parse(raw); } catch { throw new Error("Save file is not valid JSON."); }
-    if (!record(input) || ![0, 1, 2, 3, 4, 5, 6, 7, 8].includes(input.version as number)) {
-        if (record(input) && integer(input.version) && input.version > 8) throw new UnsupportedSaveVersionError();
+    if (!record(input) || ![0, 1, 2, 3, 4, 5, 6, 7, 8, 9].includes(input.version as number)) {
+        if (record(input) && integer(input.version) && input.version > 9) throw new UnsupportedSaveVersionError();
         throw new Error("Unsupported save version. Keep the file as a backup.");
     }
     const legacy = input.version === 0 || input.version === 1;
@@ -145,21 +152,23 @@ export function decodeSave(raw: string): SaveDocument {
     const preEagerPitcher = (input.version as number) < 6;
     const preCustomerModel = (input.version as number) < 7;
     const preStand = (input.version as number) < 8;
+    const preTenLocations = (input.version as number) < 9;
     if (!Array.isArray(input.history) ||
-        !input.history.every(day => validState(day, legacy, preM5, preM6, preFreeIce, preEagerPitcher, preCustomerModel, preStand)) || input.history.some(day => day.phase !== "results"))
+        !input.history.every(day => validState(day, legacy, preM5, preM6, preFreeIce, preEagerPitcher, preCustomerModel, preStand, preTenLocations)) || input.history.some(day => day.phase !== "results"))
         throw new Error("Save data is damaged or incomplete.");
-    if (!validState(input.state, legacy, preM5, preM6, preFreeIce, preEagerPitcher, preCustomerModel, preStand)) throw new Error("Save data is damaged or incomplete.");
+    if (!validState(input.state, legacy, preM5, preM6, preFreeIce, preEagerPitcher, preCustomerModel, preStand, preTenLocations)) throw new Error("Save data is damaged or incomplete.");
     let revenue = 0;
     let unlocked: readonly LocationId[] = ["neighborhood"];
     const migrate = (day: State, lifetimeRevenue: number): State => {
         if (preFreeIce) day = { ...day, freeIce: 0, daily: { ...day.daily, freeIceUsed: 0 } };
         if (preM6) day = { ...day, management: defaultManagement(), daily: { ...day.daily, capital: 0, wages: 0, advertising: 0 } };
         if (preStand && !preM6) day = { ...day, management: { ...day.management, upgrades: { ...day.management.upgrades, stand: 0 } } };
+        if (preTenLocations && !preM5) day = { ...day, locationStats: { ...defaultLocationStats(), ...day.locationStats } };
         if (!preM5) return day;
-        unlocked = unlockLocations(unlocked, day.phase === "results" ? day.day : day.day - 1, lifetimeRevenue, day.reputation);
+        unlocked = unlockLocations(unlocked, day.phase === "results" ? day.day : day.day - 1, lifetimeRevenue, day.reputation)
+            .filter(id => !preTenLocations || (LEGACY_LOCATION_IDS as readonly LocationId[]).includes(id));
         return { ...day, pitcherCups: 0, location: "neighborhood", pendingLocation: null, unlocked, lifetimeRevenue,
-            locationStats: { neighborhood: { satisfaction: day.reputation, popularity: 0.5 },
-                park: { satisfaction: 0.5, popularity: 0.5 }, downtown: { satisfaction: 0.5, popularity: 0.5 } },
+            locationStats: { ...defaultLocationStats(), neighborhood: { satisfaction: day.reputation, popularity: 0.5 } },
             business: day.phase === "results" ? { location: "neighborhood", from: "neighborhood", paid: true,
                 rent: 0, moveFee: 0, traffic: day.weather.traffic, budget: 1, weights: [1, 1, 1],
                 patienceTicks: 18, arrivalEvery: 5, serviceTicks: 8, satisfaction: day.reputation, popularity: 0.5 } : null,
@@ -217,12 +226,12 @@ export function decodeSave(raw: string): SaveDocument {
     };
     if (!history.every(paidEquipment) || (state.phase === "preparation" && !paidEquipment(state)))
         throw new Error("Save equipment purchases do not match the ledger.");
-    return { version: 8, state, history };
+    return { version: 9, state, history };
 }
 
 export function encodeSave(state: State, history: readonly State[]): string {
     if (state.phase === "selling") throw new Error("Save a checkpoint before opening the stand.");
-    return JSON.stringify(decodeSave(JSON.stringify({ version: 8, state, history })));
+    return JSON.stringify(decodeSave(JSON.stringify({ version: 9, state, history })));
 }
 
 export function writeSave(storage: SaveStorage, state: State, history: readonly State[]): void {

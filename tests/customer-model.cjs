@@ -113,7 +113,7 @@ test('real alpha13 v6 paid openings retain exact old outcomes after migration an
     const fixture = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/alpha13-customer-model.json'), 'utf8'));
     for (const entry of fixture.cases) {
         const migrated = decodeSave(JSON.stringify(entry.document));
-        assert.equal(migrated.version, 8);
+        assert.equal(migrated.version, 9);
         const { withBasicStand } = require('./helpers/stand-schema.cjs');
         assert.deepEqual(migrated.state, withBasicStand(entry.document.state));
         assert.deepEqual(street.finishStreetDay(street.beginStreetDay(game.openDay(migrated.state))).day.game, withBasicStand(entry.expected));
@@ -122,7 +122,7 @@ test('real alpha13 v6 paid openings retain exact old outcomes after migration an
     const opened = game.openDay(prepared({ lemon: 2, sugar: 1, ice: 4 }));
     const checkpoint = { ...opened, phase: 'preparation' };
     const raw = encodeSave(checkpoint, []);
-    assert.equal(JSON.parse(raw).version, 8);
+    assert.equal(JSON.parse(raw).version, 9);
     assert.deepEqual(game.openDay(decodeSave(raw).state), opened);
     const wrong = JSON.parse(raw); wrong.state.business.customerModel = 'unknown-model';
     assert.throws(() => decodeSave(JSON.stringify(wrong)), /damaged/);
