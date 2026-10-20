@@ -10,7 +10,7 @@ exports.renderStandFrames = async root => {
         .replace(/export const STAND_ASSETS = \{[\s\S]*?\};/, '');
     const content = compile(fs.readFileSync(path.join(root, 'src/game/content/management.ts'), 'utf8'));
     const images = Object.fromEntries(['basic', 'classic', 'lemon', 'castle'].map(name =>
-        [`stand-source-${name}`, 'data:image/png;base64,' + fs.readFileSync(path.join(root, `src/game/assets/stand-${name}.png`)).toString('base64')]));
+        [`stand-source-${name}`, 'data:image/png;base64,' + fs.readFileSync(path.join(root, `src/game/assets/stand-${name}-v2.png`)).toString('base64')]));
     const browser = await chromium.launch();
     try {
         const page = await browser.newPage();
@@ -18,7 +18,7 @@ exports.renderStandFrames = async root => {
             const loaded = {};
             for (const [name, src] of Object.entries(images)) { const img = new Image(); img.src = src; await img.decode(); loaded[name] = img; }
             const canvases = {};
-            const factory = new Function(source + ';return createStandArt;')();
+            const { factory, size } = new Function(source + ';return {factory:createStandArt,size:standSize};')();
             const names = new Function(content + ';return STAND_NAMES;')();
             factory({ textures: { get: name => ({ getSourceImage: () => loaded[name] }), addCanvas: (name, canvas) => { canvases[name] = canvas; } } });
             return names.map((name, level) => {
@@ -27,7 +27,10 @@ exports.renderStandFrames = async root => {
                 let transparent = 0, opaque = 0;
                 for (let i = 3; i < rgba.length; i += 4) { if (rgba[i] === 0) transparent++; if (rgba[i] > 200) opaque++; }
                 if (!transparent || !opaque) throw Error('Stand frame lost its alpha or shape: ' + name);
-                return { name, image: canvas.toDataURL(), width: canvas.width, height: canvas.height, transparent, opaque };
+                const display = size(level);
+                return { name, image: canvas.toDataURL(), width: display.width * 300 / 640,
+                    height: display.height * 240 / 512, originX: display.originX,
+                    originY: display.originY, nativeFacing: 'right', transparent, opaque };
             });
         }, { source: compile(source), content, images });
     } finally { await browser.close(); }

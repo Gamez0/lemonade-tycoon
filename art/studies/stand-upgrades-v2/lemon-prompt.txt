@@ -1,0 +1,21 @@
+Create one standalone LEMON lemonade kiosk, a high-resolution transparent-alpha
+in-world game prop. Image1 is our own neighborhood environment: match its fine
+colored edges, restrained shading, material texture, upper-left daylight and
+orthographic 2:1 isometric architecture. Image2 is our own new Basic cart: match
+its fine line weight and convincing small-scale timber/material treatment.
+
+Design: a squat broad horizontal LEMON-FRUIT-SHAPED sales kiosk. Its shell is a
+whole plump golden-yellow lemon with subtle grouped peel dimples, gently pointed
+ends and no big stem or leaf. A rectangular opening is cut into its long serving
+side, sheltered by a small pale-yellow-and-cream striped awning. A low wooden
+counter holds one clear lemonade pitcher and a few plain cups. Simple quiet dark
+interior. Small inconspicuous access door on the left end. The lemon is a useful
+architectural shell around a human-scale stall, not a mascot face or giant icon.
+
+The long serving-front edge runs UP toward screen-right at1 vertical to2 horizontal;
+customer side faces screen-bottom-right; the small left end is visible. All upright
+edges vertical, no perspective convergence. Full base/shell visible and centered.
+No people, lettering, logo, flags, balloons, scenery, platform, broad halo, glossy
+plastic, thick black outlines or exaggerated highlights. Real transparent alpha,
+modest clear padding and a small tight ground-contact shadow. High source resolution,
+crisp material detail without artificial pixelation.

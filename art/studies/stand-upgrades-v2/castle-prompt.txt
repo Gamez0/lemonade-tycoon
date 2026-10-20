@@ -1,0 +1,22 @@
+Create one standalone CASTLE lemonade sales kiosk, a high-resolution transparent
+alpha in-world game prop. Image1 is our own neighborhood environment: precisely
+match its fine colored edge lines, quiet grouped material texture, restrained
+architectural shading, upper-left daylight and elevated orthographic 2:1 isometric
+camera. Image2 is our own new Basic cart: match that material/line-weight family.
+
+Design: a broad open-front GOLDEN-YELLOW miniature castle-themed lemonade kiosk.
+Four compact round golden masonry corner turrets with small crenellated caps,
+low golden-brick counter walls and a gently rounded pale-gold fabric canopy
+sheltering the serving opening between the front towers. This is a usable lemonade
+stall with an open counter, not a solid castle wall or elaborate cathedral facade.
+A narrow pale wooden serving ledge, one clear pitcher and a few plain cups.
+Subtle brick courses and cloth panels, restrained warm shadows. No green flags,
+oversized spikes, shield, labels, decorative sign, person, mascot or unrelated props.
+
+The long customer-facing front edge runs UP toward screen-right at approximately
+1 vertical to2 horizontal. Its outside faces screen-bottom-right. Show the small
+left end and longer serving front. All posts vertical; no perspective convergence.
+Keep the full base and turret tops visible, centered with modest clear padding.
+Fine readable silhouette at game size; no heavy black icon outline, plastic shine,
+blur, vignette, bloom or broad shadow halo. Genuine transparent alpha, only a small
+tight ground-contact shadow. High-resolution source drawing, no artificial pixels.

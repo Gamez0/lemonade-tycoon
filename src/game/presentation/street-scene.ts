@@ -1,12 +1,14 @@
 import Phaser from "phaser";
-import { CART, createArt, STREET as sharedStreet } from "./art";
+import { createArt } from "./art";
 import type { StreetDay, WalkingVisitor } from "../simulation/street-day";
 import type { State } from "../simulation/game";
 import { LOCATIONS, LOCATION_IDS } from "../content/locations";
 import type { LocationId } from "../content/locations";
 import { tasteReaction } from "./taste-feedback";
-import { NEIGHBORHOOD_ASSETS } from "./neighborhood-assets";
-import { createStandArt, standSize, STAND_ASSETS } from "./stand-art";
+import { MAP_ASSETS } from "./map-assets";
+import { mapThumbnail } from "./map-raster";
+import { MAP_LAYOUTS, mapPosition, queueProgress } from "../content/map-layouts";
+import { createStandArt, standSize, standFlip, STAND_ASSETS } from "./stand-art";
 import { STAND_NAMES } from "../content/management";
 
 interface StreetHooks {
@@ -20,7 +22,6 @@ export class StreetScene extends Phaser.Scene {
     private hooks: StreetHooks;
     private people = new Map<number, Phaser.GameObjects.Sprite>();
     private bubbles = new Map<number, Phaser.GameObjects.Text>();
-    private sign?: Phaser.GameObjects.Text;
     private sky?: Phaser.GameObjects.Rectangle;
     private background?: Phaser.GameObjects.Image;
     private cart?: Phaser.GameObjects.Image;
@@ -40,21 +41,24 @@ export class StreetScene extends Phaser.Scene {
     }
 
     preload(): void {
-        for (const [key, url] of Object.entries({ ...NEIGHBORHOOD_ASSETS, ...STAND_ASSETS })) this.load.image(key, url);
+        for (const [key, url] of Object.entries(STAND_ASSETS)) this.load.image(key, url);
+        for (const id of LOCATION_IDS) this.load.image(`map-source-${id}`, MAP_ASSETS[id]);
     }
 
     create(): void {
+        this.cameras.main.setZoom(2).centerOn(320, 256);
         createArt(this);
         createStandArt(this);
-        this.background = this.add.image(0, 0, this.hooks.state().location).setOrigin(0);
+        this.background = this.add.image(0, 0, this.hooks.state().location).setOrigin(0).setDisplaySize(640, 512);
         for (const id of LOCATION_IDS) {
             const source = this.textures.get(id).getSourceImage();
-            if (source instanceof HTMLCanvasElement) this.previews.set(id, source.toDataURL());
+            const preview = mapThumbnail(source as HTMLImageElement);
+            this.previews.set(id, preview.toDataURL());
+            // The thumbnail string is enough; do not retain ten duplicate bitmaps.
+            preview.width = 1; preview.height = 1;
         }
-        this.cart = this.add.image(CART.x + 28.8, CART.y + 70.4, "stand-0").setOrigin(0.5, 1);
-        this.sign = this.add.text(CART.x + 23, CART.y + 53, "FRESH", {
-            fontFamily: "monospace", fontSize: "7px", color: "#574b31", backgroundColor: "#fff0bd",
-        }).setOrigin(0.5);
+        const [x, y] = MAP_LAYOUTS[this.hooks.state().location].ground;
+        this.cart = this.add.image(x * 640 / 300, y * 512 / 240, "stand-0").setOrigin(0.5, 1);
         this.sky = this.add.rectangle(0, 0, 640, 512, 0x536b83, 0).setOrigin(0).setDepth(1000);
         this.game.canvas.setAttribute("aria-label", "A lemonade stand on Willow Lane. Several people can walk, wait in line, buy, or leave.");
         this.game.canvas.setAttribute("role", "img");
@@ -89,18 +93,14 @@ export class StreetScene extends Phaser.Scene {
     }
 
     private drawPeople(day: StreetDay): void {
-        // The neighborhood's branch meets a crossing, then the upper sidewalk.
-        // Keep pedestrians clear of the foreground roof rather than extending
-        // the branch's diagonal through the opposite gardens.
-        const streetLayout = this.hooks.state().location === "neighborhood"
-            ? { stopX: 267, pavementY: (x: number) => x <= 333 ? -x / 2 + 471
-                : x < 420 ? 304.5 - (x - 333) * 69.5 / 87 : x / 2 + 25 }
-            : sharedStreet;
-        const walkingOffset = this.hooks.state().location === "neighborhood" ? 0 : 38;
-        const peopleScale = this.hooks.state().location === "neighborhood" ? 1.4 : 1;
+        const streetLayout = { stopX: 267 };
+        const peopleScale = 1.4;
         const visible = new Set<number>();
-        const show = (id: number, profile: number, pose: number, x: number, y: number,
-            label?: string, facingStand = false) => {
+        const show = (id: number, profile: number, pose: number, position: number,
+            label?: string, facingStand = false, purpose: "service" | "through" | "depart" = "service") => {
+            const [logicalX, logicalY] = mapPosition(this.hooks.state().location, position,
+                purpose);
+            const x = logicalX * 640 / 300, y = logicalY * 512 / 240;
             visible.add(id);
             let sprite = this.people.get(id);
             if (!sprite) {
@@ -108,7 +108,7 @@ export class StreetScene extends Phaser.Scene {
                 this.people.set(id, sprite);
             }
             sprite.setPosition(Math.round(x), Math.round(y)).setTexture(`customer-${profile}-${this.motion.matches ? 0 : pose}`)
-                .setScale(peopleScale).setFlipX(facingStand).setDepth(y);
+                .setScale(peopleScale).setFlipX(facingStand && logicalX > MAP_LAYOUTS[this.hooks.state().location].ground[0]).setDepth(y);
             let bubble = this.bubbles.get(id);
             if (label) {
                 if (!bubble) {
@@ -123,23 +123,25 @@ export class StreetScene extends Phaser.Scene {
         };
         if (day.serving) {
             const { visitor } = day.serving;
-            show(visitor.id, visitor.profile, 0, streetLayout.stopX + 19, streetLayout.pavementY(streetLayout.stopX + 19),
+            show(visitor.id, visitor.profile, 0, streetLayout.stopX + 19,
                 undefined, true);
         }
         day.waiting.forEach((person, index) => {
-            const target = streetLayout.stopX + 58 + index * 38;
+            const target = queueProgress(this.hooks.state().location, index);
             const progress = this.motion.matches ? 1 : Math.min(1, (day.tick - person.joinedAt) / 3);
-            const x = 660 + (target - 660) * progress;
+            const from = Math.max(660, target + 90);
+            const x = from + (target - from) * progress;
             show(person.visitor.id, person.visitor.profile, progress < 1 ? day.tick % 2 : 0,
-                x, streetLayout.pavementY(x) + 38 * (1 - progress), undefined, progress >= 1);
+                x, undefined, progress >= 1);
         });
         for (const person of day.walking) {
             const progress = this.motion.matches ? 0.55 : (day.tick - person.startedAt) / (person.until - person.startedAt);
             const from = person.kind === "passed" || person.kind === "price" ? -20 : streetLayout.stopX + 19;
             const x = from + (680 - from) * progress;
             show(person.visitor.id, person.visitor.profile,
-                person.kind === "bought" ? 3 : day.tick % 2, x, streetLayout.pavementY(x) + walkingOffset,
-                progress < 0.65 && person.kind !== "passed" ? this.reaction(person) : undefined);
+                person.kind === "bought" ? 3 : day.tick % 2, x,
+                progress < 0.65 && person.kind !== "passed" ? this.reaction(person) : undefined,
+                false, person.kind === "passed" || person.kind === "price" ? "through" : "depart");
         }
         for (const [id, sprite] of this.people) if (!visible.has(id)) {
             sprite.destroy();
@@ -151,20 +153,24 @@ export class StreetScene extends Phaser.Scene {
 
     update(_time: number, delta: number): void {
         const state = this.hooks.state();
-        const cart = state.location === "neighborhood" ? { x: 200, y: 240 } : CART;
+        const ground = MAP_LAYOUTS[state.location].ground;
+        const x = ground[0] * 640 / 300, y = ground[1] * 512 / 240;
         const level = state.management.upgrades.stand, size = standSize(level);
+        const flip = standFlip(MAP_LAYOUTS[state.location].facing);
         this.cart?.setTexture(`stand-${level}`).setDisplaySize(size.width, size.height)
-            .setPosition(cart.x + 28.8, cart.y + 70.4).setDepth(cart.y + 70.4);
+            .setOrigin(flip ? 1 - size.originX : size.originX, size.originY)
+            .setFlipX(flip).setPosition(x, y).setDepth(y);
         this.game.canvas.setAttribute("data-stand-level", String(level));
         this.game.canvas.setAttribute("data-stand-texture", this.cart?.texture.key ?? "");
         this.game.canvas.setAttribute("data-stand-name", STAND_NAMES[level]);
+        this.game.canvas.setAttribute("data-stand-facing", MAP_LAYOUTS[state.location].facing);
+        this.game.canvas.setAttribute("data-map-source-width", String(this.textures.get(`map-source-${state.location}`).getSourceImage().width));
+        this.game.canvas.setAttribute("data-map-texture-width", String(this.textures.get(state.location).getSourceImage().width));
         this.game.canvas.setAttribute("aria-label", `${STAND_NAMES[level]} at ${LOCATIONS[state.location].street}. People walk, queue, buy or leave.`);
-        this.sign?.setPosition(cart.x + 23, cart.y + 53).setDepth(cart.y + 71.4);
         if (this.background?.texture.key !== state.location) {
-            this.background?.setTexture(state.location);
+            this.background?.setTexture(state.location).setDisplaySize(640, 512);
         }
         this.sky?.setAlpha(state.weather.label === "Rainy" ? 0.19 : state.weather.label === "Cloudy" ? 0.08 : 0);
-        this.sign?.setText(state.phase === "selling" ? "OPEN" : "FRESH");
         const street = this.hooks.street();
         if (!street || (street.game.phase !== "selling" && street.walking.length === 0)) {
             this.game.loop.sleep();

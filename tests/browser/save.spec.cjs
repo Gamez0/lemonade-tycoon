@@ -129,7 +129,7 @@ test('native import pauses editing and normal-close flush waits for file reading
         window.importTrace = { overlap: false };
         const read = File.prototype.text;
         File.prototype.text = async function () {
-            await new Promise(resolve => setTimeout(resolve, 180));
+            await new Promise(resolve => { window.releaseImportRead = resolve; });
             return read.call(this);
         };
         window.desktopSave = {
@@ -145,9 +145,12 @@ test('native import pauses editing and normal-close flush waits for file reading
     await page.goto('/');
     await expect(page.locator('#save-status')).toHaveText('Saved on this PC');
     await page.locator('#save-file').setInputFiles({ name: 'import.json', mimeType: 'application/json', buffer: Buffer.from(imported) });
+    await page.waitForFunction(() => typeof window.releaseImportRead === 'function');
     const wasBusy = await page.locator('#app').evaluate(app => app.inert && app.getAttribute('aria-busy') === 'true');
     // A close during File.text must include the import, not just the older save queue.
-    await page.evaluate(() => window.flushImportForTest());
+    await page.evaluate(() => { window.closeWhileImport = window.flushImportForTest(); });
+    await page.evaluate(() => window.releaseImportRead());
+    await page.evaluate(() => window.closeWhileImport);
     expect(await saved(page)).toBe(imported);
     expect(wasBusy).toBe(true);
     await expect(page.locator('#inventory-lemon')).toHaveText('3');

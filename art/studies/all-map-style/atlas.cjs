@@ -3,6 +3,7 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const { chromium } = require('playwright');
 const { renderStandFrames } = require('../stand-upgrades/render-frames.cjs');
+const { renderRuntimeMaps } = require('./runtime-maps.cjs');
 async function main() {
     const root = path.resolve(__dirname, '../../..');
     const out = path.join(root, '.local-m4/all-map-art');
@@ -10,6 +11,7 @@ async function main() {
     const maps = JSON.parse(fs.readFileSync(path.join(__dirname, 'maps.json'), 'utf8'));
     const sprites = JSON.parse(fs.readFileSync('D:/lemonade-calendar-ci/.local-m4/house-structure/study-textures.json', 'utf8'));
     const stands = await renderStandFrames(root);
+    const runtimeMaps = await renderRuntimeMaps(root);
     const data = file => 'data:image/png;base64,' + fs.readFileSync(file).toString('base64');
     const manifest = [];
     for (const map of maps) {
@@ -18,7 +20,11 @@ async function main() {
         manifest.push({ id: map.id, file: path.relative(root, file).replaceAll('\\', '/'),
             width: bytes.readUInt32BE(16), height: bytes.readUInt32BE(20),
             sha256: crypto.createHash('sha256').update(bytes).digest('hex'), status: 'study-not-integrated' });
-        map.image = data(file);
+        const rendered = runtimeMaps.find(entry => entry.id === map.id);
+        map.image = rendered.image;
+        map.cart = [rendered.ground[0] - 13.5, rendered.ground[1] - 33];
+        map.person = rendered.service; map.facing = rendered.facing;
+        map.route = rendered.route;
         map.original = data(path.join(reference, `expected-${map.reference}.png`));
     }
     if (maps.length !== 10 || new Set(maps.map(m => m.id)).size !== 10) throw Error('Expected ten unique maps');
@@ -32,7 +38,7 @@ async function main() {
 <script>const data=${payload};let selected=0;const grid=document.querySelector('#grid');
 data.maps.forEach((m,i)=>{const b=document.createElement('button');b.className='tile';b.dataset.id=m.id;b.setAttribute('aria-pressed','false');const img=new Image();img.src=m.image;img.alt=m.name+' 개선 시안';const s=document.createElement('span');s.textContent=m.name;b.append(img,s);b.onclick=()=>{select(i);document.querySelector('#detail').scrollIntoView({behavior:'smooth'});};grid.append(b);});
 function select(i){selected=i;const m=data.maps[i];document.querySelector('#title').textContent=m.name;document.querySelector('#original').src=m.original;document.querySelector('#original').alt=m.name+' 원작 조사 자료';document.querySelector('#candidate').src=m.image;document.querySelector('#candidate').alt=m.name+' 개선 시안';document.querySelector('#review').textContent=m.review;[...grid.children].forEach((b,n)=>b.setAttribute('aria-pressed',String(i===n)));place();}
-function place(){const m=data.maps[selected],stand=data.stands[Number(document.getElementById('stand-level').value)],k=document.body.classList.contains('large')?2:1;for(const [id,src,x,y,w,h]of[['stand',stand.image,m.cart[0]+13.5-stand.width/2,m.cart[1]+33-stand.height,stand.width,stand.height],['person',data.person,m.person[0]-6.5625,m.person[1]-22.3125,13.125,22.3125]]){const img=document.getElementById(id);img.src=src;img.alt=id==='stand'?'현재 게임 카트':'현재 게임 손님';Object.assign(img.style,{left:x*k+'px',top:y*k+'px',width:w*k+'px',height:h*k+'px'});}}
+function place(){const m=data.maps[selected],stand=data.stands[Number(document.getElementById('stand-level').value)],k=document.body.classList.contains('large')?2:1;for(const [id,src,x,y,w,h]of[['stand',stand.image,m.cart[0]+13.5-stand.width*(stand.nativeFacing!==m.facing?1-stand.originX:stand.originX),m.cart[1]+33-stand.height*stand.originY,stand.width,stand.height],['person',data.person,m.person[0]-6.5625,m.person[1]-22.3125,13.125,22.3125]]){const img=document.getElementById(id);img.src=src;img.alt=id==='stand'?'현재 게임 카트':'현재 게임 손님';Object.assign(img.style,{left:x*k+'px',top:y*k+'px',width:w*k+'px',height:h*k+'px',transform:id==='stand'&&stand.nativeFacing!==m.facing?'scaleX(-1)':'none'});}}
 document.getElementById('stand-level').onchange=()=>{document.body.classList.add('show-actors');place();};document.querySelector('#size').onclick=()=>{document.body.classList.toggle('large');place();};document.querySelector('#gray').onclick=()=>document.body.classList.toggle('gray');document.querySelector('#actors').onclick=()=>document.body.classList.toggle('show-actors');select(0);</script></html>`;
     fs.writeFileSync(path.join(out, 'atlas.html'), html);
     const browser = await chromium.launch();

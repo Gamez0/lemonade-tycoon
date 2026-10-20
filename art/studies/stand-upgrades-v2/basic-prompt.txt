@@ -1,0 +1,24 @@
+Asset type: a standalone in-world game prop, transparent-background cutout.
+Image 1 is our OWN neighborhood environment, a style/camera/material reference only.
+Create a new small wheeled lemonade cart in exactly that environment's architectural
+illustration style: fine colored edge lines, restrained flat material shading,
+small coherent texture marks, crisp readable geometry. It must look like a prop
+from that world, not a glossy vector icon, sticker, product render or UI badge.
+
+Design: a compact mustard-yellow wooden lemonade pushcart, two modest dark wheels,
+one narrow serving countertop with a clear pitcher and a few stacked plain cups,
+one slender upright pole supporting a modest round blue-and-pale-yellow striped
+parasol. The umbrella is only a little wider than the cart, not an enormous roof.
+No vendor, people, balloons, lettering, signs or unrelated decoration.
+
+Projection: match Image 1's elevated orthographic 2:1 isometric ground projection.
+The long customer-facing front edge runs diagonally UP toward screen-right at
+approximately 1 vertical to 2 horizontal; its outside/customer side faces
+screen-bottom-right. Show the small left end and the longer serving front.
+Vertical supports stay vertical. No perspective convergence or wide-angle view.
+Keep the full object and its small tight ground-contact shadow visible, centered
+with modest transparent padding. A genuinely transparent alpha background,
+no white/checkerboard/colored backdrop, no glow, no broad blurry halo.
+Fine clean silhouette, soft upper-left daylight matching the map. Muted materials
+and outline weight like the houses and benches in Image 1, not thick black ink.
+Output a high-resolution source asset, without downsampling or artificial pixels.
