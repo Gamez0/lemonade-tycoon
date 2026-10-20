@@ -61,6 +61,7 @@ test('shipped archive audit rejects missing notices, altered licenses and embedd
         write('dist/assets/neighborhood-cottage-AbCd1234.png', 'selected raster fixture');
         write('dist/assets/stand-castle-AbCd1234.png', 'selected stand fixture');
         write('dist/assets/map-neighborhood-AbCd1234.png', 'selected background fixture');
+        write('dist/assets/staff-server-v1-AbCd1234.png', 'selected portrait fixture');
         let variant = 0;
         const pack = async () => {
             const output = path.join(root, `package-${variant++}`);
@@ -134,6 +135,11 @@ test('desktop audit rejects legacy and research content', () => temporary(direct
     fs.writeFileSync(path.join(directory, 'assets/stand-basic-AbCd1234.png'), 'authored stand');
     fs.writeFileSync(path.join(directory, 'assets/map-park-AbCd1234.png'), 'authored background');
     assert.equal(auditDesktop(directory).length, 7);
+    fs.writeFileSync(path.join(directory, 'assets/staff-host-v1-AbCd1234.png'), 'authored portrait');
+    assert.equal(auditDesktop(directory).length, 8);
+    fs.writeFileSync(path.join(directory, 'assets/staff-original-v1-AbCd1234.png'), 'unapproved portrait');
+    assert.throws(() => auditDesktop(directory), /Unapproved/);
+    fs.unlinkSync(path.join(directory, 'assets/staff-original-v1-AbCd1234.png'));
     fs.writeFileSync(path.join(directory, 'legacy.html'), 'legacy');
     assert.throws(() => auditDesktop(directory), /Unapproved/);
     fs.unlinkSync(path.join(directory, 'legacy.html'));
