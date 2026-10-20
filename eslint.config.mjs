@@ -19,7 +19,7 @@ export default [
         },
     },
     {
-        files: ["scripts/art-studies/**/*.cjs"],
+        files: ["scripts/art-studies/**/*.cjs", "art/studies/**/*.cjs"],
         languageOptions: { globals: globals.node },
         rules: { "@typescript-eslint/no-require-imports": "off" },
     },

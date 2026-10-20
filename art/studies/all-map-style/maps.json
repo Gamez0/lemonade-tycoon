@@ -1,0 +1,152 @@
+[
+    {
+        "id":  "neighborhood",
+        "name":  "동네",
+        "reference":  "suburbs",
+        "file":  "../neighborhood-cohesion/environment-v6-reference-texture.png",
+        "cart":  [
+                     94,
+                     112
+                 ],
+        "person":  [
+                       135,
+                       159
+                   ],
+        "review":  "집 축척 미확정. 잎이 원작보다 삽화처럼 보임. 횡단보도와 실제 경로 재검증 필요."
+    },
+    {
+        "id":  "park",
+        "name":  "공원",
+        "reference":  "park",
+        "file":  "park-theme-v1.png",
+        "cart":  [
+                     156,
+                     92
+                 ],
+        "person":  [
+                       178,
+                       136
+                   ],
+        "review":  "연못 대신 원작의 놀이공원 요소 반영. 경로 교차부 폭·정자와 놀이시설 축척 검토 필요."
+    },
+    {
+        "id":  "downtown",
+        "name":  "도심",
+        "reference":  "downtown",
+        "file":  "downtown-theme-v1.png",
+        "cart":  [
+                     82,
+                     132
+                 ],
+        "person":  [
+                       110,
+                       174
+                   ],
+        "review":  "중앙 녹지와 보도 반영. 건물 층 높이·횡단보도 연결과 실제 서비스 동선 검토 필요."
+    },
+    {
+        "id":  "beach",
+        "name":  "해변",
+        "reference":  "beach",
+        "file":  "beach-theme-v1.png",
+        "cart":  [
+                     191,
+                     94
+                 ],
+        "person":  [
+                       224,
+                       131
+                   ],
+        "review":  "산책로·모래사장·안전시설 분리. 계단과 배구장 주변 보행 경계 검토 필요."
+    },
+    {
+        "id":  "old-square",
+        "name":  "구시가지",
+        "reference":  "old-square",
+        "file":  "old-square-theme-v1.png",
+        "cart":  [
+                     177,
+                     104
+                 ],
+        "person":  [
+                       208,
+                       149
+                   ],
+        "review":  "자체 동상과 아치 건물. 석재 반복 무늬가 300px에서 강한지 검토 필요."
+    },
+    {
+        "id":  "train-station",
+        "name":  "기차역",
+        "reference":  "train-station",
+        "file":  "train-station-theme-v2.png",
+        "cart":  [
+                     168,
+                     116
+                 ],
+        "person":  [
+                       200,
+                       161
+                   ],
+        "review":  "승강장 안전선과 통로 분리. 벤치·기둥 축척, 차체와 문 높이 검토 필요."
+    },
+    {
+        "id":  "mall",
+        "name":  "쇼핑몰",
+        "reference":  "mall",
+        "file":  "mall-theme-v1.png",
+        "cart":  [
+                     98,
+                     132
+                 ],
+        "person":  [
+                       135,
+                       174
+                   ],
+        "review":  "실내 바닥과 에스컬레이터 반영. 층간 연결 구조·난간과 이동 불가 영역 검토 필요."
+    },
+    {
+        "id":  "marina",
+        "name":  "마리나",
+        "reference":  "marina",
+        "file":  "marina-theme-v2.png",
+        "cart":  [
+                     146,
+                     44
+                 ],
+        "person":  [
+                       181,
+                       80
+                   ],
+        "review":  "보행로·부두·수면의 영역 분리 검토 필요. 배·난간의 인물 대비 축척 미확정."
+    },
+    {
+        "id":  "stadium",
+        "name":  "경기장",
+        "reference":  "stadium",
+        "file":  "stadium-theme-v1.png",
+        "cart":  [
+                     132,
+                     76
+                 ],
+        "person":  [
+                       170,
+                       119
+                   ],
+        "review":  "관중 없는 정적 배경. 좌석·통로·계단 축척 및 이동 경계 검토 필요."
+    },
+    {
+        "id":  "magic-gardens",
+        "name":  "놀이공원",
+        "reference":  "magic-gardens",
+        "file":  "magic-gardens-theme-v1.png",
+        "cart":  [
+                     184,
+                     117
+                 ],
+        "person":  [
+                       214,
+                       163
+                   ],
+        "review":  "중앙 광장과 놀이시설 분리. 레일 연속성·기둥 접지·분수 충돌 검토 필요."
+    }
+]

@@ -1,5 +1,21 @@
 # Cloud development handoff — 2026-10-05
 
+## All-ten-map art studies — 2026-10-20 KST
+
+User explicitly expanded the map-art scope to all ten original location themes.
+Worktree D:/lemonade-all-map-art, branch art/all-ten-location-studies, based on
+product mainbf1c159; separate transition/weather and parent legacy work preserved.
+See reviews/all-ten-map-art.md, art/studies/all-map-style/README.md and maps.json.
+Ten original candidates plus exact prompts and rejected/revised variants retained.
+Private atlas .local-m4/all-map-art/atlas.html provides source comparison,
+actual-size/2x, grayscale and actual actor/cart scale overlays. Source reference
+compositions remain private; none were supplied to generation or shipped.
+Browser image decode/selection10/10/toggles passed without page errors. Scripts
+lint at zero warnings. Station/marina v2 were reviewed after scale corrections.
+This is study work: no runtime integration, extra seven playable locations,
+validated walking routes or #97 acceptance claimed. Next normalize remaining
+scale/material density and integrate backgrounds with actual obstacle/queue paths.
+
 ## Neighborhood structural/raster candidate - 2026-10-20 KST
 
 User resumed the recorded art plan. Branch art/house-structure-studies in
