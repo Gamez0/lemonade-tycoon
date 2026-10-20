@@ -6,7 +6,7 @@ import { LOCATIONS, LOCATION_IDS } from "../content/locations";
 import type { LocationId } from "../content/locations";
 import { tasteReaction } from "./taste-feedback";
 import { MAP_ASSETS } from "./map-assets";
-import { mapTexture } from "./map-raster";
+import { mapThumbnail } from "./map-raster";
 import { MAP_LAYOUTS, mapPosition } from "../content/map-layouts";
 import { createStandArt, standSize, standFlip, STAND_ASSETS } from "./stand-art";
 import { STAND_NAMES } from "../content/management";
@@ -52,7 +52,7 @@ export class StreetScene extends Phaser.Scene {
         this.background = this.add.image(0, 0, this.hooks.state().location).setOrigin(0).setDisplaySize(640, 512);
         for (const id of LOCATION_IDS) {
             const source = this.textures.get(id).getSourceImage();
-            const preview = mapTexture(source as HTMLImageElement);
+            const preview = mapThumbnail(source as HTMLImageElement);
             this.previews.set(id, preview.toDataURL());
             // The thumbnail string is enough; do not retain ten duplicate bitmaps.
             preview.width = 1; preview.height = 1;
@@ -163,6 +163,7 @@ export class StreetScene extends Phaser.Scene {
         this.game.canvas.setAttribute("data-stand-name", STAND_NAMES[level]);
         this.game.canvas.setAttribute("data-stand-facing", MAP_LAYOUTS[state.location].facing);
         this.game.canvas.setAttribute("data-map-source-width", String(this.textures.get(`map-source-${state.location}`).getSourceImage().width));
+        this.game.canvas.setAttribute("data-map-texture-width", String(this.textures.get(state.location).getSourceImage().width));
         this.game.canvas.setAttribute("aria-label", `${STAND_NAMES[level]} at ${LOCATIONS[state.location].street}. People walk, queue, buy or leave.`);
         this.sign?.setPosition(x - 5.8, y - 17.4).setDepth(y + 1);
         if (this.background?.texture.key !== state.location) {

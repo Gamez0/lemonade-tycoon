@@ -14,7 +14,7 @@ for (const location of ['neighborhood', 'park', 'downtown']) test(`${location}: 
     await page.locator('[data-page=rent]').click();
     const thumbnail = await page.locator(`#thumbnail-${location}`).getAttribute('src');
     expect(thumbnail).toMatch(/^data:image\/png/);
-    expect(await page.locator(`#thumbnail-${location}`).evaluate(image => image.naturalWidth)).toBeGreaterThanOrEqual(1000);
+    expect(Number(await canvas.getAttribute('data-map-texture-width'))).toBeGreaterThanOrEqual(1000);
     await page.locator('#open').click();
     for (let frame = 0; frame < 8; frame++) {
         await page.clock.runFor(1200);
