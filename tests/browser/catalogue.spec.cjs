@@ -6,11 +6,15 @@ test('illustrated catalogues browse without spending and retain purchase and hir
     await page.locator('[data-page=upgrades]').click();
     await expect(page.locator('#cash')).toHaveText('$40.00');
     await page.getByRole('button', { name: 'Next upgrade', exact: true }).click();
-    await expect(page.locator('#upgrades-position')).toHaveText('2 / 3');
+    await expect(page.locator('#upgrades-position')).toHaveText('2 / 4');
     await page.getByRole('button', { name: 'Next upgrade', exact: true }).click();
-    await expect(page.locator('#upgrades-position')).toHaveText('3 / 3');
+    await expect(page.locator('#upgrades-position')).toHaveText('3 / 4');
     await page.getByRole('button', { name: 'Next upgrade', exact: true }).click();
-    await expect(page.locator('#upgrades-position')).toHaveText('1 / 3');
+    await expect(page.locator('#upgrades-position')).toHaveText('4 / 4');
+    await expect(page.locator('#upgrade-title-stand')).toHaveText('Basic Stand');
+    await expect(page.locator('[data-upgrade=stand]')).toBeDisabled();
+    await page.getByRole('button', { name: 'Next upgrade', exact: true }).click();
+    await expect(page.locator('#upgrades-position')).toHaveText('1 / 4');
     await expect(page.locator('#cash')).toHaveText('$40.00');
     await page.locator('[data-upgrade=refrigerator]').click();
     await expect(page.locator('#cash')).toHaveText('$31.00');

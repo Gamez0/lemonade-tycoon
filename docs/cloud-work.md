@@ -1,5 +1,18 @@
 # Cloud development handoff — 2026-10-05
 
+## Stand ownership and separate appearance — 2026-10-20 KST
+
+PR252 studies integrated17b3c4d after all exact-head checks; this does not accept
+their art. Continued branch feat/stand-upgrade-appearance in D:/lemonade-all-map-art.
+Read reviews/stand-upgrade-appearance.md. Four separate alpha stand assets now
+follow Basic/Classic/Lemon/Castle ownership, charged once and persisted in v8;
+v0–7 migrate to Basic. No fake capacity/speed modifier. Backgrounds remain separate.
+Model69/69, browser50/50, release15/15, type/lint/build and rebuilt Windows save,
+UI, locations,30-day campaign and all12 stand/map durable relaunch cases pass.
+Ten-map private atlas also shows all40 separate stand/map composites using the
+runtime rasterizer. Next integrate reviewed backgrounds and physical queue/routes.
+The other seven playable locations remain unimplemented; #97 remains open.
+
 ## All-ten-map art studies — 2026-10-20 KST
 
 User explicitly expanded the map-art scope to all ten original location themes.

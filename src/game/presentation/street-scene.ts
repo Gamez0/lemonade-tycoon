@@ -6,6 +6,8 @@ import { LOCATIONS, LOCATION_IDS } from "../content/locations";
 import type { LocationId } from "../content/locations";
 import { tasteReaction } from "./taste-feedback";
 import { NEIGHBORHOOD_ASSETS } from "./neighborhood-assets";
+import { createStandArt, standSize, STAND_ASSETS } from "./stand-art";
+import { STAND_NAMES } from "../content/management";
 
 interface StreetHooks {
     state: () => State;
@@ -38,17 +40,18 @@ export class StreetScene extends Phaser.Scene {
     }
 
     preload(): void {
-        for (const [key, url] of Object.entries(NEIGHBORHOOD_ASSETS)) this.load.image(key, url);
+        for (const [key, url] of Object.entries({ ...NEIGHBORHOOD_ASSETS, ...STAND_ASSETS })) this.load.image(key, url);
     }
 
     create(): void {
         createArt(this);
+        createStandArt(this);
         this.background = this.add.image(0, 0, this.hooks.state().location).setOrigin(0);
         for (const id of LOCATION_IDS) {
             const source = this.textures.get(id).getSourceImage();
             if (source instanceof HTMLCanvasElement) this.previews.set(id, source.toDataURL());
         }
-        this.cart = this.add.image(CART.x, CART.y, "stand").setOrigin(0).setScale(0.8);
+        this.cart = this.add.image(CART.x + 28.8, CART.y + 70.4, "stand-0").setOrigin(0.5, 1);
         this.sign = this.add.text(CART.x + 23, CART.y + 53, "FRESH", {
             fontFamily: "monospace", fontSize: "7px", color: "#574b31", backgroundColor: "#fff0bd",
         }).setOrigin(0.5);
@@ -149,11 +152,16 @@ export class StreetScene extends Phaser.Scene {
     update(_time: number, delta: number): void {
         const state = this.hooks.state();
         const cart = state.location === "neighborhood" ? { x: 200, y: 240 } : CART;
-        this.cart?.setPosition(cart.x, cart.y);
-        this.sign?.setPosition(cart.x + 23, cart.y + 53);
+        const level = state.management.upgrades.stand, size = standSize(level);
+        this.cart?.setTexture(`stand-${level}`).setDisplaySize(size.width, size.height)
+            .setPosition(cart.x + 28.8, cart.y + 70.4).setDepth(cart.y + 70.4);
+        this.game.canvas.setAttribute("data-stand-level", String(level));
+        this.game.canvas.setAttribute("data-stand-texture", this.cart?.texture.key ?? "");
+        this.game.canvas.setAttribute("data-stand-name", STAND_NAMES[level]);
+        this.game.canvas.setAttribute("aria-label", `${STAND_NAMES[level]} at ${LOCATIONS[state.location].street}. People walk, queue, buy or leave.`);
+        this.sign?.setPosition(cart.x + 23, cart.y + 53).setDepth(cart.y + 71.4);
         if (this.background?.texture.key !== state.location) {
             this.background?.setTexture(state.location);
-            this.game.canvas.setAttribute("aria-label", `A lemonade stand at ${LOCATIONS[state.location].street}. People walk, queue, buy or leave.`);
         }
         this.sky?.setAlpha(state.weather.label === "Rainy" ? 0.19 : state.weather.label === "Cloudy" ? 0.08 : 0);
         this.sign?.setText(state.phase === "selling" ? "OPEN" : "FRESH");

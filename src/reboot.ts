@@ -3,7 +3,7 @@ import { balanceSheet } from "./game/presentation/balance-sheet";
 import { profitGraph } from "./game/presentation/profit-graph";
 import { GameAudio } from "./game/presentation/audio";
 import { maxSaveBytes } from "./desktop/save-limits.json";
-import { UPGRADES, STAFF, ADS } from "./game/content/management";
+import { UPGRADES, STAFF, ADS, STAND_NAMES } from "./game/content/management";
 import type { Upgrade, Management } from "./game/content/management";
 import { purchaseUpgrade, hireStaff, selectAdvertising } from "./game/simulation/game";
 import Phaser from "phaser";
@@ -738,7 +738,8 @@ function render(): void {
     text("setting-price", money(state.plan.price));
     text("setting-equipment", Object.entries(UPGRADES)
         .filter(([id]) => state.management.upgrades[id as Upgrade] > 0)
-        .map(([id, item]) => `${item.name} ${state.management.upgrades[id as Upgrade]}/2`).join(" · ") || "No upgrades");
+        .map(([id, item]) => id === "stand" ? STAND_NAMES[state.management.upgrades.stand]
+            : `${item.name} ${state.management.upgrades[id as Upgrade]}/${item.prices.length}`).join(" · ") || "No upgrades");
     text("setting-management", `${STAFF[state.management.staff].name} / ${ADS[state.management.advertising].name}`);
     text("setting-capacity", capacity(state) + " cups");
     for (const item of ["lemon", "sugar", "ice"] as const) text("setting-" + item, String(state.plan.recipe[item]));
@@ -754,10 +755,11 @@ function render(): void {
         : `Reserved: ${LOCATIONS[target].name}. ${money(due)} will be charged at Start day.`);
     for (const [id, item] of Object.entries(UPGRADES)) {
         const level = state.management.upgrades[id as Upgrade];
-        text(`upgrade-effect-${id}`, `Level ${level}/2 | ${level < 2 ? item.effects[level] : item.effects[1]}`);
+        text(`upgrade-effect-${id}`, `Level ${level}/${item.prices.length} | ${level < item.prices.length ? item.effects[level] : item.effects[item.effects.length - 1]}`);
+        if (id === "stand") text("upgrade-title-stand", STAND_NAMES[level]);
         const button = document.querySelector<HTMLButtonElement>(`[data-upgrade="${id}"]`)!;
-        button.textContent = level < 2 ? `BUY ${money(item.prices[level])}` : "MAX LEVEL";
-        button.disabled = !prep || Boolean(state.business) || level === 2 || state.cash < item.prices[level];
+        button.textContent = level < item.prices.length ? `BUY ${money(item.prices[level])}` : "MAX LEVEL";
+        button.disabled = !prep || Boolean(state.business) || level === item.prices.length || state.cash < item.prices[level];
     }
     for (const button of document.querySelectorAll<HTMLButtonElement>("[data-staff], [data-advertising]")) {
         button.disabled = !prep || Boolean(state.business);

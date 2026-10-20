@@ -184,10 +184,11 @@ test('refrigeration retains free ice without introducing a cost basis', () => {
 
 test('v4 charged ice checkpoint migrates without refund or repricing and replays once', () => {
     const fixture = require('./fixtures/alpha13-v4-ice-checkpoint.json');
+    const { withBasicStand } = require('./helpers/stand-schema.cjs');
     const migrated = decodeSave(JSON.stringify(fixture.document));
-    assert.deepEqual(migrated.state, fixture.migrated);
+    assert.deepEqual(migrated.state, withBasicStand(fixture.migrated));
     const done = finish(migrated.state);
-    assert.deepEqual(done, fixture.expected);
+    assert.deepEqual(done, withBasicStand(fixture.expected));
     assert.equal(done.daily.freeIceUsed, 0);
     assert.equal(done.daily.purchases, fixture.migrated.daily.purchases);
     const tomorrow = nextDay(done);

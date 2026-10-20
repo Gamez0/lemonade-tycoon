@@ -2,7 +2,11 @@ export const UPGRADES = {
     refrigerator: { name: "Refrigerator", prices: [900, 1700], effects: ["Keep 50% of leftover ice", "Keep all leftover ice"] },
     iceMaker: { name: "Ice maker", prices: [1200, 2200], effects: ["Produce up to 60 free ice at opening", "Produce up to 120 free ice at opening"] },
     blender: { name: "Blender", prices: [1400, 2600], effects: ["Service takes 7 ticks", "Service takes 6 ticks"] },
+    stand: { name: "Stand", prices: [44999, 99999, 999999], effects: ["Classic Stand · canvas-roof kiosk", "Lemon Stand · lemon-shaped kiosk", "Castle Stand · castle kiosk"] },
 } as const;
+// Names and purchase prices were observed in the original equipment UI.
+// No unmeasured capacity, attraction or service-speed bonus is invented here.
+export const STAND_NAMES = ["Basic Stand", "Classic Stand", "Lemon Stand", "Castle Stand"] as const;
 export type Upgrade = keyof typeof UPGRADES;
 export const STAFF = {
     none: { name: "Owner only", wage: 0, speed: 0, patience: 0 },
@@ -19,4 +23,4 @@ export interface Management {
     readonly staff: keyof typeof STAFF;
     readonly advertising: keyof typeof ADS;
 }
-export const defaultManagement = (): Management => ({ upgrades: { refrigerator: 0, iceMaker: 0, blender: 0 }, staff: "none", advertising: "none" });
+export const defaultManagement = (): Management => ({ upgrades: { refrigerator: 0, iceMaker: 0, blender: 0, stand: 0 }, staff: "none", advertising: "none" });

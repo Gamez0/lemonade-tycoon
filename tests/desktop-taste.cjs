@@ -39,7 +39,7 @@ let app;
             await page.locator('#skip').click(); await page.clock.runFor(500);
             await expect(page.locator('#report-response')).toContainText(advice);
             await expect.poll(async () => (await read())?.state.phase).toBe('results');
-            const saved = await read(); assert.equal(saved.version, 7);
+            const saved = await read(); assert.equal(saved.version, 8);
             assert.equal(saved.state.business.customerModel, 'purchase-first-v1');
             assert.ok(saved.state.daily.sold > 0);
             await page.locator('#app').screenshot({ path: path.join(out, name + '-results.png') });
