@@ -72,7 +72,7 @@ async function fit(page, name) {
             controls: [...document.querySelectorAll("button,input:not([type=file])")]
                 .filter((x) => {
                     if (!x.getClientRects().length || getComputedStyle(x).visibility === "hidden") return false;
-                    const catalogue = x.closest('.management-catalog');
+                    const catalogue = x.closest('.management-catalog, .location-list');
                     if (!catalogue) return true;
                     const a = x.getBoundingClientRect(), b = catalogue.getBoundingClientRect();
                     return a.right > b.x && a.x < b.right;
@@ -88,7 +88,7 @@ async function fit(page, name) {
     assert.ok(Math.abs(geometry.app.height - geometry.height) < 2);
     assert.ok(Math.abs(geometry.canvas.width - geometry.scene.width) < 3);
     assert.ok(Math.abs(geometry.canvas.height - geometry.scene.height) < 3);
-    assert.deepEqual(geometry.canvasPixels, { width: 640, height: 512 });
+    assert.deepEqual(geometry.canvasPixels, { width: 1280, height: 1024 });
     assert.equal(geometry.canvasFit, 'contain');
     assert.ok(geometry.map.x >= geometry.scene.x - 1 && geometry.map.y >= geometry.scene.y - 1 &&
         geometry.map.right <= geometry.scene.right + 1 && geometry.map.bottom <= geometry.scene.bottom + 1,
@@ -150,6 +150,12 @@ async function fit(page, name) {
                         await page.locator(`[data-catalog="${tab}"][data-catalog-step="1"]`).click();
                         await page.waitForTimeout(100);
                         await fit(page, `${width}x${height} ${tab} card ${card + 1}`);
+                    }
+                }
+                if (tab === 'rent') {
+                    for (const id of require('../.test-build/content/locations.js').LOCATION_IDS) {
+                        await page.locator(`button[data-location="${id}"]`).click();
+                        await fit(page, `${width}x${height} rent ${id}`);
                     }
                 }
             }
