@@ -1,7 +1,6 @@
 import type Phaser from "phaser";
 import { LOCATION_IDS } from "../content/locations";
 import type { MapThemeId } from "../content/map-layouts";
-import { mapTexture } from "./map-raster";
 
 export const MAP_ASSETS = {
     neighborhood: new URL("../assets/map-neighborhood.png", import.meta.url).href,
@@ -18,5 +17,5 @@ export const MAP_ASSETS = {
 
 export function createMapArt(scene: Phaser.Scene): void {
     for (const id of LOCATION_IDS)
-        scene.textures.addCanvas(id, mapTexture(scene.textures.get(`map-source-${id}`).getSourceImage() as HTMLImageElement));
+        scene.textures.addImage(id, scene.textures.get(`map-source-${id}`).getSourceImage() as HTMLImageElement);
 }

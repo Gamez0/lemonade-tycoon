@@ -6,6 +6,7 @@ import { LOCATIONS, LOCATION_IDS } from "../content/locations";
 import type { LocationId } from "../content/locations";
 import { tasteReaction } from "./taste-feedback";
 import { MAP_ASSETS } from "./map-assets";
+import { mapTexture } from "./map-raster";
 import { MAP_LAYOUTS, mapPosition } from "../content/map-layouts";
 import { createStandArt, standSize, standFlip, STAND_ASSETS } from "./stand-art";
 import { STAND_NAMES } from "../content/management";
@@ -51,7 +52,10 @@ export class StreetScene extends Phaser.Scene {
         this.background = this.add.image(0, 0, this.hooks.state().location).setOrigin(0).setDisplaySize(640, 512);
         for (const id of LOCATION_IDS) {
             const source = this.textures.get(id).getSourceImage();
-            if (source instanceof HTMLCanvasElement) this.previews.set(id, source.toDataURL());
+            const preview = mapTexture(source as HTMLImageElement);
+            this.previews.set(id, preview.toDataURL());
+            // The thumbnail string is enough; do not retain ten duplicate bitmaps.
+            preview.width = 1; preview.height = 1;
         }
         const [x, y] = MAP_LAYOUTS[this.hooks.state().location].ground;
         this.cart = this.add.image(x * 640 / 300, y * 512 / 240, "stand-0").setOrigin(0.5, 1);
