@@ -388,7 +388,7 @@ export function purchaseUpgrade(state: State, id: Upgrade): State {
     const item = UPGRADES[id];
     if (!Object.prototype.hasOwnProperty.call(UPGRADES, id)) throw new Error("Unknown upgrade.");
     const level = state.management.upgrades[id];
-    if (level >= 2) throw new Error("This equipment is fully upgraded.");
+    if (level >= item.prices.length) throw new Error("This equipment is fully upgraded.");
     const price = item.prices[level];
     if (state.cash < price) throw new Error("Not enough cash for this upgrade.");
     return { ...state, cash: state.cash - price,

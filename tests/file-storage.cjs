@@ -32,5 +32,5 @@ test('damaged primary recovers the previous valid checkpoint', () => withStorage
     const recovered = readSave(createFileStorage(directory));
     assert.equal(recovered.recovered, true);
     assert.deepEqual(recovered.document.state, first);
-    assert.equal(storage.getItem(BACKUP_KEY), JSON.stringify({ version: 7, state: first, history: [] }));
+    assert.equal(storage.getItem(BACKUP_KEY), JSON.stringify({ version: 8, state: first, history: [] }));
 }));

@@ -1,5 +1,6 @@
 // Original outlined inventory icons shared by the stock strip and controls.
 const drawings = {
+    stand: '<path fill="#f0d64d" d="M4 13h18v10H4Z"/><path fill="#68985a" d="m2 11 4-8h14l4 8Z"/><path fill="#fff2a1" d="M5 11h16v3H5Z"/><path fill="none" d="M5 5v8m16-8v8M8 16h10m-5-1v8"/>',
     refrigerator: '<path fill="#d4e4d6" d="M5 2h16v22H5Z"/><path fill="#f7f7da" d="M7 4h12v7H7Zm0 9h12v9H7Z"/><path fill="none" d="M5 12h16M9 6v3m0 6v4"/><path fill="#587b64" d="M6 24h3v1H6Zm11 0h3v1h-3Z"/>',
     iceMaker: '<path fill="#a6c7ca" d="M3 3h20v21H3Z"/><path fill="#e9f3db" d="M5 5h16v5H5Z"/><path fill="#31575b" d="M6 12h14v9H6Z"/><path fill="#9edfea" d="m9 14 4-2 4 2v5l-4 2-4-2Z"/><path fill="#f4ffff" d="m9 14 4 2 4-2-4-2Z"/><path fill="#70a534" d="M18 6h2v2h-2Z"/>',
     blender: '<path fill="#d5e8d6" d="M6 3h14l-2 13H8Z"/><path fill="#f5dc43" d="m8 9 10 0-1 6H9Z"/><path fill="none" stroke-width="2" d="M20 6h3v7h-4"/><path fill="#dceac4" d="M6 1h14v3H6Z"/><path fill="#8fa68b" d="M8 17h10l3 7H5Z"/><path fill="#e64933" d="M12 20h3v2h-3Z"/>',
