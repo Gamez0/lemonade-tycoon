@@ -1,0 +1,5 @@
+Use case: precise-object-edit
+Asset type: static background candidate for a 2D tycoon game, 5:4.
+Edit the supplied map. Preserve EXACT framing, all road and sidewalk edges, all building footprints, facade openings, doors, stairs, tree trunks and hedge placement, orthographic camera and warm palette.
+Change only these: remove BOTH people and their shadows; remove the yellow-blue lemonade cart completely and restore continuous lawn behind it; remove the tiny pale-yellow crossing/dash marks at the road junction; simplify roof textures substantially by reducing shingle color contrast and using mostly uninterrupted broad blue-slate/red-clay planes with sparse localized shingle accents, not an all-over checkerboard. Reduce lawn speckle by about half, keeping grouped grass accents. Keep architectural eaves, ridge silhouettes and cast/contact shadows.
+The center sidewalks and road must stay completely clear, ready for actual game sprites. No people, vehicles, carts, kiosks, lettering, logos, labels, UI or new props. No border. This is a single full-bleed coherent static environment, not a sheet of assets.

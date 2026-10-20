@@ -1,0 +1,82 @@
+[
+  {
+    "id": "neighborhood",
+    "file": "art/studies/neighborhood-cohesion/environment-v6-reference-texture.png",
+    "width": 1402,
+    "height": 1122,
+    "sha256": "a691cba1f26827d6f3a790349500bd072fa5ec470a4f27501160bdbf4f29f2ad",
+    "status": "study-not-integrated"
+  },
+  {
+    "id": "park",
+    "file": "art/studies/all-map-style/park-theme-v1.png",
+    "width": 1402,
+    "height": 1122,
+    "sha256": "aa8381b1671ec6dac848052d43f499608778f76b77d4c2894bb2a2252c8c42e6",
+    "status": "study-not-integrated"
+  },
+  {
+    "id": "downtown",
+    "file": "art/studies/all-map-style/downtown-theme-v1.png",
+    "width": 1402,
+    "height": 1122,
+    "sha256": "5e80df505040ba203664a7badc755733cfb3b2f8f4b9852922f5bda3ec6ea100",
+    "status": "study-not-integrated"
+  },
+  {
+    "id": "beach",
+    "file": "art/studies/all-map-style/beach-theme-v1.png",
+    "width": 1402,
+    "height": 1122,
+    "sha256": "50ba922972e51c916aba63fc51a1b66d0a139f5199c02354fbf6a670cad5a108",
+    "status": "study-not-integrated"
+  },
+  {
+    "id": "old-square",
+    "file": "art/studies/all-map-style/old-square-theme-v1.png",
+    "width": 1402,
+    "height": 1122,
+    "sha256": "ca561596d716e5cacb936340cceca799119cc6d76f7cd4712758146ac3cfb9ae",
+    "status": "study-not-integrated"
+  },
+  {
+    "id": "train-station",
+    "file": "art/studies/all-map-style/train-station-theme-v2.png",
+    "width": 1402,
+    "height": 1122,
+    "sha256": "a5b8d1b8ca5b77ed734820a35ada470411f821aac44366703c1053a912419aee",
+    "status": "study-not-integrated"
+  },
+  {
+    "id": "mall",
+    "file": "art/studies/all-map-style/mall-theme-v1.png",
+    "width": 1402,
+    "height": 1122,
+    "sha256": "7436a8df0dee3aeed53d2f4ee43cfbc017b9a757813a8ca3b794de0c493400c6",
+    "status": "study-not-integrated"
+  },
+  {
+    "id": "marina",
+    "file": "art/studies/all-map-style/marina-theme-v2.png",
+    "width": 1402,
+    "height": 1122,
+    "sha256": "b7ef04a6045536bf829a216053515f5c9a4a23e2e87c6bc82515bc13bc1a8ea5",
+    "status": "study-not-integrated"
+  },
+  {
+    "id": "stadium",
+    "file": "art/studies/all-map-style/stadium-theme-v1.png",
+    "width": 1402,
+    "height": 1122,
+    "sha256": "b291e15a8c00778928b1b65d6fc5b5981161df60412d200359ebcdccc488fe11",
+    "status": "study-not-integrated"
+  },
+  {
+    "id": "magic-gardens",
+    "file": "art/studies/all-map-style/magic-gardens-theme-v1.png",
+    "width": 1402,
+    "height": 1122,
+    "sha256": "0a1002b2cb85d3a83c8fbc2cd258f9e50b59efa294072d81024afcc65094a7a9",
+    "status": "study-not-integrated"
+  }
+]

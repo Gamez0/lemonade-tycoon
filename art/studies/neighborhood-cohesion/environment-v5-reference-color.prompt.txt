@@ -1,0 +1,15 @@
+Use case: precise-object-edit
+Asset type: original static neighborhood background study for a classic early-2000s PC tycoon game, 5:4.
+Input: our own authored/generated map. Edit this map, preserving its exact corrected T-junction, constant road/sidewalk widths, continuous sidewalk corners and zebra crossing. Preserve house locations and overall lot arrangement.
+Primary request: move the color/material language from warm cozy modern illustration toward a crisp restrained early-2000s PC isometric game screenshot.
+Color targets based on visual reference analysis, NOT artwork copying:
+- Lawns are clean saturated emerald/mid green, not olive or yellow-green.
+- Sidewalks are pale cool neutral light gray, not cream or golden beige; seams are quiet medium gray.
+- Asphalt is uniform deep neutral charcoal, no blue cast, no broad gradients.
+- Left house walls are muted plum purple; replace its strong terracotta RED roof with a quiet dusty mauve/gray-pink roof.
+- Upper house walls are medium warm brown/tan rather than bright golden yellow; their roofs are deep muted forest green.
+- Foreground cottage walls muted gray-olive/taupe, roof muted pale blue-green/teal rather than dark navy.
+- Windows have subdued pale blue glass with a few crisp light reflection shapes, modest gray/cream trim, not glowing thick yellow frames.
+Texture and shading: broad flat painted planes, subtle limited stepped shading, crisp thin dark contours, small purposeful pixel clusters. Remove soft golden illumination, large airbrushed gradients, bright foliage rims, regular decorative grass tufts and dense shingle patterns. Lawns have only sparse fine low-contrast pixel flecks grouped irregularly. Roofs are largely untextured planes with clear eaves; walls have very restrained siding. Keep coherent modest directional shadows, not dramatic lighting or ambient occlusion.
+House scale: left two-story house is still too large in door and story size; reduce its architectural scale about12%, anchored at its left-lot foundation, maintaining two stories. Upper single-story houses should have the SAME entry-door and one-story height as one floor of the left house, no distance shrinking. Foreground single-story cottage should share that same door/window/story scale. Different footprint widths are fine. Do not simply make every house total height identical. Keep complete coherent volumes even when cropped. Keep porches/path connections and clear grass service area.
+Maintain orthographic 2:1 ground axes, no perspective convergence or depth scaling. The target is legible at300x240, not highly rendered realism with fake pixel filters. No people, lemonade stand/cart, vehicles, labels, UI, watermarks, new roads, or copied game objects. Existing scene content only.
