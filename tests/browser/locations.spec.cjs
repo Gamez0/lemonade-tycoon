@@ -22,7 +22,7 @@ test('locked location costs are readable; browsing and cancelled reservations ne
     await expect(page.locator('#thumbnail-park')).toBeVisible();
     await expect(page.locator('#cash')).toHaveText('$40.00');
     await page.setViewportSize({ width: 375, height: 900 });
-    for (const id of ['neighborhood', 'park', 'downtown']) {
+    for (const id of require('../../.test-build/content/locations.js').LOCATION_IDS) {
         await page.locator(`button[data-location=${id}]`).click();
         await expect(page.locator('#rent-details')).toBeVisible();
         await expect(page.locator('#rent-unlock')).toBeVisible();

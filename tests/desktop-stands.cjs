@@ -3,6 +3,7 @@ const { expect } = require('@playwright/test');
 const fs = require('node:fs'), path = require('node:path'), os = require('node:os');
 const { fundedStandBusiness } = require('./helpers/stand-business.cjs');
 const { encodeSave } = require('../.test-build/simulation/save.js');
+const { LOCATION_IDS } = require('../.test-build/content/locations.js');
 const { profileArgs, verifyProfile } = require('./helpers/desktop-profile.cjs');
 const executablePath = process.env.LEMONADE_DESKTOP_EXE;
 if (process.platform !== 'win32' || !executablePath) throw Error('Windows package required.');
@@ -25,7 +26,7 @@ async function close() {
 (async () => {
     try {
         let page = await launch();
-        for (const location of ['neighborhood', 'park', 'downtown']) {
+        for (const location of LOCATION_IDS) {
             const business = fundedStandBusiness(location);
             await page.locator('#save-file').setInputFiles({ name: 'stand-business.json', mimeType: 'application/json', buffer: Buffer.from(encodeSave(business.state, business.history)) });
             await expect.poll(() => read().state.cash).toBe(business.state.cash);
@@ -44,12 +45,13 @@ async function close() {
                 await page.locator('canvas').screenshot({ path: path.join(out, `${location}-${level}.png`) });
                 await close(); page = await launch();
                 await expect(page.locator('canvas')).toHaveAttribute('data-stand-level', String(level));
-                expect(read().version).toBe(8);
+                expect(read().version).toBe(9);
                 await page.locator('[data-page=rent]').click();
                 expect(await page.locator(`#thumbnail-${location}`).getAttribute('src')).toBe(background);
             }
         }
-        fs.writeFileSync(path.join(out, 'result.json'), JSON.stringify({ locations: 3, tiers: 4, relaunches: 12, sameBackground: true, saveVersion: 8 }, null, 2));
-        console.log('Windows stands: all12 map/tier combinations, exact charges, durable saves/relaunch and unchanged backgrounds PASS.');
+        fs.writeFileSync(path.join(out, 'result.json'), JSON.stringify({ locations: LOCATION_IDS.length, tiers: 4,
+            relaunches: LOCATION_IDS.length * 4, sameBackground: true, saveVersion: read().version }, null, 2));
+        console.log('Windows stands: all40 map/tier combinations, exact charges, durable saves/relaunch and unchanged backgrounds PASS.');
     } finally { if (app) await app.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

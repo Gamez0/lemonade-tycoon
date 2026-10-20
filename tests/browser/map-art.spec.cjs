@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const { fundedStandBusiness } = require('../helpers/stand-business.cjs');
 const { purchaseUpgrade } = require('../../.test-build/simulation/game.js');
 const { encodeSave } = require('../../.test-build/simulation/save.js');
-for (const location of ['neighborhood', 'park', 'downtown']) test(`${location}: painted background keeps upgraded stand and moving customers separate`, async ({ page }) => {
+for (const location of require('../../.test-build/content/locations.js').LOCATION_IDS) test(`${location}: painted background keeps upgraded stand and moving customers separate`, async ({ page }) => {
     const errors = []; page.on('pageerror', error => errors.push(error.message));
     const business = fundedStandBusiness(location);
     for (let tier = 0; tier < 3; tier++) business.state = purchaseUpgrade(business.state, 'stand');

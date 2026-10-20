@@ -2,7 +2,7 @@ import { UPGRADES, STAFF, ADS, defaultManagement } from "../content/management";
 import type { Management, Upgrade } from "../content/management";
 import { CUSTOMERS, ITEMS, ITEM_KEYS, WEATHER } from "../content/catalog";
 import type { Item, Weather } from "../content/catalog";
-import { LOCATIONS, LOCATION_IDS, isLocation } from "../content/locations";
+import { LOCATIONS, LOCATION_IDS, isLocation, defaultLocationStats } from "../content/locations";
 import type { LocationId } from "../content/locations";
 
 export interface LocationRating { readonly satisfaction: number; readonly popularity: number }
@@ -120,8 +120,7 @@ export function newGame(seed = 2026): State {
         stock: { lemon: 0, sugar: 0, ice: 0, cup: 0 }, freeIce: 0, pitcherCups: 0,
         plan: { recipe: { lemon: 6, sugar: 3, ice: 2 }, price: 150 },
         location: "neighborhood", pendingLocation: null, unlocked: ["neighborhood"],
-        locationStats: { neighborhood: { satisfaction: 0.5, popularity: 0.5 },
-            park: { satisfaction: 0.5, popularity: 0.5 }, downtown: { satisfaction: 0.5, popularity: 0.5 } },
+        locationStats: defaultLocationStats(),
         lifetimeRevenue: 0, business: null,
         reputation: 0.5, daily: emptyDaily(), ...forecast(seed) };
 }
