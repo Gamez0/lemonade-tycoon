@@ -70,3 +70,27 @@ No new customer art or directional behavior is shipped by this research commit.
 The staff portrait pass is separate; remaining equipment, ingredients, weather,
 report and navigation illustrations are still open in #257. #97 remains the human
 visual acceptance gate.
+
+## First generated Neighbor sheet studies
+
+`customer-neighbor-sheet-v1.png` and `v2.png` are independently generated studies,
+not product imports. The first input was our own Neighborhood map; the edit input
+was our ownv1 sheet. Exact prompts are adjacent. Each1254px square has20 nominal
+cells (four direction rows, five walk phases). Four front/back directions read
+clearly, but the cycle repeats similar leading-leg positions and does not yet
+establish a coherent complete alternating gait. Adult proportions and matching
+body height also need review against the normalized original board. Neither
+candidate is selected for production; idle, queue and drinking poses are missing.
+
+The large preview initially appeared to have bright colored cutout fringes.
+Read-only alpha inspection corrects that interpretation: v1 has9469 andv2 has8397
+saturated-red pixels with nonzero alpha, but **none has alpha16 or higher**; their
+maximum alpha is5/255. RGB-only counts are not evidence of a visible red outline.
+Inspect the composite on green/white/dark backgrounds before altering alpha.
+
+`customer-sheet-review.cjs [candidate-path]` measures all20 cell bounds and alpha,
+and builds private `.local-m4/customer-art/candidate-motion.html` with four
+directions at8fps, fixed foot baseline,48/64px sizes and background switching.
+It clips the selected source cell while retaining native pixels; it is a study
+player, not actual game footage. Candidate playback needs reviewer inspection
+before any route/pose adapter or production asset is introduced. Keep #257 open.

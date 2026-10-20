@@ -86,3 +86,11 @@ at both tested window sizes. The private actual Windows board is
 in isolation after an initial sample recorded one startup repaint; later idle
 samples had zero draws and20-day private memory was209MiB. Do not claim a full
 performance pass until the isolated enforced run completes.
+
+Follow-up: the isolated enforced performance run passed with zero idle redraws,
+216MiB private memory after20 days and0.25MiB retained JS growth. The initial
+simultaneous-window measurement is retained as a failed sample. Actual Windows
+management passed hiring/wages, saved selection and forced-close recovery;
+browser management5/5 and the final release15/15 passed. Exact-head CI is recorded
+on PR258. Customer direction/scale research continues in
+`docs/reviews/customer-art-baseline.md`; that study does not ship customer art.
