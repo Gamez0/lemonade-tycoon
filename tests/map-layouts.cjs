@@ -1,6 +1,6 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const { MAP_LAYOUTS, mapPosition } = require('../.test-build/content/map-layouts.js');
+const { MAP_LAYOUTS, mapPosition, queueProgress } = require('../.test-build/content/map-layouts.js');
 const inside = ([x, y]) => x >= 0 && x <= 300 && y >= 0 && y <= 240;
 
 test('ten map layouts have continuous entrances, stable reachable service points and off-frame exits', () => {
@@ -49,5 +49,16 @@ test('marina walkers remain on the promenade and mall walkers avoid the escalato
         }
         const [mx, my] = mapPosition('mall', at);
         assert.ok(!(mx > 130 && mx < 210 && my > 90 && my < 165), 'escalator opening');
+    }
+});
+
+test('queue footprints remain separate on maps with different path lengths', () => {
+    for (const id of Object.keys(MAP_LAYOUTS)) {
+        let previous = mapPosition(id, 286);
+        for (let index = 0; index < 6; index++) {
+            const next = mapPosition(id, queueProgress(id, index));
+            assert.ok(Math.hypot(next[0] - previous[0], next[1] - previous[1]) >= 14, id + ' customer footprint spacing');
+            previous = next;
+        }
     }
 });

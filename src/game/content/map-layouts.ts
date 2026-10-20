@@ -8,7 +8,7 @@ export interface MapLayout {
 // 286 is the fixed service progress for every stand tier; upgrading never moves it.
 export const MAP_LAYOUTS = {
     neighborhood: { facing: "left", ground: [235, 137], route: [[-20, -20, -2], [286, 223, 148], [680, 320, 208]] },
-    park: { facing: "right", ground: [182, 108], route: [[-20, -15, 36.5], [220, 174, 131], [286, 194, 120], [420, 240, 80], [680, 320, 20]] },
+    park: { facing: "right", ground: [164, 124], route: [[-20, -15, 36.5], [286, 176, 136], [420, 230, 168], [680, 320, 213]] },
     downtown: { facing: "right", ground: [146, 174], route: [[-20, -20, 98], [160, 65, 144], [220, 110, 174], [286, 158, 186], [560, 183, 220], [680, 178, 253]] },
     beach: { facing: "right", ground: [177, 123], route: [[-20, -20, 110], [150, 110, 120], [286, 189, 135], [680, 320, 150]] },
     "old-square": { facing: "right", ground: [196, 137], route: [[-20, -20, 115], [120, 100, 125], [286, 208, 149], [450, 165, 200], [680, 150, 260]] },
@@ -27,4 +27,20 @@ export function mapPosition(id: MapThemeId, progress: number): readonly [number,
     const [start, x, y] = route[index], [end, xx, yy] = route[index + 1];
     const t = (progress - start) / (end - start);
     return [x + (xx - x) * t, y + (yy - y) * t];
+}
+
+// Queue spacing is a physical distance on the ground, independent of how long
+// or short each map's progress segments happen to be.
+export function queueProgress(id: MapThemeId, index: number): number {
+    const service = mapPosition(id, 286);
+    const points = [[286, ...service], ...MAP_LAYOUTS[id].route.filter(point => point[0] > 286)];
+    let remaining = (index + 1) * 20;
+    for (let i = 1; i < points.length; i++) {
+        const a = points[i - 1], b = points[i];
+        const length = Math.hypot(b[1] - a[1], b[2] - a[2]);
+        if (remaining <= length || i === points.length - 1)
+            return a[0] + (b[0] - a[0]) * remaining / length;
+        remaining -= length;
+    }
+    return 286;
 }

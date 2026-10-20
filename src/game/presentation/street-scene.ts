@@ -7,7 +7,7 @@ import type { LocationId } from "../content/locations";
 import { tasteReaction } from "./taste-feedback";
 import { MAP_ASSETS } from "./map-assets";
 import { mapThumbnail } from "./map-raster";
-import { MAP_LAYOUTS, mapPosition } from "../content/map-layouts";
+import { MAP_LAYOUTS, mapPosition, queueProgress } from "../content/map-layouts";
 import { createStandArt, standSize, standFlip, STAND_ASSETS } from "./stand-art";
 import { STAND_NAMES } from "../content/management";
 
@@ -129,9 +129,10 @@ export class StreetScene extends Phaser.Scene {
                 undefined, true);
         }
         day.waiting.forEach((person, index) => {
-            const target = streetLayout.stopX + 58 + index * 38;
+            const target = queueProgress(this.hooks.state().location, index);
             const progress = this.motion.matches ? 1 : Math.min(1, (day.tick - person.joinedAt) / 3);
-            const x = 660 + (target - 660) * progress;
+            const from = Math.max(660, target + 90);
+            const x = from + (target - from) * progress;
             show(person.visitor.id, person.visitor.profile, progress < 1 ? day.tick % 2 : 0,
                 x, undefined, progress >= 1);
         });
