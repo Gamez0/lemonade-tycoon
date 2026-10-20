@@ -52,7 +52,7 @@ let app;
         await expect(page.locator('#save-status')).toContainText('Imported save'); await page.clock.runFor(500);
         await page.locator('#open').click(); await page.locator('#skip').click(); await page.clock.runFor(500);
         await expect.poll(async () => (await read())?.state.phase).toBe('results');
-        const replay = await read(); assert.deepEqual(replay.state, legacy.expected);
+        const replay = await read(); assert.deepEqual(replay.state, require('./helpers/stand-schema.cjs').withBasicStand(legacy.expected));
         observations.push({ name: 'actual alpha13 paid opening', exactReplay: true, importedVersion: 6, savedVersion: replay.version });
         fs.writeFileSync(path.join(out, 'results.json'), JSON.stringify({ target: 'actual packaged Windows game', observations }, null, 2));
         console.log('Windows buyer taste and real v6 paid-opening replay: 3/3 PASS');
