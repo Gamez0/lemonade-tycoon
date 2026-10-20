@@ -19,8 +19,8 @@ const frames = [
 export function createStandArt(scene: Phaser.Scene): void {
     for (const [level, frame] of frames.entries()) {
         const canvas = document.createElement("canvas");
-        canvas.width = frame.width;
-        canvas.height = Math.round(frame.width * frame.bounds[3] / frame.bounds[2]);
+        canvas.width = frame.bounds[2];
+        canvas.height = frame.bounds[3];
         const ctx = canvas.getContext("2d")!;
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = "high";
@@ -35,4 +35,9 @@ export function standSize(level: number) {
     const frame = frames[level];
     return { width: frame.width * 640 / 300,
         height: Math.round(frame.width * frame.bounds[3] / frame.bounds[2]) * 512 / 240 };
+}
+
+// Basic's main counter faces the opposite diagonal to the three kiosks.
+export function standFlip(level: number, facing: "left" | "right"): boolean {
+    return (level === 0 ? "left" : "right") !== facing;
 }

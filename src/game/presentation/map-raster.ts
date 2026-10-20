@@ -1,7 +1,8 @@
-// One logical raster is reused by the scene and map-review tooling.
+// Keep source detail. Coordinates use a 300x240 authored grid, but that grid
+// must never become an intermediate image resolution.
 export function logicalMap(image: HTMLImageElement): HTMLCanvasElement {
     const canvas = document.createElement("canvas");
-    canvas.width = 300; canvas.height = 240;
+    canvas.width = image.naturalWidth; canvas.height = image.naturalHeight;
     const ctx = canvas.getContext("2d")!;
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = "high";
@@ -10,10 +11,5 @@ export function logicalMap(image: HTMLImageElement): HTMLCanvasElement {
 }
 
 export function mapTexture(image: HTMLImageElement): HTMLCanvasElement {
-    const canvas = document.createElement("canvas");
-    canvas.width = 640; canvas.height = 512;
-    const ctx = canvas.getContext("2d")!;
-    ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(logicalMap(image), 0, 0, canvas.width, canvas.height);
-    return canvas;
+    return logicalMap(image);
 }

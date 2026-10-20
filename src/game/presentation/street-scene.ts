@@ -7,7 +7,7 @@ import type { LocationId } from "../content/locations";
 import { tasteReaction } from "./taste-feedback";
 import { MAP_ASSETS } from "./map-assets";
 import { MAP_LAYOUTS, mapPosition } from "../content/map-layouts";
-import { createStandArt, standSize, STAND_ASSETS } from "./stand-art";
+import { createStandArt, standSize, standFlip, STAND_ASSETS } from "./stand-art";
 import { STAND_NAMES } from "../content/management";
 
 interface StreetHooks {
@@ -48,7 +48,7 @@ export class StreetScene extends Phaser.Scene {
     create(): void {
         createArt(this);
         createStandArt(this);
-        this.background = this.add.image(0, 0, this.hooks.state().location).setOrigin(0);
+        this.background = this.add.image(0, 0, this.hooks.state().location).setOrigin(0).setDisplaySize(640, 512);
         for (const id of LOCATION_IDS) {
             const source = this.textures.get(id).getSourceImage();
             if (source instanceof HTMLCanvasElement) this.previews.set(id, source.toDataURL());
@@ -106,7 +106,7 @@ export class StreetScene extends Phaser.Scene {
                 this.people.set(id, sprite);
             }
             sprite.setPosition(Math.round(x), Math.round(y)).setTexture(`customer-${profile}-${this.motion.matches ? 0 : pose}`)
-                .setScale(peopleScale).setFlipX(facingStand).setDepth(y);
+                .setScale(peopleScale).setFlipX(facingStand && logicalX > MAP_LAYOUTS[this.hooks.state().location].ground[0]).setDepth(y);
             let bubble = this.bubbles.get(id);
             if (label) {
                 if (!bubble) {
@@ -153,14 +153,16 @@ export class StreetScene extends Phaser.Scene {
         const x = ground[0] * 640 / 300, y = ground[1] * 512 / 240;
         const level = state.management.upgrades.stand, size = standSize(level);
         this.cart?.setTexture(`stand-${level}`).setDisplaySize(size.width, size.height)
-            .setPosition(x, y).setDepth(y);
+            .setFlipX(standFlip(level, MAP_LAYOUTS[state.location].facing)).setPosition(x, y).setDepth(y);
         this.game.canvas.setAttribute("data-stand-level", String(level));
         this.game.canvas.setAttribute("data-stand-texture", this.cart?.texture.key ?? "");
         this.game.canvas.setAttribute("data-stand-name", STAND_NAMES[level]);
+        this.game.canvas.setAttribute("data-stand-facing", MAP_LAYOUTS[state.location].facing);
+        this.game.canvas.setAttribute("data-map-source-width", String(this.textures.get(`map-source-${state.location}`).getSourceImage().width));
         this.game.canvas.setAttribute("aria-label", `${STAND_NAMES[level]} at ${LOCATIONS[state.location].street}. People walk, queue, buy or leave.`);
         this.sign?.setPosition(x - 5.8, y - 17.4).setDepth(y + 1);
         if (this.background?.texture.key !== state.location) {
-            this.background?.setTexture(state.location);
+            this.background?.setTexture(state.location).setDisplaySize(640, 512);
         }
         this.sky?.setAlpha(state.weather.label === "Rainy" ? 0.19 : state.weather.label === "Cloudy" ? 0.08 : 0);
         this.sign?.setText(state.phase === "selling" ? "OPEN" : "FRESH");

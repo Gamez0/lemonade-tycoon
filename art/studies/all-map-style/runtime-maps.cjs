@@ -10,7 +10,7 @@ exports.renderRuntimeMaps = async root => {
     const layouts = new Function(compile(fs.readFileSync(path.join(root, 'src/game/content/map-layouts.ts'), 'utf8')) + ';return {MAP_LAYOUTS,mapPosition};')();
     const entries = Object.entries(layouts.MAP_LAYOUTS).map(([id, layout]) => ({ id,
         image: 'data:image/png;base64,' + fs.readFileSync(path.join(root, `src/game/assets/map-${id}.png`)).toString('base64'),
-        ground: layout.ground, service: layouts.mapPosition(id, 286), route: layout.route }));
+        ground: layout.ground, facing: layout.facing, service: layouts.mapPosition(id, 286), route: layout.route }));
     const browser = await chromium.launch();
     try {
         const page = await browser.newPage();

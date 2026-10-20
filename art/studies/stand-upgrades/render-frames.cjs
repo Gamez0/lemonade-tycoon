@@ -18,7 +18,7 @@ exports.renderStandFrames = async root => {
             const loaded = {};
             for (const [name, src] of Object.entries(images)) { const img = new Image(); img.src = src; await img.decode(); loaded[name] = img; }
             const canvases = {};
-            const factory = new Function(source + ';return createStandArt;')();
+            const { factory, size } = new Function(source + ';return {factory:createStandArt,size:standSize};')();
             const names = new Function(content + ';return STAND_NAMES;')();
             factory({ textures: { get: name => ({ getSourceImage: () => loaded[name] }), addCanvas: (name, canvas) => { canvases[name] = canvas; } } });
             return names.map((name, level) => {
@@ -27,7 +27,9 @@ exports.renderStandFrames = async root => {
                 let transparent = 0, opaque = 0;
                 for (let i = 3; i < rgba.length; i += 4) { if (rgba[i] === 0) transparent++; if (rgba[i] > 200) opaque++; }
                 if (!transparent || !opaque) throw Error('Stand frame lost its alpha or shape: ' + name);
-                return { name, image: canvas.toDataURL(), width: canvas.width, height: canvas.height, transparent, opaque };
+                const display = size(level);
+                return { name, image: canvas.toDataURL(), width: display.width * 300 / 640,
+                    height: display.height * 240 / 512, nativeFacing: level === 0 ? 'left' : 'right', transparent, opaque };
             });
         }, { source: compile(source), content, images });
     } finally { await browser.close(); }

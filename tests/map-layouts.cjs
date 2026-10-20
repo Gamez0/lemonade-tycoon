@@ -10,6 +10,8 @@ test('ten map layouts have continuous entrances, stable reachable service points
         const service = mapPosition(id, 286);
         assert.ok(inside(service), id + ' service');
         assert.ok(Math.hypot(service[0] - layout.ground[0], service[1] - layout.ground[1]) < 45, id + ' counter reach');
+        assert.ok(service[1] > layout.ground[1], id + ' customers stand in front of the counter');
+        assert.equal(Math.sign(service[0] - layout.ground[0]), layout.facing === 'left' ? -1 : 1, id + ' counter faces its customers');
         assert.ok(!inside(mapPosition(id, -20)), id + ' entry');
         assert.ok(!inside(mapPosition(id, 680)), id + ' exit');
         for (let i = 1; i < layout.route.length; i++) {
@@ -20,14 +22,13 @@ test('ten map layouts have continuous entrances, stable reachable service points
     }
 });
 
-test('neighborhood pedestrians cross the branch only at its crossing and avoid the foreground roof', () => {
+test('neighborhood through traffic follows the upper sidewalk without a crossing U-turn', () => {
+    let previous = -Infinity;
     for (let at = -20; at <= 680; at++) {
         const [x, y] = mapPosition('neighborhood', at);
-        // Inset asphalt band observed on the selected painted background,
-        // deliberately independent of route control-point coordinates.
-        const onBranchAsphalt = y > 229 - x * 0.58 && y < 269 - x * 0.58;
-        if (onBranchAsphalt) assert.ok(at >= 333 && at <= 420, 'crossing segment');
-        assert.ok(!(x >= 200 && y >= 170), 'foreground building clearance');
+        assert.ok(x >= previous, 'no reversed travel along the street'); previous = x;
+        // Observed upper sidewalk band, away from the branch and foreground lot.
+        assert.ok(Math.abs(y - (x * .62 + 10)) < 4, 'upper sidewalk clearance');
     }
 });
 
