@@ -27,3 +27,10 @@ Native sources are1402x1122. Logical widths30/46/52/60 are an initial integratio
 scale relative to the existing customers; actual40-combination review is required.
 Do not equate a sharp source drawing, successful image generation or green CI
 with successful in-game integration or human visual acceptance.
+
+Actual source/runtime comparison: first run model compilation and native stand
+verification, then `node art/studies/stand-upgrades-v2/runtime-review.cjs`.
+It reads the native40 screenshots/result/build-info from `.local-m4/redrawn-stands`
+(or a supplied evidence-root argument), checks equal display dimensions for all40
+combinations and writes a private self-contained HTML board. No original reference
+pixels enter this source/runtime board.
