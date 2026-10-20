@@ -44,7 +44,7 @@ test('reservation, charged opening replay, park results and free return reconcil
     await page.locator('#confirm-rent').click();
     await page.reload();
     await page.locator('[data-page=rent]').click();
-    await expect(page.locator('#rent-reservation')).toContainText('Riverside Park');
+    await expect(page.locator('#rent-reservation')).toContainText('The Park');
     await page.locator('#open').click();
     await expect(page.locator('#app')).toHaveAttribute('data-location', 'park');
     const paid = await saved(page);

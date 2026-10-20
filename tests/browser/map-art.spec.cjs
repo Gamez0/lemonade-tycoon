@@ -1,0 +1,25 @@
+const { test, expect } = require('@playwright/test');
+const { fundedStandBusiness } = require('../helpers/stand-business.cjs');
+const { purchaseUpgrade } = require('../../.test-build/simulation/game.js');
+const { encodeSave } = require('../../.test-build/simulation/save.js');
+for (const location of ['neighborhood', 'park', 'downtown']) test(`${location}: painted background keeps upgraded stand and moving customers separate`, async ({ page }) => {
+    const errors = []; page.on('pageerror', error => errors.push(error.message));
+    const business = fundedStandBusiness(location);
+    for (let tier = 0; tier < 3; tier++) business.state = purchaseUpgrade(business.state, 'stand');
+    await page.clock.install();
+    await page.addInitScript(raw => localStorage.setItem('lemonade-tycoon.reboot.save', raw), encodeSave(business.state, business.history));
+    await page.goto('/'); await page.clock.runFor(500);
+    const canvas = page.locator('canvas');
+    await expect(canvas).toHaveAttribute('data-stand-texture', 'stand-3');
+    await page.locator('[data-page=rent]').click();
+    const thumbnail = await page.locator(`#thumbnail-${location}`).getAttribute('src');
+    expect(thumbnail).toMatch(/^data:image\/png/);
+    await page.locator('#open').click();
+    for (let frame = 0; frame < 8; frame++) {
+        await page.clock.runFor(1200);
+        await canvas.screenshot({ path: `test-results/map-${location}-walk-${frame}.png` });
+    }
+    await expect(canvas).toHaveAttribute('data-stand-texture', 'stand-3');
+    expect(Number(await page.locator('#sold').innerText())).toBeGreaterThan(0);
+    expect(errors).toEqual([]);
+});

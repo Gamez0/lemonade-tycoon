@@ -3,6 +3,7 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const { chromium } = require('playwright');
 const { renderStandFrames } = require('../stand-upgrades/render-frames.cjs');
+const { renderRuntimeMaps } = require('./runtime-maps.cjs');
 async function main() {
     const root = path.resolve(__dirname, '../../..');
     const out = path.join(root, '.local-m4/all-map-art');
@@ -10,6 +11,7 @@ async function main() {
     const maps = JSON.parse(fs.readFileSync(path.join(__dirname, 'maps.json'), 'utf8'));
     const sprites = JSON.parse(fs.readFileSync('D:/lemonade-calendar-ci/.local-m4/house-structure/study-textures.json', 'utf8'));
     const stands = await renderStandFrames(root);
+    const runtimeMaps = await renderRuntimeMaps(root);
     const data = file => 'data:image/png;base64,' + fs.readFileSync(file).toString('base64');
     const manifest = [];
     for (const map of maps) {
@@ -18,7 +20,11 @@ async function main() {
         manifest.push({ id: map.id, file: path.relative(root, file).replaceAll('\\', '/'),
             width: bytes.readUInt32BE(16), height: bytes.readUInt32BE(20),
             sha256: crypto.createHash('sha256').update(bytes).digest('hex'), status: 'study-not-integrated' });
-        map.image = data(file);
+        const rendered = runtimeMaps.find(entry => entry.id === map.id);
+        map.image = rendered.image;
+        map.cart = [rendered.ground[0] - 13.5, rendered.ground[1] - 33];
+        map.person = rendered.service;
+        map.route = rendered.route;
         map.original = data(path.join(reference, `expected-${map.reference}.png`));
     }
     if (maps.length !== 10 || new Set(maps.map(m => m.id)).size !== 10) throw Error('Expected ten unique maps');

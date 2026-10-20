@@ -2,11 +2,13 @@ const fs = require('node:fs');
 const path = require('node:path');
 const ts = require('typescript');
 const { chromium } = require('playwright');
+const { execFileSync } = require('node:child_process');
 async function main() {
     const root = path.resolve(__dirname, '../../..');
     const out = path.join(root, '.local-m4/all-map-art');
     fs.mkdirSync(out, { recursive: true });
-    let source = fs.readFileSync(path.join(root, 'src/game/presentation/art.ts'), 'utf8');
+    // Freeze the pre-integration renderer: later runtime art is a different baseline.
+    let source = execFileSync('git', ['show', '17b3c4d:src/game/presentation/art.ts'], { cwd: root, encoding: 'utf8' });
     source = source.replace(/ {4}const neighborhoodImages:[\s\S]*?scene.textures.addCanvas\("neighborhood", neighborhoodRaster\(neighborhoodImages\)\);/, '');
     source = ts.transpileModule(source, { compilerOptions: { target: ts.ScriptTarget.ES2020, module: ts.ModuleKind.ESNext } }).outputText.replace(/^import .*;\r?\n/gm, '').replace(/\bexport /g, '');
     const browser = await chromium.launch();

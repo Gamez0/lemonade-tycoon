@@ -1,13 +1,9 @@
 ﻿import Phaser from "phaser";
-import { neighborhoodRaster } from "./neighborhood-raster";
-import type { NeighborhoodImages } from "./painted-neighborhood";
+import { createMapArt } from "./map-assets";
 
-// Code-authored scenes/sprites and original generated Neighborhood raster assets.
+// Code-authored characters and original independently generated map assets.
 // Fine outlines and a shared 2:1 ground projection.
 // No source-game image or sprite is embedded here.
-export const STREET = { stopX: 267, pavementY: (x: number) => x / 2 + 112 };
-export const CART = { x: 236, y: 167 };
-
 export function createArt(scene: Phaser.Scene): void {
     const g = scene.make.graphics({ x: 0, y: 0 });
     const ink = 0x293e35;
@@ -27,92 +23,7 @@ export function createArt(scene: Phaser.Scene): void {
         g.fillStyle(color).fillEllipse(x, y, w, h);
         if (outline) g.lineStyle(1, ink, 1).strokeEllipse(x, y, w, h);
     };
-    const fence = (x: number, y: number, length: number, slope: number) => {
-        for (let i = 0; i <= length; i += 7) {
-            const yy = y + i * slope;
-            poly([x + i, yy, x + i + 3, yy + 1, x + i + 3, yy - 15, x + i + 1, yy - 18, x + i, yy - 16], 0xc9b77c);
-        }
-        line(x, y - 6, x + length, y + length * slope - 6, 0x8a7d51);
-        line(x, y - 12, x + length, y + length * slope - 12, 0xe6d799);
-    };
-    const tree = (x: number, y: number, size = 1) => {
-        ellipse(x + 9, y, 29 * size, 10 * size, 0x328047, false);
-        rect(x - 2, y - 28 * size, 5, 28 * size, 0x765a39);
-        line(x, y - 28 * size, x, y - 1, 0xb5975f);
-        ellipse(x, y - 36 * size, 32 * size, 36 * size, 0x237c47);
-        ellipse(x - 4 * size, y - 40 * size, 25 * size, 27 * size, 0x4ca65a, false);
-        ellipse(x - 7 * size, y - 44 * size, 14 * size, 15 * size, 0x70bb68, false);
-        for (let n = 0; n < 14; n++)
-            rect(x - 10 * size + ((n * 7) % 20) * size, y - 48 * size + ((n * 11) % 26) * size, 2, 1, 0x338c4c);
-    };
-    const neighborhoodImages: NeighborhoodImages = {
-        left: scene.textures.get("neighborhood-house-left").getSourceImage() as HTMLImageElement,
-        cottage: scene.textures.get("neighborhood-cottage").getSourceImage() as HTMLImageElement,
-        tree: scene.textures.get("neighborhood-tree").getSourceImage() as HTMLImageElement,
-        hedge: scene.textures.get("neighborhood-hedge").getSourceImage() as HTMLImageElement,
-    };
-    scene.textures.addCanvas("neighborhood", neighborhoodRaster(neighborhoodImages));
-
-    // Location scenes keep the cart and pedestrian route on the same ground plane.
-    for (const id of ["park", "downtown"] as const) {
-        const park = id === "park";
-        rect(0, 0, 640, 512, park ? 0x479a55 : 0xb7b3a0);
-        for (let i = 0; i < 1600; i++) rect((i * 137 + 17) % 640, (i * 79) % 512, 1, 1,
-            park ? 0x67ac61 : 0xa6a695);
-        poly([-20, 91, 660, 431, 660, 549, -20, 209], park ? 0xd0c49d : 0xcacbbe);
-        poly([-20, 121, 660, 461, 660, 519, -20, 179], park ? 0xb5aa83 : 0x626665);
-        for (let x = -20; x < 680; x += 30) {
-            line(x, x / 2 + 94, x - 24, x / 2 + 106, 0x949786);
-            line(x, x / 2 + 191, x - 24, x / 2 + 203, 0x949786);
-        }
-        if (park) {
-            ellipse(423, 135, 220, 102, 0xb1c397);
-            ellipse(423, 132, 202, 86, 0x6caba8);
-            ellipse(407, 124, 154, 55, 0x8bc4ba, false);
-            for (let i = 0; i < 5; i++) line(354 + i * 24, 130 + i % 2 * 12, 369 + i * 24, 130 + i % 2 * 12, 0xc7e1cc);
-            for (const [x, y, size] of [[48, 80, 1.4], [153, 146, 1], [555, 191, 1.3], [202, 390, 1.4], [436, 440, 1.5]]) tree(x, y, size);
-            const bench = (x: number, y: number) => {
-                poly([x, y, x + 48, y + 24, x + 57, y + 19, x + 9, y - 5], 0xd1a664);
-                poly([x, y - 17, x + 48, y + 7, x + 48, y + 16, x, y - 8], 0x9b754a);
-                for (const dx of [5, 42]) line(x + dx, y + dx / 2, x + dx, y + dx / 2 + 13, 0x42554a);
-            };
-            bench(350, 229); bench(53, 294);
-            fence(337, 458, 150, -0.5);
-            poly([72, 357, 109, 375, 93, 383, 56, 365], 0x71563d);
-            for (let i = 0; i < 9; i++) ellipse(62 + i * 5, 363 + i * 2, 5, 5, i % 2 ? 0xe5c969 : 0xc77c88, false);
-        } else {
-            const office = (x: number, y: number, w: number, d: number, h: number, color: number) => {
-                poly([x, y - h, x + w, y + w / 2 - h, x + w, y + w / 2, x, y], color);
-                poly([x + w, y + w / 2 - h, x + w + d, y + (w - d) / 2 - h,
-                    x + w + d, y + (w - d) / 2, x + w, y + w / 2], 0x727d7d);
-                poly([x, y - h, x + d, y - d / 2 - h, x + w + d, y + (w - d) / 2 - h,
-                    x + w, y + w / 2 - h], 0xc8c5b0);
-                for (let row = 26; row < h - 14; row += 30) for (let col = 10; col < w - 16; col += 26) {
-                    const yy = y + col / 2 - row;
-                    poly([x + col, yy, x + col + 16, yy + 8, x + col + 16, yy + 25, x + col, yy + 17], 0x8fc0c3);
-                    line(x + col + 8, yy + 4, x + col + 8, yy + 21, 0xd3e5d4);
-                }
-                poly([x + 8, y - 12, x + w - 8, y + (w - 8) / 2 - 16,
-                    x + w - 12, y + (w - 12) / 2 - 5, x + 4, y - 2], 0x306b69);
-            };
-            office(-35, 84, 104, 89, 124, 0xc6b489);
-            office(349, 227, 108, 116, 156, 0xadb9af);
-            office(-58, 429, 134, 90, 151, 0xc4a29a);
-            for (const [x, y] of [[173, 145], [548, 215], [405, 446]]) {
-                rect(x, y - 61, 3, 61, 0x40574d);
-                ellipse(x + 4, y - 61, 20, 8, 0xe2dca6);
-                ellipse(x + 1, y, 14, 6, 0x7f897b);
-            }
-            for (let x = 30; x < 640; x += 80)
-                poly([x, x / 2 + 146, x + 25, x / 2 + 158.5, x + 23, x / 2 + 162, x - 2, x / 2 + 149.5], 0xe0d8b3, false);
-            tree(316, 474, 1.1); tree(577, 408, 1);
-            poly([444, 396, 502, 425, 523, 414, 465, 385], 0x526d86);
-            poly([450, 390, 476, 403, 486, 398, 460, 385], 0xb2cbcb);
-            ellipse(456, 405, 9, 12, 0x344c42); ellipse(500, 426, 9, 12, 0x344c42);
-        }
-        g.generateTexture(id, 640, 512);
-        g.clear();
-    }
+    createMapArt(scene);
 
     // Small wheeled lemonade cart with alternating parasol panels.
     ellipse(39, 78, 52, 14, 0x658653, false);

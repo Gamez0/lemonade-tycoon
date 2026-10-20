@@ -60,6 +60,7 @@ test('shipped archive audit rejects missing notices, altered licenses and embedd
         write('dist/licenses/OFL-Oswald.txt', fs.readFileSync(path.resolve(__dirname, '../public/fonts/OFL-Oswald.txt')));
         write('dist/assets/neighborhood-cottage-AbCd1234.png', 'selected raster fixture');
         write('dist/assets/stand-castle-AbCd1234.png', 'selected stand fixture');
+        write('dist/assets/map-neighborhood-AbCd1234.png', 'selected background fixture');
         let variant = 0;
         const pack = async () => {
             const output = path.join(root, `package-${variant++}`);
@@ -131,7 +132,8 @@ test('desktop audit rejects legacy and research content', () => temporary(direct
     assert.equal(auditDesktop(directory).length, 4);
     fs.writeFileSync(path.join(directory, 'assets/neighborhood-house-left-AbCd1234.png'), 'authored raster');
     fs.writeFileSync(path.join(directory, 'assets/stand-basic-AbCd1234.png'), 'authored stand');
-    assert.equal(auditDesktop(directory).length, 6);
+    fs.writeFileSync(path.join(directory, 'assets/map-park-AbCd1234.png'), 'authored background');
+    assert.equal(auditDesktop(directory).length, 7);
     fs.writeFileSync(path.join(directory, 'legacy.html'), 'legacy');
     assert.throws(() => auditDesktop(directory), /Unapproved/);
     fs.unlinkSync(path.join(directory, 'legacy.html'));
