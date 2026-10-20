@@ -39,3 +39,15 @@ test('downtown pedestrians avoid the lawn interior and foreground office footpri
         assert.ok(!(x >= 240 && y >= 180), 'foreground building');
     }
 });
+
+test('marina walkers remain on the promenade and mall walkers avoid the escalator opening', () => {
+    for (let at = -20; at <= 680; at++) {
+        const [x, y] = mapPosition('marina', at);
+        if (x >= 0 && x <= 300) {
+            assert.ok(y > 135 - .3 * x, 'clear of promenade planters and benches');
+            assert.ok(y < 175 - .3 * x, 'clear of water and railing');
+        }
+        const [mx, my] = mapPosition('mall', at);
+        assert.ok(!(mx > 130 && mx < 210 && my > 90 && my < 165), 'escalator opening');
+    }
+});
