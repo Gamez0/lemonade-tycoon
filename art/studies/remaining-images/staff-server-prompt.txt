@@ -1,0 +1,7 @@
+Create one independent game catalogue portrait asset on a truly transparent background.
+Reference image: our independently created Neighborhood map, style reference ONLY.
+Subject: friendly adult female lemonade cashier, light warm skin, shoulder-length chestnut hair, yellow-green baseball cap, white collared short-sleeved uniform shirt, small purple neck scarf. Three-quarter bust portrait facing slightly screen-right, smiling with expressive eyes. Both shoulders and chest visible; no hands or props needed. Preserve clear cap brim, flowing hair silhouette, collar, scarf and friendly face at 88 CSS pixels. Original-design facial features and anatomy, no tracing of any existing character.
+Visual treatment: polished illustrated PC management-game art matching the supplied map: fine dark olive outlines, warm restrained colors, clean hand-painted shading, subtle material variation, clear shapes. Adult proportions, no huge anime eyes, no chibi, no glossy 3D, no pixel-grid stepping. Soft upper-left light. No scenery, frame, lettering, badge, text or pedestal.
+Composition: single centered bust fills 85 percent of square asset with comfortable transparent margin and no clipped cap/hair/shoulders. Clean alpha edge, no colored matte, no cast background shadow.
+
+Provenance: original cashier inspected privately and translated to verbal observations only. No original-game image is supplied to generation. This is a catalogue portrait for the remake's existing server role; identity, wages, effects and saves remain unchanged.

@@ -1,0 +1,7 @@
+Create one independent game catalogue portrait asset on a truly transparent background.
+Reference image: our independently created Neighborhood map, style reference ONLY.
+Subject: cheerful adult lemonade queue entertainer in a bright yellow whole-lemon mascot costume, yellow pointed lemon top, face visible in an oval opening, green leaf-like collar and a neat dark green bow tie, green-and-yellow striped lower costume just visible. Friendly warm human face framed by lemon hood, playful smile. Three-quarter bust facing slightly screen-right. Clear whole-lemon costume silhouette, hood point and green bow visible at 88 CSS pixels. Original-design features, do not imitate a named character.
+Visual treatment: polished illustrated PC management-game art matching the supplied map: fine dark olive outlines, warm restrained colors, clean hand-painted shading, subtle rind texture, clear readable forms. Adult face, no huge anime eyes, no chibi, no glossy 3D, no pixel-grid stepping. Soft upper-left light. No scenery, frame, lettering, badge, text or pedestal.
+Composition: single centered bust fills 85 percent of square asset with comfortable transparent margin and no clipped head/shoulders. Clean alpha edge, no colored matte, no cast background shadow.
+
+Provenance: original entertainer inspected privately and translated to verbal observations only. No original-game image is supplied to generation. Catalogue portrait for the remake's existing queue-host role; identity, wages, effects and saves remain unchanged.

@@ -28,6 +28,11 @@ or copied into these assets. Pedestrian routes and stand anchors are authored
 separately in src/game/content/map-layouts.ts.
 
 Repository template: Copyright (c) 2024 Phaser Studio Inc, MIT (LICENSE).
+Staff catalogue portraits: independently generated with OpenAI image generation,
+using the project-owned Neighborhood map as a style reference. Exact prompts and
+source PNGs: art/studies/remaining-images. Original cashier/entertainer references
+were inspected privately and described in words; no original pixels were supplied
+to generation or shipped. Owner portrait is an original remake character.
 Phaser 3.88.2: MIT (LICENSE-Phaser.txt).
 Oswald font: SIL Open Font License 1.1 (dist/licenses/OFL-Oswald.txt in app.asar).
 Electron 44.5.1: MIT (package root LICENSE).
