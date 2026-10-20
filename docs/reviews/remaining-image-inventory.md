@@ -76,3 +76,13 @@ remake design. The existing Jamie/Robin names, IDs, wages and effects are preser
 No in-world employee sprite or new mechanic is introduced. Shared small SVGs
 remain available. Sources, prompts and provenance: `art/studies/remaining-images`.
 Actual packaged screenshots and verification results must accompany review.
+
+Initial verification: model/storage77/77, typecheck, reboot lint, release15/15,
+browser management5/5 and actual Windows six-card review passed. The package was
+built from clean76da2cf before an ancestry-only rebase; product contents match.
+All three native1254px images decode with transparent corners and normal filtering
+at both tested window sizes. The private actual Windows board is
+`.local-m4/remaining-images/native/review.html`. Performance is being rechecked
+in isolation after an initial sample recorded one startup repaint; later idle
+samples had zero draws and20-day private memory was209MiB. Do not claim a full
+performance pass until the isolated enforced run completes.

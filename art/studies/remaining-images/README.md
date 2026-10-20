@@ -31,3 +31,9 @@ there, covers all 26 baseline glyphs and includes the three revised portraits.
 It is a research artifact, excluded from desktop output. Standalone reference
 matches are visual evidence only, not mappings of equivalent game mechanics.
 Actual contextual sizes differ and are reported in the inventory.
+
+For actual packaged evidence set `LEMONADE_DESKTOP_EXE` and run
+`node art/studies/remaining-images/runtime-review.cjs`. It captures all three
+cards at1280×1000 and800×600, verifies native dimensions/transparent corner,
+normal image filtering and visible staff actions, and writes its build identity
+plus actual screenshots to ignored `.local-m4/remaining-images/native`.
