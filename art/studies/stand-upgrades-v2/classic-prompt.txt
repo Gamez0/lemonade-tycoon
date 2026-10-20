@@ -1,0 +1,20 @@
+Create one standalone CLASSIC lemonade stall, a high-resolution transparent-alpha
+in-world game prop. Image1 is our own neighborhood map: match its fine colored
+edges, restrained material shading, grouped surface texture, upper-left daylight
+and elevated orthographic 2:1 isometric camera. Image2 is our own newly drawn Basic
+cart: match its coherent yellow timber materials and fine line weight, not its
+umbrella silhouette. This is a larger upgrade, not a UI icon or glossy toy render.
+
+Design: a rectangular golden-yellow timber sales stall with four slim wooden
+uprights and a RED-AND-CREAM STRIPED pitched fabric canopy, an open serving window,
+a narrow pale wooden customer counter with a clear lemonade pitcher and a few
+plain cups. Simple joinery, modest timber grain, slightly weathered cloth. No wheels,
+vendor, lettering, logos, balloon, signboard, flag, decorative backdrop or extra props.
+The long serving-front edge runs UP toward screen-right, 1 vertical to2 horizontal;
+the customer side faces screen-bottom-right. The small left end is visible.
+Supports stay vertical; parallel ground edges never converge. Match the map's
+architectural projection precisely. Keep the full base and canopy in view.
+
+Fine readable shapes, no thick black outline, plastic shine, blur, vignette or glow.
+Genuinely transparent background with modest transparent padding and a small tight
+ground-contact shadow only. Render at high source resolution, no fake pixel grid.

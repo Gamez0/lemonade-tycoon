@@ -10,7 +10,7 @@ exports.renderStandFrames = async root => {
         .replace(/export const STAND_ASSETS = \{[\s\S]*?\};/, '');
     const content = compile(fs.readFileSync(path.join(root, 'src/game/content/management.ts'), 'utf8'));
     const images = Object.fromEntries(['basic', 'classic', 'lemon', 'castle'].map(name =>
-        [`stand-source-${name}`, 'data:image/png;base64,' + fs.readFileSync(path.join(root, `src/game/assets/stand-${name}.png`)).toString('base64')]));
+        [`stand-source-${name}`, 'data:image/png;base64,' + fs.readFileSync(path.join(root, `src/game/assets/stand-${name}-v2.png`)).toString('base64')]));
     const browser = await chromium.launch();
     try {
         const page = await browser.newPage();
@@ -29,7 +29,8 @@ exports.renderStandFrames = async root => {
                 if (!transparent || !opaque) throw Error('Stand frame lost its alpha or shape: ' + name);
                 const display = size(level);
                 return { name, image: canvas.toDataURL(), width: display.width * 300 / 640,
-                    height: display.height * 240 / 512, nativeFacing: level === 0 ? 'left' : 'right', transparent, opaque };
+                    height: display.height * 240 / 512, originX: display.originX,
+                    originY: display.originY, nativeFacing: 'right', transparent, opaque };
             });
         }, { source: compile(source), content, images });
     } finally { await browser.close(); }

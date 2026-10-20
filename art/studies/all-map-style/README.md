@@ -41,3 +41,11 @@ sheet, ten600px sprite-overlay reviews, PNG size/hash manifest and browser check
 All ten original/reference image pairs decoded, selection10/10 and size/gray/
 sprite controls passed without page errors. Both art-study script directories
 passed ESLint with zero warnings. No runtime files or save rules were changed.
+# Runtime stand-lot revision
+
+Marina v3 removes only the left bench from the own v2 background, keeping a clear
+pitch near the original game's left-side stand region. The right bench, palms,
+pier, boats, railing, projection and colors remain. Exact edit direction is
+`marina-v3-stand-lot-prompt.txt`; selected source is `marina-v3-stand-lot.png`.
+No stand is painted into this background. Earlier versions remain preserved.
+

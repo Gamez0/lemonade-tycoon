@@ -203,12 +203,15 @@ const scene = new StreetScene({
 });
 new Phaser.Game({
     type: Phaser.CANVAS,
-    width: 640,
-    height: 512,
+    // Render the 640x512 world at twice the backing resolution before fitting
+    // the canvas to its displayed size. Native artwork must not be pixelated.
+    width: 1280,
+    height: 1024,
     parent: "game-container",
     backgroundColor: "#9bc77e",
-    pixelArt: true,
-    roundPixels: true,
+    pixelArt: false,
+    antialias: true,
+    roundPixels: false,
     scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
     scene: [scene],
     audio: { noAudio: true },

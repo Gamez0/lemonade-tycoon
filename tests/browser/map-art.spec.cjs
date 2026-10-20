@@ -10,6 +10,8 @@ for (const location of ['neighborhood', 'park', 'downtown']) test(`${location}: 
     await page.addInitScript(raw => localStorage.setItem('lemonade-tycoon.reboot.save', raw), encodeSave(business.state, business.history));
     await page.goto('/'); await page.clock.runFor(500);
     const canvas = page.locator('canvas');
+    await expect(canvas).toHaveAttribute('width', '1280');
+    await expect(canvas).toHaveAttribute('height', '1024');
     await expect(canvas).toHaveAttribute('data-stand-texture', 'stand-3');
     await page.locator('[data-page=rent]').click();
     const thumbnail = await page.locator(`#thumbnail-${location}`).getAttribute('src');

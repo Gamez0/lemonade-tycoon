@@ -16,6 +16,9 @@ Basic, Classic, Lemon and Castle stand sprites: independently generated with
 OpenAI image generation from project-owned references. Original alpha files,
 exact prompts and source bounds are retained in art/studies/stand-upgrades.
 These sprites are separate from every map background and follow saved ownership.
+The selected in-world redraws, exact prompts and measured floor anchors are
+documented in art/studies/stand-upgrades-v2. Their inputs were project-owned
+environment art and the project-owned new Basic cart, never original-game pixels.
 
 Ten location backgrounds: independently generated with OpenAI image generation
 from project-owned studies and written art direction. Prompts and selections:

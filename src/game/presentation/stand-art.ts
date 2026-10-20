@@ -1,19 +1,19 @@
 import type Phaser from "phaser";
 
 export const STAND_ASSETS = {
-    "stand-source-basic": new URL("../assets/stand-basic.png", import.meta.url).href,
-    "stand-source-classic": new URL("../assets/stand-classic.png", import.meta.url).href,
-    "stand-source-lemon": new URL("../assets/stand-lemon.png", import.meta.url).href,
-    "stand-source-castle": new URL("../assets/stand-castle.png", import.meta.url).href,
+    "stand-source-basic": new URL("../assets/stand-basic-v2.png", import.meta.url).href,
+    "stand-source-classic": new URL("../assets/stand-classic-v2.png", import.meta.url).href,
+    "stand-source-lemon": new URL("../assets/stand-lemon-v2.png", import.meta.url).href,
+    "stand-source-castle": new URL("../assets/stand-castle-v2.png", import.meta.url).href,
 };
 
-// Alpha bounds exclude transparent source padding. All frames share a bottom-center
-// ground anchor; dimensions are logical map pixels, not raw generation resolution.
+// The anchor is the center of the front floor edge, measured on each source.
+// Transparent padding and different roof heights must never shift the floor.
 const frames = [
-    { source: "stand-source-basic", bounds: [196, 110, 813, 1098], width: 28 },
-    { source: "stand-source-classic", bounds: [315, 70, 797, 980], width: 36 },
-    { source: "stand-source-lemon", bounds: [193, 82, 1035, 976], width: 42 },
-    { source: "stand-source-castle", bounds: [287, 75, 908, 969], width: 44 },
+    { source: "stand-source-basic", bounds: [382, 84, 730, 957], width: 30, anchor: [835, 925] },
+    { source: "stand-source-classic", bounds: [300, 73, 879, 996], width: 46, anchor: [855, 925] },
+    { source: "stand-source-lemon", bounds: [162, 147, 1146, 852], width: 52, anchor: [925, 900] },
+    { source: "stand-source-castle", bounds: [223, 58, 1084, 1004], width: 60, anchor: [905, 945] },
 ] as const;
 
 export function createStandArt(scene: Phaser.Scene): void {
@@ -34,10 +34,12 @@ export function createStandArt(scene: Phaser.Scene): void {
 export function standSize(level: number) {
     const frame = frames[level];
     return { width: frame.width * 640 / 300,
-        height: Math.round(frame.width * frame.bounds[3] / frame.bounds[2]) * 512 / 240 };
+        height: frame.width * frame.bounds[3] / frame.bounds[2] * 512 / 240,
+        originX: (frame.anchor[0] - frame.bounds[0]) / frame.bounds[2],
+        originY: (frame.anchor[1] - frame.bounds[1]) / frame.bounds[3] };
 }
 
-// Basic's main counter faces the opposite diagonal to the three kiosks.
-export function standFlip(level: number, facing: "left" | "right"): boolean {
-    return (level === 0 ? "left" : "right") !== facing;
+// All newly drawn stages share the same source projection and customer side.
+export function standFlip(facing: "left" | "right"): boolean {
+    return facing === "left";
 }

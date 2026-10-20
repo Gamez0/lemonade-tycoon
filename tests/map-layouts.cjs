@@ -22,10 +22,25 @@ test('ten map layouts have continuous entrances, stable reachable service points
     }
 });
 
+test('counter diagonals match the two observed original stand projection families', () => {
+    for (const id of ['neighborhood', 'park', 'old-square', 'mall', 'marina']) assert.equal(MAP_LAYOUTS[id].facing, 'right', id);
+    for (const id of ['downtown', 'beach', 'train-station', 'stadium', 'magic-gardens']) assert.equal(MAP_LAYOUTS[id].facing, 'left', id);
+});
+
+test('neighborhood buyers leave from the counter along its sidewalk rather than following through traffic', () => {
+    assert.deepEqual(mapPosition('neighborhood', 286, 'depart'), mapPosition('neighborhood', 286));
+    for (let at = 286; at <= 680; at++) {
+        const [x, y] = mapPosition('neighborhood', at, 'depart');
+        assert.ok(y < 229 - .58 * x, 'clear of branch asphalt');
+        assert.ok(y > 215 - .62 * x, 'near-side sidewalk');
+    }
+    assert.notDeepEqual(mapPosition('neighborhood', 500, 'through'), mapPosition('neighborhood', 500, 'depart'));
+});
+
 test('neighborhood through traffic follows the upper sidewalk without a crossing U-turn', () => {
     let previous = -Infinity;
     for (let at = -20; at <= 680; at++) {
-        const [x, y] = mapPosition('neighborhood', at);
+        const [x, y] = mapPosition('neighborhood', at, 'through');
         assert.ok(x >= previous, 'no reversed travel along the street'); previous = x;
         // Observed upper sidewalk band, away from the branch and foreground lot.
         assert.ok(Math.abs(y - (x * .62 + 10)) < 4, 'upper sidewalk clearance');
@@ -44,8 +59,8 @@ test('marina walkers remain on the promenade and mall walkers avoid the escalato
     for (let at = -20; at <= 680; at++) {
         const [x, y] = mapPosition('marina', at);
         if (x >= 0 && x <= 300) {
-            assert.ok(y > 135 - .3 * x, 'clear of promenade planters and benches');
-            assert.ok(y < 175 - .3 * x, 'clear of water and railing');
+            assert.ok(y > 110 - .3 * x, 'clear of promenade planters');
+            assert.ok(y < 145 - .3 * x, 'clear of water and railing');
         }
         const [mx, my] = mapPosition('mall', at);
         assert.ok(!(mx > 130 && mx < 210 && my > 90 && my < 165), 'escalator opening');

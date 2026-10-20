@@ -1,0 +1,14 @@
+Edit the supplied OWN marina environment image. Make one small local change only:
+remove the LEFT wooden park bench beside the left palm planter (approximately
+image x260-365,y365-450). Replace just that bench and its shadow with the continuous
+pale paving tiles already surrounding it, matching tile joints and material.
+That area is an empty reserved sales pitch; DO NOT add a stall, cart, person,
+marker, sign, umbrella or any other replacement object.
+
+Preserve everything else: camera and exact scene composition, 5:4 framing,
+palm trees, planters and green foliage, the SECOND bench at upper middle-right,
+entire promenade width, red/brown railing and gaps, masonry quay, wooden pier,
+both boats, water shapes/color, fine outlines, texture, lighting and scale.
+Do not redesign or simplify the scene. Keep sharp original-resolution detail.
+Opaque normal background, no transparency. This is a narrowly targeted clearance
+edit, not a new view or aesthetic variation.

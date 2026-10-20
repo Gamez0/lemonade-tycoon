@@ -549,7 +549,7 @@ input[aria-invalid="true"] {
 }
 canvas {
     display: block;
-    image-rendering: pixelated;
+    image-rendering: auto;
 }
 #scene-controls {
     position: absolute;

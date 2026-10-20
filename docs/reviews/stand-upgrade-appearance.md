@@ -1,5 +1,13 @@
 # Independent upgradeable stand appearance — 2026-10-20
 
+This records the initial schema8 implementation and its historical checks.
+The user subsequently rejected the illustration style and placement. Selected
+redraws and the original-facing audit are in `art/studies/stand-upgrades-v2` and
+`docs/reviews/original-stand-placement.md`. Native alpha crops with measured
+front-floor anchors replace logical-grid downsampling/bottom-center alignment;
+the floating OPEN/FRESH image label is removed. See `native-art-rendering.md`
+before treating earlier screenshots as the delivered visual result.
+
 User explicitly requires the upgraded stand to appear in every map as a separate
 object. Inspection found that the reboot had one fixed cart texture and no owned
 stand tier. The retained original equipment UI survey confirms Classic449.99,
