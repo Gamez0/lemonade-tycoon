@@ -3,6 +3,7 @@ import { GameOver } from "./scenes/GameOver";
 import { MainMenu as MainGame } from "./scenes/MainMenu";
 import { Preloader } from "./scenes/Preloader";
 import { DayScene } from "./scenes/day-scene";
+import { PreparationScene } from "./scenes/preparation-scene";
 
 import { Game, Types } from "phaser";
 
@@ -42,7 +43,7 @@ const config: Types.Core.GameConfig = {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
     },
-    scene: [Boot, Preloader, MainGame, GameOver, DayScene],
+    scene: [Boot, Preloader, MainGame, GameOver, DayScene, PreparationScene],
 };
 
 export default new Game(config);
