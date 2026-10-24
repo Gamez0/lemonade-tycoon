@@ -24,6 +24,36 @@ fs.mkdirSync(out, { recursive: true });
             buffer: Buffer.from(encodeSave(business.state, business.history)) });
         await expect(page.locator('#cash')).toHaveText(`$${(business.state.cash / 100).toFixed(2)}`);
         const results = [];
+        for (const [index, id] of ['refrigerator', 'iceMaker', 'blender'].entries()) {
+            await page.locator('[data-page=upgrades]').click();
+            const card = page.locator('#upgrades-catalog .management-card').nth(index);
+            for (const [width, height] of [[1280, 1000], [800, 600]]) {
+                await app.evaluate(({ BrowserWindow }, size) =>
+                    BrowserWindow.getAllWindows()[0].setContentSize(...size), [width, height]);
+                await expect.poll(() => page.evaluate(() => [innerWidth, innerHeight])).toEqual([width, height]);
+                await card.scrollIntoViewIfNeeded();
+                const metrics = await card.locator('.equipment-illustration').evaluate(async img => {
+                    await img.decode();
+                    const c = document.createElement('canvas'); c.width = c.height = 1;
+                    const ctx = c.getContext('2d'); ctx.drawImage(img, 0, 0, 1, 1, 0, 0, 1, 1);
+                    const picture = img.parentElement.getBoundingClientRect(), rect = img.getBoundingClientRect();
+                    const button = img.closest('article').querySelector('button').getBoundingClientRect();
+                    return { native: [img.naturalWidth, img.naturalHeight],
+                        corner: ctx.getImageData(0, 0, 1, 1).data[3], filter: getComputedStyle(img).imageRendering,
+                        contained: rect.x >= picture.x && rect.y >= picture.y &&
+                            rect.right <= picture.right && rect.bottom <= picture.bottom,
+                        buttonClear: rect.bottom < button.top,
+                        rootFits: document.documentElement.scrollWidth <= innerWidth };
+                });
+                expect(metrics.native).toEqual([1402, 1122]);
+                expect(metrics.corner).toBe(0);
+                expect(metrics.filter).toBe('auto');
+                expect(metrics.contained && metrics.buttonClear && metrics.rootFits).toBe(true);
+                await card.screenshot({ path: path.join(out, `equipment-${id}-${width}.png`) });
+                results.push({ equipment: id, width, height, ...metrics });
+            }
+        }
+        await expect(page.locator('#cash')).toHaveText(`$${(business.state.cash / 100).toFixed(2)}`);
         for (let level = 0; level < 4; level++) {
             await page.locator('[data-page=upgrades]').click();
             if (level) await page.locator('[data-upgrade=stand]').click();
@@ -59,6 +89,6 @@ fs.mkdirSync(out, { recursive: true });
         expect(errors).toEqual([]);
         const build = JSON.parse(fs.readFileSync(path.join(path.dirname(executablePath), 'build-info.json'), 'utf8').replace(/^\uFEFF/, ''));
         fs.writeFileSync(path.join(out, 'results.json'), JSON.stringify({ build, results, errors }, null, 2));
-        console.log('Windows catalogue: four owned tiers, eight native previews, normal filtering and control containment PASS.');
+        console.log('Windows catalogue: six equipment and eight stand previews, native alpha/filtering and control containment PASS.');
     } finally { await app.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

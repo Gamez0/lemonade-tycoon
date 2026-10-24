@@ -5,6 +5,15 @@ test('illustrated catalogues browse without spending and retain purchase and hir
     await expect(page.locator('canvas')).toBeVisible();
     await page.locator('[data-page=upgrades]').click();
     await expect(page.locator('#cash')).toHaveText('$40.00');
+    const illustrations = page.locator('#upgrades-catalog .equipment-illustration');
+    await expect(illustrations).toHaveCount(3);
+    for (const image of await illustrations.all()) {
+        const native = await image.evaluate(async img => {
+            await img.decode();
+            return { width: img.naturalWidth, height: img.naturalHeight, filter: getComputedStyle(img).imageRendering };
+        });
+        expect(native).toEqual({ width: 1402, height: 1122, filter: 'auto' });
+    }
     await page.getByRole('button', { name: 'Next upgrade', exact: true }).click();
     await expect(page.locator('#upgrades-position')).toHaveText('2 / 4');
     await page.getByRole('button', { name: 'Next upgrade', exact: true }).click();

@@ -1,5 +1,16 @@
 # Cloud development handoff — 2026-10-05
 
+## Equipment catalogue - 2026-10-24 KST
+
+Active #257 feat/equipment-catalogue-art in D:/lemonade-customer-facing, based
+draftPR261 (stand card,2617218; clean82581cc native8 previews pass, final CI pending).
+Three native1402x1122 independent fridge/ice maker/blender illustrations replace
+large glyphs. All source PNGs/prompts saved, own Basic stand style input only;
+four alpha corners zero, combined2675209bytes. Type/lint/build, release15 including
+narrow positive/negative asset boundary, focused browser7 pass. Actual Windows
+six equipment/eight stand previews and isolated enforced performance next.
+Existing small glyphs, staff portraits, IDs, prices/effects/saves unchanged.
+
 ## Stand catalogue preview - 2026-10-24 KST
 
 PR260 current-art route/counter facing integrated after exact-head627be85 CI

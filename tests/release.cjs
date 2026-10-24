@@ -137,6 +137,13 @@ test('desktop audit rejects legacy and research content', () => temporary(direct
     assert.equal(auditDesktop(directory).length, 7);
     fs.writeFileSync(path.join(directory, 'assets/staff-host-v1-AbCd1234.png'), 'authored portrait');
     assert.equal(auditDesktop(directory).length, 8);
+    for (const name of ['refrigerator', 'ice-maker', 'blender'])
+        fs.writeFileSync(path.join(directory, 'assets/equipment-' + name + '-v1-AbCd1234.png'), 'authored equipment');
+    assert.equal(auditDesktop(directory).length, 11);
+    fs.writeFileSync(path.join(directory, 'assets/equipment-original-v1-AbCd1234.png'), 'unapproved equipment');
+    assert.throws(() => auditDesktop(directory), /Unapproved/);
+    fs.unlinkSync(path.join(directory, 'assets/equipment-original-v1-AbCd1234.png'));
+
     fs.writeFileSync(path.join(directory, 'assets/staff-original-v1-AbCd1234.png'), 'unapproved portrait');
     assert.throws(() => auditDesktop(directory), /Unapproved/);
     fs.unlinkSync(path.join(directory, 'assets/staff-original-v1-AbCd1234.png'));

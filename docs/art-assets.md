@@ -1,5 +1,16 @@
 # Art direction and asset register
 
+## Equipment catalogue - 2026-10-24
+
+Three native1402x1122 transparent equipment illustrations replace enlarged
+catalogue glyphs: compact refrigerator, commercial ice maker and the reboot's
+Blender. Exact adjacent prompts and unchanged equipment-*-v1.png sources are in
+art/studies/remaining-images. Built-in generation used only our own Basic
+stand v2 as a style reference. Original appliance references were privately
+inspected and described in words, never input or shipped.
+See reviews/equipment-catalogue-art.md. Staff portraits retain their detailed
+illustrations; simplified faces apply specifically to map pedestrians.
+
 ## Reference analysis
 
 The more detailed [M2 original-game study](research/m2-original-study.md) and [reference board](research/m2-reference-board.html) supersede informal layout assumptions below. The baseline is the consistent English Windows 1.1.5 screenshot set; other builds are labeled separately. User accepted M1 functionality and made original-game visual/interaction fidelity the second MVP. The register includes the M2 implementation; user visual acceptance is still pending.
