@@ -7,11 +7,12 @@ import type { LocationId } from "../content/locations";
 import { tasteReaction } from "./taste-feedback";
 import { MAP_ASSETS } from "./map-assets";
 import { mapThumbnail } from "./map-raster";
-import { MAP_LAYOUTS, mapPosition, queueProgress } from "../content/map-layouts";
+import { MAP_LAYOUTS, mapPosition, queueProgress, moveQueueProgress, queueDistance, departureDistance } from "../content/map-layouts";
 import { createStandArt, standSize, standFlip, STAND_ASSETS } from "./stand-art";
 import { STAND_NAMES } from "../content/management";
 import { customerAppearance, routeFacing, vectorFacing, type CustomerFacing, type CustomerAction } from "../content/customer-facing";
 import { CUSTOMER_METRICS, customerTexture } from "./customer-art";
+import { createMapOcclusion } from "./map-occlusion";
 
 interface StreetHooks {
     state: () => State;
@@ -25,9 +26,12 @@ export class StreetScene extends Phaser.Scene {
     private hooks: StreetHooks;
     private people = new Map<number, Phaser.GameObjects.Sprite>();
     private facings = new Map<number, CustomerFacing>();
+    private queueFeet = new Map<number, { progress: number; tick: number }>();
+    private exits = new Map<number, { from: number; lead?: number; purpose: "service" | "through" | "depart" }>();
     private bubbles = new Map<number, Phaser.GameObjects.Text>();
     private sky?: Phaser.GameObjects.Rectangle;
     private background?: Phaser.GameObjects.Image;
+    private occlusion: Phaser.GameObjects.Image[] = [];
     private cart?: Phaser.GameObjects.Image;
     private previews = new Map<LocationId, string>();
     private elapsed = 0;
@@ -54,6 +58,7 @@ export class StreetScene extends Phaser.Scene {
         createArt(this);
         createStandArt(this);
         this.background = this.add.image(0, 0, this.hooks.state().location).setOrigin(0).setDisplaySize(640, 512);
+        this.occlusion = createMapOcclusion(this);
         for (const id of LOCATION_IDS) {
             const source = this.textures.get(id).getSourceImage();
             const preview = mapThumbnail(source as HTMLImageElement);
@@ -84,6 +89,8 @@ export class StreetScene extends Phaser.Scene {
         for (const bubble of this.bubbles.values()) bubble.destroy();
         this.people.clear();
         this.facings.clear();
+        this.queueFeet.clear();
+        this.exits.clear();
         this.bubbles.clear();
     }
 
@@ -98,7 +105,6 @@ export class StreetScene extends Phaser.Scene {
     }
 
     private drawPeople(day: StreetDay, tickFraction = 0): void {
-        const streetLayout = { stopX: 267 };
         const peopleScale = CUSTOMER_METRICS.scale;
         const visible = new Set<number>();
         const show = (id: number, profile: number, action: CustomerAction, position: number,
@@ -135,32 +141,57 @@ export class StreetScene extends Phaser.Scene {
                 bubble.setText(label).setPosition(x, y - CUSTOMER_METRICS.labelOffset).setDepth(y + 40).setVisible(true);
             } else bubble?.setVisible(false);
         };
+        const now = day.tick + tickFraction;
+        const queueFoot = (id: number, target: number, initial: number): number => {
+            const last = this.queueFeet.get(id) ?? { progress: initial, tick: now };
+            const progress = this.motion.matches ? target : moveQueueProgress(this.hooks.state().location,
+                last.progress, target, Math.max(0, now - last.tick) * 4);
+            this.queueFeet.set(id, { progress, tick: now });
+            return progress;
+        };
         if (day.serving) {
             const { visitor } = day.serving;
-            show(visitor.id, visitor.profile, "order", streetLayout.stopX + 19,
-                undefined, true);
+            const at = queueFoot(visitor.id, 286, 286);
+            const moving = Math.abs(at - 286) > .01;
+            show(visitor.id, visitor.profile, moving ? "walk" : "order", at,
+                undefined, !moving, "service", -1);
         }
         day.waiting.forEach((person, index) => {
             const target = queueProgress(this.hooks.state().location, index);
-            const progress = this.motion.matches ? 1 : Math.min(1, (day.tick + tickFraction - person.joinedAt) / 3);
-            const from = Math.max(660, target + 90);
-            const x = from + (target - from) * progress;
-            show(person.visitor.id, person.visitor.profile, progress < 1 ? "walk" : "idle",
-                x, undefined, progress >= 1, "service", -1);
+            const at = queueFoot(person.visitor.id, target, queueProgress(this.hooks.state().location, index + 1));
+            const moving = Math.abs(at - target) > .01;
+            show(person.visitor.id, person.visitor.profile, moving ? "walk" : "idle",
+                at, undefined, !moving, "service", -1);
         });
         for (const person of day.walking) {
-            const progress = this.motion.matches ? 0.55 : (day.tick + tickFraction - person.startedAt) / (person.until - person.startedAt);
-            const from = person.kind === "passed" || person.kind === "price" ? -20 : streetLayout.stopX + 19;
-            const x = from + (680 - from) * progress;
-            show(person.visitor.id, person.visitor.profile,
-                person.kind === "bought" ? "cup" : "walk", x,
-                progress < 0.65 && person.kind !== "passed" ? this.reaction(person) : undefined,
-                false, person.kind === "passed" || person.kind === "price" ? "through" : "depart");
+            const progress = this.motion.matches ? .55 : Math.max(0, Math.min(1, (now - person.startedAt) / (person.until - person.startedAt)));
+            const id = person.visitor.id;
+            const location = this.hooks.state().location;
+            let exit = this.exits.get(id);
+            if (!exit) {
+                const queued = this.queueFeet.get(id);
+                exit = person.kind === "bought" ? { from: 286, lead: queued?.progress, purpose: "depart" } :
+                    queued ? { from: queued.progress, purpose: "service" } : { from: -20, purpose: "through" };
+                this.exits.set(id, exit);
+            }
+            let at = exit.from + (680 - exit.from) * progress;
+            let purpose = exit.purpose, travel: 1 | -1 = 1;
+            if (exit.lead !== undefined && exit.lead > 286) {
+                const lead = queueDistance(location, exit.lead, 286), length = departureDistance(location);
+                const distance = progress * (lead + length);
+                if (distance < lead) { at = moveQueueProgress(location, exit.lead, 286, distance); purpose = "service"; travel = -1; }
+                else at = 286 + 394 * (distance - lead) / length;
+            }
+            show(id, person.visitor.profile, person.kind === "bought" ? "cup" : "walk", at,
+                progress < .65 && person.kind !== "passed" ? this.reaction(person) : undefined,
+                false, purpose, travel);
         }
         for (const [id, sprite] of this.people) if (!visible.has(id)) {
             sprite.destroy();
             this.people.delete(id);
             this.facings.delete(id);
+            this.queueFeet.delete(id);
+            this.exits.delete(id);
             this.bubbles.get(id)?.destroy();
             this.bubbles.delete(id);
         }
@@ -172,6 +203,7 @@ export class StreetScene extends Phaser.Scene {
             return;
         }
         const state = this.hooks.state();
+        for (const image of this.occlusion) image.setVisible(state.location === "neighborhood");
         const ground = MAP_LAYOUTS[state.location].ground;
         const x = ground[0] * 640 / 300, y = ground[1] * 512 / 240;
         const level = state.management.upgrades.stand, size = standSize(level);
