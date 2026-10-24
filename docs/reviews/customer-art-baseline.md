@@ -95,7 +95,15 @@ It clips the selected source cell while retaining native pixels; it is a study
 player, not actual game footage. Candidate playback needs reviewer inspection
 before any route/pose adapter or production asset is introduced. Keep #257 open.
 
-## Resumed study ? 2026-10-24 KST
+## Resumed study - 2026-10-24 KST
+
+User correction: the original does not describe faces at this level of detail.
+v1-v3 overstate eyes, nose, mouth and expression, with a large cartoon head.
+Reject this visual direction, including the v3 idle/drink designs. Future work
+must start at equal displayed map width: small restrained head, minimal facial
+marks, and identity conveyed by clothing, silhouette and body direction.
+Do not preserve the detailed generated face as the next edit's identity target.
+The private original board was inspected again at its native22x34 cell size.
 
 Main47e4376 post-merge CI39433213062 and draft259 headf0b74a0 CI39433641620
 completed successfully, including Windows packaged saves. The draft remains a
