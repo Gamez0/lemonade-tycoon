@@ -1156,8 +1156,11 @@ html.desktop,
 .management-card button { min-width: 115px; min-height: 30px; }
 .catalog-navigation { display: flex; justify-content: center; align-items: center; gap: 20px; margin: 7px 0; }
 .catalog-navigation button { min-width: 38px; min-height: 28px; }
-.advertising-options { display: flex; flex-wrap: wrap; gap: 3px; }
-.advertising-options button { font-size: 11px; padding: 3px; }
+.advertising-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 5px; }
+.advertising-options button { display: flex; flex-direction: column; align-items: center; gap: 3px; min-width: 0; padding: 6px 3px; font-size: 13px; }
+.advertising-options .pixel-icon { width: 28px; height: 28px; }
+.advertising-options strong { font-weight: normal; }
+.advertising-options small { display: block; font-size: 11px; }
 .toolbar button { font-size: 12px; padding-inline: 5px; }
 
 dialog { max-width: 620px; max-height: 85dvh; overflow: auto; color: #233522; background: #c5dca1; border: 3px ridge #678c52; }

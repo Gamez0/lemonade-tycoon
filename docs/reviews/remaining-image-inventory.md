@@ -110,3 +110,43 @@ six equipment/eight stand previews and enforced20-day performance passed
 (229.9MiB private, zero idle redraws,0.257MiB retained heap). Final CI pending.
 The next ingredient inspection corrects this table's paper-fold assumption:
 the retained sugar reference depicts a scoop with a small sugar pile, not a bag.
+
+## Implementation checkpoint - final family review
+
+The initial table above is historical. The current source bindings and private
+native captures establish the following scope; human visual acceptance remains
+separate in #97/#16. Do not interpret a retained original reference as proof of
+recovered mechanics or identities.
+
+| Family | Implementation / review result |
+|---|---|
+| Map people | PR265: minimal faces only, named presentation families with an explicit profile adapter,66 native128x192 frames, alternating walk/order/cup states, four route directions, fixed feet and reduced motion. Ten real Windows maps and controlled80actor review pass. |
+| Staff | PR258: approved detailed native1254px catalogue portraits remain unchanged. Staff navigation reuses the same server image. No in-world employee sprite is invented. |
+| Equipment / stands | PR261/262: owned stand stage uses the actual four native v2 images/crops; three equipment illustrations use native1402x1122 sources at100px. Existing equipment levels remain explicit text with the same role image; no unsupported original machine variant or mechanic is claimed. |
+| Ingredients / supplies | PR262: sugar scoop/pile, nested cup stacks and lemon rind/wedge; ice facets reviewed and retained. Shared vectors serve recipe, purchase bundles and stock without raster enlargement. |
+| Recipe / weather / navigation | PR264: curved pitcher, carton, three supported weather glyphs, map pin, shop, handbill/coins and unchanged Staff portrait. No extra forecast state or decorative fill-level simulation is added. |
+| Reports / calendar | PR266 candidate: separate Daily calendar, ledger, graph and balance symbols. Neutral no-sales face avoids asserting price rejection when the text identifies another cause. Actual data graphs, accounting and completed-day selection are preserved. |
+| Reactions | Happy/unhappy, price, passing, stock and wait roles reviewed at actual sizes and retained. Map taste/price/stock/queue text remains distinct; a served count is not a measured satisfaction value. |
+| Advertising | Current candidate: word-of-mouth bubbles, authored handbill/coins and radio symbols; name, daily price and traffic effect separated. Keyboard selection, save state, no browse charge and450-cent radio opening charge verified in Windows. Matching original selected Marketing capture is unavailable; these are remake role symbols, not claimed original campaign art. |
+| Shell / actions | Retain the remake's own masthead/edition and live date, progress/rating meters, native text controls, arrows/play and shared focus/pressed/disabled button treatment. The masthead uses the revised shared lemon. Native UI/relaunch and browser breakpoints cover these controls; do not copy a source-game logo or rasterize changing values. |
+
+The vector inventory reports33 names after both current candidates, including
+unused legacy catalogue glyphs. Those source glyphs are not the large images
+rendered by the actual catalogue; use the native card screenshots and dedicated
+Staff/equipment/stand reviewers for the final path. Twenty standalone original
+reference matches supplement the separate customer/report comparisons.
+
+No original pixels enter the shipped allowlist, generated art inputs or store
+assets. Generated Staff/equipment PNGs and exact prompts remain in
+`art/studies/remaining-images`; only our own authored scenery was a style input.
+The new customer and interface work is code-native. Ownership, prices, recipe,
+save schema, business ticks and dynamic scene layers remain state-driven.
+
+Validation checkpoint: customer model79/full browser67 plus final I/O-resume
+regression/release15, controlled Phaser10map80actor66frame, clean Windows real
+selling10maps and full UI/relaunch pass. Isolated enforced20day performance:
+231.14MiB maximum phase-mean private memory, zero idle frames and0.256MiB retained
+JS growth. Report candidate781 combines with customer mainf6 and passes clean
+Windows26asset/full UI/relaunch/10report panels plus79model/type/lint; final CI
+and advertising integration remain pending. These checks establish engineering
+evidence, not minimum-device certification or human visual acceptance.
