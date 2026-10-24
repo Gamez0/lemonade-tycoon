@@ -66,7 +66,7 @@ test('a protected newer autosave is not overwritten by visiting the menu and can
     expect(await page.evaluate(key => localStorage.getItem(key), SAVE_KEY)).toBe('{"version":999}');
     await page.locator('#save-file').setInputFiles({ name: 'compatible.json', mimeType: 'application/json', buffer: Buffer.from(encodeSave(newGame(300), [])) });
     await ready(page); await page.locator('#menu-continue').click();
-    expect(JSON.parse(await page.evaluate(key => localStorage.getItem(key), SAVE_KEY)).version).toBe(9);
+    expect(JSON.parse(await page.evaluate(key => localStorage.getItem(key), SAVE_KEY)).version).toBe(10);
 });
 test('failed journal cleanup keeps the new primary protected until recovery, including normal-close flush', async ({ page }) => {
     await page.addInitScript(companyKey => {

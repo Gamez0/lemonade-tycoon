@@ -14,7 +14,7 @@ export const WEATHER = [
     { label: "Rainy", temperature: 18, traffic: 32 },
     { label: "Sunny", temperature: 28, traffic: 44 },
 ] as const;
-export type Weather = (typeof WEATHER)[number];
+export interface Weather { readonly label: "Sunny" | "Cloudy" | "Rainy"; readonly temperature: number; readonly traffic: number }
 export const CUSTOMERS = [
     { name: "Neighbor", budget: 0.95, patience: 1 },
     { name: "Office worker", budget: 1.15, patience: 0.5 },

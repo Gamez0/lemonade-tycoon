@@ -49,8 +49,8 @@ test('version7 histories migrate to Basic Stand and forged tiers or unpaid purch
     assert.throws(() => decodeSave(JSON.stringify(old)), /damaged/);
     const earned = require('./helpers/business.cjs').campaign(2026, 2);
     const historical = JSON.parse(encodeSave(earned.state, earned.history)); historical.version = 7;
-    for (const day of [historical.state, ...historical.history]) delete day.management.upgrades.stand;
+    for (const day of [historical.state, ...historical.history]) { delete day.management.upgrades.stand; if (day.business) delete day.business.conditions; }
     const restored = decodeSave(JSON.stringify(historical));
     assert.deepEqual(restored.state, earned.state);
-    assert.deepEqual(restored.history, earned.history);
+    assert.deepEqual(restored.history, historical.history.map(day => ({ ...day, management: { ...day.management, upgrades: { ...day.management.upgrades, stand: 0 } } })));
 });

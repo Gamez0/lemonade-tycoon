@@ -222,7 +222,7 @@ export class StreetScene extends Phaser.Scene {
         if (this.background?.texture.key !== state.location) {
             this.background?.setTexture(state.location).setDisplaySize(640, 512);
         }
-        this.sky?.setAlpha(state.weather.label === "Rainy" ? 0.19 : state.weather.label === "Cloudy" ? 0.08 : 0);
+        this.sky?.setAlpha(state.location === "mall" ? 0 : state.weather.label === "Rainy" ? 0.19 : state.weather.label === "Cloudy" ? 0.08 : 0);
         const street = this.hooks.street();
         if (!street || (street.game.phase !== "selling" && street.walking.length === 0)) {
             this.game.loop.sleep();

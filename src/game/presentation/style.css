@@ -979,7 +979,8 @@ a {
     display: grid;
     grid-auto-flow: column;
     grid-auto-columns: calc((100% - 8px) / 3);
-    overflow-x: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
     scroll-snap-type: x mandatory;
     gap: 4px;
 }
