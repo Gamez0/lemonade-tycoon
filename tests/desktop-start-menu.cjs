@@ -43,7 +43,7 @@ async function close() {
         await expect.poll(() => read('save.json').state.plan.price).toBe(150);
         expect(JSON.parse(read('companies.json').companies[1].raw).state.plan.price).toBe(175);
         await close(); page = await launch();
-        await expect(page.locator('[data-company="1"]')).toHaveText('Windows Stand');
+        await expect(page.locator('[data-company="1"] .company-name')).toHaveText('Windows Stand');
         await page.locator('[data-company="1"]').click(); await page.locator('#menu-continue').click();
         await page.locator('[data-page=marketing]').click(); await expect(page.locator('#price')).toHaveValue('1.75');
         expect(read('save.json').mode).toBe('career');

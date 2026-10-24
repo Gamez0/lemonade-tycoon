@@ -12,30 +12,34 @@ async function price(page, value) {
     await page.locator('[data-page=marketing]').click();
     await page.locator('#price').fill(value); await page.locator('#price').press('Tab');
 }
-test('launch opens the original640x480 menu composition, keyboard dialogs and eight company slots', async ({ page }) => {
+test('company lobby keeps eight readable cards, selected details and primary actions separate', async ({ page }) => {
     const errors = []; page.on('pageerror', error => errors.push(error.message));
     await page.goto('/'); await ready(page);
     for (const size of [{ width: 1280, height: 1000 }, { width: 800, height: 600 }, { width: 375, height: 812 }]) {
         await page.setViewportSize(size);
-        // Chromium dispatches resize asynchronously after the viewport command.
-        // Observe the completed layout before measuring its source coordinates.
         await expect.poll(() => page.evaluate(() => {
             const frame = document.querySelector('.start-frame').getBoundingClientRect();
-            return Math.abs(frame.width - Math.min(innerWidth, innerHeight * 4 / 3)) < .5 &&
-                frame.x >= -.5 && frame.right <= innerWidth + .5 && frame.y >= -.5 && frame.bottom <= innerHeight + .5;
+            return Math.abs(frame.width - Math.min(innerWidth, innerHeight * 4 / 3)) < .5;
         })).toBe(true);
         const geometry = await page.evaluate(() => {
-            const frame = document.querySelector('.start-frame').getBoundingClientRect(), logo = document.querySelector('.menu-logo').getBoundingClientRect();
-            const first = document.querySelector('[data-company="0"]').getBoundingClientRect();
-            return { logoX: (logo.x - frame.x) * 640 / frame.width, logoWidth: logo.width * 640 / frame.width,
-                company: [first.x - frame.x, first.y - frame.y, first.width, first.height].map(n => Math.round(n * 640 / frame.width)),
-                fits: frame.x >= -.5 && frame.right <= innerWidth + .5 && frame.y >= -.5 && frame.bottom <= innerHeight + .5 };
+            const frame = document.querySelector('.start-frame').getBoundingClientRect();
+            const boxes = [...document.querySelectorAll('[data-company], #menu-company-info, #menu-continue, #menu-new, #menu-challenge, #menu-import')].map(e => e.getBoundingClientRect());
+            const logo = document.querySelector('.menu-logo');
+            return { logoFits: logo.scrollWidth <= logo.clientWidth + 1,
+                contained: boxes.every(r => r.x >= frame.x - .5 && r.right <= frame.right + .5 && r.y >= frame.y - .5 && r.bottom <= frame.bottom + .5),
+                overlap: boxes.some((a,i) => boxes.slice(i+1).some(b => Math.min(a.right,b.right)>Math.max(a.x,b.x)+.5 && Math.min(a.bottom,b.bottom)>Math.max(a.y,b.y)+.5)),
+                cardHeight: document.querySelector('[data-company]').getBoundingClientRect().height * 640 / frame.width };
         });
-        expect(geometry.logoX).toBeCloseTo(320, 1); expect(geometry.logoWidth).toBeCloseTo(256, 1); expect(geometry.fits).toBe(true);
-        expect(geometry.company).toEqual([17, 269, 146, 25]);
+        expect(geometry.logoFits).toBe(true); expect(geometry.contained).toBe(true); expect(geometry.overlap).toBe(false); expect(geometry.cardHeight).toBeGreaterThanOrEqual(44);
         await expect(page.locator('[data-company]')).toHaveCount(8);
-        await expect(page.locator('#start-menu')).toBeVisible();
+        await expect(page.locator('[data-company="0"] .company-summary')).toContainText('Day 1');
+        await expect(page.locator('#menu-company-info')).toContainText('Year 1 / Month 1 / Day 1');
     }
+    await page.locator('[data-company="0"]').focus(); await page.keyboard.press('ArrowRight');
+    await expect(page.locator('[data-company="1"]')).toHaveAttribute('aria-pressed','true');
+    await expect(page.locator('#menu-continue')).toBeDisabled();
+    await page.keyboard.press('End'); await expect(page.locator('[data-company="7"]')).toBeFocused();
+    await page.keyboard.press('Home'); await expect(page.locator('[data-company="0"]')).toBeFocused();
     await page.locator('#menu-help').focus(); await page.keyboard.press('Enter');
     await expect(page.locator('#help-dialog')).toBeVisible(); await page.keyboard.press('Escape');
     await page.locator('#menu-credits').click(); await expect(page.locator('#menu-credits-dialog')).toBeVisible();
@@ -48,7 +52,7 @@ test('named companies switch independently, retain changed plans across relaunch
     await page.locator('#main-menu').click(); await ready(page);
     const name = '<b>Second company</b>'; await create(page, name);
     await price(page, '2.25'); await page.reload(); await ready(page);
-    await expect(page.locator('[data-company="1"]')).toHaveText(name);
+    await expect(page.locator('[data-company="1"] .company-name')).toHaveText(name);
     await expect(page.locator('[data-company="1"] b')).toHaveCount(0);
     await page.locator('#menu-continue').click(); await page.locator('[data-page=marketing]').click();
     await expect(page.locator('#price')).toHaveValue('2.25');
@@ -57,11 +61,38 @@ test('named companies switch independently, retain changed plans across relaunch
     await page.locator('[data-page=marketing]').click(); await expect(page.locator('#price')).toHaveValue('1.75');
     expect(await page.evaluate(() => JSON.parse(localStorage.getItem('lemonade-tycoon.reboot.companies')).active)).toBe(0);
 });
+
+test('full lobby keeps long names contained and replacement requires explicit confirmation', async ({ page }) => {
+    const companies = Array.from({ length: 8 }, (_, i) => ({ name: i === 0 ? 'W'.repeat(40) : `Saved company ${i + 1}`,
+        raw: encodeSave(newGame(100 + i), [], `lobby-${i}`, i % 2 ? 'challenge' : 'career') }));
+    await page.addInitScript(({ key, save, companies }) => {
+        localStorage.setItem(key, JSON.stringify({ version: 1, active: 0, companies }));
+        localStorage.setItem(save, companies[0].raw);
+    }, { key: companyKey, save: SAVE_KEY, companies });
+    await page.goto('/'); await ready(page);
+    await expect(page.locator('[data-company="1"] .company-summary')).toContainText('Challenge');
+    expect(await page.locator('#menu-company-info').evaluate(e => e.scrollHeight <= e.clientHeight + 1)).toBe(true);
+    const before = await page.evaluate(key => localStorage.getItem(key), companyKey);
+    await page.locator('#menu-new').click();
+    await expect(page.locator('#menu-continue')).toBeHidden();
+    await expect(page.locator('#menu-replace-label')).toBeVisible();
+    await page.locator('#menu-name').fill('Replacement company');
+    await page.locator('#menu-create button[type=submit]').click();
+    await expect(page.locator('#menu-status')).toContainText('Confirm replacement');
+    expect(await page.evaluate(key => localStorage.getItem(key), companyKey)).toBe(before);
+    expect(await page.locator('#menu-create').evaluate(e => e.scrollHeight <= e.clientHeight + 1)).toBe(true);
+    await page.locator('#menu-replace').check(); await page.locator('#menu-cancel').click();
+    expect(await page.evaluate(key => localStorage.getItem(key), companyKey)).toBe(before);
+    await expect(page.locator('[data-company="0"] .company-name')).toHaveText(companies[0].name);
+});
 test('a protected newer autosave is not overwritten by visiting the menu and can be explicitly imported', async ({ page }) => {
     await page.addInitScript(({ key, backup, raw }) => {
         localStorage.setItem(key, '{"version":999}'); localStorage.setItem(backup, raw);
     }, { key: SAVE_KEY, backup: BACKUP_KEY, raw: encodeSave(newGame(), []) });
     await page.goto('/'); await expect(page.locator('#menu-inspect')).toBeVisible();
+    await expect(page.locator('#menu-heading')).toHaveText('Saved game needs recovery');
+    await expect(page.locator('#menu-company-info')).toContainText('The existing file will be kept');
+    await expect(page.locator('#menu-company-info')).not.toContainText('$40.00');
     await expect(page.locator('#menu-new')).toBeDisabled();
     expect(await page.evaluate(key => localStorage.getItem(key), SAVE_KEY)).toBe('{"version":999}');
     await page.locator('#save-file').setInputFiles({ name: 'compatible.json', mimeType: 'application/json', buffer: Buffer.from(encodeSave(newGame(300), [])) });
@@ -86,7 +117,7 @@ test('failed journal cleanup keeps the new primary protected until recovery, inc
     await page.evaluate(() => window.flushCompany());
     expect(await page.evaluate(key => localStorage.getItem(key), SAVE_KEY)).toBe(committed);
     await page.reload(); await ready(page);
-    await expect(page.locator('[data-company="1"]')).toHaveText('New company');
+    await expect(page.locator('[data-company="1"] .company-name')).toHaveText('New company');
     await page.locator('#menu-continue').click(); await page.locator('[data-page=marketing]').click();
     await expect(page.locator('#price')).toHaveValue('1.50');
 });

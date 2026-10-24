@@ -1,31 +1,43 @@
-#start-menu { position: fixed; inset: 0; z-index: 20; overflow: hidden; background: #16892a; color: #fffbd7; }
+﻿#start-menu { position: fixed; inset: 0; z-index: 20; overflow: hidden; background: #16892a; color: #fffbd7; }
 .start-frame { position: absolute; left: 50%; top: 50%; width: 640px; height: 480px; transform-origin: center; font: 11px Tahoma, Arial, sans-serif; background: repeating-linear-gradient(45deg, #18ae31 0 6px, #20b735 6px 12px); }
-.start-frame > button, .start-frame > p, .start-frame > form, .start-frame > div.menu-panel, .start-frame > div.company-list { position: absolute; margin: 0; box-sizing: border-box; }
+.start-frame > [style] { position: absolute; margin: 0; box-sizing: border-box; }
 .start-frame button { background: #80cc22; color: #fffce4; border: 1px solid; border-color: #c7ee70 #367815 #367815 #c7ee70; border-radius: 2px; padding: 2px; font: inherit; }
-.start-frame > button { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2px; }
-.start-frame > button > span:last-child { font-size: 10px; white-space: nowrap; }
-.start-frame button:not(:disabled):hover { background: #a0df38; }
-.start-frame button[aria-pressed="true"] { border-color: #325f15 #c7ee70 #c7ee70 #325f15; background: #69ae1b; }
-.start-frame button:focus-visible { outline: 2px dotted #fff; outline-offset: -4px; }
+.start-frame > button { display: flex; justify-content: center; align-items: center; gap: 8px; }
+.start-frame > button > span:last-child { font-size: 11px; white-space: nowrap; }
+.start-frame #menu-options, .start-frame #menu-help, .start-frame #menu-credits, .start-frame #menu-quit { flex-direction: column; gap: 2px; }
+.start-frame button:not(:disabled):not([aria-pressed="true"]):hover { background: #a0df38; }
+.start-frame button:focus-visible { outline: 2px solid #fff8ad; outline-offset: -4px; }
 .start-frame button:disabled { opacity: .48; cursor: default; }
-.start-frame .pixel-icon { width: 26px; height: 26px; }
-.menu-mark { display: block; font: bold 26px Tahoma, sans-serif; height: 28px; color: #e8efbd; text-shadow: 1px 1px #385433; }
-#menu-quit .menu-mark { color: #bf2e1e; }
-.menu-panel { background: #009322; border: 2px solid; border-color: #005d17 #47c64e #47c64e #005d17; }
-.menu-logo { position: absolute; display: block; margin: 0; text-align: center; color: #fff080; font-family: "Tycoon Condensed", sans-serif; text-shadow: 2px 2px #845619, -1px -1px #ffffbf; }
-.menu-logo .pixel-icon { position: absolute; top: 1px; left: 47px; width: 30px; height: 30px; }
-.menu-logo small { display: block; padding: 4px 0 0 36px; font-size: 18px; letter-spacing: 2px; }
-.menu-logo strong { display: block; font-size: 48px; line-height: 1.05; }
-.menu-logo b { display: block; font-size: 28px; line-height: 1; letter-spacing: 3px; }
-#menu-heading { padding: 7px; font-size: 14px; }
-.company-list { display: grid; grid-template-rows: repeat(4, 25px); grid-auto-flow: column; grid-template-columns: 146px 146px; gap: 1px 2px; }
-.company-list button { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-#menu-company-info { white-space: pre-line; line-height: 1.5; }
-.menu-company-name { display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-weight: normal; }
-#menu-status { font-size: 10px; line-height: 1.25; }
-#menu-create { padding: 12px; background: #009322; border: 2px ridge #80cc22; }
-#menu-create h2 { font-size: 18px; margin: 0 0 12px; }
+.start-frame .pixel-icon { width: 26px; height: 26px; flex-shrink: 0; }
+.menu-mark { display: block; font: bold 26px Tahoma, sans-serif; height: 28px; color: #bf2e1e; text-shadow: 1px 1px #385433; }
+.menu-panel { background: #008a25; border: 2px solid; border-color: #005d17 #47c64e #47c64e #005d17; }
+.menu-logo { display: block; color: #fff080; font-family: "Tycoon Condensed", sans-serif; text-shadow: 2px 2px #845619; text-align: left; padding-left: 52px; }
+.menu-logo .pixel-icon { position: absolute; top: 16px; left: 0; width: 46px; height: 46px; }
+.menu-logo small { display: block; font-size: 13px; letter-spacing: 2px; }
+.menu-logo strong { display: block; font-size: 34px; line-height: 1.1; }
+.menu-logo b { display: block; font-size: 20px; line-height: 1.1; letter-spacing: 4px; }
+#menu-heading { padding-top: 3px; font-size: 18px; font-weight: bold; }
+.menu-selection-label { font-size: 10px; letter-spacing: 1px; color: #d2ed9c; }
+.company-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.company-list button { position: relative; text-align: left; padding: 7px 7px 6px 29px; min-width: 0; color: #173c12; background: #9ad842; }
+.company-list button[data-empty="true"] { background: #137a29; color: #d8e7bc; border-color: #39923e; }
+.company-list button[data-empty="true"]:not([aria-pressed="true"]):hover { background: #248d35; }
+.company-list button[aria-pressed="true"] { background: #e2ed73; color: #14340f; border: 2px solid #fff8bd; box-shadow: inset 0 0 0 1px #527d21; padding-left: 28px; }
+.company-slot { position: absolute; left: 7px; top: 9px; font-size: 12px; font-weight: bold; opacity: .75; }
+.company-name { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; line-height: 16px; }
+.company-summary { display: block; font-size: 9px; line-height: 13px; white-space: nowrap; }
+.menu-summary { background: #006d24; border: 1px solid #4eac49; padding: 12px; white-space: pre-line; line-height: 1.5; }
+.menu-company-name { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; overflow-wrap: anywhere; font-size: 15px; line-height: 19px; margin-bottom: 8px; }
+.menu-save-details { display: block; font-size: 11px; line-height: 19px; }
+.start-frame #menu-continue { background: #f2db54; color: #243f13; border-color: #fff7ab #8c8f21 #8c8f21 #fff7ab; font-weight: bold; }
+.start-frame #menu-continue > span:last-child { font-size: 15px; }
+#menu-status { padding: 3px 0; font-size: 10px; line-height: 1.3; color: #fff7c0; }
+#menu-create { padding: 10px; background: #007527; border: 2px solid #e4ed86; box-shadow: 0 2px 8px #004b25; }
+#menu-create h2 { font: bold 16px Tahoma, Arial, sans-serif; margin: 0 0 8px; }
 #menu-create label { display: block; margin: 6px 0; }
-#menu-name { display: block; width: 100%; margin-top: 4px; font: inherit; padding: 4px; }
-#menu-create button { padding: 5px 12px; margin-right: 6px; }
-#menu-credits-dialog { font: 14px Tahoma, sans-serif; }
+#menu-name { display: block; width: 100%; height: 28px; margin-top: 4px; font: 13px Tahoma, Arial, sans-serif; padding: 4px; text-align: left; }
+#menu-replace-label { font-size: 10px; line-height: 1.35; }
+#menu-replace { width: 13px; height: 13px; margin: 0 4px 0 0; padding: 0; vertical-align: middle; }
+#menu-create p { font-size: 10px; line-height: 1.3; margin: 6px 0; }
+#menu-create button { min-height: 28px; padding: 5px 10px; margin-right: 6px; }
+#menu-credits-dialog { font: 14px Tahoma, Arial, sans-serif; }
