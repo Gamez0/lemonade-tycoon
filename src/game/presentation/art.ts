@@ -1,5 +1,6 @@
 ﻿import Phaser from "phaser";
 import { createMapArt } from "./map-assets";
+import { createCustomerArt } from "./customer-art";
 
 // Code-authored characters and original independently generated map assets.
 // Fine outlines and a shared 2:1 ground projection.
@@ -67,38 +68,6 @@ export function createArt(scene: Phaser.Scene): void {
     g.generateTexture("stand", 72, 88);
     g.clear();
 
-    const shirts = [0xc96852, 0x536daf, 0xddba55];
-    const skins = [0xe8bb92, 0xbe8b65, 0xe5b188];
-    for (let profile = 0; profile < 3; profile++) {
-        for (let pose = 0; pose < 6; pose++) {
-            ellipse(9, 30, 15, 5, 0x81907e, false);
-            const stride = pose === 1 || pose === 4 ? 2 : 0;
-            rect(6 - stride, 21, 3, 9, 0x344250);
-            rect(10 + stride, 21, 3, 8, 0x465364);
-            rect(5 - stride, 29, 5, 2, 0x263b37);
-            rect(10 + stride, 28, 5, 2, 0x263b37);
-            poly([5, 12, 11, 10, 14, 14, 13, 23, 5, 22, 3, 16], shirts[profile]);
-            line(5, 15, 5, 21, 0xe2bea0);
-            rect(5, 3, 7, 9, skins[profile]);
-            rect(4, 2, 8, 4, profile === 2 ? 0x8d6239 : 0x453c34);
-            rect(12, 7, 2, 3, skins[profile]);
-            rect(11, 6, 1, 2, ink);
-            if (profile === 1) {
-                rect(3, 2, 10, 3, 0xd9ddc3);
-                rect(10, 4, 5, 1, 0xd9ddc3);
-            }
-            if (pose === 2 || pose >= 4) {
-                rect(5, 3, 7, 5, 0x453c34);
-                line(5, 12, 11, 12, 0xf0deb3);
-            }
-            if (pose === 3 || pose === 5) {
-                rect(12, 14, 4, 3, skins[profile]);
-                rect(14, 10, 4, 6, 0xfff5d3);
-                rect(15, 11, 2, 2, 0xe8ce37);
-            } else rect(12, 15 + stride, 3, 5, skins[profile]);
-            g.generateTexture(`customer-${profile}-${pose}`, 20, 34);
-            g.clear();
-        }
-    }
     g.destroy();
+    createCustomerArt(scene);
 }

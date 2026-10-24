@@ -32,13 +32,14 @@ test('stationary axes preserve facing and reduced motion preserves rear views an
     for (const facing of ['se', 'ne', 'nw', 'sw']) {
         assert.equal(vectorFacing(0, 0, facing), facing);
         assert.equal(vectorFacing(0.001, -0.001, facing), facing);
-        assert.equal(customerAppearance(facing, 1, false).flipX, facing.endsWith('w'));
+        assert.equal(customerAppearance(facing, 'walk', 1, false).flipX, facing.endsWith('w'));
     }
-    assert.deepEqual(customerAppearance('nw', 1, false), { pose: 4, flipX: true });
-    assert.deepEqual(customerAppearance('ne', 3, false), { pose: 5, flipX: false });
-    assert.deepEqual(customerAppearance('nw', 1, true), { pose: 2, flipX: true });
-    assert.deepEqual(customerAppearance('ne', 3, true), { pose: 5, flipX: false });
-    assert.deepEqual(customerAppearance('sw', 3, true), { pose: 3, flipX: true });
+    assert.deepEqual(customerAppearance('nw', 'walk', 1, false), { pose: 'rear-walk-1', flipX: true });
+    assert.deepEqual(customerAppearance('ne', 'cup', 3, false), { pose: 'rear-cup-3', flipX: false });
+    assert.deepEqual(customerAppearance('nw', 'walk', 1, true), { pose: 'rear-idle-0', flipX: true });
+    assert.deepEqual(customerAppearance('ne', 'cup', 3, true), { pose: 'rear-cup-4', flipX: false });
+    assert.deepEqual(customerAppearance('sw', 'cup', 3, true), { pose: 'front-cup-4', flipX: true });
+    assert.deepEqual(customerAppearance('nw', 'order', 2, true), { pose: 'rear-order-0', flipX: true });
 });
 
 test('ten map layouts have continuous entrances, stable reachable service points and off-frame exits', () => {

@@ -2,6 +2,43 @@ const { test, expect } = require('@playwright/test');
 const key = 'lemonade-tycoon.reboot.save';
 const saved = page => page.evaluate(key => localStorage.getItem(key), key);
 
+test('selling resumes its clock after a cancelled close and a failed delayed import', async ({ page }) => {
+    const { encodeSave } = require('../../.test-build/simulation/save.js');
+    const { fundedStandBusiness } = require('../helpers/stand-business.cjs');
+    const business = fundedStandBusiness('neighborhood');
+    await page.addInitScript(({ key, raw }) => {
+        localStorage.setItem(key, raw);
+        window.desktopSave = {
+            getItem: async key => localStorage.getItem(key),
+            setItem: async (key, raw) => localStorage.setItem(key, raw),
+            onFlush: handler => { window.flushDesktopSave = handler; },
+        };
+        const read = File.prototype.text;
+        File.prototype.text = async function () {
+            if (this.name === 'invalid-delayed.json') await new Promise(resolve => { window.releaseImport = resolve; });
+            return read.call(this);
+        };
+    }, { key, raw: encodeSave(business.state, business.history) });
+    await page.goto('/');
+    await page.locator('#open').click();
+    const progress = page.locator('#progress-text');
+    await expect(progress).not.toContainText('0 /');
+    await page.evaluate(() => window.flushDesktopSave());
+    const closed = await progress.textContent();
+    await page.waitForTimeout(500);
+    expect(await progress.textContent()).toBe(closed);
+    await page.evaluate(() => window.flushDesktopSave(false));
+    await expect(progress).not.toHaveText(closed);
+    await page.locator('#save-file').setInputFiles({ name: 'invalid-delayed.json', mimeType: 'application/json', buffer: Buffer.from('{}') });
+    await expect(page.locator('#app')).toHaveAttribute('aria-busy', 'true');
+    const importing = await progress.textContent();
+    await page.waitForTimeout(500);
+    expect(await progress.textContent()).toBe(importing);
+    await page.evaluate(() => window.releaseImport());
+    await expect(page.locator('#app')).toHaveAttribute('aria-busy', 'false');
+    await expect(progress).not.toHaveText(importing);
+});
+
 test('failed native saves prevent silent close and can retry after resuming', async ({ page }) => {
     await page.addInitScript(() => {
         window.failSave = false;
