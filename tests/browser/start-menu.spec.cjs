@@ -17,6 +17,13 @@ test('launch opens the original640x480 menu composition, keyboard dialogs and ei
     await page.goto('/'); await ready(page);
     for (const size of [{ width: 1280, height: 1000 }, { width: 800, height: 600 }, { width: 375, height: 812 }]) {
         await page.setViewportSize(size);
+        // Chromium dispatches resize asynchronously after the viewport command.
+        // Observe the completed layout before measuring its source coordinates.
+        await expect.poll(() => page.evaluate(() => {
+            const frame = document.querySelector('.start-frame').getBoundingClientRect();
+            return Math.abs(frame.width - Math.min(innerWidth, innerHeight * 4 / 3)) < .5 &&
+                frame.x >= -.5 && frame.right <= innerWidth + .5 && frame.y >= -.5 && frame.bottom <= innerHeight + .5;
+        })).toBe(true);
         const geometry = await page.evaluate(() => {
             const frame = document.querySelector('.start-frame').getBoundingClientRect(), logo = document.querySelector('.menu-logo').getBoundingClientRect();
             const first = document.querySelector('[data-company="0"]').getBoundingClientRect();
