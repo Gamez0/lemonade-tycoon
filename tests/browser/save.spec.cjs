@@ -1,4 +1,4 @@
-const { test, expect } = require('@playwright/test');
+const { test, expect } = require('../helpers/browser-game.cjs');
 const key = 'lemonade-tycoon.reboot.save';
 const saved = page => page.evaluate(key => localStorage.getItem(key), key);
 

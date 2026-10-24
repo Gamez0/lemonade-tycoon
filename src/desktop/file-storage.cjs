@@ -4,7 +4,8 @@ const crypto = require('node:crypto');
 
 const SAVE_KEY = 'lemonade-tycoon.reboot.save';
 const BACKUP_KEY = 'lemonade-tycoon.reboot.backup';
-const FILES = Object.freeze({ [SAVE_KEY]: 'save.json', [BACKUP_KEY]: 'save.backup.json' });
+const FILES = Object.freeze({ [SAVE_KEY]: 'save.json', [BACKUP_KEY]: 'save.backup.json',
+    'lemonade-tycoon.reboot.companies': 'companies.json' });
 
 function windowsSaveDirectory(env = process.env, platform = process.platform) {
     if (platform !== 'win32') throw new Error('A Windows user-data directory is required.');

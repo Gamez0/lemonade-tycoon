@@ -1,4 +1,4 @@
-const { test, expect } = require('@playwright/test');
+const { test, expect } = require('../helpers/browser-game.cjs');
 const { stock, campaign } = require('../helpers/business.cjs');
 const { encodeSave } = require('../../.test-build/simulation/save.js');
 const key = 'lemonade-tycoon.reboot.save';

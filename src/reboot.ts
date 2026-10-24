@@ -34,7 +34,7 @@ import {
 import type { CustomerEvent, State, Stock } from "./game/simulation/game";
 import { beginStreetDay, finishStreetDay, tickStreet } from "./game/simulation/street-day";
 import type { StreetDay } from "./game/simulation/street-day";
-import { decodeSave, encodeSave, readSave, writeSave } from "./game/simulation/save";
+import { decodeSave, encodeSave as encodeDocument, readSave, writeSave as writeDocument } from "./game/simulation/save";
 import { readSaveAsync, writeSaveAsync } from "./game/simulation/async-save";
 import type { AsyncSaveStorage } from "./game/simulation/async-save";
 import { StreetScene } from "./game/presentation/street-scene";
@@ -42,6 +42,8 @@ import { standPreview } from "./game/presentation/stand-art";
 import { icon } from "./game/presentation/icons";
 import { tasteReaction, tasteAdvice } from "./game/presentation/taste-feedback";
 import { markup } from "./game/presentation/layout";
+import { StartMenu } from "./game/presentation/start-menu";
+import { CompanyBook } from "./game/simulation/company-book";
 import "./game/presentation/style.css";
 
 const money = (cents: number) => `$${(cents / 100).toFixed(2)}`;
@@ -55,6 +57,15 @@ const emptyOrder = (): Record<Item, number[]> => ({
 const bundleSizes = [1, 2, 5];
 const audio = new GameAudio();
 let state = newGame();
+let companyId: string | undefined;
+let gameMode: "career" | "challenge" | undefined;
+function encodeSave(state: State, history: readonly State[]): string { return encodeDocument(state, history, companyId, gameMode); }
+function writeSave(storage: Parameters<typeof writeDocument>[0], state: State, history: readonly State[]): void {
+    writeDocument(storage, state, history, companyId, gameMode);
+}
+function challengeComplete(): boolean {
+    return gameMode === "challenge" && (state.day > 30 || (state.day === 30 && state.phase === "results"));
+}
 let reactions = { bought: 0, price: 0, passed: 0, "sold-out": 0, abandoned: 0 };
 let street: StreetDay | null = null;
 let openingCheckpoint: State | null = null;
@@ -73,9 +84,15 @@ let importing = false;
 let closing = false;
 let pendingImport = Promise.resolve();
 let pendingRestore = Promise.resolve();
+let pendingCompany = Promise.resolve();
+let menuOpen = true;
 type DisplaySettings = { mode: "windowed" | "fullscreen"; width: number; height: number; sizes: { width: number; height: number }[]; screen: { width: number; height: number }; scale: number; warning: string };
 const desktopApp = (window as Window & { desktopApp?: { quit(): Promise<void>; diagnostics(): Promise<unknown>; display(): Promise<DisplaySettings>; setDisplay(value: { mode: string; width: number; height: number }): Promise<DisplaySettings> } }).desktopApp;
 const desktopSave = (window as Window & { desktopSave?: AsyncSaveStorage & { onFlush(handler: (request?: boolean) => Promise<void>): void } }).desktopSave;
+const companies = new CompanyBook(desktopSave ?? {
+    getItem: async key => localStorage.getItem(key),
+    setItem: async (key, value) => { localStorage.setItem(key, value); },
+}, maxSaveBytes);
 if (desktopSave) {
     document.documentElement.classList.add("desktop");
     const fitDesktop = () => document.documentElement.style.setProperty("--desktop-ui-scale", String(Math.min(1, window.innerHeight / 820)));
@@ -88,11 +105,14 @@ const app = document.querySelector<HTMLDivElement>("#app")!;
 app.innerHTML = markup;
 desktopSave?.onFlush(async (request = true) => {
     closing = request;
-    app.inert = closing || importing;
+    app.inert = menuOpen || closing || importing;
+    menu.root.inert = closing || importing;
+    menu.render();
     app.setAttribute("aria-busy", String(app.inert));
     if (!request) { scene.refresh(); return; }
     await pendingRestore;
     await pendingImport;
+    await pendingCompany;
     await saveQueue;
     if (saveBlocked) throw new Error("Existing save is protected; export your current business before closing.");
     const checkpoint = encodeSave(state.phase === "selling" ? openingCheckpoint! : state, history);
@@ -193,7 +213,7 @@ function applyStreet(events: CustomerEvent[]): void {
 const scene = new StreetScene({
     state: () => state,
     street: () => street,
-    paused: () => importing || closing,
+    paused: () => menuOpen || importing || closing,
     tick: () => {
         if (!street || importing || closing) return;
         const next = tickStreet(street);
@@ -221,6 +241,7 @@ new Phaser.Game({
 });
 function act(action: () => State): void {
     if (importing || closing) return;
+    if (challengeComplete()) { render(); text("message", "The30-day challenge is complete. Start another company from Main menu."); return; }
     try {
         state = action();
         audio.effect("buy");
@@ -388,6 +409,7 @@ element("skip").addEventListener("click", () => {
 });
 element("next").addEventListener("click", () => {
     if (scene.finishing) return;
+    if (challengeComplete()) { showMainMenu(); return; }
     act(() => {
         state = nextDay(state);
         resetPresentation();
@@ -436,6 +458,7 @@ element<HTMLInputElement>("save-file").addEventListener("change", (event) => {
     if (!file || importing || closing) return;
     importing = true;
     app.inert = true;
+    menu.root.inert = true;
     app.setAttribute("aria-busy", "true");
     text("save-status", "Importing save...");
     pendingImport = (async () => {
@@ -443,9 +466,10 @@ element<HTMLInputElement>("save-file").addEventListener("change", (event) => {
             if (file.size > maxSaveBytes) throw new Error("Save file is too large.");
             const imported = decodeSave(await file.text());
             if (desktopSave) {
-                await queueDesktopSave(encodeSave(imported.state, imported.history));
-            } else writeSave(localStorage, imported.state, imported.history);
+                await queueDesktopSave(encodeDocument(imported.state, imported.history, companyId, imported.mode));
+            } else writeDocument(localStorage, imported.state, imported.history, companyId, imported.mode);
             state = imported.state;
+            gameMode = imported.mode;
             history = [...imported.history];
             saveBlocked = false;
             resetPresentation();
@@ -457,9 +481,11 @@ element<HTMLInputElement>("save-file").addEventListener("change", (event) => {
         finally {
             input.value = "";
             importing = false;
-            app.inert = closing;
+            app.inert = menuOpen || closing;
+            menu.root.inert = closing;
             app.setAttribute("aria-busy", String(closing));
             scene.refresh();
+            if (menuOpen) void readCompanies().then(() => menu.show()).catch(error => menu.show(error.message));
         }
     })();
 });
@@ -593,10 +619,13 @@ function renderRent(): void {
     element<HTMLButtonElement>("cancel-rent").disabled = state.pendingLocation === null || Boolean(state.business) || state.phase !== "preparation";
 }
 function render(): void {
+    const ended = challengeComplete();
+    if (ended) currentPage = "results";
     const report = results(state),
-        prep = state.phase === "preparation",
+        prep = state.phase === "preparation" && !ended,
         selling = state.phase === "selling",
-        closed = state.phase === "results";
+        closed = state.phase === "results" || ended;
+    app.dataset.mode = gameMode ?? "career";
     const date = careerDate(state.day);
     text("year", String(date.year));
     text("month", String(date.month));
@@ -636,7 +665,7 @@ function render(): void {
     element("results").hidden = !(closed || (prep && currentPage === "results"));
     element("day-actions").hidden = !prep;
     element("next").hidden = !closed;
-    text("next-day-label", `Prepare day ${state.day + 1}`);
+    text("next-day-label", ended ? "Return to menu" : `Prepare day ${state.day + 1}`);
     element<HTMLButtonElement>("next").disabled = scene.finishing;
     element("scene-controls").hidden = !selling && !scene.finishing;
     element<HTMLButtonElement>("skip").disabled = !selling;
@@ -782,7 +811,9 @@ function render(): void {
     }
     if (prep) renderRent();
     if (!selling) renderReport();
+    if (ended) text("goal", "30-day challenge complete.");
     scene.refresh();
+    if (menuOpen) menu.render();
 }
 async function restore(): Promise<void> {
     try {
@@ -790,11 +821,17 @@ async function restore(): Promise<void> {
         if (loaded.document) {
             state = loaded.document.state;
             history = [...loaded.document.history];
-            if (desktopSave && !loaded.recovered) savedSnapshot = encodeSave(state, history);
+            companyId = loaded.document.companyId;
+            gameMode = loaded.document.mode;
+            const original = encodeSave(state, history);
+            const owned = decodeSave(await companies.load(original, loaded.recovered));
+            state = owned.state; history = [...owned.history]; companyId = owned.companyId; gameMode = owned.mode;
+            saveBlocked = false;
+            if (desktopSave && !loaded.recovered) savedSnapshot = original;
             resetPresentation();
             currentPage = state.phase === "results" ? "results" : "recipe";
             lastFeedback = loaded.recovered ? "Recovered from the previous valid save." : "Business restored from this device.";
-            if (loaded.recovered) {
+            if (loaded.recovered || original !== encodeSave(state, history)) {
                 if (desktopSave) queueDesktopSave(encodeSave(state, history), "Recovered from backup");
                 else writeSave(localStorage, state, history);
             }
@@ -868,5 +905,78 @@ element("fullscreen").addEventListener("click", () => {
     if (document.fullscreenElement) void document.exitFullscreen().catch(() => {});
     else void document.documentElement.requestFullscreen().catch(() => {});
 });
+function currentCompanySave(): string {
+    return encodeSave(state.phase === "selling" ? openingCheckpoint! : state, history);
+}
+function enterCompany(inspect = false): void {
+    if ((companies.blocked && !inspect) || closing || importing) return;
+    if (inspect) saveBlocked = true;
+    menuOpen = false;
+    menu.hide();
+    app.inert = false;
+    scene.refresh();
+}
+async function readCompanies(): Promise<void> {
+    await saveQueue;
+    await companies.load(currentCompanySave());
+}
+const menu = new StartMenu({
+    companies: () => companies.companies,
+    active: () => companies.active,
+    blocked: () => companies.blocked || saveBlocked || closing || importing,
+    ready: () => scene.thumbnail("neighborhood") !== null,
+    enter: enterCompany,
+    select: (index, company) => {
+        if (closing || importing) return Promise.reject(Error("Wait for the current save to finish."));
+        const operation = (async () => {
+            await saveQueue;
+            const next = company ? { name: company.name, raw: encodeDocument(newGame(), [], crypto.randomUUID(), company.mode) } : null;
+            await companies.select(index, currentCompanySave(), next, async raw => {
+                if (desktopSave) await queueDesktopSave(raw);
+                else { const doc = decodeSave(raw); writeDocument(localStorage, doc.state, doc.history, doc.companyId, doc.mode); }
+            }, raw => {
+                const document = decodeSave(raw);
+                state = document.state; history = [...document.history];
+                companyId = document.companyId;
+                gameMode = document.mode;
+                saveBlocked = false;
+                resetPresentation();
+                currentPage = state.phase === "results" ? "results" : "recipe";
+                lastFeedback = "Company restored.";
+                render();
+            });
+        })();
+        // Close waits for a company switch, including journal cleanup.
+        pendingCompany = operation.catch(() => {});
+        return operation;
+    },
+    help: () => element("help-open").click(),
+    options: () => { element("help-open").click(); element("display-settings").scrollIntoView({ block: "start" }); },
+    quit: () => { if (desktopApp) void desktopApp.quit(); else window.close(); },
+    retry: () => {
+        if (closing || importing) return Promise.reject(Error("Wait for the current save to finish."));
+        const operation = (async () => {
+            await restore();
+            if (saveBlocked) throw Error(element("save-status").textContent || "Save could not be restored.");
+            await readCompanies();
+        })();
+        pendingCompany = operation.catch(() => {});
+        return operation;
+    },
+    import: () => element<HTMLInputElement>("save-file").click(),
+});
+const menuButton = document.createElement("button");
+menuButton.id = "main-menu"; menuButton.className = "text-button"; menuButton.textContent = "Main menu";
+element("help-open").before(menuButton);
+function showMainMenu(): void {
+    if (closing || importing) return;
+    menuOpen = true; app.inert = true; scene.refresh();
+    pendingCompany = readCompanies().then(() => menu.show()).catch(error => menu.show(error.message));
+}
+menuButton.onclick = showMainMenu;
 app.hidden = true;
-pendingRestore = restore();
+app.inert = true;
+pendingRestore = restore().then(async () => {
+    try { await readCompanies(); menu.show(saveBlocked ? "Existing save is protected. Import a compatible backup." : ""); }
+    catch (error) { menu.show(error instanceof Error ? error.message : "Company list could not be restored."); }
+});

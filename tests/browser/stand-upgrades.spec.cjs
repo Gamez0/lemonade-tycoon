@@ -1,4 +1,4 @@
-const { test, expect } = require('@playwright/test');
+const { test, expect } = require('../helpers/browser-game.cjs');
 const crypto = require('node:crypto');
 const { encodeSave } = require('../../.test-build/simulation/save.js');
 const { fundedStandBusiness: funded } = require('../helpers/stand-business.cjs');
