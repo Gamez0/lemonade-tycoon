@@ -86,3 +86,20 @@ at both tested window sizes. The private actual Windows board is
 in isolation after an initial sample recorded one startup repaint; later idle
 samples had zero draws and20-day private memory was209MiB. Do not claim a full
 performance pass until the isolated enforced run completes.
+
+## Progress - 2026-10-24 KST
+
+Staff portraits were integrated in PR258 and the user positively reviewed their
+detail today. Preserve them. The minimal-face requirement is specific to people
+moving on the map, not catalogue portraits.
+
+PR260 corrects current-art route/stand-facing, rear stride/cup combinations and
+reduced-motion cups. Model79, full browser67, release15, clean native UI and
+isolated enforced20-day performance pass (215.5MiB private, zero idle draws).
+The large-headed detailed generated studies remain rejected; draft259 preserves
+a minimal-face restart and source/scale evidence, with no art shipped.
+
+The next equipment-card improvement reuses the actual native v2 stand artwork
+for the owned stage. It replaces only the unrelated generic catalogue glyph;
+the small navigation glyph remains. Other equipment, ingredients, weather,
+reaction/report and navigation image work stays open in #257.

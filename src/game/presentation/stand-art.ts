@@ -43,3 +43,9 @@ export function standSize(level: number) {
 export function standFlip(facing: "left" | "right"): boolean {
     return facing === "left";
 }
+
+// Reuse the native game artwork and crop, rather than enlarging the toolbar glyph.
+export function standPreview(level: number): string {
+    const frame = frames[level];
+    return `<svg class="stand-preview" viewBox="${frame.bounds.join(" ")}" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><image href="${STAND_ASSETS[frame.source]}" width="1402" height="1122"/></svg>`;
+}

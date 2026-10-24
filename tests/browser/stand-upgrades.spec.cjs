@@ -12,6 +12,7 @@ for (const location of require('../../.test-build/content/locations.js').LOCATIO
     const background = await page.locator(`#thumbnail-${location}`).getAttribute('src');
     expect(background).toMatch(/^data:image\/png/);
     const frames = new Set();
+    const catalogueFrames = new Set();
     for (let level = 0; level <= 3; level++) {
         await page.locator('[data-page=upgrades]').click();
         if (level) {
@@ -21,6 +22,19 @@ for (const location of require('../../.test-build/content/locations.js').LOCATIO
                 .toBe(before - [44999, 99999, 999999][level - 1]);
         }
         await expect(canvas).toHaveAttribute('data-stand-texture', `stand-${level}`);
+        const picture = page.locator('#upgrade-art-stand');
+        await expect(picture).toHaveAttribute('data-level', String(level));
+        const illustration = picture.locator('svg');
+        await expect(illustration.locator('image')).toHaveAttribute('href',
+            new RegExp(`stand-${['basic', 'classic', 'lemon', 'castle'][level]}-v2`));
+        await illustration.locator('image').evaluate(async image => {
+            const native = new Image(); native.src = image.href.baseVal; await native.decode();
+            if (native.naturalWidth !== 1402 || native.naturalHeight !== 1122)
+                throw Error('Catalogue must retain the native stand source');
+        });
+        await picture.scrollIntoViewIfNeeded();
+        const illustrationFrame = await illustration.screenshot({ path: `test-results/stand-catalogue-${location}-${level}.png` });
+        catalogueFrames.add(crypto.createHash('sha256').update(illustrationFrame).digest('hex'));
         const frame = await canvas.screenshot({ path: `test-results/stand-${location}-${level}.png` });
         frames.add(crypto.createHash('sha256').update(frame).digest('hex'));
         await page.reload(); await expect(canvas).toHaveAttribute('data-stand-level', String(level));
@@ -29,6 +43,7 @@ for (const location of require('../../.test-build/content/locations.js').LOCATIO
         expect(await page.locator(`#thumbnail-${location}`).getAttribute('src')).toBe(background);
     }
     expect(frames.size).toBe(4);
+    expect(catalogueFrames.size).toBe(4);
     await page.locator('[data-page=upgrades]').click();
     await expect(page.locator('[data-upgrade=stand]')).toHaveText('MAX LEVEL');
     await expect(page.locator('[data-upgrade=stand]')).toBeDisabled();
