@@ -57,6 +57,7 @@ async function fit(page, name) {
             canvas: box(document.querySelector("canvas")),
             canvasPixels: { width: canvas.width, height: canvas.height },
             canvasFit: getComputedStyle(canvas).objectFit,
+            mapGaps: { horizontal: canvasBox.width - imageWidth, vertical: canvasBox.height - imageHeight },
             map: { x: canvasBox.x + (canvasBox.width - imageWidth) / 2,
                 y: canvasBox.y + (canvasBox.height - imageHeight) / 2,
                 right: canvasBox.x + (canvasBox.width + imageWidth) / 2,
@@ -91,6 +92,8 @@ async function fit(page, name) {
     assert.ok(Math.abs(geometry.canvas.height - geometry.scene.height) < 3);
     assert.deepEqual(geometry.canvasPixels, { width: 1280, height: 1024 });
     assert.equal(geometry.canvasFit, 'contain');
+    assert.ok(geometry.mapGaps.horizontal <= 1 && geometry.mapGaps.vertical <= 1,
+        `${name}: unused map viewport area: ${JSON.stringify(geometry.mapGaps)}`);
     assert.ok(geometry.map.x >= geometry.scene.x - 1 && geometry.map.y >= geometry.scene.y - 1 &&
         geometry.map.right <= geometry.scene.right + 1 && geometry.map.bottom <= geometry.scene.bottom + 1,
         `${name}: full map image leaves scene bounds`);
