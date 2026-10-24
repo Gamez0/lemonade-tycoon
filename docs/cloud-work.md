@@ -1,5 +1,26 @@
 # Cloud development handoff — 2026-10-05
 
+## Customer rejection / compact pixel rework — 2026-10-24 KST
+
+Latest user steering rejects current map customers as uncanny and prioritizes
+original-style analysis and improvement. #229 remains Running; weather work
+is preserved in docs/weather-period-compatibility. PR271 already integrated
+f5866a5 after exact-head full CI; draft251 closed. Product baseline is current.
+
+Active isolated D:/lemonade-customer-redesign, fix/classic-map-customers. Analysis
+and scope: reviews/classic-map-customers.md. Original/before/candidate comparison
+identifies thin long limbs, wide scissor contacts and detached rounded arms.
+Map-only independent32x48 pixel drawing replaces the vector mannequin geometry;
+cached128x192/66frames, compact cloth volumes, short steps, minimal face, office
+briefcase and backpack, unchanged business profiles/saves. Staff PNGs untouched.
+
+Controlled actual renderer ten maps/eighty actors passes bounds/pause/facing/
+reduced-motion/texture reuse; private animated comparison board includes original
+references and before/candidate at equal map width. Model91/type/lint pass. Build,
+actual Windows motion/UI/performance and final exact-head CI remain required.
+Do not equate geometry/hash checks with visual acceptance or claim original49
+families/eleven profiles. #97/#16 remain open after the user's rejection.
+
 ## Resumed engineering / Git / beta audit — 2026-10-24 KST
 
 User resumed the interrupted task and requested Git reconciliation plus a beta

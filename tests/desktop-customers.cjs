@@ -34,16 +34,24 @@ let app;
             await page.locator('#open').click();
             await expect.poll(async () => Number((await progress.textContent()).split(' /')[0])).toBeGreaterThanOrEqual(6);
             const before = await progress.textContent();
+            const frames = [];
+            const started = Date.now();
+            for (let frame = 0; frame < 6; frame++) {
+                const name = location + '-motion-' + frame + '.png';
+                await canvas.screenshot({ path: path.join(out, name) });
+                frames.push({ name, elapsedMs: Date.now() - started });
+                await page.waitForTimeout(125);
+            }
             const a = await canvas.screenshot({ path: path.join(out, location + '-a.png') });
             await expect(progress).not.toHaveText(before);
             const b = await canvas.screenshot({ path: path.join(out, location + '-b.png') });
             const hash = buffer => crypto.createHash('sha256').update(buffer).digest('hex');
             expect(hash(a)).not.toBe(hash(b));
-            records.push({ location, before, after: await progress.textContent(), framesDiffer: true });
+            records.push({ location, before, after: await progress.textContent(), framesDiffer: true, frames });
             await page.locator('#speed').click();
             await expect(page.locator('#results')).toBeVisible({ timeout: 30000 });
-            await expect(page.locator('#next')).toBeEnabled({ timeout: 30000 });
-            await page.locator('#next').click();
+            await expect(page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
+            await expect(page.locator('#next')).toBeHidden();
         }
         expect(errors).toEqual([]);
         fs.writeFileSync(path.join(out, 'results.json'), JSON.stringify({ scope: 'Actual packaged gameplay; no injected renderer states.',

@@ -49,7 +49,7 @@ figcaption{font-size:10px;margin-bottom:4px}.old{display:flex;gap:8px;flex-wrap:
     return { html, atlas };
 }
 const sources = Object.fromEntries([
-    'content/map-layouts', 'content/customer-facing', 'presentation/art', 'presentation/customer-art', 'presentation/street-scene',
+    'content/map-layouts', 'content/customer-facing', 'presentation/art', 'presentation/classic-customer-art', 'presentation/customer-art', 'presentation/street-scene',
 ].map(name => [name, ts.transpileModule(fs.readFileSync(path.join(root, 'src/game', name + '.ts'), 'utf8'),
     { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 } }).outputText]));
 const maps = Object.fromEntries(fs.readdirSync(path.join(root, 'src/game/assets'))
@@ -75,6 +75,7 @@ const maps = Object.fromEntries(fs.readdirSync(path.join(root, 'src/game/assets'
                     if (id.endsWith('map-layouts')) return load('content/map-layouts');
                     if (id.endsWith('customer-facing')) return load('content/customer-facing');
                     if (id === './art') return load('presentation/art');
+                    if (id === './classic-customer-art') return load('presentation/classic-customer-art');
                     if (id === './customer-art') return load('presentation/customer-art');
                     return { createMapArt() {}, tasteReaction() { return 'ok'; } };
                 };
