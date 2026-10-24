@@ -38,7 +38,7 @@ for (const location of require('../../.test-build/content/locations.js').LOCATIO
         const frame = await canvas.screenshot({ path: `test-results/stand-${location}-${level}.png` });
         frames.add(crypto.createHash('sha256').update(frame).digest('hex'));
         await page.reload(); await expect(canvas).toHaveAttribute('data-stand-level', String(level));
-        expect(await page.evaluate(key => JSON.parse(localStorage.getItem(key)).version, key)).toBe(9);
+        expect(await page.evaluate(key => JSON.parse(localStorage.getItem(key)).version, key)).toBe(10);
         await page.locator('[data-page=rent]').click();
         expect(await page.locator(`#thumbnail-${location}`).getAttribute('src')).toBe(background);
     }

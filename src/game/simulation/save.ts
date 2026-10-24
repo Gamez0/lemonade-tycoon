@@ -1,5 +1,6 @@
+import { validConditions } from "../content/day-conditions";
 import { defaultManagement, UPGRADES, STAFF, ADS } from "../content/management";
-import { ITEMS, ITEM_KEYS, WEATHER } from "../content/catalog";
+import { ITEMS, ITEM_KEYS, WEATHER, type Weather } from "../content/catalog";
 import { cupsPerPitcher, unlockLocations } from "./game";
 import type { State } from "./game";
 import { isLocation, LOCATION_IDS, LOCATIONS, LEGACY_LOCATION_IDS, defaultLocationStats } from "../content/locations";
@@ -9,7 +10,7 @@ export const SAVE_KEY = "lemonade-tycoon.reboot.save";
 export const BACKUP_KEY = "lemonade-tycoon.reboot.backup";
 export type SaveStorage = Pick<Storage, "getItem" | "setItem">;
 export interface SaveDocument {
-    readonly version: 9;
+    readonly version: 10;
     readonly state: State;
     readonly history: readonly State[];
     readonly companyId?: string;
@@ -50,6 +51,7 @@ function validLocations(value: Record<string, unknown>, preTenLocations = false)
     if (!integer(daily.rent, 0, 1_000_000) || !integer(daily.moveFee, 0, 1_000_000)) return false;
     if (value.business === null) return value.phase === "preparation" && daily.rent === 0 && daily.moveFee === 0;
     const b = value.business;
+    if (record(b) && b.conditions !== undefined && !validConditions(b.conditions, value.location as LocationId, value.weather as unknown as Weather)) return false;
     if (!record(b) || (b.customerModel !== undefined && b.customerModel !== "purchase-first-v1") ||
         b.location !== value.location || !allowed(b.from) || !value.unlocked.includes(b.from) ||
         value.pendingLocation !== null || b.paid !== true || !integer(b.traffic, 1, 500) ||
@@ -143,10 +145,12 @@ function validState(value: unknown, legacy = false, preM5 = false, preM6 = false
 export function decodeSave(raw: string): SaveDocument {
     let input: unknown;
     try { input = JSON.parse(raw); } catch { throw new Error("Save file is not valid JSON."); }
-    if (!record(input) || ![0, 1, 2, 3, 4, 5, 6, 7, 8, 9].includes(input.version as number)) {
-        if (record(input) && integer(input.version) && input.version > 9) throw new UnsupportedSaveVersionError();
+    if (!record(input) || ![0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].includes(input.version as number)) {
+        if (record(input) && integer(input.version) && input.version > 10) throw new UnsupportedSaveVersionError();
         throw new Error("Unsupported save version. Keep the file as a backup.");
     }
+    if ((input.version as number) < 10 && [input.state, ...(Array.isArray(input.history) ? input.history : [])].some(day =>
+        record(day) && record(day.business) && day.business.conditions !== undefined)) throw new Error("Save data is damaged: invalid legacy weather model.");
     const legacy = input.version === 0 || input.version === 1;
     const preM5 = (input.version as number) < 3;
     const preM6 = (input.version as number) < 4;
@@ -231,13 +235,13 @@ export function decodeSave(raw: string): SaveDocument {
     };
     if (!history.every(paidEquipment) || (state.phase === "preparation" && !paidEquipment(state)))
         throw new Error("Save equipment purchases do not match the ledger.");
-    return { version: 9, state, history, ...(input.companyId === undefined ? {} : { companyId: input.companyId as string }),
+    return { version: 10, state, history, ...(input.companyId === undefined ? {} : { companyId: input.companyId as string }),
         ...(input.mode === undefined ? {} : { mode: input.mode as "career" | "challenge" }) };
 }
 
 export function encodeSave(state: State, history: readonly State[], companyId?: string, mode?: "career" | "challenge"): string {
     if (state.phase === "selling") throw new Error("Save a checkpoint before opening the stand.");
-    return JSON.stringify(decodeSave(JSON.stringify({ version: 9, state, history, companyId, mode })));
+    return JSON.stringify(decodeSave(JSON.stringify({ version: 10, state, history, companyId, mode })));
 }
 
 export function writeSave(storage: SaveStorage, state: State, history: readonly State[], companyId?: string, mode?: "career" | "challenge"): void {

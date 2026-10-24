@@ -979,7 +979,8 @@ a {
     display: grid;
     grid-auto-flow: column;
     grid-auto-columns: calc((100% - 8px) / 3);
-    overflow-x: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
     scroll-snap-type: x mandatory;
     gap: 4px;
 }
@@ -1010,6 +1011,7 @@ a {
 }
 .rent-details dt, .rent-details dd {
     margin: 0;
+    padding: 3px 0;
 }
 #rent-page p {
     margin: 6px 0;
@@ -1099,6 +1101,14 @@ html.desktop,
     flex: 1;
     min-height: 0;
 }
+.desktop #preparation:has(#rent-page:not([hidden])) {
+    min-height: 0;
+    overflow-y: auto;
+}
+.desktop #day-actions { flex-shrink: 0; }
+#rent-page .catalog-navigation { margin: 3px 0; }
+#rent-page .catalog-navigation button { min-height: 24px; padding: 2px; }
+#rent-page .hint { font-size: 11px; line-height: 1.25; margin: 4px 0; }
 .desktop #results {
     flex: 1;
     min-height: 0;

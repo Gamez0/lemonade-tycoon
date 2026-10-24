@@ -55,8 +55,8 @@ test('legacy no-sale feedback diagnoses poor recipe at minimum price instead of 
     const preparation = buyOrder(setPlan(newGame(67800), { price: 25, recipe: { lemon: 6, sugar: 1, ice: 7 } }),
         { lemon: 60, sugar: 10, ice: 500, cup: 60 });
     const opened = openDay(preparation);
-    const { customerModel: _model, ...legacyBusiness } = opened.business;
-    const legacyOpened = openDay({ ...preparation, business: { ...legacyBusiness, weights: [1, 1, 1] } });
+    const { customerModel: _model, conditions: _conditions, ...legacyBusiness } = opened.business;
+    const legacyOpened = openDay({ ...preparation, business: { ...legacyBusiness, traffic: preparation.weather.traffic, weights: [1, 1, 1] } });
     const done = finishStreetDay(beginStreetDay(legacyOpened)).day.game;
     expect(done.daily.sold).toBe(0);
     expect(done.daily.priceRejected).toBe(0);

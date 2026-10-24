@@ -4,9 +4,11 @@ import { CUSTOMERS, ITEMS, ITEM_KEYS, WEATHER } from "../content/catalog";
 import type { Item, Weather } from "../content/catalog";
 import { LOCATIONS, LOCATION_IDS, isLocation, defaultLocationStats } from "../content/locations";
 import type { LocationId } from "../content/locations";
+import { locationConditions, type DayConditions } from "../content/day-conditions";
 
 export interface LocationRating { readonly satisfaction: number; readonly popularity: number }
 export interface BusinessDay {
+    readonly conditions?: DayConditions;
     readonly customerModel?: "purchase-first-v1";
     readonly location: LocationId;
     readonly from: LocationId;
@@ -263,8 +265,8 @@ export function openDay(state: State): State {
         throw new Error("Buy enough supplies for one pitcher and a cup before opening.");
     if (state.cash < fees)
         throw new Error("Not enough cash for opening costs. Reduce advertising, dismiss staff or return to the free Neighborhood.");
-    const business: BusinessDay = { customerModel: "purchase-first-v1", location: id, from: state.location,
-        traffic: Math.round(state.weather.traffic * location.traffic * (0.8 + 0.4 * rating.popularity) * advertising.traffic),
+    const business: BusinessDay = { customerModel: "purchase-first-v1", conditions: locationConditions(state.day, id, state.weather), location: id, from: state.location,
+        traffic: expectedTraffic(state, id),
         budget: location.budget, weights: [...location.weights], patienceTicks: location.patience + staff.patience,
         arrivalEvery: Math.max(1, Math.round(location.arrival / advertising.traffic)), serviceTicks: 8 - state.management.upgrades.blender - staff.speed, satisfaction: rating.satisfaction,
         popularity: rating.popularity, rent: location.rent, moveFee, paid: true };
@@ -279,8 +281,16 @@ export function reserveLocation(state: State, id: LocationId | null): State {
     return { ...state, pendingLocation: id === state.location ? null : id };
 }
 export function expectedTraffic(state: State, id = state.pendingLocation ?? state.location): number {
-    return state.business?.traffic ?? Math.round(state.weather.traffic * LOCATIONS[id].traffic *
-        (0.8 + 0.4 * state.locationStats[id].popularity) * ADS[state.management.advertising].traffic);
+    if (state.business) return state.business.traffic;
+    const conditions = locationConditions(state.day, id, state.weather);
+    const base = id === "mall" ? 40 : state.weather.traffic;
+    return Math.max(1, Math.round(base * LOCATIONS[id].traffic * conditions.weatherFactor * conditions.newsFactor *
+        (0.8 + 0.4 * state.locationStats[id].popularity) * ADS[state.management.advertising].traffic));
+}
+export function effectiveWeather(state: State): Weather {
+    const temperature = state.business ? state.business.conditions?.temperature ?? state.weather.temperature
+        : locationConditions(state.day, state.pendingLocation ?? state.location, state.weather).temperature;
+    return { ...state.weather, temperature };
 }
 export const dayTraffic = (state: State): number => state.business?.traffic ?? state.weather.traffic;
 export function unlockLocations(unlocked: readonly LocationId[], days: number, revenue: number, satisfaction: number): readonly LocationId[] {
@@ -303,7 +313,7 @@ export function drawVisitor(state: State, id: number): { state: State; visitor: 
     const weights = state.business!.weights;
     let profile = 0, roll = a.value * weights.reduce((total, weight) => total + weight, 0);
     while (profile < weights.length - 1 && roll >= weights[profile]) roll -= weights[profile++];
-    const decision = demand(state.plan, state.weather, state.business!.satisfaction, profile, b.value,
+    const decision = demand(state.plan, effectiveWeather(state), state.business!.satisfaction, profile, b.value,
         state.business!.customerModel !== "purchase-first-v1");
     const willingness = Math.round(decision.willingness * state.business!.budget);
     const intent: Visitor["intent"] = state.plan.price > willingness ? "price"
@@ -317,7 +327,7 @@ export function settleVisitor(state: State, visitor: Visitor, outcome?: "abandon
     const sold = kind === "bought";
     if (sold && state.pitcherCups === 0) state = makePitcher(state);
     const currentModel = state.business!.customerModel === "purchase-first-v1";
-    const taste = recipeTaste(state.plan.recipe, state.weather.temperature);
+    const taste = recipeTaste(state.plan.recipe, effectiveWeather(state).temperature);
     // Derive a reproducible taste draw without consuming arrival randomness.
     // Every buyer samples the same draw regardless of the chosen recipe.
     const tasteDraw = Math.floor(random((state.seed ^ Math.imul(visitor.id, 0x9e3779b1)) >>> 0).value * 101);

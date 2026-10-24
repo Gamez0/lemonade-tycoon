@@ -1,5 +1,17 @@
 # Cloud development handoff — 2026-10-05
 
+## Weather/news and Rent - 2026-10-25 KST
+
+User requested hot/cold ice strategy and near-empty outdoor maps in rain.
+See reviews/weather-news-and-rent.md for original evidence, explicit product
+tuning, save10 compatibility and verification scope. Whole-day effects are
+implemented; original intraday weather periods remain a separate gap.
+Rent replaces horizontal scrolling with accessible catalogue navigation.
+PR273 ten-map routes merged as d3e21a8 after exact7776232 CI40104419720 passed,
+including Windows packaged saves/performance; source tree matches tested head.
+Native ten-map motion: D:/lemonade-routes/.local-m4/native-video-final.
+PR274 alpha15 weather/Rent required CI and native validation are in progress.
+
 ## Ten-map pedestrian circulation — 2026-10-24 KST
 
 Latest user prioritizes strange per-map through traffic. Active isolated

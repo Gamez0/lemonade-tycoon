@@ -31,6 +31,7 @@ export const markup = `
    <div id="preparation">
     <div id="rent-page" class="control-page" hidden>
      <div class="location-list" aria-label="Locations">${LOCATION_IDS.map(id => `<button data-location="${id}" aria-pressed="false"><img id="thumbnail-${id}" alt="" hidden><span>${LOCATIONS[id].name}<small id="location-state-${id}"></small></span></button>`).join("")}</div>
+     <div class="catalog-navigation"><button id="rent-previous" aria-label="Previous location">&#9664;</button><span id="rent-position" aria-live="polite">1 / ${LOCATION_IDS.length}</span><button id="rent-next" aria-label="Next location">&#9654;</button></div>
      <p id="rent-description" class="hint"></p><dl id="rent-details" class="rent-details"></dl>
      <p id="rent-unlock" class="hint"></p><p id="rent-reservation" class="hint" role="status"></p>
      <div class="purchase-actions"><button id="cancel-rent">CANCEL RESERVATION</button><button id="confirm-rent">CONFIRM LOCATION</button></div>

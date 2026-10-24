@@ -1,3 +1,4 @@
+import { newsForDay, locationConditions } from "./game/content/day-conditions";
 import { careerDate } from "./game/simulation/calendar";
 import { balanceSheet } from "./game/presentation/balance-sheet";
 import { profitGraph } from "./game/presentation/profit-graph";
@@ -28,6 +29,7 @@ import {
     unitCost,
     reserveLocation,
     expectedTraffic,
+    effectiveWeather,
     dayTraffic,
     isBankrupt,
 } from "./game/simulation/game";
@@ -300,6 +302,17 @@ for (const button of document.querySelectorAll<HTMLButtonElement>("[data-locatio
         selectedLocation = button.dataset.location as LocationId;
         renderRent();
     });
+function browseLocation(step: number): void {
+    selectedLocation = LOCATION_IDS[(LOCATION_IDS.indexOf(selectedLocation) + step + LOCATION_IDS.length) % LOCATION_IDS.length];
+    renderRent();
+    document.querySelector<HTMLButtonElement>(`[data-location="${selectedLocation}"]`)!.focus({ preventScroll: true });
+}
+element("rent-previous").addEventListener("click", () => browseLocation(-1));
+element("rent-next").addEventListener("click", () => browseLocation(1));
+document.querySelector(".location-list")!.addEventListener("keydown", event => {
+    const key = (event as KeyboardEvent).key;
+    if (key === "ArrowLeft" || key === "ArrowRight") { event.preventDefault(); browseLocation(key === "ArrowLeft" ? -1 : 1); }
+});
 for (const button of document.querySelectorAll<HTMLButtonElement>("[data-upgrade]"))
     button.addEventListener("click", () => act(() => purchaseUpgrade(state, button.dataset.upgrade as Upgrade)));
 for (const name of ["upgrades", "staff"]) {
@@ -560,7 +573,7 @@ function renderReport(): void {
     const noSalesAdvice = sum("soldOut") > 0 ? "Buy enough supplies for tomorrow."
         : sum("abandoned") > 0 ? "Improve service or help the waiting line."
         : sum("priceRejected") > 0 ? "Try a lower cup price."
-        : reportPage === "daily" && latest.business?.customerModel !== "purchase-first-v1" && quality(latest.plan.recipe, latest.weather.temperature) < 0.7
+        : reportPage === "daily" && latest.business?.customerModel !== "purchase-first-v1" && quality(latest.plan.recipe, effectiveWeather(latest).temperature) < 0.7
           ? "Adjust your recipe to the forecast."
           : "Try another location or advertising to reach more buyers.";
     const ratingBasis = reports.every(report => report.business?.customerModel === "purchase-first-v1")
@@ -570,7 +583,7 @@ function renderReport(): void {
         ` ${sum("soldOut")} visitors missed out on empty stock. ${sum("abandoned")} left the line. ` +
         `${sum("priceRejected")} found the price too high; ${sum("passed")} passed by.` +
         (reportPage === "daily" && sold > 0 && latest.business?.customerModel === "purchase-first-v1"
-            ? ` ${tasteAdvice(recipeTaste(latest.plan.recipe, latest.weather.temperature).complaints)}` : ""));
+            ? ` ${tasteAdvice(recipeTaste(latest.plan.recipe, effectiveWeather(latest).temperature).complaints)}` : ""));
 
     rows("result-values", [
         ["Cups sold", String(sold)],
@@ -603,17 +616,25 @@ function renderRent(): void {
         const preview = !image.getAttribute("src") ? scene.thumbnail(id) : null;
         if (preview) { image.src = preview; image.hidden = false; }
     }
+    text("rent-position", `${LOCATION_IDS.indexOf(selectedLocation) + 1} / ${LOCATION_IDS.length}`);
+    const list = document.querySelector<HTMLElement>(".location-list")!;
+    const selected = list.querySelector<HTMLButtonElement>(`[data-location="${selectedLocation}"]`)!;
+    list.scrollLeft = selected.offsetLeft - list.offsetLeft - (list.clientWidth - selected.offsetWidth) / 2;
     const moveFee = selectedLocation === state.location ? 0 : location.moveFee;
     const legacyBusiness = state.business?.location === selectedLocation && state.business.customerModel === undefined
         ? state.business : null;
     const patience = legacyBusiness ? [legacyBusiness.patienceTicks] : CUSTOMERS.map(customer => Math.max(1,
         Math.round((location.patience + STAFF[state.management.staff].patience) * customer.patience)));
     const totalWeights = location.weights.reduce((total: number, weight) => total + weight, 0);
-    text("rent-description", location.description);
+    const conditions = locationConditions(state.day, selectedLocation, state.weather);
+    text("rent-description", location.description + (selectedLocation === "mall" ? " Indoors:20\u00b0C; sheltered from rain." :
+        state.weather.label === "Rainy" ? " Rain reduces outdoor foot traffic today." : "") +
+        (conditions.newsFactor !== 1 ? ` Today's news changes visitors by ${Math.round((conditions.newsFactor - 1) * 100)}%.` : ""));
     rows("rent-details", [
         ["Daily rent / moving", `${money(location.rent)} / ${money(moveFee)}`],
         ["Visitors / budget", `${expectedTraffic({ ...state, business: null }, selectedLocation)} / ${Math.round(location.budget * 100)}%`],
         ["Wait range / arrivals", `${(Math.min(...patience) / 10).toFixed(1)}–${(Math.max(...patience) / 10).toFixed(1)}s / ${(location.arrival / 10).toFixed(1)}s`],
+        ["Temperature / cooling", `${conditions.temperature}\u00b0C / ${recipeTaste(state.plan.recipe, conditions.temperature).preferredIce} ice per cup`],
         ["Office workers", `${Math.round(location.weights[1] / totalWeights * 100)}% · shortest wait`],
         ["Popularity / satisfaction", `${Math.round(rating.popularity * 100)}% / ${Math.round(rating.satisfaction * 100)}%`],
     ]);
@@ -641,7 +662,7 @@ function render(): void {
     text("day", String(date.day).padStart(2, "0"));
     element("career-date").title = `Business day ${state.day}`;
     text("cash", money(state.cash));
-    text("weather", state.weather.temperature + "°C");
+    text("weather", effectiveWeather(state).temperature + "°C");
     const weatherArt = element("weather-art");
     if (weatherArt.dataset.weather !== state.weather.label) {
         weatherArt.innerHTML = icon(
@@ -652,13 +673,18 @@ function render(): void {
     element("weather-art").setAttribute("aria-label", state.weather.label);
     element("weather-art").setAttribute("role", "img");
     text("weather-label", selling ? "Current weather" : closed ? "Today's weather" : "Weather forecast");
-    text("weather-advice", state.weather.label + " · " + (prep ? "steady all day" : LOCATIONS[state.location].street));
+    const climateLocation = prep ? state.pendingLocation ?? state.location : state.location;
+    text("weather-advice", climateLocation === "mall" && (!state.business || state.business.conditions)
+        ? `${state.weather.label} outside · indoors 20\u00b0C`
+        : state.business && !state.business.conditions
+            ? `${state.weather.label} · saved opening weather`
+            : `${state.weather.label} · ${prep ? "steady all day" : LOCATIONS[state.location].street}`);
     app.dataset.weather = state.weather.label.toLowerCase();
     text(
         "forecast-news",
         state.day === 1
             ? "A new lemonade stand opens on Willow Lane!"
-            : `${expectedTraffic(state)} visitors expected at ${LOCATIONS[state.pendingLocation ?? state.location].street}.`,
+            : `${newsForDay(state.day).headline} ${expectedTraffic(state)} visitors expected at ${LOCATIONS[state.pendingLocation ?? state.location].street}.`,
     );
     const rating = state.locationStats[state.location];
     text("reputation", `${Math.round(rating.popularity * 100)}%`);
@@ -758,7 +784,7 @@ function render(): void {
     text(
         "recipe-hint",
         (legacyPaidDay ? "This saved day keeps its original recipe and customer rules." :
-            `Taste score: ${Math.round(quality(state.plan.recipe, state.weather.temperature) * 100)}%. Cooling needs ${recipeTaste(state.plan.recipe, state.weather.temperature).preferredIce} ice per cup. Extra ice needs balanced lemon and sugar.`) +
+            `Taste score: ${Math.round(quality(state.plan.recipe, effectiveWeather(state).temperature) * 100)}%. Cooling needs ${recipeTaste(state.plan.recipe, effectiveWeather(state).temperature).preferredIce} ice per cup. Extra ice needs balanced lemon and sugar.`) +
             (state.daily.meltedIce ? ` ${state.daily.meltedIce} ice melted overnight.` : ""),
     );
     text("sold", String(state.daily.sold));
