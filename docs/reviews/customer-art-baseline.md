@@ -184,3 +184,11 @@ not final animation quality. Thin limb shapes, shirt volume/material density,
 three-role variation and walking-with-cup poses remain unresolved. No procedural
 candidate is selected or imported into the game. Compare against the private
 original and minimal-face study at the same map width before proceeding.
+
+The rig reviewer also provides nominal22/26/30px body comparisons on our own
+300px Neighborhood map, with the actual native Basic stand crop/floor anchor,
+an idle NW-facing service figure and SE-facing through figure. Ground-depth
+ordering is explicit. These are labelled context composites, not game footage.
+The torso/sleeve shapes were widened after the first thin-body inspection.
+All24 bounds/console checks reran successfully. Final body scale and production
+material/anatomy quality remain unaccepted.
