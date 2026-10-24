@@ -31,5 +31,13 @@ Validation so far: typecheck, reboot lint, production build, release15/15
 (native decoding, catalogue browsing, purchasing/hiring/replay, save reload)
 passed. The private original/current/native board regenerates26 baseline glyphs
 and18 reference matches, with new equipment normalized to the same88px comparison
-boxes and their actual100px usage stated. Windows native six equipment/eight
-stand cards and isolated enforced performance checks are pending.
+boxes and their actual100px usage stated.
+
+Clean Windows source259e6fc (dirtyfalse) passed the26-file asset audit, six
+equipment previews and eight stand previews at settled1280x1000/800x600 client
+sizes. Native dimensions, transparent corners, normal filtering, image/button
+containment and unchanged cash while browsing passed; actual cards inspected.
+Isolated enforced20-day performance passed: zero idle redraws,229.9MiB private
+after20 days and0.257MiB retained JS growth. Evidence:
+`.local-m4/equipment-review/{native,performance}`.
+Final current-head CI/integration remains pending.

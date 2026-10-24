@@ -8,8 +8,13 @@ Three native1402x1122 independent fridge/ice maker/blender illustrations replace
 large glyphs. All source PNGs/prompts saved, own Basic stand style input only;
 four alpha corners zero, combined2675209bytes. Type/lint/build, release15 including
 narrow positive/negative asset boundary, focused browser7 pass. Actual Windows
-six equipment/eight stand previews and isolated enforced performance next.
+six equipment/eight stand previews passed at settled1280x1000/800x600 on clean
+259e6fc. Enforced isolated20day performance PASS:229.9MiB private,0idle redraws,
+0.257MiB retained heap. Source package .local-m4/equipment-package; actual
+cards/performance .local-m4/equipment-review. Final-head CI/integration pending.
 Existing small glyphs, staff portraits, IDs, prices/effects/saves unchanged.
+Next ingredient inspection found the original sugar image is a scoop plus pile,
+not the current paper bag. Keep that concrete correction for the vector pass.
 
 ## Stand catalogue preview - 2026-10-24 KST
 
