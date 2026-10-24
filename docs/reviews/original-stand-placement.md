@@ -39,3 +39,8 @@ Neighborhood returns to the original left junction lot. Customers use that
 sidewalk to approach/leave; noncustomers use an independent through-sidewalk
 route so they no longer perform a forced crossing U-turn to visit a counter.
 All routes are presentation authoring, not recovered original simulation rules.
+
+2026-10-24 route audit: Downtown's owned-map stand floor moves to138,165 and
+service feet126,177, eight map units inward from the curb. Its original-facing
+family, tier anchors and business location are unchanged. The table above is
+the earlier initial placement, not a new pixel-identical original claim.

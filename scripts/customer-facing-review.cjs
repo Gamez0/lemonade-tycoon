@@ -171,8 +171,36 @@ const maps = Object.fromEntries(fs.readdirSync(path.join(root, 'src/game/assets'
                 scene.drawPeople(day);
                 await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
                 records.push({ id, people, png: game.canvas.toDataURL() });
+                // A real renderer transition, not just checking independent
+                // endpoint coordinates: moving up a queue cannot teleport.
+                scene.resetDay();
+                const queuedDay = { tick: 30, waiting: [{ visitor: visitor(70), joinedAt: 30 }], walking: [] };
+                scene.drawPeople(queuedDay);
+                scene.drawPeople({ ...queuedDay, tick: 36 });
+                const foot = scene.people.get(70);
+                const beforeService = [foot.x, foot.y];
+                scene.drawPeople({ tick: 36, serving: { visitor: visitor(70) }, waiting: [], walking: [] });
+                if (Math.hypot(foot.x - beforeService[0], foot.y - beforeService[1]) > .01)
+                    throw Error(id + ': queue to serving teleported');
+                scene.drawPeople({ tick: 37, serving: { visitor: visitor(70) }, waiting: [], walking: [] });
+                if (Math.hypot(foot.x - beforeService[0], foot.y - beforeService[1]) > 10)
+                    throw Error(id + ': queue advancement exceeded4 ground units/tick');
+                scene.resetDay();
+                scene.drawPeople(queuedDay); scene.drawPeople({ ...queuedDay, tick: 36 });
+                const waitingFoot = scene.people.get(70), beforeLeaving = [waitingFoot.x, waitingFoot.y];
+                scene.drawPeople({ tick: 36, waiting: [], walking: [{ visitor: visitor(70), kind: 'abandoned', startedAt: 36, until: 58 }] });
+                if (Math.hypot(waitingFoot.x - beforeLeaving[0], waitingFoot.y - beforeLeaving[1]) > .01)
+                    throw Error(id + ': abandoned visitor teleported to counter');
+                scene.resetDay();
+                scene.drawPeople(queuedDay); scene.drawPeople({ ...queuedDay, tick: 36 });
+                const buyerFoot = scene.people.get(70), beforeBuying = [buyerFoot.x, buyerFoot.y];
+                scene.drawPeople({ tick: 36, waiting: [], walking: [{ visitor: visitor(70), kind: 'bought', startedAt: 36, until: 58 }] });
+                if (Math.hypot(buyerFoot.x - beforeBuying[0], buyerFoot.y - beforeBuying[1]) > .01)
+                    throw Error(id + ': rapid-service buyer teleported before departure');
+                if (!buyerFoot.texture.key.includes('-walk-'))
+                    throw Error(id + ': cup appeared before the rapid-service buyer reached the counter');
                 scene.drawPeople({ tick: 20, waiting: [], walking: [] });
-                if (scene.people.size || scene.facings.size || scene.bubbles.size)
+                if (scene.people.size || scene.facings.size || scene.bubbles.size || scene.queueFeet.size || scene.exits.size)
                     throw Error(id + ': departed customer retained ' + JSON.stringify([scene.people.size, scene.facings.size, scene.bubbles.size]));
             }
             if (scene.textures.getTextureKeys().filter(key => key.startsWith('customer-')).length !== 66)
