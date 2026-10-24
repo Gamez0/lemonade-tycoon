@@ -41,8 +41,8 @@ let app;
             expect(hash(a)).not.toBe(hash(b));
             records.push({ location, before, after: await progress.textContent(), framesDiffer: true });
             await page.locator('#speed').click();
-            await expect(page.locator('#results')).toBeVisible();
-            await expect(page.locator('#next')).toBeEnabled();
+            await expect(page.locator('#results')).toBeVisible({ timeout: 30000 });
+            await expect(page.locator('#next')).toBeEnabled({ timeout: 30000 });
             await page.locator('#next').click();
         }
         expect(errors).toEqual([]);

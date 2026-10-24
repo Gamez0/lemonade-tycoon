@@ -33,3 +33,10 @@ This fixture is not full-game footage. Outputs live under ignored
 `.local-m4/native-customer-motion`; optional original comparison inputs and pixels
 are private and must never be packaged. No new bitmap asset or original pixel is
 shipped. Automated checks do not replace the human visual gate #97 or #16.
+
+Clean Windows package from `eb22c69` passed the full native UI/relaunch suite
+and `tests/desktop-customers.cjs`: real selling on all ten maps, two differing
+canvas captures per map, actual opening/results transitions and no console or
+renderer errors. Evidence: `.local-m4/native-customer-motion/{native,native-ui}`.
+The first capture run exposed the harness's default5s results wait at4x speed;
+the explicit30s transition allowance passed without changing product code.
