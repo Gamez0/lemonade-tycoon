@@ -1011,6 +1011,7 @@ a {
 }
 .rent-details dt, .rent-details dd {
     margin: 0;
+    padding: 3px 0;
 }
 #rent-page p {
     margin: 6px 0;
