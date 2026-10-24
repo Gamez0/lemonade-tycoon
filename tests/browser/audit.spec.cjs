@@ -1,4 +1,4 @@
-const { test, expect } = require('@playwright/test');
+const { test, expect } = require('../helpers/browser-game.cjs');
 const { newGame, setPlan, buyOrder, openDay, reserveLocation, purchaseUpgrade, hireStaff, selectAdvertising, buy } = require('../../.test-build/simulation/game.js');
 const { beginStreetDay, finishStreetDay } = require('../../.test-build/simulation/street-day.js');
 const { encodeSave } = require('../../.test-build/simulation/save.js');

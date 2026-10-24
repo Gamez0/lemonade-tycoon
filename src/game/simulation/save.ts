@@ -12,6 +12,8 @@ export interface SaveDocument {
     readonly version: 9;
     readonly state: State;
     readonly history: readonly State[];
+    readonly companyId?: string;
+    readonly mode?: "career" | "challenge";
 }
 /** A different schema is not corrupt data: never automatically replace it with a backup. */
 export class UnsupportedSaveVersionError extends Error {
@@ -153,6 +155,9 @@ export function decodeSave(raw: string): SaveDocument {
     const preCustomerModel = (input.version as number) < 7;
     const preStand = (input.version as number) < 8;
     const preTenLocations = (input.version as number) < 9;
+    if (input.companyId !== undefined && (typeof input.companyId !== "string" || !/^[a-zA-Z0-9-]{1,80}$/.test(input.companyId)))
+        throw new Error("Invalid company identity.");
+    if (input.mode !== undefined && input.mode !== "career" && input.mode !== "challenge") throw new Error("Invalid game mode.");
     if (!Array.isArray(input.history) ||
         !input.history.every(day => validState(day, legacy, preM5, preM6, preFreeIce, preEagerPitcher, preCustomerModel, preStand, preTenLocations)) || input.history.some(day => day.phase !== "results"))
         throw new Error("Save data is damaged or incomplete.");
@@ -226,16 +231,17 @@ export function decodeSave(raw: string): SaveDocument {
     };
     if (!history.every(paidEquipment) || (state.phase === "preparation" && !paidEquipment(state)))
         throw new Error("Save equipment purchases do not match the ledger.");
-    return { version: 9, state, history };
+    return { version: 9, state, history, ...(input.companyId === undefined ? {} : { companyId: input.companyId as string }),
+        ...(input.mode === undefined ? {} : { mode: input.mode as "career" | "challenge" }) };
 }
 
-export function encodeSave(state: State, history: readonly State[]): string {
+export function encodeSave(state: State, history: readonly State[], companyId?: string, mode?: "career" | "challenge"): string {
     if (state.phase === "selling") throw new Error("Save a checkpoint before opening the stand.");
-    return JSON.stringify(decodeSave(JSON.stringify({ version: 9, state, history })));
+    return JSON.stringify(decodeSave(JSON.stringify({ version: 9, state, history, companyId, mode })));
 }
 
-export function writeSave(storage: SaveStorage, state: State, history: readonly State[]): void {
-    const next = encodeSave(state, history);
+export function writeSave(storage: SaveStorage, state: State, history: readonly State[], companyId?: string, mode?: "career" | "challenge"): void {
+    const next = encodeSave(state, history, companyId, mode);
     const previous = storage.getItem(SAVE_KEY);
     if (previous) {
         let valid = false;

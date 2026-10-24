@@ -25,6 +25,15 @@ test('native file storage round-trips the same portable document', () => withSto
     assert.equal(fs.readdirSync(directory).some(file => file.endsWith('.tmp')), false);
     assert.throws(() => storage.getItem('../save.json'), /Unknown/);
 }));
+test('company registry has its own atomic file and never changes the business primary', () => withStorage((storage, directory) => {
+    writeSave(storage, newGame(), []);
+    const before = storage.getItem(SAVE_KEY), key = 'lemonade-tycoon.reboot.companies';
+    storage.setItem(key, '{"version":1,"companies":[]}');
+    assert.equal(fs.readFileSync(path.join(directory, 'companies.json'), 'utf8'), storage.getItem(key));
+    assert.equal(storage.getItem(SAVE_KEY), before);
+    assert.equal(fs.readdirSync(directory).some(file => file.endsWith('.tmp')), false);
+    assert.throws(() => storage.setItem(key + '/../save.json', '{}'), /Unknown/);
+}));
 test('damaged primary recovers the previous valid checkpoint', () => withStorage((storage, directory) => {
     const first = newGame(); const second = buy(first, 'lemon', 10);
     writeSave(storage, first, []); writeSave(storage, second, []);

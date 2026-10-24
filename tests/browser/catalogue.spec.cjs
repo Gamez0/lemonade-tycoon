@@ -1,4 +1,4 @@
-const { test, expect } = require('@playwright/test');
+const { test, expect } = require('../helpers/browser-game.cjs');
 
 test('illustrated catalogues browse without spending and retain purchase and hire choices', async ({ page }) => {
     await page.goto('/');

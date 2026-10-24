@@ -1,4 +1,4 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("../helpers/browser-game.cjs");
 const { observeAudio } = require("../helpers/audio-recovery.cjs");
 
 test("static canvas sleeps, edits and resizing repaint, selling resumes and results sleep again", async ({ page }) => {

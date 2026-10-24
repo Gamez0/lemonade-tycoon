@@ -1,0 +1,31 @@
+#start-menu { position: fixed; inset: 0; z-index: 20; overflow: hidden; background: #16892a; color: #fffbd7; }
+.start-frame { position: absolute; left: 50%; top: 50%; width: 640px; height: 480px; transform-origin: center; font: 11px Tahoma, Arial, sans-serif; background: repeating-linear-gradient(45deg, #18ae31 0 6px, #20b735 6px 12px); }
+.start-frame > button, .start-frame > p, .start-frame > form, .start-frame > div.menu-panel, .start-frame > div.company-list { position: absolute; margin: 0; box-sizing: border-box; }
+.start-frame button { background: #80cc22; color: #fffce4; border: 1px solid; border-color: #c7ee70 #367815 #367815 #c7ee70; border-radius: 2px; padding: 2px; font: inherit; }
+.start-frame > button { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2px; }
+.start-frame > button > span:last-child { font-size: 10px; white-space: nowrap; }
+.start-frame button:not(:disabled):hover { background: #a0df38; }
+.start-frame button[aria-pressed="true"] { border-color: #325f15 #c7ee70 #c7ee70 #325f15; background: #69ae1b; }
+.start-frame button:focus-visible { outline: 2px dotted #fff; outline-offset: -4px; }
+.start-frame button:disabled { opacity: .48; cursor: default; }
+.start-frame .pixel-icon { width: 26px; height: 26px; }
+.menu-mark { display: block; font: bold 26px Tahoma, sans-serif; height: 28px; color: #e8efbd; text-shadow: 1px 1px #385433; }
+#menu-quit .menu-mark { color: #bf2e1e; }
+.menu-panel { background: #009322; border: 2px solid; border-color: #005d17 #47c64e #47c64e #005d17; }
+.menu-logo { position: absolute; display: block; margin: 0; text-align: center; color: #fff080; font-family: "Tycoon Condensed", sans-serif; text-shadow: 2px 2px #845619, -1px -1px #ffffbf; }
+.menu-logo .pixel-icon { position: absolute; top: 1px; left: 47px; width: 30px; height: 30px; }
+.menu-logo small { display: block; padding: 4px 0 0 36px; font-size: 18px; letter-spacing: 2px; }
+.menu-logo strong { display: block; font-size: 48px; line-height: 1.05; }
+.menu-logo b { display: block; font-size: 28px; line-height: 1; letter-spacing: 3px; }
+#menu-heading { padding: 7px; font-size: 14px; }
+.company-list { display: grid; grid-template-rows: repeat(4, 25px); grid-auto-flow: column; grid-template-columns: 146px 146px; gap: 1px 2px; }
+.company-list button { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#menu-company-info { white-space: pre-line; line-height: 1.5; }
+.menu-company-name { display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-weight: normal; }
+#menu-status { font-size: 10px; line-height: 1.25; }
+#menu-create { padding: 12px; background: #009322; border: 2px ridge #80cc22; }
+#menu-create h2 { font-size: 18px; margin: 0 0 12px; }
+#menu-create label { display: block; margin: 6px 0; }
+#menu-name { display: block; width: 100%; margin-top: 4px; font: inherit; padding: 4px; }
+#menu-create button { padding: 5px 12px; margin-right: 6px; }
+#menu-credits-dialog { font: 14px Tahoma, sans-serif; }

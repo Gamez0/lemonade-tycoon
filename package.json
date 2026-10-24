@@ -13,7 +13,7 @@
     },
     "homepage": "https://github.com/Gamez0/lemonade-tycoon",
     "scripts": {
-        "test": "tsc -p tsconfig.simulation.json && node --test tests/simulation.cjs tests/street-day.cjs tests/customer-model.cjs tests/save.cjs tests/async-save.cjs tests/file-storage.cjs tests/locations.cjs tests/management.cjs tests/stand-upgrades.cjs tests/map-layouts.cjs tests/display-settings.cjs tests/close-checkpoint.cjs",
+        "test": "tsc -p tsconfig.simulation.json && node --test tests/simulation.cjs tests/street-day.cjs tests/customer-model.cjs tests/save.cjs tests/async-save.cjs tests/file-storage.cjs tests/locations.cjs tests/management.cjs tests/stand-upgrades.cjs tests/map-layouts.cjs tests/display-settings.cjs tests/close-checkpoint.cjs tests/company-book.cjs",
         "dev": "node log.js dev & vite --config vite/config.dev.mjs",
         "build": "node log.js build & vite build --config vite/config.prod.mjs",
         "dev-nolog": "vite --config vite/config.dev.mjs",
@@ -26,6 +26,7 @@
         "desktop:run": "npm run build-nolog && electron .",
         "desktop:package:win": "npm run build:desktop && node scripts/package-win.cjs",
         "test:desktop": "node tests/desktop.cjs",
+        "test:desktop:menu": "node tests/desktop-start-menu.cjs",
         "test:desktop:ui": "node tests/desktop-ui.cjs",
         "test:desktop:management": "node tests/desktop-management.cjs",
         "test:desktop:taste": "node tests/desktop-taste.cjs",
