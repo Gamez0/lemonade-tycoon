@@ -204,7 +204,7 @@ function applyStreet(events: CustomerEvent[]): void {
     }
     if (state.phase === "results" && history[history.length - 1] !== state) {
         history.push(state);
-        state = nextDay(state);
+        if (!challengeComplete()) state = nextDay(state);
         openingCheckpoint = null;
         currentPage = "results";
         reportPage = "daily";

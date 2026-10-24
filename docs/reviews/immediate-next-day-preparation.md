@@ -45,3 +45,14 @@ current-head CI including the complete Windows suite before integration.
 Self-review found no duplicate completion/history append, overnight melt, rent,
 wage, advertising or paid-opening charge path. Parent legacy work, original
 resources, frozen alpha13 and #97 visual acceptance remain separate and preserved.
+
+## Current-main reconciliation — 2026-10-24 KST
+
+PR271 carries the original PR251 increment onto main with the launch menu,
+schema9 and stand migrations. Transition tests now enter through the real menu;
+native campaign and alpha13 paid-replay assertions keep schema9/Basic Stand.
+The first focused run passed19/20 and caught a real integration regression:
+immediate preparation created day31 after the final Challenge day. Completion
+now retains the exact day30 result when the challenge is complete; Career and
+earlier challenge days advance normally. The existing mode/reload test remains
+unchanged and is required to pass. Final current-head CI remains required.
