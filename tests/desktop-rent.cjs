@@ -1,4 +1,4 @@
-const { _electron: electron, chromium } = require('playwright');
+const { _electron: electron } = require('playwright');
 const { expect } = require('@playwright/test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs'), path = require('node:path'), os = require('node:os');
@@ -69,9 +69,21 @@ const records = [];
         }
     }
     fs.writeFileSync(path.join(out, 'geometry.json'), JSON.stringify({ baseline, records }, null, 2));
-    const browser = await chromium.launch();
+    // Use the package's Chromium for sheets too: Windows CI deliberately does
+    // not require a separately downloaded Playwright browser.
+    const galleryBase = fs.mkdtempSync(path.join(os.tmpdir(), 'lemonade-rent-gallery-'));
+    const galleryEnv = { ...process.env, LOCALAPPDATA: galleryBase, APPDATA: path.join(galleryBase, 'Roaming') };
+    delete galleryEnv.ELECTRON_RUN_AS_NODE;
+    let gallery;
     try {
-        const page = await browser.newPage({ viewport: { width: 1120, height: 1200 } });
+        gallery = await electron.launch({ executablePath, env: galleryEnv, args: profileArgs(galleryBase) });
+        await verifyProfile(gallery, galleryBase);
+        const opened = gallery.waitForEvent('window');
+        await gallery.evaluate(({ BrowserWindow }) => {
+            const window = new BrowserWindow({ width: 1120, height: 1200, useContentSize: true, show: false });
+            return window.loadURL('about:blank');
+        });
+        const page = await opened;
         for (const scale of [1, 1.25, 1.5, 1.75, 2]) {
             const figures = records.filter(r => r.scale === scale).map(r =>
                 `<figure><figcaption>${r.width}px / ${r.selected} / excess ${r.scroll - r.client}px</figcaption><img src="data:image/png;base64,${fs.readFileSync(path.join(out, r.name + '.png')).toString('base64')}"></figure>`).join('');
@@ -79,6 +91,10 @@ const records = [];
             await page.locator('img').evaluateAll(images => Promise.all(images.map(i => i.decode())));
             await page.screenshot({ path: path.join(out, `contact-${scale}.png`), fullPage: true });
         }
-    } finally { await browser.close(); }
+    } finally {
+        await gallery?.close();
+        assert.ok(path.resolve(galleryBase).startsWith(path.resolve(os.tmpdir()) + path.sep + 'lemonade-rent-gallery-'));
+        fs.rmSync(galleryBase, { recursive: true, force: true });
+    }
     console.log(`${baseline ? 'Baseline recorded' : 'PASS'}:100 native Rent selections,5 forced scales,2 window sizes, keyboard wrap, saved business unchanged`);
 })().catch(error => { console.error(error); process.exitCode = 1; });
