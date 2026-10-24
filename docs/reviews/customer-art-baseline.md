@@ -94,3 +94,28 @@ directions at8fps, fixed foot baseline,48/64px sizes and background switching.
 It clips the selected source cell while retaining native pixels; it is a study
 player, not actual game footage. Candidate playback needs reviewer inspection
 before any route/pose adapter or production asset is introduced. Keep #257 open.
+
+## Resumed study ? 2026-10-24 KST
+
+Main47e4376 post-merge CI39433213062 and draft259 headf0b74a0 CI39433641620
+completed successfully, including Windows packaged saves. The draft remains a
+study; those checks do not establish animation quality.
+
+v3 is a built-in image-generation edit of our ownv2 only. Exact prompt is
+`art/studies/remaining-images/customer-neighbor-sheet-v3-prompt.txt`.
+The unchanged native1254-square output now has24 cells: four directions and
+four requested walk phases, idle and drinking. Idle and cup-to-mouth poses are
+present. Visual inspection still finds the same leading leg across the walk
+columns, with only small limb changes: **reject its walk cycle for production**.
+Do not describe this as a completed alternating gait or ship the sheet.
+All14644 saturated-red nonzero-alpha pixels remain at alpha5 or lower;
+none reaches16. Preserve alpha rather than deleting pixels by RGB.
+
+The reviewer accepts an optional column count:
+`node art/studies/remaining-images/customer-sheet-review.cjs art/studies/remaining-images/customer-neighbor-sheet-v3.png 6`.
+It loops only the first four columns; Next pose pauses and steps all six.
+v1/v2 still default to five walking columns. Each input now gets a separate
+ignored output folder, preserving earlier evidence. v2 and v3 regenerated
+successfully (20 and24 measured cells). Next independent implementation is
+route-tangent/stand-facing selection with the current art, while native
+replacement gait remains unresolved. Keep #97 and #16 manual acceptance open.
