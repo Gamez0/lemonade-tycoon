@@ -98,6 +98,9 @@ before any route/pose adapter or production asset is introduced. Keep #257 open.
 ## Resumed study - 2026-10-24 KST
 
 User correction: the original does not describe faces at this level of detail.
+User clarified this applies to people moving on the map. Staff catalogue
+portraits were described positively and should retain their current detail.
+Do not extend the pedestrian simplification to staff portrait illustrations.
 v1-v3 overstate eyes, nose, mouth and expression, with a large cartoon head.
 Reject this visual direction, including the v3 idle/drink designs. Future work
 must start at equal displayed map width: small restrained head, minimal facial
@@ -138,9 +141,22 @@ facial detail, but remains a study: no walk cycle, idle/drink set or final scale
 has been accepted or shipped.
 
 Native output1774x887 is preserved unchanged. The private reviewer measures
-four opaque body bounds and shows22/28/34px body heights against the same300px
+four opaque body bounds and shows22/26/30px body heights against the same300px
 Neighborhood map, plus68px inspection views. All four measured/decode checks
 passed. `node art/studies/remaining-images/customer-minimal-review.cjs` writes
 ignored `.local-m4/customer-art/minimal-v1/review.html`, PNG and measurements.
 Compare native original22x34 cells before selecting a body scale; whole-cell
 height is not opaque-body height. No original pixels were generation inputs.
+Read-only atlas metadata measurement of196 first-phase frames (49 visual
+families x4 directions) gives median trimmed frame10x26, height range21-27.
+These are atlas rectangle bounds, not claimed pixel-exact opaque-body bounds.
+
+The follow-up `customer-neighbor-minimal-walk-v1.png` edits only our own
+minimal-face idle study. Exact prompt is adjacent. It requests two opposing
+contacts in four direction columns. Output1536x1024 still repeats the leading
+leg across both rows, so it is rejected as a walk cycle. Keep the simpler face
+direction, but do not integrate this animation. Do not infer an opaque brown
+background from the tool preview: inspected between-figure samples have alpha0
+despite colored RGB; the PNG has1046443 fully transparent pixels.
+No generation remains pending. Need a controllable coherent gait, not additional
+nearly identical full-sheet attempts. Staff portraits retain their current detail.

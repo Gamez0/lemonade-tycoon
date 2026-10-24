@@ -45,8 +45,8 @@ p{max-width:1100px}
 </style><h1>Minimal face / adult silhouette study - NOT integrated</h1>
 <p>User correction: faces should remain understated. Independently generated with the built-in tool from text only. No previous detailed-face sheet or original pixels supplied. Idle only: no animation/production acceptance.</p>
 <p>Map width is300px in every panel. Heights below are opaque-body heights, not whole-cell heights. Compare the private native22x34 original cells in <a href="../original-current-customers.html">original/current board</a>; do not infer simulation identities from visual families.</p>
-<section>${[22, 28, 34].map(height => `<div class="card"><b>Body ${height}px</b><div class="directions">${cells.map(cell => sprite(cell, height)).join('')}</div><div class="map" style="background-image:url('${map}')"><span class="actor">${sprite(cells[0], height)}</span></div></div>`).join('')}</section>
-<p>2x inspection only (body68px):</p><div class="directions">${cells.map(cell => sprite(cell, 68)).join('')}</div>`;
+<section>${[22, 26, 30].map(height => `<div class="card"><b>Body ${height}px</b><div class="directions">${cells.map(cell => sprite(cell, height)).join('')}</div><div class="map" style="background-image:url('${map}')"><span class="actor">${sprite(cells[0], height)}</span></div></div>`).join('')}</section>
+<p>Large inspection only (body68px):</p><div class="directions">${cells.map(cell => sprite(cell, 68)).join('')}</div>`;
         fs.writeFileSync(path.join(out, 'review.html'), html);
         fs.writeFileSync(path.join(out, 'measurements.json'), JSON.stringify(cells, null, 2));
         await page.setContent(html);
