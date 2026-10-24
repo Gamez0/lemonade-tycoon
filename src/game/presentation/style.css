@@ -1148,6 +1148,7 @@ html.desktop,
 .management-card p { min-height: 36px; margin: 6px 0; font-size: 12px; line-height: 1.4; }
 .catalog-picture { display: grid; place-items: center; width: 100%; height: 110px; background: #067725; border: 2px inset #78c44a; }
 .catalog-picture .pixel-icon { width: 88px; height: 88px; }
+.catalog-picture .stand-preview { display: block; width: 100px; height: 100px; image-rendering: auto; }
 .catalog-picture .staff-portrait { display: block; width: 100px; height: 100px; object-fit: contain; image-rendering: auto; }
 .management-card button { min-width: 115px; min-height: 30px; }
 .catalog-navigation { display: flex; justify-content: center; align-items: center; gap: 20px; margin: 7px 0; }

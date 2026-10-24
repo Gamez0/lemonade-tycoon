@@ -37,4 +37,8 @@ Validation:
 - The first harness attempt used TypeScript's default ES5 transpile target:
   Map iteration failed in the harness. Matching the production ES2020 target
   fixed the harness; the rerun passed. No product lifecycle fix was needed.
-- Full browser and actual Windows checks remain pending.
+- Full browser67/67 and release15/15 passed. Clean source627be85 Windows package
+  passed the native UI/relaunch suite and23-file asset audit. Isolated enforced
+  performance passed: zero idle redraws,215.5MiB private after20 completed days
+  and0.252MiB retained heap growth. PR260 merged only after all current-head
+  required CI, including Windows packaged saves, completed successfully.

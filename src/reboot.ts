@@ -38,6 +38,7 @@ import { decodeSave, encodeSave, readSave, writeSave } from "./game/simulation/s
 import { readSaveAsync, writeSaveAsync } from "./game/simulation/async-save";
 import type { AsyncSaveStorage } from "./game/simulation/async-save";
 import { StreetScene } from "./game/presentation/street-scene";
+import { standPreview } from "./game/presentation/stand-art";
 import { icon } from "./game/presentation/icons";
 import { tasteReaction, tasteAdvice } from "./game/presentation/taste-feedback";
 import { markup } from "./game/presentation/layout";
@@ -759,7 +760,14 @@ function render(): void {
     for (const [id, item] of Object.entries(UPGRADES)) {
         const level = state.management.upgrades[id as Upgrade];
         text(`upgrade-effect-${id}`, `Level ${level}/${item.prices.length} | ${level < item.prices.length ? item.effects[level] : item.effects[item.effects.length - 1]}`);
-        if (id === "stand") text("upgrade-title-stand", STAND_NAMES[level]);
+        if (id === "stand") {
+            text("upgrade-title-stand", STAND_NAMES[level]);
+            const picture = element("upgrade-art-stand");
+            if (picture.dataset.level !== String(level)) {
+                picture.innerHTML = standPreview(level);
+                picture.dataset.level = String(level);
+            }
+        }
         const button = document.querySelector<HTMLButtonElement>(`[data-upgrade="${id}"]`)!;
         button.textContent = level < item.prices.length ? `BUY ${money(item.prices[level])}` : "MAX LEVEL";
         button.disabled = !prep || Boolean(state.business) || level === item.prices.length || state.cash < item.prices[level];
