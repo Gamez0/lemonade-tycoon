@@ -33,7 +33,9 @@ const rows = exportsObject.names.map(name => {
         image = `<img src="data:image/png;base64,${fs.readFileSync(file).toString('base64')}" alt="Original ${original[name]}">`;
     }
     const role = { owner: 'owner', server: 'server', host: 'host' }[name];
-    const revised = role ? `<figure><figcaption>Revised native portrait · actual 100px display</figcaption><div class="box" style="width:100px;height:100px"><img src="data:image/png;base64,${fs.readFileSync(path.join(root, `src/game/assets/staff-${role}-v1.png`)).toString('base64')}" alt="Revised ${role}"></div></figure>` : '';
+    let revised = role ? `<figure><figcaption>Revised native portrait · actual 100px display</figcaption><div class="box" style="width:100px;height:100px"><img src="data:image/png;base64,${fs.readFileSync(path.join(root, `src/game/assets/staff-${role}-v1.png`)).toString('base64')}" alt="Revised ${role}"></div></figure>` : '';
+    const equipment = { refrigerator: 'refrigerator', iceMaker: 'ice-maker', blender: 'blender' }[name];
+    if (equipment) revised = `<figure><figcaption>Revised native equipment at equal${size}px; actual catalogue100px</figcaption><div class="box" style="width:${size}px;height:${size}px"><img src="data:image/png;base64,${fs.readFileSync(path.join(root, `src/game/assets/equipment-${equipment}-v1.png`)).toString('base64')}" alt="Revised ${name}"></div></figure>`;
     return `<article><h2>${name}</h2><p>${size}px baseline display · ${original[name] || 'full-screen reference required'}</p><div class="pair"><figure><figcaption>Original · contained in equal display box</figcaption><div class="box" style="width:${size}px;height:${size}px">${image}</div></figure><figure><figcaption>Baseline SVG · same display box</figcaption><div class="box" style="width:${size}px;height:${size}px">${exportsObject.icon(name)}</div></figure>${revised}</div></article>`;
 });
 const html = `<!doctype html><meta charset="utf-8"><title>Remaining image inventory</title>

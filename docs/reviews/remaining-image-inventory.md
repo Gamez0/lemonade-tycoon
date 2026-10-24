@@ -103,3 +103,10 @@ The next equipment-card improvement reuses the actual native v2 stand artwork
 for the owned stage. It replaces only the unrelated generic catalogue glyph;
 the small navigation glyph remains. Other equipment, ingredients, weather,
 reaction/report and navigation image work stays open in #257.
+
+Equipment follow-up replaces the refrigerator/ice-maker/blender catalogue glyphs
+with native1402x1122 independent illustrations. Source259e6fc clean Windows:
+six equipment/eight stand previews and enforced20-day performance passed
+(229.9MiB private, zero idle redraws,0.257MiB retained heap). Final CI pending.
+The next ingredient inspection corrects this table's paper-fold assumption:
+the retained sugar reference depicts a scoop with a small sugar pile, not a bag.
