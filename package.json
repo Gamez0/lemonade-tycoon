@@ -62,7 +62,7 @@
         "vite": "^6.4.4"
     },
     "dependencies": {
-        "phaser": "^3.87.0",
+        "phaser": "^4.2.1",
         "webfontloader": "^1.6.28"
     },
     "main": "src/desktop/main.cjs"
