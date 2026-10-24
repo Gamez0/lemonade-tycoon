@@ -513,7 +513,7 @@ function renderReport(): void {
     );
     const satisfaction = sold === 0 ? null : Math[reports.some(report => report.business?.customerModel === "purchase-first-v1") ? "floor" : "round"](sum("satisfactionTotal") /
         reports.reduce((total, report) => total + satisfactionCustomers(report), 0));
-    element("report-face").innerHTML = icon(sold === 0 ? "expensive" : satisfaction !== null && satisfaction < 70 ? "unhappy" : "happy");
+    element("report-face").innerHTML = icon(sold === 0 ? "quiet" : satisfaction !== null && satisfaction < 70 ? "unhappy" : "happy");
     text(
         "report-verdict",
         sold === 0
