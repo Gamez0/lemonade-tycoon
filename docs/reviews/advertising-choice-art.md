@@ -20,3 +20,12 @@ Keep the approved detailed Staff portraits and minimal-face map people separate
 from these advertising symbols. Source glyphs remain within the26-unit vector
 system; inspect actual native window sizes and selection/charging behavior before
 integration. Human visual acceptance remains in #97.
+
+Initial validation: typecheck/lint/build and three focused browser management,
+keyboard/reduced-motion and preparation-breakpoint checks pass. Clean Windows
+023ca9d package passes the26-asset audit and six actual panels at1280x1000 and
+800x600: each glyph stays within stroke-safe bounds, keyboard selection persists,
+browsing leaves cash unchanged and Local radio charges exactly450 cents at
+opening. Baseline eb22c69 and revised native captures are retained separately in
+ignored `.local-m4/advertising-review/{baseline,native}`. Inspect the combined
+latest-main package and require final-head CI before integration.
