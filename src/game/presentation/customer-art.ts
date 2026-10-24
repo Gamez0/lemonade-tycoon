@@ -10,9 +10,9 @@ export function customerTexture(profile: number, pose: string): string {
     return `customer-${visual}-${pose}`;
 }
 export const CUSTOMER_METRICS = {
-    width: 128, height: 192, originX: .5, originY: 87 / 96,
+    width: 64, height: 96, originX: .5, originY: 87 / 96,
     // Independently authored30px body shown24px high at300px map width.
-    scale: (24 * 640 / 300) / (30 * 4), labelOffset: 72,
+    scale: (24 * 640 / 300) / (30 * 2), labelOffset: 72,
 } as const;
 
 export function createCustomerArt(scene: Phaser.Scene): void {
@@ -23,7 +23,7 @@ export function createCustomerArt(scene: Phaser.Scene): void {
             if (scene.textures.exists(key)) continue;
             const canvas = document.createElement("canvas");
             canvas.width = CUSTOMER_METRICS.width; canvas.height = CUSTOMER_METRICS.height;
-            const ctx = canvas.getContext("2d")!; ctx.scale(2, 2);
+            const ctx = canvas.getContext("2d")!;
             paintClassicCustomer(ctx, visual, group === "rear", action, frame);
             const texture = scene.textures.addCanvas(key, canvas);
             if (!texture) throw new Error("Unable to register customer frame");

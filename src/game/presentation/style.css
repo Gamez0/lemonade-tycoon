@@ -1107,6 +1107,7 @@ html.desktop,
 .desktop #day-actions { flex-shrink: 0; }
 #rent-page .catalog-navigation { margin: 3px 0; }
 #rent-page .catalog-navigation button { min-height: 24px; padding: 2px; }
+#rent-page .hint { font-size: 11px; line-height: 1.25; margin: 4px 0; }
 .desktop #results {
     flex: 1;
     min-height: 0;

@@ -5,6 +5,8 @@ const { encodeSave } = require('../../.test-build/simulation/save.js');
 for (const location of require('../../.test-build/content/locations.js').LOCATION_IDS) test(`${location}: painted background keeps upgraded stand and moving customers separate`, async ({ page }) => {
     const errors = []; page.on('pageerror', error => errors.push(error.message));
     const business = fundedStandBusiness(location);
+    // Crowded art/motion fixture; sparse rain days have dedicated coverage.
+    business.state = { ...business.state, weather: require('../../.test-build/content/catalog.js').WEATHER[0] };
     for (let tier = 0; tier < 3; tier++) business.state = purchaseUpgrade(business.state, 'stand');
     await page.clock.install();
     await page.addInitScript(raw => localStorage.setItem('lemonade-tycoon.reboot.save', raw), encodeSave(business.state, business.history));

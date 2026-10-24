@@ -101,16 +101,16 @@ const maps = Object.fromEntries(fs.readdirSync(path.join(root, 'src/game/assets'
             const textureSamples = scene.textures.getTextureKeys().filter(key => key.startsWith('customer-')).map(key => {
                 const image = scene.textures.get(key).getSourceImage();
                 const context = image.getContext('2d'), pixels = context.getImageData(0, 0, image.width, image.height).data;
-                if (image.width !== 128 || image.height !== 192) throw Error('Non-native customer texture: ' + key);
-                for (const [x, y] of [[0, 0], [127, 0], [0, 191], [127, 191]])
+                if (image.width !== 64 || image.height !== 96) throw Error('Non-native customer texture: ' + key);
+                for (const [x, y] of [[0, 0], [63, 0], [0, 95], [63, 95]])
                     if (pixels[(y * image.width + x) * 4 + 3] !== 0) throw Error('Opaque frame corner: ' + key);
-                for (let x = 0; x < 128; x++)
-                    if (pixels[x * 4 + 3] || pixels[(191 * 128 + x) * 4 + 3]) throw Error('Clipped frame edge: ' + key);
-                for (let y = 0; y < 192; y++)
-                    if (pixels[(y * 128) * 4 + 3] || pixels[(y * 128 + 127) * 4 + 3]) throw Error('Clipped frame edge: ' + key);
-                let left = 128, top = 192, right = 0, bottom = 0;
-                for (let y = 0; y < 192; y++) for (let x = 0; x < 128; x++) {
-                    if (pixels[(y * 128 + x) * 4 + 3] < 128) continue;
+                for (let x = 0; x < 64; x++)
+                    if (pixels[x * 4 + 3] || pixels[(95 * 64 + x) * 4 + 3]) throw Error('Clipped frame edge: ' + key);
+                for (let y = 0; y < 96; y++)
+                    if (pixels[(y * 64) * 4 + 3] || pixels[(y * 64 + 63) * 4 + 3]) throw Error('Clipped frame edge: ' + key);
+                let left = 64, top = 96, right = 0, bottom = 0;
+                for (let y = 0; y < 96; y++) for (let x = 0; x < 64; x++) {
+                    if (pixels[(y * 64 + x) * 4 + 3] < 128) continue;
                     left = Math.min(left, x); right = Math.max(right, x);
                     top = Math.min(top, y); bottom = Math.max(bottom, y);
                 }
@@ -216,7 +216,7 @@ const maps = Object.fromEntries(fs.readdirSync(path.join(root, 'src/game/assets'
         }
         fs.writeFileSync(path.join(out, 'results.json'), JSON.stringify(result, null, 2));
         const figures = review.textures.map(f => `<figure><figcaption>${f.key}</figcaption><img width="128" height="192" src="${f.png}"></figure>`).join('');
-        fs.writeFileSync(path.join(out, 'customer-textures.html'), `<!doctype html><meta charset="utf-8"><title>Actual native customer textures</title><style>body{font:14px system-ui;background:#eee9d8;color:#243a30}main{display:flex;flex-wrap:wrap;gap:10px}figure{margin:0;background:#a2b797;width:180px;padding:8px}figcaption{font-size:11px}img{display:block}</style><h1>Actual128x192 code-native frames - source inspection</h1><p>Three roles, front/rear sources mirrored into four route directions. Fixed ground anchors, four walk phases, idle, empty-hand ordering, walking cup and reduced-motion cup.</p><main>${figures}</main>`);
+        fs.writeFileSync(path.join(out, 'customer-textures.html'), `<!doctype html><meta charset="utf-8"><title>Actual native customer textures</title><style>body{font:14px system-ui;background:#eee9d8;color:#243a30}main{display:flex;flex-wrap:wrap;gap:10px}figure{margin:0;background:#a2b797;width:180px;padding:8px}figcaption{font-size:11px}img{display:block}</style><h1>Actual64x96 code-native frames - source inspection</h1><p>Three roles, front/rear sources mirrored into four route directions. Fixed ground anchors, four walk phases, idle, empty-hand ordering, walking cup and reduced-motion cup.</p><main>${figures}</main>`);
         fs.writeFileSync(path.join(out, 'texture-bounds.json'), JSON.stringify({ metrics: review.metrics,
             textures: review.textures.map(({ key, bounds }) => ({ key, bounds })) }, null, 2));
         fs.writeFileSync(path.join(out, 'evidence.json'), JSON.stringify({
