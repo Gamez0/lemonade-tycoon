@@ -1,3 +1,4 @@
+const { selectLocation } = require('../helpers/rent-navigation.cjs');
 const { test, expect } = require('../helpers/browser-game.cjs');
 const { newGame } = require('../../.test-build/simulation/game.js');
 const { encodeSave, SAVE_KEY } = require('../../.test-build/simulation/save.js');
@@ -12,9 +13,14 @@ test('Rent browses all ten choices without a horizontal scrollbar or browsing ch
         for (let i = 0; i < LOCATION_IDS.length; i++) {
             await page.locator('#rent-next').click();
             await expect(page.locator('.location-list [aria-pressed=true]')).toBeInViewport();
-            const box = await page.locator('.location-list').evaluate(e => ({ overflow: getComputedStyle(e).overflowX,
-                scrollbar: e.offsetHeight - e.clientHeight, pageFits: document.documentElement.scrollWidth <= innerWidth }));
-            expect(box.overflow).toBe('hidden'); expect(box.scrollbar).toBe(0); expect(box.pageFits).toBe(true);
+            const box = await page.locator('.location-list').evaluate(e => {
+                e.scrollLeft = 1000;
+                return { overflow: getComputedStyle(e).overflowX, excess: e.scrollWidth - e.clientWidth,
+                    offset: e.scrollLeft, scrollbar: e.offsetHeight - e.clientHeight,
+                    pageFits: document.documentElement.scrollWidth <= innerWidth };
+            });
+            expect(box.overflow).toBe('clip'); expect(box.excess).toBeLessThanOrEqual(1);
+            expect(box.offset).toBe(0); expect(box.scrollbar).toBe(0); expect(box.pageFits).toBe(true);
         }
     }
     expect(await page.evaluate(key => localStorage.getItem(key), SAVE_KEY)).toBe(initial);
@@ -23,9 +29,9 @@ test('rain and location previews explain the real visitor and cooling effects be
     await page.addInitScript(({ key, raw }) => localStorage.setItem(key, raw),
         { key: SAVE_KEY, raw: encodeSave({ ...newGame(), weather: WEATHER[2] }, []) });
     await page.goto('/'); await page.locator('[data-page=rent]').click();
-    await page.locator('[data-location=park]').click();
+    await selectLocation(page, 'park');
     await expect(page.locator('#rent-description')).toContainText('Rain reduces outdoor foot traffic');
-    await page.locator('[data-location=mall]').click();
+    await selectLocation(page, 'mall');
     await expect(page.locator('#rent-description')).toContainText('Indoors:20°C');
     await expect(page.locator('#rent-details')).toContainText('20°C / 0 ice per cup');
 });

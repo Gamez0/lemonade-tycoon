@@ -1,3 +1,4 @@
+const { selectLocation } = require('./helpers/rent-navigation.cjs');
 const { _electron: electron } = require("playwright");
 const { expect } = require("@playwright/test");
 const { profileArgs, verifyProfile } = require('./helpers/desktop-profile.cjs');
@@ -154,7 +155,7 @@ async function fit(page, name) {
                 }
                 if (tab === 'rent') {
                     for (const id of require('../.test-build/content/locations.js').LOCATION_IDS) {
-                        await page.locator(`button[data-location="${id}"]`).click();
+                        await selectLocation(page, id);
                         await fit(page, `${width}x${height} rent ${id}`);
                     }
                 }

@@ -1,7 +1,7 @@
 {
     "name": "willow-lane-lemonade",
     "description": "A classic Windows lemonade stand management game.",
-    "version": "0.2.0-alpha.15",
+    "version": "0.2.0-alpha.16",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Gamez0/lemonade-tycoon.git"
@@ -28,6 +28,7 @@
         "test:desktop": "node tests/desktop.cjs",
         "test:desktop:menu": "node tests/desktop-start-menu.cjs",
         "test:desktop:ui": "node tests/desktop-ui.cjs",
+        "test:desktop:rent": "node tests/desktop-rent.cjs",
         "test:desktop:management": "node tests/desktop-management.cjs",
         "test:desktop:taste": "node tests/desktop-taste.cjs",
         "test:preview:engines": "node tests/preview-engines.cjs",
