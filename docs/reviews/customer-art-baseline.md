@@ -12,7 +12,7 @@ is useful comparison context; it is not newly measured original movement logic.
 Forty-nine visual families must not be described as49 simulation profiles, and
 their order must not be silently assigned to the eleven decoded behavior types.
 
-The reboot has three adapted profiles (Neighbor, Office worker, Student), each
+The47e4376 reboot baseline has three adapted profiles (Neighbor, Office worker, Student), each
 with four20×34 code-generated textures. The actual scene draws them at1.4× in
 a640×512 world. Thus their whole source cell is13.125×22.3125 when normalized to
 the same300px map width as the original. Comparing the original22×34 cell with
@@ -27,7 +27,7 @@ baseline. It restores atlas trim offsets before displaying original cells and
 uses equal300px map width for both families. Original source pixels and generated
 comparison HTML remain in ignored `.local-m4/customer-art`.
 
-## Problems visible in code and comparison
+## Problems visible in the47e4376 baseline
 
 - Current poses0/1 provide only two stride states; pose3 raises a cup. Pose2 draws
   a rear view but `street-scene.ts` never selects it. Horizontal mirroring cannot
@@ -160,3 +160,27 @@ background from the tool preview: inspected between-figure samples have alpha0
 despite colored RGB; the PNG has1046443 fully transparent pixels.
 No generation remains pending. Need a controllable coherent gait, not additional
 nearly identical full-sheet attempts. Staff portraits retain their current detail.
+
+## Code-native articulation study
+
+Production PR260 has since integrated route/counter direction selection and
+rear stride/cup combinations in main334f052. The private twelve-texture board
+above intentionally retains the pre-change47e4376 baseline; its unused-rear
+observation is historical. Replacement art still needs its own route validation.
+
+`node art/studies/remaining-images/customer-rig-review.cjs` creates a separate
+code-native SVG study for Neighbor. Four isometric directions each have four
+opposing walk phases, idle and drinking (24 vectors). Limb positions are
+controlled directly, with small heads, minimal facial marks and fixed32,87
+ground anchors. Body bob applies to upper anatomy rather than lifting grounded
+feet. The6-column contact sheet and nominal26px body playback expose leg/arm
+alternation, silhouette and occlusion. Frames/keypoints and measured bounds are
+written only to ignored `.local-m4/customer-art/rig`.
+
+Node syntax and Chromium rendering of all24 poses pass, with no console/page
+errors and no viewBox clipping. An initial west-facing SVG nose path error was
+corrected and the whole study rerun. This proves controllable distinct phases,
+not final animation quality. Thin limb shapes, shirt volume/material density,
+three-role variation and walking-with-cup poses remain unresolved. No procedural
+candidate is selected or imported into the game. Compare against the private
+original and minimal-face study at the same map width before proceeding.
