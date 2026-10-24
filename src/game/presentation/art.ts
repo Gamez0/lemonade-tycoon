@@ -70,9 +70,9 @@ export function createArt(scene: Phaser.Scene): void {
     const shirts = [0xc96852, 0x536daf, 0xddba55];
     const skins = [0xe8bb92, 0xbe8b65, 0xe5b188];
     for (let profile = 0; profile < 3; profile++) {
-        for (let pose = 0; pose < 4; pose++) {
+        for (let pose = 0; pose < 6; pose++) {
             ellipse(9, 30, 15, 5, 0x81907e, false);
-            const stride = pose === 1 ? 2 : 0;
+            const stride = pose === 1 || pose === 4 ? 2 : 0;
             rect(6 - stride, 21, 3, 9, 0x344250);
             rect(10 + stride, 21, 3, 8, 0x465364);
             rect(5 - stride, 29, 5, 2, 0x263b37);
@@ -87,11 +87,11 @@ export function createArt(scene: Phaser.Scene): void {
                 rect(3, 2, 10, 3, 0xd9ddc3);
                 rect(10, 4, 5, 1, 0xd9ddc3);
             }
-            if (pose === 2) {
+            if (pose === 2 || pose >= 4) {
                 rect(5, 3, 7, 5, 0x453c34);
                 line(5, 12, 11, 12, 0xf0deb3);
             }
-            if (pose === 3) {
+            if (pose === 3 || pose === 5) {
                 rect(12, 14, 4, 3, skins[profile]);
                 rect(14, 10, 4, 6, 0xfff5d3);
                 rect(15, 11, 2, 2, 0xe8ce37);

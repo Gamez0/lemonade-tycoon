@@ -1,5 +1,15 @@
 # Cloud development handoff — 2026-10-05
 
+## Customer direction correction - 2026-10-24 KST
+
+Active #257 in D:/lemonade-customer-facing, fix/customer-route-facing, based
+main47e4376. See reviews/customer-route-facing.md for changes and evidence.
+79 model tests, type/lint/build and actual Phaser10map/80actor harness pass;
+full browser and actual Windows checks pending. Generated faces v1-v3 rejected
+after user correction: no highly detailed faces/large cartoon heads. Original
+native22x34 reference board re-inspected. Minimal face/silhouette art remains
+separate research in draft259; no candidate imported. #97/#16 stay open.
+
 ## Stand ownership and separate appearance — 2026-10-20 KST
 
 PR252 studies integrated17b3c4d after all exact-head checks; this does not accept
