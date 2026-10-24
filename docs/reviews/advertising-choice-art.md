@@ -29,3 +29,5 @@ browsing leaves cash unchanged and Local radio charges exactly450 cents at
 opening. Baseline eb22c69 and revised native captures are retained separately in
 ignored `.local-m4/advertising-review/{baseline,native}`. Inspect the combined
 latest-main package and require final-head CI before integration.
+The same clean023ca9d package also passes full native UI/relaunch checks,
+including preparation screens, small-window selling/results and price entry.
