@@ -10,13 +10,15 @@ import { mapThumbnail } from "./map-raster";
 import { MAP_LAYOUTS, mapPosition, queueProgress } from "../content/map-layouts";
 import { createStandArt, standSize, standFlip, STAND_ASSETS } from "./stand-art";
 import { STAND_NAMES } from "../content/management";
-import { customerAppearance, routeFacing, vectorFacing, type CustomerFacing } from "../content/customer-facing";
+import { customerAppearance, routeFacing, vectorFacing, type CustomerFacing, type CustomerAction } from "../content/customer-facing";
+import { CUSTOMER_METRICS, customerTexture } from "./customer-art";
 
 interface StreetHooks {
     state: () => State;
     street: () => StreetDay | null;
     tick: () => void;
     changed: () => void;
+    paused?: () => boolean;
 }
 
 export class StreetScene extends Phaser.Scene {
@@ -95,11 +97,11 @@ export class StreetScene extends Phaser.Scene {
         }
     }
 
-    private drawPeople(day: StreetDay): void {
+    private drawPeople(day: StreetDay, tickFraction = 0): void {
         const streetLayout = { stopX: 267 };
-        const peopleScale = 1.4;
+        const peopleScale = CUSTOMER_METRICS.scale;
         const visible = new Set<number>();
-        const show = (id: number, profile: number, pose: number, position: number,
+        const show = (id: number, profile: number, action: CustomerAction, position: number,
             label?: string, facingStand = false, purpose: "service" | "through" | "depart" = "service",
             travel: 1 | -1 = 1) => {
             const [logicalX, logicalY] = mapPosition(this.hooks.state().location, position,
@@ -111,46 +113,47 @@ export class StreetScene extends Phaser.Scene {
             const facing = facingStand ? vectorFacing(ground[0] - logicalX, ground[1] - logicalY, previous) :
                 routeFacing(location, position, purpose, travel, previous);
             this.facings.set(id, facing);
-            const appearance = customerAppearance(facing, pose, this.motion.matches);
+            const appearance = customerAppearance(facing, action, (day.tick + tickFraction) * .8 + id, this.motion.matches);
             visible.add(id);
             let sprite = this.people.get(id);
             if (!sprite) {
-                sprite = this.add.sprite(x, y, `customer-${profile}-${pose}`).setOrigin(0.5, 1);
+                sprite = this.add.sprite(x, y, customerTexture(profile, appearance.pose))
+                    .setOrigin(CUSTOMER_METRICS.originX, CUSTOMER_METRICS.originY);
                 this.people.set(id, sprite);
             }
-            sprite.setPosition(Math.round(x), Math.round(y)).setTexture(`customer-${profile}-${appearance.pose}`)
+            sprite.setPosition(Math.round(x), Math.round(y)).setTexture(customerTexture(profile, appearance.pose))
                 .setScale(peopleScale).setFlipX(appearance.flipX).setDepth(y);
             let bubble = this.bubbles.get(id);
             if (label) {
                 if (!bubble) {
-                    bubble = this.add.text(x, y - 48, label, {
+                    bubble = this.add.text(x, y - CUSTOMER_METRICS.labelOffset, label, {
                         fontFamily: "monospace", fontSize: "20px", color: "#284a3c",
                         backgroundColor: "#fff8df", padding: { x: 6, y: 2 },
                     }).setOrigin(0.5).setDepth(y + 40);
                     this.bubbles.set(id, bubble);
                 }
-                bubble.setText(label).setPosition(x, y - (peopleScale > 1 ? 64 : 48)).setVisible(true);
+                bubble.setText(label).setPosition(x, y - CUSTOMER_METRICS.labelOffset).setDepth(y + 40).setVisible(true);
             } else bubble?.setVisible(false);
         };
         if (day.serving) {
             const { visitor } = day.serving;
-            show(visitor.id, visitor.profile, 0, streetLayout.stopX + 19,
+            show(visitor.id, visitor.profile, "order", streetLayout.stopX + 19,
                 undefined, true);
         }
         day.waiting.forEach((person, index) => {
             const target = queueProgress(this.hooks.state().location, index);
-            const progress = this.motion.matches ? 1 : Math.min(1, (day.tick - person.joinedAt) / 3);
+            const progress = this.motion.matches ? 1 : Math.min(1, (day.tick + tickFraction - person.joinedAt) / 3);
             const from = Math.max(660, target + 90);
             const x = from + (target - from) * progress;
-            show(person.visitor.id, person.visitor.profile, progress < 1 ? day.tick % 2 : 0,
+            show(person.visitor.id, person.visitor.profile, progress < 1 ? "walk" : "idle",
                 x, undefined, progress >= 1, "service", -1);
         });
         for (const person of day.walking) {
-            const progress = this.motion.matches ? 0.55 : (day.tick - person.startedAt) / (person.until - person.startedAt);
+            const progress = this.motion.matches ? 0.55 : (day.tick + tickFraction - person.startedAt) / (person.until - person.startedAt);
             const from = person.kind === "passed" || person.kind === "price" ? -20 : streetLayout.stopX + 19;
             const x = from + (680 - from) * progress;
             show(person.visitor.id, person.visitor.profile,
-                person.kind === "bought" ? 3 : day.tick % 2, x,
+                person.kind === "bought" ? "cup" : "walk", x,
                 progress < 0.65 && person.kind !== "passed" ? this.reaction(person) : undefined,
                 false, person.kind === "passed" || person.kind === "price" ? "through" : "depart");
         }
@@ -164,6 +167,10 @@ export class StreetScene extends Phaser.Scene {
     }
 
     update(_time: number, delta: number): void {
+        if (this.hooks.paused?.()) {
+            this.game.loop.sleep();
+            return;
+        }
         const state = this.hooks.state();
         const ground = MAP_LAYOUTS[state.location].ground;
         const x = ground[0] * 640 / 300, y = ground[1] * 512 / 240;
@@ -195,9 +202,10 @@ export class StreetScene extends Phaser.Scene {
             this.hooks.tick();
             changed = true;
         }
-        if (changed) {
-            this.drawPeople(this.hooks.street()!);
-            this.hooks.changed();
-        }
+        // Render between the unchanged100ms business ticks at the existing20fps
+        // ceiling. Preparation/results still sleep and do not animate.
+        const current = this.hooks.street();
+        if (current) this.drawPeople(current, this.elapsed / 100);
+        if (changed) this.hooks.changed();
     }
 }

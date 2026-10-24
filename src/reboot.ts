@@ -90,7 +90,7 @@ desktopSave?.onFlush(async (request = true) => {
     closing = request;
     app.inert = closing || importing;
     app.setAttribute("aria-busy", String(app.inert));
-    if (!request) return;
+    if (!request) { scene.refresh(); return; }
     await pendingRestore;
     await pendingImport;
     await saveQueue;
@@ -193,6 +193,7 @@ function applyStreet(events: CustomerEvent[]): void {
 const scene = new StreetScene({
     state: () => state,
     street: () => street,
+    paused: () => importing || closing,
     tick: () => {
         if (!street || importing || closing) return;
         const next = tickStreet(street);
@@ -458,6 +459,7 @@ element<HTMLInputElement>("save-file").addEventListener("change", (event) => {
             importing = false;
             app.inert = closing;
             app.setAttribute("aria-busy", String(closing));
+            scene.refresh();
         }
     })();
 });
