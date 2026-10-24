@@ -1,6 +1,7 @@
 import { icon } from "./icons";
 import { decodeSave } from "../simulation/save";
 import { careerDate } from "../simulation/calendar";
+import { LOCATIONS } from "../content/locations";
 import type { Company } from "../simulation/company-book";
 import "./start-menu.css";
 
@@ -28,10 +29,8 @@ const disk = drawing('<path fill="#7b83b9" d="M3 2h18l3 3v19H3Z"/><path fill="#e
 const options = drawing('<path fill="#d8d9bd" d="M5 3h13l4 4v17H5Z"/><path fill="#afbfa9" d="m18 3 4 4h-4Z"/><path fill="none" stroke-width="2" d="M8 9h11M8 14h11M8 19h11"/><path fill="#f3ce61" d="M10 7h3v4h-3Zm5 5h3v4h-3Zm-6 5h3v4H9Z"/>');
 const help = drawing('<path fill="#477db4" d="m4 5 12-3 6 3v18l-12 2-6-3Z"/><path fill="#e8edcd" d="m16 2 6 3v15l-6 2Z"/><path fill="none" stroke="#fff6cf" stroke-width="1.6" d="M7 10q0-4 4-4 5 0 2 5l-2 2m0 3v1"/>');
 const credits = drawing('<path fill="#c6d7c2" d="m2 16 4-3 4 3v8H2Zm14 0 4-3 4 3v8h-8Z"/><path fill="#5a7caa" d="m8 16 5-3 5 3v9H8Z"/><ellipse fill="#c69b74" cx="6" cy="9" rx="3" ry="4"/><ellipse fill="#e5ba91" cx="13" cy="9" rx="3" ry="4"/><ellipse fill="#a97c5b" cx="20" cy="9" rx="3" ry="4"/><path fill="#514738" d="M3 7q1-5 5-1v2H3Zm7-1q3-4 6 0v1h-6Zm7 1q1-4 5-1v2h-5Z"/>');
-const computer = drawing('<path fill="#b7c8bd" d="M2 3h17v13H2Z"/><path fill="#4d7b9d" d="M4 5h13v9H4Z"/><path fill="#e7e9cf" d="m4 20 12-2 7 4H3Z"/><path fill="none" d="M10 16v3m11-13 3 3-3 3"/>');
 
-/** Coordinates follow the retained640x480 menu records0–22, not the legacy
- * remake's1024x768 menu. All visible art here is independently authored. */
+/** Company lobby with eight save cards and a selected-save preview. */
 export class StartMenu {
     readonly root = document.createElement("section");
     private selected = 0;
@@ -39,31 +38,38 @@ export class StartMenu {
     private creating = false;
     private creatingMode: "career" | "challenge" = "career";
     private error = "";
+    private summaries: ({ raw: string; mode: string; day: number; date: string; cash: string; location: string } | undefined)[] = [];
+    private summary(index: number, company: Company) {
+        const cached = this.summaries[index];
+        if (cached?.raw === company.raw) return cached;
+        const doc = decodeSave(company.raw), date = careerDate(doc.state.day);
+        return this.summaries[index] = { raw: company.raw, mode: doc.mode === "challenge" ? "Challenge" : "Career",
+            day: doc.state.day, date: `Year ${date.year} / Month ${date.month} / Day ${date.day}`,
+            cash: `$${(doc.state.cash / 100).toFixed(2)}`, location: LOCATIONS[doc.state.location].name };
+    }
     constructor(private hooks: Hooks) {
         this.root.id = "start-menu";
         this.root.setAttribute("aria-label", "Main menu");
         this.root.innerHTML = `<div class="start-frame">
-          <h1 class="menu-logo" style="${rect(320, 0, 256, 116)}">${icon("lemon")}<small>WILLOW LANE</small><strong>LEMONADE</strong><b>TYCOON</b></h1>
-          <div class="menu-panel" style="${rect(8, 120, 309, 343)}"></div>
-          ${button("menu-play", "Play!", icon("stand"), 8, 62, 61)}
-          ${button("menu-options", "options", options, 72, 62, 40)}
-          ${button("menu-help", "help", help, 114, 62, 35)}
-          ${button("menu-exchange", "LSW", mark("◉"), 152, 62, 35)}
-          ${button("menu-credits", "credits", credits, 190, 62, 37)}
-          ${button("menu-quit", "quit", mark("✖"), 230, 62, 34)}
-          <p id="menu-heading" style="${rect(15, 126, 294, 43)}">Choose a company</p>
-          ${button("menu-new", "new career", icon("owner"), 15, 174, 75)}
-          ${button("menu-challenge", "new challenge", icon("clock"), 93, 174, 75)}
-          ${button("menu-get", "get game", computer, 171, 174, 75)}
-          ${button("menu-continue", "load game", disk, 249, 174, 61)}
-          <div class="company-list" style="${rect(17, 269, 294, 103)}">${Array.from({ length: 8 }, (_, i) =>
+          <h1 class="menu-logo" style="${rect(24, 12, 286, 84)}">${icon("lemon")}<small>WILLOW LANE</small><strong>LEMONADE</strong><b>TYCOON</b></h1>
+          <div class="menu-panel" style="${rect(16, 108, 608, 330)}"></div>
+          ${button("menu-options", "Options", options, 360, 24, 56, 56)}
+          ${button("menu-help", "Help", help, 422, 24, 56, 56)}
+          ${button("menu-credits", "Credits", credits, 484, 24, 56, 56)}
+          ${button("menu-quit", "Quit", mark("\u00d7"), 546, 24, 56, 56)}
+          <p id="menu-heading" style="${rect(28, 120, 350, 30)}">Choose your company</p>
+          <p class="menu-selection-label" style="${rect(392, 126, 218, 24)}">SELECTED COMPANY</p>
+          ${button("menu-new", "New career", icon("owner"), 28, 386, 170, 40)}
+          ${button("menu-challenge", "30-day challenge", icon("clock"), 206, 386, 170, 40)}
+          ${button("menu-continue", "LOAD GAME", disk, 392, 334, 218, 44)}
+          <div class="company-list" aria-label="Saved companies" style="${rect(28, 160, 348, 214)}">${Array.from({ length: 8 }, (_, i) =>
             `<button data-company="${i}" aria-pressed="false">Empty company</button>`).join("")}</div>
-          <p id="menu-company-info" style="${rect(17, 376, 290, 37)}"></p>
-          <p id="menu-status" role="status" style="${rect(17, 417, 290, 38)}">Reading saved companies…</p>
-          <button id="menu-retry" style="${rect(329, 416, 120, 30)}" hidden>Retry save recovery</button>
-          <button id="menu-import" style="${rect(329, 380, 145, 30)}">Import saved game…</button>
-          <button id="menu-inspect" style="${rect(480, 380, 145, 30)}" hidden>Review / export backup</button>
-          <form id="menu-create" aria-label="New career" hidden style="${rect(329, 174, 294, 200)}">
+          <div id="menu-company-info" class="menu-summary" style="${rect(392, 160, 218, 162)}"></div>
+          <p id="menu-status" role="status" style="${rect(28, 446, 584, 28)}">Reading saved companies&#8230;</p>
+          <button id="menu-retry" style="${rect(28, 386, 170, 40)}" hidden>Retry save recovery</button>
+          <button id="menu-import" style="${rect(392, 386, 218, 40)}">Import backup&#8230;</button>
+          <button id="menu-inspect" style="${rect(206, 386, 170, 40)}" hidden>Review / export backup</button>
+          <form id="menu-create" aria-label="New career" hidden style="${rect(388, 156, 226, 224)}">
             <h2>New career</h2><label>Company name<input id="menu-name" maxlength="40" value="" required></label>
             <label id="menu-replace-label"><input id="menu-replace" type="checkbox"> Replace the selected company's saved game</label>
             <p>Your other companies will be kept.</p><button type="submit">CREATE</button><button id="menu-cancel" type="button">CANCEL</button>
@@ -71,12 +77,7 @@ export class StartMenu {
           <dialog id="menu-credits-dialog"><h2>Willow Lane Lemonade</h2><p>Art, music and code created for this game.</p><p>Phaser · MIT. Electron and Chromium license notices accompany the Windows package. Oswald · SIL Open Font License.</p><form method="dialog"><button>CLOSE</button></form></dialog>
         </div>`;
         document.body.append(this.root);
-        this.el<HTMLButtonElement>("menu-exchange").disabled = true;
-        this.el("menu-exchange").title = "Online stock exchange is not available in this edition.";
         this.el("menu-challenge").title = "Earn as much as you can in30 trading days.";
-        this.el<HTMLButtonElement>("menu-get").disabled = true;
-        this.el("menu-get").title = "The game is already installed.";
-        this.el("menu-play").onclick = () => { this.creating = false; this.render(); };
         this.el("menu-help").onclick = hooks.help;
         this.el("menu-options").onclick = hooks.options;
         this.el("menu-quit").onclick = hooks.quit;
@@ -100,6 +101,15 @@ export class StartMenu {
         this.el("menu-challenge").onclick = () => start("challenge");
         this.root.querySelectorAll<HTMLButtonElement>("[data-company]").forEach(button => {
             button.onclick = () => { this.selected = Number(button.dataset.company); this.creating = false; this.render(); };
+            button.onkeydown = event => {
+                const step = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -2, ArrowDown: 2 }[event.key];
+                if (step === undefined && event.key !== "Home" && event.key !== "End") return;
+                event.preventDefault();
+                if (this.busy || this.hooks.blocked()) return;
+                this.selected = event.key === "Home" ? 0 : event.key === "End" ? 7 : Math.max(0, Math.min(7, this.selected + step!));
+                this.creating = false; this.render();
+                this.root.querySelector<HTMLButtonElement>(`[data-company="${this.selected}"]`)!.focus();
+            };
         });
         this.el("menu-cancel").onclick = () => { this.creating = false; this.render(); };
         this.el<HTMLFormElement>("menu-create").onsubmit = event => {
@@ -131,7 +141,15 @@ export class StartMenu {
     render(): void {
         const companies = this.hooks.companies(), chosen = companies[this.selected];
         this.root.querySelectorAll<HTMLButtonElement>("[data-company]").forEach((button, index) => {
-            button.textContent = companies[index]?.name ?? "Empty company";
+            const company = companies[index], summary = company ? this.summary(index, company) : null;
+            if (!company) this.summaries[index] = undefined;
+            const slot = document.createElement("span"), name = document.createElement("strong"), detail = document.createElement("span");
+            slot.className = "company-slot"; slot.textContent = String(index + 1);
+            name.className = "company-name"; name.textContent = company?.name ?? "Empty slot";
+            detail.className = "company-summary"; detail.textContent = summary ? `${summary.mode} / Day ${summary.day} / ${summary.cash}` : "Available for a new company";
+            button.replaceChildren(slot, name, detail);
+            button.title = company?.name ?? `Empty slot ${index + 1}`;
+            button.dataset.empty = String(!company);
             button.disabled = this.busy || this.hooks.blocked();
             button.setAttribute("aria-pressed", String(this.selected === index));
         });
@@ -142,21 +160,28 @@ export class StartMenu {
         this.el<HTMLButtonElement>("menu-retry").disabled = this.busy;
         this.el<HTMLButtonElement>("menu-inspect").disabled = this.busy || !this.hooks.ready();
         this.el("menu-create").hidden = !this.creating;
+        this.el("menu-company-info").hidden = this.creating;
+        this.el("menu-continue").hidden = this.creating;
         this.el("menu-create").querySelector("h2")!.textContent = this.creatingMode === "challenge" ? "New challenge ·30 days" : "New career";
         this.el<HTMLFieldSetElement>("menu-create").querySelectorAll<HTMLButtonElement | HTMLInputElement>("input,button")
             .forEach(control => { control.disabled = this.busy; });
         this.el("menu-replace-label").hidden = !chosen;
-        this.el("menu-heading").textContent = this.creating ? `New company ${this.selected + 1}` : "Choose a company";
+        this.el("menu-heading").textContent = this.creating ? `New company ${this.selected + 1}` : "Choose your company";
         this.el("menu-company-info").textContent = "";
         if (chosen) {
-            const doc = decodeSave(chosen.raw), state = doc.state, date = careerDate(state.day);
+            const summary = this.summary(this.selected, chosen);
             const name = document.createElement("strong"), detail = document.createElement("span");
-            name.className = "menu-company-name"; name.textContent = chosen.name;
-            detail.textContent = `${doc.mode === "challenge" ? "Challenge" : "Career"} · ${date.year}/${date.month}/${date.day} · $${(state.cash / 100).toFixed(2)}`;
+            name.className = "menu-company-name"; name.textContent = chosen.name; name.title = chosen.name;
+            detail.className = "menu-save-details";
+            detail.textContent = `Slot ${this.selected + 1} / ${summary.mode}${this.selected === this.hooks.active() ? " / Current" : ""}\n${summary.date}\n${summary.cash} cash\n${summary.location}`;
             this.el("menu-company-info").replaceChildren(name, detail);
+        } else {
+            this.el("menu-company-info").textContent = `Slot ${this.selected + 1} is empty.\n\nChoose New career or 30-day challenge to start a company here.`;
         }
+        const recovering = Boolean(this.error && this.hooks.blocked());
+        this.el("menu-new").hidden = recovering; this.el("menu-challenge").hidden = recovering;
         this.el("menu-status").textContent = this.busy ? "Saving company…" : this.error ||
-            (this.hooks.blocked() || !this.hooks.ready() ? "Loading game…" : "Select a company, then LOAD GAME.");
+            (this.hooks.blocked() || !this.hooks.ready() ? "Loading game…" : "Progress saves automatically. Select a company, then LOAD GAME.");
         this.el("menu-retry").hidden = !this.error || !this.hooks.blocked();
         this.el("menu-inspect").hidden = !this.error || !this.hooks.blocked();
     }
