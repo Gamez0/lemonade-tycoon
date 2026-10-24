@@ -166,8 +166,8 @@ const closeNormally = async session => {
         expect(JSON.parse(fs.readFileSync(savePath, 'utf8'))).toEqual(opening);
         await session.page.locator('#open').click();
         await session.page.locator('#skip').click();
-        await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'results');
-        await expect.poll(() => JSON.parse(fs.readFileSync(savePath, 'utf8')).state.phase).toBe('results');
+        await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
+        await expect.poll(() => JSON.parse(fs.readFileSync(savePath, 'utf8')).state.business).toBe(null);
         stage = 'results export and invalid import';
         const results = fs.readFileSync(savePath, 'utf8');
         // Exercise the native download, without assuming browser download events.
@@ -190,11 +190,11 @@ const closeNormally = async session => {
         await expect(session.page.locator('#save-status')).toContainText('not valid JSON');
         if (fs.readFileSync(savePath, 'utf8') !== results) throw new Error('Invalid import replaced results.');
         await closeNormally(session); session = await launch();
-        await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'results');
+        await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
         if (fs.readFileSync(savePath, 'utf8') !== results) throw new Error('Results changed on relaunch.');
         stage = 'next-day immediate close and flush';
         // Close immediately after a new checkpoint: exercise the renderer flush handshake.
-        await session.page.locator('#next').click();
+        await session.page.locator('[data-page=recipe]').click();
         await closeNormally(session); session = await launch();
         await expect(session.page.locator('#day')).toHaveText('02');
         await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
@@ -272,7 +272,7 @@ const closeNormally = async session => {
         await expect(session.page.locator('#save-status')).toContainText('Imported save');
         if (fs.readFileSync(savePath, 'utf8') !== results) throw new Error('Portable import changed the business.');
         await closeNormally(session); session = await launch();
-        await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'results');
+        await expect(session.page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
         if (fs.readFileSync(savePath, 'utf8') !== results) throw new Error('Imported save changed on relaunch.');
         await closeNormally(session); session = null;
         process.stdout.write('Windows package: save, flush, forced exit, recovery, import/export and relocation passed.\n');

@@ -2,7 +2,7 @@ const fs = require('node:fs'), path = require('node:path'), os = require('node:o
 const assert = require('node:assert/strict');
 const { _electron: electron } = require('playwright');
 const { expect } = require('@playwright/test');
-const { newGame, setPlan, buyOrder, results } = require('../.test-build/simulation/game.js');
+const { newGame, setPlan, buyOrder, nextDay, results } = require('../.test-build/simulation/game.js');
 const { encodeSave } = require('../.test-build/simulation/save.js');
 const { WEATHER } = require('../.test-build/content/catalog.js');
 const { profileArgs, verifyProfile } = require('./helpers/desktop-profile.cjs');
@@ -38,21 +38,26 @@ let app;
             await page.locator('#app').screenshot({ path: path.join(out, name + '-selling.png') });
             await page.locator('#skip').click(); await page.clock.runFor(500);
             await expect(page.locator('#report-response')).toContainText(advice);
-            await expect.poll(async () => (await read())?.state.phase).toBe('results');
+            await expect.poll(async () => (await read())?.state.business).toBe(null);
             const saved = await read(); assert.equal(saved.version, 9);
-            assert.equal(saved.state.business.customerModel, 'purchase-first-v1');
-            assert.ok(saved.state.daily.sold > 0);
+            const report = saved.history.at(-1);
+            assert.deepEqual(saved.state, nextDay(report));
+            assert.equal(report.business.customerModel, 'purchase-first-v1');
+            assert.ok(report.daily.sold > 0);
             await page.locator('#app').screenshot({ path: path.join(out, name + '-results.png') });
-            observations.push({ name, sold: saved.state.daily.sold, buyerSatisfaction: saved.state.daily.satisfactionTotal / saved.state.daily.sold,
-                dailySatisfaction: results(saved.state).satisfaction,
+            observations.push({ name, sold: report.daily.sold, buyerSatisfaction: report.daily.satisfactionTotal / report.daily.sold,
+                dailySatisfaction: results(report).satisfaction,
                 feedback: await page.locator('#report-response').textContent() });
         }
         const legacy = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/alpha13-customer-model.json'), 'utf8')).cases[0];
         await page.locator('#save-file').setInputFiles({ name: 'alpha13-v6.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(legacy.document)) });
         await expect(page.locator('#save-status')).toContainText('Imported save'); await page.clock.runFor(500);
         await page.locator('#open').click(); await page.locator('#skip').click(); await page.clock.runFor(500);
-        await expect.poll(async () => (await read())?.state.phase).toBe('results');
-        const replay = await read(); assert.deepEqual(replay.state, require('./helpers/stand-schema.cjs').withBasicStand(legacy.expected));
+        await expect.poll(async () => (await read())?.state.business).toBe(null);
+        const replay = await read();
+        const expected = require('./helpers/stand-schema.cjs').withBasicStand(legacy.expected);
+        assert.deepEqual(replay.history.at(-1), expected);
+        assert.deepEqual(replay.state, nextDay(expected));
         observations.push({ name: 'actual alpha13 paid opening', exactReplay: true, importedVersion: 6, savedVersion: replay.version });
         fs.writeFileSync(path.join(out, 'results.json'), JSON.stringify({ target: 'actual packaged Windows game', observations }, null, 2));
         console.log('Windows buyer taste and real v6 paid-opening replay: 3/3 PASS');

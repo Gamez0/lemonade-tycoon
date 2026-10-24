@@ -1,5 +1,36 @@
 # Cloud development handoff — 2026-10-05
 
+## Resumed engineering / Git / beta audit — 2026-10-24 KST
+
+User resumed the interrupted task and requested Git reconciliation plus a beta
+readiness review. Main1ee0693 checks40092501190 passed simulation, complete Windows
+packaging and deployment. Reviewed dev-only dependency PR270ee5b510 (four minor/
+patch tooling updates); exact-head simulation/Windows/dependency checks all green,
+merged9483be9 and synchronized clean main. Vite8/Phaser4 major upgrades stay separate.
+
+PR271 reconciles previously green but stale draft251 onto current main. Preserve
+the old branch, remaining research WIP and original resources. Model91/type/lint/
+build pass before tooling update. Initial focused browser19/20 exposed a real
+Challenge day31 regression; preserve final day30 results instead of advancing.
+Recheck current head and all required CI before merging; then close superseded251.
+
+Research follow-up traced three weather arrival quotas and speed-scaled elapsed
+steps from the retained image; see research/career-calendar-weather.md. Clock
+format/exhaustion and versioned actual weather remain next229 work. Never promote
+legacy12/18 boundaries or forecast tuning to measured original behavior.
+
+Private beta protocol and acceptance gaps: reviews/beta-readiness-20261024.md.
+Candidate for formative Windows testing, not formal beta completion. People0/5,
+visual/listening/real-device/rights gates remain open. No public release occurred.
+
+Git fetch --all --prune removed12 obsolete remote-tracking refs only. Inventory
+of15 worktrees/116 local branches is retained at the parent private
+`.local-m4/git-review-20261024/inventory.json`. Parent86 entries, loop6 research
+entries and three historical handoff changes remain preserved; no branch or
+worktree deletion. Product main and other clean worktrees are kept separate.
+Older cloud entries below are historical; live Project and this section take
+precedence. No agent delegation or automatic merge is enabled.
+
 ## Navigation/weather glyphs - 2026-10-24 KST
 
 PR262 combined equipment and ingredient changes integratedd2197ee only after

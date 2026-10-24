@@ -1,0 +1,45 @@
+const { test, expect } = require('../helpers/browser-game.cjs');
+const { campaign, stock } = require('../helpers/business.cjs');
+const { openDay, nextDay, purchaseUpgrade } = require('../../.test-build/simulation/game.js');
+const { beginStreetDay, finishStreetDay } = require('../../.test-build/simulation/street-day.js');
+const { encodeSave } = require('../../.test-build/simulation/save.js');
+const key = 'lemonade-tycoon.reboot.save';
+const saved = page => page.evaluate(key => JSON.parse(localStorage.getItem(key)), key);
+for (const finish of ['skip', 'normal']) test(`${finish}: completion prepares tomorrow once while retaining yesterday's exact report`, async ({ page }) => {
+    const business = campaign(2026, 40);
+    business.state = stock(purchaseUpgrade(business.state, 'refrigerator'));
+    const completed = finishStreetDay(beginStreetDay(openDay(business.state))).day.game;
+    const tomorrow = nextDay(completed);
+    await page.clock.install();
+    await page.addInitScript(({ key, raw }) => {
+        if (!localStorage.getItem(key)) localStorage.setItem(key, raw);
+    }, { key, raw: encodeSave(business.state, business.history) });
+    await page.goto('/'); await page.clock.runFor(500);
+    await page.locator('#open').click();
+    await page.locator('#speed').click();
+    if (finish === 'skip') await page.locator('#skip').click();
+    else await page.clock.runFor(30000);
+    await expect(page.locator('#app')).toHaveAttribute('data-phase', 'preparation');
+    await expect(page.locator('#results')).toBeVisible();
+    await expect(page.locator('#result-intro')).toContainText('Day 41');
+    await expect(page.locator('#career-date')).toHaveAttribute('title', 'Business day 42');
+    await expect(page.locator('#next')).toBeHidden();
+    const checkpoint = await saved(page);
+    expect(checkpoint.state).toEqual(tomorrow);
+    expect(checkpoint.history).toEqual([...business.history, completed]);
+    expect(tomorrow.stock.ice).toBe(Math.floor(completed.stock.ice / 2));
+    // Old walking snapshots and delayed redraws cannot replace tomorrow or melt twice.
+    await page.clock.runFor(10000);
+    expect(await saved(page)).toEqual(checkpoint);
+    await page.reload(); await page.clock.runFor(500);
+    expect(await saved(page)).toEqual(checkpoint);
+    await page.locator('[data-page=results]').click();
+    await expect(page.locator('#result-intro')).toContainText('Day 41');
+    await page.locator('#open').click();
+    await expect(page.locator('#selling')).toBeVisible();
+    await expect(page.locator('#speed-label')).toHaveText('Speed: 1×');
+    await expect(page.locator('#sold')).toHaveText('0');
+    const opened = openDay(tomorrow);
+    expect((await saved(page)).state).toEqual({ ...opened, phase: 'preparation' });
+    expect((await saved(page)).history).toEqual(checkpoint.history);
+});

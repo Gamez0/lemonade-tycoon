@@ -204,6 +204,8 @@ function applyStreet(events: CustomerEvent[]): void {
     }
     if (state.phase === "results" && history[history.length - 1] !== state) {
         history.push(state);
+        if (!challengeComplete()) state = nextDay(state);
+        openingCheckpoint = null;
         currentPage = "results";
         reportPage = "daily";
         reportDay = null;
@@ -218,7 +220,9 @@ const scene = new StreetScene({
         if (!street || importing || closing) return;
         const next = tickStreet(street);
         street = next.day;
-        state = street.game;
+        // Completed-day pedestrians may finish walking after preparation advances.
+        // Their old snapshot must never overwrite the new day's saved state.
+        if (state.phase === "selling") state = street.game;
         applyStreet(next.events);
     },
     changed: render,
@@ -367,6 +371,11 @@ element("open").addEventListener("click", () =>
                 text("save-status", "Saved before opening · reload restarts this day");
             } catch { text("save-status", "Storage unavailable · export a backup"); }
         }
+        reactions = { bought: 0, price: 0, passed: 0, "sold-out": 0, abandoned: 0 };
+        fast = false;
+        scene.setSpeed(1);
+        text("speed-label", "Speed: 1\u00d7");
+        lastFeedback = "A new day on Willow Lane. Your customers are on their way.";
         scene.resetDay();
         street = beginStreetDay(opened);
         return opened;
