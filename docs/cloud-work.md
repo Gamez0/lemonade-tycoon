@@ -1,5 +1,22 @@
 # Cloud development handoff — 2026-10-05
 
+## Navigation/weather glyphs - 2026-10-24 KST
+
+PR262 combined equipment and ingredient changes integratedd2197ee only after
+final1ce0651 exact-head CI40081104535 passed. Draft263 was consolidated/closed;
+its branch/evidence are preserved. Clean main worktree synchronizedd2197ee.
+Combined clean Windowsc5f8c5a has the identical tree before ancestry rebases and
+passed26-file audit plus full native UI/relaunch. Equipment native14 previews,
+browser7+ingredient2/release15 and isolated230MiB/0idle/0.257MiB retention pass.
+
+Next active feat/navigation-weather-art: dedicated Upgrades/Marketing,
+unchanged server portrait in Staff tab, map pin for Rent, refined3weather,
+pitcher and carton vectors. No new raster assets or rules. Type/lint/build,
+ten-role viewBox/private comparison and focused4browser pass. Native UI next.
+See reviews/interface-glyphs.md. Draft25954552bd has24-pose code-native customer
+rig/context studies in addition to rejected generated sheets; no customer art
+is selected/shipped. Staff detail is explicitly preserved; only map faces minimal.
+
 ## Equipment catalogue - 2026-10-24 KST
 
 Active #257 feat/equipment-catalogue-art in D:/lemonade-customer-facing, based

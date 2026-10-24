@@ -166,7 +166,8 @@ a:focus-visible {
     color: #f9ffd6;
     text-shadow: 1px 1px #426a09;
 }
-.toolbar .pixel-icon {
+.toolbar .pixel-icon,
+.toolbar .staff-portrait {
     width: 43px;
     height: 43px;
 }
@@ -826,7 +827,8 @@ a {
         width: auto;
         font-size: 10px;
     }
-    .toolbar .pixel-icon {
+    .toolbar .pixel-icon,
+    .toolbar .staff-portrait {
         width: 32px;
         height: 32px;
     }
@@ -1165,3 +1167,5 @@ dialog .help-heading { position: sticky; top: 0; z-index: 1; display: flex; alig
 dialog h2, #display-settings .hint { color: inherit; }
 #display-settings select { max-width: 100%; color: inherit; background: #dcebbd; border: 2px inset #678c52; font: inherit; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0s !important; transition-duration: 0s !important; } }
+
+.toolbar .staff-portrait { display: block; object-fit: contain; image-rendering: auto; }
