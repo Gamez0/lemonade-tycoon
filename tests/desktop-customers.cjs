@@ -27,6 +27,9 @@ let app;
         await expect(canvas).toBeVisible();
         for (const location of LOCATION_IDS) {
             const business = fundedStandBusiness(location);
+            // This visual motion fixture needs a crowd; rainy sparse traffic is
+            // exercised separately by desktop-taste's actual Park/Mall days.
+            business.state = { ...business.state, weather: require('../.test-build/content/catalog.js').WEATHER[0] };
             await page.locator('#save-file').setInputFiles({ name: 'customer-business.json', mimeType: 'application/json',
                 buffer: Buffer.from(encodeSave(business.state, business.history)) });
             await expect(page.locator('#app')).toHaveAttribute('aria-busy', 'false');
