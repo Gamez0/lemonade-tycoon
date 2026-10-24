@@ -72,6 +72,7 @@ let app;
             rainyVisitors[location] = expected;
             await page.locator('#app').screenshot({ path: path.join(out, location + '-rain.png') });
             await page.reload(); await page.clock.runFor(500);
+            await page.locator('#menu-continue').click();
             assert.deepEqual(await read(), saved);
             observations.push({ name: location + ' rain', visitors: expected, exactReload: true });
         }
