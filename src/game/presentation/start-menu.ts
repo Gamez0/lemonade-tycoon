@@ -140,6 +140,7 @@ export class StartMenu {
     }
     render(): void {
         const companies = this.hooks.companies(), chosen = companies[this.selected];
+        const recovering = Boolean(this.error && this.hooks.blocked());
         this.root.querySelectorAll<HTMLButtonElement>("[data-company]").forEach((button, index) => {
             const company = companies[index], summary = company ? this.summary(index, company) : null;
             if (!company) this.summaries[index] = undefined;
@@ -166,9 +167,12 @@ export class StartMenu {
         this.el<HTMLFieldSetElement>("menu-create").querySelectorAll<HTMLButtonElement | HTMLInputElement>("input,button")
             .forEach(control => { control.disabled = this.busy; });
         this.el("menu-replace-label").hidden = !chosen;
-        this.el("menu-heading").textContent = this.creating ? `New company ${this.selected + 1}` : "Choose your company";
+        this.el("menu-heading").textContent = recovering ? "Saved game needs recovery" : this.creating ? `New company ${this.selected + 1}` : "Choose your company";
+        this.root.querySelector<HTMLElement>(".menu-selection-label")!.textContent = recovering ? "SAVE RECOVERY" : this.creating ? "NEW COMPANY" : "SELECTED COMPANY";
         this.el("menu-company-info").textContent = "";
-        if (chosen) {
+        if (recovering) {
+            this.el("menu-company-info").textContent = "Your existing save is protected.\n\nRetry recovery or import a compatible backup. The existing file will be kept.";
+        } else if (chosen) {
             const summary = this.summary(this.selected, chosen);
             const name = document.createElement("strong"), detail = document.createElement("span");
             name.className = "menu-company-name"; name.textContent = chosen.name; name.title = chosen.name;
@@ -178,7 +182,6 @@ export class StartMenu {
         } else {
             this.el("menu-company-info").textContent = `Slot ${this.selected + 1} is empty.\n\nChoose New career or 30-day challenge to start a company here.`;
         }
-        const recovering = Boolean(this.error && this.hooks.blocked());
         this.el("menu-new").hidden = recovering; this.el("menu-challenge").hidden = recovering;
         this.el("menu-status").textContent = this.busy ? "Saving company…" : this.error ||
             (this.hooks.blocked() || !this.hooks.ready() ? "Loading game…" : "Progress saves automatically. Select a company, then LOAD GAME.");

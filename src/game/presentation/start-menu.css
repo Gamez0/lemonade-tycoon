@@ -5,7 +5,7 @@
 .start-frame > button { display: flex; justify-content: center; align-items: center; gap: 8px; }
 .start-frame > button > span:last-child { font-size: 11px; white-space: nowrap; }
 .start-frame #menu-options, .start-frame #menu-help, .start-frame #menu-credits, .start-frame #menu-quit { flex-direction: column; gap: 2px; }
-.start-frame button:not(:disabled):hover { background: #a0df38; }
+.start-frame button:not(:disabled):not([aria-pressed="true"]):hover { background: #a0df38; }
 .start-frame button:focus-visible { outline: 2px solid #fff8ad; outline-offset: -4px; }
 .start-frame button:disabled { opacity: .48; cursor: default; }
 .start-frame .pixel-icon { width: 26px; height: 26px; flex-shrink: 0; }
@@ -21,6 +21,7 @@
 .company-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(4, minmax(0, 1fr)); gap: 6px; }
 .company-list button { position: relative; text-align: left; padding: 7px 7px 6px 29px; min-width: 0; color: #173c12; background: #9ad842; }
 .company-list button[data-empty="true"] { background: #137a29; color: #d8e7bc; border-color: #39923e; }
+.company-list button[data-empty="true"]:not([aria-pressed="true"]):hover { background: #248d35; }
 .company-list button[aria-pressed="true"] { background: #e2ed73; color: #14340f; border: 2px solid #fff8bd; box-shadow: inset 0 0 0 1px #527d21; padding-left: 28px; }
 .company-slot { position: absolute; left: 7px; top: 9px; font-size: 12px; font-weight: bold; opacity: .75; }
 .company-name { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; line-height: 16px; }

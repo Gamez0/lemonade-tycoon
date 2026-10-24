@@ -90,6 +90,9 @@ test('a protected newer autosave is not overwritten by visiting the menu and can
         localStorage.setItem(key, '{"version":999}'); localStorage.setItem(backup, raw);
     }, { key: SAVE_KEY, backup: BACKUP_KEY, raw: encodeSave(newGame(), []) });
     await page.goto('/'); await expect(page.locator('#menu-inspect')).toBeVisible();
+    await expect(page.locator('#menu-heading')).toHaveText('Saved game needs recovery');
+    await expect(page.locator('#menu-company-info')).toContainText('The existing file will be kept');
+    await expect(page.locator('#menu-company-info')).not.toContainText('$40.00');
     await expect(page.locator('#menu-new')).toBeDisabled();
     expect(await page.evaluate(key => localStorage.getItem(key), SAVE_KEY)).toBe('{"version":999}');
     await page.locator('#save-file').setInputFiles({ name: 'compatible.json', mimeType: 'application/json', buffer: Buffer.from(encodeSave(newGame(300), [])) });
