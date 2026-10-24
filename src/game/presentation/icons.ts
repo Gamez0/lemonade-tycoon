@@ -20,7 +20,13 @@ const drawings = {
     empty: '<path fill="#f7f1c9" d="M2 3h22v16H12l-5 5v-5H2Z"/><path fill="none" d="m9 6 1 9h6l1-9ZM8 6h10m-7 3h4"/>',
     clock: '<circle fill="#f6f1d1" cx="13" cy="13" r="10"/><path fill="none" stroke-width="2" d="M13 5v8l5 3"/>',
     calendar:
-        '<path fill="#faf0c5" d="M4 4h18v19H4Z"/><path fill="#397aad" d="M4 4h18v5H4Z"/><path fill="none" stroke-width="2" d="M8 1v6m10-6v6m-7 6 3-2v9"/>',
+        '<path fill="#d5cfad" d="M5 6h18v18H5Z"/><path fill="#faf0d1" d="M3 4h18v18H3Z"/><path fill="#b65e48" d="M3 4h18v5H3Z"/><path fill="none" stroke-width="1.5" d="M7 2v4m10-4v4"/><path fill="none" stroke="#9aa68a" stroke-width=".7" d="M7 11v8m5-8v8m5-8v8M5 13h14M5 17h14"/><path fill="#e7ba48" d="M9 14h3v3H9Z"/>',
+    graph:
+        '<path fill="#f7eed0" d="M3 2h20v22H3Z"/><path fill="none" stroke="#b9c5a6" stroke-width=".6" d="M6 7h14M6 11h14M6 15h14M6 19h14"/><path fill="none" d="M6 5v15h15"/><path fill="none" stroke="#be7357" stroke-width="1.6" d="m7 15 4 3 4-8 5-4"/><circle fill="#f1cb55" cx="15" cy="10" r="1.2"/>',
+    balance:
+        '<path fill="#f3e9c8" d="M3 2h19v22H3Z"/><path fill="#759b88" d="M3 2h19v5H3Z"/><path fill="none" stroke="#9ca98d" stroke-width=".7" d="M6 9h13M6 13h13M6 17h13M6 21h13M14 7v15"/><path fill="#d9b751" d="M16 14h8v8q-4 3-8 0Z"/><ellipse fill="#f3d66f" cx="20" cy="14" rx="4" ry="1.7"/><path fill="none" stroke="#9d823a" stroke-width=".7" d="M16 17q4 3 8 0m-8 3q4 3 8 0"/>',
+    quiet:
+        '<path fill="#f7f1c9" d="M2 3h22v16H12l-5 5v-5H2Z"/><path fill="none" d="M7 8v2m11-2v2M8 14h10"/>',
     lemon: '<path fill="#e4bd27" d="M2 16C0 13 3 7 7 6c4-4 10-3 13 0l1 3-2 2c-1 6-8 11-13 9Z"/><path fill="#fff17b" stroke="none" d="M4 13c0-4 5-7 10-7-5 2-7 5-7 9Z"/><path fill="#4e9438" d="m12 5 3-4 7 1-5 4Z"/><path fill="#e8b832" d="m11 20 12-9c4 7 1 13-7 14Z"/><path fill="#fff29a" d="m13 20 9-7c2 5 0 9-6 10Z"/><path fill="none" stroke="#d4aa39" stroke-width=".7" d="m16 21 5-5m-4 6 5-3m-7 1 3-5"/>',
     sugar: '<path fill="#c4d0ca" d="M18 7h7v3h-7Z"/><path fill="#f5f5e6" d="M10 7h10v11q-5 4-10 0Z"/><path fill="#b5c5bd" stroke="none" d="M17 9h3v9l-3 1Z"/><ellipse fill="#fcfbea" cx="15" cy="7" rx="5" ry="2.5"/><path fill="none" stroke="#b0bab0" stroke-width=".7" d="m12 7 1-1m2 2 1-1m1 0 1-1"/><path fill="#fffce6" d="m1 23 6-5 7 5-6 2Z"/><path fill="none" stroke="#c5ccbe" stroke-width=".7" d="m4 23 3-2m0 3 3-1"/>',
     ice: '<path fill="#91dbe6" d="m2 11 7-4 7 4v8l-7 4-7-4Z"/><path fill="#e5ffff" d="m2 11 7 3 7-3-7-4Z"/><path fill="#63acdb" d="m9 14 7-3v8l-7 4Z"/><path fill="#b7ebf1" d="m12 4 6-3 5 3v7l-6 3-5-3Z"/><path fill="#efffff" d="m12 4 5 3 6-3-5-3Z"/>',
