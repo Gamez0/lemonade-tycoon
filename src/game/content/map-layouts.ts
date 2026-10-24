@@ -75,18 +75,14 @@ export function mapPosition(id: MapThemeId, progress: number, purpose: "service"
 
 // Queue spacing is a physical distance on the ground, independent of how long
 // or short each map's progress segments happen to be.
+const lengthOf = (points: readonly RoutePoint[]): number => points.slice(1).reduce((sum, point, i) =>
+    sum + Math.hypot(point[1] - points[i][1], point[2] - points[i][2]), 0);
+const queueLengths = Object.fromEntries(Object.entries(MAP_LAYOUTS).map(([id, map]) =>
+    [id, lengthOf(map.route.filter(point => point[0] >= 286))])) as Record<MapThemeId, number>;
+const departureLengths = Object.fromEntries(Object.entries(MAP_LAYOUTS).map(([id, map]) =>
+    [id, lengthOf(map.departure)])) as Record<MapThemeId, number>;
 export function queueProgress(id: MapThemeId, index: number): number {
-    const service = mapPosition(id, 286);
-    const points = [[286, ...service], ...MAP_LAYOUTS[id].route.filter(point => point[0] > 286)];
-    let remaining = (index + 1) * 20;
-    for (let i = 1; i < points.length; i++) {
-        const a = points[i - 1], b = points[i];
-        const length = Math.hypot(b[1] - a[1], b[2] - a[2]);
-        if (remaining <= length || i === points.length - 1)
-            return a[0] + (b[0] - a[0]) * remaining / length;
-        remaining -= length;
-    }
-    return 286;
+    return 286 + (index + 1) * 20 * 394 / queueLengths[id];
 }
 
 // Queue routes286..680 are ground-distance parameterized. Bound each visual
@@ -97,12 +93,6 @@ export function moveQueueProgress(id: MapThemeId, from: number, to: number, dist
 }
 
 export function queueDistance(id: MapThemeId, from: number, to: number): number {
-    const points = MAP_LAYOUTS[id].route.filter(point => point[0] >= 286);
-    const length = points.slice(1).reduce((sum, point, i) => sum + Math.hypot(point[1] - points[i][1], point[2] - points[i][2]), 0);
-    return Math.abs(to - from) * length / 394;
+    return Math.abs(to - from) * queueLengths[id] / 394;
 }
-
-export function departureDistance(id: MapThemeId): number {
-    const points = MAP_LAYOUTS[id].departure;
-    return points.slice(1).reduce((sum, point, i) => sum + Math.hypot(point[1] - points[i][1], point[2] - points[i][2]), 0);
-}
+export function departureDistance(id: MapThemeId): number { return departureLengths[id]; }
