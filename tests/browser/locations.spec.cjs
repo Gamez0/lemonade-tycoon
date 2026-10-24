@@ -1,3 +1,4 @@
+const { selectLocation } = require('../helpers/rent-navigation.cjs');
 const { test, expect } = require('../helpers/browser-game.cjs');
 const { stock, campaign } = require('../helpers/business.cjs');
 const { encodeSave } = require('../../.test-build/simulation/save.js');
@@ -14,7 +15,7 @@ async function ready(page) {
 test('locked location costs are readable; browsing and cancelled reservations never charge or change scenery', async ({ page }) => {
     await page.goto('/'); await expect(page.locator('canvas')).toBeVisible();
     await page.locator('[data-page=rent]').click();
-    await page.locator('button[data-location=park]').click();
+    await selectLocation(page, 'park');
     await expect(page.locator('#rent-details')).toContainText('$2.00 / $1.00');
     await expect(page.locator('#rent-unlock')).toContainText('3 completed days');
     await expect(page.locator('#confirm-rent')).toBeDisabled();
@@ -23,7 +24,7 @@ test('locked location costs are readable; browsing and cancelled reservations ne
     await expect(page.locator('#cash')).toHaveText('$40.00');
     await page.setViewportSize({ width: 375, height: 900 });
     for (const id of require('../../.test-build/content/locations.js').LOCATION_IDS) {
-        await page.locator(`button[data-location=${id}]`).click();
+        await selectLocation(page, id);
         await expect(page.locator('#rent-details')).toBeVisible();
         await expect(page.locator('#rent-unlock')).toBeVisible();
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -33,7 +34,7 @@ test('locked location costs are readable; browsing and cancelled reservations ne
 test('reservation, charged opening replay, park results and free return reconcile the ledger', async ({ page }) => {
     const initial = await ready(page);
     await page.locator('[data-page=rent]').click();
-    await page.locator('button[data-location=park]').click();
+    await selectLocation(page, 'park');
     await page.locator('#confirm-rent').click();
     const reserved = await saved(page);
     expect(reserved.state.pendingLocation).toBe('park');
@@ -65,7 +66,7 @@ test('reservation, charged opening replay, park results and free return reconcil
     await page.screenshot({ path: 'test-results/m5-park-results.png', fullPage: true });
     await page.locator('[data-page=recipe]').click();
     await page.locator('[data-page=rent]').click();
-    await page.locator('button[data-location=neighborhood]').click();
+    await selectLocation(page, 'neighborhood');
     await page.locator('#confirm-rent').click();
     await page.locator('[data-page=recipe]').click();
     await page.locator('#ice').fill('0'); await page.locator('#ice').press('Tab');
@@ -84,7 +85,7 @@ test('pending supplies block contracts, unaffordable rent is atomic, and bankrup
     await page.locator('[data-page=supplies]').click();
     await page.locator('[data-bundle="0"][data-delta="1"]').click();
     await page.locator('[data-page=rent]').click();
-    await page.locator('button[data-location=downtown]').click();
+    await selectLocation(page, 'downtown');
     await page.locator('#confirm-rent').click();
     await expect(page.locator('#message')).toContainText('pending supply order');
     expect((await saved(page)).state.pendingLocation).toBe(null);
@@ -93,11 +94,11 @@ test('pending supplies block contracts, unaffordable rent is atomic, and bankrup
     await page.locator('#save-file').setInputFiles({ name: 'test-business.json', mimeType: 'application/json',
         buffer: Buffer.from(encodeSave(poor, initial.history)) });
     await page.locator('[data-page=rent]').click();
-    await page.locator('button[data-location=downtown]').click(); await page.locator('#confirm-rent').click();
+    await selectLocation(page, 'downtown'); await page.locator('#confirm-rent').click();
     const before = await saved(page);
     await page.locator('#open').click(); await expect(page.locator('#message')).toContainText('Not enough cash for opening costs');
     expect(await saved(page)).toEqual(before);
-    await page.locator('button[data-location=neighborhood]').click(); await page.locator('#confirm-rent').click();
+    await selectLocation(page, 'neighborhood'); await page.locator('#confirm-rent').click();
     expect((await saved(page)).state.pendingLocation).toBe(null);
     const broke = { ...poor, cash: 0, stock: { lemon: 0, sugar: 0, ice: 0, cup: 0 },
         daily: { ...poor.daily, purchases: poor.openingCash } };

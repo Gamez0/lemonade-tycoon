@@ -1,3 +1,4 @@
+const { selectLocation } = require('./helpers/rent-navigation.cjs');
 const { _electron: electron } = require('playwright');
 const { expect } = require('@playwright/test');
 const fs = require('node:fs');
@@ -38,7 +39,7 @@ async function close() {
             buffer: Buffer.from(encodeSave(initial.state, initial.history)) });
         await expect(page.locator('#save-status')).toContainText('Imported save');
         await page.locator('[data-page=rent]').click();
-        await page.locator('button[data-location=downtown]').click();
+        await selectLocation(page, 'downtown');
         await page.locator('#confirm-rent').click();
         await close(); page = await launch();
         expect(read().state.pendingLocation).toBe('downtown');
@@ -66,7 +67,7 @@ async function close() {
             try { return JSON.parse(fs.readFileSync(exportPath, 'utf8')); } catch { return null; }
         }).toEqual(results);
         await page.locator('[data-page=recipe]').click();
-        await page.locator('[data-page=rent]').click(); await page.locator('button[data-location=neighborhood]').click();
+        await page.locator('[data-page=rent]').click(); await selectLocation(page, 'neighborhood');
         await page.locator('#confirm-rent').click();
         await page.locator('[data-page=recipe]').click(); await page.locator('#ice').fill('0'); await page.locator('#ice').press('Tab');
         await page.locator('#open').click();

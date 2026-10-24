@@ -606,8 +606,12 @@ function openingBill(): number {
 }
 function renderRent(): void {
     const location = LOCATIONS[selectedLocation], rating = state.locationStats[selectedLocation];
+    const selectedIndex = LOCATION_IDS.indexOf(selectedLocation);
+    const firstVisible = Math.max(0, Math.min(LOCATION_IDS.length - 3, selectedIndex - 1));
     for (const id of LOCATION_IDS) {
         const button = document.querySelector<HTMLButtonElement>(`button[data-location="${id}"]`)!;
+        const index = LOCATION_IDS.indexOf(id);
+        button.hidden = index < firstVisible || index >= firstVisible + 3;
         button.setAttribute("aria-pressed", String(id === selectedLocation));
         button.disabled = state.phase !== "preparation";
         text(`location-state-${id}`, !state.unlocked.includes(id) ? "Locked" : state.pendingLocation === id ? "Reserved"
@@ -617,9 +621,6 @@ function renderRent(): void {
         if (preview) { image.src = preview; image.hidden = false; }
     }
     text("rent-position", `${LOCATION_IDS.indexOf(selectedLocation) + 1} / ${LOCATION_IDS.length}`);
-    const list = document.querySelector<HTMLElement>(".location-list")!;
-    const selected = list.querySelector<HTMLButtonElement>(`[data-location="${selectedLocation}"]`)!;
-    list.scrollLeft = selected.offsetLeft - list.offsetLeft - (list.clientWidth - selected.offsetWidth) / 2;
     const moveFee = selectedLocation === state.location ? 0 : location.moveFee;
     const legacyBusiness = state.business?.location === selectedLocation && state.business.customerModel === undefined
         ? state.business : null;

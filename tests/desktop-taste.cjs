@@ -61,7 +61,7 @@ let app;
             await expect(page.locator('#save-status')).toContainText('Imported save');
             await page.locator('[data-page=rent]').click();
             const catalog = page.locator('.location-list');
-            assert.equal(await catalog.evaluate(e => getComputedStyle(e).overflowX), 'hidden');
+            assert.equal(await catalog.evaluate(e => getComputedStyle(e).overflowX), 'clip');
             await page.locator('[data-page=recipe]').click();
             await page.locator('#open').click(); await page.clock.runFor(100);
             if (location === 'mall') await expect(page.locator('#weather')).toHaveText('20\u00b0C');

@@ -1,3 +1,4 @@
+const { selectLocation } = require('./helpers/rent-navigation.cjs');
 const { _electron: electron } = require('playwright');
 const { expect } = require('@playwright/test');
 const fs = require('node:fs'), path = require('node:path'), os = require('node:os'), assert = require('node:assert/strict');
@@ -62,7 +63,7 @@ async function change(page, id, value) { await page.locator(`#${id}`).fill(Strin
             if (day === 11 || day === 21) {
                 assert.ok(read().state.unlocked.includes(location), `Expected earned ${location} unlock`);
                 await page.locator('[data-page=rent]').click();
-                await page.locator(`[data-location=${location}]`).click(); await page.locator('#confirm-rent').click();
+                await selectLocation(page, location); await page.locator('#confirm-rent').click();
             }
             stage = `day${day} opening/results`;
             await page.locator('#open').click(); await expect(page.locator('#selling')).toBeVisible();
