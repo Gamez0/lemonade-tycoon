@@ -147,7 +147,8 @@ export class StartMenu {
             const slot = document.createElement("span"), name = document.createElement("strong"), detail = document.createElement("span");
             slot.className = "company-slot"; slot.textContent = String(index + 1);
             name.className = "company-name"; name.textContent = company?.name ?? "Empty slot";
-            detail.className = "company-summary"; detail.textContent = summary ? `${summary.mode} / Day ${summary.day} / ${summary.cash}` : "Available for a new company";
+            detail.className = "company-summary"; detail.textContent = recovering ? "Unavailable during recovery"
+                : summary ? `${summary.mode} / Day ${summary.day} / ${summary.cash}` : "Available for a new company";
             button.replaceChildren(slot, name, detail);
             button.title = company?.name ?? `Empty slot ${index + 1}`;
             button.dataset.empty = String(!company);
