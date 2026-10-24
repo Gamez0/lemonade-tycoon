@@ -49,6 +49,34 @@ let app;
                 dailySatisfaction: results(report).satisfaction,
                 feedback: await page.locator('#report-response').textContent() });
         }
+        const { fundedStandBusiness } = require('./helpers/stand-business.cjs');
+        const { expectedTraffic } = require('../.test-build/simulation/game.js');
+        const rainyVisitors = {};
+        for (const location of ['park', 'mall']) {
+            const fixture = fundedStandBusiness(location);
+            fixture.state = { ...fixture.state, weather: WEATHER[2] };
+            const expected = expectedTraffic(fixture.state);
+            await page.locator('#save-file').setInputFiles({ name: 'rain.json', mimeType: 'application/json',
+                buffer: Buffer.from(encodeSave(fixture.state, fixture.history)) });
+            await expect(page.locator('#save-status')).toContainText('Imported save');
+            await page.locator('[data-page=rent]').click();
+            const catalog = page.locator('.location-list');
+            assert.equal(await catalog.evaluate(e => getComputedStyle(e).overflowX), 'hidden');
+            await page.locator('[data-page=recipe]').click();
+            await page.locator('#open').click(); await page.clock.runFor(100);
+            if (location === 'mall') await expect(page.locator('#weather')).toHaveText('20\u00b0C');
+            await page.locator('#skip').click(); await page.clock.runFor(500);
+            await expect.poll(async () => (await read())?.state.business).toBe(null);
+            const saved = await read();
+            assert.equal(saved.history.at(-1).daily.visitors, expected);
+            rainyVisitors[location] = expected;
+            await page.locator('#app').screenshot({ path: path.join(out, location + '-rain.png') });
+            await page.reload(); await page.clock.runFor(500);
+            assert.deepEqual(await read(), saved);
+            observations.push({ name: location + ' rain', visitors: expected, exactReload: true });
+        }
+        assert.ok(rainyVisitors.park < 8);
+        assert.ok(rainyVisitors.mall > rainyVisitors.park * 10);
         const legacy = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/alpha13-customer-model.json'), 'utf8')).cases[0];
         await page.locator('#save-file').setInputFiles({ name: 'alpha13-v6.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(legacy.document)) });
         await expect(page.locator('#save-status')).toContainText('Imported save'); await page.clock.runFor(500);
@@ -60,7 +88,7 @@ let app;
         assert.deepEqual(replay.state, nextDay(expected));
         observations.push({ name: 'actual alpha13 paid opening', exactReplay: true, importedVersion: 6, savedVersion: replay.version });
         fs.writeFileSync(path.join(out, 'results.json'), JSON.stringify({ target: 'actual packaged Windows game', observations }, null, 2));
-        console.log('Windows buyer taste and real v6 paid-opening replay: 3/3 PASS');
+        console.log('Windows buyer taste, location weather, Rent and real v6 paid-opening replay: 5/5 PASS');
     } finally {
         await app?.close();
         if (!path.resolve(base).startsWith(path.resolve(os.tmpdir()) + path.sep + 'lemonade-taste-')) throw Error('Unexpected test profile path.');
