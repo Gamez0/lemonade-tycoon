@@ -127,3 +127,20 @@ ignored output folder, preserving earlier evidence. v2 and v3 regenerated
 successfully (20 and24 measured cells). Next independent implementation is
 route-tangent/stand-facing selection with the current art, while native
 replacement gait remains unresolved. Keep #97 and #16 manual acceptance open.
+
+## Minimal-face restart
+
+`customer-neighbor-minimal-v1.png` is a new text-only built-in generation,
+not an edit of v1-v3. Its exact adjacent prompt explicitly removes large eyes,
+smiles and detailed facial features. Four standing directions have smaller
+heads, plain skin shapes and understated eye marks. This addresses the excessive
+facial detail, but remains a study: no walk cycle, idle/drink set or final scale
+has been accepted or shipped.
+
+Native output1774x887 is preserved unchanged. The private reviewer measures
+four opaque body bounds and shows22/28/34px body heights against the same300px
+Neighborhood map, plus68px inspection views. All four measured/decode checks
+passed. `node art/studies/remaining-images/customer-minimal-review.cjs` writes
+ignored `.local-m4/customer-art/minimal-v1/review.html`, PNG and measurements.
+Compare native original22x34 cells before selecting a body scale; whole-cell
+height is not opaque-body height. No original pixels were generation inputs.
