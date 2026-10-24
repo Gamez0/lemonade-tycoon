@@ -46,13 +46,16 @@ fs.mkdirSync(out, { recursive: true });
             const layout = await page.evaluate(() => {
                 const panel = document.querySelector('.panel'), canvas = document.querySelector('canvas'), scene = document.querySelector('#game-container');
                 const cb = canvas.getBoundingClientRect(), sb = scene.getBoundingClientRect();
+                const ratio = Math.min(cb.width / canvas.width, cb.height / canvas.height);
                 return { width: innerWidth, height: innerHeight, scale: devicePixelRatio,
                     panelHeight: panel.clientHeight, panelScroll: panel.scrollHeight,
+                    mapGaps: { horizontal: cb.width - canvas.width * ratio, vertical: cb.height - canvas.height * ratio },
                     fullMap: getComputedStyle(canvas).objectFit === 'contain' && cb.width <= sb.width + 2 && cb.height <= sb.height + 2 };
             });
             assert.ok(Math.abs(layout.scale - scale) < .01);
             assert.ok(layout.panelScroll <= layout.panelHeight + 1, JSON.stringify(layout));
             assert.ok(layout.fullMap);
+            assert.ok(layout.mapGaps.horizontal <= 1 && layout.mapGaps.vertical <= 1, JSON.stringify(layout));
             results.push({ scale, name, ...measured, layout });
             console.log(`Display ${scale * 100}% ${name} PASS`);
         }

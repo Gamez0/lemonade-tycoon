@@ -40,6 +40,7 @@ import { decodeSave, encodeSave as encodeDocument, readSave, writeSave as writeD
 import { readSaveAsync, writeSaveAsync } from "./game/simulation/async-save";
 import type { AsyncSaveStorage } from "./game/simulation/async-save";
 import { StreetScene } from "./game/presentation/street-scene";
+import { fitDesktopMap } from "./game/presentation/map-viewport";
 import { standPreview } from "./game/presentation/stand-art";
 import { icon } from "./game/presentation/icons";
 import { tasteReaction, tasteAdvice } from "./game/presentation/taste-feedback";
@@ -105,6 +106,7 @@ let saveQueue = Promise.resolve();
 let savedSnapshot: string | null = null;
 const app = document.querySelector<HTMLDivElement>("#app")!;
 app.innerHTML = markup;
+if (desktopSave) fitDesktopMap(app);
 desktopSave?.onFlush(async (request = true) => {
     closing = request;
     app.inert = menuOpen || closing || importing;

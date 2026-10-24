@@ -1052,10 +1052,10 @@ html.desktop,
     min-height: 0;
     align-items: stretch;
     grid-template-rows: minmax(0, 1fr);
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr) var(--map-column-width, minmax(0, 1fr));
 }
 .desktop .control-row {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr) var(--map-column-width, minmax(0, 1fr));
 }
 .desktop .toolbar {
     order: 0;
@@ -1116,7 +1116,7 @@ html.desktop,
 }
 .desktop #result-values dt,
 .desktop #result-values dd {
-    padding: 3px 0;
+    padding: 2px 0;
 }
 .desktop #results .intro {
     margin: 6px 0 8px;
@@ -1136,9 +1136,11 @@ html.desktop,
     flex-shrink: 0;
 }
 .desktop .scene-window {
-    flex: 1;
+    flex: 0 0 auto;
     min-height: 0;
+    height: var(--map-viewport-height, auto);
 }
+.desktop .world-frame { height: auto; }
 .desktop #game-container {
     height: 100%;
     aspect-ratio: auto;
