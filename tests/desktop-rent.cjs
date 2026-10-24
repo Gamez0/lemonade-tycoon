@@ -80,7 +80,7 @@ const records = [];
         await verifyProfile(gallery, galleryBase);
         const opened = gallery.waitForEvent('window');
         await gallery.evaluate(({ BrowserWindow }) => {
-            const window = new BrowserWindow({ width: 1120, height: 1200, useContentSize: true, show: false });
+            const window = new BrowserWindow({ width: 1120, height: 1200, useContentSize: true, show: true });
             return window.loadURL('about:blank');
         });
         const page = await opened;
