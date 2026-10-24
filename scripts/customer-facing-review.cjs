@@ -197,6 +197,8 @@ const maps = Object.fromEntries(fs.readdirSync(path.join(root, 'src/game/assets'
                 scene.drawPeople({ tick: 36, waiting: [], walking: [{ visitor: visitor(70), kind: 'bought', startedAt: 36, until: 58 }] });
                 if (Math.hypot(buyerFoot.x - beforeBuying[0], buyerFoot.y - beforeBuying[1]) > .01)
                     throw Error(id + ': rapid-service buyer teleported before departure');
+                if (!buyerFoot.texture.key.includes('-walk-'))
+                    throw Error(id + ': cup appeared before the rapid-service buyer reached the counter');
                 scene.drawPeople({ tick: 20, waiting: [], walking: [] });
                 if (scene.people.size || scene.facings.size || scene.bubbles.size || scene.queueFeet.size || scene.exits.size)
                     throw Error(id + ': departed customer retained ' + JSON.stringify([scene.people.size, scene.facings.size, scene.bubbles.size]));

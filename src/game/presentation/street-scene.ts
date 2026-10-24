@@ -182,8 +182,9 @@ export class StreetScene extends Phaser.Scene {
                 if (distance < lead) { at = moveQueueProgress(location, exit.lead, 286, distance); purpose = "service"; travel = -1; }
                 else at = 286 + 394 * (distance - lead) / length;
             }
-            show(id, person.visitor.profile, person.kind === "bought" ? "cup" : "walk", at,
-                progress < .65 && person.kind !== "passed" ? this.reaction(person) : undefined,
+            const approachingCounter = purpose === "service" && exit.purpose === "depart";
+            show(id, person.visitor.profile, person.kind === "bought" && !approachingCounter ? "cup" : "walk", at,
+                progress < .65 && person.kind !== "passed" && !approachingCounter ? this.reaction(person) : undefined,
                 false, purpose, travel);
         }
         for (const [id, sprite] of this.people) if (!visible.has(id)) {
