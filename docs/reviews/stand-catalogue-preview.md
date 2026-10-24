@@ -18,4 +18,9 @@ unchanged, following the user's explicit positive review on2026-10-24.
 Browser stand-upgrade coverage now verifies the native illustration source for
 all four stages, distinct rendered previews, charges, map identity and relaunch.
 Focused catalogue and all-ten-location checks passed12/12; type/lint/build pass.
-Windows native catalogue rendering and final-head CI remain pending.
+Clean Windows source82581cc (dirtyfalse) passed the23-file asset audit and native
+four-stage/eight-preview review at1280x1000 and800x600. Native1402x1122 image
+decoding, normal filtering, picture/button containment and no root overflow
+passed; screenshots inspected for Basic and Castle. The native test waits for
+the actual requested client dimensions. Evidence is in
+`.local-m4/customer-facing/native-catalogue`; final-head CI remains pending.

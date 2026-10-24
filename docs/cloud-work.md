@@ -6,9 +6,12 @@ PR260 current-art route/counter facing integrated after exact-head627be85 CI
 all passed (run40078848593). Local model79/browser67/release15/type/lint/build,
 actual Phaser10maps80actors, clean Windows UI and enforced performance pass:
 215.5MiB private after20days,0idle redraws,0.252MiB retained growth.
-Next #257 improvement in feat/stand-catalog-preview: use actual native v2
+Next #257 improvement in draftPR261 feat/stand-catalog-preview: use actual native v2
 stand crop in the catalogue for each owned stage. Focused12browser tests and
-type/lint/build pass. Native four-stage/eight-size catalogue and final CI pending.
+type/lint/build pass. Clean82581cc Windows four-stage/eight-preview catalogue
+at actual1280x1000/800x600 dimensions passed; native image/filter/controls fit.
+Only final-head CI/integration remains. Next inspect the existing three equipment
+catalogue roles against original references without inventing more upgrade rules.
 User clarified detailed Staff portraits are good; preserve them. Only map
 pedestrians need minimal faces/silhouettes. Draft259 a0c46a9 preserves minimal
 idle/walk studies/prompts; no art shipped, repeated walk contacts still rejected.

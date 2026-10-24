@@ -34,6 +34,7 @@ fs.mkdirSync(out, { recursive: true });
                     const win = BrowserWindow.getAllWindows()[0];
                     win.setContentSize(size[0], size[1]);
                 }, [width, height]);
+                await expect.poll(() => page.evaluate(() => [innerWidth, innerHeight])).toEqual([width, height]);
                 await page.locator('#upgrade-art-stand').scrollIntoViewIfNeeded();
                 const metrics = await page.locator('#upgrade-art-stand').evaluate(async picture => {
                     const svg = picture.querySelector('svg'), image = svg.querySelector('image');
