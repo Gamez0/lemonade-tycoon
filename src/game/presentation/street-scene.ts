@@ -10,6 +10,7 @@ import { mapThumbnail } from "./map-raster";
 import { MAP_LAYOUTS, mapPosition, queueProgress } from "../content/map-layouts";
 import { createStandArt, standSize, standFlip, STAND_ASSETS } from "./stand-art";
 import { STAND_NAMES } from "../content/management";
+import { customerAppearance, routeFacing, vectorFacing, type CustomerFacing } from "../content/customer-facing";
 
 interface StreetHooks {
     state: () => State;
@@ -21,6 +22,7 @@ interface StreetHooks {
 export class StreetScene extends Phaser.Scene {
     private hooks: StreetHooks;
     private people = new Map<number, Phaser.GameObjects.Sprite>();
+    private facings = new Map<number, CustomerFacing>();
     private bubbles = new Map<number, Phaser.GameObjects.Text>();
     private sky?: Phaser.GameObjects.Rectangle;
     private background?: Phaser.GameObjects.Image;
@@ -79,6 +81,7 @@ export class StreetScene extends Phaser.Scene {
         for (const person of this.people.values()) person.destroy();
         for (const bubble of this.bubbles.values()) bubble.destroy();
         this.people.clear();
+        this.facings.clear();
         this.bubbles.clear();
     }
 
@@ -97,18 +100,26 @@ export class StreetScene extends Phaser.Scene {
         const peopleScale = 1.4;
         const visible = new Set<number>();
         const show = (id: number, profile: number, pose: number, position: number,
-            label?: string, facingStand = false, purpose: "service" | "through" | "depart" = "service") => {
+            label?: string, facingStand = false, purpose: "service" | "through" | "depart" = "service",
+            travel: 1 | -1 = 1) => {
             const [logicalX, logicalY] = mapPosition(this.hooks.state().location, position,
                 purpose);
             const x = logicalX * 640 / 300, y = logicalY * 512 / 240;
+            const location = this.hooks.state().location;
+            const previous = this.facings.get(id);
+            const ground = MAP_LAYOUTS[location].ground;
+            const facing = facingStand ? vectorFacing(ground[0] - logicalX, ground[1] - logicalY, previous) :
+                routeFacing(location, position, purpose, travel, previous);
+            this.facings.set(id, facing);
+            const appearance = customerAppearance(facing, pose, this.motion.matches);
             visible.add(id);
             let sprite = this.people.get(id);
             if (!sprite) {
                 sprite = this.add.sprite(x, y, `customer-${profile}-${pose}`).setOrigin(0.5, 1);
                 this.people.set(id, sprite);
             }
-            sprite.setPosition(Math.round(x), Math.round(y)).setTexture(`customer-${profile}-${this.motion.matches ? 0 : pose}`)
-                .setScale(peopleScale).setFlipX(facingStand && logicalX > MAP_LAYOUTS[this.hooks.state().location].ground[0]).setDepth(y);
+            sprite.setPosition(Math.round(x), Math.round(y)).setTexture(`customer-${profile}-${appearance.pose}`)
+                .setScale(peopleScale).setFlipX(appearance.flipX).setDepth(y);
             let bubble = this.bubbles.get(id);
             if (label) {
                 if (!bubble) {
@@ -132,7 +143,7 @@ export class StreetScene extends Phaser.Scene {
             const from = Math.max(660, target + 90);
             const x = from + (target - from) * progress;
             show(person.visitor.id, person.visitor.profile, progress < 1 ? day.tick % 2 : 0,
-                x, undefined, progress >= 1);
+                x, undefined, progress >= 1, "service", -1);
         });
         for (const person of day.walking) {
             const progress = this.motion.matches ? 0.55 : (day.tick - person.startedAt) / (person.until - person.startedAt);
@@ -146,6 +157,7 @@ export class StreetScene extends Phaser.Scene {
         for (const [id, sprite] of this.people) if (!visible.has(id)) {
             sprite.destroy();
             this.people.delete(id);
+            this.facings.delete(id);
             this.bubbles.get(id)?.destroy();
             this.bubbles.delete(id);
         }

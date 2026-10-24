@@ -2,6 +2,44 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { MAP_LAYOUTS, mapPosition, queueProgress } = require('../.test-build/content/map-layouts.js');
 const inside = ([x, y]) => x >= 0 && x <= 300 && y >= 0 && y <= 240;
+const { vectorFacing, routeFacing, customerAppearance } = require('../.test-build/content/customer-facing.js');
+
+test('customer facing follows actual route purpose, reversed queue travel and stand position', () => {
+    assert.equal(routeFacing('neighborhood', 100, 'through', 1), 'se');
+    assert.equal(routeFacing('neighborhood', 100, 'service', 1), 'ne');
+    assert.equal(routeFacing('neighborhood', 500, 'depart', 1), 'sw');
+    assert.equal(routeFacing('train-station', 500, 'depart', 1), 'ne');
+    assert.equal(routeFacing('magic-gardens', 500, 'depart', 1), 'sw');
+    for (const [id, layout] of Object.entries(MAP_LAYOUTS)) {
+        for (const purpose of ['service', 'through', 'depart']) {
+            for (let progress = 0; progress <= 660; progress += 10) {
+                const a = mapPosition(id, progress, purpose), b = mapPosition(id, progress + 1, purpose);
+                const facing = routeFacing(id, progress, purpose, 1);
+                assert.equal(facing.endsWith('w'), b[0] < a[0], id + ' horizontal tangent');
+                assert.equal(facing.startsWith('n'), b[1] < a[1], id + ' vertical tangent');
+                const reversed = routeFacing(id, progress + 1, purpose, -1);
+                assert.notEqual(reversed.endsWith('w'), facing.endsWith('w'), id + ' reverse queue travel');
+            }
+        }
+        const customer = mapPosition(id, 286);
+        const facing = vectorFacing(layout.ground[0] - customer[0], layout.ground[1] - customer[1]);
+        assert.equal(facing.startsWith('n'), true, id + ' look towards counter');
+        assert.equal(facing.endsWith('w'), layout.facing === 'right', id + ' counter side');
+    }
+});
+
+test('stationary axes preserve facing and reduced motion preserves rear views and purchased cups', () => {
+    for (const facing of ['se', 'ne', 'nw', 'sw']) {
+        assert.equal(vectorFacing(0, 0, facing), facing);
+        assert.equal(vectorFacing(0.001, -0.001, facing), facing);
+        assert.equal(customerAppearance(facing, 1, false).flipX, facing.endsWith('w'));
+    }
+    assert.deepEqual(customerAppearance('nw', 1, false), { pose: 4, flipX: true });
+    assert.deepEqual(customerAppearance('ne', 3, false), { pose: 5, flipX: false });
+    assert.deepEqual(customerAppearance('nw', 1, true), { pose: 2, flipX: true });
+    assert.deepEqual(customerAppearance('ne', 3, true), { pose: 5, flipX: false });
+    assert.deepEqual(customerAppearance('sw', 3, true), { pose: 3, flipX: true });
+});
 
 test('ten map layouts have continuous entrances, stable reachable service points and off-frame exits', () => {
     assert.equal(Object.keys(MAP_LAYOUTS).length, 10);
