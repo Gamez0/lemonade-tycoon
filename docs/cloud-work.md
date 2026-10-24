@@ -1,5 +1,21 @@
 # Cloud development handoff — 2026-10-05
 
+## Ten-map pedestrian circulation — 2026-10-24 KST
+
+Latest user prioritizes strange per-map through traffic. Active isolated
+D:/lemonade-routes fix/map-pedestrian-routes from main9c6233c. Read
+reviews/map-pedestrian-routes.md for all ten observations and verification limits.
+Nine service-route fallbacks replaced by explicit transit/departure lanes;
+ground-distance parameterization, bounded queue movement and continuity on
+abandonment/rapid buying. Neighborhood owned-house foreground occlusion added;
+Downtown floor/feet moved8units inward. Customer art/Staff/business/save untouched.
+
+93model/type/lint and actual controlled10map80actor route/transition checks pass.
+Exact-image baseline/revised route overlays retained in .local-m4, including
+rejected intermediate geometry; actual Windows motion/UI/performance and current
+head required CI follow before integration. #97/#16 stay open. Prior weather
+design remains separate and preserved; don't claim original pathfinding parity.
+
 ## Customer rejection / compact pixel rework — 2026-10-24 KST
 
 Latest user steering rejects current map customers as uncanny and prioritizes
