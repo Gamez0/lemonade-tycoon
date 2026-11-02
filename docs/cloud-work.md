@@ -1,6 +1,26 @@
 # Cloud development handoff — 2026-10-05
 
 
+## Alpha21 dependency refresh integrated - 2026-11-02 KST
+
+PR277/278 integrated; product main50ab105519168cdfe8c0c512190a37b3899adc3d.
+Exact f5ffff6 CI41443850319 ALL PASS:111models/storage,88browser,
+Linux12/Windows15release, all14Windows native suites, CodeQL/dependency review.
+Simulation8m21, Windows12m48. Maximum meanPrivate238.861MiB under unchanged256
+cap, idle draws0. Electron44.9.1, Vite6.4.5, minimatch11.0.4/glob14.0.2
+explicit major overrides verified through lint and asar/Windows packaging.
+Fresh all-dependency and production-only npm audit0. Game/save12 rules unchanged.
+
+Clean candidate f5ffff6 native UI/relaunch and15taste/import/paid replay PASS.
+ZIP D:/lemonade-security/.local-m4/alpha21-bundles/
+Willow-Lane-Lemonade-0.2.0-alpha.21-win-x64-f5ffff6.zip
+189194189bytes,74manifestfiles/75ZIPentries including manifest, all hashes verified.
+SHA256 3a1c3136365d925afc1190f50987d99c737a7b43d1f66210e03707b74500bf03.
+No public release, invitations or Steam operations. Physical/human/rights gates
+remain open. Research PR282 refreshed on this main, requires final head CI.
+Previous a0e553e research CI41443020918 all passed; it is not final refreshed CI.
+
+
 ## Product and R1 audit checkpoint - 2026-11-02 KST
 
 Product PR280/281 merged after all exact-head required CI; main389f507.

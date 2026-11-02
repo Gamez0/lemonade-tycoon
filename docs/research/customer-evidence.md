@@ -105,3 +105,7 @@ and confirm semantic labels only where the original UI/manual supports them.
 The trial ended2026-10-14; do not restart/bypass it for new observations.
 This completes the numeric correspondence/unit/limit audit, not human #97/#16
 acceptance or proof of every original runtime detail.
+
+Follow-up: [equipment evidence](equipment-evidence.md) links the12999-cent
+hardware pointer to the conditional15-step bonus. This narrows the earlier
+object-identity uncertainty without establishing real seconds or a live test.
