@@ -1,5 +1,32 @@
 # Cloud development handoff — 2026-10-05
 
+## Intraday weather / schema11 - 2026-11-02 KST
+
+Active #229, isolated D:/lemonade-periods feat/intraday-weather from mainfee1153.
+Read reviews/weather-period-compatibility.md for original evidence, three-label
+adaptation, explicit new-day adoption and old-model preservation. Alpha19 uses
+schema11; actual weather and arrival quotas are frozen once at successful
+opening. Generated arrivals select periods; willingness uses arrival weather,
+taste uses service-time temperature. Mall stays20 C. Forecast/current labels,
+sky and warmest-period cooling advice use the same model. Zero quotas and final
+queue draining retain a valid occupied index. Old imports do not reroll on read.
+
+Model106/type/lint and release15 PASS. Mainfee1153 generated four realv10 paid
+fixtures, all complete-state replay matches; originalv6 replay still passes.
+Actual local Windows taste/weather/import/reload10/10 and full UI/relaunch PASS,
+26asset and shipped-ASAR audit PASS. Local package currently marked dirty and
+is for verification, not final distribution. New focused browser changed
+Sunny29->Cloudy25->Rainy15 and replay matched. First full browser is still running;
+two day-transition and one abandonment expectation were stale against new-day
+adoption/new-business RNG and have been updated, not yet rerun. Added normal/fast
+period cases and Challenge final-day coverage. Need final focused/fullCI browser,
+actual Windows full requiredCI, self-review and exact-head allgreen before merge.
+
+Source and original/legacy parent worktree preserved. Native verification apps
+closed normally. No public release, Steam action or human acceptance closure.
+#97/#16/manual beta remain open. After final integration, update229/237/Project,
+build a clean checksummed alpha19 package and read live --next for remaining work.
+
 ## Weather/news and Rent - 2026-10-25 KST
 
 User requested hot/cold ice strategy and near-empty outdoor maps in rain.

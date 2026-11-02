@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs'), os = require('node:os'), path = require('node:path');
 const { execFileSync } = require('node:child_process');
 const { campaign, stock } = require('./helpers/business.cjs');
-const { openDay, nextDay, newGame, purchaseUpgrade, setPlan, buy } = require('../.test-build/simulation/game.js');
+const { openDay, nextDay, withWeatherForecast, newGame, purchaseUpgrade, setPlan, buy } = require('../.test-build/simulation/game.js');
 const { encodeSave } = require('../.test-build/simulation/save.js');
 const { beginStreetDay, finishStreetDay } = require('../.test-build/simulation/street-day.js');
 const { profileArgs, verifyProfile } = require('./helpers/desktop-profile.cjs');
@@ -40,7 +40,7 @@ async function close() { const closed = app.waitForEvent('close'); await app.eva
         await page.locator('#open').click(); await page.locator('#skip').click();
         await expect.poll(() => read()?.state.business).toBe(null);
         const freeResult = finishStreetDay(beginStreetDay(openDay(freeCheckpoint.state))).day.game;
-        assert.deepEqual(read().state, nextDay(freeResult));
+        assert.deepEqual(read().state, withWeatherForecast(nextDay(freeResult)));
         assert.deepEqual(read().history.at(-1), freeResult);
         const earned = campaign(); earned.state = stock(earned.state);
         await page.locator('#save-file').setInputFiles({ name: 'earned.json', mimeType: 'application/json', buffer: Buffer.from(encodeSave(earned.state, earned.history)) });
@@ -68,9 +68,9 @@ async function close() { const closed = app.waitForEvent('close'); await app.eva
         page = await launch(); assert.deepEqual(read(), paid);
         await page.locator('[data-page=staff]').click(); await expect(page.locator('[data-staff=none]')).toBeDisabled();
         await page.locator('#open').click(); await page.locator('#skip').click();
-        await expect.poll(() => read()?.state.business).toBe(null); assert.deepEqual(read().state, nextDay(expected));
+        await expect.poll(() => read()?.state.business).toBe(null); assert.deepEqual(read().state, withWeatherForecast(nextDay(expected)));
         assert.deepEqual(read().history.at(-1), expected);
-        await close(); page = await launch(); assert.deepEqual(read().state, nextDay(expected));
+        await close(); page = await launch(); assert.deepEqual(read().state, withWeatherForecast(nextDay(expected)));
         assert.deepEqual(read().history.at(-1), expected);
         await page.locator('#help-open').click(); await expect(page.locator('#mute-audio')).toBeChecked();
         const diagnostic = await page.evaluate(() => window.desktopApp.diagnostics());
@@ -82,7 +82,7 @@ async function close() { const closed = app.waitForEvent('close'); await app.eva
         await page.locator('#fullscreen').click();
         await expect.poll(() => app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].isFullScreen())).toBe(false);
         const quit = app.waitForEvent('close'); await page.locator('#quit-game').click(); await quit; app = null;
-        assert.deepEqual(read().state, nextDay(expected));
+        assert.deepEqual(read().state, withWeatherForecast(nextDay(expected)));
         assert.deepEqual(read().history.at(-1), expected);
         console.log('Windows management: zero-cash free ice, equipment/wage/ad costs, forced replay, results, mute, diagnostics, fullscreen and Save and quit PASS.');
     } finally { if (app) await app.close().catch(() => {}); fs.rmSync(base, { recursive: true, force: true }); }

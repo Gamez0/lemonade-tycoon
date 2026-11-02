@@ -2,7 +2,7 @@ const fs = require('node:fs'), path = require('node:path'), os = require('node:o
 const assert = require('node:assert/strict');
 const { _electron: electron } = require('playwright');
 const { expect } = require('@playwright/test');
-const { newGame, setPlan, buyOrder, nextDay, results } = require('../.test-build/simulation/game.js');
+const { newGame, setPlan, buyOrder, nextDay, withWeatherForecast, results } = require('../.test-build/simulation/game.js');
 const { encodeSave } = require('../.test-build/simulation/save.js');
 const { WEATHER } = require('../.test-build/content/catalog.js');
 const { profileArgs, verifyProfile } = require('./helpers/desktop-profile.cjs');
@@ -39,9 +39,9 @@ let app;
             await page.locator('#skip').click(); await page.clock.runFor(500);
             await expect(page.locator('#report-response')).toContainText(advice);
             await expect.poll(async () => (await read())?.state.business).toBe(null);
-            const saved = await read(); assert.equal(saved.version, 10);
+            const saved = await read(); assert.equal(saved.version, 11);
             const report = saved.history.at(-1);
-            assert.deepEqual(saved.state, nextDay(report));
+            assert.deepEqual(saved.state, withWeatherForecast(nextDay(report)));
             assert.equal(report.business.customerModel, 'purchase-first-v1');
             assert.ok(report.daily.sold > 0);
             await page.locator('#app').screenshot({ path: path.join(out, name + '-results.png') });
@@ -86,10 +86,43 @@ let app;
         const replay = await read();
         const expected = require('./helpers/stand-schema.cjs').withBasicStand(legacy.expected);
         assert.deepEqual(replay.history.at(-1), expected);
-        assert.deepEqual(replay.state, nextDay(expected));
+        assert.deepEqual(replay.state, withWeatherForecast(nextDay(expected)));
         observations.push({ name: 'actual alpha13 paid opening', exactReplay: true, importedVersion: 6, savedVersion: replay.version });
+        const game = require('../.test-build/simulation/game.js');
+        const { stock } = require('./helpers/business.cjs');
+        const { beginStreetDay, finishStreetDay } = require('../.test-build/simulation/street-day.js');
+        const periodPrepared = stock(withWeatherForecast(newGame(1)));
+        const periodExpected = finishStreetDay(beginStreetDay(game.openDay(periodPrepared))).day.game;
+        await page.locator('#save-file').setInputFiles({ name: 'periods.json', mimeType: 'application/json',
+            buffer: Buffer.from(encodeSave(periodPrepared, [])) });
+        await expect(page.locator('#save-status')).toContainText('Imported save');
+        await page.locator('#open').click(); await page.clock.runFor(8200);
+        await expect(page.locator('#weather-advice')).toContainText('Period 2 / 3');
+        await expect(page.locator('#weather')).toHaveText('25°C');
+        await expect(page.locator('#app')).toHaveAttribute('data-weather', 'cloudy');
+        await page.locator('#app').screenshot({ path: path.join(out, 'period-2.png') });
+        await page.clock.runFor(6500);
+        await expect(page.locator('#weather-advice')).toContainText('Period 3 / 3');
+        await expect(page.locator('#weather')).toHaveText('15°C');
+        await expect(page.locator('#app')).toHaveAttribute('data-weather', 'rainy');
+        await page.locator('#app').screenshot({ path: path.join(out, 'period-3.png') });
+        await page.reload(); await page.clock.runFor(500);
+        await page.locator('#menu-continue').click();
+        await page.locator('#open').click(); await page.locator('#skip').click(); await page.clock.runFor(500);
+        await expect.poll(async () => (await read())?.state.business).toBe(null);
+        assert.deepEqual((await read()).history[0], periodExpected);
+        observations.push({ name: 'intraday actual weather and paid reload', periods: periodExpected.business.periods, exactReplay: true });
+        for (const fixture of require('./fixtures/weather-news-v10.json').cases) {
+            await page.locator('#save-file').setInputFiles({ name: 'main-v10.json', mimeType: 'application/json',
+                buffer: Buffer.from(JSON.stringify(fixture.document)) });
+            await expect(page.locator('#save-status')).toContainText('Imported save');
+            await page.locator('#open').click(); await page.locator('#skip').click(); await page.clock.runFor(500);
+            await expect.poll(async () => (await read())?.state.business).toBe(null);
+            assert.deepEqual((await read()).history[0], fixture.expected);
+            observations.push({ name: `actual main v10 seed ${fixture.seed}`, exactReplay: true });
+        }
         fs.writeFileSync(path.join(out, 'results.json'), JSON.stringify({ target: 'actual packaged Windows game', observations }, null, 2));
-        console.log('Windows buyer taste, location weather, Rent and real v6 paid-opening replay: 5/5 PASS');
+        console.log('Windows buyer taste, weather periods, Rent and actual v6/v10 paid replay: 10/10 PASS');
     } finally {
         await app?.close();
         if (!path.resolve(base).startsWith(path.resolve(os.tmpdir()) + path.sep + 'lemonade-taste-')) throw Error('Unexpected test profile path.');

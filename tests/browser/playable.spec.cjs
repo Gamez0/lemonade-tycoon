@@ -242,7 +242,7 @@ for (const timing of ["immediately", "after a committed visit", "after changing 
     test(`SKIP ${timing} matches normal day accounting without duplicate visits`, async ({ page }) => {
         const game = require("../../.test-build/simulation/game.js");
         const street = require("../../.test-build/simulation/street-day.js");
-        const opened = game.openDay(game.buyOrder(game.newGame(), { lemon: 40, sugar: 20, ice: 60, cup: 20 }));
+        const opened = game.openDay(game.buyOrder(game.withWeatherForecast(game.newGame()), { lemon: 40, sugar: 20, ice: 60, cup: 20 }));
         const expected = street.finishStreetDay(street.beginStreetDay(opened)).day.game;
         await stock(page);
         await page.locator("#open").click();
@@ -281,7 +281,7 @@ test("waiting departures appear separately in the live reaction count and report
     const street = require("../../.test-build/simulation/street-day.js");
     const supplies = { lemon: 120, sugar: 60, ice: 180, cup: 60 };
     const expected = street.finishStreetDay(street.beginStreetDay(
-        game.openDay(game.buyOrder(game.newGame(), supplies)))).day.game;
+        game.openDay(game.buyOrder(game.withWeatherForecast(game.newGame()), supplies)))).day.game;
     expect(expected.daily.abandoned).toBeGreaterThan(0);
     await tab(page, "supplies");
     for (const item of ["lemon", "sugar", "ice", "cup"]) await add(page, item, 0, 3);

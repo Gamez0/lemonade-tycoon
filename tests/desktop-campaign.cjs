@@ -4,6 +4,7 @@ const { expect } = require('@playwright/test');
 const fs = require('node:fs'), path = require('node:path'), os = require('node:os'), assert = require('node:assert/strict');
 const { profileArgs, verifyProfile } = require('./helpers/desktop-profile.cjs');
 const { maxSaveBytes } = require('../src/desktop/save-limits.json');
+const { weatherTemperatures } = require('../.test-build/simulation/game.js');
 const executable = process.env.LEMONADE_DESKTOP_EXE;
 if (process.platform !== 'win32' || !executable || !fs.existsSync(executable)) throw new Error('Set LEMONADE_DESKTOP_EXE to a Windows package.');
 const base = fs.mkdtempSync(path.join(os.tmpdir(), 'lemonade-campaign-'));
@@ -37,7 +38,7 @@ async function change(page, id, value) { await page.locator(`#${id}`).fill(Strin
             await page.locator('[data-page=marketing]').click();
             await change(page, 'price', day > 20 ? '2.75' : '1.75');
             await expect.poll(() => read()?.state.plan.price).toBe(day > 20 ? 275 : 175);
-            const weather = read().state.weather.temperature;
+            const weather = Math.max(...weatherTemperatures(read().state));
             await page.locator('[data-page=recipe]').click();
             await change(page, 'ice', weather >= 30 ? 4 : weather >= 25 ? 3 : weather >= 21 ? 2 : 1);
             await page.locator('[data-page=supplies]').click();
@@ -77,7 +78,7 @@ async function change(page, id, value) { await page.locator(`#${id}`).fill(Strin
             const sum = field => done.history.reduce((total, entry) => total + entry.daily[field], 0);
             assert.equal(done.state.cash, 4000 + sum('revenue') - sum('purchases') - sum('capital') - sum('rent') - sum('moveFee') - sum('wages') - sum('advertising'));
             assert.equal(done.state.lifetimeRevenue, sum('revenue'));
-            assert.equal(done.state.day, day + 1); assert.equal(done.version, 10);
+            assert.equal(done.state.day, day + 1); assert.equal(done.version, 11);
             const size = fs.statSync(save).size; assert.ok(size < maxSaveBytes, 'Save exceeds native IPC limit');
             report.days.push({ day, location, cash: done.state.cash, sold: d.sold, freeIceUsed: d.freeIceUsed, saveBytes: size });
             if (day % 5 === 0) {
