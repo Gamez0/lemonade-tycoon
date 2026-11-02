@@ -17,7 +17,7 @@ test('v8 saves preserve old locations and ownership while adding neutral ratings
         day.locationStats = Object.fromEntries(Object.entries(day.locationStats).filter(([id]) => oldIds.includes(id)));
     }
     const migrated = decodeSave(JSON.stringify(prior));
-    assert.equal(migrated.version, 11);
+    assert.equal(migrated.version, 12);
     assert.equal(migrated.state.cash, prior.state.cash);
     assert.deepEqual(migrated.state.unlocked, prior.state.unlocked);
     assert.deepEqual(migrated.state.management, prior.state.management);
@@ -108,7 +108,7 @@ test('v2 and earlier accounting migrate exactly; malformed v3 progression cannot
     for (const key of ['location', 'pendingLocation', 'unlocked', 'locationStats', 'lifetimeRevenue', 'business']) delete old[key];
     delete old.daily.rent; delete old.daily.moveFee;
     const migrated = decodeSave(JSON.stringify({ version: 2, state: old, history: [old] }));
-    assert.equal(migrated.version, 11);
+    assert.equal(migrated.version, 12);
     for (const key of ['cash', 'stock', 'plan', 'seed', 'reputation', 'weather']) assert.deepEqual(migrated.state[key], old[key]);
     for (const key of Object.keys(old.daily)) assert.equal(migrated.state.daily[key], old.daily[key]);
     assert.equal(migrated.state.business.traffic, old.weather.traffic);

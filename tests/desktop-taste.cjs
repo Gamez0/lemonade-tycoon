@@ -2,7 +2,7 @@ const fs = require('node:fs'), path = require('node:path'), os = require('node:o
 const assert = require('node:assert/strict');
 const { _electron: electron } = require('playwright');
 const { expect } = require('@playwright/test');
-const { newGame, setPlan, buyOrder, nextDay, withWeatherForecast, results } = require('../.test-build/simulation/game.js');
+const { newGame, setPlan, buyOrder, nextDay, withWeatherForecast, withCustomerProfiles, results } = require('../.test-build/simulation/game.js');
 const { encodeSave } = require('../.test-build/simulation/save.js');
 const { WEATHER } = require('../.test-build/content/catalog.js');
 const { profileArgs, verifyProfile } = require('./helpers/desktop-profile.cjs');
@@ -39,9 +39,9 @@ let app;
             await page.locator('#skip').click(); await page.clock.runFor(500);
             await expect(page.locator('#report-response')).toContainText(advice);
             await expect.poll(async () => (await read())?.state.business).toBe(null);
-            const saved = await read(); assert.equal(saved.version, 11);
+            const saved = await read(); assert.equal(saved.version, 12);
             const report = saved.history.at(-1);
-            assert.deepEqual(saved.state, withWeatherForecast(nextDay(report)));
+            assert.deepEqual(saved.state, withCustomerProfiles(withWeatherForecast(nextDay(report))));
             assert.equal(report.business.customerModel, 'purchase-first-v1');
             assert.ok(report.daily.sold > 0);
             await page.locator('#app').screenshot({ path: path.join(out, name + '-results.png') });
@@ -86,7 +86,7 @@ let app;
         const replay = await read();
         const expected = require('./helpers/stand-schema.cjs').withBasicStand(legacy.expected);
         assert.deepEqual(replay.history.at(-1), expected);
-        assert.deepEqual(replay.state, withWeatherForecast(nextDay(expected)));
+        assert.deepEqual(replay.state, withCustomerProfiles(withWeatherForecast(nextDay(expected))));
         observations.push({ name: 'actual alpha13 paid opening', exactReplay: true, importedVersion: 6, savedVersion: replay.version });
         const game = require('../.test-build/simulation/game.js');
         const { stock } = require('./helpers/business.cjs');
@@ -121,8 +121,33 @@ let app;
             assert.deepEqual((await read()).history[0], fixture.expected);
             observations.push({ name: `actual main v10 seed ${fixture.seed}`, exactReplay: true });
         }
+        for (const fixture of require('./fixtures/intraday-weather-v11.json').cases) {
+            await page.locator('#save-file').setInputFiles({ name: 'actual-v11.json', mimeType: 'application/json',
+                buffer: Buffer.from(JSON.stringify(fixture.document)) });
+            await expect(page.locator('#save-status')).toContainText('Imported save');
+            await page.locator('#open').click(); await page.locator('#skip').click(); await page.clock.runFor(500);
+            await expect.poll(async () => (await read())?.state.business).toBe(null);
+            assert.deepEqual((await read()).history[0], fixture.expected);
+            assert.equal((await read()).state.customerProfileModel, 'eleven-profiles-v1');
+            observations.push({ name: `actual v11 weather periods seed ${fixture.seed}`, exactReplay: true });
+        }
+        const beach = fundedStandBusiness('beach');
+        const profilePrepared = stock(withCustomerProfiles(withWeatherForecast(beach.state)), 125);
+        const profileExpected = finishStreetDay(beginStreetDay(game.openDay(profilePrepared))).day.game;
+        const profileErrors = []; page.on('pageerror', error => profileErrors.push(error.message));
+        await page.locator('#save-file').setInputFiles({ name: 'eleven-groups.json', mimeType: 'application/json',
+            buffer: Buffer.from(encodeSave(profilePrepared, beach.history)) });
+        await expect(page.locator('#save-status')).toContainText('Imported save');
+        await page.locator('#open').click(); await page.clock.runFor(5000);
+        await page.locator('#app').screenshot({ path: path.join(out, 'eleven-profile-beach.png') });
+        await page.reload(); await page.clock.runFor(500); await page.locator('#menu-continue').click();
+        await page.locator('#open').click(); await page.locator('#skip').click(); await page.clock.runFor(500);
+        await expect.poll(async () => (await read())?.state.business).toBe(null);
+        assert.deepEqual((await read()).history.at(-1), profileExpected);
+        assert.deepEqual(profileErrors, []);
+        observations.push({ name: 'eleven anonymous groups, beach visuals and paid reload', exactReplay: true });
         fs.writeFileSync(path.join(out, 'results.json'), JSON.stringify({ target: 'actual packaged Windows game', observations }, null, 2));
-        console.log('Windows buyer taste, weather periods, Rent and actual v6/v10 paid replay: 10/10 PASS');
+        console.log('Windows buyer taste, eleven groups, weather and actual v6/v10/v11 paid replay: 15/15 PASS');
     } finally {
         await app?.close();
         if (!path.resolve(base).startsWith(path.resolve(os.tmpdir()) + path.sep + 'lemonade-taste-')) throw Error('Unexpected test profile path.');

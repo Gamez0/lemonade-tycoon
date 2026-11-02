@@ -1,5 +1,39 @@
 # Cloud development handoff — 2026-10-05
 
+## Eleven customer groups / schema12 - 2026-11-02 KST
+
+#229 completed: PR280 merged13cc381 after exact1fee2be ALL requiredCI41430791022
+passed106models/85browser/14Windows suites, CodeQL/dependencies. Main source tree
+matches tested head. Clean alpha19 ZIP74files/189095595bytes, checksum recorded
+in229/237 and parent NEXT_SESSION. Human97/16 and beta0/5 remain open.
+
+Live --next selected228, nowRunning. Active D:/lemonade-profiles on
+feat/eleven-customer-profiles from13cc381. Read reviews/eleven-customer-profiles.md.
+Schema12/new discriminator uses retained11 anonymous numeric groups/10 venue
+mixtures, individual preferred/max prices and relative patience. Explicit
+product scaling preserves additive staff bonuses, paid stock/fees, actual
+service-time taste and existing approved map/Staff art. Oldv6-v11 paid imports
+keep their three-group/legacy rules until completion. Newer13+ protection stays.
+Rent uses frozen paid weights/durations and only represented groups; both old
+and new previews now show the complete additive host bonus.
+
+Model111/type/lint/release15 PASS. Four real pre-updatev11 paid-period fixtures
+captured with unchanged PR280 source; all replay field-for-field alongside real
+v6/v10 and labelledv7-shaped cases. Actual Windows15taste/import/render/reload
+scenarios PASS; funded beach renderer capture viewed. Unfunded30dayUI campaign
+and six relaunches PASS on diagnostic rerun (first20day price125, Downtown275).
+Initial day21 price polling timeout while other validation ran is retained;
+six isolated day21 typing probes and the full rerun pass without product changes.
+Failure UI/save diagnostics added to the campaign for any future occurrence.
+
+Fresh separate-build focused customer browser3/3 PASS, including frozen Rent
+preview and oldv11 adoption after restocking genuinely melted overnight ice.
+Initial broad browser still used two stale test expectations: current schema11
+in ten stand cases, and next opening without replacing melted ice. Both fixed;
+do not claim that initial run passed. Final full CI/native/UI/performance and
+clean-source package remain required before integration. No profile PR/merge
+or public distribution yet. Source, parent legacy and original resources intact.
+
 ## Intraday weather / schema11 - 2026-11-02 KST
 
 Active #229, isolated D:/lemonade-periods feat/intraday-weather from mainfee1153.

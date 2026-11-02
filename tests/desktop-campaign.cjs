@@ -36,8 +36,9 @@ async function change(page, id, value) { await page.locator(`#${id}`).fill(Strin
         for (let day = 1; day <= 30; day++) {
             stage = `day${day} preparation`;
             await page.locator('[data-page=marketing]').click();
-            await change(page, 'price', day > 20 ? '2.75' : '1.75');
-            await expect.poll(() => read()?.state.plan.price).toBe(day > 20 ? 275 : 175);
+            // The new roster has many price-sensitive groups in Neighborhood/Park.
+            await change(page, 'price', day > 20 ? '2.75' : '1.25');
+            await expect.poll(() => read()?.state.plan.price).toBe(day > 20 ? 275 : 125);
             const weather = Math.max(...weatherTemperatures(read().state));
             await page.locator('[data-page=recipe]').click();
             await change(page, 'ice', weather >= 30 ? 4 : weather >= 25 ? 3 : weather >= 21 ? 2 : 1);
@@ -78,7 +79,7 @@ async function change(page, id, value) { await page.locator(`#${id}`).fill(Strin
             const sum = field => done.history.reduce((total, entry) => total + entry.daily[field], 0);
             assert.equal(done.state.cash, 4000 + sum('revenue') - sum('purchases') - sum('capital') - sum('rent') - sum('moveFee') - sum('wages') - sum('advertising'));
             assert.equal(done.state.lifetimeRevenue, sum('revenue'));
-            assert.equal(done.state.day, day + 1); assert.equal(done.version, 11);
+            assert.equal(done.state.day, day + 1); assert.equal(done.version, 12);
             const size = fs.statSync(save).size; assert.ok(size < maxSaveBytes, 'Save exceeds native IPC limit');
             report.days.push({ day, location, cash: done.state.cash, sold: d.sold, freeIceUsed: d.freeIceUsed, saveBytes: size });
             if (day % 5 === 0) {
@@ -97,6 +98,15 @@ async function change(page, id, value) { await page.locator(`#${id}`).fill(Strin
         await page.screenshot({ path: path.join(out, 'thirty-day-ledger.png') });
         report.result = 'PASS'; console.log('Windows campaign:30 actual UI days, all locations/upgrades, cash ledger/free ice and six save/relaunch cycles PASS.');
     } catch (error) {
+        if (app) {
+            const page = await app.firstWindow();
+            report.failureUI = await page.evaluate(() => ({ message: document.querySelector('#message').textContent,
+                status: document.querySelector('#save-status').textContent, active: document.activeElement?.outerHTML,
+                inputs: [...document.querySelectorAll('input')].map(input => ({ id: input.id, value: input.value,
+                    valid: input.checkValidity(), readOnly: input.readOnly })) }));
+            fs.writeFileSync(path.join(out, 'failed-save.json'), JSON.stringify(read(), null, 2));
+            await page.screenshot({ path: path.join(out, 'failed.png') });
+        }
         report.result = 'FAIL'; report.stage = stage; report.error = error.message; throw error;
     } finally {
         fs.writeFileSync(path.join(out, 'campaign-results.json'), JSON.stringify(report, null, 2));

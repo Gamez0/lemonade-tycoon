@@ -43,7 +43,7 @@ test('mall cooling, daily effects and paid traffic freeze across export/import a
     assert.equal(game.effectiveWeather(opened).temperature, 20);
     const raw = encodeSave({ ...opened, phase: 'preparation' }, business.history);
     // Use the actual prepared opening, without forging the accounting ledger.
-    assert.equal(JSON.parse(raw).version, 11);
+    assert.equal(JSON.parse(raw).version, 12);
     const restored = decodeSave(raw).state;
     assert.deepEqual(game.openDay(restored), opened);
     assert.equal(game.expectedTraffic(restored), opened.business.traffic);

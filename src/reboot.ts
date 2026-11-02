@@ -1,4 +1,5 @@
 import { newsForDay, locationConditions } from "./game/content/day-conditions";
+import { CUSTOMER_PROFILES, LOCATION_CUSTOMER_WEIGHTS, profilePatience } from "./game/content/customer-profiles";
 import { careerDate } from "./game/simulation/calendar";
 import { balanceSheet } from "./game/presentation/balance-sheet";
 import { profitGraph } from "./game/presentation/profit-graph";
@@ -18,6 +19,8 @@ import {
     cupsPerPitcher,
     newGame,
     withWeatherForecast,
+    withCustomerProfiles,
+    isPurchaseFirst,
     nextDay,
     openDay,
     openingCosts,
@@ -61,7 +64,7 @@ const emptyOrder = (): Record<Item, number[]> => ({
 });
 const bundleSizes = [1, 2, 5];
 const audio = new GameAudio();
-let state = withWeatherForecast(newGame());
+let state = withCustomerProfiles(withWeatherForecast(newGame()));
 let companyId: string | undefined;
 let gameMode: "career" | "challenge" | undefined;
 function encodeSave(state: State, history: readonly State[]): string { return encodeDocument(state, history, companyId, gameMode); }
@@ -210,7 +213,7 @@ function applyStreet(events: CustomerEvent[]): void {
     }
     if (state.phase === "results" && history[history.length - 1] !== state) {
         history.push(state);
-        if (!challengeComplete()) state = withWeatherForecast(nextDay(state));
+        if (!challengeComplete()) state = withCustomerProfiles(withWeatherForecast(nextDay(state)));
         openingCheckpoint = null;
         currentPage = "results";
         reportPage = "daily";
@@ -437,7 +440,7 @@ element("next").addEventListener("click", () => {
     if (scene.finishing) return;
     if (challengeComplete()) { showMainMenu(); return; }
     act(() => {
-        state = withWeatherForecast(nextDay(state));
+        state = withCustomerProfiles(withWeatherForecast(nextDay(state)));
         resetPresentation();
         lastFeedback = "A new forecast, a new chance to improve.";
         return state;
@@ -450,7 +453,7 @@ element("restart").addEventListener("click", () => {
         text("restart", "Confirm new business");
         return;
     }
-    state = withWeatherForecast(newGame());
+    state = withCustomerProfiles(withWeatherForecast(newGame()));
     history = [];
     saveBlocked = false;
     resetPresentation();
@@ -563,7 +566,7 @@ function renderReport(): void {
             ? `Business ledger · ${history.length} completed ${history.length === 1 ? "day" : "days"}. Current preparation purchases are not included.`
             : `Day ${latest.day} · ${LOCATIONS[latest.location].name} · ${sold === 0 ? "No sales." : `${sold} customers served.`}`,
     );
-    const satisfaction = sold === 0 ? null : Math[reports.some(report => report.business?.customerModel === "purchase-first-v1") ? "floor" : "round"](sum("satisfactionTotal") /
+    const satisfaction = sold === 0 ? null : Math[reports.some(isPurchaseFirst) ? "floor" : "round"](sum("satisfactionTotal") /
         reports.reduce((total, report) => total + satisfactionCustomers(report), 0));
     element("report-face").innerHTML = icon(sold === 0 ? "quiet" : satisfaction !== null && satisfaction < 70 ? "unhappy" : "happy");
     text(
@@ -577,16 +580,16 @@ function renderReport(): void {
     const noSalesAdvice = sum("soldOut") > 0 ? "Buy enough supplies for tomorrow."
         : sum("abandoned") > 0 ? "Improve service or help the waiting line."
         : sum("priceRejected") > 0 ? "Try a lower cup price."
-        : reportPage === "daily" && latest.business?.customerModel !== "purchase-first-v1" && quality(latest.plan.recipe, effectiveWeather(latest).temperature) < 0.7
+        : reportPage === "daily" && !isPurchaseFirst(latest) && quality(latest.plan.recipe, effectiveWeather(latest).temperature) < 0.7
           ? "Adjust your recipe to the forecast."
           : "Try another location or advertising to reach more buyers.";
-    const ratingBasis = reports.every(report => report.business?.customerModel === "purchase-first-v1")
+    const ratingBasis = reports.every(isPurchaseFirst)
         ? " Includes buyers and visitors lost to price, stock or waiting; passers-by are excluded."
         : " Older saved days retain their original rating basis.";
     text("report-response", (sold === 0 ? noSalesAdvice : `Overall satisfaction: ${satisfaction}%.${ratingBasis}`) +
         ` ${sum("soldOut")} visitors missed out on empty stock. ${sum("abandoned")} left the line. ` +
         `${sum("priceRejected")} found the price too high; ${sum("passed")} passed by.` +
-        (reportPage === "daily" && sold > 0 && latest.business?.customerModel === "purchase-first-v1"
+        (reportPage === "daily" && sold > 0 && isPurchaseFirst(latest)
             ? ` ${tasteAdvice(recipeTaste(latest.plan.recipe, Math.max(...weatherTemperatures(latest))).complaints)}` : ""));
 
     rows("result-values", [
@@ -628,9 +631,15 @@ function renderRent(): void {
     const moveFee = selectedLocation === state.location ? 0 : location.moveFee;
     const legacyBusiness = state.business?.location === selectedLocation && state.business.customerModel === undefined
         ? state.business : null;
-    const patience = legacyBusiness ? [legacyBusiness.patienceTicks] : CUSTOMERS.map(customer => Math.max(1,
-        Math.round((location.patience + STAFF[state.management.staff].patience) * customer.patience)));
-    const totalWeights = location.weights.reduce((total: number, weight) => total + weight, 0);
+    const eleven = state.business ? state.business.customerModel === "eleven-profiles-v1" : Boolean(state.customerProfileModel);
+    const paid = state.business?.location === selectedLocation ? state.business : null;
+    const mix = paid?.weights ?? (eleven ? LOCATION_CUSTOMER_WEIGHTS[selectedLocation] : location.weights);
+    const staffPatience = STAFF[state.management.staff].patience;
+    const basePatience = paid ? Math.max(1, paid.patienceTicks - staffPatience) : location.patience;
+    const patience = legacyBusiness ? [legacyBusiness.patienceTicks] : eleven ? CUSTOMER_PROFILES.map((_, index) =>
+        profilePatience(basePatience, index, staffPatience)).filter((_, index) => mix[index] > 0) : CUSTOMERS.map(customer => Math.max(1,
+        Math.round(basePatience * customer.patience) + staffPatience));
+    const totalWeights = mix.reduce((total: number, weight) => total + weight, 0);
     const conditions = locationConditions(state.day, selectedLocation, state.weather);
     text("rent-description", location.description + (selectedLocation === "mall" ? " Indoors:20\u00b0C; sheltered from rain." :
         state.weather.label === "Rainy" ? " Rain reduces outdoor foot traffic today." : "") +
@@ -640,7 +649,9 @@ function renderRent(): void {
         ["Visitors / budget", `${expectedTraffic({ ...state, business: null }, selectedLocation)} / ${Math.round(location.budget * 100)}%`],
         ["Wait range / arrivals", `${(Math.min(...patience) / 10).toFixed(1)}–${(Math.max(...patience) / 10).toFixed(1)}s / ${(location.arrival / 10).toFixed(1)}s`],
         ["Temperature / cooling", `${conditions.temperature}\u00b0C / ${recipeTaste(state.plan.recipe, conditions.temperature).preferredIce} ice per cup`],
-        ["Office workers", `${Math.round(location.weights[1] / totalWeights * 100)}% · shortest wait`],
+        [eleven ? "11 visitor groups" : "Office workers", eleven
+            ? `${mix.reduce((sum, weight, index) => sum + (CUSTOMER_PROFILES[index].patience <= 50 ? weight : 0), 0)}% · short waits`
+            : `${Math.round(mix[1] / totalWeights * 100)}% · shortest wait`],
         ["Popularity / satisfaction", `${Math.round(rating.popularity * 100)}% / ${Math.round(rating.satisfaction * 100)}%`],
     ]);
     const locked = !state.unlocked.includes(selectedLocation);
@@ -787,7 +798,7 @@ function render(): void {
     if (prep && readiness.cups === 0) element("open").setAttribute("aria-describedby", "supply-warning");
     else element("open").removeAttribute("aria-describedby");
     text("unit-cost", money(unitCost(state.plan.recipe, state.freeIce + openingCosts(state).ice)));
-    const legacyPaidDay = state.business !== null && state.business.customerModel !== "purchase-first-v1";
+    const legacyPaidDay = state.business !== null && !isPurchaseFirst(state);
     text("ice-basis", legacyPaidDay ? "Ice reserved at opening" : "Per sold cup");
     text("pitcher-yield", `${cupsPerPitcher(state.plan.recipe)} cups per pitcher; ` + (legacyPaidDay
         ? `${state.plan.recipe.ice * cupsPerPitcher(state.plan.recipe)} ice reserved per pitcher for this saved day.`
@@ -978,7 +989,7 @@ const menu = new StartMenu({
         if (closing || importing) return Promise.reject(Error("Wait for the current save to finish."));
         const operation = (async () => {
             await saveQueue;
-            const next = company ? { name: company.name, raw: encodeDocument(withWeatherForecast(newGame()), [], crypto.randomUUID(), company.mode) } : null;
+            const next = company ? { name: company.name, raw: encodeDocument(withCustomerProfiles(withWeatherForecast(newGame())), [], crypto.randomUUID(), company.mode) } : null;
             await companies.select(index, currentCompanySave(), next, async raw => {
                 if (desktopSave) await queueDesktopSave(raw);
                 else { const doc = decodeSave(raw); writeDocument(localStorage, doc.state, doc.history, doc.companyId, doc.mode); }

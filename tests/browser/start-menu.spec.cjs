@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 const { encodeSave, SAVE_KEY, BACKUP_KEY } = require('../../.test-build/simulation/save.js');
-const { newGame, withWeatherForecast } = require('../../.test-build/simulation/game.js');
+const { newGame, withWeatherForecast, withCustomerProfiles } = require('../../.test-build/simulation/game.js');
 const companyKey = 'lemonade-tycoon.reboot.companies';
 async function ready(page) { await expect(page.locator('#menu-continue')).toBeEnabled(); }
 async function create(page, name) {
@@ -97,7 +97,7 @@ test('a protected newer autosave is not overwritten by visiting the menu and can
     expect(await page.evaluate(key => localStorage.getItem(key), SAVE_KEY)).toBe('{"version":999}');
     await page.locator('#save-file').setInputFiles({ name: 'compatible.json', mimeType: 'application/json', buffer: Buffer.from(encodeSave(newGame(300), [])) });
     await ready(page); await page.locator('#menu-continue').click();
-    expect(JSON.parse(await page.evaluate(key => localStorage.getItem(key), SAVE_KEY)).version).toBe(11);
+    expect(JSON.parse(await page.evaluate(key => localStorage.getItem(key), SAVE_KEY)).version).toBe(12);
 });
 test('failed journal cleanup keeps the new primary protected until recovery, including normal-close flush', async ({ page }) => {
     await page.addInitScript(companyKey => {
@@ -143,7 +143,7 @@ test('New Challenge persists its mode and the thirtieth trading day ends at the 
     await page.locator('#menu-create button[type=submit]').click(); await expect(page.locator('#start-menu')).toBeHidden();
     await expect(page.locator('#app')).toHaveAttribute('data-mode', 'challenge');
     await page.locator('#save-file').setInputFiles({ name: 'challenge-day30.json', mimeType: 'application/json',
-        buffer: Buffer.from(encodeSave(stock(withWeatherForecast(business.state)), business.history, 'import-challenge', 'challenge')) });
+        buffer: Buffer.from(encodeSave(stock(withCustomerProfiles(withWeatherForecast(business.state))), business.history, 'import-challenge', 'challenge')) });
     await expect(page.locator('#day')).toHaveText('30');
     await page.locator('#open').click(); await page.locator('#skip').click();
     await expect(page.locator('#results')).toBeVisible();

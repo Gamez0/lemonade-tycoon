@@ -121,14 +121,16 @@ export class StreetScene extends Phaser.Scene {
                 routeFacing(location, position, purpose, travel, previous);
             this.facings.set(id, facing);
             const appearance = customerAppearance(facing, action, (day.tick + tickFraction) * .8 + id, this.motion.matches);
+            // Cosmetic reuse of approved families; not an inferred original sprite identity.
+            const visualProfile = day.game.business?.customerModel === "eleven-profiles-v1" ? profile % 3 : profile;
             visible.add(id);
             let sprite = this.people.get(id);
             if (!sprite) {
-                sprite = this.add.sprite(x, y, customerTexture(profile, appearance.pose))
+                sprite = this.add.sprite(x, y, customerTexture(visualProfile, appearance.pose))
                     .setOrigin(CUSTOMER_METRICS.originX, CUSTOMER_METRICS.originY);
                 this.people.set(id, sprite);
             }
-            sprite.setPosition(Math.round(x), Math.round(y)).setTexture(customerTexture(profile, appearance.pose))
+            sprite.setPosition(Math.round(x), Math.round(y)).setTexture(customerTexture(visualProfile, appearance.pose))
                 .setScale(peopleScale).setFlipX(appearance.flipX).setDepth(y);
             let bubble = this.bubbles.get(id);
             if (label) {

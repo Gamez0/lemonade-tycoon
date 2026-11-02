@@ -1,0 +1,1409 @@
+{
+  "source": "PR280 candidate1fee2be057527cfd49495dda5786654ed65783f3; source identical to integrated main13cc38189a3c8c943223e6e1205897561a2b7eb1",
+  "cases": [
+    {
+      "seed": 1,
+      "document": {
+        "version": 11,
+        "state": {
+          "management": {
+            "upgrades": {
+              "refrigerator": 0,
+              "iceMaker": 0,
+              "blender": 0,
+              "stand": 0
+            },
+            "staff": "none",
+            "advertising": "none"
+          },
+          "phase": "preparation",
+          "day": 1,
+          "cash": 2480,
+          "openingCash": 4000,
+          "stock": {
+            "lemon": 34,
+            "sugar": 17,
+            "ice": 320,
+            "cup": 80
+          },
+          "freeIce": 0,
+          "pitcherCups": 16,
+          "plan": {
+            "price": 175,
+            "recipe": {
+              "lemon": 6,
+              "sugar": 3,
+              "ice": 4
+            }
+          },
+          "location": "neighborhood",
+          "pendingLocation": null,
+          "unlocked": [
+            "neighborhood"
+          ],
+          "locationStats": {
+            "neighborhood": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "park": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "downtown": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "beach": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "old-square": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "train-station": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "mall": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "marina": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "stadium": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "magic-gardens": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            }
+          },
+          "lifetimeRevenue": 0,
+          "business": {
+            "customerModel": "purchase-first-v1",
+            "periods": {
+              "model": "arrival-periods-v1",
+              "actual": [
+                {
+                  "label": "Sunny",
+                  "temperature": 29,
+                  "traffic": 48
+                },
+                {
+                  "label": "Cloudy",
+                  "temperature": 25,
+                  "traffic": 40
+                },
+                {
+                  "label": "Rainy",
+                  "temperature": 15,
+                  "traffic": 32
+                }
+              ],
+              "quotas": [
+                16,
+                13,
+                5
+              ]
+            },
+            "activePeriod": 0,
+            "location": "neighborhood",
+            "from": "neighborhood",
+            "traffic": 34,
+            "budget": 1,
+            "weights": [
+              3,
+              1,
+              2
+            ],
+            "patienceTicks": 18,
+            "arrivalEvery": 5,
+            "serviceTicks": 8,
+            "satisfaction": 0.5,
+            "popularity": 0.5,
+            "rent": 0,
+            "moveFee": 0,
+            "paid": true
+          },
+          "reputation": 0.5,
+          "daily": {
+            "freeIceUsed": 0,
+            "capital": 0,
+            "wages": 0,
+            "advertising": 0,
+            "model": "pitcher",
+            "pitchersMade": 1,
+            "meltedIce": 0,
+            "visitors": 0,
+            "sold": 0,
+            "rejected": 0,
+            "priceRejected": 0,
+            "passed": 0,
+            "soldOut": 0,
+            "abandoned": 0,
+            "revenue": 0,
+            "cost": 60,
+            "purchases": 1520,
+            "rent": 0,
+            "moveFee": 0,
+            "satisfactionTotal": 0
+          },
+          "seed": 70837908,
+          "weather": {
+            "label": "Sunny",
+            "temperature": 32,
+            "traffic": 48
+          },
+          "weatherForecast": [
+            {
+              "label": "Sunny",
+              "temperature": 32,
+              "traffic": 48
+            },
+            {
+              "label": "Cloudy",
+              "temperature": 23,
+              "traffic": 40
+            },
+            {
+              "label": "Rainy",
+              "temperature": 18,
+              "traffic": 32
+            }
+          ]
+        },
+        "history": []
+      },
+      "expected": {
+        "management": {
+          "upgrades": {
+            "refrigerator": 0,
+            "iceMaker": 0,
+            "blender": 0,
+            "stand": 0
+          },
+          "staff": "none",
+          "advertising": "none"
+        },
+        "phase": "results",
+        "day": 1,
+        "cash": 6155,
+        "openingCash": 4000,
+        "stock": {
+          "lemon": 28,
+          "sugar": 14,
+          "ice": 236,
+          "cup": 59
+        },
+        "freeIce": 0,
+        "pitcherCups": 0,
+        "plan": {
+          "price": 175,
+          "recipe": {
+            "lemon": 6,
+            "sugar": 3,
+            "ice": 4
+          }
+        },
+        "location": "neighborhood",
+        "pendingLocation": null,
+        "unlocked": [
+          "neighborhood"
+        ],
+        "locationStats": {
+          "neighborhood": {
+            "satisfaction": 0.6590909090909092,
+            "popularity": 0.5318181818181819
+          },
+          "park": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "downtown": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "beach": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "old-square": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "train-station": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "mall": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "marina": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "stadium": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "magic-gardens": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          }
+        },
+        "lifetimeRevenue": 3675,
+        "business": {
+          "customerModel": "purchase-first-v1",
+          "periods": {
+            "model": "arrival-periods-v1",
+            "actual": [
+              {
+                "label": "Sunny",
+                "temperature": 29,
+                "traffic": 48
+              },
+              {
+                "label": "Cloudy",
+                "temperature": 25,
+                "traffic": 40
+              },
+              {
+                "label": "Rainy",
+                "temperature": 15,
+                "traffic": 32
+              }
+            ],
+            "quotas": [
+              16,
+              13,
+              5
+            ]
+          },
+          "activePeriod": 2,
+          "location": "neighborhood",
+          "from": "neighborhood",
+          "traffic": 34,
+          "budget": 1,
+          "weights": [
+            3,
+            1,
+            2
+          ],
+          "patienceTicks": 18,
+          "arrivalEvery": 5,
+          "serviceTicks": 8,
+          "satisfaction": 0.5,
+          "popularity": 0.5,
+          "rent": 0,
+          "moveFee": 0,
+          "paid": true
+        },
+        "reputation": 0.6590909090909092,
+        "daily": {
+          "freeIceUsed": 0,
+          "capital": 0,
+          "wages": 0,
+          "advertising": 0,
+          "model": "pitcher",
+          "pitchersMade": 2,
+          "meltedIce": 0,
+          "visitors": 34,
+          "sold": 21,
+          "rejected": 13,
+          "priceRejected": 1,
+          "passed": 12,
+          "soldOut": 0,
+          "abandoned": 0,
+          "revenue": 3675,
+          "cost": 414,
+          "purchases": 1520,
+          "rent": 0,
+          "moveFee": 0,
+          "satisfactionTotal": 2100
+        },
+        "seed": 2153913434,
+        "weather": {
+          "label": "Sunny",
+          "temperature": 32,
+          "traffic": 48
+        },
+        "weatherForecast": [
+          {
+            "label": "Sunny",
+            "temperature": 32,
+            "traffic": 48
+          },
+          {
+            "label": "Cloudy",
+            "temperature": 23,
+            "traffic": 40
+          },
+          {
+            "label": "Rainy",
+            "temperature": 18,
+            "traffic": 32
+          }
+        ]
+      }
+    },
+    {
+      "seed": 42,
+      "document": {
+        "version": 11,
+        "state": {
+          "management": {
+            "upgrades": {
+              "refrigerator": 0,
+              "iceMaker": 0,
+              "blender": 0,
+              "stand": 0
+            },
+            "staff": "none",
+            "advertising": "none"
+          },
+          "phase": "preparation",
+          "day": 1,
+          "cash": 2480,
+          "openingCash": 4000,
+          "stock": {
+            "lemon": 34,
+            "sugar": 17,
+            "ice": 320,
+            "cup": 80
+          },
+          "freeIce": 0,
+          "pitcherCups": 12,
+          "plan": {
+            "price": 175,
+            "recipe": {
+              "lemon": 6,
+              "sugar": 3,
+              "ice": 2
+            }
+          },
+          "location": "neighborhood",
+          "pendingLocation": null,
+          "unlocked": [
+            "neighborhood"
+          ],
+          "locationStats": {
+            "neighborhood": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "park": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "downtown": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "beach": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "old-square": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "train-station": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "mall": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "marina": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "stadium": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "magic-gardens": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            }
+          },
+          "lifetimeRevenue": 0,
+          "business": {
+            "customerModel": "purchase-first-v1",
+            "periods": {
+              "model": "arrival-periods-v1",
+              "actual": [
+                {
+                  "label": "Cloudy",
+                  "temperature": 22,
+                  "traffic": 40
+                },
+                {
+                  "label": "Sunny",
+                  "temperature": 32,
+                  "traffic": 48
+                },
+                {
+                  "label": "Cloudy",
+                  "temperature": 21,
+                  "traffic": 40
+                }
+              ],
+              "quotas": [
+                13,
+                16,
+                13
+              ]
+            },
+            "activePeriod": 0,
+            "location": "neighborhood",
+            "from": "neighborhood",
+            "traffic": 42,
+            "budget": 1,
+            "weights": [
+              3,
+              1,
+              2
+            ],
+            "patienceTicks": 18,
+            "arrivalEvery": 5,
+            "serviceTicks": 8,
+            "satisfaction": 0.5,
+            "popularity": 0.5,
+            "rent": 0,
+            "moveFee": 0,
+            "paid": true
+          },
+          "reputation": 0.5,
+          "daily": {
+            "freeIceUsed": 0,
+            "capital": 0,
+            "wages": 0,
+            "advertising": 0,
+            "model": "pitcher",
+            "pitchersMade": 1,
+            "meltedIce": 0,
+            "visitors": 0,
+            "sold": 0,
+            "rejected": 0,
+            "priceRejected": 0,
+            "passed": 0,
+            "soldOut": 0,
+            "abandoned": 0,
+            "revenue": 0,
+            "cost": 60,
+            "purchases": 1520,
+            "rent": 0,
+            "moveFee": 0,
+            "satisfactionTotal": 0
+          },
+          "seed": 3753001289,
+          "weather": {
+            "label": "Cloudy",
+            "temperature": 23,
+            "traffic": 40
+          },
+          "weatherForecast": [
+            {
+              "label": "Cloudy",
+              "temperature": 23,
+              "traffic": 40
+            },
+            {
+              "label": "Sunny",
+              "temperature": 32,
+              "traffic": 48
+            },
+            {
+              "label": "Rainy",
+              "temperature": 18,
+              "traffic": 32
+            }
+          ]
+        },
+        "history": []
+      },
+      "expected": {
+        "management": {
+          "upgrades": {
+            "refrigerator": 0,
+            "iceMaker": 0,
+            "blender": 0,
+            "stand": 0
+          },
+          "staff": "none",
+          "advertising": "none"
+        },
+        "phase": "results",
+        "day": 1,
+        "cash": 6680,
+        "openingCash": 4000,
+        "stock": {
+          "lemon": 22,
+          "sugar": 11,
+          "ice": 272,
+          "cup": 56
+        },
+        "freeIce": 0,
+        "pitcherCups": 0,
+        "plan": {
+          "price": 175,
+          "recipe": {
+            "lemon": 6,
+            "sugar": 3,
+            "ice": 2
+          }
+        },
+        "location": "neighborhood",
+        "pendingLocation": null,
+        "unlocked": [
+          "neighborhood"
+        ],
+        "locationStats": {
+          "neighborhood": {
+            "satisfaction": 0.661,
+            "popularity": 0.5322
+          },
+          "park": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "downtown": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "beach": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "old-square": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "train-station": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "mall": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "marina": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "stadium": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "magic-gardens": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          }
+        },
+        "lifetimeRevenue": 4200,
+        "business": {
+          "customerModel": "purchase-first-v1",
+          "periods": {
+            "model": "arrival-periods-v1",
+            "actual": [
+              {
+                "label": "Cloudy",
+                "temperature": 22,
+                "traffic": 40
+              },
+              {
+                "label": "Sunny",
+                "temperature": 32,
+                "traffic": 48
+              },
+              {
+                "label": "Cloudy",
+                "temperature": 21,
+                "traffic": 40
+              }
+            ],
+            "quotas": [
+              13,
+              16,
+              13
+            ]
+          },
+          "activePeriod": 2,
+          "location": "neighborhood",
+          "from": "neighborhood",
+          "traffic": 42,
+          "budget": 1,
+          "weights": [
+            3,
+            1,
+            2
+          ],
+          "patienceTicks": 18,
+          "arrivalEvery": 5,
+          "serviceTicks": 8,
+          "satisfaction": 0.5,
+          "popularity": 0.5,
+          "rent": 0,
+          "moveFee": 0,
+          "paid": true
+        },
+        "reputation": 0.661,
+        "daily": {
+          "freeIceUsed": 0,
+          "capital": 0,
+          "wages": 0,
+          "advertising": 0,
+          "model": "pitcher",
+          "pitchersMade": 3,
+          "meltedIce": 0,
+          "visitors": 42,
+          "sold": 24,
+          "rejected": 18,
+          "priceRejected": 1,
+          "passed": 17,
+          "soldOut": 0,
+          "abandoned": 0,
+          "revenue": 4200,
+          "cost": 420,
+          "purchases": 1520,
+          "rent": 0,
+          "moveFee": 0,
+          "satisfactionTotal": 2400
+        },
+        "seed": 3505092415,
+        "weather": {
+          "label": "Cloudy",
+          "temperature": 23,
+          "traffic": 40
+        },
+        "weatherForecast": [
+          {
+            "label": "Cloudy",
+            "temperature": 23,
+            "traffic": 40
+          },
+          {
+            "label": "Sunny",
+            "temperature": 32,
+            "traffic": 48
+          },
+          {
+            "label": "Rainy",
+            "temperature": 18,
+            "traffic": 32
+          }
+        ]
+      }
+    },
+    {
+      "seed": 2026,
+      "document": {
+        "version": 11,
+        "state": {
+          "management": {
+            "upgrades": {
+              "refrigerator": 0,
+              "iceMaker": 0,
+              "blender": 0,
+              "stand": 0
+            },
+            "staff": "none",
+            "advertising": "none"
+          },
+          "phase": "preparation",
+          "day": 1,
+          "cash": 2480,
+          "openingCash": 4000,
+          "stock": {
+            "lemon": 34,
+            "sugar": 17,
+            "ice": 320,
+            "cup": 80
+          },
+          "freeIce": 0,
+          "pitcherCups": 16,
+          "plan": {
+            "price": 175,
+            "recipe": {
+              "lemon": 6,
+              "sugar": 3,
+              "ice": 4
+            }
+          },
+          "location": "neighborhood",
+          "pendingLocation": null,
+          "unlocked": [
+            "neighborhood"
+          ],
+          "locationStats": {
+            "neighborhood": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "park": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "downtown": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "beach": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "old-square": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "train-station": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "mall": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "marina": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "stadium": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "magic-gardens": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            }
+          },
+          "lifetimeRevenue": 0,
+          "business": {
+            "customerModel": "purchase-first-v1",
+            "periods": {
+              "model": "arrival-periods-v1",
+              "actual": [
+                {
+                  "label": "Sunny",
+                  "temperature": 33,
+                  "traffic": 48
+                },
+                {
+                  "label": "Sunny",
+                  "temperature": 33,
+                  "traffic": 48
+                },
+                {
+                  "label": "Sunny",
+                  "temperature": 30,
+                  "traffic": 48
+                }
+              ],
+              "quotas": [
+                16,
+                16,
+                16
+              ]
+            },
+            "activePeriod": 0,
+            "location": "neighborhood",
+            "from": "neighborhood",
+            "traffic": 48,
+            "budget": 1,
+            "weights": [
+              3,
+              1,
+              2
+            ],
+            "patienceTicks": 18,
+            "arrivalEvery": 5,
+            "serviceTicks": 8,
+            "satisfaction": 0.5,
+            "popularity": 0.5,
+            "rent": 0,
+            "moveFee": 0,
+            "paid": true
+          },
+          "reputation": 0.5,
+          "daily": {
+            "freeIceUsed": 0,
+            "capital": 0,
+            "wages": 0,
+            "advertising": 0,
+            "model": "pitcher",
+            "pitchersMade": 1,
+            "meltedIce": 0,
+            "visitors": 0,
+            "sold": 0,
+            "rejected": 0,
+            "priceRejected": 0,
+            "passed": 0,
+            "soldOut": 0,
+            "abandoned": 0,
+            "revenue": 0,
+            "cost": 60,
+            "purchases": 1520,
+            "rent": 0,
+            "moveFee": 0,
+            "satisfactionTotal": 0
+          },
+          "seed": 707116553,
+          "weather": {
+            "label": "Sunny",
+            "temperature": 32,
+            "traffic": 48
+          },
+          "weatherForecast": [
+            {
+              "label": "Sunny",
+              "temperature": 32,
+              "traffic": 48
+            },
+            {
+              "label": "Sunny",
+              "temperature": 32,
+              "traffic": 48
+            },
+            {
+              "label": "Sunny",
+              "temperature": 32,
+              "traffic": 48
+            }
+          ]
+        },
+        "history": []
+      },
+      "expected": {
+        "management": {
+          "upgrades": {
+            "refrigerator": 0,
+            "iceMaker": 0,
+            "blender": 0,
+            "stand": 0
+          },
+          "staff": "none",
+          "advertising": "none"
+        },
+        "phase": "results",
+        "day": 1,
+        "cash": 7730,
+        "openingCash": 4000,
+        "stock": {
+          "lemon": 28,
+          "sugar": 14,
+          "ice": 200,
+          "cup": 50
+        },
+        "freeIce": 0,
+        "pitcherCups": 0,
+        "plan": {
+          "price": 175,
+          "recipe": {
+            "lemon": 6,
+            "sugar": 3,
+            "ice": 4
+          }
+        },
+        "location": "neighborhood",
+        "pendingLocation": null,
+        "unlocked": [
+          "neighborhood"
+        ],
+        "locationStats": {
+          "neighborhood": {
+            "satisfaction": 0.6431818181818182,
+            "popularity": 0.5286363636363637
+          },
+          "park": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "downtown": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "beach": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "old-square": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "train-station": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "mall": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "marina": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "stadium": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "magic-gardens": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          }
+        },
+        "lifetimeRevenue": 5250,
+        "business": {
+          "customerModel": "purchase-first-v1",
+          "periods": {
+            "model": "arrival-periods-v1",
+            "actual": [
+              {
+                "label": "Sunny",
+                "temperature": 33,
+                "traffic": 48
+              },
+              {
+                "label": "Sunny",
+                "temperature": 33,
+                "traffic": 48
+              },
+              {
+                "label": "Sunny",
+                "temperature": 30,
+                "traffic": 48
+              }
+            ],
+            "quotas": [
+              16,
+              16,
+              16
+            ]
+          },
+          "activePeriod": 2,
+          "location": "neighborhood",
+          "from": "neighborhood",
+          "traffic": 48,
+          "budget": 1,
+          "weights": [
+            3,
+            1,
+            2
+          ],
+          "patienceTicks": 18,
+          "arrivalEvery": 5,
+          "serviceTicks": 8,
+          "satisfaction": 0.5,
+          "popularity": 0.5,
+          "rent": 0,
+          "moveFee": 0,
+          "paid": true
+        },
+        "reputation": 0.6431818181818182,
+        "daily": {
+          "freeIceUsed": 0,
+          "capital": 0,
+          "wages": 0,
+          "advertising": 0,
+          "model": "pitcher",
+          "pitchersMade": 2,
+          "meltedIce": 0,
+          "visitors": 48,
+          "sold": 30,
+          "rejected": 15,
+          "priceRejected": 0,
+          "passed": 15,
+          "soldOut": 0,
+          "abandoned": 3,
+          "revenue": 5250,
+          "cost": 540,
+          "purchases": 1520,
+          "rent": 0,
+          "moveFee": 0,
+          "satisfactionTotal": 3000
+        },
+        "seed": 281869593,
+        "weather": {
+          "label": "Sunny",
+          "temperature": 32,
+          "traffic": 48
+        },
+        "weatherForecast": [
+          {
+            "label": "Sunny",
+            "temperature": 32,
+            "traffic": 48
+          },
+          {
+            "label": "Sunny",
+            "temperature": 32,
+            "traffic": 48
+          },
+          {
+            "label": "Sunny",
+            "temperature": 32,
+            "traffic": 48
+          }
+        ]
+      }
+    },
+    {
+      "seed": 4294967295,
+      "document": {
+        "version": 11,
+        "state": {
+          "management": {
+            "upgrades": {
+              "refrigerator": 0,
+              "iceMaker": 0,
+              "blender": 0,
+              "stand": 0
+            },
+            "staff": "none",
+            "advertising": "none"
+          },
+          "phase": "preparation",
+          "day": 1,
+          "cash": 2480,
+          "openingCash": 4000,
+          "stock": {
+            "lemon": 34,
+            "sugar": 17,
+            "ice": 320,
+            "cup": 80
+          },
+          "freeIce": 0,
+          "pitcherCups": 16,
+          "plan": {
+            "price": 175,
+            "recipe": {
+              "lemon": 6,
+              "sugar": 3,
+              "ice": 4
+            }
+          },
+          "location": "neighborhood",
+          "pendingLocation": null,
+          "unlocked": [
+            "neighborhood"
+          ],
+          "locationStats": {
+            "neighborhood": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "park": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "downtown": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "beach": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "old-square": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "train-station": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "mall": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "marina": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "stadium": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            },
+            "magic-gardens": {
+              "satisfaction": 0.5,
+              "popularity": 0.5
+            }
+          },
+          "lifetimeRevenue": 0,
+          "business": {
+            "customerModel": "purchase-first-v1",
+            "periods": {
+              "model": "arrival-periods-v1",
+              "actual": [
+                {
+                  "label": "Sunny",
+                  "temperature": 34,
+                  "traffic": 48
+                },
+                {
+                  "label": "Cloudy",
+                  "temperature": 35,
+                  "traffic": 40
+                },
+                {
+                  "label": "Sunny",
+                  "temperature": 35,
+                  "traffic": 48
+                }
+              ],
+              "quotas": [
+                16,
+                13,
+                16
+              ]
+            },
+            "activePeriod": 0,
+            "location": "neighborhood",
+            "from": "neighborhood",
+            "traffic": 45,
+            "budget": 1,
+            "weights": [
+              3,
+              1,
+              2
+            ],
+            "patienceTicks": 18,
+            "arrivalEvery": 5,
+            "serviceTicks": 8,
+            "satisfaction": 0.5,
+            "popularity": 0.5,
+            "rent": 0,
+            "moveFee": 0,
+            "paid": true
+          },
+          "reputation": 0.5,
+          "daily": {
+            "freeIceUsed": 0,
+            "capital": 0,
+            "wages": 0,
+            "advertising": 0,
+            "model": "pitcher",
+            "pitchersMade": 1,
+            "meltedIce": 0,
+            "visitors": 0,
+            "sold": 0,
+            "rejected": 0,
+            "priceRejected": 0,
+            "passed": 0,
+            "soldOut": 0,
+            "abandoned": 0,
+            "revenue": 0,
+            "cost": 60,
+            "purchases": 1520,
+            "rent": 0,
+            "moveFee": 0,
+            "satisfactionTotal": 0
+          },
+          "seed": 4290942778,
+          "weather": {
+            "label": "Sunny",
+            "temperature": 32,
+            "traffic": 48
+          },
+          "weatherForecast": [
+            {
+              "label": "Sunny",
+              "temperature": 32,
+              "traffic": 48
+            },
+            {
+              "label": "Sunny",
+              "temperature": 32,
+              "traffic": 48
+            },
+            {
+              "label": "Sunny",
+              "temperature": 32,
+              "traffic": 48
+            }
+          ]
+        },
+        "history": []
+      },
+      "expected": {
+        "management": {
+          "upgrades": {
+            "refrigerator": 0,
+            "iceMaker": 0,
+            "blender": 0,
+            "stand": 0
+          },
+          "staff": "none",
+          "advertising": "none"
+        },
+        "phase": "results",
+        "day": 1,
+        "cash": 7030,
+        "openingCash": 4000,
+        "stock": {
+          "lemon": 28,
+          "sugar": 14,
+          "ice": 216,
+          "cup": 54
+        },
+        "freeIce": 0,
+        "pitcherCups": 0,
+        "plan": {
+          "price": 175,
+          "recipe": {
+            "lemon": 6,
+            "sugar": 3,
+            "ice": 4
+          }
+        },
+        "location": "neighborhood",
+        "pendingLocation": null,
+        "unlocked": [
+          "neighborhood"
+        ],
+        "locationStats": {
+          "neighborhood": {
+            "satisfaction": 0.662037037037037,
+            "popularity": 0.5324074074074074
+          },
+          "park": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "downtown": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "beach": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "old-square": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "train-station": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "mall": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "marina": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "stadium": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          },
+          "magic-gardens": {
+            "satisfaction": 0.5,
+            "popularity": 0.5
+          }
+        },
+        "lifetimeRevenue": 4550,
+        "business": {
+          "customerModel": "purchase-first-v1",
+          "periods": {
+            "model": "arrival-periods-v1",
+            "actual": [
+              {
+                "label": "Sunny",
+                "temperature": 34,
+                "traffic": 48
+              },
+              {
+                "label": "Cloudy",
+                "temperature": 35,
+                "traffic": 40
+              },
+              {
+                "label": "Sunny",
+                "temperature": 35,
+                "traffic": 48
+              }
+            ],
+            "quotas": [
+              16,
+              13,
+              16
+            ]
+          },
+          "activePeriod": 2,
+          "location": "neighborhood",
+          "from": "neighborhood",
+          "traffic": 45,
+          "budget": 1,
+          "weights": [
+            3,
+            1,
+            2
+          ],
+          "patienceTicks": 18,
+          "arrivalEvery": 5,
+          "serviceTicks": 8,
+          "satisfaction": 0.5,
+          "popularity": 0.5,
+          "rent": 0,
+          "moveFee": 0,
+          "paid": true
+        },
+        "reputation": 0.662037037037037,
+        "daily": {
+          "freeIceUsed": 0,
+          "capital": 0,
+          "wages": 0,
+          "advertising": 0,
+          "model": "pitcher",
+          "pitchersMade": 2,
+          "meltedIce": 0,
+          "visitors": 45,
+          "sold": 26,
+          "rejected": 18,
+          "priceRejected": 0,
+          "passed": 18,
+          "soldOut": 0,
+          "abandoned": 1,
+          "revenue": 4550,
+          "cost": 484,
+          "purchases": 1520,
+          "rent": 0,
+          "moveFee": 0,
+          "satisfactionTotal": 2600
+        },
+        "seed": 3358048399,
+        "weather": {
+          "label": "Sunny",
+          "temperature": 32,
+          "traffic": 48
+        },
+        "weatherForecast": [
+          {
+            "label": "Sunny",
+            "temperature": 32,
+            "traffic": 48
+          },
+          {
+            "label": "Sunny",
+            "temperature": 32,
+            "traffic": 48
+          },
+          {
+            "label": "Sunny",
+            "temperature": 32,
+            "traffic": 48
+          }
+        ]
+      }
+    }
+  ]
+}
