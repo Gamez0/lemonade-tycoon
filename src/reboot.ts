@@ -17,6 +17,7 @@ import {
     capacity,
     cupsPerPitcher,
     newGame,
+    withWeatherForecast,
     nextDay,
     openDay,
     openingCosts,
@@ -30,6 +31,7 @@ import {
     reserveLocation,
     expectedTraffic,
     effectiveWeather,
+    weatherTemperatures,
     dayTraffic,
     isBankrupt,
 } from "./game/simulation/game";
@@ -59,7 +61,7 @@ const emptyOrder = (): Record<Item, number[]> => ({
 });
 const bundleSizes = [1, 2, 5];
 const audio = new GameAudio();
-let state = newGame();
+let state = withWeatherForecast(newGame());
 let companyId: string | undefined;
 let gameMode: "career" | "challenge" | undefined;
 function encodeSave(state: State, history: readonly State[]): string { return encodeDocument(state, history, companyId, gameMode); }
@@ -208,7 +210,7 @@ function applyStreet(events: CustomerEvent[]): void {
     }
     if (state.phase === "results" && history[history.length - 1] !== state) {
         history.push(state);
-        if (!challengeComplete()) state = nextDay(state);
+        if (!challengeComplete()) state = withWeatherForecast(nextDay(state));
         openingCheckpoint = null;
         currentPage = "results";
         reportPage = "daily";
@@ -435,7 +437,7 @@ element("next").addEventListener("click", () => {
     if (scene.finishing) return;
     if (challengeComplete()) { showMainMenu(); return; }
     act(() => {
-        state = nextDay(state);
+        state = withWeatherForecast(nextDay(state));
         resetPresentation();
         lastFeedback = "A new forecast, a new chance to improve.";
         return state;
@@ -448,7 +450,7 @@ element("restart").addEventListener("click", () => {
         text("restart", "Confirm new business");
         return;
     }
-    state = newGame();
+    state = withWeatherForecast(newGame());
     history = [];
     saveBlocked = false;
     resetPresentation();
@@ -585,7 +587,7 @@ function renderReport(): void {
         ` ${sum("soldOut")} visitors missed out on empty stock. ${sum("abandoned")} left the line. ` +
         `${sum("priceRejected")} found the price too high; ${sum("passed")} passed by.` +
         (reportPage === "daily" && sold > 0 && latest.business?.customerModel === "purchase-first-v1"
-            ? ` ${tasteAdvice(recipeTaste(latest.plan.recipe, effectiveWeather(latest).temperature).complaints)}` : ""));
+            ? ` ${tasteAdvice(recipeTaste(latest.plan.recipe, Math.max(...weatherTemperatures(latest))).complaints)}` : ""));
 
     rows("result-values", [
         ["Cups sold", String(sold)],
@@ -665,24 +667,32 @@ function render(): void {
     text("day", String(date.day).padStart(2, "0"));
     element("career-date").title = `Business day ${state.day}`;
     text("cash", money(state.cash));
-    text("weather", effectiveWeather(state).temperature + "°C");
+    const weather = effectiveWeather(state);
+    text("weather", weather.temperature + "°C");
     const weatherArt = element("weather-art");
-    if (weatherArt.dataset.weather !== state.weather.label) {
+    if (weatherArt.dataset.weather !== weather.label) {
         weatherArt.innerHTML = icon(
-            state.weather.label === "Sunny" ? "sunny" : state.weather.label === "Cloudy" ? "cloudy" : "rainy",
+            weather.label === "Sunny" ? "sunny" : weather.label === "Cloudy" ? "cloudy" : "rainy",
         );
-        weatherArt.dataset.weather = state.weather.label;
+        weatherArt.dataset.weather = weather.label;
     }
-    element("weather-art").setAttribute("aria-label", state.weather.label);
+    element("weather-art").setAttribute("aria-label", weather.label);
     element("weather-art").setAttribute("role", "img");
     text("weather-label", selling ? "Current weather" : closed ? "Today's weather" : "Weather forecast");
     const climateLocation = prep ? state.pendingLocation ?? state.location : state.location;
-    text("weather-advice", climateLocation === "mall" && (!state.business || state.business.conditions)
-        ? `${state.weather.label} outside · indoors 20\u00b0C`
-        : state.business && !state.business.conditions
-            ? `${state.weather.label} · saved opening weather`
-            : `${state.weather.label} · ${prep ? "steady all day" : LOCATIONS[state.location].street}`);
-    app.dataset.weather = state.weather.label.toLowerCase();
+    text("weather-advice", climateLocation === "mall" && (!state.business || (state.business.conditions || state.business.periods))
+        ? `${weather.label} outside · indoors 20\u00b0C`
+        : state.business && !state.business.conditions && !state.business.periods
+            ? `${weather.label} · saved opening weather`
+            : `${weather.label} · ${prep ? "steady all day" : LOCATIONS[state.location].street}`);
+    if (state.weatherForecast) {
+        const periods = state.business?.periods;
+        const readings = periods?.actual ?? state.weatherForecast;
+        const labels = readings.map((entry, index) => `${index + 1}: ${entry.label} ${climateLocation === "mall" ? 20 : entry.temperature}\u00b0C`);
+        text("weather-advice", periods ? `Period ${state.business!.activePeriod! + 1} / 3` + (climateLocation === "mall" ? " - indoors 20\u00b0C" : "")
+            : labels.join(" / "));
+    }
+    app.dataset.weather = weather.label.toLowerCase();
     text(
         "forecast-news",
         state.day === 1
@@ -787,7 +797,7 @@ function render(): void {
     text(
         "recipe-hint",
         (legacyPaidDay ? "This saved day keeps its original recipe and customer rules." :
-            `Taste score: ${Math.round(quality(state.plan.recipe, effectiveWeather(state).temperature) * 100)}%. Cooling needs ${recipeTaste(state.plan.recipe, effectiveWeather(state).temperature).preferredIce} ice per cup. Extra ice needs balanced lemon and sugar.`) +
+            `Taste score: ${Math.round(quality(state.plan.recipe, Math.max(...weatherTemperatures(state))) * 100)}%. Cooling needs ${recipeTaste(state.plan.recipe, Math.max(...weatherTemperatures(state))).preferredIce} ice per cup${state.weatherForecast ? " for the warmest period" : ""}. Extra ice needs balanced lemon and sugar.`) +
             (state.daily.meltedIce ? ` ${state.daily.meltedIce} ice melted overnight.` : ""),
     );
     text("sold", String(state.daily.sold));
@@ -968,7 +978,7 @@ const menu = new StartMenu({
         if (closing || importing) return Promise.reject(Error("Wait for the current save to finish."));
         const operation = (async () => {
             await saveQueue;
-            const next = company ? { name: company.name, raw: encodeDocument(newGame(), [], crypto.randomUUID(), company.mode) } : null;
+            const next = company ? { name: company.name, raw: encodeDocument(withWeatherForecast(newGame()), [], crypto.randomUUID(), company.mode) } : null;
             await companies.select(index, currentCompanySave(), next, async raw => {
                 if (desktopSave) await queueDesktopSave(raw);
                 else { const doc = decodeSave(raw); writeDocument(localStorage, doc.state, doc.history, doc.companyId, doc.mode); }

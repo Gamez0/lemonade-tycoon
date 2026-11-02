@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { createArt } from "./art";
 import type { StreetDay, WalkingVisitor } from "../simulation/street-day";
+import { effectiveWeather } from "../simulation/game";
 import type { State } from "../simulation/game";
 import { LOCATIONS, LOCATION_IDS } from "../content/locations";
 import type { LocationId } from "../content/locations";
@@ -222,7 +223,8 @@ export class StreetScene extends Phaser.Scene {
         if (this.background?.texture.key !== state.location) {
             this.background?.setTexture(state.location).setDisplaySize(640, 512);
         }
-        this.sky?.setAlpha(state.location === "mall" ? 0 : state.weather.label === "Rainy" ? 0.19 : state.weather.label === "Cloudy" ? 0.08 : 0);
+        const weather = effectiveWeather(state);
+        this.sky?.setAlpha(state.location === "mall" ? 0 : weather.label === "Rainy" ? 0.19 : weather.label === "Cloudy" ? 0.08 : 0);
         const street = this.hooks.street();
         if (!street || (street.game.phase !== "selling" && street.walking.length === 0)) {
             this.game.loop.sleep();

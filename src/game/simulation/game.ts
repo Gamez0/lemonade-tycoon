@@ -5,9 +5,12 @@ import type { Item, Weather } from "../content/catalog";
 import { LOCATIONS, LOCATION_IDS, isLocation, defaultLocationStats } from "../content/locations";
 import type { LocationId } from "../content/locations";
 import { locationConditions, type DayConditions } from "../content/day-conditions";
+import { actualWeather, periodTraffic, weatherPeriod, type Three, type WeatherPeriods } from "./weather-periods";
 
 export interface LocationRating { readonly satisfaction: number; readonly popularity: number }
 export interface BusinessDay {
+    readonly periods?: WeatherPeriods;
+    readonly activePeriod?: 0 | 1 | 2;
     readonly conditions?: DayConditions;
     readonly customerModel?: "purchase-first-v1";
     readonly location: LocationId;
@@ -68,6 +71,7 @@ export interface State {
     readonly pitcherCups: number;
     readonly plan: Plan;
     readonly weather: Weather;
+    readonly weatherForecast?: Three<Weather>;
     readonly reputation: number;
     readonly seed: number;
     readonly daily: Daily;
@@ -125,6 +129,13 @@ export function newGame(seed = 2026): State {
         locationStats: defaultLocationStats(),
         lifetimeRevenue: 0, business: null,
         reputation: 0.5, daily: emptyDaily(), ...forecast(seed) };
+}
+/** Opt in only at a fresh unpaid day boundary, never while decoding or replaying a save. */
+export function withWeatherForecast(state: State): State {
+    phase(state, "preparation");
+    if (state.business || state.weatherForecast) return state;
+    const second = forecast(state.seed), third = forecast(second.seed);
+    return { ...state, seed: third.seed, weatherForecast: [state.weather, second.weather, third.weather] };
 }
 export function setPlan(state: State, plan: Plan): State {
     phase(state, "preparation");
@@ -265,12 +276,18 @@ export function openDay(state: State): State {
         throw new Error("Buy enough supplies for one pitcher and a cup before opening.");
     if (state.cash < fees)
         throw new Error("Not enough cash for opening costs. Reduce advertising, dismiss staff or return to the free Neighborhood.");
-    const business: BusinessDay = { customerModel: "purchase-first-v1", conditions: locationConditions(state.day, id, state.weather), location: id, from: state.location,
-        traffic: expectedTraffic(state, id),
+    const actual = state.weatherForecast ? actualWeather(state.weatherForecast, state.seed) : null;
+    let quotas = actual?.actual.map(weather => Math.round(singleWeatherTraffic(state, id, weather) / 3)) as unknown as Three<number> | undefined;
+    if (quotas && periodTraffic(quotas) === 0) quotas = [1, 0, 0];
+    const periods: WeatherPeriods | undefined = actual && quotas ? { model: "arrival-periods-v1", actual: actual.actual, quotas } : undefined;
+    const business: BusinessDay = { customerModel: "purchase-first-v1",
+        ...(periods ? { periods, activePeriod: weatherPeriod(periods.quotas, 1) }
+            : { conditions: locationConditions(state.day, id, state.weather) }), location: id, from: state.location,
+        traffic: periods ? periodTraffic(periods.quotas) : expectedTraffic(state, id),
         budget: location.budget, weights: [...location.weights], patienceTicks: location.patience + staff.patience,
         arrivalEvery: Math.max(1, Math.round(location.arrival / advertising.traffic)), serviceTicks: 8 - state.management.upgrades.blender - staff.speed, satisfaction: rating.satisfaction,
         popularity: rating.popularity, rent: location.rent, moveFee, paid: true };
-    return makePitcher({ ...state, phase: "selling", location: id, pendingLocation: null, business,
+    return makePitcher({ ...state, ...(actual ? { seed: actual.seed } : {}), phase: "selling", location: id, pendingLocation: null, business,
         reputation: rating.satisfaction, cash: state.cash - fees, stock: { ...state.stock, ice: state.stock.ice + ice }, freeIce: state.freeIce + ice,
         daily: { ...state.daily, rent: location.rent, moveFee, wages: staff.wage, advertising: advertising.cost } });
 }
@@ -282,15 +299,33 @@ export function reserveLocation(state: State, id: LocationId | null): State {
 }
 export function expectedTraffic(state: State, id = state.pendingLocation ?? state.location): number {
     if (state.business) return state.business.traffic;
-    const conditions = locationConditions(state.day, id, state.weather);
-    const base = id === "mall" ? 40 : state.weather.traffic;
+    if (state.weatherForecast) return Math.max(1, state.weatherForecast.reduce((sum, weather) =>
+        sum + Math.round(singleWeatherTraffic(state, id, weather) / 3), 0));
+    return singleWeatherTraffic(state, id, state.weather);
+}
+function singleWeatherTraffic(state: State, id: LocationId, weather: Weather): number {
+    const conditions = locationConditions(state.day, id, weather);
+    const base = id === "mall" ? 40 : weather.traffic;
     return Math.max(1, Math.round(base * LOCATIONS[id].traffic * conditions.weatherFactor * conditions.newsFactor *
         (0.8 + 0.4 * state.locationStats[id].popularity) * ADS[state.management.advertising].traffic));
 }
 export function effectiveWeather(state: State): Weather {
+    if (state.business?.periods) {
+        const weather = state.business.periods.actual[state.business.activePeriod!];
+        return { ...weather, temperature: state.location === "mall" ? 20 : weather.temperature };
+    }
     const temperature = state.business ? state.business.conditions?.temperature ?? state.weather.temperature
         : locationConditions(state.day, state.pendingLocation ?? state.location, state.weather).temperature;
     return { ...state.weather, temperature };
+}
+/** All occupied actual periods, or the forecast before opening, for preparation/report advice. */
+export function weatherTemperatures(state: State): readonly number[] {
+    const periods = state.business?.periods;
+    const readings = periods ? periods.actual.filter((_, index) => periods.quotas[index] > 0)
+        : state.business ? null : state.weatherForecast;
+    if (!readings) return [effectiveWeather(state).temperature];
+    const location = state.business ? state.location : state.pendingLocation ?? state.location;
+    return readings.map(weather => location === "mall" ? 20 : weather.temperature);
 }
 export const dayTraffic = (state: State): number => state.business?.traffic ?? state.weather.traffic;
 export function unlockLocations(unlocked: readonly LocationId[], days: number, revenue: number, satisfaction: number): readonly LocationId[] {
@@ -309,6 +344,8 @@ export function isBankrupt(state: State): boolean {
 }
 export function drawVisitor(state: State, id: number): { state: State; visitor: Visitor } {
     phase(state, "selling");
+    if (state.business?.periods) state = { ...state, business: { ...state.business,
+        activePeriod: weatherPeriod(state.business.periods.quotas, id) } };
     const a = random(state.seed), b = random(a.seed), c = random(b.seed);
     const weights = state.business!.weights;
     let profile = 0, roll = a.value * weights.reduce((total, weight) => total + weight, 0);
@@ -370,11 +407,13 @@ export function stepCustomer(state: State): { state: State; event: CustomerEvent
 }
 export function nextDay(state: State): State {
     phase(state, "results");
-    return { ...state, phase: "preparation", day: state.day + 1, openingCash: state.cash,
+    const { weatherForecast, ...previous } = state;
+    const next: State = { ...previous, phase: "preparation", day: state.day + 1, openingCash: state.cash,
         stock: { ...state.stock, ice: Math.floor(state.stock.ice * state.management.upgrades.refrigerator / 2) },
         freeIce: Math.floor(state.freeIce * state.management.upgrades.refrigerator / 2), pitcherCups: 0,
         business: null, pendingLocation: null,
         daily: emptyDaily(state.stock.ice - Math.floor(state.stock.ice * state.management.upgrades.refrigerator / 2)), ...forecast(state.seed) };
+    return weatherForecast ? withWeatherForecast(next) : next;
 }
 export function results(state: State): { profit: number; cashChange: number; satisfaction: number | null } {
     return { profit: state.daily.revenue - state.daily.cost - state.daily.rent - state.daily.moveFee - state.daily.wages - state.daily.advertising,

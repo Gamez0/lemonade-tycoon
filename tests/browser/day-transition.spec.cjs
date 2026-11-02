@@ -1,6 +1,6 @@
 const { test, expect } = require('../helpers/browser-game.cjs');
 const { campaign, stock } = require('../helpers/business.cjs');
-const { openDay, nextDay, purchaseUpgrade } = require('../../.test-build/simulation/game.js');
+const { openDay, nextDay, withWeatherForecast, purchaseUpgrade } = require('../../.test-build/simulation/game.js');
 const { beginStreetDay, finishStreetDay } = require('../../.test-build/simulation/street-day.js');
 const { encodeSave } = require('../../.test-build/simulation/save.js');
 const key = 'lemonade-tycoon.reboot.save';
@@ -9,7 +9,7 @@ for (const finish of ['skip', 'normal']) test(`${finish}: completion prepares to
     const business = campaign(2026, 40);
     business.state = stock(purchaseUpgrade(business.state, 'refrigerator'));
     const completed = finishStreetDay(beginStreetDay(openDay(business.state))).day.game;
-    const tomorrow = nextDay(completed);
+    const tomorrow = withWeatherForecast(nextDay(completed));
     await page.clock.install();
     await page.addInitScript(({ key, raw }) => {
         if (!localStorage.getItem(key)) localStorage.setItem(key, raw);

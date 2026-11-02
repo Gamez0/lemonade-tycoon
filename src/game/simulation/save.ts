@@ -5,12 +5,13 @@ import { cupsPerPitcher, unlockLocations } from "./game";
 import type { State } from "./game";
 import { isLocation, LOCATION_IDS, LOCATIONS, LEGACY_LOCATION_IDS, defaultLocationStats } from "../content/locations";
 import type { LocationId } from "../content/locations";
+import { weatherPeriod, type Three } from "./weather-periods";
 
 export const SAVE_KEY = "lemonade-tycoon.reboot.save";
 export const BACKUP_KEY = "lemonade-tycoon.reboot.backup";
 export type SaveStorage = Pick<Storage, "getItem" | "setItem">;
 export interface SaveDocument {
-    readonly version: 10;
+    readonly version: 11;
     readonly state: State;
     readonly history: readonly State[];
     readonly companyId?: string;
@@ -27,6 +28,27 @@ const integer = (value: unknown, min = 0, max = Number.MAX_SAFE_INTEGER): value 
     Number.isSafeInteger(value) && (value as number) >= min && (value as number) <= max;
 const fraction = (value: unknown): value is number =>
     typeof value === "number" && Number.isFinite(value) && value >= 0 && value <= 1;
+
+const catalogWeather = (value: unknown): boolean => record(value) && WEATHER.some(weather =>
+    weather.label === value.label && weather.temperature === value.temperature && weather.traffic === value.traffic);
+function validPeriods(value: Record<string, unknown>): boolean {
+    const forecasts = value.weatherForecast;
+    if (forecasts !== undefined && (!Array.isArray(forecasts) || forecasts.length !== 3 || !forecasts.every(catalogWeather) ||
+        !record(value.weather) || !["label", "temperature", "traffic"].every(key => forecasts[0][key] === (value.weather as Record<string, unknown>)[key]))) return false;
+    const b = value.business;
+    if (!record(b)) return true;
+    if (b.periods === undefined) return forecasts === undefined && b.activePeriod === undefined;
+    const p = b.periods;
+    if (!Array.isArray(forecasts) || !record(p) || p.model !== "arrival-periods-v1" || b.conditions !== undefined ||
+        b.customerModel !== "purchase-first-v1" || !Array.isArray(p.actual) || p.actual.length !== 3 ||
+        !p.actual.every(weather => record(weather) && ["Sunny", "Cloudy", "Rainy"].includes(String(weather.label)) &&
+            integer(weather.temperature, 10, 40) && WEATHER.some(w => w.label === weather.label && w.traffic === weather.traffic)) ||
+        !Array.isArray(p.quotas) || p.quotas.length !== 3 || !p.quotas.every(n => integer(n, 0, 500)) ||
+        p.quotas.reduce((sum: number, n: number) => sum + n, 0) !== b.traffic ||
+        !integer(b.traffic, 1, 500) || !integer(b.activePeriod, 0, 2)) return false;
+    const boundary = weatherPeriod(p.quotas as unknown as Three<number>, value.phase === "results" ? b.traffic : 1);
+    return b.activePeriod === boundary;
+}
 
 function validLocations(value: Record<string, unknown>, preTenLocations = false): boolean {
     const ids: readonly LocationId[] = preTenLocations ? LEGACY_LOCATION_IDS : LOCATION_IDS;
@@ -72,7 +94,7 @@ function validState(value: unknown, legacy = false, preM5 = false, preM6 = false
     if (!record(value) || !["preparation", "results"].includes(String(value.phase)) ||
         !integer(value.day, 1) || !integer(value.cash) || !integer(value.openingCash) ||
         !integer(value.seed, 0, 4294967295) || !fraction(value.reputation) ||
-        !record(value.stock) || !record(value.plan) || !record(value.daily) || !record(value.weather)) return false;
+        !record(value.stock) || !record(value.plan) || !record(value.daily) || !record(value.weather) || !validPeriods(value)) return false;
     if (!preM6 && (!record(value.management) || !record(value.management.upgrades) ||
         !Object.entries(UPGRADES).every(([id, item]) => {
             const level = (value.management as { upgrades: Record<string, unknown> }).upgrades[id];
@@ -145,10 +167,14 @@ function validState(value: unknown, legacy = false, preM5 = false, preM6 = false
 export function decodeSave(raw: string): SaveDocument {
     let input: unknown;
     try { input = JSON.parse(raw); } catch { throw new Error("Save file is not valid JSON."); }
-    if (!record(input) || ![0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].includes(input.version as number)) {
-        if (record(input) && integer(input.version) && input.version > 10) throw new UnsupportedSaveVersionError();
+    if (!record(input) || ![0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].includes(input.version as number)) {
+        if (record(input) && integer(input.version) && input.version > 11) throw new UnsupportedSaveVersionError();
         throw new Error("Unsupported save version. Keep the file as a backup.");
     }
+    if ((input.version as number) < 11 && [input.state, ...(Array.isArray(input.history) ? input.history : [])].some(day =>
+        record(day) && (day.weatherForecast !== undefined || (record(day.business) &&
+            (day.business.periods !== undefined || day.business.activePeriod !== undefined)))))
+        throw new Error("Save data is damaged: invalid legacy weather periods.");
     if ((input.version as number) < 10 && [input.state, ...(Array.isArray(input.history) ? input.history : [])].some(day =>
         record(day) && record(day.business) && day.business.conditions !== undefined)) throw new Error("Save data is damaged: invalid legacy weather model.");
     const legacy = input.version === 0 || input.version === 1;
@@ -235,13 +261,13 @@ export function decodeSave(raw: string): SaveDocument {
     };
     if (!history.every(paidEquipment) || (state.phase === "preparation" && !paidEquipment(state)))
         throw new Error("Save equipment purchases do not match the ledger.");
-    return { version: 10, state, history, ...(input.companyId === undefined ? {} : { companyId: input.companyId as string }),
+    return { version: 11, state, history, ...(input.companyId === undefined ? {} : { companyId: input.companyId as string }),
         ...(input.mode === undefined ? {} : { mode: input.mode as "career" | "challenge" }) };
 }
 
 export function encodeSave(state: State, history: readonly State[], companyId?: string, mode?: "career" | "challenge"): string {
     if (state.phase === "selling") throw new Error("Save a checkpoint before opening the stand.");
-    return JSON.stringify(decodeSave(JSON.stringify({ version: 10, state, history, companyId, mode })));
+    return JSON.stringify(decodeSave(JSON.stringify({ version: 11, state, history, companyId, mode })));
 }
 
 export function writeSave(storage: SaveStorage, state: State, history: readonly State[], companyId?: string, mode?: "career" | "challenge"): void {

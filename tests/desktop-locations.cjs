@@ -6,7 +6,7 @@ const path = require('node:path');
 const os = require('node:os');
 const { execFileSync } = require('node:child_process');
 const { campaign, stock } = require('./helpers/business.cjs');
-const { openDay, nextDay, reserveLocation } = require('../.test-build/simulation/game.js');
+const { openDay, nextDay, withWeatherForecast, reserveLocation } = require('../.test-build/simulation/game.js');
 const { beginStreetDay, finishStreetDay } = require('../.test-build/simulation/street-day.js');
 const { encodeSave } = require('../.test-build/simulation/save.js');
 const { profileArgs, verifyProfile } = require('./helpers/desktop-profile.cjs');
@@ -55,7 +55,7 @@ async function close() {
         await page.locator('#open').click(); await page.locator('#skip').click();
         await expect.poll(() => read().state.business).toBe(null);
         const expected = finishStreetDay(beginStreetDay(openDay(reserveLocation(initial.state, 'downtown')))).day.game;
-        expect(read().state).toEqual(nextDay(expected));
+        expect(read().state).toEqual(withWeatherForecast(nextDay(expected)));
         expect(read().history.at(-1)).toEqual(expected);
         const results = read(); await close(); page = await launch(); expect(read()).toEqual(results);
         const exportPath = path.join(base, 'native-business.json');
@@ -83,7 +83,7 @@ async function close() {
         await page.locator('#save-file').setInputFiles({ name: 'v2-business.json', mimeType: 'application/json',
             buffer: Buffer.from(JSON.stringify({ version: 2, state: old, history: [old] })) });
         await expect(page.locator('#save-status')).toContainText('Imported save');
-        const migrated = read(); expect(migrated.version).toBe(10);
+        const migrated = read(); expect(migrated.version).toBe(11);
         expect(migrated.state.cash).toBe(old.cash); expect(migrated.state.daily.cost).toBe(old.daily.cost);
         await close(); page = await launch(); expect(read()).toEqual(migrated);
         await close();
