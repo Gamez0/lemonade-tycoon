@@ -1,5 +1,57 @@
 # Cloud development handoff — 2026-10-05
 
+
+## Alpha21 dependency refresh integrated - 2026-11-02 KST
+
+PR277/278 integrated; product main50ab105519168cdfe8c0c512190a37b3899adc3d.
+Exact f5ffff6 CI41443850319 ALL PASS:111models/storage,88browser,
+Linux12/Windows15release, all14Windows native suites, CodeQL/dependency review.
+Simulation8m21, Windows12m48. Maximum meanPrivate238.861MiB under unchanged256
+cap, idle draws0. Electron44.9.1, Vite6.4.5, minimatch11.0.4/glob14.0.3
+explicit major overrides verified through lint and asar/Windows packaging.
+Fresh all-dependency and production-only npm audit0. Game/save12 rules unchanged.
+
+Clean candidate f5ffff6 native UI/relaunch and15taste/import/paid replay PASS.
+ZIP D:/lemonade-security/.local-m4/alpha21-bundles/
+Willow-Lane-Lemonade-0.2.0-alpha.21-win-x64-f5ffff6.zip
+189194189bytes,74manifestfiles/75ZIPentries including manifest, all hashes verified.
+SHA256 3a1c3136365d925afc1190f50987d99c737a7b43d1f66210e03707b74500bf03.
+No public release, invitations or Steam operations. Physical/human/rights gates
+remain open. Research PR282 refreshed on this main, requires final head CI.
+Previous a0e553e research CI41443020918 all passed; it is not final refreshed CI.
+
+
+## Product and R1 audit checkpoint - 2026-11-02 KST
+
+Product PR280/281 merged after all exact-head required CI; main389f507.
+Alpha20 candidate7db20f8:111 model/storage,88 browser,14 Windows native suites,
+CodeQL/dependencies pass; max mean private237.792MiB below256MiB, idle draws0.
+Schema12 eleven groups preserves old paidv6-v11 replay. Clean74-file ZIP:
+D:/lemonade-profiles/.local-m4/alpha20-bundles/
+Willow-Lane-Lemonade-0.2.0-alpha.20-win-x64-7db20f8.zip
+SHA256 7a56b70fdbb212f9b5777c843e70d98d1fa2a7b16f0364f25e9fd8f0e4f126b6.
+Initial local campaign timeout retained separately; diagnostic rerun and remote
+CI passed. No original-identity or original-real-time parity claim.
+
+R1 #232..236 investigation deliverables complete on research branch. Reports:
+[widgets](research/widget-evidence.md), [maps](research/map-runtime-evidence.md),
+[customers](research/customer-evidence.md), [equipment](research/equipment-evidence.md),
+[audio](research/audio-evidence.md).462 widgets:29 known resource bindings,
+3 geometry-only,430 unmapped. Ten original scenes do not equal static composites;
+zero of40 candidates match. Eleven profile appearance slots and196 direction
+banks linked; real clock seconds remain unknown. Conditional canopy15-step bonus
+is static evidence only.21 audio records/17 hashes retain unknown playback fields.
+All metadata reports reproduce byte-for-byte. No original payloads or product
+runtime changes are included. Original legitimate trial expired2026-10-14;
+new runtime measurement requires valid licensed same-version access.
+
+Live queue after236: no Running/Ready, Manual10/Backlog5/Blocked2/Deferred6.
+Research bundle requires exact-head CI/review/integration. Reassess remaining
+approved backlog before stopping; do not turn unknown evidence into constants.
+Human97/16/beta0/5, physical/rights/Steam gates remain open. No invitations,
+public release or Steam upload. Preserve parent dirty legacy/original trees.
+Older checkpoints below are historical and superseded.
+
 ## Eleven customer groups / schema12 - 2026-11-02 KST
 
 #229 completed: PR280 merged13cc381 after exact1fee2be ALL requiredCI41430791022

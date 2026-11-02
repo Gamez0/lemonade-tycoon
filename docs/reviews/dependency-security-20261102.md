@@ -10,7 +10,7 @@ not adopted. Electron stays on44.x and includes certificate mitigation and
 Chromium/Node fixes described in the existing Dependabot PR.
 
 There is no patched minimatch10.x in the current npm registry. Override
-minimatch to^11.0.1 (resolved11.0.4), and glob to^14.0.2 (resolved14.0.2).
+minimatch to^11.0.1 (resolved11.0.4), and glob to^14.0.2 (resolved14.0.3).
 These are deliberate major-version overrides, not routine patch claims.
 Minimatch consumers are @electron/asar, @eslint/config-array, typescript-estree,
 eslint and glob; asar consumes glob. Current package engine declarations support
@@ -30,3 +30,8 @@ development dependencies. This is a dated registry result, not a permanent
 security guarantee or a replacement for human/physical release acceptance.
 Final exact-head CI, combined package verification and evidence belong in PR278
 before integration. Existing paid saves and original resources are preserved.
+
+The requested glob floor is14.0.2; the committed lock resolves14.0.3. GitHub
+SBOM confirms that resolved version. npm audit0 covers the canonical npm tree;
+GitHub alert indexing/retained legacy dependency inventories remain separate.
+Do not dismiss an alert merely to make a dashboard count zero.

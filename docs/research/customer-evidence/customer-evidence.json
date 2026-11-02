@@ -1,0 +1,45 @@
+{
+  "retainedImageSha256": "f0f8c2f87336904fc44398e95dbf355b84384a168d05ae16d12d2b39ec025aec",
+  "existingProfileTableSha256": "4eeeeeb1544177ccb38b9aaac4241c2a6f48f5683b10cdfa2a61d01be879df51",
+  "existingFrameMetadataSha256": "c84ec22472842d1553d780acb59f465b677f34a943a2752ceaf3a83a4a712466",
+  "groups": 11,
+  "appearanceSlotsPerGroup": 5,
+  "directionGroupsPerCharacter": 4,
+  "framesPerDirectionGroup": 5,
+  "validatedDirectionGroups": 196,
+  "sharedProgramCharacters": {
+    "4": [
+      "P1",
+      "P2"
+    ],
+    "5": [
+      "P1",
+      "P2"
+    ],
+    "19": [
+      "P4",
+      "P5"
+    ]
+  },
+  "charactersNotSelectedByTheseElevenRecords": [
+    0
+  ],
+  "sourceFacts": {
+    "choice": "0x401e81..0x401e9b requests random0..4, reads profile[slot], stores visitor+0x48",
+    "render": "getter0x402413 called at0x40c480;0x40c580..0x40c5a1 adds direction and indexes stride12 table0x464cbc, then adds pose",
+    "waiting": "0x401f52 state2 calls0x402152, which decrements visitor+8 once per visitor update",
+    "quantum": "constructor0x40337f initializes game+0x40 to70;0x404167..0x40416e adds it each simulation step",
+    "speed": "game+0x18 multiplies incoming elapsed units at0x40411a;0x40c9c5 toggles1/10, quick-finish paths0x40ca21 and0x417ad0 set30000",
+    "patienceModifiers": "0x401eaf..0x401ed7 subtracts10 for weather code>3, adds getter0x404a0e and uses5 only if result is negative",
+    "bonus": "0x404a0e returns game+0x57cc, plus game+0x44 when object at+0x579c is active; constructor+0x44 default is15"
+  },
+  "limits": [
+    "Semantic person names are not encoded by this audit; shared figures do not imply shared patience/budgets.",
+    "Program frame-bank ordinals are confirmed. Parent archive version is unverified, so cross-version pixel identity is not asserted.",
+    "Five slots may repeat; exact RNG distribution was not remeasured.",
+    "Nominal clock units cover base waiting steps only, excluding modifiers, phase alignment and scheduler jitter.",
+    "The upstream clock API/unit and real seconds remain unverified. Source fast10x is not product fast4x.",
+    "The modifier object's semantic identity and complete equipment effects need their separate evidence chain.",
+    "No binary, sprite or glyph data is exported and no original executable is launched."
+  ]
+}
