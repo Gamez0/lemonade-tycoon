@@ -1,0 +1,24 @@
+{
+  "archiveSha256": "9a3a2e367e33e1acea9ab30d5a5718e42d2c180d4313ec052bfa6c6d6e0d2d88",
+  "records": 21,
+  "uniquePayloads": 17,
+  "duplicates": {
+    "9": 1,
+    "16": 0,
+    "18": 0,
+    "19": 0
+  },
+  "payloadBytesIncludingDuplicates": 935704,
+  "inputHashes": {
+    ".local\\original\\archive-audit.json": "5b2c9bf5620a6ae5c7b0fccb79bc48e8dcd5a25d6a5d913fa2bdacc5d71bf4e5",
+    ".local\\original\\audio-gallery.html": "7c1bc488db23baf763d485bfe380aa2fd9cd121479cd8d068e9ee8424acbc89e"
+  },
+  "confirmedPlaybackMetadata": false,
+  "limitations": [
+    "Tag16 meaning unknown; not a bit-depth assertion",
+    "PCM8 mono and all preview rates are hypotheses",
+    "No original game launch, playback or new decoding",
+    "Archive release version unverified; 1.1.6 runtime linkage unproven",
+    "Need identified loader/playback arguments or authorized runtime sample metadata"
+  ]
+}
