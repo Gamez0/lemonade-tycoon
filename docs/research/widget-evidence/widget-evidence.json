@@ -1,0 +1,79 @@
+{
+  "archiveSha256": "9a3a2e367e33e1acea9ab30d5a5718e42d2c180d4313ec052bfa6c6d6e0d2d88",
+  "archiveVersion": "unverified",
+  "nativeFrame": [
+    640,
+    480
+  ],
+  "rectangles": 462,
+  "counts": {
+    "resource-image": 29,
+    "geometry-only": 3,
+    "unmapped": 430,
+    "unmappedWithCandidates": 194,
+    "unmappedWithoutCandidates": 236
+  },
+  "fonts": [
+    {
+      "index": 0,
+      "imageIndex": 45,
+      "lineHeight": 14,
+      "flags": 768,
+      "headerValue": 2,
+      "glyphCount": 179
+    },
+    {
+      "index": 1,
+      "imageIndex": 46,
+      "lineHeight": 16,
+      "flags": 768,
+      "headerValue": 4,
+      "glyphCount": 179
+    },
+    {
+      "index": 2,
+      "imageIndex": 47,
+      "lineHeight": 19,
+      "flags": 768,
+      "headerValue": 9,
+      "glyphCount": 59
+    },
+    {
+      "index": 3,
+      "imageIndex": 48,
+      "lineHeight": 26,
+      "flags": 768,
+      "headerValue": 7,
+      "glyphCount": 179
+    },
+    {
+      "index": 4,
+      "imageIndex": 49,
+      "lineHeight": 15,
+      "flags": 768,
+      "headerValue": 5,
+      "glyphCount": 179
+    },
+    {
+      "index": 5,
+      "imageIndex": 50,
+      "lineHeight": 17,
+      "flags": 768,
+      "headerValue": 7,
+      "glyphCount": 179
+    }
+  ],
+  "sourceFiles": {
+    "ui-layouts.json": "e5ac279ce333f7b44d87889c59f79ebf06e54f546829de5c9ffcec2b35cd58c7",
+    "preparation-tabs.json": "16d7e067388873db5db3be74c0a5a7a33df7c345a1c9fea5c74b5b9adee05c7d",
+    "weather-panel.json": "c200637dfb7f21f043536e4385e0d50844dc8d18ee5698c6a7e39597cd5b35c7",
+    "fonts.json": "2b830980143802c92c39f26a1cc1d0bb7d1a4ba44d175be90732827f9b36d80e",
+    "widget-gallery.html": "d69425de90adf770dc5d996768ae5f88f0cae18b373f126b056dc4c4b3f91efd",
+    "inspect-original.py": "5f3e9233d5b5f4a94b36bbba28fc5bfe7a3f00ceba8a6898653be440ad74e7fa"
+  },
+  "limits": [
+    "Resource image/geometry bindings do not establish runtime owners, per-widget fonts or interaction-state order.",
+    "Candidate pairs are reused verbatim from the existing gallery; dimensions are not confirmation.",
+    "No original pixel, glyph, audio or executable bytes are included."
+  ]
+}
