@@ -11,7 +11,7 @@ export const SAVE_KEY = "lemonade-tycoon.reboot.save";
 export const BACKUP_KEY = "lemonade-tycoon.reboot.backup";
 export type SaveStorage = Pick<Storage, "getItem" | "setItem">;
 export interface SaveDocument {
-    readonly version: 11;
+    readonly version: 12;
     readonly state: State;
     readonly history: readonly State[];
     readonly companyId?: string;
@@ -40,7 +40,7 @@ function validPeriods(value: Record<string, unknown>): boolean {
     if (b.periods === undefined) return forecasts === undefined && b.activePeriod === undefined;
     const p = b.periods;
     if (!Array.isArray(forecasts) || !record(p) || p.model !== "arrival-periods-v1" || b.conditions !== undefined ||
-        b.customerModel !== "purchase-first-v1" || !Array.isArray(p.actual) || p.actual.length !== 3 ||
+        !["purchase-first-v1", "eleven-profiles-v1"].includes(String(b.customerModel)) || !Array.isArray(p.actual) || p.actual.length !== 3 ||
         !p.actual.every(weather => record(weather) && ["Sunny", "Cloudy", "Rainy"].includes(String(weather.label)) &&
             integer(weather.temperature, 10, 40) && WEATHER.some(w => w.label === weather.label && w.traffic === weather.traffic)) ||
         !Array.isArray(p.quotas) || p.quotas.length !== 3 || !p.quotas.every(n => integer(n, 0, 500)) ||
@@ -74,11 +74,13 @@ function validLocations(value: Record<string, unknown>, preTenLocations = false)
     if (value.business === null) return value.phase === "preparation" && daily.rent === 0 && daily.moveFee === 0;
     const b = value.business;
     if (record(b) && b.conditions !== undefined && !validConditions(b.conditions, value.location as LocationId, value.weather as unknown as Weather)) return false;
-    if (!record(b) || (b.customerModel !== undefined && b.customerModel !== "purchase-first-v1") ||
+    if (!record(b) || (b.customerModel !== undefined && !["purchase-first-v1", "eleven-profiles-v1"].includes(String(b.customerModel))) ||
         b.location !== value.location || !allowed(b.from) || !value.unlocked.includes(b.from) ||
         value.pendingLocation !== null || b.paid !== true || !integer(b.traffic, 1, 500) ||
         typeof b.budget !== "number" || !Number.isFinite(b.budget) || b.budget < 0.1 || b.budget > 5 ||
-        !Array.isArray(b.weights) || b.weights.length !== 3 || !b.weights.every(w => integer(w, 1, 100)) ||
+        !Array.isArray(b.weights) || (b.customerModel === "eleven-profiles-v1"
+            ? b.weights.length !== 11 || !b.weights.every(w => integer(w, 0, 100)) || b.weights.reduce((sum: number, w: number) => sum + w, 0) !== 100
+            : b.weights.length !== 3 || !b.weights.every(w => integer(w, 1, 100))) ||
         !integer(b.patienceTicks, 1, 120) || !integer(b.arrivalEvery, 1, 120) || !integer(b.serviceTicks, 1, 120) ||
         !fraction(b.satisfaction) || !fraction(b.popularity) || b.rent !== daily.rent || b.moveFee !== daily.moveFee ||
         (b.from === b.location && b.moveFee !== 0) ||
@@ -94,7 +96,9 @@ function validState(value: unknown, legacy = false, preM5 = false, preM6 = false
     if (!record(value) || !["preparation", "results"].includes(String(value.phase)) ||
         !integer(value.day, 1) || !integer(value.cash) || !integer(value.openingCash) ||
         !integer(value.seed, 0, 4294967295) || !fraction(value.reputation) ||
-        !record(value.stock) || !record(value.plan) || !record(value.daily) || !record(value.weather) || !validPeriods(value)) return false;
+        !record(value.stock) || !record(value.plan) || !record(value.daily) || !record(value.weather) || !validPeriods(value) ||
+        (value.customerProfileModel !== undefined && value.customerProfileModel !== "eleven-profiles-v1") ||
+        (record(value.business) && ((value.business.customerModel === "eleven-profiles-v1") !== (value.customerProfileModel === "eleven-profiles-v1")))) return false;
     if (!preM6 && (!record(value.management) || !record(value.management.upgrades) ||
         !Object.entries(UPGRADES).every(([id, item]) => {
             const level = (value.management as { upgrades: Record<string, unknown> }).upgrades[id];
@@ -144,7 +148,7 @@ function validState(value: unknown, legacy = false, preM5 = false, preM6 = false
     const oldCost = recipe.lemon * ITEMS.lemon.cost + recipe.sugar * ITEMS.sugar.cost +
         recipe.ice * ITEMS.ice.cost + ITEMS.cup.cost;
     const freeIceUsed = preFreeIce ? 0 : daily.freeIceUsed as number;
-    const perCupIce = record(value.business) && value.business.customerModel === "purchase-first-v1";
+    const perCupIce = record(value.business) && value.business.customerModel !== undefined;
     const usedIce = perCupIce ? (daily.sold as number) * recipe.ice
         : (daily.pitchersMade as number) * recipe.ice * cupsPerPitcher(recipe);
     if (!preFreeIce && (freeIceUsed > usedIce ||
@@ -167,10 +171,13 @@ function validState(value: unknown, legacy = false, preM5 = false, preM6 = false
 export function decodeSave(raw: string): SaveDocument {
     let input: unknown;
     try { input = JSON.parse(raw); } catch { throw new Error("Save file is not valid JSON."); }
-    if (!record(input) || ![0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].includes(input.version as number)) {
-        if (record(input) && integer(input.version) && input.version > 11) throw new UnsupportedSaveVersionError();
+    if (!record(input) || ![0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].includes(input.version as number)) {
+        if (record(input) && integer(input.version) && input.version > 12) throw new UnsupportedSaveVersionError();
         throw new Error("Unsupported save version. Keep the file as a backup.");
     }
+    if ((input.version as number) < 12 && [input.state, ...(Array.isArray(input.history) ? input.history : [])].some(day =>
+        record(day) && (day.customerProfileModel !== undefined || (record(day.business) && day.business.customerModel === "eleven-profiles-v1"))))
+        throw new Error("Save data is damaged: invalid legacy customer profiles.");
     if ((input.version as number) < 11 && [input.state, ...(Array.isArray(input.history) ? input.history : [])].some(day =>
         record(day) && (day.weatherForecast !== undefined || (record(day.business) &&
             (day.business.periods !== undefined || day.business.activePeriod !== undefined)))))
@@ -261,13 +268,13 @@ export function decodeSave(raw: string): SaveDocument {
     };
     if (!history.every(paidEquipment) || (state.phase === "preparation" && !paidEquipment(state)))
         throw new Error("Save equipment purchases do not match the ledger.");
-    return { version: 11, state, history, ...(input.companyId === undefined ? {} : { companyId: input.companyId as string }),
+    return { version: 12, state, history, ...(input.companyId === undefined ? {} : { companyId: input.companyId as string }),
         ...(input.mode === undefined ? {} : { mode: input.mode as "career" | "challenge" }) };
 }
 
 export function encodeSave(state: State, history: readonly State[], companyId?: string, mode?: "career" | "challenge"): string {
     if (state.phase === "selling") throw new Error("Save a checkpoint before opening the stand.");
-    return JSON.stringify(decodeSave(JSON.stringify({ version: 11, state, history, companyId, mode })));
+    return JSON.stringify(decodeSave(JSON.stringify({ version: 12, state, history, companyId, mode })));
 }
 
 export function writeSave(storage: SaveStorage, state: State, history: readonly State[], companyId?: string, mode?: "career" | "challenge"): void {

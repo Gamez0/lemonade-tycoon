@@ -6,13 +6,14 @@ import { LOCATIONS, LOCATION_IDS, isLocation, defaultLocationStats } from "../co
 import type { LocationId } from "../content/locations";
 import { locationConditions, type DayConditions } from "../content/day-conditions";
 import { actualWeather, periodTraffic, weatherPeriod, type Three, type WeatherPeriods } from "./weather-periods";
+import { CUSTOMER_PROFILES, LOCATION_CUSTOMER_WEIGHTS } from "../content/customer-profiles";
 
 export interface LocationRating { readonly satisfaction: number; readonly popularity: number }
 export interface BusinessDay {
     readonly periods?: WeatherPeriods;
     readonly activePeriod?: 0 | 1 | 2;
     readonly conditions?: DayConditions;
-    readonly customerModel?: "purchase-first-v1";
+    readonly customerModel?: "purchase-first-v1" | "eleven-profiles-v1";
     readonly location: LocationId;
     readonly from: LocationId;
     readonly traffic: number;
@@ -72,6 +73,7 @@ export interface State {
     readonly plan: Plan;
     readonly weather: Weather;
     readonly weatherForecast?: Three<Weather>;
+    readonly customerProfileModel?: "eleven-profiles-v1";
     readonly reputation: number;
     readonly seed: number;
     readonly daily: Daily;
@@ -137,6 +139,12 @@ export function withWeatherForecast(state: State): State {
     const second = forecast(state.seed), third = forecast(second.seed);
     return { ...state, seed: third.seed, weatherForecast: [state.weather, second.weather, third.weather] };
 }
+/** Adopt a different customer roster only before a fresh, unpaid opening. */
+export function withCustomerProfiles(state: State): State {
+    phase(state, "preparation");
+    return state.business || state.customerProfileModel ? state : { ...state, customerProfileModel: "eleven-profiles-v1" };
+}
+export const isPurchaseFirst = (state: State): boolean => state.business?.customerModel !== undefined;
 export function setPlan(state: State, plan: Plan): State {
     phase(state, "preparation");
     integer(plan.price, 25, 500, "Price (cents)");
@@ -172,7 +180,7 @@ export function unitCost(recipe: Recipe, freeIce = 0): number {
 }
 export function capacity(state: State): number {
     const { stock, plan: { recipe } } = state;
-    const legacy = state.business !== null && state.business.customerModel !== "purchase-first-v1";
+    const legacy = state.business !== null && !isPurchaseFirst(state);
     const newPitchers = Math.min(recipe.lemon === 0 ? Infinity : Math.floor(stock.lemon / recipe.lemon),
         recipe.sugar === 0 ? Infinity : Math.floor(stock.sugar / recipe.sugar),
         !legacy || recipe.ice === 0 ? Infinity : Math.floor(stock.ice / (recipe.ice * cupsPerPitcher(recipe))));
@@ -211,14 +219,15 @@ function legacyQuality(recipe: Recipe, temperature: number): number {
     const ice = temperature >= 30 ? 4 : temperature >= 25 ? 3 : temperature >= 21 ? 2 : 1;
     return clamp(1 - balance - Math.abs(recipe.ice - ice) * 0.12);
 }
-export function demand(plan: Plan, weather: Weather, reputation: number, profile: number, variation: number, legacyTaste = false): {
+export function demand(plan: Plan, weather: Weather, reputation: number, profile: number, variation: number, legacyTaste = false,
+    budget: number = CUSTOMERS[profile].budget): {
     willingness: number; probability: number;
 } {
     // Customers cannot know today's recipe before tasting it. Existing paid
     // openings retain the old model so replacing the game never rewrites their day.
     const taste = legacyTaste ? legacyQuality(plan.recipe, weather.temperature) : 1;
     const willingness = Math.round((115 + (weather.temperature - 18) * 5 + taste * 75 + reputation * 40)
-        * CUSTOMERS[profile].budget * (0.85 + variation * 0.3));
+        * budget * (0.85 + variation * 0.3));
     const probability = clamp(0.25 + taste * 0.35 + reputation * 0.2 + (weather.temperature - 18) * 0.008
         - plan.price / 1000 - (weather.label === "Rainy" ? 0.08 : 0), 0.03, 0.95);
     return { willingness, probability };
@@ -241,7 +250,7 @@ export function openingReadiness(state: State): { cups: number; missing: Stock }
     return { cups: capacity({ ...state, stock }), missing: {
         lemon: Math.max(0, (needsPitcher ? recipe.lemon : 0) - stock.lemon),
         sugar: Math.max(0, (needsPitcher ? recipe.sugar : 0) - stock.sugar),
-        ice: Math.max(0, (state.business && state.business.customerModel !== "purchase-first-v1"
+        ice: Math.max(0, (state.business && !isPurchaseFirst(state)
             ? needsPitcher ? recipe.ice * cupsPerPitcher(recipe) : 0 : recipe.ice) - stock.ice),
         cup: Math.max(0, 1 - stock.cup),
     } };
@@ -249,7 +258,7 @@ export function openingReadiness(state: State): { cups: number; missing: Stock }
 /** Lemons/sugar are prepared by pitcher; new days add ice when a cup sells. */
 function makePitcher(state: State): State {
     const recipe = state.plan.recipe;
-    const ice = state.business?.customerModel === "purchase-first-v1" ? 0 : recipe.ice * cupsPerPitcher(recipe);
+    const ice = isPurchaseFirst(state) ? 0 : recipe.ice * cupsPerPitcher(recipe);
     const freeIceUsed = Math.min(state.freeIce, ice);
     return { ...state, pitcherCups: cupsPerPitcher(recipe),
         stock: { ...state.stock, lemon: state.stock.lemon - recipe.lemon,
@@ -280,11 +289,11 @@ export function openDay(state: State): State {
     let quotas = actual?.actual.map(weather => Math.round(singleWeatherTraffic(state, id, weather) / 3)) as unknown as Three<number> | undefined;
     if (quotas && periodTraffic(quotas) === 0) quotas = [1, 0, 0];
     const periods: WeatherPeriods | undefined = actual && quotas ? { model: "arrival-periods-v1", actual: actual.actual, quotas } : undefined;
-    const business: BusinessDay = { customerModel: "purchase-first-v1",
+    const business: BusinessDay = { customerModel: state.customerProfileModel ?? "purchase-first-v1",
         ...(periods ? { periods, activePeriod: weatherPeriod(periods.quotas, 1) }
             : { conditions: locationConditions(state.day, id, state.weather) }), location: id, from: state.location,
         traffic: periods ? periodTraffic(periods.quotas) : expectedTraffic(state, id),
-        budget: location.budget, weights: [...location.weights], patienceTicks: location.patience + staff.patience,
+        budget: location.budget, weights: [...(state.customerProfileModel ? LOCATION_CUSTOMER_WEIGHTS[id] : location.weights)], patienceTicks: location.patience + staff.patience,
         arrivalEvery: Math.max(1, Math.round(location.arrival / advertising.traffic)), serviceTicks: 8 - state.management.upgrades.blender - staff.speed, satisfaction: rating.satisfaction,
         popularity: rating.popularity, rent: location.rent, moveFee, paid: true };
     return makePitcher({ ...state, ...(actual ? { seed: actual.seed } : {}), phase: "selling", location: id, pendingLocation: null, business,
@@ -350,9 +359,10 @@ export function drawVisitor(state: State, id: number): { state: State; visitor: 
     const weights = state.business!.weights;
     let profile = 0, roll = a.value * weights.reduce((total, weight) => total + weight, 0);
     while (profile < weights.length - 1 && roll >= weights[profile]) roll -= weights[profile++];
+    const group = state.business!.customerModel === "eleven-profiles-v1" ? CUSTOMER_PROFILES[profile] : null;
     const decision = demand(state.plan, effectiveWeather(state), state.business!.satisfaction, profile, b.value,
-        state.business!.customerModel !== "purchase-first-v1");
-    const willingness = Math.round(decision.willingness * state.business!.budget);
+        !isPurchaseFirst(state), group ? group.preferredPrice / 150 : CUSTOMERS[profile].budget);
+    const willingness = Math.round(Math.min(decision.willingness, group?.maximumPrice ?? Infinity) * state.business!.budget);
     const intent: Visitor["intent"] = state.plan.price > willingness ? "price"
         : c.value >= decision.probability ? "passed" : "buy";
     return { state: { ...state, seed: c.seed }, visitor: { id, profile, intent, willingness } };
@@ -363,7 +373,7 @@ export function settleVisitor(state: State, visitor: Visitor, outcome?: "abandon
         : capacity(state) === 0 ? "sold-out" : "bought");
     const sold = kind === "bought";
     if (sold && state.pitcherCups === 0) state = makePitcher(state);
-    const currentModel = state.business!.customerModel === "purchase-first-v1";
+    const currentModel = isPurchaseFirst(state);
     const taste = recipeTaste(state.plan.recipe, effectiveWeather(state).temperature);
     // Derive a reproducible taste draw without consuming arrival randomness.
     // Every buyer samples the same draw regardless of the chosen recipe.
@@ -419,11 +429,11 @@ export function results(state: State): { profit: number; cashChange: number; sat
     return { profit: state.daily.revenue - state.daily.cost - state.daily.rent - state.daily.moveFee - state.daily.wages - state.daily.advertising,
         cashChange: state.cash - state.openingCash,
         satisfaction: state.daily.sold === 0 ? null :
-            Math[state.business?.customerModel === "purchase-first-v1" ? "floor" : "round"](
+            Math[isPurchaseFirst(state) ? "floor" : "round"](
                 state.daily.satisfactionTotal / satisfactionCustomers(state)) };
 }
 export function satisfactionCustomers(state: State): number {
-    return state.daily.sold + (state.business?.customerModel === "purchase-first-v1"
+    return state.daily.sold + (isPurchaseFirst(state)
         ? state.daily.priceRejected + state.daily.soldOut + state.daily.abandoned : 0);
 }
 

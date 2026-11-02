@@ -1,7 +1,8 @@
-import { drawVisitor, settleVisitor, dayTraffic, capacity } from "./game";
+import { drawVisitor, settleVisitor, dayTraffic, capacity, isPurchaseFirst } from "./game";
 import type { CustomerEvent, State, Visitor } from "./game";
 import { CUSTOMERS } from "../content/catalog";
 import { STAFF } from "../content/management";
+import { profilePatience } from "../content/customer-profiles";
 
 export interface StreetRules {
     readonly arrivalEvery: number;
@@ -36,9 +37,10 @@ export interface StreetDay {
 
 export const DEFAULT_STREET_RULES: StreetRules = { arrivalEvery: 5, serviceTicks: 8, patienceTicks: 18 };
 export const visitorPatienceTicks = (day: StreetDay, visitor: Visitor): number => {
-    if (day.game.business?.customerModel !== "purchase-first-v1") return day.rules.patienceTicks;
+    if (!isPurchaseFirst(day.game)) return day.rules.patienceTicks;
     const staffPatience = STAFF[day.game.management.staff].patience;
     const basePatience = Math.max(1, day.rules.patienceTicks - staffPatience);
+    if (day.game.business?.customerModel === "eleven-profiles-v1") return profilePatience(basePatience, visitor.profile, staffPatience);
     return Math.max(1, Math.round(basePatience * CUSTOMERS[visitor.profile].patience) + staffPatience);
 };
 

@@ -34,7 +34,7 @@ test('actual weather changes with generated arrivals and paid reload plus SKIP r
     await page.screenshot({ path: 'test-results/weather-period-3.png' });
     await page.locator('#skip').click(); await page.clock.runFor(500);
     const saved = JSON.parse(await page.evaluate(key => localStorage.getItem(key), SAVE_KEY));
-    expect(saved.version).toBe(11);
+    expect(saved.version).toBe(12);
     expect(saved.history[0]).toEqual(expected);
     await page.reload(); await page.clock.runFor(500);
     expect(JSON.parse(await page.evaluate(key => localStorage.getItem(key), SAVE_KEY))).toEqual(saved);
@@ -53,5 +53,5 @@ for (const fast of [false, true]) test(`${fast ? 'fast' : 'normal'} periods fini
     await page.clock.runFor(40000);
     const saved = JSON.parse(await page.evaluate(key => localStorage.getItem(key), SAVE_KEY));
     expect(saved.history).toEqual([expected]);
-    expect(saved.state).toEqual(game.nextDay(expected));
+    expect(saved.state).toEqual(game.withCustomerProfiles(game.nextDay(expected)));
 });

@@ -1,8 +1,11 @@
 # Weather periods: implementation boundary and compatibility plan
 
-2026-11-02 KST. Follow-up for #229 on main fee1153 (PR279). This is a reviewed code-path
-inventory and compatibility design. Varying weather is implemented on the active
-branch; full browser/native/release checks and final-head CI are still required.
+2026-11-02 KST. PR280 integrated as13cc381 after all required CI for1fee2be passed:
+106models,85browser and all14 Windows suites. The schema11 weather implementation
+below is the alpha19 boundary. The subsequent schema12 customer extension retains
+it; see [eleven customer groups](eleven-customer-profiles.md) for current-version
+protection and independent customer-model rules. Historical schema11 statements
+below describe that release, including its protection of version12+.
 
 ## Evidence and limits
 
