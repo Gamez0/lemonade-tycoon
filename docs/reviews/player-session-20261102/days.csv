@@ -1,0 +1,9 @@
+day,place,sold,revenue,profit,cash,buyerTaste,overall,priceLost,passed,empty,wait,capture
+1,The Neighborhood,27,40.50,36.00,71.70,100,65,13,7,0,1,018-day1-result.png
+2,The Neighborhood,22,22.00,18.60,88.90,100,95,1,10,0,0,027-day2-result.png
+3,The Neighborhood,5,5.00,4.10,93.90,100,71,2,8,0,0,033-day3-rain-observation.png
+4,The Park,42,42.00,33.60,90.30,100,97,0,15,0,1,065-day4-results.png
+5,The Park,54,67.50,59.26,127.40,100,77,15,19,0,1,081-day5-weather-progress.png
+6,The Park,35,35.00,25.50,154.40,100,83,0,9,0,7,094-day6-result.png
+7,The Park,32,40.00,31.78,183.50,100,96,1,8,0,0,110-day7-result.png
+8,Downtown,31,54.25,40.09,224.85,100,75,6,21,0,4,123-day8-result.png
