@@ -7,7 +7,7 @@ PR277/278 integrated; product main50ab105519168cdfe8c0c512190a37b3899adc3d.
 Exact f5ffff6 CI41443850319 ALL PASS:111models/storage,88browser,
 Linux12/Windows15release, all14Windows native suites, CodeQL/dependency review.
 Simulation8m21, Windows12m48. Maximum meanPrivate238.861MiB under unchanged256
-cap, idle draws0. Electron44.9.1, Vite6.4.5, minimatch11.0.4/glob14.0.2
+cap, idle draws0. Electron44.9.1, Vite6.4.5, minimatch11.0.4/glob14.0.3
 explicit major overrides verified through lint and asar/Windows packaging.
 Fresh all-dependency and production-only npm audit0. Game/save12 rules unchanged.
 
