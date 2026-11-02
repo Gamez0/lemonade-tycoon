@@ -1,0 +1,419 @@
+{
+  "scope": "Retained1.1.6 session captures versus version-unverified archive compositions; not current product pixel parity.",
+  "archiveSha256": "9a3a2e367e33e1acea9ab30d5a5718e42d2c180d4313ec052bfa6c6d6e0d2d88",
+  "nativeWindow": [
+    646,
+    509
+  ],
+  "measuredMapRectangle": [
+    333,
+    151,
+    300,
+    240
+  ],
+  "standLevel": 0,
+  "helperSha256": "cdb848f865f78b66ab4c1357386371f6b5949a357a7ede423fcd0836a99ed4fc",
+  "extractorSha256": "f9eda385a240a20dff57c7890b8234cd4053d22f93167577a488be9033228919",
+  "mapMetadataSha256": "30ce3cb0b43c712c57f5a78064d7d4ca0fa057f276ff0fae0c32d786c91abc50",
+  "inputFileHashes": {
+    "animation-frame-00.png": "4aeb045ac30348ccb871d36344c0b58d3fb857872d7ca65463ca4f057a4f0fc8",
+    "suburbs-objects.png": "baa7694de81361d6545ef7100b93fcab22b50fe3354b2b97369e6725867caa80",
+    "suburbs-background.png": "06e0b1ee1ae15eb2ebc849963fe53d4b2dcb093106a3763f1316ba09e27d3b72",
+    "suburbs-shadows.png": "bd1e239aff9bb125e1ecb8f31d9a3771fa50cbb62e670a9e4711c6ec5eaea579",
+    "map-park.png": "ca0767687ff5112e133cbe5914af8d9d1ab34bf202187c80a613f2af4dfd4353",
+    "park-objects.png": "51afef50e887127da4e368206d0a02848dc463eca1d6f54230ab7757dcf21a45",
+    "park-background.png": "91a8c55a231d60d905b037f381aa3527434f8ed5176e5c09560d677378514e06",
+    "park-shadows.png": "dcde1d7996661a16a548947748599ae78afbd10d099f985bed28dd625a178f38",
+    "map-scene-2.png": "f2b6761866edb55516afc7289df59e0680a559cd08dee37886f04c8159b6c757",
+    "downtown-objects.png": "034299b8a24976d6ee97b024a0466a531ec5c3a62447cef86da0b8dcfd57b4cf",
+    "downtown-background.png": "5d80c596458c01a977f62ea1cda4df04d4731ab5bced0ca0373b066941a3e652",
+    "downtown-shadows.png": "662f36038736528132bdea48c067bbc50ee78ed9477364a8f9005ddcab1b701d",
+    "map-scene-3.png": "d071d3956ea6f40872019e73f5fed27d500b4e9d8f315fca199be2e46e5be07b",
+    "train-station-objects.png": "1eba5e5852e0c98b4fda20a7c45c7c73128d0eb8d40fcdfefb4f43dd2865633f",
+    "train-station-background.png": "c35386c3e1476b650bd7a4423f97395e9a2a048f11a2fe971de2827bb9f55f5c",
+    "train-station-shadows.png": "c35386c3e1476b650bd7a4423f97395e9a2a048f11a2fe971de2827bb9f55f5c",
+    "map-scene-4.png": "f97daf6d30cf811f55c1f185756a74cfb92b627564ca5125cd510f1aa0a5d790",
+    "beach-objects.png": "2d42c2c88f14bfc48f1680b9f3b2824ac3d1d592911ebc38995dd533289471a4",
+    "beach-background.png": "e4df5669d893bde3dd3d3cbb106091e7849a3af3feaa0fcd82bd51d648c353f6",
+    "beach-shadows.png": "4497b3ec9e89bf0e972bbd91ee0bb60d5b0c81e40491945cdf3126f630875e47",
+    "map-scene-5.png": "c263633e8c723a2111e36ab281a5f492671d025ccf44972d549c789795b4a478",
+    "mall-objects.png": "9c40cc1f50d27c9c7e0402534b81ac4ebe3009c5235d27d898d5aae1d868ab67",
+    "mall-background.png": "dcf94dec37a48678fa7e81598619d1240760cf22f0798fe639bef571ed50d135",
+    "mall-shadows.png": "dcf94dec37a48678fa7e81598619d1240760cf22f0798fe639bef571ed50d135",
+    "map-scene-6.png": "505ca84d087532181b838aedcaf5295e58559aab93af0fb3be7f03a5657c9457",
+    "marina-objects.png": "197e81b092fdbdff9cea955ea60d17c2f39f6784308ae1d35251793581660ecd",
+    "marina-background.png": "a24ffda9cc315d604b1723c375a11a91da4215bac72650d104e1ae2a2832d3af",
+    "marina-shadows.png": "2c1f1ee68db76f3d19fd432f8f9b983dbd0fca2ef9748f23db71ec86ea729793",
+    "map-scene-7.png": "c333d6322bf47ab6929fcd39105f353e955e19763e2684a966f6731b2e677a01",
+    "old-square-objects.png": "a6dedc666f915f09046f6d7bcbabb78a83e81036d0982be96789c32c531c7e43",
+    "old-square-background.png": "a5d6c34996ba398112dcad0fbf7edc230207f5ec21201a8302dd457ad7ba99cd",
+    "old-square-shadows.png": "b96d328e61eb4f3cfeaac5138e68ff1693cc87d7c9754ef7a9eb4413a97373fb",
+    "map-scene-8.png": "c75d4843ab71f693f88c2db46d788018bdef6647b46f2b6e889c412eb0bc89b9",
+    "magic-gardens-objects.png": "8f4897d95b3fbffa7c22fd2220081043d9f1a2cc1f3c7e1661b7a3f339682dc6",
+    "magic-gardens-background.png": "64f8efa554e0bce5790bce6ce6e0f18f0854d21bb79c0f1fafbed2fc03a61b4a",
+    "magic-gardens-shadows.png": "5d0ee07ab1833bc246b1ac6e673ad0c606e7fc7d7087c4bd0f9a3a7f5394dbf4",
+    "stadium-full-scene.png": "4cb06415f3d0b7eb67a9c141f2f563a364e8c592691046e8f8c32bc834db1b01",
+    "stadium-objects.png": "e942736ba6b113723cfd33a14b6df6f83e914b77ecbb9b34aee47348ffb487da",
+    "stadium-background.png": "63aeea0d8a211eb94799ae9b839a28a5cb103d4b0d295c0a9245736c1e32e9ac",
+    "stadium-shadows.png": "97dd1c463908720238f983b9afe52434d0cc435c39ecfd618b4ca34ec4f0b97e",
+    "animation-frame-16.png": "e22e4c96d69d20f7aa5839a5b296da8205cd3c67f1f78fc2a14bd7cfd2e18a37",
+    "animation-frame-23.png": "248e2a561b8402c9d256a25bf6bdb6b4a7a11001b698e279c51023807632cd5f",
+    "mall-high-live.png": "f0f57a2b7cb4f346fbb956b081990d94ef7be295707ed174364d29531e38504b",
+    "return-suburbs.png": "2849e1af2251d38578e8763df4a2a3fc6d0ea3b325137bf3a3054e267179ef2c",
+    "map-scene-9.png": "447688ad3f221b86e4c232a64f32b4e975f11ce4484ec234868256128d476b4c"
+  },
+  "rejectedFilenameInferences": {
+    "return-suburbs.png": "Suburbs card selected, but right viewport still Magic Gardens",
+    "map-scene-9.png": "Hexa-Stad card selected, but right viewport still Magic Gardens"
+  },
+  "limits": [
+    "Best of four is a numerical candidate, not proof of the original layer-selection rule.",
+    "Exact RGB comparison uses no tolerance, rescaling or color normalization.",
+    "Selling captures may include native controls/actors; no pixels are masked.",
+    "Archive version, native color/lighting transforms, complete layer selection and weather/stand matrix remain unverified.",
+    "Sequential screenshot names do not establish a fixed simulation/frame cadence.",
+    "No original pixel/crop/audio/executable bytes are exported."
+  ],
+  "comparisons": [
+    {
+      "location": "suburbs",
+      "capture": "animation-frame-00.png",
+      "variants": [
+        {
+          "backgroundRole": "background",
+          "standShadowIncluded": false,
+          "differentPixels": 69612,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 14.659935185185185
+        },
+        {
+          "backgroundRole": "background",
+          "standShadowIncluded": true,
+          "differentPixels": 69612,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 14.67951388888889
+        },
+        {
+          "backgroundRole": "shadows",
+          "standShadowIncluded": false,
+          "differentPixels": 69612,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 14.661407407407408
+        },
+        {
+          "backgroundRole": "shadows",
+          "standShadowIncluded": true,
+          "differentPixels": 69612,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 14.689583333333333
+        }
+      ]
+    },
+    {
+      "location": "park",
+      "capture": "map-park.png",
+      "variants": [
+        {
+          "backgroundRole": "background",
+          "standShadowIncluded": false,
+          "differentPixels": 69842,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 15.947921296296297
+        },
+        {
+          "backgroundRole": "background",
+          "standShadowIncluded": true,
+          "differentPixels": 69842,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 15.921810185185185
+        },
+        {
+          "backgroundRole": "shadows",
+          "standShadowIncluded": false,
+          "differentPixels": 69842,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 15.633902777777777
+        },
+        {
+          "backgroundRole": "shadows",
+          "standShadowIncluded": true,
+          "differentPixels": 69842,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 15.607791666666667
+        }
+      ]
+    },
+    {
+      "location": "downtown",
+      "capture": "map-scene-2.png",
+      "variants": [
+        {
+          "backgroundRole": "background",
+          "standShadowIncluded": false,
+          "differentPixels": 69609,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 12.726675925925926
+        },
+        {
+          "backgroundRole": "background",
+          "standShadowIncluded": true,
+          "differentPixels": 69609,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 12.711606481481482
+        },
+        {
+          "backgroundRole": "shadows",
+          "standShadowIncluded": false,
+          "differentPixels": 69609,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 13.79626388888889
+        },
+        {
+          "backgroundRole": "shadows",
+          "standShadowIncluded": true,
+          "differentPixels": 69609,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 13.77951388888889
+        }
+      ]
+    },
+    {
+      "location": "train-station",
+      "capture": "map-scene-3.png",
+      "variants": [
+        {
+          "backgroundRole": "background",
+          "standShadowIncluded": false,
+          "differentPixels": 67308,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 10.93125
+        },
+        {
+          "backgroundRole": "background",
+          "standShadowIncluded": true,
+          "differentPixels": 67306,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 10.975060185185185
+        },
+        {
+          "backgroundRole": "shadows",
+          "standShadowIncluded": false,
+          "differentPixels": 67308,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 10.93125
+        },
+        {
+          "backgroundRole": "shadows",
+          "standShadowIncluded": true,
+          "differentPixels": 67306,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 10.975060185185185
+        }
+      ]
+    },
+    {
+      "location": "beach",
+      "capture": "map-scene-4.png",
+      "variants": [
+        {
+          "backgroundRole": "background",
+          "standShadowIncluded": false,
+          "differentPixels": 69808,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 13.602282407407408
+        },
+        {
+          "backgroundRole": "background",
+          "standShadowIncluded": true,
+          "differentPixels": 69808,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 13.624986111111111
+        },
+        {
+          "backgroundRole": "shadows",
+          "standShadowIncluded": false,
+          "differentPixels": 69810,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 14.167467592592592
+        },
+        {
+          "backgroundRole": "shadows",
+          "standShadowIncluded": true,
+          "differentPixels": 69810,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 14.190171296296297
+        }
+      ]
+    },
+    {
+      "location": "mall",
+      "capture": "map-scene-5.png",
+      "variants": [
+        {
+          "backgroundRole": "background",
+          "standShadowIncluded": false,
+          "differentPixels": 70684,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 14.447680555555555
+        },
+        {
+          "backgroundRole": "background",
+          "standShadowIncluded": true,
+          "differentPixels": 70684,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 14.459175925925926
+        },
+        {
+          "backgroundRole": "shadows",
+          "standShadowIncluded": false,
+          "differentPixels": 70684,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 14.447680555555555
+        },
+        {
+          "backgroundRole": "shadows",
+          "standShadowIncluded": true,
+          "differentPixels": 70684,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 14.459175925925926
+        }
+      ]
+    },
+    {
+      "location": "marina",
+      "capture": "map-scene-6.png",
+      "variants": [
+        {
+          "backgroundRole": "background",
+          "standShadowIncluded": false,
+          "differentPixels": 62516,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 13.009509259259259
+        },
+        {
+          "backgroundRole": "background",
+          "standShadowIncluded": true,
+          "differentPixels": 62516,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 13.028398148148149
+        },
+        {
+          "backgroundRole": "shadows",
+          "standShadowIncluded": false,
+          "differentPixels": 63719,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 13.806546296296297
+        },
+        {
+          "backgroundRole": "shadows",
+          "standShadowIncluded": true,
+          "differentPixels": 63719,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 13.825435185185185
+        }
+      ]
+    },
+    {
+      "location": "old-square",
+      "capture": "map-scene-7.png",
+      "variants": [
+        {
+          "backgroundRole": "background",
+          "standShadowIncluded": false,
+          "differentPixels": 69010,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 11.97463425925926
+        },
+        {
+          "backgroundRole": "background",
+          "standShadowIncluded": true,
+          "differentPixels": 68906,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 11.973569444444445
+        },
+        {
+          "backgroundRole": "shadows",
+          "standShadowIncluded": false,
+          "differentPixels": 67220,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 12.269958333333333
+        },
+        {
+          "backgroundRole": "shadows",
+          "standShadowIncluded": true,
+          "differentPixels": 67116,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 12.268893518518519
+        }
+      ]
+    },
+    {
+      "location": "magic-gardens",
+      "capture": "map-scene-8.png",
+      "variants": [
+        {
+          "backgroundRole": "background",
+          "standShadowIncluded": false,
+          "differentPixels": 61453,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 10.830240740740742
+        },
+        {
+          "backgroundRole": "background",
+          "standShadowIncluded": true,
+          "differentPixels": 61456,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 10.859791666666666
+        },
+        {
+          "backgroundRole": "shadows",
+          "standShadowIncluded": false,
+          "differentPixels": 61583,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 11.237333333333334
+        },
+        {
+          "backgroundRole": "shadows",
+          "standShadowIncluded": true,
+          "differentPixels": 61586,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 11.266884259259259
+        }
+      ]
+    },
+    {
+      "location": "stadium",
+      "capture": "stadium-full-scene.png",
+      "variants": [
+        {
+          "backgroundRole": "background",
+          "standShadowIncluded": false,
+          "differentPixels": 60647,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 13.301490740740741
+        },
+        {
+          "backgroundRole": "background",
+          "standShadowIncluded": true,
+          "differentPixels": 60647,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 13.301490740740741
+        },
+        {
+          "backgroundRole": "shadows",
+          "standShadowIncluded": false,
+          "differentPixels": 60550,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 14.181
+        },
+        {
+          "backgroundRole": "shadows",
+          "standShadowIncluded": true,
+          "differentPixels": 60550,
+          "totalPixels": 72000,
+          "meanAbsoluteChannelDifference": 14.181
+        }
+      ]
+    }
+  ]
+}
