@@ -30,6 +30,27 @@ const closeNormally = async session => {
 (async () => {
     let session;
     try {
+        stage = 'close before the startup save listener is ready';
+        for (let attempt = 0; attempt < 3; attempt++) {
+            const app = await electron.launch({ executablePath, env, timeout: 60000, args: profileArgs(base) });
+            session = { app };
+            // Intercept warnings before closing: a regression must never show a
+            // modal on the developer's desktop or discard a real business.
+            await app.evaluate(({ dialog }) => {
+                globalThis.startupWarnings = [];
+                dialog.showMessageBox = async (_window, options) => {
+                    globalThis.startupWarnings.push(options.title);
+                    return { response: 0 };
+                };
+            });
+            const closed = app.waitForEvent('close', { timeout: 8000 });
+            await app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].close());
+            await closed;
+            session = undefined;
+            expect(fs.existsSync(savePath)).toBe(true);
+            expect(JSON.parse(fs.readFileSync(savePath, 'utf8')).version).toBeDefined();
+        }
+        stage = 'launch and preparation save';
         session = await launch();
         await session.page.locator('[data-page="supplies"]').click();
         for (const item of ['lemon', 'sugar', 'ice', 'cup']) {

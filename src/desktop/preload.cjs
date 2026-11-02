@@ -9,6 +9,7 @@ contextBridge.exposeInMainWorld('desktopSave', {
             catch { ipcRenderer.send('save:flushed', request, false); }
         });
         ipcRenderer.on('save:resume', () => { void handler(false).catch(() => {}); });
+        ipcRenderer.send('save:ready');
     },
 });
 
