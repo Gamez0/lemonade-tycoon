@@ -31,6 +31,10 @@ jobs:
                           throw "Windows package suite $suite failed with exit code $LASTEXITCODE"
                       }
                   }
+                  $env:LEMONADE_PERF_LANGUAGE = 'ko'
+                  $env:LEMONADE_PERF_EVIDENCE_ROOT = 'test-results/desktop-performance/ko'
+                  npm run test:desktop:performance
+                  if ($LASTEXITCODE -ne 0) { throw 'Korean package performance failed' }
             - uses: actions/upload-artifact@v7
               if: always()
               with:

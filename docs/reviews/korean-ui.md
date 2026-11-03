@@ -42,4 +42,6 @@ player names that match translation IDs, narrow catalogue controls and old paid
 replay while switching languages. These are engineering checks, not human beta
 or physical monitor acceptance.
 
-Full baseline regression and exact-head CI evidence are recorded on #286/its PR.
+Windows CI runs all15 baseline suites and an additional Korean performance pass,
+retaining English and Korean reports separately. Full baseline regression and
+exact-head CI evidence are recorded on #286/its PR.
