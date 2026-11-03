@@ -46,7 +46,7 @@ test('low-cash ice-maker owner sees affordable opening costs and can resume sell
     await expect(page.locator('#supply-warning')).toBeHidden();
     await expect(page.locator('#management-bill')).toContainText('Opening bill $0.00');
     await page.locator('[data-page=upgrades]').click();
-    await expect(page.locator('#upgrade-effect-iceMaker')).toContainText('free ice');
+    await expect(page.locator('#upgrade-owned-iceMaker')).toContainText('free ice');
     await page.locator('#open').click();
     await expect(page.locator('#selling')).toBeVisible();
     await page.reload();
