@@ -1,0 +1,12 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Willow Lane 음악 비교 시안</title>
+<style>body{margin:0;background:#153b2b;color:#f4f0d5;font:16px/1.6 system-ui}main{max-width:1000px;margin:auto;padding:24px}article{background:#20563c;padding:18px;margin:12px 0;border-radius:10px}audio{width:100%}a{color:#fff087}small{color:#d2d6b8}</style><main>
+<h1>음악 비교 시안 v2</h1>
+<p>우선 기준은 원작과 비슷한 분위기와 악기 질감입니다. 아래 곡은 새로 만든 후보이며, 원작과의 유사도가 검증된 결과는 아닙니다. 같은 음량으로 비교하고 악기 질감·리듬·반복 피로도를 확인해주세요.</p>
+<article><h2>준비 · Porch Ensemble</h2><p>피아노와 기타 중심 · 100 BPM · 약 2분 34초</p><audio controls loop preload="none" src="preparation.ogg"></audio><a href="preparation.wav">WAV</a> · <a href="preparation.mid">MIDI</a></article>
+<article><h2>영업 · Sunny Counter</h2><p>기타와 비브라폰 중심 · 112 BPM · 약 2분 17초</p><audio controls loop preload="none" src="selling.ogg"></audio><a href="selling.wav">WAV</a> · <a href="selling.mid">MIDI</a></article>
+<article><h2>정산 · Evening Tally</h2><p>4.8초 · 한 번 재생하는 짧은 마무리</p><audio controls preload="none" src="results.ogg"></audio><a href="results.wav">WAV</a></article>
+<article><h2>기존 준비 음악 기준본</h2><p>삼각파 단선율 · 30.72초 · 비교 음량으로 조정</p><audio controls loop preload="none" src="baseline.ogg"></audio></article>
+<details><summary>짧은 A/B 시안과 측정 자료</summary><p>A · 76.8초</p><audio controls loop preload="none" src="A.ogg"></audio><p>B · 68.6초</p><audio controls loop preload="none" src="B.ogg"></audio><p><a href="A-join-review.wav">A 네 번 연결본</a> · <a href="B-join-review.wav">B 네 번 연결본</a> · <a href="measurements.json">측정 자료</a></p></details>
+<p><small>악기 녹음: CC0 Meta Open Sound / VCSL. 악보·편곡은 프로젝트용 신규 제작입니다. 이 페이지의 브라우저 OGG 반복에는 재생 공백이 생길 수 있습니다. 게임 후보는 별도로 검증한 FLAC 구간 연결 방식을 사용합니다. 음량·경계 수치가 음악적 완성이나 원작 유사도를 증명하지는 않습니다.</small></p>
+</main><script>for(const current of document.querySelectorAll('audio'))current.addEventListener('play',()=>{for(const other of document.querySelectorAll('audio'))if(other!==current)other.pause()});</script></html>

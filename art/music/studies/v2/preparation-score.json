@@ -1,0 +1,11107 @@
+{
+  "id": "preparation",
+  "title": "Porch Ensemble",
+  "bpm": 100,
+  "bars": 64,
+  "form": [
+    "A",
+    "A variation",
+    "bridge",
+    "A return",
+    "A",
+    "A variation",
+    "bridge",
+    "A return"
+  ],
+  "events": [
+    {
+      "part": "piano",
+      "beat": 0.66,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 0.678,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 0.696,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 0.714,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 2.66,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 2.678,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 2.696,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 2.714,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 0,
+      "note": 64,
+      "duration": 0.65,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 1,
+      "note": 67,
+      "duration": 0.4,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 1.66,
+      "note": 69,
+      "duration": 0.65,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 3,
+      "note": 67,
+      "duration": 0.65,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 0,
+      "note": 36,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 2,
+      "note": 43,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 0,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 2,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 1,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 3,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 0,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 0.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 1,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 1.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 2,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 2.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 3,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 3.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 4.66,
+      "note": 48,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 4.678,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 4.696,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 4.714,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 6.66,
+      "note": 48,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 6.678,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 6.696,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 6.714,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 4.66,
+      "note": 64,
+      "duration": 0.6,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 6,
+      "note": 62,
+      "duration": 0.4,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 6.66,
+      "note": 60,
+      "duration": 0.9,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 4,
+      "note": 33,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 6,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 4,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 6,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 7,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 4,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 4.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 5,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 5.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 6,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 6.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 7,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 7.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 8.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 8.678,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 8.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 8.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 10.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 10.678,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 10.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 10.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 8,
+      "note": 65,
+      "duration": 0.7,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 9.66,
+      "note": 69,
+      "duration": 0.5,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 10.66,
+      "note": 72,
+      "duration": 0.7,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 8,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 10,
+      "note": 45,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 8,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 10,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 9,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 11,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 8,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 8.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 9,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 9.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 10,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 10.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 11,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 11.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 12.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 12.678,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 12.696,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 12.714,
+      "note": 69,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 14.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 14.678,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 14.696,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 14.714,
+      "note": 69,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 12.66,
+      "note": 71,
+      "duration": 0.6,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 14,
+      "note": 69,
+      "duration": 0.4,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 14.66,
+      "note": 67,
+      "duration": 0.7,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 12,
+      "note": 31,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 14,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 12,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 14,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 13,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 15,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 12,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 12.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 13,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 13.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 14,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 14.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 15,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 15.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 16.66,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 16.678,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 16.696,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 16.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 18.66,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 18.678,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 18.696,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 18.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 16,
+      "note": 67,
+      "duration": 0.4,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 16.66,
+      "note": 71,
+      "duration": 0.6,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 18,
+      "note": 74,
+      "duration": 0.7,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 16,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 18,
+      "note": 47,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 16,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 18,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 17,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 19,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 16,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 16.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 17,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 17.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 18,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 18.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 19,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 19.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 20.66,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 20.678,
+      "note": 61,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 20.696,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 20.714,
+      "note": 67,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 22.66,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 22.678,
+      "note": 61,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 22.696,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 22.714,
+      "note": 67,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 21,
+      "note": 73,
+      "duration": 0.4,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 21.66,
+      "note": 76,
+      "duration": 0.6,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 23,
+      "note": 67,
+      "duration": 0.5,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 20,
+      "note": 33,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 22,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 20,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 22,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 21,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 23,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 20,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 20.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 21,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 21.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 22,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 22.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 23,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 23.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 24.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 24.678,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 24.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 24.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 26.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 26.678,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 26.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 26.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 24,
+      "note": 65,
+      "duration": 0.65,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 25.66,
+      "note": 64,
+      "duration": 0.5,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 26.66,
+      "note": 62,
+      "duration": 0.9,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 24,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 26,
+      "note": 45,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 24,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 26,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 25,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 27,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 24,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 24.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 25,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 25.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 26,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 26.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 27,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 27.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 28.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 28.678,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 28.696,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 28.714,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 30.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 30.678,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 30.696,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 30.714,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 28.66,
+      "note": 62,
+      "duration": 0.5,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 30,
+      "note": 59,
+      "duration": 0.45,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 31,
+      "note": 62,
+      "duration": 0.4,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 28,
+      "note": 31,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 30,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 28,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 30,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 29,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 31,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 28,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 28.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 29,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 29.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 30,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 30.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 31,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 31.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 32.66,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 32.678,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 32.696,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 32.714,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 34.66,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 34.678,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 34.696,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 34.714,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 32,
+      "note": 76,
+      "duration": 0.65,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 33,
+      "note": 67,
+      "duration": 0.4,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 33.66,
+      "note": 69,
+      "duration": 0.65,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 35,
+      "note": 67,
+      "duration": 0.65,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 32,
+      "note": 36,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 34,
+      "note": 43,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 32,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 34,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 33,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 35,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 32,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 32.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 33,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 33.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 34,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 34.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 35,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 35.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 36.66,
+      "note": 48,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 36.678,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 36.696,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 36.714,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 38.66,
+      "note": 48,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 38.678,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 38.696,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 38.714,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 36.66,
+      "note": 64,
+      "duration": 0.6,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 38,
+      "note": 62,
+      "duration": 0.4,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 38.66,
+      "note": 60,
+      "duration": 0.9,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 36,
+      "note": 33,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 38,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 39.5,
+      "note": 37,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 36,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 38,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 37,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 39,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 36,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 36.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 37,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 37.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 38,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 38.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 39,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 39.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 40.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 40.678,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 40.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 40.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 42.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 42.678,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 42.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 42.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 40,
+      "note": 65,
+      "duration": 0.7,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 41.66,
+      "note": 69,
+      "duration": 0.5,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 42.66,
+      "note": 72,
+      "duration": 0.7,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 40,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 42,
+      "note": 45,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 40,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 42,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 41,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 43,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 40,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 40.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 41,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 41.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 42,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 42.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 43,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 43.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 44.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 44.678,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 44.696,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 44.714,
+      "note": 69,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 46.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 46.678,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 46.696,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 46.714,
+      "note": 69,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 44.66,
+      "note": 71,
+      "duration": 0.6,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 46,
+      "note": 69,
+      "duration": 0.4,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 46.66,
+      "note": 67,
+      "duration": 0.7,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 44,
+      "note": 31,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 46,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 47.5,
+      "note": 39,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 44,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 46,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 45,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 47,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 44,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 44.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 45,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 45.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 46,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 46.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 47,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 47.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 46.5,
+      "note": 67,
+      "duration": 0.35,
+      "velocity": 39
+    },
+    {
+      "part": "guitar",
+      "beat": 47.25,
+      "note": 64,
+      "duration": 0.35,
+      "velocity": 39
+    },
+    {
+      "part": "piano",
+      "beat": 48.66,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 48.678,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 48.696,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 48.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 50.66,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 50.678,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 50.696,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 50.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 48,
+      "note": 79,
+      "duration": 0.4,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 48.66,
+      "note": 71,
+      "duration": 0.6,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 50,
+      "note": 74,
+      "duration": 0.7,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 48,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 50,
+      "note": 47,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 48,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 50,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 49,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 51,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 48,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 48.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 49,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 49.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 50,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 50.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 51,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 51.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 52.66,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 52.678,
+      "note": 61,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 52.696,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 52.714,
+      "note": 67,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 54.66,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 54.678,
+      "note": 61,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 54.696,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 54.714,
+      "note": 67,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 53,
+      "note": 73,
+      "duration": 0.4,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 53.66,
+      "note": 76,
+      "duration": 0.6,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 55,
+      "note": 67,
+      "duration": 0.5,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 52,
+      "note": 33,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 54,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 55.5,
+      "note": 37,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 52,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 54,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 53,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 55,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 52,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 52.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 53,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 53.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 54,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 54.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 55,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 55.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 56.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 56.678,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 56.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 56.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 58.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 58.678,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 58.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 58.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 56,
+      "note": 65,
+      "duration": 0.65,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 57.66,
+      "note": 64,
+      "duration": 0.5,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 58.66,
+      "note": 62,
+      "duration": 0.9,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 56,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 58,
+      "note": 45,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 56,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 58,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 57,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 59,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 56,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 56.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 57,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 57.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 58,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 58.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 59,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 59.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 60.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 60.678,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 60.696,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 60.714,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 62.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 62.678,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 62.696,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 62.714,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 60.66,
+      "note": 62,
+      "duration": 0.5,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 62,
+      "note": 59,
+      "duration": 0.45,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 63,
+      "note": 62,
+      "duration": 0.4,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 60,
+      "note": 31,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 62,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 63.5,
+      "note": 28,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 60,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 62,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 61,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 63,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 60,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 60.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 61,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 61.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 62,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 62.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 63,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 63.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 62.5,
+      "note": 67,
+      "duration": 0.35,
+      "velocity": 39
+    },
+    {
+      "part": "guitar",
+      "beat": 63.25,
+      "note": 64,
+      "duration": 0.35,
+      "velocity": 39
+    },
+    {
+      "part": "piano",
+      "beat": 64.66,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 64.678,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 64.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 64.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 66.66,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 66.678,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 66.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 66.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 64,
+      "note": 69,
+      "duration": 0.8,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 65.66,
+      "note": 72,
+      "duration": 0.65,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 67,
+      "note": 76,
+      "duration": 0.55,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 64,
+      "note": 29,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 66,
+      "note": 36,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 64,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 66,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 65,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 67,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 64,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 64.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 65,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 65.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 66,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 66.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 67,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 67.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 68.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 68.678,
+      "note": 56,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 68.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 68.714,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 70.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 70.678,
+      "note": 56,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 70.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 70.714,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 68.66,
+      "note": 75,
+      "duration": 0.8,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 70,
+      "note": 72,
+      "duration": 0.6,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 71,
+      "note": 68,
+      "duration": 0.6,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 68,
+      "note": 29,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 70,
+      "note": 36,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 71.5,
+      "note": 39,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 68,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 70,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 69,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 71,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 68,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 68.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 69,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 69.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 70,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 70.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 71,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 71.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 72.66,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 72.678,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 72.696,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 72.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 74.66,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 74.678,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 74.696,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 74.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 72,
+      "note": 71,
+      "duration": 0.65,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 73.66,
+      "note": 67,
+      "duration": 0.7,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 72,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 74,
+      "note": 47,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 72,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 74,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 73,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 75,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 72,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 72.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 73,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 73.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 74,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 74.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 75,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 75.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 76.66,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 76.678,
+      "note": 61,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 76.696,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 76.714,
+      "note": 67,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 78.66,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 78.678,
+      "note": 61,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 78.696,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 78.714,
+      "note": 67,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 76.66,
+      "note": 73,
+      "duration": 0.6,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 78,
+      "note": 76,
+      "duration": 0.5,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 79,
+      "note": 79,
+      "duration": 0.45,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 76,
+      "note": 33,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 78,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 79.5,
+      "note": 37,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 76,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 78,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 77,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 79,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 76,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 76.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 77,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 77.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 78,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 78.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 79,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 79.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 80.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 80.678,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 80.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 80.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 82.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 82.678,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 82.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 82.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 80,
+      "note": 77,
+      "duration": 0.65,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 81.66,
+      "note": 76,
+      "duration": 0.7,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 80,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 82,
+      "note": 45,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 80,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 82,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 81,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 83,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 80,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 80.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 81,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 81.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 82,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 82.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 83,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 83.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 84.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 84.678,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 84.696,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 84.714,
+      "note": 69,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 86.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 86.678,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 86.696,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 86.714,
+      "note": 69,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 84.66,
+      "note": 74,
+      "duration": 0.8,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 86,
+      "note": 71,
+      "duration": 0.45,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 87,
+      "note": 69,
+      "duration": 0.5,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 84,
+      "note": 31,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 86,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 87.5,
+      "note": 35,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 84,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 86,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 85,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 87,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 84,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 84.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 85,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 85.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 86,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 86.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 87,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 87.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 88.66,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 88.678,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 88.696,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 88.714,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 90.66,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 90.678,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 90.696,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 90.714,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 88,
+      "note": 67,
+      "duration": 0.7,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 89.66,
+      "note": 64,
+      "duration": 0.7,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 91,
+      "note": 60,
+      "duration": 0.6,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 88,
+      "note": 36,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 90,
+      "note": 43,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 88,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 90,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 89,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 91,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 88,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 88.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 89,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 89.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 90,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 90.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 91,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 91.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 92.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 92.678,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 92.696,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 92.714,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 94.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 94.678,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 94.696,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 94.714,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 92.66,
+      "note": 62,
+      "duration": 0.6,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 94,
+      "note": 59,
+      "duration": 0.8,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 92,
+      "note": 31,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 94,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 95.5,
+      "note": 35,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 92,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 94,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 93,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 95,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 92,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 92.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 93,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 93.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 94,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 94.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 95,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 95.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 96.66,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 96.678,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 96.696,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 96.714,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 98.66,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 98.678,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 98.696,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 98.714,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 96,
+      "note": 64,
+      "duration": 0.65,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 97,
+      "note": 67,
+      "duration": 0.4,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 97.66,
+      "note": 69,
+      "duration": 0.65,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 99,
+      "note": 67,
+      "duration": 0.8,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 96,
+      "note": 36,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 98,
+      "note": 43,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 96,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 98,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 97,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 99,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 96,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 96.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 97,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 97.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 98,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 98.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 99,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 99.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 100.66,
+      "note": 48,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 100.678,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 100.696,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 100.714,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 102.66,
+      "note": 48,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 102.678,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 102.696,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 102.714,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 100.66,
+      "note": 64,
+      "duration": 0.6,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 102,
+      "note": 62,
+      "duration": 0.4,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 102.66,
+      "note": 60,
+      "duration": 1.05,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 100,
+      "note": 33,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 102,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 100,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 102,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 101,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 103,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 100,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 100.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 101,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 101.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 102,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 102.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 103,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 103.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 104.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 104.678,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 104.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 104.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 106.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 106.678,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 106.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 106.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 104,
+      "note": 65,
+      "duration": 0.7,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 105.66,
+      "note": 69,
+      "duration": 0.5,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 106.66,
+      "note": 72,
+      "duration": 0.85,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 104,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 106,
+      "note": 45,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 104,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 106,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 105,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 107,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 104,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 104.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 105,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 105.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 106,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 106.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 107,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 107.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 108.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 108.678,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 108.696,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 108.714,
+      "note": 69,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 110.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 110.678,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 110.696,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 110.714,
+      "note": 69,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 108.66,
+      "note": 71,
+      "duration": 0.6,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 110,
+      "note": 69,
+      "duration": 0.4,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 110.66,
+      "note": 67,
+      "duration": 0.85,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 108,
+      "note": 31,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 110,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 108,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 110,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 109,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 111,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 108,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 108.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 109,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 109.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 110,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 110.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 111,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 111.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 110.5,
+      "note": 67,
+      "duration": 0.35,
+      "velocity": 39
+    },
+    {
+      "part": "guitar",
+      "beat": 111.25,
+      "note": 64,
+      "duration": 0.35,
+      "velocity": 39
+    },
+    {
+      "part": "piano",
+      "beat": 112.66,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 112.678,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 112.696,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 112.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 114.66,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 114.678,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 114.696,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 114.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 112,
+      "note": 67,
+      "duration": 0.4,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 112.66,
+      "note": 71,
+      "duration": 0.6,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 114,
+      "note": 74,
+      "duration": 0.85,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 112,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 114,
+      "note": 47,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 112,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 114,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 113,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 115,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 112,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 112.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 113,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 113.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 114,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 114.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 115,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 115.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 116.66,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 116.678,
+      "note": 61,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 116.696,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 116.714,
+      "note": 67,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 118.66,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 118.678,
+      "note": 61,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 118.696,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 118.714,
+      "note": 67,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 117,
+      "note": 73,
+      "duration": 0.4,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 117.66,
+      "note": 76,
+      "duration": 0.6,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 119,
+      "note": 67,
+      "duration": 0.65,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 116,
+      "note": 33,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 118,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 116,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 118,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 117,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 119,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 116,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 116.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 117,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 117.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 118,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 118.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 119,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 119.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 120.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 120.678,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 120.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 120.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 122.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 122.678,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 122.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 122.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 120,
+      "note": 65,
+      "duration": 0.65,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 121.66,
+      "note": 64,
+      "duration": 0.5,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 122.66,
+      "note": 62,
+      "duration": 1.05,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 120,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 122,
+      "note": 45,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 120,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 122,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 121,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 123,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 120,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 120.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 121,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 121.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 122,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 122.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 123,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 123.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 124.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 124.678,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 124.696,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 124.714,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 126.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 126.678,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 126.696,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 126.714,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 124.66,
+      "note": 62,
+      "duration": 0.5,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 126,
+      "note": 59,
+      "duration": 0.45,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 127,
+      "note": 62,
+      "duration": 0.55,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 124,
+      "note": 31,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 126,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 124,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 126,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 125,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 127,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 124,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 124.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 125,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 125.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 126,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 126.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 127,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 127.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 126.5,
+      "note": 67,
+      "duration": 0.35,
+      "velocity": 39
+    },
+    {
+      "part": "guitar",
+      "beat": 127.25,
+      "note": 64,
+      "duration": 0.35,
+      "velocity": 39
+    },
+    {
+      "part": "piano",
+      "beat": 128.0,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 128.018,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 128.036,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 128.054,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 130.66,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 130.678,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 130.696,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 130.714,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 128,
+      "note": 64,
+      "duration": 0.65,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 129,
+      "note": 67,
+      "duration": 0.4,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 129.66,
+      "note": 69,
+      "duration": 0.65,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 131,
+      "note": 67,
+      "duration": 0.65,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 128,
+      "note": 36,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 130,
+      "note": 43,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 128,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 130,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 129,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 131,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 128,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 129,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 130,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 131,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "piano",
+      "beat": 132.0,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 132.018,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 132.036,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 132.054,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 134.66,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 134.678,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 134.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 134.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 132.66,
+      "note": 64,
+      "duration": 0.6,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 134.66,
+      "note": 60,
+      "duration": 0.9,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 132,
+      "note": 29,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 134,
+      "note": 36,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 132,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 134,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 133,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 135,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 132,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 133,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 134,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 135,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "piano",
+      "beat": 136.0,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 136.018,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 136.036,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 136.054,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 138.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 138.678,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 138.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 138.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 136,
+      "note": 65,
+      "duration": 0.7,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 137.66,
+      "note": 69,
+      "duration": 0.5,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 138.66,
+      "note": 72,
+      "duration": 0.7,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 136,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 138,
+      "note": 45,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 136,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 138,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 137,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 139,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 136,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 137,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 138,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 139,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "piano",
+      "beat": 140.0,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 140.018,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 140.036,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 140.054,
+      "note": 69,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 142.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 142.678,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 142.696,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 142.714,
+      "note": 69,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 140.66,
+      "note": 71,
+      "duration": 0.6,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 142.66,
+      "note": 67,
+      "duration": 0.7,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 140,
+      "note": 31,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 142,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 140,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 142,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 141,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 143,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 140,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 141,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 142,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 143,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "piano",
+      "beat": 144.0,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 144.018,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 144.036,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 144.054,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 146.66,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 146.678,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 146.696,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 146.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 144,
+      "note": 67,
+      "duration": 0.4,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 144.66,
+      "note": 71,
+      "duration": 0.6,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 146,
+      "note": 74,
+      "duration": 0.7,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 144,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 146,
+      "note": 47,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 144,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 146,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 145,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 147,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 144,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 145,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 146,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 147,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "piano",
+      "beat": 148.0,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 148.018,
+      "note": 61,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 148.036,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 148.054,
+      "note": 67,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 150.66,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 150.678,
+      "note": 61,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 150.696,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 150.714,
+      "note": 67,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 149,
+      "note": 73,
+      "duration": 0.4,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 151,
+      "note": 67,
+      "duration": 0.5,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 148,
+      "note": 33,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 150,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 148,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 150,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 149,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 151,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 148,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 149,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 150,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 151,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "piano",
+      "beat": 152.0,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 152.018,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 152.036,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 152.054,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 154.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 154.678,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 154.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 154.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 152,
+      "note": 65,
+      "duration": 0.65,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 153.66,
+      "note": 64,
+      "duration": 0.5,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 154.66,
+      "note": 62,
+      "duration": 0.9,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 152,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 154,
+      "note": 45,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 152,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 154,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 153,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 155,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 152,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 153,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 154,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 155,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "piano",
+      "beat": 156.0,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 156.018,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 156.036,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 156.054,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 158.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 158.678,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 158.696,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 158.714,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 156.66,
+      "note": 62,
+      "duration": 0.5,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 159,
+      "note": 62,
+      "duration": 0.4,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 156,
+      "note": 31,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 158,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 156,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 158,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 157,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 159,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 156,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 157,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 158,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 159,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "piano",
+      "beat": 160.0,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 160.018,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 160.036,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 160.054,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 162.66,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 162.678,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 162.696,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 162.714,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 160,
+      "note": 76,
+      "duration": 0.65,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 161,
+      "note": 67,
+      "duration": 0.4,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 161.66,
+      "note": 69,
+      "duration": 0.65,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 163,
+      "note": 67,
+      "duration": 0.65,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 160,
+      "note": 36,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 162,
+      "note": 43,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 160,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 162,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 161,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 163,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 160,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 160.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 161,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 161.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 162,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 162.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 163,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 163.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 164.0,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 164.018,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 164.036,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 164.054,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 166.66,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 166.678,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 166.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 166.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 164.66,
+      "note": 64,
+      "duration": 0.6,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 166.66,
+      "note": 60,
+      "duration": 0.9,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 164,
+      "note": 29,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 166,
+      "note": 36,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 167.5,
+      "note": 37,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 164,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 166,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 165,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 167,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 164,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 164.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 165,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 165.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 166,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 166.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 167,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 167.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 168.0,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 168.018,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 168.036,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 168.054,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 170.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 170.678,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 170.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 170.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 168,
+      "note": 65,
+      "duration": 0.7,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 169.66,
+      "note": 69,
+      "duration": 0.5,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 170.66,
+      "note": 72,
+      "duration": 0.7,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 168,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 170,
+      "note": 45,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 168,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 170,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 169,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 171,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 168,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 168.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 169,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 169.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 170,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 170.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 171,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 171.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 172.0,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 172.018,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 172.036,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 172.054,
+      "note": 69,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 174.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 174.678,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 174.696,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 174.714,
+      "note": 69,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 172.66,
+      "note": 71,
+      "duration": 0.6,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 174.66,
+      "note": 67,
+      "duration": 0.7,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 172,
+      "note": 31,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 174,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 175.5,
+      "note": 39,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 172,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 174,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 173,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 175,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 172,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 172.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 173,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 173.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 174,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 174.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 175,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 175.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 174.5,
+      "note": 67,
+      "duration": 0.35,
+      "velocity": 39
+    },
+    {
+      "part": "guitar",
+      "beat": 175.25,
+      "note": 64,
+      "duration": 0.35,
+      "velocity": 39
+    },
+    {
+      "part": "piano",
+      "beat": 176.0,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 176.018,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 176.036,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 176.054,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 178.66,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 178.678,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 178.696,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 178.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 176,
+      "note": 79,
+      "duration": 0.4,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 176.66,
+      "note": 71,
+      "duration": 0.6,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 178,
+      "note": 74,
+      "duration": 0.7,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 176,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 178,
+      "note": 47,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 176,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 178,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 177,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 179,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 176,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 176.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 177,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 177.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 178,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 178.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 179,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 179.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 180.0,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 180.018,
+      "note": 61,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 180.036,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 180.054,
+      "note": 67,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 182.66,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 182.678,
+      "note": 61,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 182.696,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 182.714,
+      "note": 67,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 181,
+      "note": 73,
+      "duration": 0.4,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 183,
+      "note": 67,
+      "duration": 0.5,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 180,
+      "note": 33,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 182,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 183.5,
+      "note": 37,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 180,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 182,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 181,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 183,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 180,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 180.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 181,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 181.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 182,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 182.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 183,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 183.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 184.0,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 184.018,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 184.036,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 184.054,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 186.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 186.678,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 186.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 186.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 184,
+      "note": 65,
+      "duration": 0.65,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 185.66,
+      "note": 64,
+      "duration": 0.5,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 186.66,
+      "note": 62,
+      "duration": 0.9,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 184,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 186,
+      "note": 45,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 184,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 186,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 185,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 187,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 184,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 184.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 185,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 185.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 186,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 186.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 187,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 187.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 188.0,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 188.018,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 188.036,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 188.054,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 190.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 190.678,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 190.696,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 190.714,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 188.66,
+      "note": 62,
+      "duration": 0.5,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 191,
+      "note": 62,
+      "duration": 0.4,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 188,
+      "note": 31,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 190,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 191.5,
+      "note": 28,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 188,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 190,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 189,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 191,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 188,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 188.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 189,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 189.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 190,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 190.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 191,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 191.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 190.5,
+      "note": 67,
+      "duration": 0.35,
+      "velocity": 39
+    },
+    {
+      "part": "guitar",
+      "beat": 191.25,
+      "note": 64,
+      "duration": 0.35,
+      "velocity": 39
+    },
+    {
+      "part": "piano",
+      "beat": 192.0,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 192.018,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 192.036,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 192.054,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 194.66,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 194.678,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 194.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 194.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 192,
+      "note": 69,
+      "duration": 0.8,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 193.66,
+      "note": 72,
+      "duration": 0.65,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 195,
+      "note": 76,
+      "duration": 0.55,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 192,
+      "note": 29,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 194,
+      "note": 36,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 192,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 194,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 193,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 195,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 192,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 192.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 193,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 193.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 194,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 194.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 195,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 195.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 196.0,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 196.018,
+      "note": 56,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 196.036,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 196.054,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 198.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 198.678,
+      "note": 56,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 198.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 198.714,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 196.66,
+      "note": 75,
+      "duration": 0.8,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 199,
+      "note": 68,
+      "duration": 0.6,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 196,
+      "note": 29,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 198,
+      "note": 36,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 199.5,
+      "note": 39,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 196,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 198,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 197,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 199,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 196,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 196.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 197,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 197.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 198,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 198.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 199,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 199.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 200.0,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 200.018,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 200.036,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 200.054,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 202.66,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 202.678,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 202.696,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 202.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 200,
+      "note": 71,
+      "duration": 0.65,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 201.66,
+      "note": 67,
+      "duration": 0.7,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 200,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 202,
+      "note": 47,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 200,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 202,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 201,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 203,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 200,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 200.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 201,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 201.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 202,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 202.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 203,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 203.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 204.0,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 204.018,
+      "note": 61,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 204.036,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 204.054,
+      "note": 67,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 206.66,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 206.678,
+      "note": 61,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 206.696,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 206.714,
+      "note": 67,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 204.66,
+      "note": 73,
+      "duration": 0.6,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 207,
+      "note": 79,
+      "duration": 0.45,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 204,
+      "note": 33,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 206,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 207.5,
+      "note": 37,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 204,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 206,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 205,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 207,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 204,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 204.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 205,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 205.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 206,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 206.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 207,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 207.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 208.0,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 208.018,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 208.036,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 208.054,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 210.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 210.678,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 210.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 210.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 208,
+      "note": 77,
+      "duration": 0.65,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 209.66,
+      "note": 76,
+      "duration": 0.7,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 208,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 210,
+      "note": 45,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 208,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 210,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 209,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 211,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 208,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 208.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 209,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 209.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 210,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 210.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 211,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 211.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 212.0,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 212.018,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 212.036,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 212.054,
+      "note": 69,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 214.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 214.678,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 214.696,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 214.714,
+      "note": 69,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 212.66,
+      "note": 74,
+      "duration": 0.8,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 215,
+      "note": 69,
+      "duration": 0.5,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 212,
+      "note": 31,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 214,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 215.5,
+      "note": 35,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 212,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 214,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 213,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 215,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 212,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 212.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 213,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 213.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 214,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 214.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 215,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 215.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 216.0,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 216.018,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 216.036,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 216.054,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 218.66,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 218.678,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 218.696,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 218.714,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 216,
+      "note": 67,
+      "duration": 0.7,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 217.66,
+      "note": 64,
+      "duration": 0.7,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 219,
+      "note": 60,
+      "duration": 0.6,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 216,
+      "note": 36,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 218,
+      "note": 43,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 216,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 218,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 217,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 219,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 216,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 216.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 217,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 217.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 218,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 218.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 219,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 219.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 220.0,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 220.018,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 220.036,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 220.054,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 222.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 222.678,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 222.696,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 222.714,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 220.66,
+      "note": 62,
+      "duration": 0.6,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 220,
+      "note": 31,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 222,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 223.5,
+      "note": 35,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 220,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 222,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 221,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 223,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 220,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 220.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 221,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 221.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 222,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 222.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 223,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 223.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 224.0,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 224.018,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 224.036,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 224.054,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 226.66,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 226.678,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 226.696,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 226.714,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 224,
+      "note": 64,
+      "duration": 0.65,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 225,
+      "note": 67,
+      "duration": 0.4,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 225.66,
+      "note": 69,
+      "duration": 0.65,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 227,
+      "note": 67,
+      "duration": 0.8,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 224,
+      "note": 36,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 226,
+      "note": 43,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 224,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 226,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 225,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 227,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 224,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 224.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 225,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 225.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 226,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 226.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 227,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 227.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 228.0,
+      "note": 48,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 228.018,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 228.036,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 228.054,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 230.66,
+      "note": 48,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 230.678,
+      "note": 52,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 230.696,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 230.714,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 228.66,
+      "note": 64,
+      "duration": 0.6,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 230.66,
+      "note": 60,
+      "duration": 1.05,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 228,
+      "note": 33,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 230,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 228,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 230,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 229,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 231,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 228,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 228.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 229,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 229.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 230,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 230.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 231,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 231.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 232.0,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 232.018,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 232.036,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 232.054,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 234.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 234.678,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 234.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 234.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 232,
+      "note": 65,
+      "duration": 0.7,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 233.66,
+      "note": 69,
+      "duration": 0.5,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 234.66,
+      "note": 72,
+      "duration": 0.85,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 232,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 234,
+      "note": 45,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 232,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 234,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 233,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 235,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 232,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 232.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 233,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 233.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 234,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 234.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 235,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 235.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 236.0,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 236.018,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 236.036,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 236.054,
+      "note": 69,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 238.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 238.678,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 238.696,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 238.714,
+      "note": 69,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 236.66,
+      "note": 71,
+      "duration": 0.6,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 238.66,
+      "note": 67,
+      "duration": 0.85,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 236,
+      "note": 31,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 238,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 236,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 238,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 237,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 239,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 236,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 236.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 237,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 237.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 238,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 238.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 239,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 239.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 238.5,
+      "note": 67,
+      "duration": 0.35,
+      "velocity": 39
+    },
+    {
+      "part": "guitar",
+      "beat": 239.25,
+      "note": 64,
+      "duration": 0.35,
+      "velocity": 39
+    },
+    {
+      "part": "piano",
+      "beat": 240.0,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 240.018,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 240.036,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 240.054,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 242.66,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 242.678,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 242.696,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 242.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 240,
+      "note": 67,
+      "duration": 0.4,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 240.66,
+      "note": 71,
+      "duration": 0.6,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 242,
+      "note": 74,
+      "duration": 0.85,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 240,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 242,
+      "note": 47,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 240,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 242,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 241,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 243,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 240,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 240.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 241,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 241.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 242,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 242.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 243,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 243.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 244.0,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 244.018,
+      "note": 61,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 244.036,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 244.054,
+      "note": 67,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 246.66,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 246.678,
+      "note": 61,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 246.696,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 246.714,
+      "note": 67,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 245,
+      "note": 73,
+      "duration": 0.4,
+      "velocity": 73
+    },
+    {
+      "part": "lead",
+      "beat": 247,
+      "note": 67,
+      "duration": 0.65,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 244,
+      "note": 33,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 246,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 244,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 246,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 245,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 247,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 244,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 244.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 245,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 245.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 246,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 246.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 247,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 247.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 248.0,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 248.018,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 248.036,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 248.054,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 250.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 250.678,
+      "note": 57,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 250.696,
+      "note": 60,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 250.714,
+      "note": 64,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 248,
+      "note": 65,
+      "duration": 0.65,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 249.66,
+      "note": 64,
+      "duration": 0.5,
+      "velocity": 76
+    },
+    {
+      "part": "lead",
+      "beat": 250.66,
+      "note": 62,
+      "duration": 1.05,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 248,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 250,
+      "note": 45,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 248,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 250,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 249,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 251,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 248,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 248.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 249,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 249.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 250,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 250.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 251,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 251.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "piano",
+      "beat": 252.0,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 252.018,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 252.036,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 252.054,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "piano",
+      "beat": 254.66,
+      "note": 53,
+      "duration": 0.75,
+      "velocity": 47
+    },
+    {
+      "part": "piano",
+      "beat": 254.678,
+      "note": 55,
+      "duration": 0.75,
+      "velocity": 49
+    },
+    {
+      "part": "piano",
+      "beat": 254.696,
+      "note": 59,
+      "duration": 0.75,
+      "velocity": 51
+    },
+    {
+      "part": "piano",
+      "beat": 254.714,
+      "note": 62,
+      "duration": 0.75,
+      "velocity": 53
+    },
+    {
+      "part": "lead",
+      "beat": 252.66,
+      "note": 62,
+      "duration": 0.5,
+      "velocity": 70
+    },
+    {
+      "part": "lead",
+      "beat": 255,
+      "note": 62,
+      "duration": 0.55,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 252,
+      "note": 31,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 254,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 252,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "kick",
+      "beat": 254,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 37
+    },
+    {
+      "part": "rim",
+      "beat": 253,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 255,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "hat",
+      "beat": 252,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 252.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 253,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 253.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 254,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 254.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "hat",
+      "beat": 255,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "hat",
+      "beat": 255.6667,
+      "note": 42,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 254.5,
+      "note": 67,
+      "duration": 0.35,
+      "velocity": 39
+    },
+    {
+      "part": "guitar",
+      "beat": 255.25,
+      "note": 64,
+      "duration": 0.35,
+      "velocity": 39
+    }
+  ],
+  "loop": true
+}

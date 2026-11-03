@@ -27,7 +27,7 @@ let app;
                 settings: localStorage.getItem('willow-lane.audio.v1') })));
             throw error;
         }
-        console.log('Windows audio: actual context suspension/focus recovery and mute/unmute PASS.');
+        console.log('Windows segmented stereo music: actual context suspension, retained position, focus recovery and mute/unmute PASS.');
     } finally {
         if (app) await app.close().catch(() => {});
         fs.rmSync(base, { recursive: true, force: true });

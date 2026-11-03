@@ -1,0 +1,43 @@
+// Generated from original project scores; exact four-bar lossless segments.
+export type MusicCue = "preparation" | "selling" | "results";
+export const MUSIC_TRACKS = {
+    preparation: { seconds: 153.6, segmentSeconds: 9.6, loop: true, segments: [
+        new URL("../assets/music/music-preparation-v2-part00.flac", import.meta.url).href,
+        new URL("../assets/music/music-preparation-v2-part01.flac", import.meta.url).href,
+        new URL("../assets/music/music-preparation-v2-part02.flac", import.meta.url).href,
+        new URL("../assets/music/music-preparation-v2-part03.flac", import.meta.url).href,
+        new URL("../assets/music/music-preparation-v2-part04.flac", import.meta.url).href,
+        new URL("../assets/music/music-preparation-v2-part05.flac", import.meta.url).href,
+        new URL("../assets/music/music-preparation-v2-part06.flac", import.meta.url).href,
+        new URL("../assets/music/music-preparation-v2-part07.flac", import.meta.url).href,
+        new URL("../assets/music/music-preparation-v2-part08.flac", import.meta.url).href,
+        new URL("../assets/music/music-preparation-v2-part09.flac", import.meta.url).href,
+        new URL("../assets/music/music-preparation-v2-part10.flac", import.meta.url).href,
+        new URL("../assets/music/music-preparation-v2-part11.flac", import.meta.url).href,
+        new URL("../assets/music/music-preparation-v2-part12.flac", import.meta.url).href,
+        new URL("../assets/music/music-preparation-v2-part13.flac", import.meta.url).href,
+        new URL("../assets/music/music-preparation-v2-part14.flac", import.meta.url).href,
+        new URL("../assets/music/music-preparation-v2-part15.flac", import.meta.url).href,
+    ] },
+    selling: { seconds: 137.14285714285714, segmentSeconds: 8.571428571428571, loop: true, segments: [
+        new URL("../assets/music/music-selling-v2-part00.flac", import.meta.url).href,
+        new URL("../assets/music/music-selling-v2-part01.flac", import.meta.url).href,
+        new URL("../assets/music/music-selling-v2-part02.flac", import.meta.url).href,
+        new URL("../assets/music/music-selling-v2-part03.flac", import.meta.url).href,
+        new URL("../assets/music/music-selling-v2-part04.flac", import.meta.url).href,
+        new URL("../assets/music/music-selling-v2-part05.flac", import.meta.url).href,
+        new URL("../assets/music/music-selling-v2-part06.flac", import.meta.url).href,
+        new URL("../assets/music/music-selling-v2-part07.flac", import.meta.url).href,
+        new URL("../assets/music/music-selling-v2-part08.flac", import.meta.url).href,
+        new URL("../assets/music/music-selling-v2-part09.flac", import.meta.url).href,
+        new URL("../assets/music/music-selling-v2-part10.flac", import.meta.url).href,
+        new URL("../assets/music/music-selling-v2-part11.flac", import.meta.url).href,
+        new URL("../assets/music/music-selling-v2-part12.flac", import.meta.url).href,
+        new URL("../assets/music/music-selling-v2-part13.flac", import.meta.url).href,
+        new URL("../assets/music/music-selling-v2-part14.flac", import.meta.url).href,
+        new URL("../assets/music/music-selling-v2-part15.flac", import.meta.url).href,
+    ] },
+    results: { seconds: 4.8, segmentSeconds: 9.6, loop: false, segments: [
+        new URL("../assets/music/music-results-v2-part00.flac", import.meta.url).href,
+    ] },
+} as const;

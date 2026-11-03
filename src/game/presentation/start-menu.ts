@@ -74,7 +74,7 @@ export class StartMenu {
             <label id="menu-replace-label"><input id="menu-replace" type="checkbox"> Replace the selected company's saved game</label>
             <p>Your other companies will be kept.</p><button type="submit">CREATE</button><button id="menu-cancel" type="button">CANCEL</button>
           </form>
-          <dialog id="menu-credits-dialog"><h2>Willow Lane Lemonade</h2><p>Art, music and code created for this game.</p><p>Phaser · MIT. Electron and Chromium license notices accompany the Windows package. Oswald · SIL Open Font License.</p><form method="dialog"><button>CLOSE</button></form></dialog>
+          <dialog id="menu-credits-dialog"><h2>Willow Lane Lemonade</h2><p>Original art, music compositions and code created for this game. Instrument recordings: Meta Open Sound and VCSL (CC0).</p><p>Phaser · MIT. Electron and Chromium license notices accompany the Windows package. Oswald · SIL Open Font License.</p><form method="dialog"><button>CLOSE</button></form></dialog>
         </div>`;
         document.body.append(this.root);
         this.el("menu-challenge").title = "Earn as much as you can in30 trading days.";

@@ -66,7 +66,7 @@ test("muted audio suspends its context and resumes after unmute", async ({ page 
     await expect.poll(() => page.evaluate(() => window.__audioProbe.contexts[0]?.state)).toBe("suspended");
     await page.locator("#mute-audio").uncheck();
     await expect.poll(() => page.evaluate(() => window.__audioProbe.contexts[0]?.state)).toBe("running");
-    await expect.poll(() => page.evaluate(() => window.__audioProbe.tones)).toBeGreaterThan(0);
+    await expect.poll(() => page.evaluate(() => window.__audioProbe.active().length)).toBe(1);
 });
 
 test("saved mute preference avoids creating audio resources until explicitly unmuted", async ({ page }) => {

@@ -1,0 +1,6623 @@
+{
+  "id": "B",
+  "title": "Sunny Counter",
+  "bpm": 112,
+  "bars": 32,
+  "form": [
+    "A",
+    "A variation",
+    "bridge",
+    "A return"
+  ],
+  "events": [
+    {
+      "part": "guitar",
+      "beat": 0.0,
+      "note": 52,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 0.018,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 0.036,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 0.054,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 1.5,
+      "note": 52,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 1.518,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 1.536,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 1.554,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 3.0,
+      "note": 52,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 3.018,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 3.036,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 3.054,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 0.0,
+      "note": 64,
+      "duration": 0.65,
+      "velocity": 70
+    },
+    {
+      "part": "vibes",
+      "beat": 1.0,
+      "note": 67,
+      "duration": 0.4,
+      "velocity": 70
+    },
+    {
+      "part": "vibes",
+      "beat": 1.5,
+      "note": 69,
+      "duration": 0.65,
+      "velocity": 70
+    },
+    {
+      "part": "vibes",
+      "beat": 3.0,
+      "note": 67,
+      "duration": 0.65,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 0,
+      "note": 36,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 2,
+      "note": 43,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 0,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 2,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 1,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 2.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 0.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 0.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 1.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 1.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 2.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 2.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 3.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 3.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 4.0,
+      "note": 48,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 4.018,
+      "note": 52,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 4.036,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 4.054,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 5.5,
+      "note": 48,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 5.518,
+      "note": 52,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 5.536,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 5.554,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 7.0,
+      "note": 48,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 7.018,
+      "note": 52,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 7.036,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 7.054,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 4.5,
+      "note": 64,
+      "duration": 0.6,
+      "velocity": 73
+    },
+    {
+      "part": "vibes",
+      "beat": 6.0,
+      "note": 62,
+      "duration": 0.4,
+      "velocity": 73
+    },
+    {
+      "part": "vibes",
+      "beat": 6.5,
+      "note": 60,
+      "duration": 0.9,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 4,
+      "note": 33,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 6,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 4,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 6,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 6.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 4.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 4.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 5.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 5.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 6.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 6.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 7.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 7.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 8.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 8.018,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 8.036,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 8.054,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 9.5,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 9.518,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 9.536,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 9.554,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 11.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 11.018,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 11.036,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 11.054,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 8.0,
+      "note": 65,
+      "duration": 0.7,
+      "velocity": 76
+    },
+    {
+      "part": "vibes",
+      "beat": 9.5,
+      "note": 69,
+      "duration": 0.5,
+      "velocity": 76
+    },
+    {
+      "part": "vibes",
+      "beat": 10.5,
+      "note": 72,
+      "duration": 0.7,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 8,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 10,
+      "note": 45,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 8,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 10,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 9,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 10.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 8.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 8.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 9.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 9.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 10.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 10.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 11.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 11.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 12.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 12.018,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 12.036,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 12.054,
+      "note": 69,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 13.5,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 13.518,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 13.536,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 13.554,
+      "note": 69,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 15.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 15.018,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 15.036,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 15.054,
+      "note": 69,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 12.5,
+      "note": 71,
+      "duration": 0.6,
+      "velocity": 70
+    },
+    {
+      "part": "vibes",
+      "beat": 14.0,
+      "note": 69,
+      "duration": 0.4,
+      "velocity": 70
+    },
+    {
+      "part": "vibes",
+      "beat": 14.5,
+      "note": 67,
+      "duration": 0.7,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 12,
+      "note": 31,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 14,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 12,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 14,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 13,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 14.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 12.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 12.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 13.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 13.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 14.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 14.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 15.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 15.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 16.0,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 16.018,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 16.036,
+      "note": 62,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 16.054,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 17.5,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 17.518,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 17.536,
+      "note": 62,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 17.554,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 19.0,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 19.018,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 19.036,
+      "note": 62,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 19.054,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 16.0,
+      "note": 67,
+      "duration": 0.4,
+      "velocity": 73
+    },
+    {
+      "part": "vibes",
+      "beat": 16.5,
+      "note": 71,
+      "duration": 0.6,
+      "velocity": 73
+    },
+    {
+      "part": "vibes",
+      "beat": 18.0,
+      "note": 74,
+      "duration": 0.7,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 16,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 18,
+      "note": 47,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 16,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 18,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 17,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 18.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 16.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 16.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 17.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 17.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 18.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 18.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 19.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 19.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 20.0,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 20.018,
+      "note": 61,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 20.036,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 20.054,
+      "note": 67,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 21.5,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 21.518,
+      "note": 61,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 21.536,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 21.554,
+      "note": 67,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 23.0,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 23.018,
+      "note": 61,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 23.036,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 23.054,
+      "note": 67,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 21.0,
+      "note": 73,
+      "duration": 0.4,
+      "velocity": 76
+    },
+    {
+      "part": "vibes",
+      "beat": 21.5,
+      "note": 76,
+      "duration": 0.6,
+      "velocity": 76
+    },
+    {
+      "part": "vibes",
+      "beat": 23.0,
+      "note": 67,
+      "duration": 0.5,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 20,
+      "note": 33,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 22,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 20,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 22,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 21,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 22.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 20.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 20.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 21.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 21.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 22.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 22.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 23.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 23.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 24.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 24.018,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 24.036,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 24.054,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 25.5,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 25.518,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 25.536,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 25.554,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 27.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 27.018,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 27.036,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 27.054,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 24.0,
+      "note": 65,
+      "duration": 0.65,
+      "velocity": 70
+    },
+    {
+      "part": "vibes",
+      "beat": 25.5,
+      "note": 64,
+      "duration": 0.5,
+      "velocity": 70
+    },
+    {
+      "part": "vibes",
+      "beat": 26.5,
+      "note": 62,
+      "duration": 0.9,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 24,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 26,
+      "note": 45,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 24,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 26,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 25,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 26.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 24.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 24.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 25.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 25.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 26.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 26.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 27.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 27.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 28.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 28.018,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 28.036,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 28.054,
+      "note": 62,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 29.5,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 29.518,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 29.536,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 29.554,
+      "note": 62,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 31.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 31.018,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 31.036,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 31.054,
+      "note": 62,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 28.5,
+      "note": 62,
+      "duration": 0.5,
+      "velocity": 73
+    },
+    {
+      "part": "vibes",
+      "beat": 30.0,
+      "note": 59,
+      "duration": 0.45,
+      "velocity": 73
+    },
+    {
+      "part": "vibes",
+      "beat": 31.0,
+      "note": 62,
+      "duration": 0.4,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 28,
+      "note": 31,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 30,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 28,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 30,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 29,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 30.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 28.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 28.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 29.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 29.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 30.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 30.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 31.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 31.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 32.0,
+      "note": 52,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 32.018,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 32.036,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 32.054,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 33.5,
+      "note": 52,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 33.518,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 33.536,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 33.554,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 35.0,
+      "note": 52,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 35.018,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 35.036,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 35.054,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 32.0,
+      "note": 76,
+      "duration": 0.65,
+      "velocity": 76
+    },
+    {
+      "part": "vibes",
+      "beat": 33.0,
+      "note": 67,
+      "duration": 0.4,
+      "velocity": 76
+    },
+    {
+      "part": "vibes",
+      "beat": 33.5,
+      "note": 69,
+      "duration": 0.65,
+      "velocity": 76
+    },
+    {
+      "part": "vibes",
+      "beat": 35.0,
+      "note": 67,
+      "duration": 0.65,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 32,
+      "note": 36,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 34,
+      "note": 43,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 32,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 34,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 33,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 34.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 32.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 32.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 33.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 33.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 34.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 34.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 35.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 35.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 36.0,
+      "note": 48,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 36.018,
+      "note": 52,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 36.036,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 36.054,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 37.5,
+      "note": 48,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 37.518,
+      "note": 52,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 37.536,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 37.554,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 39.0,
+      "note": 48,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 39.018,
+      "note": 52,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 39.036,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 39.054,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 36.5,
+      "note": 64,
+      "duration": 0.6,
+      "velocity": 70
+    },
+    {
+      "part": "vibes",
+      "beat": 38.0,
+      "note": 62,
+      "duration": 0.4,
+      "velocity": 70
+    },
+    {
+      "part": "vibes",
+      "beat": 38.5,
+      "note": 60,
+      "duration": 0.9,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 36,
+      "note": 33,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 38,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 39.5,
+      "note": 37,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 36,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 38,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 37,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 38.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 36.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 36.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 37.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 37.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 38.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 38.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 39.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 39.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 40.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 40.018,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 40.036,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 40.054,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 41.5,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 41.518,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 41.536,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 41.554,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 43.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 43.018,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 43.036,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 43.054,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 40.0,
+      "note": 65,
+      "duration": 0.7,
+      "velocity": 73
+    },
+    {
+      "part": "vibes",
+      "beat": 41.5,
+      "note": 69,
+      "duration": 0.5,
+      "velocity": 73
+    },
+    {
+      "part": "vibes",
+      "beat": 42.5,
+      "note": 72,
+      "duration": 0.7,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 40,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 42,
+      "note": 45,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 40,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 42,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 41,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 42.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 40.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 40.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 41.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 41.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 42.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 42.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 43.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 43.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 44.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 44.018,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 44.036,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 44.054,
+      "note": 69,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 45.5,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 45.518,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 45.536,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 45.554,
+      "note": 69,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 47.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 47.018,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 47.036,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 47.054,
+      "note": 69,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 44.5,
+      "note": 71,
+      "duration": 0.6,
+      "velocity": 76
+    },
+    {
+      "part": "vibes",
+      "beat": 46.0,
+      "note": 69,
+      "duration": 0.4,
+      "velocity": 76
+    },
+    {
+      "part": "vibes",
+      "beat": 46.5,
+      "note": 67,
+      "duration": 0.7,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 44,
+      "note": 31,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 46,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 47.5,
+      "note": 39,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 44,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 46,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 45,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 46.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 44.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 44.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 45.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 45.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 46.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 46.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 47.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 47.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 46.5,
+      "note": 67,
+      "duration": 0.35,
+      "velocity": 39
+    },
+    {
+      "part": "guitar",
+      "beat": 47.25,
+      "note": 64,
+      "duration": 0.35,
+      "velocity": 39
+    },
+    {
+      "part": "guitar",
+      "beat": 48.0,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 48.018,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 48.036,
+      "note": 62,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 48.054,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 49.5,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 49.518,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 49.536,
+      "note": 62,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 49.554,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 51.0,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 51.018,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 51.036,
+      "note": 62,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 51.054,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 48.0,
+      "note": 79,
+      "duration": 0.4,
+      "velocity": 70
+    },
+    {
+      "part": "vibes",
+      "beat": 48.5,
+      "note": 71,
+      "duration": 0.6,
+      "velocity": 70
+    },
+    {
+      "part": "vibes",
+      "beat": 50.0,
+      "note": 74,
+      "duration": 0.7,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 48,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 50,
+      "note": 47,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 48,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 50,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 49,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 50.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 48.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 48.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 49.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 49.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 50.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 50.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 51.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 51.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 52.0,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 52.018,
+      "note": 61,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 52.036,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 52.054,
+      "note": 67,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 53.5,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 53.518,
+      "note": 61,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 53.536,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 53.554,
+      "note": 67,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 55.0,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 55.018,
+      "note": 61,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 55.036,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 55.054,
+      "note": 67,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 53.0,
+      "note": 73,
+      "duration": 0.4,
+      "velocity": 73
+    },
+    {
+      "part": "vibes",
+      "beat": 53.5,
+      "note": 76,
+      "duration": 0.6,
+      "velocity": 73
+    },
+    {
+      "part": "vibes",
+      "beat": 55.0,
+      "note": 67,
+      "duration": 0.5,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 52,
+      "note": 33,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 54,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 55.5,
+      "note": 37,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 52,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 54,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 53,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 54.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 52.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 52.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 53.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 53.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 54.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 54.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 55.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 55.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 56.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 56.018,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 56.036,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 56.054,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 57.5,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 57.518,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 57.536,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 57.554,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 59.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 59.018,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 59.036,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 59.054,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 56.0,
+      "note": 65,
+      "duration": 0.65,
+      "velocity": 76
+    },
+    {
+      "part": "vibes",
+      "beat": 57.5,
+      "note": 64,
+      "duration": 0.5,
+      "velocity": 76
+    },
+    {
+      "part": "vibes",
+      "beat": 58.5,
+      "note": 62,
+      "duration": 0.9,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 56,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 58,
+      "note": 45,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 56,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 58,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 57,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 58.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 56.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 56.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 57.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 57.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 58.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 58.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 59.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 59.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 60.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 60.018,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 60.036,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 60.054,
+      "note": 62,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 61.5,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 61.518,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 61.536,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 61.554,
+      "note": 62,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 63.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 63.018,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 63.036,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 63.054,
+      "note": 62,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 60.5,
+      "note": 62,
+      "duration": 0.5,
+      "velocity": 70
+    },
+    {
+      "part": "vibes",
+      "beat": 62.0,
+      "note": 59,
+      "duration": 0.45,
+      "velocity": 70
+    },
+    {
+      "part": "vibes",
+      "beat": 63.0,
+      "note": 62,
+      "duration": 0.4,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 60,
+      "note": 31,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 62,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 63.5,
+      "note": 28,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 60,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 62,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 61,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 62.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 60.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 60.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 61.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 61.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 62.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 62.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 63.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 63.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 62.5,
+      "note": 67,
+      "duration": 0.35,
+      "velocity": 39
+    },
+    {
+      "part": "guitar",
+      "beat": 63.25,
+      "note": 64,
+      "duration": 0.35,
+      "velocity": 39
+    },
+    {
+      "part": "guitar",
+      "beat": 64.0,
+      "note": 52,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 64.018,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 64.036,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 64.054,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 65.5,
+      "note": 52,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 65.518,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 65.536,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 65.554,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 67.0,
+      "note": 52,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 67.018,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 67.036,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 67.054,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 64.0,
+      "note": 69,
+      "duration": 0.8,
+      "velocity": 73
+    },
+    {
+      "part": "vibes",
+      "beat": 65.5,
+      "note": 72,
+      "duration": 0.65,
+      "velocity": 73
+    },
+    {
+      "part": "vibes",
+      "beat": 67.0,
+      "note": 76,
+      "duration": 0.55,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 64,
+      "note": 29,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 66,
+      "note": 36,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 64,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 66,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 65,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 66.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 64.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 64.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 65.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 65.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 66.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 66.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 67.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 67.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 68.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 68.018,
+      "note": 56,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 68.036,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 68.054,
+      "note": 62,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 69.5,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 69.518,
+      "note": 56,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 69.536,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 69.554,
+      "note": 62,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 71.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 71.018,
+      "note": 56,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 71.036,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 71.054,
+      "note": 62,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 68.5,
+      "note": 75,
+      "duration": 0.8,
+      "velocity": 76
+    },
+    {
+      "part": "vibes",
+      "beat": 70.0,
+      "note": 72,
+      "duration": 0.6,
+      "velocity": 76
+    },
+    {
+      "part": "vibes",
+      "beat": 71.0,
+      "note": 68,
+      "duration": 0.6,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 68,
+      "note": 29,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 70,
+      "note": 36,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 71.5,
+      "note": 39,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 68,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 70,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 69,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 70.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 68.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 68.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 69.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 69.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 70.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 70.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 71.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 71.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 72.0,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 72.018,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 72.036,
+      "note": 62,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 72.054,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 73.5,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 73.518,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 73.536,
+      "note": 62,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 73.554,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 75.0,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 75.018,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 75.036,
+      "note": 62,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 75.054,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 72.0,
+      "note": 71,
+      "duration": 0.65,
+      "velocity": 70
+    },
+    {
+      "part": "vibes",
+      "beat": 73.5,
+      "note": 67,
+      "duration": 0.7,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 72,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 74,
+      "note": 47,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 72,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 74,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 73,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 74.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 72.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 72.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 73.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 73.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 74.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 74.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 75.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 75.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 76.0,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 76.018,
+      "note": 61,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 76.036,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 76.054,
+      "note": 67,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 77.5,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 77.518,
+      "note": 61,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 77.536,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 77.554,
+      "note": 67,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 79.0,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 79.018,
+      "note": 61,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 79.036,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 79.054,
+      "note": 67,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 76.5,
+      "note": 73,
+      "duration": 0.6,
+      "velocity": 73
+    },
+    {
+      "part": "vibes",
+      "beat": 78.0,
+      "note": 76,
+      "duration": 0.5,
+      "velocity": 73
+    },
+    {
+      "part": "vibes",
+      "beat": 79.0,
+      "note": 79,
+      "duration": 0.45,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 76,
+      "note": 33,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 78,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 79.5,
+      "note": 37,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 76,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 78,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 77,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 78.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 76.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 76.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 77.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 77.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 78.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 78.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 79.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 79.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 80.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 80.018,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 80.036,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 80.054,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 81.5,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 81.518,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 81.536,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 81.554,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 83.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 83.018,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 83.036,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 83.054,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 80.0,
+      "note": 77,
+      "duration": 0.65,
+      "velocity": 76
+    },
+    {
+      "part": "vibes",
+      "beat": 81.5,
+      "note": 76,
+      "duration": 0.7,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 80,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 82,
+      "note": 45,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 80,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 82,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 81,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 82.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 80.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 80.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 81.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 81.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 82.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 82.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 83.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 83.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 84.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 84.018,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 84.036,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 84.054,
+      "note": 69,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 85.5,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 85.518,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 85.536,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 85.554,
+      "note": 69,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 87.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 87.018,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 87.036,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 87.054,
+      "note": 69,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 84.5,
+      "note": 74,
+      "duration": 0.8,
+      "velocity": 70
+    },
+    {
+      "part": "vibes",
+      "beat": 86.0,
+      "note": 71,
+      "duration": 0.45,
+      "velocity": 70
+    },
+    {
+      "part": "vibes",
+      "beat": 87.0,
+      "note": 69,
+      "duration": 0.5,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 84,
+      "note": 31,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 86,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 87.5,
+      "note": 35,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 84,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 86,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 85,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 86.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 84.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 84.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 85.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 85.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 86.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 86.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 87.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 87.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 88.0,
+      "note": 52,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 88.018,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 88.036,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 88.054,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 89.5,
+      "note": 52,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 89.518,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 89.536,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 89.554,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 91.0,
+      "note": 52,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 91.018,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 91.036,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 91.054,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 88.0,
+      "note": 67,
+      "duration": 0.7,
+      "velocity": 73
+    },
+    {
+      "part": "vibes",
+      "beat": 89.5,
+      "note": 64,
+      "duration": 0.7,
+      "velocity": 73
+    },
+    {
+      "part": "vibes",
+      "beat": 91.0,
+      "note": 60,
+      "duration": 0.6,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 88,
+      "note": 36,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 90,
+      "note": 43,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 88,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 90,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 89,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 90.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 88.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 88.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 89.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 89.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 90.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 90.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 91.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 91.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 92.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 92.018,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 92.036,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 92.054,
+      "note": 62,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 93.5,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 93.518,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 93.536,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 93.554,
+      "note": 62,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 95.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 95.018,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 95.036,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 95.054,
+      "note": 62,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 92.5,
+      "note": 62,
+      "duration": 0.6,
+      "velocity": 76
+    },
+    {
+      "part": "vibes",
+      "beat": 94.0,
+      "note": 59,
+      "duration": 0.8,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 92,
+      "note": 31,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 94,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 95.5,
+      "note": 35,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 92,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 94,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 93,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 94.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 92.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 92.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 93.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 93.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 94.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 94.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 95.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 95.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 96.0,
+      "note": 52,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 96.018,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 96.036,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 96.054,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 97.5,
+      "note": 52,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 97.518,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 97.536,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 97.554,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 99.0,
+      "note": 52,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 99.018,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 99.036,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 99.054,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 96.0,
+      "note": 64,
+      "duration": 0.65,
+      "velocity": 70
+    },
+    {
+      "part": "vibes",
+      "beat": 97.0,
+      "note": 67,
+      "duration": 0.4,
+      "velocity": 70
+    },
+    {
+      "part": "vibes",
+      "beat": 97.5,
+      "note": 69,
+      "duration": 0.65,
+      "velocity": 70
+    },
+    {
+      "part": "vibes",
+      "beat": 99.0,
+      "note": 67,
+      "duration": 0.8,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 96,
+      "note": 36,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 98,
+      "note": 43,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 96,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 98,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 97,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 98.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 96.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 96.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 97.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 97.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 98.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 98.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 99.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 99.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 100.0,
+      "note": 48,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 100.018,
+      "note": 52,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 100.036,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 100.054,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 101.5,
+      "note": 48,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 101.518,
+      "note": 52,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 101.536,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 101.554,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 103.0,
+      "note": 48,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 103.018,
+      "note": 52,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 103.036,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 103.054,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 100.5,
+      "note": 64,
+      "duration": 0.6,
+      "velocity": 73
+    },
+    {
+      "part": "vibes",
+      "beat": 102.0,
+      "note": 62,
+      "duration": 0.4,
+      "velocity": 73
+    },
+    {
+      "part": "vibes",
+      "beat": 102.5,
+      "note": 60,
+      "duration": 1.05,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 100,
+      "note": 33,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 102,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 100,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 102,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 101,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 102.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 100.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 100.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 101.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 101.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 102.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 102.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 103.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 103.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 104.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 104.018,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 104.036,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 104.054,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 105.5,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 105.518,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 105.536,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 105.554,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 107.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 107.018,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 107.036,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 107.054,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 104.0,
+      "note": 65,
+      "duration": 0.7,
+      "velocity": 76
+    },
+    {
+      "part": "vibes",
+      "beat": 105.5,
+      "note": 69,
+      "duration": 0.5,
+      "velocity": 76
+    },
+    {
+      "part": "vibes",
+      "beat": 106.5,
+      "note": 72,
+      "duration": 0.85,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 104,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 106,
+      "note": 45,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 104,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 106,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 105,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 106.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 104.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 104.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 105.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 105.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 106.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 106.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 107.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 107.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 108.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 108.018,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 108.036,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 108.054,
+      "note": 69,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 109.5,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 109.518,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 109.536,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 109.554,
+      "note": 69,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 111.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 111.018,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 111.036,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 111.054,
+      "note": 69,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 108.5,
+      "note": 71,
+      "duration": 0.6,
+      "velocity": 70
+    },
+    {
+      "part": "vibes",
+      "beat": 110.0,
+      "note": 69,
+      "duration": 0.4,
+      "velocity": 70
+    },
+    {
+      "part": "vibes",
+      "beat": 110.5,
+      "note": 67,
+      "duration": 0.85,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 108,
+      "note": 31,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 110,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 108,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 110,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 109,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 110.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 108.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 108.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 109.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 109.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 110.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 110.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 111.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 111.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 110.5,
+      "note": 67,
+      "duration": 0.35,
+      "velocity": 39
+    },
+    {
+      "part": "guitar",
+      "beat": 111.25,
+      "note": 64,
+      "duration": 0.35,
+      "velocity": 39
+    },
+    {
+      "part": "guitar",
+      "beat": 112.0,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 112.018,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 112.036,
+      "note": 62,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 112.054,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 113.5,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 113.518,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 113.536,
+      "note": 62,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 113.554,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 115.0,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 115.018,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 115.036,
+      "note": 62,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 115.054,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 112.0,
+      "note": 67,
+      "duration": 0.4,
+      "velocity": 73
+    },
+    {
+      "part": "vibes",
+      "beat": 112.5,
+      "note": 71,
+      "duration": 0.6,
+      "velocity": 73
+    },
+    {
+      "part": "vibes",
+      "beat": 114.0,
+      "note": 74,
+      "duration": 0.85,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 112,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 114,
+      "note": 47,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 112,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 114,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 113,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 114.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 112.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 112.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 113.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 113.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 114.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 114.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 115.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 115.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 116.0,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 116.018,
+      "note": 61,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 116.036,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 116.054,
+      "note": 67,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 117.5,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 117.518,
+      "note": 61,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 117.536,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 117.554,
+      "note": 67,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 119.0,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 119.018,
+      "note": 61,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 119.036,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 119.054,
+      "note": 67,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 117.0,
+      "note": 73,
+      "duration": 0.4,
+      "velocity": 76
+    },
+    {
+      "part": "vibes",
+      "beat": 117.5,
+      "note": 76,
+      "duration": 0.6,
+      "velocity": 76
+    },
+    {
+      "part": "vibes",
+      "beat": 119.0,
+      "note": 67,
+      "duration": 0.65,
+      "velocity": 76
+    },
+    {
+      "part": "bass",
+      "beat": 116,
+      "note": 33,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 118,
+      "note": 40,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 116,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 118,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 117,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 118.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 116.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 116.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 117.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 117.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 118.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 118.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 119.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 119.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 120.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 120.018,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 120.036,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 120.054,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 121.5,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 121.518,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 121.536,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 121.554,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 123.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 123.018,
+      "note": 57,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 123.036,
+      "note": 60,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 123.054,
+      "note": 64,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 120.0,
+      "note": 65,
+      "duration": 0.65,
+      "velocity": 70
+    },
+    {
+      "part": "vibes",
+      "beat": 121.5,
+      "note": 64,
+      "duration": 0.5,
+      "velocity": 70
+    },
+    {
+      "part": "vibes",
+      "beat": 122.5,
+      "note": 62,
+      "duration": 1.05,
+      "velocity": 70
+    },
+    {
+      "part": "bass",
+      "beat": 120,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 122,
+      "note": 45,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 120,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 122,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 121,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 122.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 120.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 120.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 121.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 121.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 122.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 122.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 123.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 123.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 124.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 124.018,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 124.036,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 124.054,
+      "note": 62,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 125.5,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 125.518,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 125.536,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 125.554,
+      "note": 62,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "guitar",
+      "beat": 127.0,
+      "note": 53,
+      "duration": 0.54,
+      "velocity": 47
+    },
+    {
+      "part": "guitar",
+      "beat": 127.018,
+      "note": 55,
+      "duration": 0.54,
+      "velocity": 49
+    },
+    {
+      "part": "guitar",
+      "beat": 127.036,
+      "note": 59,
+      "duration": 0.54,
+      "velocity": 51
+    },
+    {
+      "part": "guitar",
+      "beat": 127.054,
+      "note": 62,
+      "duration": 0.54,
+      "velocity": 53
+    },
+    {
+      "part": "vibes",
+      "beat": 124.5,
+      "note": 62,
+      "duration": 0.5,
+      "velocity": 73
+    },
+    {
+      "part": "vibes",
+      "beat": 126.0,
+      "note": 59,
+      "duration": 0.45,
+      "velocity": 73
+    },
+    {
+      "part": "vibes",
+      "beat": 127.0,
+      "note": 62,
+      "duration": 0.55,
+      "velocity": 73
+    },
+    {
+      "part": "bass",
+      "beat": 124,
+      "note": 31,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "bass",
+      "beat": 126,
+      "note": 38,
+      "duration": 0.8,
+      "velocity": 64
+    },
+    {
+      "part": "kick",
+      "beat": 124,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "kick",
+      "beat": 126,
+      "note": 36,
+      "duration": 0.35,
+      "velocity": 43
+    },
+    {
+      "part": "rim",
+      "beat": 125,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "rim",
+      "beat": 126.5,
+      "note": 37,
+      "duration": 0.25,
+      "velocity": 40
+    },
+    {
+      "part": "shaker",
+      "beat": 124.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 124.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 125.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 125.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 126.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 126.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "shaker",
+      "beat": 127.0,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 30
+    },
+    {
+      "part": "shaker",
+      "beat": 127.5,
+      "note": 82,
+      "duration": 0.14,
+      "velocity": 23
+    },
+    {
+      "part": "guitar",
+      "beat": 126.5,
+      "note": 67,
+      "duration": 0.35,
+      "velocity": 39
+    },
+    {
+      "part": "guitar",
+      "beat": 127.25,
+      "note": 64,
+      "duration": 0.35,
+      "velocity": 39
+    }
+  ],
+  "loop": true
+}

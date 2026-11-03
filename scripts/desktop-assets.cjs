@@ -1,6 +1,7 @@
 // Both build-directory and shipped-ASAR audits use this exact asset boundary.
 function isDesktopAsset(file) {
     return /^assets\/[^/]+\.(js|css|ttf)$/.test(file)
+        || /^assets\/music-(?:preparation|selling|results)-v2-part\d{2}-[\w-]+\.flac$/.test(file)
         || /^assets\/neighborhood-(?:house-left|cottage|tree|hedge)-[\w-]+\.png$/.test(file)
         || /^assets\/stand-(?:basic|classic|lemon|castle)-[\w-]+\.png$/.test(file)
         || /^assets\/staff-(?:owner|server|host)-v1-[\w-]+\.png$/.test(file)

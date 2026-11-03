@@ -213,6 +213,7 @@ function applyStreet(events: CustomerEvent[]): void {
     }
     if (state.phase === "results" && history[history.length - 1] !== state) {
         history.push(state);
+        audio.completeDay();
         if (!challengeComplete()) state = withCustomerProfiles(withWeatherForecast(nextDay(state)));
         openingCheckpoint = null;
         currentPage = "results";
