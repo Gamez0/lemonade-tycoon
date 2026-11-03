@@ -850,7 +850,19 @@ function render(): void {
         : `Reserved: ${LOCATIONS[target].name}. ${money(due)} will be charged at Start day.`);
     for (const [id, item] of Object.entries(UPGRADES)) {
         const level = state.management.upgrades[id as Upgrade];
-        text(`upgrade-effect-${id}`, `Level ${level}/${item.prices.length} | ${level < item.prices.length ? item.effects[level] : item.effects[item.effects.length - 1]}`);
+        const baseEffects: Record<Upgrade, string> = {
+            refrigerator: "No leftover ice retained",
+            iceMaker: "No free ice at opening",
+            blender: "Standard service time",
+            stand: STAND_NAMES[0],
+        };
+        const effect = (index: number): string => id === "blender"
+            ? `Reduce base service time by ${(index + 1) * 12.5}% (staff help applies separately)`
+            : item.effects[index];
+        text(`upgrade-effect-${id}`, `Level ${level}/${item.prices.length}`);
+        text(`upgrade-owned-${id}`, `Owned: ${level > 0 ? effect(level - 1) : baseEffects[id as Upgrade]}`);
+        text(`upgrade-next-${id}`, level < item.prices.length
+            ? `Next (${money(item.prices[level])}): ${effect(level)}` : "Fully upgraded");
         if (id === "stand") {
             text("upgrade-title-stand", STAND_NAMES[level]);
             const picture = element("upgrade-art-stand");

@@ -1180,3 +1180,6 @@ dialog h2, #display-settings .hint { color: inherit; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0s !important; transition-duration: 0s !important; } }
 
 .toolbar .staff-portrait { display: block; object-fit: contain; image-rendering: auto; }
+
+.upgrade-details span { display: block; }
+.upgrade-details span + span { margin-top: 3px; }

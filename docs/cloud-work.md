@@ -2,7 +2,7 @@
 
 ## Music v2 comparison candidate — 2026-11-03 KST / #113
 
-Candidate alpha22 on feat/music-direction-v2, based on main e3a5ae3. New project
+Candidate alpha22 on feat/music-direction-v2, based on main f1f0ea2. New project
 ensemble scores use pinned CC0 Meta Open Sound and VCSL recordings; see
 art/music/studies/README.md for reproduction, auditions, sources and limitations.
 The original reference's audible arrangement remains unverified: this is a
@@ -29,6 +29,24 @@ technical soak are in progress. Neither is human listening/fatigue acceptance.
 
 PR288 startup-save handshake was reviewed and merged separately as e3a5ae3 after
 all exactf550850 CI checks passed. Parent legacy/original resources are preserved.
+
+## Owned equipment effects — 2026-11-03 KST / #283
+
+The catalogue previously displayed the next purchasable effect beside the owned
+level. Each card now separates level, owned effect and the next effect with its
+price; unowned and fully upgraded states are explicit. Refrigerator level1 shows
+50% retained ice and the next $17 purchase shows full retention. Blender cards
+describe reductions in base service time, with staff help separate, rather than
+unexplained simulation ticks. Simulation, prices, schema and paid replay are unchanged.
+
+Local111 model/storage checks, typecheck, reboot lint and production build pass.
+All three catalogue tests pass, including every refrigerator/ice-maker/blender
+level, three stand purchases and widths375/512/800/1280. Five management tests
+pass, including paid replay and ice accounting. The first new test fixture had
+inconsistent cash/openingCash; correcting the fixture passed the complete
+catalogue rerun. An800-wide screenshot was visually reviewed locally at
+`.local-m4/fridge-owned-800.png`. Remote current-head CI remains required before
+main integration; human visual acceptance #97 remains open.
 
 
 ## Alpha21 dependency refresh integrated - 2026-11-02 KST
