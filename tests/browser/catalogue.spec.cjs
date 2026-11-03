@@ -1,10 +1,54 @@
 const { test, expect } = require('../helpers/browser-game.cjs');
+const { newGame } = require('../../.test-build/simulation/game.js');
+const { encodeSave } = require('../../.test-build/simulation/save.js');
+
+test('owned and next equipment abilities stay distinct through every level and small windows', async ({ page }) => {
+    const state = { ...newGame(), cash: 2000000, openingCash: 2000000 };
+    await page.addInitScript(raw => localStorage.setItem('lemonade-tycoon.reboot.save', raw), encodeSave(state, []));
+    await page.goto('/');
+    await page.locator('[data-page=upgrades]').click();
+    const effects = {
+        refrigerator: ['Keep 50% of leftover ice', 'Keep all leftover ice'],
+        iceMaker: ['Produce up to 60 free ice at opening', 'Produce up to 120 free ice at opening'],
+        blender: ['Reduce base service time by 12.5%', 'Reduce base service time by 25%'],
+    };
+    for (const [id, levels] of Object.entries(effects)) {
+        for (let level = 0; level < levels.length; level++) {
+            await expect(page.locator(`#upgrade-next-${id}`)).toContainText(levels[level]);
+            await page.locator(`[data-upgrade=${id}]`).click();
+            await expect(page.locator(`#upgrade-owned-${id}`)).toContainText(levels[level]);
+            await expect(page.locator(`#upgrade-effect-${id}`)).toHaveText(`Level ${level + 1}/2`);
+        }
+        await expect(page.locator(`#upgrade-next-${id}`)).toHaveText('Fully upgraded');
+        await expect(page.locator(`[data-upgrade=${id}]`)).toHaveText('MAX LEVEL');
+        await expect(page.locator(`[data-upgrade=${id}]`)).toBeDisabled();
+        for (const [width, height] of [[1280, 1000], [800, 600], [512, 350], [375, 667]]) {
+            await page.setViewportSize({ width, height });
+            const fits = await page.locator(`#upgrade-owned-${id}`).evaluate(label => {
+                const card = label.closest('article').getBoundingClientRect(), text = label.getBoundingClientRect();
+                return text.left >= card.left && text.right <= card.right && document.documentElement.scrollWidth <= innerWidth;
+            });
+            expect(fits).toBe(true);
+        }
+        await page.setViewportSize({ width: 1280, height: 1000 });
+        await page.getByRole('button', { name: 'Next upgrade', exact: true }).click();
+    }
+    await expect(page.locator('#upgrade-owned-stand')).toHaveText('Owned: Basic Stand');
+    await expect(page.locator('#upgrade-next-stand')).toContainText('Classic Stand');
+    for (const name of ['Classic Stand', 'Lemon Stand', 'Castle Stand']) {
+        await page.locator('[data-upgrade=stand]').click();
+        await expect(page.locator('#upgrade-owned-stand')).toContainText(name);
+    }
+    await expect(page.locator('#upgrade-next-stand')).toHaveText('Fully upgraded');
+});
 
 test('illustrated catalogues browse without spending and retain purchase and hire choices', async ({ page }) => {
     await page.goto('/');
     await expect(page.locator('canvas')).toBeVisible();
     await page.locator('[data-page=upgrades]').click();
     await expect(page.locator('#cash')).toHaveText('$40.00');
+    await expect(page.locator('#upgrade-owned-refrigerator')).toHaveText('Owned: No leftover ice retained');
+    await expect(page.locator('#upgrade-next-refrigerator')).toHaveText('Next ($9.00): Keep 50% of leftover ice');
     const illustrations = page.locator('#upgrades-catalog .equipment-illustration');
     await expect(illustrations).toHaveCount(3);
     for (const image of await illustrations.all()) {
@@ -28,6 +72,8 @@ test('illustrated catalogues browse without spending and retain purchase and hir
     await page.locator('[data-upgrade=refrigerator]').click();
     await expect(page.locator('#cash')).toHaveText('$31.00');
     await expect(page.locator('#upgrade-effect-refrigerator')).toContainText('Level 1/2');
+    await expect(page.locator('#upgrade-owned-refrigerator')).toHaveText('Owned: Keep 50% of leftover ice');
+    await expect(page.locator('#upgrade-next-refrigerator')).toHaveText('Next ($17.00): Keep all leftover ice');
     await page.locator('[data-page=staff]').click();
     await page.getByRole('button', { name: 'Next employee', exact: true }).click();
     await expect(page.locator('#staff-position')).toHaveText('2 / 3');
