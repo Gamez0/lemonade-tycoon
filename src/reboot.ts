@@ -1,3 +1,5 @@
+import { supplyPacks } from "./game/content/supply-packs";
+import { withInventoryCosts } from "./game/simulation/inventory-costs";
 import { newsForDay, locationConditions } from "./game/content/day-conditions";
 import { CUSTOMER_PROFILES, LOCATION_CUSTOMER_WEIGHTS, profilePatience } from "./game/content/customer-profiles";
 import { careerDate } from "./game/simulation/calendar";
@@ -14,7 +16,7 @@ import type { Item } from "./game/content/catalog";
 import { LOCATIONS, LOCATION_IDS } from "./game/content/locations";
 import type { LocationId } from "./game/content/locations";
 import {
-    buyOrder,
+    buyPacks,
     capacity,
     cupsPerPitcher,
     newGame,
@@ -64,7 +66,7 @@ const emptyOrder = (): Record<Item, number[]> => ({
 });
 const bundleSizes = [1, 2, 5];
 const audio = new GameAudio();
-let state = withCustomerProfiles(withWeatherForecast(newGame()));
+let state = withInventoryCosts(withCustomerProfiles(withWeatherForecast(newGame())));
 let companyId: string | undefined;
 let gameMode: "career" | "challenge" | undefined;
 function encodeSave(state: State, history: readonly State[]): string { return encodeDocument(state, history, companyId, gameMode); }
@@ -168,12 +170,12 @@ function queueDesktopSave(raw: string, status = "Saved on this PC"): Promise<voi
 }
 function quantities(): Stock {
     const quantity = (item: Item) =>
-        order[item].reduce((sum, count, i) => sum + count * bundleSizes[i] * ITEMS[item].bundle, 0);
+        order[item].reduce((sum, count, i) => sum + count * supplyPacks(item, Boolean(state.inventoryCosts))[i].quantity, 0);
     return { lemon: quantity("lemon"), sugar: quantity("sugar"), ice: quantity("ice"), cup: quantity("cup") };
 }
 function orderCost(): number {
-    const q = quantities();
-    return ITEM_KEYS.reduce((sum, item) => sum + q[item] * ITEMS[item].cost, 0);
+    return ITEM_KEYS.reduce((sum, item) => sum + order[item].reduce((subtotal, count, i) =>
+        subtotal + count * supplyPacks(item, Boolean(state.inventoryCosts))[i].price, 0), 0);
 }
 function showPage(page: Page): void {
     currentPage = page;
@@ -357,7 +359,7 @@ element("cancel-order").addEventListener("click", () => {
 });
 element("buy-order").addEventListener("click", () =>
     act(() => {
-        const bought = buyOrder(readPlan(), quantities());
+        const bought = buyPacks(readPlan(), order);
         order = emptyOrder();
         return bought;
     }),
@@ -453,7 +455,7 @@ element("restart").addEventListener("click", () => {
         text("restart", "Confirm new business");
         return;
     }
-    state = withCustomerProfiles(withWeatherForecast(newGame()));
+    state = withInventoryCosts(withCustomerProfiles(withWeatherForecast(newGame())));
     history = [];
     saveBlocked = false;
     resetPresentation();
@@ -665,6 +667,7 @@ function renderRent(): void {
     element<HTMLButtonElement>("cancel-rent").disabled = state.pendingLocation === null || Boolean(state.business) || state.phase !== "preparation";
 }
 function render(): void {
+    if (!companies.blocked) state = withInventoryCosts(state);
     const ended = challengeComplete();
     if (ended) currentPage = "results";
     const report = results(state),
@@ -760,15 +763,14 @@ function render(): void {
     }
     for (const button of document.querySelectorAll<HTMLButtonElement>("[data-supply]"))
         button.setAttribute("aria-pressed", String(button.dataset.supply === selectedSupply));
-    bundleSizes.forEach((size, i) => {
-        const quantity = size * ITEMS[selectedSupply].bundle;
+    supplyPacks(selectedSupply, Boolean(state.inventoryCosts)).forEach(({ quantity, price }, i) => {
         const art = element(`bundle-art-${i}`);
         if (art.dataset.item !== selectedSupply) {
             art.innerHTML = icon(selectedSupply);
             art.dataset.item = selectedSupply;
         }
         text(`bundle-label-${i}`, `${quantity} ${ITEMS[selectedSupply].name}`);
-        text(`bundle-price-${i}`, money(quantity * ITEMS[selectedSupply].cost));
+        text(`bundle-price-${i}`, money(price));
         text(`bundle-count-${i}`, String(order[selectedSupply][i]));
         for (const button of document.querySelectorAll<HTMLButtonElement>(`[data-bundle="${i}"]`)) {
             const adding = button.dataset.delta === "1";
@@ -797,7 +799,7 @@ function render(): void {
     text("supply-warning", `Need ${missingSupplies} to open. Buy supplies or adjust your recipe.`);
     if (prep && readiness.cups === 0) element("open").setAttribute("aria-describedby", "supply-warning");
     else element("open").removeAttribute("aria-describedby");
-    text("unit-cost", money(unitCost(state.plan.recipe, state.freeIce + openingCosts(state).ice)));
+    text("unit-cost", money(unitCost(state.plan.recipe, state.freeIce + openingCosts(state).ice, state)));
     const legacyPaidDay = state.business !== null && !isPurchaseFirst(state);
     text("ice-basis", legacyPaidDay ? "Ice reserved at opening" : "Per sold cup");
     text("pitcher-yield", `${cupsPerPitcher(state.plan.recipe)} cups per pitcher; ` + (legacyPaidDay
@@ -985,7 +987,7 @@ function enterCompany(inspect = false): void {
     menuOpen = false;
     menu.hide();
     app.inert = false;
-    scene.refresh();
+    render();
 }
 async function readCompanies(): Promise<void> {
     await saveQueue;
@@ -1001,7 +1003,7 @@ const menu = new StartMenu({
         if (closing || importing) return Promise.reject(Error("Wait for the current save to finish."));
         const operation = (async () => {
             await saveQueue;
-            const next = company ? { name: company.name, raw: encodeDocument(withCustomerProfiles(withWeatherForecast(newGame())), [], crypto.randomUUID(), company.mode) } : null;
+            const next = company ? { name: company.name, raw: encodeDocument(withInventoryCosts(withCustomerProfiles(withWeatherForecast(newGame()))), [], crypto.randomUUID(), company.mode) } : null;
             await companies.select(index, currentCompanySave(), next, async raw => {
                 if (desktopSave) await queueDesktopSave(raw);
                 else { const doc = decodeSave(raw); writeDocument(localStorage, doc.state, doc.history, doc.companyId, doc.mode); }

@@ -7,9 +7,12 @@ import type { LocationId } from "../content/locations";
 import { locationConditions, type DayConditions } from "../content/day-conditions";
 import { actualWeather, periodTraffic, weatherPeriod, type Three, type WeatherPeriods } from "./weather-periods";
 import { CUSTOMER_PROFILES, LOCATION_CUSTOMER_WEIGHTS } from "../content/customer-profiles";
+import { minimumPackCost, supplyPacks } from "../content/supply-packs";
+import { consumeCosts, inventoryValues, paidQuantity, totalCost, withInventoryCosts, type InventoryCosts } from "./inventory-costs";
 
 export interface LocationRating { readonly satisfaction: number; readonly popularity: number }
 export interface BusinessDay {
+    readonly inventoryModel?: "weighted-packs-v1";
     readonly periods?: WeatherPeriods;
     readonly activePeriod?: 0 | 1 | 2;
     readonly conditions?: DayConditions;
@@ -62,6 +65,7 @@ export interface Daily {
     readonly satisfactionTotal: number;
 }
 export interface State {
+    readonly inventoryCosts?: InventoryCosts;
     readonly management: Management;
     readonly phase: "preparation" | "selling" | "results";
     readonly day: number;
@@ -157,14 +161,36 @@ export function setPlan(state: State, plan: Plan): State {
     return { ...state, plan: { price: plan.price, recipe: { ...plan.recipe } } };
 }
 export function buy(state: State, item: Item, quantity: number): State {
+    return purchaseSupplies(state, item, quantity, ITEMS[item]?.cost * quantity);
+}
+function purchaseSupplies(state: State, item: Item, quantity: number, cost: number): State {
     phase(state, "preparation");
     if (!ITEM_KEYS.includes(item)) throw new Error("Unknown supply.");
     integer(quantity, 1, 999, "Quantity");
     if (state.stock[item] + quantity > 999) throw new Error("Storage limit is 999 per ingredient.");
-    const cost = ITEMS[item].cost * quantity;
     if (cost > state.cash) throw new Error("Not enough cash for these supplies.");
     return { ...state, cash: state.cash - cost, stock: { ...state.stock, [item]: state.stock[item] + quantity },
+        ...(state.inventoryCosts ? { inventoryCosts: { ...state.inventoryCosts,
+            values: { ...state.inventoryCosts.values, [item]: state.inventoryCosts.values[item] + cost } } } : {}),
         daily: { ...state.daily, purchases: state.daily.purchases + cost } };
+}
+export type PackOrder = Readonly<Record<Item, readonly number[]>>;
+/** Counts select exact catalogued packs; callers cannot supply an arbitrary quote. */
+export function buyPacks(state: State, order: PackOrder): State {
+    phase(state, "preparation");
+    for (const item of ITEM_KEYS) {
+        if (!Array.isArray(order[item]) || order[item].length !== 3) throw new Error("Invalid supply packs.");
+        for (const count of order[item]) integer(count, 0, 99, "Pack count");
+    }
+    if (ITEM_KEYS.every(item => order[item].every(count => count === 0))) throw new Error("Choose supplies before buying.");
+    const adopted = withInventoryCosts(state);
+    return ITEM_KEYS.reduce((next, item) => {
+        const packs = supplyPacks(item, Boolean(adopted.inventoryCosts));
+        const quantity = order[item].reduce((sum, count, i) => sum + count * packs[i].quantity, 0);
+        integer(quantity, 0, 999, "Order quantity");
+        const cost = order[item].reduce((sum, count, i) => sum + count * packs[i].price, 0);
+        return quantity === 0 ? next : purchaseSupplies(next, item, quantity, cost);
+    }, adopted);
 }
 /** Checkout is all-or-nothing: immutable intermediate states never escape on failure. */
 export function buyOrder(state: State, order: Stock): State {
@@ -174,8 +200,15 @@ export function buyOrder(state: State, order: Stock): State {
     return ITEM_KEYS.reduce((next, item) => order[item] === 0 ? next : buy(next, item, order[item]), state);
 }
 
-export function unitCost(recipe: Recipe, freeIce = 0): number {
+export function unitCost(recipe: Recipe, freeIce = 0, state?: State): number {
     const free = Math.min(freeIce, recipe.ice * cupsPerPitcher(recipe));
+    if (state?.inventoryCosts) {
+        const values = state.inventoryCosts.values;
+        const price = (item: Item): number => paidQuantity(state, item) > 0
+            ? values[item] / paidQuantity(state, item) : supplyPacks(item, true)[0].price / supplyPacks(item, true)[0].quantity;
+        return (recipe.lemon * price("lemon") + recipe.sugar * price("sugar") +
+            (recipe.ice * cupsPerPitcher(recipe) - free) * price("ice")) / cupsPerPitcher(recipe) + price("cup");
+    }
     return (pitcherCost(recipe) - free * ITEMS.ice.cost) / cupsPerPitcher(recipe) + ITEMS.cup.cost;
 }
 export function capacity(state: State): number {
@@ -260,14 +293,15 @@ function makePitcher(state: State): State {
     const recipe = state.plan.recipe;
     const ice = isPurchaseFirst(state) ? 0 : recipe.ice * cupsPerPitcher(recipe);
     const freeIceUsed = Math.min(state.freeIce, ice);
+    const consumed = consumeCosts(state, { lemon: recipe.lemon, sugar: recipe.sugar, ice: ice - freeIceUsed, cup: 0 });
     return { ...state, pitcherCups: cupsPerPitcher(recipe),
+        ...(consumed.inventoryCosts ? { inventoryCosts: consumed.inventoryCosts } : {}),
         stock: { ...state.stock, lemon: state.stock.lemon - recipe.lemon,
             sugar: state.stock.sugar - recipe.sugar, ice: state.stock.ice - ice },
         freeIce: state.freeIce - freeIceUsed,
         daily: { ...state.daily, pitchersMade: state.daily.pitchersMade + 1,
             freeIceUsed: state.daily.freeIceUsed + freeIceUsed,
-            cost: state.daily.cost + recipe.lemon * ITEMS.lemon.cost + recipe.sugar * ITEMS.sugar.cost
-                + (ice - freeIceUsed) * ITEMS.ice.cost } };
+            cost: state.daily.cost + consumed.cost } };
 }
 export function openDay(state: State): State {
     phase(state, "preparation");
@@ -290,6 +324,7 @@ export function openDay(state: State): State {
     if (quotas && periodTraffic(quotas) === 0) quotas = [1, 0, 0];
     const periods: WeatherPeriods | undefined = actual && quotas ? { model: "arrival-periods-v1", actual: actual.actual, quotas } : undefined;
     const business: BusinessDay = { customerModel: state.customerProfileModel ?? "purchase-first-v1",
+        ...(state.inventoryCosts ? { inventoryModel: "weighted-packs-v1" as const } : {}),
         ...(periods ? { periods, activePeriod: weatherPeriod(periods.quotas, 1) }
             : { conditions: locationConditions(state.day, id, state.weather) }), location: id, from: state.location,
         traffic: periods ? periodTraffic(periods.quotas) : expectedTraffic(state, id),
@@ -348,7 +383,8 @@ export function isBankrupt(state: State): boolean {
     // A paid recipe is fixed; an unpaid day can still sell a weak, zero-ingredient drink.
     const missing = state.business ? openingReadiness(state).missing
         : { lemon: 0, sugar: 0, ice: 0, cup: Math.max(0, 1 - state.stock.cup) };
-    const needed = ITEM_KEYS.reduce((total, item) => total + missing[item] * ITEMS[item].cost, 0);
+    const needed = ITEM_KEYS.reduce((total, item) => total + (state.inventoryCosts
+        ? minimumPackCost(item, missing[item], 999 - state.stock[item]) : missing[item] * ITEMS[item].cost), 0);
     return state.cash < needed;
 }
 export function drawVisitor(state: State, id: number): { state: State; visitor: Visitor } {
@@ -383,6 +419,7 @@ export function settleVisitor(state: State, visitor: Visitor, outcome?: "abandon
             + clamp(1 - state.plan.price / (visitor.willingness * 1.4)) * 0.2) * 100);
     const usedIce = sold && currentModel ? state.plan.recipe.ice : 0;
     const freeIceUsed = Math.min(state.freeIce, usedIce);
+    const consumed = consumeCosts(state, { lemon: 0, sugar: 0, ice: usedIce - freeIceUsed, cup: Number(sold) });
     const stock: Stock = sold ? { ...state.stock, cup: state.stock.cup - 1, ice: state.stock.ice - usedIce } : state.stock;
     const daily: Daily = { ...state.daily, visitors: state.daily.visitors + 1,
         sold: state.daily.sold + Number(sold), rejected: state.daily.rejected + Number(kind === "price" || kind === "passed"),
@@ -391,7 +428,7 @@ export function settleVisitor(state: State, visitor: Visitor, outcome?: "abandon
         soldOut: state.daily.soldOut + Number(kind === "sold-out"),
         abandoned: state.daily.abandoned + Number(kind === "abandoned"),
         revenue: state.daily.revenue + (sold ? state.plan.price : 0),
-        cost: state.daily.cost + (sold ? ITEMS.cup.cost + (usedIce - freeIceUsed) * ITEMS.ice.cost : 0),
+        cost: state.daily.cost + consumed.cost,
         freeIceUsed: state.daily.freeIceUsed + freeIceUsed,
         satisfactionTotal: state.daily.satisfactionTotal + (satisfaction ?? 0) };
     const finished = daily.visitors >= dayTraffic(state);
@@ -402,7 +439,9 @@ export function settleVisitor(state: State, visitor: Visitor, outcome?: "abandon
     const locationStats = finished && daily.sold > 0 ? { ...state.locationStats,
         [state.location]: { satisfaction: satisfactionRating, popularity: oldRating.popularity * 0.8 + satisfactionRating * 0.2 } } : state.locationStats;
     const lifetimeRevenue = state.lifetimeRevenue + (finished ? daily.revenue : 0);
-    const served: State = { ...state, stock, daily, freeIce: state.freeIce - freeIceUsed, cash: state.cash + (sold ? state.plan.price : 0),
+    const served: State = { ...state, stock, daily,
+        ...(consumed.inventoryCosts ? { inventoryCosts: consumed.inventoryCosts } : {}),
+        freeIce: state.freeIce - freeIceUsed, cash: state.cash + (sold ? state.plan.price : 0),
         pitcherCups: finished ? 0 : state.pitcherCups - Number(sold),
         phase: finished ? "results" : "selling",
         reputation: satisfactionRating, locationStats, lifetimeRevenue,
@@ -423,7 +462,12 @@ export function nextDay(state: State): State {
         freeIce: Math.floor(state.freeIce * state.management.upgrades.refrigerator / 2), pitcherCups: 0,
         business: null, pendingLocation: null,
         daily: emptyDaily(state.stock.ice - Math.floor(state.stock.ice * state.management.upgrades.refrigerator / 2)), ...forecast(state.seed) };
-    return weatherForecast ? withWeatherForecast(next) : next;
+    const retained = state.inventoryCosts ? {
+        ...inventoryValues(state), ice: paidQuantity(state, "ice") === 0 ? 0
+            : Math.round(inventoryValues(state).ice * paidQuantity(next, "ice") / paidQuantity(state, "ice")),
+    } : null;
+    const valued = retained ? { ...next, inventoryCosts: { values: retained, opening: totalCost(retained) } } : next;
+    return weatherForecast ? withWeatherForecast(valued) : valued;
 }
 export function results(state: State): { profit: number; cashChange: number; satisfaction: number | null } {
     return { profit: state.daily.revenue - state.daily.cost - state.daily.rent - state.daily.moveFee - state.daily.wages - state.daily.advertising,

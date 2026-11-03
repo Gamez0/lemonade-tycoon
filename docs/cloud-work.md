@@ -1,5 +1,36 @@
 # Cloud development handoff — 2026-10-05
 
+## Bulk purchases / acquisition accounting candidate — 2026-11-03 KST / #284
+
+Alpha23/schema13 restores confirmed ice50/$1,200/$3,500/$5 and cup75/$1,
+225/$2.35,400/$3.75 quotes; see [costing and compatibility](reviews/bulk-purchase-costs.md).
+Each quoted purchase enters an integer acquisition-cost pool, consumed in rounded
+proportional shares. Generated ice stays free; overnight retention removes the
+actual lost paid value. Balance-sheet inventory uses acquisition value and the
+recipe cost display is an estimate. Existing paid v6–v12 openings retain their
+old packs, costs and exact replay; historical records are not repriced. New
+adoption occurs only in unpaid preparation with a reconcilable opening basis.
+
+Self-review caught adoption during company-journal cleanup. Fresh company raw
+documents now carry the model before journal writes; legacy adoption waits while
+the book is blocked. Existing failed-cleanup/held-transfer safeguards remain
+unchanged and pass focused browser tests. Actual main f1f0ea2's v12 rule tree
+(source e3a5ae3) generated three frozen replay fixtures; older paid fixtures stay.
+
+Locked npm ci completed with zero vulnerabilities. Local118 model/storage,
+15 release, typecheck and reboot lint checks pass. A reviewed-build20-case
+save/menu/bulk browser run passed. All90 browser checks pass (7.8 minutes). Native v6/v10/v11/v12 replay
+checks pass18 observations; initial Windows CI caught a stale unpaid location
+fixture, now explicitly adopting the new model. Remaining native display/audio/
+performance and updated-head remote CI are in progress.
+The first native UI price-persistence poll saw150 instead of225; a diagnostic
+rerun passed its complete UI/price/relaunch checks without weakening assertions.
+The initial failure log is preserved; no root cause is claimed. Normal packaged
+save/flush/recovery/import/export/relocation checks pass. Native evidence uses
+fresh locked Electron44.9.1; an earlier package accidentally used a stale shared
+node_modules junction with44.7.0 and is superseded. The junction alone was
+removed, and this worktree now has its own dependencies. Parent work is intact.
+
 ## Owned equipment effects — 2026-11-03 KST / #283
 
 The catalogue previously displayed the next purchasable effect beside the owned

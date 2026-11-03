@@ -1,4 +1,5 @@
 const { test, expect } = require('../helpers/browser-game.cjs');
+const { withInventoryCosts } = require('../../.test-build/simulation/inventory-costs.js');
 const game = require('../../.test-build/simulation/game.js');
 const { beginStreetDay, finishStreetDay } = require('../../.test-build/simulation/street-day.js');
 const { encodeSave, SAVE_KEY } = require('../../.test-build/simulation/save.js');
@@ -9,7 +10,7 @@ const { LOCATION_CUSTOMER_WEIGHTS } = require('../../.test-build/content/custome
 test('new eleven-group beach day renders high profile indices, replays its paid snapshot and keeps the exact ledger', async ({ page }) => {
     const errors = []; page.on('pageerror', error => errors.push(error.message));
     const fixture = fundedStandBusiness('beach');
-    const prepared = stock(game.withCustomerProfiles(game.withWeatherForecast(fixture.state)), 125);
+    const prepared = withInventoryCosts(stock(game.withCustomerProfiles(game.withWeatherForecast(fixture.state)), 125));
     const expected = finishStreetDay(beginStreetDay(game.openDay(prepared))).day.game;
     await page.clock.install();
     await page.addInitScript(({ key, raw }) => { if (!localStorage.getItem(key)) localStorage.setItem(key, raw); },

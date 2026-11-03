@@ -1,6 +1,12 @@
 const { test, expect } = require('../helpers/browser-game.cjs');
 const key = 'lemonade-tycoon.reboot.save';
 const saved = page => page.evaluate(key => localStorage.getItem(key), key);
+function adoptedSave(raw) {
+    const { encodeSave, decodeSave } = require('../../.test-build/simulation/save.js');
+    const { withInventoryCosts } = require('../../.test-build/simulation/inventory-costs.js');
+    const document = decodeSave(raw);
+    return encodeSave(withInventoryCosts(document.state), document.history, document.companyId, document.mode);
+}
 
 test('selling resumes its clock after a cancelled close and a failed delayed import', async ({ page }) => {
     const { encodeSave } = require('../../.test-build/simulation/save.js');
@@ -188,7 +194,7 @@ test('native import pauses editing and normal-close flush waits for file reading
     await page.evaluate(() => { window.closeWhileImport = window.flushImportForTest(); });
     await page.evaluate(() => window.releaseImportRead());
     await page.evaluate(() => window.closeWhileImport);
-    expect(await saved(page)).toBe(imported);
+    expect(await saved(page)).toBe(adoptedSave(imported));
     expect(wasBusy).toBe(true);
     await expect(page.locator('#inventory-lemon')).toHaveText('3');
     await expect(page.locator('#app')).toHaveAttribute('aria-busy', 'true');
