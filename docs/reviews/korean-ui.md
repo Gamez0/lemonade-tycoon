@@ -19,19 +19,24 @@ save/quit warning follows the interface language through a sender-checked IPC;
 its small native preference is separate from both company saves and the browser
 language preference. Native persistence failure leaves the session functional.
 
-Offline fonts are renamed static Regular/Bold Noto Sans KR derivatives, with all
+Offline fonts are renamed a static Regular Noto Sans KR derivative, with all
 11,172 modern Hangul syllables, not a subset of current translated words. Source
 commit/hash, modified outputs and coverage are in `art/fonts/noto-sans-kr.json`;
-`scripts/korean-fonts.py` with pinned FontTools reproduces both outputs exactly.
+`scripts/korean-fonts.py` with pinned FontTools reproduces the output exactly.
 The upstream OFL is shipped unchanged. See `art/fonts/README.md` for reproduction.
 
-The initial full CJK variable font exceeded the existing 256MiB private-memory
-budget. Static full-Hangul fonts reduced total font bytes from10,414,588 to
-5,639,788. The final Korean package performance run passed all phases including
-20 completed days: maximum phase mean253.877MiB, idle canvas draws0, post-GC
-retained JavaScript growth0.314MiB. One earlier run lost its report when a browser
-test cleared the shared output folder; that run is not counted as a completed
-pass. Report writing now guarantees app cleanup and recreates its output folder.
+The initial full CJK variable font exceeded the existing256MiB private-memory
+budget. Two static full-Hangul faces passed locally, but exact-head Windows CI
+measured259.113MiB and correctly failed. The final version ships one Regular face,
+uses browser bold synthesis, and excludes unused CJK vertical/alternate layout
+features while retaining horizontal shaping and every modern Hangul syllable.
+The cap is unchanged. The single-face package passed Korean70-layout validation,
+all5 locale browser cases, and20-day performance with maximum phase mean244.953MiB
+and idle draws0. Final exact-head CI is recorded on the issue/PR.
+
+One earlier local run lost its report when a browser test cleared the shared
+output folder; that run is not counted as a completed pass. Report writing now
+guarantees app cleanup and recreates its output folder.
 
 Native Korean validation passed70 combinations: five forced Windows scale
 factors100/125/150/175/200%, two content sizes800×600 and512×350, seven tabs.

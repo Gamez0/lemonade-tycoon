@@ -36,7 +36,7 @@ def main():
     characters = {point for start, end in RANGES for point in range(start, end + 1)}
     hangul = set(range(0xAC00, 0xD7A4))
     artifacts = []
-    for weight, style in [(400, 'Regular'), (700, 'Bold')]:
+    for weight, style in [(400, 'Regular')]:
         font = TTFont(source, recalcTimestamp=False)
         modified = font['head'].modified
         instantiateVariableFont(font, {'wght': weight}, inplace=True)
@@ -44,6 +44,8 @@ def main():
         options.name_IDs = ['*']
         options.name_legacy = True
         options.name_languages = ['*']
+        # Horizontal UI only; retain shaping/kerning without CJK vertical alternates.
+        options.layout_features = ['ccmp', 'locl', 'kern', 'mark', 'mkmk', 'liga', 'clig', 'calt']
         subsetter = subset.Subsetter(options=options)
         subsetter.populate(unicodes=characters)
         subsetter.subset(font)

@@ -14,7 +14,7 @@ and contributor-rights acceptance remain open in issue167.
 | Repository template | LICENSE | Unaltered license inside app.asar | Retain notice |
 | Phaser3.88.2 | node_modules/phaser/LICENSE.md | LICENSE-Phaser.txt inside app.asar | Retain notice |
 | Oswald | public/fonts/Oswald-wght.ttf and OFL-Oswald.txt | Font and dist/licenses/OFL-Oswald.txt inside app.asar | Retain notice |
-| Willow Lane Korean | Renamed static Regular/Bold derivatives of pinned Noto Sans KR; art/fonts/noto-sans-kr.json | Both fonts and dist/licenses/OFL-NotoSansKR.txt inside app.asar | Retain upstream OFL; generated with scripts/korean-fonts.py and pinned FontTools; all 11,172 modern Hangul syllables retained |
+| Willow Lane Korean | Renamed static Regular derivatives of pinned Noto Sans KR; art/fonts/noto-sans-kr.json | The font and dist/licenses/OFL-NotoSansKR.txt inside app.asar | Retain upstream OFL; generated with scripts/korean-fonts.py and pinned FontTools; all 11,172 modern Hangul syllables retained |
 | Electron44.5.1 | Packaged runtime | LICENSE at package root | Retain notice |
 | Chromium/runtime components | Packaged runtime | LICENSES.chromium.html at package root | Retain complete notice file |
 | Reference screenshots/legacy assets | docs/research and public/assets | Excluded from PC inputs and archive | Keep excluded from PC/store distribution |

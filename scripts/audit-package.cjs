@@ -20,7 +20,7 @@ function auditPackage(directory) {
     for (const file of leaves) if (!exact.includes(file) && !(file.startsWith('dist/') && isDesktopAsset(file.slice(5))))
         throw new Error(`Unapproved shipped content: ${file}`);
     if (!leaves.some(file => /^dist\/assets\/[^/]+\.ttf$/.test(file))) throw new Error('Missing shipped font');
-    for (const weight of ["Regular", "Bold"]) if (!leaves.some(file => file.startsWith("dist/assets/WillowLaneKorean-" + weight + "-") && file.endsWith(".ttf"))) throw new Error("Missing Korean font: " + weight);
+    for (const weight of ["Regular"]) if (!leaves.some(file => file.startsWith("dist/assets/WillowLaneKorean-" + weight + "-") && file.endsWith(".ttf"))) throw new Error("Missing Korean font: " + weight);
     const notices = {};
     for (const [file, source] of [['LICENSE', 'LICENSE'], ['LICENSE-Phaser.txt', 'node_modules/phaser/LICENSE.md'], ['dist/licenses/OFL-Oswald.txt', 'public/fonts/OFL-Oswald.txt'], ['dist/licenses/OFL-NotoSansKR.txt', 'public/fonts/OFL-NotoSansKR.txt']]) {
         const bytes = asar.extractFile(archive, native(file));
