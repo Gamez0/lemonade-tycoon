@@ -1,5 +1,29 @@
 # Cloud development handoff — 2026-10-05
 
+## Original economy specification — 2026-11-03 KST / #285
+
+See reviews/original-economy-plan.md and original-economy-study.json. Confirmed
+prices and equipment descriptions are separated from unmeasured spoilage,
+production/service/arrival coefficients and starting capital. Existing product
+roles are not silently mapped to original appliances. No gameplay prices or
+coefficients change in this specification.
+
+The reproducible current-rule counterfactual covers 14,400 modeled days: twelve
+seeds, fixed recipe, twenty prices, ten locations, three staff choices, current
+versus reference prices only. Artificial cash/unlocks and abundant purchased
+stock isolate the question; this is not original observation or human play.
+Several higher-rent venues lose money in this bounded setup. Two complete runs
+produce identical JSON, including source hashes. No source/save files are mutated.
+
+The plan preserves existing companies and historical acquisition costs, requires
+versioned immutable prices before future repricing, and lists exact observations
+needed for original equipment roles. After duplicate searches, follow-ups #292
+(pricing/asset compatibility), #293 (forecast range/three icons), #294 (recipe
+score preview) were registered Ready. Prior user-requested Korean UI #286 is
+Ready Order113, before these Orders114–116. #235 measurement limitations remain
+explicit; no expired original launch or invented coefficients. Specification
+integration still requires current-head CI. PR291 bulk implementation is separate.
+
 ## Bulk purchases / acquisition accounting candidate — 2026-11-03 KST / #284
 
 Alpha23/schema13 restores confirmed ice50/$1,200/$3,500/$5 and cup75/$1,
