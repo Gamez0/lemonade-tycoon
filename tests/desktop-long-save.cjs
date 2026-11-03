@@ -5,6 +5,7 @@ const fs = require('node:fs'), path = require('node:path'), os = require('node:o
 const { profileArgs, verifyProfile } = require('./helpers/desktop-profile.cjs');
 const { campaign } = require('./helpers/business.cjs');
 const { encodeSave, decodeSave } = require('../.test-build/simulation/save.js');
+const { withInventoryCosts } = require('../.test-build/simulation/inventory-costs.js');
 const { maxSaveBytes } = require('../src/desktop/save-limits.json');
 const executable = process.env.LEMONADE_DESKTOP_EXE;
 if (process.platform !== 'win32' || !executable || !fs.existsSync(executable)) throw new Error('Set LEMONADE_DESKTOP_EXE to a Windows package.');
@@ -37,18 +38,19 @@ async function close() {
         if ((await page.locator('#save-status').textContent()).includes('too large')) throw new Error('Legitimate1600-day export rejected by packaged import.');
         await expect.poll(() => decodeSave(fs.readFileSync(save, 'utf8')).history.length).toBe(1600);
         assert.deepEqual(decodeSave(fs.readFileSync(save, 'utf8')), decodeSave(raw));
+        const adopted = { ...decodeSave(raw), state: withInventoryCosts(business.state) };
         await close(); page = await launch();
         await expect(page.locator('#year')).toHaveText('5');
         await expect(page.locator('#month')).toHaveText('6');
         await expect(page.locator('#day')).toHaveText('11');
-        assert.deepEqual(decodeSave(fs.readFileSync(save, 'utf8')), decodeSave(raw));
+        assert.deepEqual(decodeSave(fs.readFileSync(save, 'utf8')), adopted);
         const exported = path.join(base, 'exported-long-business.json');
         await app.evaluate(({ BrowserWindow }, file) => {
             BrowserWindow.getAllWindows()[0].webContents.session.once('will-download', (_event, item) => item.setSavePath(file));
         }, exported);
         await page.locator('#export-save').click();
         await expect.poll(() => fs.existsSync(exported)).toBe(true);
-        assert.deepEqual(decodeSave(fs.readFileSync(exported, 'utf8')), decodeSave(raw));
+        assert.deepEqual(decodeSave(fs.readFileSync(exported, 'utf8')), adopted);
         // The imported next-day checkpoint correctly has melted overnight ice.
         // Replenish through the same UI before attempting the next business day.
         await page.locator('[data-page=supplies]').click();

@@ -43,7 +43,7 @@ async function change(page, id, value) { await page.locator(`#${id}`).fill(Strin
             await page.locator('[data-page=recipe]').click();
             await change(page, 'ice', weather >= 30 ? 4 : weather >= 25 ? 3 : weather >= 21 ? 2 : 1);
             await page.locator('[data-page=supplies]').click();
-            for (const [item, target, bundle] of [['lemon', 40, 40], ['sugar', 20, 20], ['ice', 320, 60], ['cup', 80, 20]]) {
+            for (const [item, target, bundle] of [['lemon', 40, 40], ['sugar', 20, 20], ['ice', 320, 50], ['cup', 80, 75]]) {
                 const count = Math.max(0, Math.ceil((target - read().state.stock[item]) / bundle));
                 if (!count) continue;
                 await page.locator(`[data-supply=${item}]`).click();
@@ -79,7 +79,7 @@ async function change(page, id, value) { await page.locator(`#${id}`).fill(Strin
             const sum = field => done.history.reduce((total, entry) => total + entry.daily[field], 0);
             assert.equal(done.state.cash, 4000 + sum('revenue') - sum('purchases') - sum('capital') - sum('rent') - sum('moveFee') - sum('wages') - sum('advertising'));
             assert.equal(done.state.lifetimeRevenue, sum('revenue'));
-            assert.equal(done.state.day, day + 1); assert.equal(done.version, 12);
+            assert.equal(done.state.day, day + 1); assert.equal(done.version, 13);
             const size = fs.statSync(save).size; assert.ok(size < maxSaveBytes, 'Save exceeds native IPC limit');
             report.days.push({ day, location, cash: done.state.cash, sold: d.sold, freeIceUsed: d.freeIceUsed, saveBytes: size });
             if (day % 5 === 0) {

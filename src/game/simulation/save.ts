@@ -6,12 +6,13 @@ import type { State } from "./game";
 import { isLocation, LOCATION_IDS, LOCATIONS, LEGACY_LOCATION_IDS, defaultLocationStats } from "../content/locations";
 import type { LocationId } from "../content/locations";
 import { weatherPeriod, type Three } from "./weather-periods";
+import { inventoryValues, totalCost } from "./inventory-costs";
 
 export const SAVE_KEY = "lemonade-tycoon.reboot.save";
 export const BACKUP_KEY = "lemonade-tycoon.reboot.backup";
 export type SaveStorage = Pick<Storage, "getItem" | "setItem">;
 export interface SaveDocument {
-    readonly version: 12;
+    readonly version: 13;
     readonly state: State;
     readonly history: readonly State[];
     readonly companyId?: string;
@@ -75,6 +76,7 @@ function validLocations(value: Record<string, unknown>, preTenLocations = false)
     const b = value.business;
     if (record(b) && b.conditions !== undefined && !validConditions(b.conditions, value.location as LocationId, value.weather as unknown as Weather)) return false;
     if (!record(b) || (b.customerModel !== undefined && !["purchase-first-v1", "eleven-profiles-v1"].includes(String(b.customerModel))) ||
+        (value.inventoryCosts === undefined ? b.inventoryModel !== undefined : b.inventoryModel !== "weighted-packs-v1") ||
         b.location !== value.location || !allowed(b.from) || !value.unlocked.includes(b.from) ||
         value.pendingLocation !== null || b.paid !== true || !integer(b.traffic, 1, 500) ||
         typeof b.budget !== "number" || !Number.isFinite(b.budget) || b.budget < 0.1 || b.budget > 5 ||
@@ -157,7 +159,8 @@ function validState(value: unknown, legacy = false, preM5 = false, preM6 = false
         : (daily.pitchersMade as number) * (recipe.lemon * ITEMS.lemon.cost + recipe.sugar * ITEMS.sugar.cost)
             + usedIce * ITEMS.ice.cost + (daily.sold as number) * ITEMS.cup.cost - freeIceUsed * ITEMS.ice.cost;
     if (daily.revenue !== (daily.sold as number) * (plan.price as number) ||
-        daily.cost !== expectedCost ||
+        (value.inventoryCosts === undefined ? daily.cost !== expectedCost
+            : !validInventoryCosts(value) || (daily.cost as number) > expectedCost) ||
         (!legacy && daily.model === "pitcher" && (daily.sold as number) >
             (daily.pitchersMade as number) * cupsPerPitcher(recipe)) ||
         (!legacy && daily.model === "cup" && daily.pitchersMade !== 0) ||
@@ -168,13 +171,28 @@ function validState(value: unknown, legacy = false, preM5 = false, preM6 = false
     return true;
 }
 
+function validInventoryCosts(state: Record<string, unknown>): boolean {
+    const costs = state.inventoryCosts;
+    if (!record(costs) || !record(costs.values) || !integer(costs.opening) || !record(state.stock) || !record(state.daily)) return false;
+    const stock = state.stock, values = costs.values;
+    if (!ITEM_KEYS.every(item => {
+        const quantity = (stock[item] as number) - (item === "ice" ? state.freeIce as number : 0);
+        return integer(values[item], 0, quantity * ITEMS[item].cost) && (quantity !== 0 || values[item] === 0);
+    })) return false;
+    return totalCost(values as unknown as State["stock"]) + (state.daily.cost as number)
+        === (costs.opening as number) + (state.daily.purchases as number);
+}
+
 export function decodeSave(raw: string): SaveDocument {
     let input: unknown;
     try { input = JSON.parse(raw); } catch { throw new Error("Save file is not valid JSON."); }
-    if (!record(input) || ![0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].includes(input.version as number)) {
-        if (record(input) && integer(input.version) && input.version > 12) throw new UnsupportedSaveVersionError();
+    if (!record(input) || ![0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].includes(input.version as number)) {
+        if (record(input) && integer(input.version) && input.version > 13) throw new UnsupportedSaveVersionError();
         throw new Error("Unsupported save version. Keep the file as a backup.");
     }
+    if ((input.version as number) < 13 && [input.state, ...(Array.isArray(input.history) ? input.history : [])].some(day =>
+        record(day) && (day.inventoryCosts !== undefined || (record(day.business) && day.business.inventoryModel !== undefined))))
+        throw new Error("Save data is damaged: invalid legacy inventory costs.");
     if ((input.version as number) < 12 && [input.state, ...(Array.isArray(input.history) ? input.history : [])].some(day =>
         record(day) && (day.customerProfileModel !== undefined || (record(day.business) && day.business.customerModel === "eleven-profiles-v1"))))
         throw new Error("Save data is damaged: invalid legacy customer profiles.");
@@ -228,6 +246,18 @@ export function decodeSave(raw: string): SaveDocument {
         history.some((day, index) => index > 0 && day.openingCash !== history[index - 1].cash) ||
         (history.length > 0 && state.phase === "preparation" && state.openingCash !== history[history.length - 1].cash))
         throw new Error("Save history does not match the current day.");
+    const inventoryTransition = (before: State, after: State): boolean => {
+        if (!after.inventoryCosts) return !before.inventoryCosts;
+        const values = inventoryValues(before);
+        const paidIce = before.stock.ice - before.freeIce;
+        const retainedIce = Math.floor(before.stock.ice * before.management.upgrades.refrigerator / 2)
+            - Math.floor(before.freeIce * before.management.upgrades.refrigerator / 2);
+        const retainedValue = paidIce === 0 ? 0 : Math.round(values.ice * retainedIce / paidIce);
+        return after.inventoryCosts.opening === totalCost(values) - values.ice + retainedValue;
+    };
+    if (history.some((day, index) => index > 0 && !inventoryTransition(history[index - 1], day)) ||
+        (history.length > 0 && state.phase === "preparation" && !inventoryTransition(history[history.length - 1], state)))
+        throw new Error("Save inventory costs do not match the ledger.");
     if (state.phase === "results") {
         const latest = history[history.length - 1];
         const equal = (a: unknown, b: unknown): boolean => {
@@ -268,13 +298,13 @@ export function decodeSave(raw: string): SaveDocument {
     };
     if (!history.every(paidEquipment) || (state.phase === "preparation" && !paidEquipment(state)))
         throw new Error("Save equipment purchases do not match the ledger.");
-    return { version: 12, state, history, ...(input.companyId === undefined ? {} : { companyId: input.companyId as string }),
+    return { version: 13, state, history, ...(input.companyId === undefined ? {} : { companyId: input.companyId as string }),
         ...(input.mode === undefined ? {} : { mode: input.mode as "career" | "challenge" }) };
 }
 
 export function encodeSave(state: State, history: readonly State[], companyId?: string, mode?: "career" | "challenge"): string {
     if (state.phase === "selling") throw new Error("Save a checkpoint before opening the stand.");
-    return JSON.stringify(decodeSave(JSON.stringify({ version: 12, state, history, companyId, mode })));
+    return JSON.stringify(decodeSave(JSON.stringify({ version: 13, state, history, companyId, mode })));
 }
 
 export function writeSave(storage: SaveStorage, state: State, history: readonly State[], companyId?: string, mode?: "career" | "challenge"): void {

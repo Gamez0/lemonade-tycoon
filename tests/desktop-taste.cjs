@@ -39,7 +39,7 @@ let app;
             await page.locator('#skip').click(); await page.clock.runFor(500);
             await expect(page.locator('#report-response')).toContainText(advice);
             await expect.poll(async () => (await read())?.state.business).toBe(null);
-            const saved = await read(); assert.equal(saved.version, 12);
+            const saved = await read(); assert.equal(saved.version, 13);
             const report = saved.history.at(-1);
             assert.deepEqual(saved.state, withCustomerProfiles(withWeatherForecast(nextDay(report))));
             assert.equal(report.business.customerModel, 'purchase-first-v1');

@@ -3,11 +3,12 @@ const { campaign, stock } = require('../helpers/business.cjs');
 const { openDay, nextDay, withWeatherForecast, withCustomerProfiles, purchaseUpgrade } = require('../../.test-build/simulation/game.js');
 const { beginStreetDay, finishStreetDay } = require('../../.test-build/simulation/street-day.js');
 const { encodeSave } = require('../../.test-build/simulation/save.js');
+const { withInventoryCosts } = require('../../.test-build/simulation/inventory-costs.js');
 const key = 'lemonade-tycoon.reboot.save';
 const saved = page => page.evaluate(key => JSON.parse(localStorage.getItem(key)), key);
 for (const finish of ['skip', 'normal']) test(`${finish}: completion prepares tomorrow once while retaining yesterday's exact report`, async ({ page }) => {
     const business = campaign(2026, 40);
-    business.state = stock(purchaseUpgrade(business.state, 'refrigerator'));
+    business.state = withInventoryCosts(stock(purchaseUpgrade(business.state, 'refrigerator')));
     const completed = finishStreetDay(beginStreetDay(openDay(business.state))).day.game;
     const tomorrow = withCustomerProfiles(withWeatherForecast(nextDay(completed)));
     await page.clock.install();

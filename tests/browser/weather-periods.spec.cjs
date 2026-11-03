@@ -1,11 +1,12 @@
 const { test, expect } = require('../helpers/browser-game.cjs');
+const { withInventoryCosts } = require('../../.test-build/simulation/inventory-costs.js');
 const game = require('../../.test-build/simulation/game.js');
 const { encodeSave, SAVE_KEY } = require('../../.test-build/simulation/save.js');
 const { beginStreetDay, finishStreetDay } = require('../../.test-build/simulation/street-day.js');
 const { stock } = require('../helpers/business.cjs');
 
 test('actual weather changes with generated arrivals and paid reload plus SKIP retains the same day', async ({ page }) => {
-    const prepared = stock(game.withWeatherForecast(game.newGame(1)));
+    const prepared = withInventoryCosts(stock(game.withWeatherForecast(game.newGame(1))));
     const opened = game.openDay(prepared);
     const expected = finishStreetDay(beginStreetDay(opened)).day.game;
     await page.clock.install();
@@ -34,14 +35,14 @@ test('actual weather changes with generated arrivals and paid reload plus SKIP r
     await page.screenshot({ path: 'test-results/weather-period-3.png' });
     await page.locator('#skip').click(); await page.clock.runFor(500);
     const saved = JSON.parse(await page.evaluate(key => localStorage.getItem(key), SAVE_KEY));
-    expect(saved.version).toBe(12);
+    expect(saved.version).toBe(13);
     expect(saved.history[0]).toEqual(expected);
     await page.reload(); await page.clock.runFor(500);
     expect(JSON.parse(await page.evaluate(key => localStorage.getItem(key), SAVE_KEY))).toEqual(saved);
 });
 
 for (const fast of [false, true]) test(`${fast ? 'fast' : 'normal'} periods finish the same ledger as SKIP`, async ({ page }) => {
-    const prepared = stock(game.withWeatherForecast(game.newGame(1)));
+    const prepared = withInventoryCosts(stock(game.withWeatherForecast(game.newGame(1))));
     const expected = finishStreetDay(beginStreetDay(game.openDay(prepared))).day.game;
     await page.clock.install();
     await page.addInitScript(({ key, raw }) => {

@@ -93,7 +93,7 @@ test('four-ice recipe needs ice for one sale and recovers after an actual purcha
     await page.locator('[data-supply=ice]').click();
     await page.locator('[data-bundle="0"][data-delta="1"]').click();
     await page.locator('#buy-order').click();
-    await expect(page.locator('#capacity')).toHaveText('15 cups');
+    await expect(page.locator('#capacity')).toHaveText('13 cups');
     await expect(page.locator('#supply-warning')).toBeHidden();
     await expect(page.locator('#world-status')).toHaveText('Ready to open');
     await page.locator('#open').click();

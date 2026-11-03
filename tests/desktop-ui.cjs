@@ -170,7 +170,14 @@ async function fit(page, name) {
         assert.equal(await page.locator("#price").evaluate((x) => getComputedStyle(x).appearance), "textfield");
         await page.locator("#price").fill("2.25");
         await page.locator("#price").press("Tab");
-        await expect.poll(() => JSON.parse(fs.readFileSync(save)).state.plan.price).toBe(225);
+        try { await expect.poll(() => JSON.parse(fs.readFileSync(save)).state.plan.price).toBe(225); }
+        catch (error) {
+            console.error(await page.evaluate(() => ({ price: document.querySelector('#price').value,
+                feedback: document.querySelector('#message').textContent, status: document.querySelector('#save-status').textContent,
+                focused: document.hasFocus(), active: document.activeElement?.id, inert: document.querySelector('#app').inert })));
+            await page.screenshot({ path: path.join(out, 'price-persistence-failed.png') });
+            throw error;
+        }
         await page.screenshot({ path: path.join(out, "price-fixed.png") });
         await close();
         page = await launch(executable);

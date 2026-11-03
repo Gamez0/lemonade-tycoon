@@ -62,7 +62,7 @@ test("three days keep daily and cumulative books and classic geometry", async ({
     await expect(page.locator("#supplies-page")).toBeHidden();
     await page.locator("#app").screenshot({ path: "test-results/m2-recipe.png" });
     await change(page, "price", "1.75");
-    await expect(page.locator("#unit-cost")).toHaveText("$0.18");
+    await expect(page.locator("#unit-cost")).toHaveText("$0.13");
     await page.locator("#app").screenshot({ path: "test-results/m2-price.png" });
     const geometry = await page.evaluate(() => {
         const box = (selector) => document.querySelector(selector).getBoundingClientRect();
@@ -88,7 +88,9 @@ test("three days keep daily and cumulative books and classic geometry", async ({
         await finishDay(page, day === 1);
         const values = await page.locator("#result-values dd").allTextContents();
         expect(cents(values[1])).toBe(Number(values[0]) * 175);
-        expect(cents(values[2])).toBeGreaterThanOrEqual(Number(values[0]) * 6);
+        const report = await page.evaluate(() => JSON.parse(localStorage.getItem('lemonade-tycoon.reboot.save')).history.at(-1));
+        expect(cents(values[2])).toBe(report.inventoryCosts.opening + report.daily.purchases -
+            Object.values(report.inventoryCosts.values).reduce((sum, cost) => sum + cost, 0));
         expect(cents(values[3])).toBe(cents(values[1]) - cents(values[2]));
         expect(cents(values[5])).toBe(cents(values[1]) - cents(values[4]));
         totalSold += Number(values[0]);
@@ -133,7 +135,7 @@ test("purchase drafts survive tabs; cancel and rejected checkout never change st
     await add(page, "cup");
     await expect(page.locator("#cash")).toHaveText("$40.00");
     await expect(page.locator("#inventory-lemon")).toHaveText("0");
-    await expect(page.locator("#order-total")).toHaveText("$4.40");
+    await expect(page.locator("#order-total")).toHaveText("$4.20");
     await tab(page, "recipe");
     await page.locator("#open").click();
     await expect(page.locator("#supplies-page")).toBeVisible();
@@ -142,13 +144,13 @@ test("purchase drafts survive tabs; cancel and rejected checkout never change st
     await page.locator("#cancel-order").click();
     await expect(page.locator("#order-total")).toHaveText("$0.00");
     await expect(page.locator("#cash")).toHaveText("$40.00");
-    await add(page, "lemon", 2, 2);
+    await add(page, "lemon", 2, 3);
     await add(page, "cup", 2, 2);
     await page.locator("#buy-order").click();
     await expect(page.locator("#message")).toContainText("Not enough cash");
     await expect(page.locator("#inventory-lemon")).toHaveText("0");
     await expect(page.locator("#cash")).toHaveText("$40.00");
-    await expect(page.locator("#order-total")).toHaveText("$44.00");
+    await expect(page.locator("#order-total")).toHaveText("$55.50");
     await page.locator("#cancel-order").click();
     await change(page, "lemon", "21");
     await expect(page.locator("#message")).toContainText("Check lemon");
@@ -167,13 +169,13 @@ test("purchase drafts survive tabs; cancel and rejected checkout never change st
     await change(page, "price", "1.75");
     await tab(page, "supplies");
     await page.locator("#buy-order").click();
-    await expect(page.locator("#inventory-cup")).toHaveText("20");
-    await expect(page.locator("#cash")).toHaveText("$38.80");
+    await expect(page.locator("#inventory-cup")).toHaveText("75");
+    await expect(page.locator("#cash")).toHaveText("$39.00");
     await add(page, "ice");
     await page.locator("#restart").click();
     await page.locator("#restart").press("Escape");
     await expect(page.locator("#restart")).toHaveText("New business");
-    await expect(page.locator("#order-total")).toHaveText("$1.20");
+    await expect(page.locator("#order-total")).toHaveText("$1.00");
     await page.locator("#restart").click();
     await page.locator("#restart").click();
     await tab(page, "supplies");
@@ -221,28 +223,29 @@ test("all preparation screens retain forecast details and action position across
 
 test("storage-limit checkout preserves every item, cash and pending order", async ({ page }) => {
     await tab(page, "supplies");
-    await add(page, "ice", 2, 3);
+    await add(page, "ice", 2);
+    await add(page, "ice", 1, 2);
     await page.locator("#buy-order").click();
     await expect(page.locator("#inventory-ice")).toHaveText("900");
-    await expect(page.locator("#cash")).toHaveText("$22.00");
+    await expect(page.locator("#cash")).toHaveText("$29.00");
     await add(page, "lemon");
     await add(page, "ice", 1);
     await page.locator("#buy-order").click();
     await expect(page.locator("#message")).toContainText("Storage limit");
     await expect(page.locator("#inventory-lemon")).toHaveText("0");
     await expect(page.locator("#inventory-ice")).toHaveText("900");
-    await expect(page.locator("#cash")).toHaveText("$22.00");
-    await expect(page.locator("#order-total")).toHaveText("$5.60");
+    await expect(page.locator("#cash")).toHaveText("$29.00");
+    await expect(page.locator("#order-total")).toHaveText("$6.20");
     await page.locator("#cancel-order").click();
     await expect(page.locator("#order-total")).toHaveText("$0.00");
-    await expect(page.locator("#cash")).toHaveText("$22.00");
+    await expect(page.locator("#cash")).toHaveText("$29.00");
 });
 
 for (const timing of ["immediately", "after a committed visit", "after changing speed"]) {
     test(`SKIP ${timing} matches normal day accounting without duplicate visits`, async ({ page }) => {
         const game = require("../../.test-build/simulation/game.js");
         const street = require("../../.test-build/simulation/street-day.js");
-        const opened = game.openDay(game.buyOrder(game.withCustomerProfiles(game.withWeatherForecast(game.newGame())), { lemon: 40, sugar: 20, ice: 60, cup: 20 }));
+        const opened = game.openDay(game.buyPacks(game.withCustomerProfiles(game.withWeatherForecast(game.newGame())), { lemon: [1, 0, 0], sugar: [1, 0, 0], ice: [1, 0, 0], cup: [1, 0, 0] }));
         const expected = street.finishStreetDay(street.beginStreetDay(opened)).day.game;
         await stock(page);
         await page.locator("#open").click();
@@ -279,9 +282,8 @@ for (const timing of ["immediately", "after a committed visit", "after changing 
 test("waiting departures appear separately in the live reaction count and report", async ({ page }) => {
     const game = require("../../.test-build/simulation/game.js");
     const street = require("../../.test-build/simulation/street-day.js");
-    const supplies = { lemon: 120, sugar: 60, ice: 180, cup: 60 };
     const expected = street.finishStreetDay(street.beginStreetDay(
-        game.openDay(game.buyOrder(game.withCustomerProfiles(game.withWeatherForecast(game.newGame())), supplies)))).day.game;
+        game.openDay(game.buyPacks(game.withCustomerProfiles(game.withWeatherForecast(game.newGame())), { lemon: [3, 0, 0], sugar: [3, 0, 0], ice: [3, 0, 0], cup: [3, 0, 0] })))).day.game;
     expect(expected.daily.abandoned).toBeGreaterThan(0);
     await tab(page, "supplies");
     for (const item of ["lemon", "sugar", "ice", "cup"]) await add(page, item, 0, 3);
