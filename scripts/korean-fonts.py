@@ -45,12 +45,15 @@ def main():
         options.name_legacy = True
         options.name_languages = ['*']
         # Horizontal UI only; retain shaping/kerning without CJK vertical alternates.
-        options.layout_features = ['ccmp', 'locl', 'kern', 'mark', 'mkmk', 'liga', 'clig', 'calt']
+        options.layout_features = ['ccmp', 'locl', 'ljmo', 'vjmo', 'tjmo', 'rlig', 'kern', 'mark', 'mkmk', 'liga', 'clig', 'calt']
         subsetter = subset.Subsetter(options=options)
         subsetter.populate(unicodes=characters)
         subsetter.subset(font)
         if not hangul.issubset(font.getBestCmap()):
             raise ValueError('Generated font must retain all11172 modern Hangul syllables')
+        features = sorted({record.FeatureTag for record in font['GSUB'].table.FeatureList.FeatureRecord})
+        if not {'ljmo', 'vjmo', 'tjmo'}.issubset(features):
+            raise ValueError('Conjoining Hangul Jamo shaping must be retained')
         names = {1: 'Willow Lane Korean', 2: style, 3: 'WillowLaneKorean-1.0-' + style,
                  4: 'Willow Lane Korean ' + style, 5: 'Version1.0; Noto source ' + COMMIT[:7],
                  6: 'WillowLaneKorean-' + style, 16: 'Willow Lane Korean', 17: style}
@@ -67,7 +70,7 @@ def main():
         font.save(target, reorderTables=True)
         artifacts.append({'file': target.relative_to(ROOT).as_posix(), 'weight': weight,
                           'bytes': target.stat().st_size, 'sha256': hashlib.sha256(target.read_bytes()).hexdigest(),
-                          'modernHangulSyllables': len(hangul), 'modified': True})
+                          'modernHangulSyllables': len(hangul), 'layoutFeatures': features, 'modified': True})
         font.close()
     report = {'source': {'url': URL, 'upstreamCommit': COMMIT, 'sha256': SOURCE_HASH,
                          'bytes': source.stat().st_size, 'license': 'SIL-OFL-1.1'},

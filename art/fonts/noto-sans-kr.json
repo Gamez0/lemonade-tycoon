@@ -62,9 +62,18 @@
     {
       "file": "public/fonts/WillowLaneKorean-Regular.ttf",
       "weight": 400,
-      "bytes": 2624312,
-      "sha256": "1e10c52215248f304ed90a20c414c5e568020434c5698a65168f9445734ab1a9",
+      "bytes": 2789956,
+      "sha256": "fcf6ed7a5d9223e3b1466c4978b5a34176f5417445ea4ead52288de64d309467",
       "modernHangulSyllables": 11172,
+      "layoutFeatures": [
+        "calt",
+        "ccmp",
+        "liga",
+        "ljmo",
+        "locl",
+        "tjmo",
+        "vjmo"
+      ],
       "modified": true
     }
   ]

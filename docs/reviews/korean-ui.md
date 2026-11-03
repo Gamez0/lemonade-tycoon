@@ -32,7 +32,9 @@ uses browser bold synthesis, and excludes unused CJK vertical/alternate layout
 features while retaining horizontal shaping and every modern Hangul syllable.
 The cap is unchanged. The single-face package passed Korean70-layout validation,
 all5 locale browser cases, and20-day performance with maximum phase mean244.953MiB
-and idle draws0. Final exact-head CI is recorded on the issue/PR.
+and idle draws0. Final font review also retained and asserted conjoining Jamo
+features (`ljmo`/`vjmo`/`tjmo`); final exact-head measurements and CI are recorded
+on the issue/PR.
 
 One earlier local run lost its report when a browser test cleared the shared
 output folder; that run is not counted as a completed pass. Report writing now

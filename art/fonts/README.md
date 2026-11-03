@@ -22,5 +22,7 @@ Windows package; coverage is not restricted to the current translation strings.
 
 Bold UI text uses browser synthesis from the same face. Horizontal shaping and
 kerning are retained; unused CJK vertical/alternate layout features are removed.
+Conjoining Jamo shaping (`ljmo`/`vjmo`/`tjmo`) is explicitly retained and verified,
+following [Microsoft's Hangul shaping requirements](https://learn.microsoft.com/en-us/typography/script-development/hangul).
 A separate bold font increased the Windows CI private-memory measurements past
 the unchanged256MiB budget and is intentionally not shipped.
