@@ -40,7 +40,7 @@ let app;
             await page.locator('#skip').click(); await page.clock.runFor(500);
             await expect(page.locator('#report-response')).toContainText(advice);
             await expect.poll(async () => (await read())?.state.business).toBe(null);
-            const saved = await read(); assert.equal(saved.version, 13);
+            const saved = await read(); assert.equal(saved.version, 14);
             const report = saved.history.at(-1);
             assert.deepEqual(saved.state, withCustomerProfiles(withWeatherForecast(nextDay(report))));
             assert.equal(report.business.customerModel, 'purchase-first-v1');
@@ -141,6 +141,16 @@ let app;
             assert.deepEqual((await read()).history[0], fixture.expected);
             observations.push({ name: `actual main v12 seed ${fixture.seed}`, exactReplay: true });
         }
+        for (const fixture of require('./fixtures/alpha24-v13-economy.json').cases) {
+            await page.locator('#save-file').setInputFiles({ name: 'main-v13.json', mimeType: 'application/json',
+                buffer: Buffer.from(JSON.stringify(fixture.document)) });
+            await expect(page.locator('#save-status')).toContainText('Imported save');
+            await page.locator('#open').click(); await page.locator('#skip').click(); await page.clock.runFor(500);
+            await expect.poll(async () => (await read())?.state.business).toBe(null);
+            assert.deepEqual((await read()).history.at(-1), fixture.expected);
+            assert.equal((await read()).state.economy, undefined);
+            observations.push({ name: `actual schema13 ${fixture.name}`, exactReplay: true });
+        }
         const beach = fundedStandBusiness('beach');
         const profilePrepared = withInventoryCosts(stock(withCustomerProfiles(withWeatherForecast(beach.state)), 125));
         const profileExpected = finishStreetDay(beginStreetDay(game.openDay(profilePrepared))).day.game;
@@ -157,7 +167,7 @@ let app;
         assert.deepEqual(profileErrors, []);
         observations.push({ name: 'eleven anonymous groups, beach visuals and paid reload', exactReplay: true });
         fs.writeFileSync(path.join(out, 'results.json'), JSON.stringify({ target: 'actual packaged Windows game', observations }, null, 2));
-        console.log(`Windows buyer taste, eleven groups, weather and actual v6/v10/v11/v12 paid replay: ${observations.length} observations PASS`);
+        console.log(`Windows buyer taste, eleven groups, weather and actual v6/v10/v11/v12/v13 paid replay: ${observations.length} observations PASS`);
     } finally {
         await app?.close();
         if (!path.resolve(base).startsWith(path.resolve(os.tmpdir()) + path.sep + 'lemonade-taste-')) throw Error('Unexpected test profile path.');

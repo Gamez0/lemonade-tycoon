@@ -1,13 +1,15 @@
-import { ITEMS, ITEM_KEYS, type Item } from "../content/catalog";
+import { ITEM_KEYS, type Item } from "../content/catalog";
+import { pricesFor } from "../content/price-rules";
 import type { State, Stock } from "./game";
 
 export interface InventoryCosts { readonly values: Stock; readonly opening: number }
 export const totalCost = (values: Stock): number => ITEM_KEYS.reduce((sum, item) => sum + values[item], 0);
 export const paidQuantity = (state: State, item: Item): number => state.stock[item] - (item === "ice" ? state.freeIce : 0);
 export function inventoryValues(state: State): Stock {
-    return state.inventoryCosts?.values ?? { lemon: state.stock.lemon * ITEMS.lemon.cost,
-        sugar: state.stock.sugar * ITEMS.sugar.cost, ice: paidQuantity(state, "ice") * ITEMS.ice.cost,
-        cup: state.stock.cup * ITEMS.cup.cost };
+    const costs = pricesFor(state).unitCosts;
+    return state.inventoryCosts?.values ?? { lemon: state.stock.lemon * costs.lemon,
+        sugar: state.stock.sugar * costs.sugar, ice: paidQuantity(state, "ice") * costs.ice,
+        cup: state.stock.cup * costs.cup };
 }
 /** Adopt at an unpaid boundary, never while decoding/replaying an old paid day. */
 export function withInventoryCosts(state: State): State {
@@ -19,7 +21,7 @@ export function withInventoryCosts(state: State): State {
     return { ...state, inventoryCosts: { values, opening: totalCost(values) - state.daily.purchases } };
 }
 export function allocatedCost(state: State, item: Item, quantity: number): number {
-    if (!state.inventoryCosts) return quantity * ITEMS[item].cost;
+    if (!state.inventoryCosts) return quantity * pricesFor(state).unitCosts[item];
     if (quantity === 0) return 0;
     return Math.round(state.inventoryCosts.values[item] * quantity / paidQuantity(state, item));
 }

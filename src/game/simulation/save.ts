@@ -1,18 +1,20 @@
 import { validConditions } from "../content/day-conditions";
 import { defaultManagement, UPGRADES, STAFF, ADS } from "../content/management";
-import { ITEMS, ITEM_KEYS, WEATHER, type Weather } from "../content/catalog";
+import { ITEM_KEYS, WEATHER, type Weather } from "../content/catalog";
 import { cupsPerPitcher, unlockLocations } from "./game";
 import type { State } from "./game";
 import { isLocation, LOCATION_IDS, LOCATIONS, LEGACY_LOCATION_IDS, defaultLocationStats } from "../content/locations";
 import type { LocationId } from "../content/locations";
 import { weatherPeriod, type Three } from "./weather-periods";
 import { inventoryValues, totalCost } from "./inventory-costs";
+import { PRICE_RULES, pricesFor } from "../content/price-rules";
+import { equipmentValue } from "./equipment-costs";
 
 export const SAVE_KEY = "lemonade-tycoon.reboot.save";
 export const BACKUP_KEY = "lemonade-tycoon.reboot.backup";
 export type SaveStorage = Pick<Storage, "getItem" | "setItem">;
 export interface SaveDocument {
-    readonly version: 13;
+    readonly version: 14;
     readonly state: State;
     readonly history: readonly State[];
     readonly companyId?: string;
@@ -94,11 +96,26 @@ function validLocations(value: Record<string, unknown>, preTenLocations = false)
     return true;
 }
 
+function validEconomy(value: Record<string, unknown>): boolean {
+    if (value.economy === undefined) return true;
+    const economy = value.economy;
+    if (!record(economy) || typeof economy.rule !== "string" || !Object.prototype.hasOwnProperty.call(PRICE_RULES, economy.rule) ||
+        !record(economy.equipment) || !record(value.management) || !record(value.management.upgrades)) return false;
+    const rule = pricesFor(value as unknown as State);
+    return Object.keys(economy.equipment).length === Object.keys(UPGRADES).length &&
+        Object.keys(UPGRADES).every(id => {
+            const costs = (economy.equipment as Record<string, unknown>)[id];
+            const level = ((value.management as Record<string, unknown>).upgrades as Record<string, unknown>)[id];
+            const quotes = rule.upgrades[id as keyof typeof UPGRADES];
+            return Array.isArray(costs) && integer(level, 0, quotes.length) && costs.length === level &&
+                costs.every((cost, index) => integer(cost) && cost === quotes[index]);
+        });
+}
 function validState(value: unknown, legacy = false, preM5 = false, preM6 = false, preFreeIce = false, preEagerPitcher = false, preCustomerModel = false, preStand = false, preTenLocations = false): value is State {
     if (!record(value) || !["preparation", "results"].includes(String(value.phase)) ||
         !integer(value.day, 1) || !integer(value.cash) || !integer(value.openingCash) ||
         !integer(value.seed, 0, 4294967295) || !fraction(value.reputation) ||
-        !record(value.stock) || !record(value.plan) || !record(value.daily) || !record(value.weather) || !validPeriods(value) ||
+        !record(value.stock) || !record(value.plan) || !record(value.daily) || !record(value.weather) || !validPeriods(value) || !validEconomy(value) ||
         (value.customerProfileModel !== undefined && value.customerProfileModel !== "eleven-profiles-v1") ||
         (record(value.business) && ((value.business.customerModel === "eleven-profiles-v1") !== (value.customerProfileModel === "eleven-profiles-v1")))) return false;
     if (!preM6 && (!record(value.management) || !record(value.management.upgrades) ||
@@ -110,9 +127,10 @@ function validState(value: unknown, legacy = false, preM5 = false, preM6 = false
         !integer(value.daily.capital) || !integer(value.daily.wages) || !integer(value.daily.advertising))) return false;
     if (!preM6) {
         const management = value.management as unknown as State["management"];
+        const rule = pricesFor(value as unknown as State);
         const daily = value.daily;
         if (value.business === null ? daily.wages !== 0 || daily.advertising !== 0
-            : daily.wages !== STAFF[management.staff].wage || daily.advertising !== ADS[management.advertising].cost) return false;
+            : daily.wages !== rule.wages[management.staff] || daily.advertising !== rule.advertising[management.advertising]) return false;
     }
     const stock = value.stock;
     if (!ITEM_KEYS.every(item => integer(stock[item], 0, 999))) return false;
@@ -147,8 +165,9 @@ function validState(value: unknown, legacy = false, preM5 = false, preM6 = false
         (value.phase === "preparation" && (daily.visitors !== 0 || (!preparedOpening && daily.cost !== 0) ||
             (!legacy && ((!preparedOpening && daily.pitchersMade !== 0) || daily.model !== "pitcher"))))) return false;
     const recipe = plan.recipe as unknown as State["plan"]["recipe"];
-    const oldCost = recipe.lemon * ITEMS.lemon.cost + recipe.sugar * ITEMS.sugar.cost +
-        recipe.ice * ITEMS.ice.cost + ITEMS.cup.cost;
+    const unitCosts = pricesFor(value as unknown as State).unitCosts;
+    const oldCost = recipe.lemon * unitCosts.lemon + recipe.sugar * unitCosts.sugar +
+        recipe.ice * unitCosts.ice + unitCosts.cup;
     const freeIceUsed = preFreeIce ? 0 : daily.freeIceUsed as number;
     const perCupIce = record(value.business) && value.business.customerModel !== undefined;
     const usedIce = perCupIce ? (daily.sold as number) * recipe.ice
@@ -156,8 +175,8 @@ function validState(value: unknown, legacy = false, preM5 = false, preM6 = false
     if (!preFreeIce && (freeIceUsed > usedIce ||
         (daily.model === "cup" && freeIceUsed !== 0) || (value.phase === "preparation" && !preparedOpening && freeIceUsed !== 0))) return false;
     const expectedCost = legacy || daily.model === "cup" ? (daily.sold as number) * oldCost
-        : (daily.pitchersMade as number) * (recipe.lemon * ITEMS.lemon.cost + recipe.sugar * ITEMS.sugar.cost)
-            + usedIce * ITEMS.ice.cost + (daily.sold as number) * ITEMS.cup.cost - freeIceUsed * ITEMS.ice.cost;
+        : (daily.pitchersMade as number) * (recipe.lemon * unitCosts.lemon + recipe.sugar * unitCosts.sugar)
+            + usedIce * unitCosts.ice + (daily.sold as number) * unitCosts.cup - freeIceUsed * unitCosts.ice;
     if (daily.revenue !== (daily.sold as number) * (plan.price as number) ||
         (value.inventoryCosts === undefined ? daily.cost !== expectedCost
             : !validInventoryCosts(value) || (daily.cost as number) > expectedCost) ||
@@ -177,7 +196,7 @@ function validInventoryCosts(state: Record<string, unknown>): boolean {
     const stock = state.stock, values = costs.values;
     if (!ITEM_KEYS.every(item => {
         const quantity = (stock[item] as number) - (item === "ice" ? state.freeIce as number : 0);
-        return integer(values[item], 0, quantity * ITEMS[item].cost) && (quantity !== 0 || values[item] === 0);
+        return integer(values[item], 0, quantity * pricesFor(state as unknown as State).unitCosts[item]) && (quantity !== 0 || values[item] === 0);
     })) return false;
     return totalCost(values as unknown as State["stock"]) + (state.daily.cost as number)
         === (costs.opening as number) + (state.daily.purchases as number);
@@ -186,10 +205,12 @@ function validInventoryCosts(state: Record<string, unknown>): boolean {
 export function decodeSave(raw: string): SaveDocument {
     let input: unknown;
     try { input = JSON.parse(raw); } catch { throw new Error("Save file is not valid JSON."); }
-    if (!record(input) || ![0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].includes(input.version as number)) {
-        if (record(input) && integer(input.version) && input.version > 13) throw new UnsupportedSaveVersionError();
+    if (!record(input) || ![0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].includes(input.version as number)) {
+        if (record(input) && integer(input.version) && input.version > 14) throw new UnsupportedSaveVersionError();
         throw new Error("Unsupported save version. Keep the file as a backup.");
     }
+    if ((input.version as number) < 14 && [input.state, ...(Array.isArray(input.history) ? input.history : [])].some(day =>
+        record(day) && day.economy !== undefined)) throw new Error("Save data is damaged: invalid legacy price rules.");
     if ((input.version as number) < 13 && [input.state, ...(Array.isArray(input.history) ? input.history : [])].some(day =>
         record(day) && (day.inventoryCosts !== undefined || (record(day.business) && day.business.inventoryModel !== undefined))))
         throw new Error("Save data is damaged: invalid legacy inventory costs.");
@@ -289,22 +310,25 @@ export function decodeSave(raw: string): SaveDocument {
     const previousLocation = history[state.day - 2]?.location ?? "neighborhood";
     if (state.phase === "preparation" && (state.business ? state.business.from : state.location) !== previousLocation)
         throw new Error("Save location does not match the opening checkpoint.");
+    const snapshots = [...history, ...(state.phase === "preparation" ? [state] : [])];
+    if (snapshots.some(day => day.economy?.rule !== state.economy?.rule) ||
+        snapshots.some((day, index) => day.economy && index > 0 && Object.keys(UPGRADES).some(id =>
+            day.management.upgrades[id as keyof typeof UPGRADES] < snapshots[index - 1].management.upgrades[id as keyof typeof UPGRADES])))
+        throw new Error("Save company price rules do not match the ledger.");
     let capital = 0;
     const paidEquipment = (day: State): boolean => {
         capital += day.daily.capital;
-        const value = Object.entries(UPGRADES).reduce((sum, [id, item]) => sum +
-            item.prices.slice(0, day.management.upgrades[id as keyof typeof UPGRADES]).reduce((a, b) => a + b, 0), 0);
-        return capital === value;
+        return capital === equipmentValue(day);
     };
     if (!history.every(paidEquipment) || (state.phase === "preparation" && !paidEquipment(state)))
         throw new Error("Save equipment purchases do not match the ledger.");
-    return { version: 13, state, history, ...(input.companyId === undefined ? {} : { companyId: input.companyId as string }),
+    return { version: 14, state, history, ...(input.companyId === undefined ? {} : { companyId: input.companyId as string }),
         ...(input.mode === undefined ? {} : { mode: input.mode as "career" | "challenge" }) };
 }
 
 export function encodeSave(state: State, history: readonly State[], companyId?: string, mode?: "career" | "challenge"): string {
     if (state.phase === "selling") throw new Error("Save a checkpoint before opening the stand.");
-    return JSON.stringify(decodeSave(JSON.stringify({ version: 13, state, history, companyId, mode })));
+    return JSON.stringify(decodeSave(JSON.stringify({ version: 14, state, history, companyId, mode })));
 }
 
 export function writeSave(storage: SaveStorage, state: State, history: readonly State[], companyId?: string, mode?: "career" | "challenge"): void {

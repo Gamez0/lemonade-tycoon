@@ -35,7 +35,7 @@ test('actual weather changes with generated arrivals and paid reload plus SKIP r
     await page.screenshot({ path: 'test-results/weather-period-3.png' });
     await page.locator('#skip').click(); await page.clock.runFor(500);
     const saved = JSON.parse(await page.evaluate(key => localStorage.getItem(key), SAVE_KEY));
-    expect(saved.version).toBe(13);
+    expect(saved.version).toBe(14);
     expect(saved.history[0]).toEqual(expected);
     await page.reload(); await page.clock.runFor(500);
     expect(JSON.parse(await page.evaluate(key => localStorage.getItem(key), SAVE_KEY))).toEqual(saved);
