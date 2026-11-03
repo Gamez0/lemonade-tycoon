@@ -9,6 +9,7 @@ const { campaign, stock } = require('./helpers/business.cjs');
 const { openDay, nextDay, withWeatherForecast, withCustomerProfiles, reserveLocation } = require('../.test-build/simulation/game.js');
 const { beginStreetDay, finishStreetDay } = require('../.test-build/simulation/street-day.js');
 const { encodeSave } = require('../.test-build/simulation/save.js');
+const { withInventoryCosts } = require('../.test-build/simulation/inventory-costs.js');
 const { profileArgs, verifyProfile } = require('./helpers/desktop-profile.cjs');
 const executablePath = process.env.LEMONADE_DESKTOP_EXE;
 if (process.platform !== 'win32' || !executablePath || !fs.existsSync(executablePath))
@@ -34,7 +35,7 @@ async function close() {
 (async () => {
     try {
         let page = await launch();
-        const initial = campaign(); initial.state = stock(initial.state);
+        const initial = campaign(); initial.state = withInventoryCosts(stock(initial.state));
         await page.locator('#save-file').setInputFiles({ name: 'web-business.json', mimeType: 'application/json',
             buffer: Buffer.from(encodeSave(initial.state, initial.history)) });
         await expect(page.locator('#save-status')).toContainText('Imported save');

@@ -4,6 +4,7 @@ const { _electron: electron } = require('playwright');
 const { expect } = require('@playwright/test');
 const { newGame, setPlan, buyOrder, nextDay, withWeatherForecast, withCustomerProfiles, results } = require('../.test-build/simulation/game.js');
 const { encodeSave } = require('../.test-build/simulation/save.js');
+const { withInventoryCosts } = require('../.test-build/simulation/inventory-costs.js');
 const { WEATHER } = require('../.test-build/content/catalog.js');
 const { profileArgs, verifyProfile } = require('./helpers/desktop-profile.cjs');
 const executablePath = process.env.LEMONADE_DESKTOP_EXE;
@@ -86,12 +87,12 @@ let app;
         const replay = await read();
         const expected = require('./helpers/stand-schema.cjs').withBasicStand(legacy.expected);
         assert.deepEqual(replay.history.at(-1), expected);
-        assert.deepEqual(replay.state, withCustomerProfiles(withWeatherForecast(nextDay(expected))));
+        assert.deepEqual(replay.state, withInventoryCosts(withCustomerProfiles(withWeatherForecast(nextDay(expected)))));
         observations.push({ name: 'actual alpha13 paid opening', exactReplay: true, importedVersion: 6, savedVersion: replay.version });
         const game = require('../.test-build/simulation/game.js');
         const { stock } = require('./helpers/business.cjs');
         const { beginStreetDay, finishStreetDay } = require('../.test-build/simulation/street-day.js');
-        const periodPrepared = stock(withWeatherForecast(newGame(1)));
+        const periodPrepared = withInventoryCosts(stock(withWeatherForecast(newGame(1))));
         const periodExpected = finishStreetDay(beginStreetDay(game.openDay(periodPrepared))).day.game;
         await page.locator('#save-file').setInputFiles({ name: 'periods.json', mimeType: 'application/json',
             buffer: Buffer.from(encodeSave(periodPrepared, [])) });
@@ -131,8 +132,17 @@ let app;
             assert.equal((await read()).state.customerProfileModel, 'eleven-profiles-v1');
             observations.push({ name: `actual v11 weather periods seed ${fixture.seed}`, exactReplay: true });
         }
+        for (const fixture of require('./fixtures/alpha21-v12-supplies.json').cases) {
+            await page.locator('#save-file').setInputFiles({ name: 'main-v12.json', mimeType: 'application/json',
+                buffer: Buffer.from(JSON.stringify(fixture.document)) });
+            await expect(page.locator('#save-status')).toContainText('Imported save');
+            await page.locator('#open').click(); await page.locator('#skip').click(); await page.clock.runFor(500);
+            await expect.poll(async () => (await read())?.state.business).toBe(null);
+            assert.deepEqual((await read()).history[0], fixture.expected);
+            observations.push({ name: `actual main v12 seed ${fixture.seed}`, exactReplay: true });
+        }
         const beach = fundedStandBusiness('beach');
-        const profilePrepared = stock(withCustomerProfiles(withWeatherForecast(beach.state)), 125);
+        const profilePrepared = withInventoryCosts(stock(withCustomerProfiles(withWeatherForecast(beach.state)), 125));
         const profileExpected = finishStreetDay(beginStreetDay(game.openDay(profilePrepared))).day.game;
         const profileErrors = []; page.on('pageerror', error => profileErrors.push(error.message));
         await page.locator('#save-file').setInputFiles({ name: 'eleven-groups.json', mimeType: 'application/json',
@@ -147,7 +157,7 @@ let app;
         assert.deepEqual(profileErrors, []);
         observations.push({ name: 'eleven anonymous groups, beach visuals and paid reload', exactReplay: true });
         fs.writeFileSync(path.join(out, 'results.json'), JSON.stringify({ target: 'actual packaged Windows game', observations }, null, 2));
-        console.log('Windows buyer taste, eleven groups, weather and actual v6/v10/v11 paid replay: 15/15 PASS');
+        console.log(`Windows buyer taste, eleven groups, weather and actual v6/v10/v11/v12 paid replay: ${observations.length} observations PASS`);
     } finally {
         await app?.close();
         if (!path.resolve(base).startsWith(path.resolve(os.tmpdir()) + path.sep + 'lemonade-taste-')) throw Error('Unexpected test profile path.');

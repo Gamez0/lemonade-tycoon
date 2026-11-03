@@ -19,8 +19,10 @@ unchanged and pass focused browser tests. Actual main f1f0ea2's v12 rule tree
 
 Locked npm ci completed with zero vulnerabilities. Local118 model/storage,
 15 release, typecheck and reboot lint checks pass. A reviewed-build20-case
-save/menu/bulk browser run passed. Current90-browser and14-native checks are
-in progress; remote current-head CI remains required before integration.
+save/menu/bulk browser run passed. All90 browser checks pass (7.8 minutes). Native v6/v10/v11/v12 replay
+checks pass18 observations; initial Windows CI caught a stale unpaid location
+fixture, now explicitly adopting the new model. Remaining native display/audio/
+performance and updated-head remote CI are in progress.
 The first native UI price-persistence poll saw150 instead of225; a diagnostic
 rerun passed its complete UI/price/relaunch checks without weakening assertions.
 The initial failure log is preserved; no root cause is claimed. Normal packaged
