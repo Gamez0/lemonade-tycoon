@@ -12,6 +12,8 @@ app.disableHardwareAcceleration();
 let window;
 let closeCheckpoint;
 let displayController;
+let rendererSaveReady = false;
+let pendingFlush = null;
 const storage = createFileStorage();
 const diagnostics = require('./diagnostics.cjs').createDiagnostics();
 
@@ -31,6 +33,14 @@ ipcMain.handle('save:set', (event, key, value) => {
 ipcMain.on('save:flushed', (event, request, success) => {
     authorized(event);
     closeCheckpoint.acknowledge(request, success);
+});
+ipcMain.on('save:ready', event => {
+    authorized(event);
+    rendererSaveReady = true;
+    if (pendingFlush !== null) {
+        window.webContents.send('save:flush', pendingFlush);
+        pendingFlush = null;
+    }
 });
 
 ipcMain.handle('app:quit', event => { authorized(event); window.close(); });
@@ -62,6 +72,9 @@ app.whenReady().then(() => {
         },
     });
     displayController = createDisplayController(window, screen, preferences);
+    window.webContents.on('did-start-navigation', (_event, _url, isInPlace, isMainFrame) => {
+        if (isMainFrame && !isInPlace) rendererSaveReady = false;
+    });
     window.webContents.on('render-process-gone', () => diagnostics.record('renderer-gone'));
     window.webContents.on('did-fail-load', () => diagnostics.record('load-failed'));
     window.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
@@ -69,8 +82,15 @@ app.whenReady().then(() => {
         if (url !== window.webContents.getURL()) event.preventDefault();
     });
     closeCheckpoint = createCloseCheckpoint({
-        flush: request => window.webContents.send('save:flush', request),
-        resume: () => { if (!window.webContents.isDestroyed()) window.webContents.send('save:resume'); },
+        flush: request => {
+            // Closing during module startup must wait for the renderer's listener.
+            if (rendererSaveReady) window.webContents.send('save:flush', request);
+            else pendingFlush = request;
+        },
+        resume: () => {
+            pendingFlush = null;
+            if (!window.webContents.isDestroyed()) window.webContents.send('save:resume');
+        },
         close: () => { if (!window.isDestroyed()) window.close(); },
         record: event => diagnostics.record(event),
         warn: async () => {
