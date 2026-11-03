@@ -43,3 +43,21 @@ Verification must cover every quoted pack, combined/multiple packs, storage and
 cash rejection without mutation, mixed acquisition prices, zero-cost generated
 ice, partial/full retention, save/reload, forged pools, and actual v6–v12 paid
 fixtures. Current-head browser/native CI is required before integration.
+
+## Validation checkpoint — 2026-11-03 KST
+
+Fresh locked dependencies: 118 model/storage checks, 15 release checks,
+typecheck, reboot lint and production builds pass. All 90 browser checks pass
+(7.8 minutes), including quoted checkout, balance-sheet acquisition value,
+equipment, paid saves, failed company-journal cleanup, held transfers and
+normal-close/import ordering.
+
+Native save/recovery, a 30-day actual UI campaign, 1600-day history handling,
+management, 100 rent selections, all 40 map/stand combinations and menu checks
+pass. Buyer/weather coverage now includes actual v12 fixtures alongside
+v6/v10/v11: 18 observations pass. Current unpaid-day expectations explicitly
+adopt the cost model; legacy paid result assertions remain exact. A corresponding
+location fixture was corrected after initial remote Windows CI found the newly
+adopted fields absent from its expected next-day state. Runtime rules were not
+changed to hide those fields. Final native display/audio/performance and exact
+updated-head remote CI remain in progress.
