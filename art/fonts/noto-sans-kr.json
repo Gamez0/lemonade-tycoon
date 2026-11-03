@@ -1,0 +1,79 @@
+{
+  "source": {
+    "url": "https://raw.githubusercontent.com/google/fonts/b38c5c93af322c45f633e17ac440ec1e6c94d489/ofl/notosanskr/NotoSansKR%5Bwght%5D.ttf",
+    "upstreamCommit": "b38c5c93af322c45f633e17ac440ec1e6c94d489",
+    "sha256": "194018e6b2b293a7964f037b25c0249ce1418bc9ab3c971060a03aa57861e252",
+    "bytes": 10414588,
+    "license": "SIL-OFL-1.1"
+  },
+  "tool": "fonttools==4.65.0",
+  "family": "Willow Lane Korean",
+  "unicodeRanges": [
+    [
+      "0x20",
+      "0x24f"
+    ],
+    [
+      "0x1100",
+      "0x11ff"
+    ],
+    [
+      "0x2000",
+      "0x206f"
+    ],
+    [
+      "0x20a0",
+      "0x20cf"
+    ],
+    [
+      "0x2190",
+      "0x21ff"
+    ],
+    [
+      "0x2460",
+      "0x24ff"
+    ],
+    [
+      "0x2600",
+      "0x26ff"
+    ],
+    [
+      "0x3130",
+      "0x318f"
+    ],
+    [
+      "0xa960",
+      "0xa97f"
+    ],
+    [
+      "0xac00",
+      "0xd7a3"
+    ],
+    [
+      "0xd7b0",
+      "0xd7ff"
+    ],
+    [
+      "0xfffd",
+      "0xfffd"
+    ]
+  ],
+  "artifacts": [
+    {
+      "file": "public/fonts/WillowLaneKorean-Regular.ttf",
+      "weight": 400,
+      "bytes": 2820092,
+      "sha256": "04d0917a3cf366b98b0c799668b84321ef56304be0b6c6653b3548611677fc23",
+      "modernHangulSyllables": 11172,
+      "modified": true
+    },
+    {
+      "file": "public/fonts/WillowLaneKorean-Bold.ttf",
+      "weight": 700,
+      "bytes": 2819696,
+      "sha256": "b641dcef668efe29c777dec23e735694ead89cd3293f573a1e47b1dddc445dc4",
+      "modernHangulSyllables": 11172,
+      "modified": true
+    }
+  ]
+}

@@ -19,7 +19,7 @@ export const markup = `
  ${(["results", "rent", "upgrades", "staff", "marketing", "recipe", "supplies"] as const).map((page) => `<button data-page="${page}" aria-pressed="${page === "recipe"}" aria-controls="${page === "results" ? "results" : `${page}-page`}">${page === "staff" ? staffPortrait("server") : icon(page)}${page[0].toUpperCase() + page.slice(1)}</button>`).join("")}
  </nav>
  <section class="forecast" aria-label="Forecast">
-  <div class="forecast-weather"><strong class="date-line" id="career-date"><span class="date-part">Year <span id="year">1</span></span> / <span class="date-part">Month <span id="month">1</span></span> / <span class="date-part">Day <span id="day">01</span></span></strong><span class="label" id="weather-label">Weather forecast</span><div class="weather-reading"><span id="weather-art"></span><strong id="weather"></strong></div><span id="weather-advice" class="weather-advice"></span></div>
+  <div class="forecast-weather"><strong class="date-line" id="career-date"><span class="date-part"><span class="date-unit">Year </span><span id="year">1</span></span> / <span class="date-part"><span class="date-unit">Month </span><span id="month">1</span></span> / <span class="date-part"><span class="date-unit">Day </span><span id="day">01</span></span></strong><span class="label" id="weather-label">Weather forecast</span><div class="weather-reading"><span id="weather-art"></span><strong id="weather"></strong></div><span id="weather-advice" class="weather-advice"></span></div>
   <div class="forecast-news"><p id="forecast-news"></p><div class="day-clock">${icon("clock")}<span id="world-status"></span></div><span id="progress-text"></span><progress id="day-progress" max="1" value="0" aria-label="Day progress"></progress></div>
  </section>
 </div>
@@ -66,6 +66,7 @@ export const markup = `
 </main>
 <footer><button id="help-open" class="text-button">Help / Sound</button><span id="goal"></span><button id="restart" class="text-button">New business</button><button id="export-save" class="text-button">Export save</button><button id="import-save" class="text-button">Import save</button><input id="save-file" class="sr-only" type="file" accept=".json,application/json"><a href="./legacy.html">Legacy game</a><small id="save-status" role="status">Saved on this device</small></footer>
 <dialog id="help-dialog" aria-labelledby="help-title"><div class="help-heading"><h2 id="help-title">Willow Lane · Help and settings</h2><button id="help-close">CLOSE</button></div>
+<fieldset id="language-settings"><legend>Language</legend><label>Language <select id="language" aria-label="Language"><option value="en" data-no-translate>English</option><option value="ko" data-no-translate>한국어</option></select></label></fieldset>
 <fieldset id="display-settings" hidden><legend>Display</legend>
 <label>Screen mode <select id="display-mode"><option value="windowed">Windowed</option><option value="fullscreen">Fullscreen</option></select></label>
 <label>Window size <select id="display-size"></select></label>
@@ -79,7 +80,7 @@ export const markup = `
 <p>Equipment is permanent. A server speeds service; a host extends patience. Owner only dismisses staff. Ice makers produce up to 60/120 free ice at opening. Choose affordable investments.</p>
 <p>Customers decide whether to buy from your price, their budget and your existing reputation. Ads attract visitors. Today's recipe is tasted after purchase: too little ice on a hot day tastes warm; extra ice can make it watery unless you add balanced lemon and sugar. Lemon/sugar balance affects sourness and sweetness. Taste changes satisfaction and future reputation. Daily satisfaction also includes customers lost to price, waiting or empty stock. Downtown has more office workers, who wait less than neighbors or students. Operating costs are rent, moving, wages and ads.</p>
 <p>Saves are automatic before opening and after results. Closing during sales replays the paid opening without another fee. Export a backup before updating. New business requires a second confirmation.</p>
-<p>Keyboard: Tab / Shift+Tab to move, Enter or Space to activate, Escape closes this help. All feedback is available with sound muted. English is the initial supported language.</p>
+<p>Keyboard: Tab / Shift+Tab to move, Enter or Space to activate, Escape closes this help. All feedback is available with sound muted. Choose English or Korean in Language settings. Dollar amounts remain US dollars.</p>
 <label>Music <input id="music-volume" type="range" min="0" max="100" value="25"></label>
 <label>Effects <input id="effects-volume" type="range" min="0" max="100" value="35"></label>
 <label><input id="mute-audio" type="checkbox"> Mute all sound</label>

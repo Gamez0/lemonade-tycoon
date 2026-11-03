@@ -58,6 +58,8 @@ test('shipped archive audit rejects missing notices, altered licenses and embedd
         const phaserNotice = fs.readFileSync(path.resolve(__dirname, '../node_modules/phaser/LICENSE.md'));
         write('LICENSE-Phaser.txt', phaserNotice);
         write('dist/licenses/OFL-Oswald.txt', fs.readFileSync(path.resolve(__dirname, '../public/fonts/OFL-Oswald.txt')));
+        write('dist/licenses/OFL-NotoSansKR.txt', fs.readFileSync(path.resolve(__dirname, '../public/fonts/OFL-NotoSansKR.txt')));
+        for (const weight of ['Regular', 'Bold']) write('dist/assets/WillowLaneKorean-' + weight + '-AbCd1234.ttf', 'Korean font fixture');
         write('dist/assets/neighborhood-cottage-AbCd1234.png', 'selected raster fixture');
         write('dist/assets/stand-castle-AbCd1234.png', 'selected stand fixture');
         write('dist/assets/map-neighborhood-AbCd1234.png', 'selected background fixture');
@@ -128,18 +130,18 @@ test('manifest distinguishes source from synthetic merge checkout', () => tempor
 }));
 test('desktop audit rejects legacy and research content', () => temporary(directory => {
     fs.mkdirSync(path.join(directory, 'assets')); fs.mkdirSync(path.join(directory, 'licenses'));
-    for (const file of ['index.html', 'licenses/OFL-Oswald.txt', 'assets/font.ttf', 'assets/game.js'])
+    for (const file of ['index.html', 'licenses/OFL-Oswald.txt', 'licenses/OFL-NotoSansKR.txt', 'assets/WillowLaneKorean-Regular-AbCd1234.ttf', 'assets/WillowLaneKorean-Bold-AbCd1234.ttf', 'assets/font.ttf', 'assets/game.js'])
         fs.writeFileSync(path.join(directory, file), 'fixture');
-    assert.equal(auditDesktop(directory).length, 4);
+    assert.equal(auditDesktop(directory).length, 7);
     fs.writeFileSync(path.join(directory, 'assets/neighborhood-house-left-AbCd1234.png'), 'authored raster');
     fs.writeFileSync(path.join(directory, 'assets/stand-basic-AbCd1234.png'), 'authored stand');
     fs.writeFileSync(path.join(directory, 'assets/map-park-AbCd1234.png'), 'authored background');
-    assert.equal(auditDesktop(directory).length, 7);
+    assert.equal(auditDesktop(directory).length, 10);
     fs.writeFileSync(path.join(directory, 'assets/staff-host-v1-AbCd1234.png'), 'authored portrait');
-    assert.equal(auditDesktop(directory).length, 8);
+    assert.equal(auditDesktop(directory).length, 11);
     for (const name of ['refrigerator', 'ice-maker', 'blender'])
         fs.writeFileSync(path.join(directory, 'assets/equipment-' + name + '-v1-AbCd1234.png'), 'authored equipment');
-    assert.equal(auditDesktop(directory).length, 11);
+    assert.equal(auditDesktop(directory).length, 14);
     fs.writeFileSync(path.join(directory, 'assets/equipment-original-v1-AbCd1234.png'), 'unapproved equipment');
     assert.throws(() => auditDesktop(directory), /Unapproved/);
     fs.unlinkSync(path.join(directory, 'assets/equipment-original-v1-AbCd1234.png'));

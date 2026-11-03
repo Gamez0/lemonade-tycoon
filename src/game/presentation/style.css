@@ -1183,3 +1183,11 @@ dialog h2, #display-settings .hint { color: inherit; }
 
 .upgrade-details span { display: block; }
 .upgrade-details span + span { margin-top: 3px; }
+
+@font-face { font-family: "Tycoon Korean"; src: url("../../../public/fonts/WillowLaneKorean-Regular.ttf") format("truetype"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Tycoon Korean"; src: url("../../../public/fonts/WillowLaneKorean-Bold.ttf") format("truetype"); font-weight: 700; font-style: normal; font-display: swap; }
+html[lang="ko"], html[lang="ko"] body, html[lang="ko"] button, html[lang="ko"] input, html[lang="ko"] select,
+html[lang="ko"] h1, html[lang="ko"] h2, html[lang="ko"] h3, html[lang="ko"] .start-frame { font-family: "Tycoon Korean", "Malgun Gothic", sans-serif; }
+html[lang="ko"] .date-unit { display: none; }
+#language-settings label { display: flex; align-items: center; gap: 8px; }
+#language { font: inherit; color: #173a1d; background: #f2f7d8; padding: 4px; }

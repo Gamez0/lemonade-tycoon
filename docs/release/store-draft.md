@@ -22,7 +22,7 @@ Compact green panels and original illustrated streets accompany relaxed original
 synthesized music. Individual music/effect volumes and mute are available. Your
 business saves automatically; portable JSON export/import provides personal backup.
 
-Supported-language draft: English interface, no spoken dialogue.
+Supported-language draft: English and Korean interfaces, no spoken dialogue. English is the default; the Help language selector persists independently of company saves. Korean fonts are bundled for offline use.
 Feature draft: single player; mouse and keyboard; local save; volume controls.
 Do not select achievements, Cloud, controller, multiplayer or unverified platforms.
 
