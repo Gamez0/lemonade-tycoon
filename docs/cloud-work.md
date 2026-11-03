@@ -1,5 +1,35 @@
 # Cloud development handoff — 2026-10-05
 
+## Music v2 comparison candidate — 2026-11-03 KST / #113
+
+Candidate alpha22 on feat/music-direction-v2, based on main e3a5ae3. New project
+ensemble scores use pinned CC0 Meta Open Sound and VCSL recordings; see
+art/music/studies/README.md for reproduction, auditions, sources and limitations.
+The original reference's audible arrangement remains unverified: this is a
+reviewable candidate, not final original-style or human listening acceptance.
+
+Thirty-three FLAC four-bar segments total14,396,123 bytes. The scheduler decodes
+playing/next segments and schedules them against the audio clock; normal speed
+and pitch remain independent of game speed. Results play once before returning
+to the preparation bed. Pause/mute clears buffers/sources and aborts pending
+loads; failures leave business progression available. Browser-only asset URLs
+live in presentation/music-tracks.ts, outside CommonJS model compilation.
+
+Local111 model/storage and15 release checks, typecheck, lint and production build
+pass. All33 runtime FLACs reproduced byte-for-byte from cached pinned samples.
+Actual Chromium output across preparation/selling chunk and full-loop boundaries
+correlates0.998+ with the decoded runtime and has0–0.023ms timing error. The prior
+HTML-media66ms gap failed and was replaced, without relaxing30ms tolerance.
+Initial dirty Windows package audio recovery passes; enforced private-memory
+segment average max234.656MiB remains below256MiB, idle canvas draws0. The later
+pending-load abort change still needs final source-matched native/remote checks.
+The initial full browser run passed91/92: an obsolete oscillator-count assertion
+was corrected to verify an active file source; final93-test run and twenty-minute
+technical soak are in progress. Neither is human listening/fatigue acceptance.
+
+PR288 startup-save handshake was reviewed and merged separately as e3a5ae3 after
+all exactf550850 CI checks passed. Parent legacy/original resources are preserved.
+
 
 ## Alpha21 dependency refresh integrated - 2026-11-02 KST
 

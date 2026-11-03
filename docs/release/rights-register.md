@@ -9,7 +9,7 @@ and contributor-rights acceptance remain open in issue167.
 | Simulation/interface | src/game/simulation, src/reboot.ts, src/game/presentation | Source history and compiled reboot bundle | Contributor distribution authority |
 | Location/customer art | src/game/presentation/art.ts and street-scene.ts | Code-authored geometry in bundle | Visual/contributor acceptance |
 | UI/application icons | icons.ts, src/desktop/icon.svg and icon.ico | SVG source and packaged ICO | Visual/contributor acceptance |
-| Music/effects | src/game/content/audio-scores.ts and presentation/audio.ts | Score/synthesis source and WAV listening exports | Human listening/contributor acceptance |
+| Music/effects | scripts/music-study-score.py, presentation/audio.ts; Meta Open Sound/VCSL CC0 instrument recordings | Pinned sample URLs/hashes/licenses and original scores: art/music/studies/v2; rendered listening masters | Human musical/listening/fatigue and contributor acceptance |
 | Store images/video | scripts/store-capture.cjs and store-video.cjs | Actual scene/gameplay captures with source/hash records | Final media acceptance; title pending |
 | Repository template | LICENSE | Unaltered license inside app.asar | Retain notice |
 | Phaser3.88.2 | node_modules/phaser/LICENSE.md | LICENSE-Phaser.txt inside app.asar | Retain notice |

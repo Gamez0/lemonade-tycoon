@@ -1,13 +1,13 @@
-import { AUDIO_SCORES, AUDIO_STEP_SECONDS } from "../content/audio-scores";
+import { MusicPlayer } from "./music-player";
 export interface AudioSettings { music: number; effects: number; muted: boolean }
 const KEY = "willow-lane.audio.v1";
 export class GameAudio {
     settings: AudioSettings = { music: 0.25, effects: 0.35, muted: false };
     private context: AudioContext | null = null;
-    private timer = 0;
+    private music: MusicPlayer | null = null;
     private lastEffect = 0;
-    private note = 0;
-    private phase = "preparation";
+    private phase: "preparation" | "selling" = "preparation";
+    private completionCue = false;
     private unlocked = false;
     constructor() {
         try {
@@ -22,50 +22,52 @@ export class GameAudio {
         window.addEventListener("focus", () => this.sync());
     }
     activate(): void {
-        if (this.unlocked && this.context?.state === "running") return;
         this.unlocked = true;
-        if (this.settings.muted || (this.settings.music === 0 && this.settings.effects === 0)) return;
-        try {
-            this.context ??= new AudioContext();
-            void this.context.resume().then(() => this.sync()).catch(() => {});
-        } catch { /* Unsupported sound leaves gameplay available. */ }
+        if (!this.settings.muted && (this.settings.music > 0 || this.settings.effects > 0)) {
+            try {
+                if (!this.context || this.context.state === "closed") {
+                    this.music?.pause();
+                    this.context = new AudioContext({ sampleRate: 44100 });
+                    this.music = new MusicPlayer(this.context, () => { this.completionCue = false; this.sync(); });
+                }
+            } catch { /* Unsupported audio leaves gameplay available. */ }
+        }
+        this.sync();
     }
     configure(settings: AudioSettings): void {
         this.settings = settings;
         try { localStorage.setItem(KEY, JSON.stringify(settings)); } catch { /* Session settings still work. */ }
-        if (this.unlocked && !this.context) this.activate();
-        else this.sync();
+        if (this.unlocked) this.activate();
     }
     setPhase(phase: string): void {
-        if (phase === this.phase) return;
-        this.phase = phase; this.note = 0; this.stop(); this.sync();
+        const next = phase === "selling" ? "selling" : "preparation";
+        if (next === "selling") this.completionCue = false;
+        if (next === this.phase) return;
+        this.phase = next; this.sync();
     }
-    private stop(): void { window.clearInterval(this.timer); this.timer = 0; }
+    completeDay(): void {
+        // Career advances before render. Browsing an old report is not a new cue.
+        this.completionCue = this.canPlayMusic(); this.sync();
+    }
+    private canPlayMusic(): boolean {
+        return this.unlocked && !this.settings.muted && this.settings.music > 0 && !document.hidden && document.hasFocus();
+    }
     private sync(): void {
-        this.stop();
         if (!this.unlocked || !this.context) return;
-        if (this.settings.muted || document.hidden || !document.hasFocus() ||
-            (this.settings.music === 0 && this.settings.effects === 0)) {
+        const silent = this.settings.muted || document.hidden || !document.hasFocus() || (this.settings.music === 0 && this.settings.effects === 0);
+        if (silent) {
+            this.music?.pause(); this.completionCue = false;
             if (this.context.state === "running") void this.context.suspend().catch(() => {});
             return;
         }
-        // A focus return can follow a browser/device suspension. Restart the
-        // context before scheduling notes; merely restarting the timer stays silent.
         if (this.context.state !== "running") {
-            if (this.context.state === "closed") return;
-            void this.context.resume().then(() => {
-                if (this.context?.state === "running") this.sync();
-            }).catch(() => { /* A later user gesture can retry without blocking play. */ });
+            if (this.context.state !== "closed") void this.context.resume().then(() => this.sync()).catch(() => {});
             return;
         }
-        if (this.settings.music === 0) return;
-        // Original pentatonic miniatures: a slow porch tune, a brisk market tune,
-        // and a short settling cadence. Timing is independent of simulation speed.
-        this.timer = window.setInterval(() => {
-            const score = AUDIO_SCORES[this.phase] ?? AUDIO_SCORES.preparation;
-            const midi = score[this.note++ % score.length];
-            if (midi) this.tone(440 * 2 ** ((midi - 69) / 12), this.settings.music * 0.12, 0.32, "triangle");
-        }, (AUDIO_STEP_SECONDS[this.phase] ?? .48) * 1000);
+        if (this.settings.music > 0) {
+            this.music?.volume(this.settings.music);
+            this.music?.play(this.completionCue ? "results" : this.phase);
+        } else { this.music?.pause(); this.completionCue = false; }
     }
     effect(kind: "buy" | "sale" | "error" | "button"): void {
         if (this.settings.muted || document.hidden || !document.hasFocus() || performance.now() - this.lastEffect < 130) return;

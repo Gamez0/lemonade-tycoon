@@ -1,0 +1,266 @@
+[
+  {
+    "cue": "preparation",
+    "file": "music-preparation-v2-part00.flac",
+    "frames": 423360,
+    "rate": 44100,
+    "bytes": 494477,
+    "sha256": "520d83dc9c084ea74e8b9d6d5d2a30889b6cb26e5a6225a8a420269dd87507db"
+  },
+  {
+    "cue": "preparation",
+    "file": "music-preparation-v2-part01.flac",
+    "frames": 423360,
+    "rate": 44100,
+    "bytes": 488932,
+    "sha256": "241a276ae71ae01b25efed3d89a2fc6b6271424db0a9fc800db22b9f1f3fa893"
+  },
+  {
+    "cue": "preparation",
+    "file": "music-preparation-v2-part02.flac",
+    "frames": 423360,
+    "rate": 44100,
+    "bytes": 500814,
+    "sha256": "38447b78bc764d43bef705ee9cbe0790da51a43696974f32b0e1d068656d89a3"
+  },
+  {
+    "cue": "preparation",
+    "file": "music-preparation-v2-part03.flac",
+    "frames": 423360,
+    "rate": 44100,
+    "bytes": 495894,
+    "sha256": "750b918c945f15b1e74350450f2e2b99f5f79ade35d7e297e15c0de41cbe0a0f"
+  },
+  {
+    "cue": "preparation",
+    "file": "music-preparation-v2-part04.flac",
+    "frames": 423360,
+    "rate": 44100,
+    "bytes": 498294,
+    "sha256": "54aa33c0f4c521fbfae82ef4bfac886749b44bec838f3759f1435dea60f75f80"
+  },
+  {
+    "cue": "preparation",
+    "file": "music-preparation-v2-part05.flac",
+    "frames": 423360,
+    "rate": 44100,
+    "bytes": 497459,
+    "sha256": "a4aea2b1175db803501cf304de69288c7fa7c36663fd33c8d92a87dd70a9a103"
+  },
+  {
+    "cue": "preparation",
+    "file": "music-preparation-v2-part06.flac",
+    "frames": 423360,
+    "rate": 44100,
+    "bytes": 502600,
+    "sha256": "dc465052682f2ae97bb52e5b0e3d6034f29e52119f0bbb48b716d3e538e0d157"
+  },
+  {
+    "cue": "preparation",
+    "file": "music-preparation-v2-part07.flac",
+    "frames": 423360,
+    "rate": 44100,
+    "bytes": 496442,
+    "sha256": "629fea8ad70bdb0cc541e68f0ddf7f1a5113bc72e297a4a8740363e94189ef33"
+  },
+  {
+    "cue": "preparation",
+    "file": "music-preparation-v2-part08.flac",
+    "frames": 423360,
+    "rate": 44100,
+    "bytes": 430825,
+    "sha256": "4a5fd9298617d59878b59da8158219dce2fdcf4250eb29e182fdc6c74beb236b"
+  },
+  {
+    "cue": "preparation",
+    "file": "music-preparation-v2-part09.flac",
+    "frames": 423360,
+    "rate": 44100,
+    "bytes": 414009,
+    "sha256": "e6a816b9af0444d7266c8ebff6264e99aa8f91e788666032da373af858b5787b"
+  },
+  {
+    "cue": "preparation",
+    "file": "music-preparation-v2-part10.flac",
+    "frames": 423360,
+    "rate": 44100,
+    "bytes": 488926,
+    "sha256": "27ced4e6ce6c5faa2256f93f21129412a90bc0f93bfde6107cec5a5d9a0c5a96"
+  },
+  {
+    "cue": "preparation",
+    "file": "music-preparation-v2-part11.flac",
+    "frames": 423360,
+    "rate": 44100,
+    "bytes": 476115,
+    "sha256": "5fabaa1639417f7c5d14d09266c8e2cf99a574f0bc90e6c528fd6465526e7f73"
+  },
+  {
+    "cue": "preparation",
+    "file": "music-preparation-v2-part12.flac",
+    "frames": 423360,
+    "rate": 44100,
+    "bytes": 475064,
+    "sha256": "059b2cc529b3a45541cbfa0e7c0a71fdc2d323921ec854bd3cb1431648446a19"
+  },
+  {
+    "cue": "preparation",
+    "file": "music-preparation-v2-part13.flac",
+    "frames": 423360,
+    "rate": 44100,
+    "bytes": 479243,
+    "sha256": "b8f217ef01f4106cef940028a07e0aac5be1bcc3a41da79c106f0b9a834bdace"
+  },
+  {
+    "cue": "preparation",
+    "file": "music-preparation-v2-part14.flac",
+    "frames": 423360,
+    "rate": 44100,
+    "bytes": 480239,
+    "sha256": "599c252475a2159942cafd6d597bc9b5d8b7009d4edf7b91e53422d2c1fecba5"
+  },
+  {
+    "cue": "preparation",
+    "file": "music-preparation-v2-part15.flac",
+    "frames": 423360,
+    "rate": 44100,
+    "bytes": 472474,
+    "sha256": "e43c9ed3c290cf6c2d91e7421aa5c843ddd3c395f5890c7c6f3429bde1d6d160"
+  },
+  {
+    "cue": "selling",
+    "file": "music-selling-v2-part00.flac",
+    "frames": 378000,
+    "rate": 44100,
+    "bytes": 412575,
+    "sha256": "d4259b9ff7dc4eff3823f79bc1b25c4d0f4ba2644bc7be7f99c5e9916b023990"
+  },
+  {
+    "cue": "selling",
+    "file": "music-selling-v2-part01.flac",
+    "frames": 378000,
+    "rate": 44100,
+    "bytes": 410826,
+    "sha256": "720239f5ff7200dd3f84450a2245a12261c96544b9fa456006aeb43401e85a93"
+  },
+  {
+    "cue": "selling",
+    "file": "music-selling-v2-part02.flac",
+    "frames": 378000,
+    "rate": 44100,
+    "bytes": 423676,
+    "sha256": "f57f5456606573d6cdde31a74939787774a1507e3d6488d5a45dec6e8e3e7596"
+  },
+  {
+    "cue": "selling",
+    "file": "music-selling-v2-part03.flac",
+    "frames": 378000,
+    "rate": 44100,
+    "bytes": 419632,
+    "sha256": "4d6fb53fc2a0810d0e420dcdca8b1bbbd02949cbf88b428e6db8f126454af159"
+  },
+  {
+    "cue": "selling",
+    "file": "music-selling-v2-part04.flac",
+    "frames": 378000,
+    "rate": 44100,
+    "bytes": 425368,
+    "sha256": "c9bbcc32fe15a2ab6277d4b6d76128f031dccb1f5245bd91b5a86b05b7011245"
+  },
+  {
+    "cue": "selling",
+    "file": "music-selling-v2-part05.flac",
+    "frames": 378000,
+    "rate": 44100,
+    "bytes": 417118,
+    "sha256": "5dd0d71703aae1368a8424f5b3fa27531ed738a90ca964bcb7bf6f468ccc41d7"
+  },
+  {
+    "cue": "selling",
+    "file": "music-selling-v2-part06.flac",
+    "frames": 378000,
+    "rate": 44100,
+    "bytes": 417259,
+    "sha256": "f8f2a47250344b44f447e8176ff89f519374c124cec2f52afb4c991523f68ba0"
+  },
+  {
+    "cue": "selling",
+    "file": "music-selling-v2-part07.flac",
+    "frames": 378000,
+    "rate": 44100,
+    "bytes": 417161,
+    "sha256": "3f896c11b9ad28cb4cf73de96fcf3f5c1e620b66dde80582f31d1bacabf27390"
+  },
+  {
+    "cue": "selling",
+    "file": "music-selling-v2-part08.flac",
+    "frames": 378000,
+    "rate": 44100,
+    "bytes": 371283,
+    "sha256": "3cfaacdf9e3f69277725b32624a741e94607bae7615fb2ccd97c1054e37d249f"
+  },
+  {
+    "cue": "selling",
+    "file": "music-selling-v2-part09.flac",
+    "frames": 378000,
+    "rate": 44100,
+    "bytes": 362684,
+    "sha256": "ef6d2c6642e1958bf679c449ded9629efc56a63f0f84fc242ee79eed7386d937"
+  },
+  {
+    "cue": "selling",
+    "file": "music-selling-v2-part10.flac",
+    "frames": 378000,
+    "rate": 44100,
+    "bytes": 419819,
+    "sha256": "9f6579c203f462a014f71dc379a93367f7fac79fd701227f438fc5efe39c3560"
+  },
+  {
+    "cue": "selling",
+    "file": "music-selling-v2-part11.flac",
+    "frames": 378000,
+    "rate": 44100,
+    "bytes": 410316,
+    "sha256": "f491101c17545c708efc8391960c6c859e7ad448e7b28eb8ec9776a1d19ec8ea"
+  },
+  {
+    "cue": "selling",
+    "file": "music-selling-v2-part12.flac",
+    "frames": 378000,
+    "rate": 44100,
+    "bytes": 416939,
+    "sha256": "ed8a4ddbb349e482e26971b9d63af02d658dee4ad35ffcff79222339fca4a52d"
+  },
+  {
+    "cue": "selling",
+    "file": "music-selling-v2-part13.flac",
+    "frames": 378000,
+    "rate": 44100,
+    "bytes": 406710,
+    "sha256": "13bf8f93d6b22d0f803ee33473c469130e188054d326f3219df7c56a00d1b80a"
+  },
+  {
+    "cue": "selling",
+    "file": "music-selling-v2-part14.flac",
+    "frames": 378000,
+    "rate": 44100,
+    "bytes": 410320,
+    "sha256": "2a82058a02fb4bee01c55cbeb044e75aabb83ab8214ab2ccbbd2e056ca2c60a2"
+  },
+  {
+    "cue": "selling",
+    "file": "music-selling-v2-part15.flac",
+    "frames": 378000,
+    "rate": 44100,
+    "bytes": 406480,
+    "sha256": "713205b5e9b2cb5a802d46621c8a21d70e5ae6bd6409804cfbd82a11f833f4a0"
+  },
+  {
+    "cue": "results",
+    "file": "music-results-v2-part00.flac",
+    "frames": 211680,
+    "rate": 44100,
+    "bytes": 156150,
+    "sha256": "72726d352fd252164791839e7c3f11272a694d28d166de1128a8b3e8f23040f9"
+  }
+]

@@ -1,0 +1,253 @@
+[
+  {
+    "file": "A.wav",
+    "seconds": 76.8,
+    "frames": 3386880,
+    "channels": 2,
+    "peakDbFS": -7.187350048863264,
+    "loudness": {
+      "input_i": "-21.00",
+      "input_tp": "-7.18",
+      "input_lra": "1.70",
+      "input_thresh": "-31.14",
+      "output_i": "-21.08",
+      "output_tp": "-7.23",
+      "output_lra": "1.60",
+      "output_thresh": "-31.22",
+      "normalization_type": "dynamic",
+      "target_offset": "0.08"
+    },
+    "decodedOggLoudness": {
+      "input_i": "-20.99",
+      "input_tp": "-7.28",
+      "input_lra": "1.70",
+      "input_thresh": "-31.13",
+      "output_i": "-21.08",
+      "output_tp": "-7.42",
+      "output_lra": "1.60",
+      "output_thresh": "-31.22",
+      "normalization_type": "dynamic",
+      "target_offset": "0.08"
+    },
+    "boundaryStep": 4.2703350118245e-06,
+    "internalStepP999": 0.020532291382551193,
+    "dcOffset": [
+      4.258596891304478e-05,
+      4.1196737583959475e-05
+    ],
+    "sha256": {
+      "A.wav": "d0bf079a3d7bdeeec8f6714697b7155522ee3d160f5e096869bc4532652a15b1",
+      "A.ogg": "ac52fa810056850f43696226391b249ddc590d6428b574426cce3aef80329d8e"
+    },
+    "loop": true
+  },
+  {
+    "file": "B.wav",
+    "seconds": 68.57142857142857,
+    "frames": 3024000,
+    "channels": 2,
+    "peakDbFS": -9.377949270630374,
+    "loudness": {
+      "input_i": "-21.00",
+      "input_tp": "-9.37",
+      "input_lra": "1.60",
+      "input_thresh": "-31.12",
+      "output_i": "-20.99",
+      "output_tp": "-9.43",
+      "output_lra": "1.70",
+      "output_thresh": "-31.11",
+      "normalization_type": "dynamic",
+      "target_offset": "-0.01"
+    },
+    "decodedOggLoudness": {
+      "input_i": "-20.97",
+      "input_tp": "-9.37",
+      "input_lra": "1.70",
+      "input_thresh": "-31.08",
+      "output_i": "-21.00",
+      "output_tp": "-9.46",
+      "output_lra": "1.70",
+      "output_thresh": "-31.12",
+      "normalization_type": "dynamic",
+      "target_offset": "-0.00"
+    },
+    "boundaryStep": 3.36967823386658e-05,
+    "internalStepP999": 0.02730812318623066,
+    "dcOffset": [
+      3.773261050810106e-05,
+      4.0324710425920784e-05
+    ],
+    "sha256": {
+      "B.wav": "58810885cf28d0c6cfdeddb407e3ac9b2a36d8edbe712a8249a26af4ed91578b",
+      "B.ogg": "4f2d8fc08de64913d86923eedb7a3bd728a74773cd301ef52546d8b77410c477"
+    },
+    "loop": true
+  },
+  {
+    "file": "results.wav",
+    "seconds": 4.8,
+    "frames": 211680,
+    "channels": 2,
+    "peakDbFS": -10.91980314115651,
+    "loudness": {
+      "input_i": "-20.99",
+      "input_tp": "-10.92",
+      "input_lra": "3.00",
+      "input_thresh": "-31.31",
+      "output_i": "-21.36",
+      "output_tp": "-11.43",
+      "output_lra": "1.20",
+      "output_thresh": "-31.60",
+      "normalization_type": "dynamic",
+      "target_offset": "0.36"
+    },
+    "decodedOggLoudness": {
+      "input_i": "-20.97",
+      "input_tp": "-10.73",
+      "input_lra": "3.00",
+      "input_thresh": "-31.29",
+      "output_i": "-21.34",
+      "output_tp": "-11.27",
+      "output_lra": "1.20",
+      "output_thresh": "-31.59",
+      "normalization_type": "dynamic",
+      "target_offset": "0.34"
+    },
+    "boundaryStep": 5.023237918067025e-06,
+    "internalStepP999": 0.01834508217871189,
+    "dcOffset": [
+      2.9656284823431633e-05,
+      2.601744927233085e-05
+    ],
+    "sha256": {
+      "results.wav": "f5756fbf6bf3d64eec20616020db96177436457383dab58432e820734e62af95",
+      "results.ogg": "751fffed464283a7ef49b6eef36b39dfbc183c0bd357f93c0827a367df41cbd4"
+    },
+    "loop": false
+  },
+  {
+    "file": "preparation.wav",
+    "seconds": 153.6,
+    "frames": 6773760,
+    "channels": 2,
+    "peakDbFS": -5.862576155881855,
+    "loudness": {
+      "input_i": "-21.00",
+      "input_tp": "-5.86",
+      "input_lra": "2.00",
+      "input_thresh": "-31.30",
+      "output_i": "-21.01",
+      "output_tp": "-5.91",
+      "output_lra": "1.90",
+      "output_thresh": "-31.31",
+      "normalization_type": "dynamic",
+      "target_offset": "0.01"
+    },
+    "decodedOggLoudness": {
+      "input_i": "-21.00",
+      "input_tp": "-5.89",
+      "input_lra": "2.00",
+      "input_thresh": "-31.30",
+      "output_i": "-21.01",
+      "output_tp": "-5.94",
+      "output_lra": "1.90",
+      "output_thresh": "-31.31",
+      "normalization_type": "dynamic",
+      "target_offset": "0.01"
+    },
+    "boundaryStep": 2.972182301164139e-05,
+    "internalStepP999": 0.020356083288788795,
+    "dcOffset": [
+      4.3107902456540614e-05,
+      4.177141818217933e-05
+    ],
+    "sha256": {
+      "preparation.wav": "6431c4bf90c2958f81ef00cecfb1245c5e8316ad5eef57b6462023d2b745a4e2",
+      "preparation.ogg": "fdbbcc59b0efcfdbba78bcd6be8903211d455ee893a17119e32a48c2f0b4a7e1"
+    },
+    "loop": true
+  },
+  {
+    "file": "selling.wav",
+    "seconds": 137.14285714285714,
+    "frames": 6048000,
+    "channels": 2,
+    "peakDbFS": -9.021825173193115,
+    "loudness": {
+      "input_i": "-21.00",
+      "input_tp": "-9.02",
+      "input_lra": "1.80",
+      "input_thresh": "-31.13",
+      "output_i": "-21.18",
+      "output_tp": "-9.09",
+      "output_lra": "1.60",
+      "output_thresh": "-31.32",
+      "normalization_type": "dynamic",
+      "target_offset": "0.18"
+    },
+    "decodedOggLoudness": {
+      "input_i": "-20.96",
+      "input_tp": "-8.99",
+      "input_lra": "1.80",
+      "input_thresh": "-31.10",
+      "output_i": "-21.18",
+      "output_tp": "-9.11",
+      "output_lra": "1.60",
+      "output_thresh": "-31.33",
+      "normalization_type": "dynamic",
+      "target_offset": "0.18"
+    },
+    "boundaryStep": 2.314913217560388e-05,
+    "internalStepP999": 0.027595462277531624,
+    "dcOffset": [
+      3.935491622542031e-05,
+      4.195147630525753e-05
+    ],
+    "sha256": {
+      "selling.wav": "22fce9ceeeda34286e40f78c43d08d00f9c3d66f0cf3cd46d15eda4dd343d0de",
+      "selling.ogg": "4452e281dcc34d524c6b7e9af147e221066120a7a422ba2ed925b74c4d5de258"
+    },
+    "loop": true
+  },
+  {
+    "file": "baseline.wav",
+    "seconds": 30.72,
+    "frames": 1354752,
+    "channels": 2,
+    "peakDbFS": -6.146060796352205,
+    "loudness": {
+      "input_i": "-21.00",
+      "input_tp": "-6.15",
+      "input_lra": "1.50",
+      "input_thresh": "-31.40",
+      "output_i": "-21.01",
+      "output_tp": "-6.16",
+      "output_lra": "1.30",
+      "output_thresh": "-31.40",
+      "normalization_type": "dynamic",
+      "target_offset": "0.01"
+    },
+    "decodedOggLoudness": {
+      "input_i": "-20.93",
+      "input_tp": "-6.17",
+      "input_lra": "1.50",
+      "input_thresh": "-31.33",
+      "output_i": "-21.02",
+      "output_tp": "-6.25",
+      "output_lra": "1.20",
+      "output_thresh": "-31.40",
+      "normalization_type": "dynamic",
+      "target_offset": "0.02"
+    },
+    "boundaryStep": 0.00010715857206378132,
+    "internalStepP999": 0.023739241063594818,
+    "dcOffset": [
+      -4.352260475570802e-06,
+      -4.352260475570802e-06
+    ],
+    "sha256": {
+      "baseline.wav": "ee94d3ab0ec6c53882ccea95ca4e253e9b7d51773df9afd17141bac172a438ba",
+      "baseline.ogg": "525c32a5c1bbc5fa5709ed2e7318907a9e8da79471efb6d771423a0c39f34299"
+    }
+  }
+]

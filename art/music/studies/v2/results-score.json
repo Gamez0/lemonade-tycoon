@@ -1,0 +1,170 @@
+{
+  "id": "results",
+  "title": "Evening Tally",
+  "bpm": 100,
+  "bars": 2,
+  "events": [
+    {
+      "part": "piano",
+      "beat": 0.0,
+      "note": 48,
+      "duration": 1.3,
+      "velocity": 59
+    },
+    {
+      "part": "piano",
+      "beat": 0.03,
+      "note": 52,
+      "duration": 1.3,
+      "velocity": 59
+    },
+    {
+      "part": "piano",
+      "beat": 0.06,
+      "note": 55,
+      "duration": 1.3,
+      "velocity": 59
+    },
+    {
+      "part": "piano",
+      "beat": 0.09,
+      "note": 60,
+      "duration": 1.3,
+      "velocity": 59
+    },
+    {
+      "part": "piano",
+      "beat": 2.0,
+      "note": 50,
+      "duration": 1.3,
+      "velocity": 59
+    },
+    {
+      "part": "piano",
+      "beat": 2.03,
+      "note": 53,
+      "duration": 1.3,
+      "velocity": 59
+    },
+    {
+      "part": "piano",
+      "beat": 2.06,
+      "note": 57,
+      "duration": 1.3,
+      "velocity": 59
+    },
+    {
+      "part": "piano",
+      "beat": 2.09,
+      "note": 62,
+      "duration": 1.3,
+      "velocity": 59
+    },
+    {
+      "part": "piano",
+      "beat": 3.0,
+      "note": 43,
+      "duration": 1.3,
+      "velocity": 59
+    },
+    {
+      "part": "piano",
+      "beat": 3.03,
+      "note": 53,
+      "duration": 1.3,
+      "velocity": 59
+    },
+    {
+      "part": "piano",
+      "beat": 3.06,
+      "note": 59,
+      "duration": 1.3,
+      "velocity": 59
+    },
+    {
+      "part": "piano",
+      "beat": 3.09,
+      "note": 62,
+      "duration": 1.3,
+      "velocity": 59
+    },
+    {
+      "part": "piano",
+      "beat": 4.0,
+      "note": 48,
+      "duration": 1.3,
+      "velocity": 59
+    },
+    {
+      "part": "piano",
+      "beat": 4.03,
+      "note": 52,
+      "duration": 1.3,
+      "velocity": 59
+    },
+    {
+      "part": "piano",
+      "beat": 4.06,
+      "note": 55,
+      "duration": 1.3,
+      "velocity": 59
+    },
+    {
+      "part": "piano",
+      "beat": 4.09,
+      "note": 60,
+      "duration": 1.3,
+      "velocity": 59
+    },
+    {
+      "part": "piano",
+      "beat": 4.12,
+      "note": 64,
+      "duration": 1.3,
+      "velocity": 59
+    },
+    {
+      "part": "vibes",
+      "beat": 0,
+      "note": 67,
+      "duration": 1.1,
+      "velocity": 64
+    },
+    {
+      "part": "vibes",
+      "beat": 1,
+      "note": 69,
+      "duration": 1.1,
+      "velocity": 64
+    },
+    {
+      "part": "vibes",
+      "beat": 2,
+      "note": 65,
+      "duration": 1.1,
+      "velocity": 64
+    },
+    {
+      "part": "vibes",
+      "beat": 3,
+      "note": 62,
+      "duration": 1.1,
+      "velocity": 64
+    },
+    {
+      "part": "vibes",
+      "beat": 4,
+      "note": 64,
+      "duration": 1.1,
+      "velocity": 64
+    },
+    {
+      "part": "vibes",
+      "beat": 4.5,
+      "note": 60,
+      "duration": 1.1,
+      "velocity": 64
+    }
+  ],
+  "loop": false
+}

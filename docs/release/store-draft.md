@@ -19,7 +19,7 @@ Invest in a refrigerator, ice maker or blender. Hire a server or queue host and
 try local flyers or radio advertising. Every choice has a visible cost and effect.
 
 Compact green panels and original illustrated streets accompany relaxed original
-synthesized music. Individual music/effect volumes and mute are available. Your
+ensemble music with recorded instruments. Individual music/effect volumes and mute are available. Your
 business saves automatically; portable JSON export/import provides personal backup.
 
 Supported-language draft: English interface, no spoken dialogue.

@@ -1,8 +1,12 @@
 Willow Lane Lemonade - development candidate
 
 Game rules, generated street/character art, UI icons, capsule composition,
-pentatonic music miniatures and synthesized effects were written for this project.
-Music source: src/game/presentation/audio.ts. No original-game recording, image
+ensemble music compositions and synthesized effects were written for this project.
+Music: original project scores in scripts/music-study-score.py; segmented Web Audio playback
+in src/game/presentation/audio.ts. Piano/nylon guitar recordings: Meta Open Sound
+by Meta Platforms, Inc.; vibraphone/percussion: VCSL by Versilian Studios LLC.
+Selected instrument recordings are CC0-1.0; notice: licenses/CC0-Music-Samples.txt.
+Provenance and score sources: art/music/studies/v2. No original-game recording, image
 or third-party musical composition is included in the reboot PC distribution.
 Human listening acceptance and contributor distribution-rights confirmation
 remain release checks. The separate legacy preview is excluded from this package.
