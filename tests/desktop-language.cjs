@@ -35,6 +35,9 @@ async function close() {
         await page.locator('#help-close').click();
         assert.equal(fs.readFileSync(save, 'utf8'), before);
         await expect(page.locator('#panel-title')).toHaveText('레시피');
+        await expect(page.locator('#recipe-hint')).not.toContainText(/맛 점수|\d+%|완벽/);
+        await expect(page.locator('#recipe-hint')).toContainText('얼음');
+        await expect(page.locator('#recipe-controls')).toHaveAccessibleDescription(/얼음.*레몬과 설탕도 균형 있게/);
         assert.equal(JSON.parse(fs.readFileSync(path.join(base, 'Chromium', 'language.json'), 'utf8')).language, 'ko');
         await close();
         for (const scale of [1, 1.25, 1.5, 1.75, 2]) {

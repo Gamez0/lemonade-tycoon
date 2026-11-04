@@ -831,7 +831,7 @@ function render(): void {
     text(
         "recipe-hint",
         (legacyPaidDay ? "This saved day keeps its original recipe and customer rules." :
-            `Taste score: ${Math.round(quality(state.plan.recipe, Math.max(...weatherTemperatures(state))) * 100)}%. Cooling needs ${recipeTaste(state.plan.recipe, Math.max(...weatherTemperatures(state))).preferredIce} ice per cup${state.weatherForecast ? " for the warmest period" : ""}. Extra ice needs balanced lemon and sugar.`) +
+            `Cooling needs ${recipeTaste(state.plan.recipe, Math.max(...weatherTemperatures(state))).preferredIce} ice per cup${state.weatherForecast ? " for the warmest period" : ""}. Extra ice needs balanced lemon and sugar.`) +
             (state.daily.meltedIce ? ` ${state.daily.meltedIce} ice melted overnight.` : ""),
     );
     text("sold", String(state.daily.sold));

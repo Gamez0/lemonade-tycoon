@@ -29,6 +29,9 @@ let app;
                 { lemon: 40, sugar: 20, ice: 500, cup: 40 });
             await page.locator('#save-file').setInputFiles({ name: name + '.json', mimeType: 'application/json', buffer: Buffer.from(encodeSave(state, [])) });
             await expect(page.locator('#save-status')).toContainText('Imported save'); await page.clock.runFor(500);
+            await expect(page.locator('#recipe-hint')).not.toContainText(/Taste score|\d+%|perfect/i);
+            await expect(page.locator('#recipe-hint')).toContainText('Cooling needs');
+            await expect(page.locator('#recipe-controls')).toHaveAttribute('aria-describedby', 'recipe-hint');
             await page.locator('#open').click();
             let tasted = false;
             for (let tick = 0; tick < 120; tick++) {

@@ -1,5 +1,24 @@
 # Cloud development handoff — 2026-10-05
 
+## Recipe learning guidance — 2026-11-04 KST / #294
+
+Preparation drops the predicted taste percentage while retaining cooling,
+dilution, pitcher yield, quantities, opening shortfalls and costs. The fieldset
+references the hint for assistive technology; both languages are updated. Actual
+buyer reactions/scores and reports remain. No simulation or schema14 change.
+See reviews/recipe-learning.md. Local125 model/storage and15 release tests,
+typecheck/lint pass. Eight focused browser checks pass; the final three taste
+cases also cover forecast-based cooling and both-language keyboard/small layouts.
+Korean fragments reproduce byte-for-byte with --check. Windows/current-head CI
+and final review remain required before integration. Human #97 stays open.
+
+Resumed forecast #293/PR298 at exact e56cb69 after user pause; intentionally
+cancelled current-head CI41810332809 and main55fb0a8 repeat41810326791 restarted.
+Outstanding English100% native UI now passes; prior70 Korean layouts, English
+125–200% UI and21paid historical replays are preserved. No obsolete failed layout
+candidate is accepted as evidence. Main already includes Korean UI296/pricing297.
+User authorized engineering until22:00KST; preserve parent changes/resources.
+
 ## Original economy specification — 2026-11-03 KST / #285
 
 See reviews/original-economy-plan.md and original-economy-study.json. Confirmed
