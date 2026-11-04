@@ -1,9 +1,9 @@
 # Offline Korean fonts
 
-The game ships a renamed static Regular (400) derivative of Noto
-Sans KR. It retains every modern Hangul syllable, Hangul Jamo, Latin UI text and
+The game ships renamed static Regular (400) fragments of Noto Sans KR.
+Together they retain every modern Hangul syllable, Hangul Jamo, Latin UI text and
 the symbol ranges recorded in `noto-sans-kr.json`. The upstream OFL notice is
-unchanged and included in desktop distributions. This is a modified font;
+unchanged and included in desktop distributions. These are modified fonts;
 the internal family is Willow Lane Korean.
 
 Reproduce from the repository root with Python and a separate authoring venv:
@@ -26,3 +26,13 @@ Conjoining Jamo shaping (`ljmo`/`vjmo`/`tjmo`) is explicitly retained and verifi
 following [Microsoft's Hangul shaping requirements](https://learn.microsoft.com/en-us/typography/script-development/hangul).
 A separate bold font increased the Windows CI private-memory measurements past
 the unchanged256MiB budget and is intentionally not shipped.
+
+The primary face contains Latin/symbols and common interface
+syllables (154,980bytes in this revision). Twenty-two disjoint512-codepoint Hangul
+blocks cover every remaining modern syllable. Generated CSS unicode ranges load
+only the fragments needed for visible text, including uncommon company names.
+All24 artifacts are shipped offline and required by archive/build audits.
+The total2,827,700bytes retains all11,172 modern syllables; coverage is not reduced
+to translated UI strings. The generator checks the union and required Jamo
+features. Run the same command with --check to verify byte-for-byte reproduction
+without changing outputs.

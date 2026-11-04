@@ -1,6 +1,23 @@
 const { test, expect } = require('../helpers/browser-game.cjs');
 const SAVE = 'lemonade-tycoon.reboot.save';
 const rawSave = page => page.evaluate(key => localStorage.getItem(key), SAVE);
+test('uncommon Hangul company names load bounded offline font fragments', async ({ page }) => {
+    const fonts=[];
+    page.on('request',request=>{if(request.url().includes('WillowLaneKorean-'))fonts.push(request.url());});
+    await page.goto('/'); await choose(page,'ko');
+    const initial=fonts.length;
+    await page.locator('#main-menu').click(); await page.locator('#menu-new').click();
+    const name='\uac02\ubc02\ud7a3' + '한글'.normalize('NFD');
+    await page.locator('#menu-name').fill(name);
+    await page.locator('#menu-create button[type=submit]').click();
+    await page.locator('#main-menu').click();
+    await expect(page.locator('[data-company="1"] .company-name')).toHaveText(name);
+    await page.evaluate(()=>document.fonts.ready);
+    expect(fonts.slice(initial).some(url=>url.includes('WillowLaneKorean-Hangul'))).toBe(true);
+    expect(fonts.slice(initial).some(url=>url.includes('WillowLaneKorean-Jamo'))).toBe(true);
+    expect(await page.evaluate(text=>document.fonts.check('13px "Tycoon Korean"',text),name)).toBe(true);
+    expect(fonts.every(url=>url.startsWith('http://127.0.0.1:'))).toBe(true);
+});
 async function choose(page, language) {
     await page.locator('#help-open').click();
     await page.locator('#language').selectOption(language);
