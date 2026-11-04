@@ -3,6 +3,42 @@ const { newGame, setPlan, buyOrder, withWeatherForecast } = require('../../.test
 const { encodeSave } = require('../../.test-build/simulation/save.js');
 const { WEATHER } = require('../../.test-build/content/catalog.js');
 
+for (const [name, weather, recipe, english, korean] of [
+    ['warm and sour', WEATHER[0], { lemon: 20, sugar: 0, ice: 0 }, ['Not enough ice', 'Too sour:'], ['얼음이 부족해요', '너무 셔요']],
+    ['watery', WEATHER[2], { lemon: 1, sugar: 1, ice: 7 }, ['Too watery:'], ['너무 묽어요']],
+    ['sweet', WEATHER[2], { lemon: 6, sugar: 10, ice: 0 }, ['Too sweet:'], ['너무 달아요']],
+]) test(`Korean composed ${name} report and overnight recipe hints retain translations and save bytes`, async ({ page }, info) => {
+    const state = buyOrder(setPlan({ ...newGame(), weather },
+        { price: 25, recipe }), { lemon: 40, sugar: 20, ice: 500, cup: 40 });
+    const key = 'lemonade-tycoon.reboot.save';
+    await page.clock.install();
+    await page.addInitScript(({ key, raw }) => { if (!localStorage.getItem(key)) localStorage.setItem(key, raw); },
+        { key, raw: encodeSave(state, []) });
+    await page.goto('/'); await page.clock.runFor(500);
+    await page.locator('#open').click(); await page.locator('#skip').click(); await page.clock.runFor(500);
+    const raw = await page.evaluate(key => localStorage.getItem(key), key);
+    const englishReport = await page.locator('#report-response').textContent();
+    for (const advice of english) expect(englishReport).toContain(advice);
+    for (const language of ['ko', 'en', 'ko']) {
+        await page.locator('#help-open').click(); await page.locator('#language').selectOption(language); await page.locator('#help-close').click();
+        await page.locator('[data-page=results]').click();
+        if (language === 'ko') {
+            for (const advice of korean) await expect(page.locator('#report-response')).toContainText(advice);
+            await expect(page.locator('#report-response')).toContainText('품절');
+            await expect(page.locator('#report-response')).not.toContainText(/visitors|left the line|passed by|Too |Not enough ice/);
+        } else await expect(page.locator('#report-response')).toHaveText(englishReport);
+        await page.locator('[data-page=recipe]').click();
+        await expect(page.locator('#recipe-hint')).toContainText(language === 'ko' ? '밤사이 얼음' : 'ice melted overnight.');
+        await expect(page.locator('#recipe-hint')).toContainText(language === 'ko' ? '레몬과 설탕도 균형 있게' : 'Cooling needs');
+        if (language === 'ko') await expect(page.locator('#recipe-hint')).not.toContainText(/Cooling|Extra ice|overnight/);
+        expect(await page.evaluate(key => localStorage.getItem(key), key)).toBe(raw);
+    }
+    await page.setViewportSize({ width: 512, height: 350 });
+    await page.screenshot({ path: info.outputPath(`korean-${name}-overnight.png`), fullPage: true });
+    await page.reload(); await page.clock.runFor(500);
+    await expect(page.locator('#recipe-hint')).toContainText('밤사이 얼음');
+});
+
 for (const [name, weather, ice, reaction, advice] of [
     ['hot day with too little ice', WEATHER[0], 0, 'Too warm!', 'Not enough ice'],
     ['cold day with diluted lemonade', WEATHER[2], 7, 'Too watery!', 'Too watery'],
