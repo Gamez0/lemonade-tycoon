@@ -57,6 +57,11 @@ async function close() {
                             icons.length === 3 && icons.every(icon => { const r=icon.getBoundingClientRect();
                                 return r.left >= forecast.left - 1 && r.right <= forecast.right + 1 && r.bottom <= forecast.bottom + 1; });
                     });
+                    if (!fits) {
+                        console.error(await page.evaluate(() => Object.fromEntries(['.panel','#open','.forecast-weather','#forecast-periods',...Array.from({length:3},(_,i)=>'#forecast-period-'+i)]
+                            .map(selector=>[selector,document.querySelector(selector).getBoundingClientRect().toJSON()]))));
+                        await page.screenshot({path:path.join(output,'forecast-overflow.png')});
+                    }
                     assert(fits, 'Korean controls overflow: ' + [scale, width, height, tab].join('/'));
                     observations.push({ scale, width, height, tab, fits });
                 }

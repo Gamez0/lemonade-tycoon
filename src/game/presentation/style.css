@@ -197,7 +197,7 @@ a:focus-visible {
 .date-part { white-space: nowrap; }
 .forecast .label {
     display: block;
-    margin-top: 5px;
+    margin-top: 2px;
     font-weight: bold;
 }
 .weather-reading {
@@ -219,10 +219,10 @@ a:focus-visible {
 .weather-advice {
     font-size: 10px;
 }
-.forecast-periods { display: flex; align-items: center; gap: 4px; min-height: 20px; font-size: 10px; }
+.forecast-periods { display: flex; align-items: center; gap: 4px; min-height: 16px; font-size: 10px; }
 .forecast-periods > span:first-child { white-space: nowrap; }
-.forecast-period { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 20px; height: 20px; }
-.forecast-period .pixel-icon { width: 18px; height: 18px; }
+.forecast-period { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 18px; height: 16px; }
+.forecast-period .pixel-icon { width: 16px; height: 16px; }
 .forecast-news {
     align-self: center;
     font-size: 11px;
