@@ -1,3 +1,5 @@
+import { pricesFor } from "./game/content/price-rules";
+import { withCompanyEconomy } from "./game/simulation/equipment-costs";
 import { tr, localize, locale, setLocale } from "./game/presentation/localization";
 import { supplyPacks } from "./game/content/supply-packs";
 import { withInventoryCosts } from "./game/simulation/inventory-costs";
@@ -67,7 +69,7 @@ const emptyOrder = (): Record<Item, number[]> => ({
 });
 const bundleSizes = [1, 2, 5];
 const audio = new GameAudio();
-let state = withInventoryCosts(withCustomerProfiles(withWeatherForecast(newGame())));
+let state = withCompanyEconomy(withInventoryCosts(withCustomerProfiles(withWeatherForecast(newGame()))));
 let companyId: string | undefined;
 let gameMode: "career" | "challenge" | undefined;
 function encodeSave(state: State, history: readonly State[]): string { return encodeDocument(state, history, companyId, gameMode); }
@@ -174,12 +176,12 @@ function queueDesktopSave(raw: string, status = "Saved on this PC"): Promise<voi
 }
 function quantities(): Stock {
     const quantity = (item: Item) =>
-        order[item].reduce((sum, count, i) => sum + count * supplyPacks(item, Boolean(state.inventoryCosts))[i].quantity, 0);
+        order[item].reduce((sum, count, i) => sum + count * supplyPacks(item, Boolean(state.inventoryCosts), pricesFor(state))[i].quantity, 0);
     return { lemon: quantity("lemon"), sugar: quantity("sugar"), ice: quantity("ice"), cup: quantity("cup") };
 }
 function orderCost(): number {
     return ITEM_KEYS.reduce((sum, item) => sum + order[item].reduce((subtotal, count, i) =>
-        subtotal + count * supplyPacks(item, Boolean(state.inventoryCosts))[i].price, 0), 0);
+        subtotal + count * supplyPacks(item, Boolean(state.inventoryCosts), pricesFor(state))[i].price, 0), 0);
 }
 function showPage(page: Page): void {
     currentPage = page;
@@ -460,7 +462,7 @@ element("restart").addEventListener("click", () => {
         text("restart", "Confirm new business");
         return;
     }
-    state = withInventoryCosts(withCustomerProfiles(withWeatherForecast(newGame())));
+    state = withCompanyEconomy(withInventoryCosts(withCustomerProfiles(withWeatherForecast(newGame()))));
     history = [];
     saveBlocked = false;
     resetPresentation();
@@ -635,7 +637,8 @@ function renderRent(): void {
         if (preview) { image.src = preview; image.hidden = false; }
     }
     text("rent-position", `${LOCATION_IDS.indexOf(selectedLocation) + 1} / ${LOCATION_IDS.length}`);
-    const moveFee = selectedLocation === state.location ? 0 : location.moveFee;
+    const quote = pricesFor(state).locations[selectedLocation];
+    const moveFee = selectedLocation === state.location ? 0 : quote.moveFee;
     const legacyBusiness = state.business?.location === selectedLocation && state.business.customerModel === undefined
         ? state.business : null;
     const eleven = state.business ? state.business.customerModel === "eleven-profiles-v1" : Boolean(state.customerProfileModel);
@@ -652,7 +655,7 @@ function renderRent(): void {
         state.weather.label === "Rainy" ? " Rain reduces outdoor foot traffic today." : "") +
         (conditions.newsFactor !== 1 ? ` Today's news changes visitors by ${Math.round((conditions.newsFactor - 1) * 100)}%.` : ""));
     rows("rent-details", [
-        ["Daily rent / moving", `${money(location.rent)} / ${money(moveFee)}`],
+        ["Daily rent / moving", `${money(quote.rent)} / ${money(moveFee)}`],
         ["Visitors / budget", `${expectedTraffic({ ...state, business: null }, selectedLocation)} / ${Math.round(location.budget * 100)}%`],
         ["Wait range / arrivals", `${(Math.min(...patience) / 10).toFixed(1)}–${(Math.max(...patience) / 10).toFixed(1)}s / ${(location.arrival / 10).toFixed(1)}s`],
         ["Temperature / cooling", `${conditions.temperature}\u00b0C / ${recipeTaste(state.plan.recipe, conditions.temperature).preferredIce} ice per cup`],
@@ -723,7 +726,7 @@ function render(): void {
     element<HTMLMeterElement>("reputation-meter").value = Math.round(rating.popularity * 100);
     text("location-name", LOCATIONS[state.location].name);
     text("location-description", LOCATIONS[state.location].description);
-    text("location-rent", `Rent: ${LOCATIONS[state.location].rent === 0 ? "FREE" : money(LOCATIONS[state.location].rent) + " / day"}`);
+    text("location-rent", `Rent: ${pricesFor(state).locations[state.location].rent === 0 ? "FREE" : money(pricesFor(state).locations[state.location].rent) + " / day"}`);
     document.querySelector(".world-column")!.setAttribute("aria-label", LOCATIONS[state.location].street + " stand");
     app.dataset.location = state.location;
     element("preparation").hidden = !prep || currentPage === "results";
@@ -768,7 +771,7 @@ function render(): void {
     }
     for (const button of document.querySelectorAll<HTMLButtonElement>("[data-supply]"))
         button.setAttribute("aria-pressed", String(button.dataset.supply === selectedSupply));
-    supplyPacks(selectedSupply, Boolean(state.inventoryCosts)).forEach(({ quantity, price }, i) => {
+    supplyPacks(selectedSupply, Boolean(state.inventoryCosts), pricesFor(state)).forEach(({ quantity, price }, i) => {
         const art = element(`bundle-art-${i}`);
         if (art.dataset.item !== selectedSupply) {
             art.innerHTML = icon(selectedSupply);
@@ -846,7 +849,7 @@ function render(): void {
     for (const item of ["lemon", "sugar", "ice"] as const) text("setting-" + item, String(state.plan.recipe[item]));
     const target = state.pendingLocation ?? state.location;
     const due = openingBill();
-    text("management-bill", `Opening bill ${money(due)} | Wages ${money(STAFF[state.management.staff].wage)} | Ads ${money(ADS[state.management.advertising].cost)}`);
+    text("management-bill", `Opening bill ${money(due)} | Wages ${money(pricesFor(state).wages[state.management.staff])} | Ads ${money(pricesFor(state).advertising[state.management.advertising])}`);
     const bankrupt = isBankrupt(state);
     element("business-warning").hidden = !prep || (!bankrupt && state.cash >= due && !state.pendingLocation);
     text("business-warning", bankrupt ? (state.business
@@ -856,6 +859,7 @@ function render(): void {
         : `Reserved: ${LOCATIONS[target].name}. ${money(due)} will be charged at Start day.`);
     for (const [id, item] of Object.entries(UPGRADES)) {
         const level = state.management.upgrades[id as Upgrade];
+        const quotes = pricesFor(state).upgrades[id as Upgrade];
         const baseEffects: Record<Upgrade, string> = {
             refrigerator: "No leftover ice retained",
             iceMaker: "No free ice at opening",
@@ -868,7 +872,7 @@ function render(): void {
         text(`upgrade-effect-${id}`, `Level ${level}/${item.prices.length}`);
         text(`upgrade-owned-${id}`, `Owned: ${level > 0 ? effect(level - 1) : baseEffects[id as Upgrade]}`);
         text(`upgrade-next-${id}`, level < item.prices.length
-            ? `Next (${money(item.prices[level])}): ${effect(level)}` : "Fully upgraded");
+            ? `Next (${money(quotes[level])}): ${effect(level)}` : "Fully upgraded");
         if (id === "stand") {
             text("upgrade-title-stand", STAND_NAMES[level]);
             const picture = element("upgrade-art-stand");
@@ -878,9 +882,11 @@ function render(): void {
             }
         }
         const button = document.querySelector<HTMLButtonElement>(`[data-upgrade="${id}"]`)!;
-        button.textContent = level < item.prices.length ? `BUY ${money(item.prices[level])}` : "MAX LEVEL";
-        button.disabled = !prep || Boolean(state.business) || level === item.prices.length || state.cash < item.prices[level];
+        button.textContent = level < item.prices.length ? `BUY ${money(quotes[level])}` : "MAX LEVEL";
+        button.disabled = !prep || Boolean(state.business) || level === item.prices.length || state.cash < quotes[level];
     }
+    for (const id of Object.keys(STAFF) as (keyof typeof STAFF)[]) text("staff-wage-" + id, money(pricesFor(state).wages[id]) + "/day");
+    for (const id of Object.keys(ADS) as (keyof typeof ADS)[]) text("ad-price-" + id, money(pricesFor(state).advertising[id]) + "/day");
     for (const button of document.querySelectorAll<HTMLButtonElement>("[data-staff], [data-advertising]")) {
         button.disabled = !prep || Boolean(state.business);
         button.setAttribute("aria-pressed", String(button.dataset.staff === state.management.staff || button.dataset.advertising === state.management.advertising));
@@ -1010,7 +1016,7 @@ const menu = new StartMenu({
         if (closing || importing) return Promise.reject(Error("Wait for the current save to finish."));
         const operation = (async () => {
             await saveQueue;
-            const next = company ? { name: company.name, raw: encodeDocument(withInventoryCosts(withCustomerProfiles(withWeatherForecast(newGame()))), [], crypto.randomUUID(), company.mode) } : null;
+            const next = company ? { name: company.name, raw: encodeDocument(withCompanyEconomy(withInventoryCosts(withCustomerProfiles(withWeatherForecast(newGame())))), [], crypto.randomUUID(), company.mode) } : null;
             await companies.select(index, currentCompanySave(), next, async raw => {
                 if (desktopSave) await queueDesktopSave(raw);
                 else { const doc = decodeSave(raw); writeDocument(localStorage, doc.state, doc.history, doc.companyId, doc.mode); }

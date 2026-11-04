@@ -45,7 +45,7 @@ async function close() {
                 await page.locator('canvas').screenshot({ path: path.join(out, `${location}-${level}.png`) });
                 await close(); page = await launch();
                 await expect(page.locator('canvas')).toHaveAttribute('data-stand-level', String(level));
-                expect(read().version).toBe(13);
+                expect(read().version).toBe(14);
                 await page.locator('[data-page=rent]').click();
                 expect(await page.locator(`#thumbnail-${location}`).getAttribute('src')).toBe(background);
             }

@@ -1,6 +1,7 @@
 import { UPGRADES, STAFF, ADS, defaultManagement } from "../content/management";
 import type { Management, Upgrade } from "../content/management";
-import { CUSTOMERS, ITEMS, ITEM_KEYS, WEATHER } from "../content/catalog";
+import { LEGACY_PRICES, pricesFor, type Economy } from "../content/price-rules";
+import { CUSTOMERS, ITEM_KEYS, WEATHER } from "../content/catalog";
 import type { Item, Weather } from "../content/catalog";
 import { LOCATIONS, LOCATION_IDS, isLocation, defaultLocationStats } from "../content/locations";
 import type { LocationId } from "../content/locations";
@@ -65,6 +66,7 @@ export interface Daily {
     readonly satisfactionTotal: number;
 }
 export interface State {
+    readonly economy?: Economy;
     readonly inventoryCosts?: InventoryCosts;
     readonly management: Management;
     readonly phase: "preparation" | "selling" | "results";
@@ -107,9 +109,9 @@ const emptyDaily = (meltedIce = 0): Daily => ({ freeIceUsed: 0, capital: 0, wage
     revenue: 0, cost: 0, purchases: 0, rent: 0, moveFee: 0, satisfactionTotal: 0 });
 const PITCHER_CUPS = [10, 11, 12, 14, 16, 20, 25, 33] as const;
 export const cupsPerPitcher = (recipe: Recipe): number => PITCHER_CUPS[recipe.ice];
-export const pitcherCost = (recipe: Recipe): number =>
-    recipe.lemon * ITEMS.lemon.cost + recipe.sugar * ITEMS.sugar.cost +
-    recipe.ice * cupsPerPitcher(recipe) * ITEMS.ice.cost;
+export const pitcherCost = (recipe: Recipe, costs = LEGACY_PRICES.unitCosts): number =>
+    recipe.lemon * costs.lemon + recipe.sugar * costs.sugar +
+    recipe.ice * cupsPerPitcher(recipe) * costs.ice;
 const clamp = (n: number, min = 0, max = 1) => Math.max(min, Math.min(max, n));
 function integer(n: number, min: number, max: number, label: string): void {
     if (!Number.isSafeInteger(n) || n < min || n > max) throw new Error(`${label} must be ${min}–${max}.`);
@@ -161,7 +163,7 @@ export function setPlan(state: State, plan: Plan): State {
     return { ...state, plan: { price: plan.price, recipe: { ...plan.recipe } } };
 }
 export function buy(state: State, item: Item, quantity: number): State {
-    return purchaseSupplies(state, item, quantity, ITEMS[item]?.cost * quantity);
+    return purchaseSupplies(state, item, quantity, pricesFor(state).unitCosts[item] * quantity);
 }
 function purchaseSupplies(state: State, item: Item, quantity: number, cost: number): State {
     phase(state, "preparation");
@@ -185,7 +187,7 @@ export function buyPacks(state: State, order: PackOrder): State {
     if (ITEM_KEYS.every(item => order[item].every(count => count === 0))) throw new Error("Choose supplies before buying.");
     const adopted = withInventoryCosts(state);
     return ITEM_KEYS.reduce((next, item) => {
-        const packs = supplyPacks(item, Boolean(adopted.inventoryCosts));
+        const packs = supplyPacks(item, Boolean(adopted.inventoryCosts), pricesFor(adopted));
         const quantity = order[item].reduce((sum, count, i) => sum + count * packs[i].quantity, 0);
         integer(quantity, 0, 999, "Order quantity");
         const cost = order[item].reduce((sum, count, i) => sum + count * packs[i].price, 0);
@@ -205,11 +207,12 @@ export function unitCost(recipe: Recipe, freeIce = 0, state?: State): number {
     if (state?.inventoryCosts) {
         const values = state.inventoryCosts.values;
         const price = (item: Item): number => paidQuantity(state, item) > 0
-            ? values[item] / paidQuantity(state, item) : supplyPacks(item, true)[0].price / supplyPacks(item, true)[0].quantity;
+            ? values[item] / paidQuantity(state, item) : supplyPacks(item, true, pricesFor(state))[0].price / supplyPacks(item, true, pricesFor(state))[0].quantity;
         return (recipe.lemon * price("lemon") + recipe.sugar * price("sugar") +
             (recipe.ice * cupsPerPitcher(recipe) - free) * price("ice")) / cupsPerPitcher(recipe) + price("cup");
     }
-    return (pitcherCost(recipe) - free * ITEMS.ice.cost) / cupsPerPitcher(recipe) + ITEMS.cup.cost;
+    const costs = state ? pricesFor(state).unitCosts : LEGACY_PRICES.unitCosts;
+    return (pitcherCost(recipe, costs) - free * costs.ice) / cupsPerPitcher(recipe) + costs.cup;
 }
 export function capacity(state: State): number {
     const { stock, plan: { recipe } } = state;
@@ -269,9 +272,9 @@ export function demand(plan: Plan, weather: Weather, reputation: number, profile
 export function openingCosts(state: State): { fees: number; ice: number } {
     if (state.business) return { fees: 0, ice: 0 };
     const id = state.pendingLocation ?? state.location;
-    const location = LOCATIONS[id];
+    const location = pricesFor(state).locations[id];
     const fees = location.rent + (id === state.location ? 0 : location.moveFee) +
-        STAFF[state.management.staff].wage + ADS[state.management.advertising].cost;
+        pricesFor(state).wages[state.management.staff] + pricesFor(state).advertising[state.management.advertising];
     const ice = Math.min(999 - state.stock.ice, state.management.upgrades.iceMaker * 60);
     return { fees, ice };
 }
@@ -312,7 +315,8 @@ export function openDay(state: State): State {
     }
     const id = state.pendingLocation ?? state.location;
     const location = LOCATIONS[id], rating = state.locationStats[id];
-    const moveFee = id === state.location ? 0 : location.moveFee;
+    const quote = pricesFor(state).locations[id];
+    const moveFee = id === state.location ? 0 : quote.moveFee;
     const staff = STAFF[state.management.staff], advertising = ADS[state.management.advertising];
     const { fees, ice } = openingCosts(state);
     if (openingReadiness(state).cups === 0)
@@ -330,10 +334,11 @@ export function openDay(state: State): State {
         traffic: periods ? periodTraffic(periods.quotas) : expectedTraffic(state, id),
         budget: location.budget, weights: [...(state.customerProfileModel ? LOCATION_CUSTOMER_WEIGHTS[id] : location.weights)], patienceTicks: location.patience + staff.patience,
         arrivalEvery: Math.max(1, Math.round(location.arrival / advertising.traffic)), serviceTicks: 8 - state.management.upgrades.blender - staff.speed, satisfaction: rating.satisfaction,
-        popularity: rating.popularity, rent: location.rent, moveFee, paid: true };
+        popularity: rating.popularity, rent: quote.rent, moveFee, paid: true };
     return makePitcher({ ...state, ...(actual ? { seed: actual.seed } : {}), phase: "selling", location: id, pendingLocation: null, business,
         reputation: rating.satisfaction, cash: state.cash - fees, stock: { ...state.stock, ice: state.stock.ice + ice }, freeIce: state.freeIce + ice,
-        daily: { ...state.daily, rent: location.rent, moveFee, wages: staff.wage, advertising: advertising.cost } });
+        daily: { ...state.daily, rent: quote.rent, moveFee, wages: pricesFor(state).wages[state.management.staff],
+            advertising: pricesFor(state).advertising[state.management.advertising] } });
 }
 export function reserveLocation(state: State, id: LocationId | null): State {
     phase(state, "preparation");
@@ -384,7 +389,7 @@ export function isBankrupt(state: State): boolean {
     const missing = state.business ? openingReadiness(state).missing
         : { lemon: 0, sugar: 0, ice: 0, cup: Math.max(0, 1 - state.stock.cup) };
     const needed = ITEM_KEYS.reduce((total, item) => total + (state.inventoryCosts
-        ? minimumPackCost(item, missing[item], 999 - state.stock[item]) : missing[item] * ITEMS[item].cost), 0);
+        ? minimumPackCost(item, missing[item], 999 - state.stock[item], pricesFor(state)) : missing[item] * pricesFor(state).unitCosts[item]), 0);
     return state.cash < needed;
 }
 export function drawVisitor(state: State, id: number): { state: State; visitor: Visitor } {
@@ -491,9 +496,11 @@ export function purchaseUpgrade(state: State, id: Upgrade): State {
     if (!Object.prototype.hasOwnProperty.call(UPGRADES, id)) throw new Error("Unknown upgrade.");
     const level = state.management.upgrades[id];
     if (level >= item.prices.length) throw new Error("This equipment is fully upgraded.");
-    const price = item.prices[level];
+    const price = pricesFor(state).upgrades[id][level];
     if (state.cash < price) throw new Error("Not enough cash for this upgrade.");
     return { ...state, cash: state.cash - price,
+        ...(state.economy ? { economy: { ...state.economy, equipment: { ...state.economy.equipment,
+            [id]: [...state.economy.equipment[id], price] } } } : {}),
         daily: { ...state.daily, capital: state.daily.capital + price },
         management: { ...state.management, upgrades: { ...state.management.upgrades, [id]: level + 1 } } };
 }

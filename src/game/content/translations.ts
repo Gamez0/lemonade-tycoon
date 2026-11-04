@@ -1,5 +1,9 @@
 /** English message IDs are also the safe fallback. Simulation/save keys stay English. */
 export const KOREAN: Readonly<Record<string, string>> = {
+    "Unknown company price rule.": "알 수 없는 회사 가격 규칙이에요.",
+    "Price rules require a new company.": "가격 규칙은 새 회사를 만들 때만 정할 수 있어요.",
+    "Save data is damaged: invalid legacy price rules.": "저장 파일 손상: 이전 버전 가격 규칙이 잘못되었어요.",
+    "Save company price rules do not match the ledger.": "회사 가격 규칙이 장부와 맞지 않아요.",
     "Results": "결과", "Rent": "장소", "Upgrades": "장비", "Staff": "직원", "Marketing": "판매", "Recipe": "레시피", "Supplies": "재료",
     "Performance": "오늘의 실적", "Cups sold": "판매량", "Revenue": "매출", "Profit": "이익", "Served": "판매", "Price": "가격", "Passed": "지나감", "Empty": "품절", "Wait": "대기",
     "Supplies and cash": "재료와 현금", "Cash on hand": "보유 현금", "Business screens": "사업 화면", "Forecast": "예보", "Business controls": "사업 관리", "Today's performance": "오늘의 실적", "Customer reactions": "손님 반응",

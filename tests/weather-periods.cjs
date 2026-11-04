@@ -107,7 +107,7 @@ test('period save validation rejects wrong tuple lengths, quotas, active boundar
         d => { delete d.state.weatherForecast; },
         d => { delete d.state.business.periods; },
     ]) { const doc = JSON.parse(raw); mutate(doc); assert.throws(() => decodeSave(JSON.stringify(doc)), /damaged/); }
-    const future = JSON.parse(raw); future.version = 14;
+    const future = JSON.parse(raw); future.version = 15;
     assert.throws(() => decodeSave(JSON.stringify(future)), /Unsupported save version/);
 });
 
