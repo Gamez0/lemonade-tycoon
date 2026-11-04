@@ -595,9 +595,10 @@ function renderReport(): void {
     const ratingBasis = reports.every(isPurchaseFirst)
         ? " Includes buyers and visitors lost to price, stock or waiting; passers-by are excluded."
         : " Older saved days retain their original rating basis.";
-    text("report-response", (sold === 0 ? noSalesAdvice : `Overall satisfaction: ${satisfaction}%.${ratingBasis}`) +
-        ` ${sum("soldOut")} visitors missed out on empty stock. ${sum("abandoned")} left the line. ` +
-        `${sum("priceRejected")} found the price too high; ${sum("passed")} passed by.` +
+    const missedCustomers = `${sum("soldOut")} visitors missed out on empty stock. ${sum("abandoned")} left the line. ` +
+        `${sum("priceRejected")} found the price too high; ${sum("passed")} passed by.`;
+    text("report-response", (sold === 0 ? `${tr(noSalesAdvice)} ${tr(missedCustomers)}`
+        : tr(`Overall satisfaction: ${satisfaction}%.${ratingBasis} ${missedCustomers}`)) +
         (reportPage === "daily" && sold > 0 && isPurchaseFirst(latest)
             ? ` ${tasteAdvice(recipeTaste(latest.plan.recipe, Math.max(...weatherTemperatures(latest))).complaints)}` : ""));
 
@@ -611,7 +612,7 @@ function renderReport(): void {
         ["Price / passed", `${sum("priceRejected")} / ${sum("passed")}`],
         ["Empty / wait", `${sum("soldOut")} / ${sum("abandoned")}`],
         ["Buyer taste", sold === 0 ? "No buyers yet" : `${Math.round(sum("satisfactionTotal") / sold)}%`],
-        ["Rent", money(sum("rent"))],
+        ["Rent expense", money(sum("rent"))],
         ["Moving fees", money(sum("moveFee"))],
         ["Wages / advertising", `${money(sum("wages"))} / ${money(sum("advertising"))}`],
         ["Equipment bought", money(sum("capital"))],
@@ -830,9 +831,9 @@ function render(): void {
     text("setting-pitchers", String(state.daily.pitchersMade));
     text(
         "recipe-hint",
-        (legacyPaidDay ? "This saved day keeps its original recipe and customer rules." :
+        tr(legacyPaidDay ? "This saved day keeps its original recipe and customer rules." :
             `Cooling needs ${recipeTaste(state.plan.recipe, Math.max(...weatherTemperatures(state))).preferredIce} ice per cup${state.weatherForecast ? " for the warmest period" : ""}. Extra ice needs balanced lemon and sugar.`) +
-            (state.daily.meltedIce ? ` ${state.daily.meltedIce} ice melted overnight.` : ""),
+            (state.daily.meltedIce ? ` ${tr(`${state.daily.meltedIce} ice melted overnight.`)}` : ""),
     );
     text("sold", String(state.daily.sold));
     text("revenue", money(state.daily.revenue));
