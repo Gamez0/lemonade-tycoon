@@ -219,8 +219,10 @@ a:focus-visible {
 .weather-advice {
     font-size: 10px;
 }
-.forecast-periods { display: flex; align-items: center; gap: 4px; min-height: 16px; font-size: 10px; }
-.forecast-periods > span:first-child { white-space: nowrap; }
+.forecast-weather { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 4px; align-content: start; }
+.forecast-weather > .date-line, .forecast-weather > .label, .forecast-weather > .weather-advice { grid-column: 1 / -1; }
+.forecast-periods { display: grid; grid-template-columns: repeat(3, 18px); align-content: center; gap: 0 4px; font-size: 9px; }
+.forecast-periods > span:first-child { grid-column: 1 / -1; white-space: nowrap; }
 .forecast-period { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 18px; height: 16px; }
 .forecast-period .pixel-icon { width: 16px; height: 16px; }
 .forecast-news {
