@@ -51,7 +51,11 @@ async function close() {
                     const fits = await page.evaluate(() => {
                         const panel = document.querySelector('.panel').getBoundingClientRect();
                         const button = document.querySelector('#open').getBoundingClientRect();
-                        return document.documentElement.scrollWidth <= innerWidth && button.bottom <= panel.bottom + 1 && button.right <= panel.right + 1;
+                        const forecast = document.querySelector('.forecast-weather').getBoundingClientRect();
+                        const icons = [...document.querySelectorAll('.forecast-period')];
+                        return document.documentElement.scrollWidth <= innerWidth && button.bottom <= panel.bottom + 1 && button.right <= panel.right + 1 &&
+                            icons.length === 3 && icons.every(icon => { const r=icon.getBoundingClientRect();
+                                return r.left >= forecast.left - 1 && r.right <= forecast.right + 1 && r.bottom <= forecast.bottom + 1; });
                     });
                     assert(fits, 'Korean controls overflow: ' + [scale, width, height, tab].join('/'));
                     observations.push({ scale, width, height, tab, fits });

@@ -1,5 +1,8 @@
 /** English message IDs are also the safe fallback. Simulation/save keys stay English. */
 export const KOREAN: Readonly<Record<string, string>> = {
+    "Three-period forecast": "세 구간 예보", "Saved opening weather": "저장된 개점 날씨",
+    "Forecast; actual weather may change.": "예보이며 실제 날씨는 달라질 수 있어요.",
+    "Indoors 20°C; icons show the outside forecast.": "실내는 20°C예요. 아이콘은 야외 예보예요.",
     "Unknown company price rule.": "알 수 없는 회사 가격 규칙이에요.",
     "Price rules require a new company.": "가격 규칙은 새 회사를 만들 때만 정할 수 있어요.",
     "Save data is damaged: invalid legacy price rules.": "저장 파일 손상: 이전 버전 가격 규칙이 잘못되었어요.",
@@ -69,6 +72,7 @@ export const KOREAN: Readonly<Record<string, string>> = {
 
 /** Full-message templates; captured values are translated recursively, never saved. */
 export const KOREAN_PATTERNS: readonly (readonly [string, string])[] = [
+    ["Forecast period {#0}: {1}, {#2}°C", "{0}구간 예보: {1}, {2}°C"],
     ["Year {#0} / Month {#1} / Day {#2}", "{0}년 / {1}월 / {2}일"],
     ["Owned: {0}", "보유: {0}"], ["Next ({0}): {1}", "다음 ({0}): {1}"], ["Level {#0}/{#1}", "단계 {0}/{1}"],
     ["Produce up to {#0} free ice at opening", "개점 시 무료 얼음 최대 {0}개 생산"],

@@ -14,8 +14,10 @@ test('actual weather changes with generated arrivals and paid reload plus SKIP r
         if (!localStorage.getItem(key)) localStorage.setItem(key, raw);
     }, { key: SAVE_KEY, raw: encodeSave(prepared, []) });
     await page.goto('/'); await page.clock.runFor(500);
-    await expect(page.locator('#weather-advice')).toContainText('1: Sunny');
-    await expect(page.locator('#weather-advice')).toContainText('2: Cloudy');
+    await expect(page.locator('#weather')).toHaveText('18–32°C');
+    await expect(page.locator('#forecast-periods')).toBeVisible();
+    await expect(page.locator('#forecast-period-0')).toHaveAttribute('aria-label','Forecast period 1: Sunny, 32°C');
+    await expect(page.locator('#forecast-period-1')).toHaveAttribute('aria-label','Forecast period 2: Cloudy, 23°C');
     await page.locator('#open').click(); await page.clock.runFor(300);
     await expect(page.locator('#weather')).toHaveText('29°C');
     await expect(page.locator('#app')).toHaveAttribute('data-weather', 'sunny');
@@ -26,6 +28,8 @@ test('actual weather changes with generated arrivals and paid reload plus SKIP r
     await page.clock.runFor(8200);
     await expect(page.locator('#weather-advice')).toContainText('Period 2 / 3');
     await expect(page.locator('#weather')).toHaveText('25°C');
+    await expect(page.locator('#weather-label')).toHaveText('Current weather');
+    await expect(page.locator('#forecast-period-1')).toHaveAttribute('aria-label','Forecast period 2: Cloudy, 23°C');
     await expect(page.locator('#app')).toHaveAttribute('data-weather', 'cloudy');
     await page.screenshot({ path: 'test-results/weather-period-2.png' });
     await page.clock.runFor(6500);

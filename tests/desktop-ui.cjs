@@ -52,6 +52,8 @@ async function fit(page, name) {
             height: innerHeight,
             scrollWidth: document.documentElement.scrollWidth,
             scrollHeight: document.documentElement.scrollHeight,
+            forecast: box(document.querySelector('.forecast-weather')),
+            forecastIcons: document.querySelector('#forecast-periods').hidden ? [] : [...document.querySelectorAll('.forecast-period')].map(box),
             app: box(document.querySelector("#app")),
             scene: box(document.querySelector("#game-container")),
             canvas: box(document.querySelector("canvas")),
@@ -86,6 +88,8 @@ async function fit(page, name) {
     assert.ok(Math.abs(geometry.devicePixelRatio - scale) < .01, `Requested scale ${scale}, actual ${geometry.devicePixelRatio}`);
     assert.ok(geometry.scrollWidth <= geometry.width + 1, JSON.stringify(geometry));
     assert.ok(geometry.scrollHeight <= geometry.height + 1, JSON.stringify(geometry));
+    assert.ok(geometry.forecastIcons.every(r => r.x >= geometry.forecast.x - 1 && r.right <= geometry.forecast.right + 1 &&
+        r.y >= geometry.forecast.y - 1 && r.bottom <= geometry.forecast.bottom + 1), 'Forecast icons leave their panel: ' + JSON.stringify(geometry));
     assert.ok(Math.abs(geometry.app.width - geometry.width) < 2);
     assert.ok(Math.abs(geometry.app.height - geometry.height) < 2);
     assert.ok(Math.abs(geometry.canvas.width - geometry.scene.width) < 3);
