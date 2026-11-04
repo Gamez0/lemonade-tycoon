@@ -1,5 +1,6 @@
 /** English message IDs are also the safe fallback. Simulation/save keys stay English. */
 export const KOREAN: Readonly<Record<string, string>> = {
+    "Rent expense": "임대료",
     "Three-period forecast": "세 구간 예보", "Saved opening weather": "저장된 개점 날씨",
     "Forecast; actual weather may change.": "예보이며 실제 날씨는 달라질 수 있어요.",
     "Indoors 20°C; icons show the outside forecast.": "실내는 20°C예요. 아이콘은 야외 예보예요.",

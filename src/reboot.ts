@@ -612,7 +612,7 @@ function renderReport(): void {
         ["Price / passed", `${sum("priceRejected")} / ${sum("passed")}`],
         ["Empty / wait", `${sum("soldOut")} / ${sum("abandoned")}`],
         ["Buyer taste", sold === 0 ? "No buyers yet" : `${Math.round(sum("satisfactionTotal") / sold)}%`],
-        ["Rent", money(sum("rent"))],
+        ["Rent expense", money(sum("rent"))],
         ["Moving fees", money(sum("moveFee"))],
         ["Wages / advertising", `${money(sum("wages"))} / ${money(sum("advertising"))}`],
         ["Equipment bought", money(sum("capital"))],

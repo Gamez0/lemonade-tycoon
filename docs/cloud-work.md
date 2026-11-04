@@ -1,5 +1,21 @@
 # Cloud development handoff — 2026-10-05
 
+## Rent expense caption — 2026-11-04 KST / #302
+
+Actual alpha28 Korean30-day challenge report showed monetary rent as `장소`.
+Separate report message `Rent expense`/`임대료` now preserves the location tab's
+`Rent`/`장소`. Amounts/rules/schema14 stay unchanged. Local125 model/storage,
+typecheck/lint and2daily/cumulative report browser cases pass, including both
+languages, equal amounts and the navigation label. See reviews/rent-expense-caption.md.
+Clean native/current-head CI remain required before integration.
+
+PR299/main105e3ef is confirmed merged with #293/#294 closed after all exact-head
+CI, dependency and CodeQL checks. PR298 was superseded due stale PR metadata;
+branch protection is unchanged. #300/PR301 has clean504acf9 Windows21paid replays,
+70Korean layouts/UI/ZIP PASS, remote CI pending. Its actual30-day UI-only challenge
+completed and relaunched at839.25cash with no pageerrors; compound Korean hints
+and reports are translated. Human gates remain separate; parent is preserved.
+
 ## Composed Korean guidance — 2026-11-04 KST / #300
 
 UI-only alpha27 exploration completed12days/3locations,307cups,$392.25revenue,

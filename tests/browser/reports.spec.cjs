@@ -29,6 +29,16 @@ for (const phase of ['preparation', 'results']) test(`${phase}: daily and cumula
     await page.locator('[data-report="daily"]').click();
     await expect(page.locator('#report-day')).toHaveValue('1');
     await expect(page.locator('#cash')).toHaveText(cash);
+    const rent = await page.locator('#result-values dd').nth(9).textContent();
+    for (const language of ['ko', 'en']) {
+        await page.locator('#help-open').click(); await page.locator('#language').selectOption(language); await page.locator('#help-close').click();
+        for (const report of ['daily', 'ledger']) {
+            await page.locator(`[data-report="${report}"]`).click();
+            await expect(page.locator('#result-values dt').nth(9)).toHaveText(language === 'ko' ? '임대료' : 'Rent expense');
+            await expect(page.locator('#result-values dd').nth(9)).toHaveText(rent);
+            await expect(page.locator('[data-page="rent"]')).toHaveText(language === 'ko' ? '장소' : 'Rent');
+        }
+    }
     await page.reload();
     if (phase === 'preparation') await page.locator('[data-page="results"]').click();
     await expect(page.locator('#report-response')).toContainText('Overall satisfaction: 96%.');
