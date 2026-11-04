@@ -16,7 +16,7 @@ function auditDesktop(directory) {
     for (const required of ['index.html', 'licenses/OFL-Oswald.txt', 'licenses/OFL-NotoSansKR.txt'])
         if (!files.includes(required)) throw new Error(`Missing desktop asset: ${required}`);
     if (!files.some(file => /^assets\/[^/]+\.ttf$/.test(file))) throw new Error('Missing bundled font');
-    for (const weight of ["Regular"]) if (!files.some(file => file.startsWith("assets/WillowLaneKorean-" + weight + "-") && file.endsWith(".ttf"))) throw new Error("Missing Korean font: " + weight);
+    for (const font of require("../art/fonts/noto-sans-kr.json").artifacts) { const stem = path.basename(font.file, ".ttf"); if (!files.some(file => file.startsWith("assets/" + stem + "-") && file.endsWith(".ttf"))) throw new Error("Missing Korean font: " + stem); }
     for (const file of files)
         if (!(file === 'index.html' || file === 'licenses/OFL-Oswald.txt' || file === 'licenses/OFL-NotoSansKR.txt' || isDesktopAsset(file)))
             throw new Error(`Unapproved desktop asset: ${file}`);

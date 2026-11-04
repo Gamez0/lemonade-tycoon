@@ -19,22 +19,21 @@ save/quit warning follows the interface language through a sender-checked IPC;
 its small native preference is separate from both company saves and the browser
 language preference. Native persistence failure leaves the session functional.
 
-Offline fonts are renamed a static Regular Noto Sans KR derivative, with all
-11,172 modern Hangul syllables, not a subset of current translated words. Source
-commit/hash, modified outputs and coverage are in `art/fonts/noto-sans-kr.json`;
-`scripts/korean-fonts.py` with pinned FontTools reproduces the output exactly.
-The upstream OFL is shipped unchanged. See `art/fonts/README.md` for reproduction.
+Offline fonts are renamed static Noto Sans KR fragments. All11,172 modern Hangul
+syllables and conjoining Jamo are retained across24 shipped files. A154,980-byte
+primary face contains common UI syllables and Latin/symbols; a separate319,988-byte face retains Jamo shaping;
+22 disjoint fallback blocks cover the remaining syllables. CSS unicode ranges
+load uncommon company-name characters on demand. The upstream OFL is unchanged.
+All fragments, source hashes and ranges are recorded in art/fonts/noto-sans-kr.json
+and checked by the build/archive audits. The pinned generator reproduces all
+outputs byte-for-byte, including CSS; --check verifies without writing.
 
-The initial full CJK variable font exceeded the existing256MiB private-memory
-budget. Two static full-Hangul faces passed locally, but exact-head Windows CI
-measured259.113MiB and correctly failed. The final version ships one Regular face,
-uses browser bold synthesis, and excludes unused CJK vertical/alternate layout
-features while retaining horizontal shaping and every modern Hangul syllable.
-The cap is unchanged. The single-face package passed Korean70-layout validation,
-all5 locale browser cases, and20-day performance with maximum phase mean244.953MiB
-and idle draws0. Final font review also retained and asserted conjoining Jamo
-features (`ljmo`/`vjmo`/`tjmo`); final exact-head measurements and CI are recorded
-on the issue/PR.
+Earlier monolithic fonts passed locally but exceeded the unchanged256MiB budget
+in Windows CI (final monolithic mean259.505MiB). Font sharding reduces normal-play
+font decoding without dropping uncommon characters. Browser coverage includes an
+actual rare-Hangul company name that loads offline fallback fragments. Required
+conjoining Jamo features are retained and asserted in the dedicated Jamo face. Final
+local and current-commit CI memory measurements are recorded on the issue/PR.
 
 One earlier local run lost its report when a browser test cleared the shared
 output folder; that run is not counted as a completed pass. Report writing now
