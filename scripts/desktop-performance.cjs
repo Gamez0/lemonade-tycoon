@@ -90,6 +90,13 @@ async function sample(name, seconds = 6) {
         page = await app.firstWindow();
         await verifyProfile(app, base);
         await expect(page.locator("canvas")).toBeVisible();
+        if (process.env.LEMONADE_PERF_LANGUAGE === "ko") {
+            await page.locator("#help-open").click();
+            await page.locator("#language").selectOption("ko");
+            await page.locator("#help-close").click();
+            await page.evaluate(() => document.fonts.ready);
+            report.language = "ko";
+        }
         report.launchToVisibleMs = Date.now() - started;
         report.gpuFeatures = await app.evaluate(({ app }) => app.getGPUFeatureStatus());
         await page.evaluate(() => {
@@ -145,10 +152,11 @@ async function sample(name, seconds = 6) {
                 mimeType: "application/json",
                 buffer: Buffer.from(encodeSave(funded, fixture.history)),
             });
-        await expect(page.locator("#day")).toHaveText("11");
-        await expect(page.locator("#month")).toHaveText("2");
-        await expect(page.locator("#year")).toHaveText("1");
-        await expect(page.locator("#career-date")).toHaveAttribute("title", "Business day 41");
+        const korean = process.env.LEMONADE_PERF_LANGUAGE === "ko";
+        await expect(page.locator("#day")).toHaveText(korean ? "11일" : "11");
+        await expect(page.locator("#month")).toHaveText(korean ? "2월" : "2");
+        await expect(page.locator("#year")).toHaveText(korean ? "1년" : "1");
+        await expect(page.locator("#career-date")).toHaveAttribute("title", korean ? "영업 41일차" : "Business day 41");
         const cdp = await page.context().newCDPSession(page);
         await cdp.send("HeapProfiler.collectGarbage");
         const heapBefore = await cdp.send("Runtime.getHeapUsage");
@@ -158,9 +166,9 @@ async function sample(name, seconds = 6) {
             await page.locator("#skip").click();
             await expect(page.locator("#results")).toBeVisible();
             await page.locator("[data-page=recipe]").click();
-            await expect(page.locator("#career-date")).toHaveAttribute("title", `Business day ${day + 1}`);
-            await expect(page.locator("#day")).toHaveText(String(day % 30 + 1).padStart(2, "0"));
-            await expect(page.locator("#month")).toHaveText(day === 60 ? "3" : "2");
+            await expect(page.locator("#career-date")).toHaveAttribute("title", korean ? `영업 ${day + 1}일차` : `Business day ${day + 1}`);
+            await expect(page.locator("#day")).toHaveText(String(day % 30 + 1).padStart(2, "0") + (korean ? "일" : ""));
+            await expect(page.locator("#month")).toHaveText(korean ? `${day === 60 ? 3 : 2}월` : day === 60 ? "3" : "2");
         }
         await cdp.send("HeapProfiler.collectGarbage");
         const heapAfter = await cdp.send("Runtime.getHeapUsage");
@@ -200,8 +208,12 @@ async function sample(name, seconds = 6) {
         report.error = error.message;
         throw error;
     } finally {
-        fs.writeFileSync(path.join(out, "performance-results.json"), JSON.stringify(report, null, 2));
-        if (app) await app.close();
+        try {
+            fs.mkdirSync(out, { recursive: true });
+            fs.writeFileSync(path.join(out, "performance-results.json"), JSON.stringify(report, null, 2));
+        } finally {
+            if (app) await app.close();
+        }
         assert.ok(
             path.resolve(base).startsWith(path.resolve(os.tmpdir()) + path.sep + "lemonade-performance-"),
             "Unexpected profile cleanup target",

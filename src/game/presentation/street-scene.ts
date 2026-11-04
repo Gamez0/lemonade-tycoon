@@ -1,3 +1,4 @@
+import { tr, locale } from "./localization";
 import Phaser from "phaser";
 import { createArt } from "./art";
 import type { StreetDay, WalkingVisitor } from "../simulation/street-day";
@@ -135,13 +136,15 @@ export class StreetScene extends Phaser.Scene {
             let bubble = this.bubbles.get(id);
             if (label) {
                 if (!bubble) {
-                    bubble = this.add.text(x, y - CUSTOMER_METRICS.labelOffset, label, {
-                        fontFamily: "monospace", fontSize: "20px", color: "#284a3c",
+                    bubble = this.add.text(x, y - CUSTOMER_METRICS.labelOffset, tr(label), {
+                        fontFamily: locale() === "ko" ? "Tycoon Korean" : "monospace", fontSize: "20px", color: "#284a3c",
                         backgroundColor: "#fff8df", padding: { x: 6, y: 2 },
                     }).setOrigin(0.5).setDepth(y + 40);
                     this.bubbles.set(id, bubble);
                 }
-                bubble.setText(label).setPosition(x, y - CUSTOMER_METRICS.labelOffset).setDepth(y + 40).setVisible(true);
+                const family = locale() === "ko" ? "Tycoon Korean" : "monospace";
+                if (bubble.style.fontFamily !== family) bubble.setFontFamily(family);
+                bubble.setText(tr(label)).setPosition(x, y - CUSTOMER_METRICS.labelOffset).setDepth(y + 40).setVisible(true);
             } else bubble?.setVisible(false);
         };
         const now = day.tick + tickFraction;

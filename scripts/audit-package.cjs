@@ -14,14 +14,15 @@ function auditPackage(directory) {
         if (info.link || info.unpacked) throw new Error(`Unexpected archive link/unpacked file: ${file}`);
         return !info.files;
     });
-    const exact = ['CREDITS.txt', 'LICENSE', 'LICENSE-Phaser.txt', 'package.json', 'dist/index.html', 'dist/licenses/OFL-Oswald.txt',
+    const exact = ['CREDITS.txt', 'LICENSE', 'LICENSE-Phaser.txt', 'package.json', 'dist/index.html', 'dist/licenses/OFL-Oswald.txt', 'dist/licenses/OFL-NotoSansKR.txt',
         ...['main.cjs', 'preload.cjs', 'file-storage.cjs', 'display-settings.cjs', 'close-checkpoint.cjs', 'diagnostics.cjs', 'icon.ico', 'save-limits.json'].map(file => `src/desktop/${file}`)];
     for (const file of exact) if (!leaves.includes(file)) throw new Error(`Missing shipped file/notice: ${file}`);
     for (const file of leaves) if (!exact.includes(file) && !(file.startsWith('dist/') && isDesktopAsset(file.slice(5))))
         throw new Error(`Unapproved shipped content: ${file}`);
     if (!leaves.some(file => /^dist\/assets\/[^/]+\.ttf$/.test(file))) throw new Error('Missing shipped font');
+    for (const font of require("../art/fonts/noto-sans-kr.json").artifacts) { const stem = path.basename(font.file, ".ttf"); if (!leaves.some(file => file.startsWith("dist/assets/" + stem + "-") && file.endsWith(".ttf"))) throw new Error("Missing Korean font: " + stem); }
     const notices = {};
-    for (const [file, source] of [['LICENSE', 'LICENSE'], ['LICENSE-Phaser.txt', 'node_modules/phaser/LICENSE.md'], ['dist/licenses/OFL-Oswald.txt', 'public/fonts/OFL-Oswald.txt']]) {
+    for (const [file, source] of [['LICENSE', 'LICENSE'], ['LICENSE-Phaser.txt', 'node_modules/phaser/LICENSE.md'], ['dist/licenses/OFL-Oswald.txt', 'public/fonts/OFL-Oswald.txt'], ['dist/licenses/OFL-NotoSansKR.txt', 'public/fonts/OFL-NotoSansKR.txt']]) {
         const bytes = asar.extractFile(archive, native(file));
         if (!bytes.equals(fs.readFileSync(path.resolve(__dirname, '..', source)))) throw new Error(`Shipped notice differs from source: ${file}`);
         notices[file] = createHash('sha256').update(bytes).digest('hex');

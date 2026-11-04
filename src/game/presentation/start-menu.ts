@@ -1,3 +1,4 @@
+import { tr, localize } from "./localization";
 import { icon } from "./icons";
 import { decodeSave } from "../simulation/save";
 import { careerDate } from "../simulation/calendar";
@@ -93,7 +94,7 @@ export class StartMenu {
             if (hooks.companies()[this.selected] && empty >= 0) this.selected = empty;
             this.creating = true;
             this.creatingMode = mode;
-            this.el<HTMLInputElement>("menu-name").value = `Company ${this.selected + 1}`;
+            this.el<HTMLInputElement>("menu-name").value = tr(`Company ${this.selected + 1}`);
             this.el<HTMLInputElement>("menu-replace").checked = false;
             this.render(); this.el("menu-name").focus();
         };
@@ -146,10 +147,11 @@ export class StartMenu {
             if (!company) this.summaries[index] = undefined;
             const slot = document.createElement("span"), name = document.createElement("strong"), detail = document.createElement("span");
             slot.className = "company-slot"; slot.textContent = String(index + 1);
-            name.className = "company-name"; name.textContent = company?.name ?? "Empty slot";
+            name.className = "company-name"; name.dataset.userText = String(Boolean(company)); name.textContent = company?.name ?? "Empty slot";
             detail.className = "company-summary"; detail.textContent = recovering ? "Unavailable during recovery"
                 : summary ? `${summary.mode} / Day ${summary.day} / ${summary.cash}` : "Available for a new company";
             button.replaceChildren(slot, name, detail);
+            button.dataset.userTitle = String(Boolean(company));
             button.title = company?.name ?? `Empty slot ${index + 1}`;
             button.dataset.empty = String(!company);
             button.disabled = this.busy || this.hooks.blocked();
@@ -176,7 +178,7 @@ export class StartMenu {
         } else if (chosen) {
             const summary = this.summary(this.selected, chosen);
             const name = document.createElement("strong"), detail = document.createElement("span");
-            name.className = "menu-company-name"; name.textContent = chosen.name; name.title = chosen.name;
+            name.className = "menu-company-name"; name.dataset.userText = "true"; name.textContent = chosen.name; name.title = chosen.name;
             detail.className = "menu-save-details";
             detail.textContent = `Slot ${this.selected + 1} / ${summary.mode}${this.selected === this.hooks.active() ? " / Current" : ""}\n${summary.date}\n${summary.cash} cash\n${summary.location}`;
             this.el("menu-company-info").replaceChildren(name, detail);
@@ -188,5 +190,6 @@ export class StartMenu {
             (this.hooks.blocked() || !this.hooks.ready() ? "Loading game…" : "Progress saves automatically. Select a company, then LOAD GAME.");
         this.el("menu-retry").hidden = !this.error || !this.hooks.blocked();
         this.el("menu-inspect").hidden = !this.error || !this.hooks.blocked();
+        localize(this.root);
     }
 }

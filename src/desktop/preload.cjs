@@ -17,4 +17,5 @@ contextBridge.exposeInMainWorld('desktopApp', {
     quit: () => ipcRenderer.invoke('app:quit'), diagnostics: () => ipcRenderer.invoke('app:diagnostics'),
     display: () => ipcRenderer.invoke('display:get'),
     setDisplay: value => ipcRenderer.invoke('display:set', value),
+    setLanguage: value => ipcRenderer.invoke('app:language', value),
 });

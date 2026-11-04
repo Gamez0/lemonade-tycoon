@@ -22,6 +22,8 @@ export default defineConfig({
         generateBundle() {
             this.emitFile({ type: 'asset', fileName: 'licenses/OFL-Oswald.txt',
                 source: fs.readFileSync(new URL('../public/fonts/OFL-Oswald.txt', import.meta.url)) });
+            this.emitFile({ type: 'asset', fileName: 'licenses/OFL-NotoSansKR.txt',
+                source: fs.readFileSync(new URL('../public/fonts/OFL-NotoSansKR.txt', import.meta.url)) });
         },
     }],
 });

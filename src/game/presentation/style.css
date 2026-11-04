@@ -1,3 +1,4 @@
+@import "../../../public/fonts/korean.css";
 @font-face {
     font-family: "Tycoon Condensed";
     src: url("../../../public/fonts/Oswald-wght.ttf") format("truetype");
@@ -1183,3 +1184,9 @@ dialog h2, #display-settings .hint { color: inherit; }
 
 .upgrade-details span { display: block; }
 .upgrade-details span + span { margin-top: 3px; }
+
+html[lang="ko"], html[lang="ko"] body, html[lang="ko"] button, html[lang="ko"] input, html[lang="ko"] select,
+html[lang="ko"] h1, html[lang="ko"] h2, html[lang="ko"] h3, html[lang="ko"] .start-frame { font-family: "Tycoon Korean", "Malgun Gothic", sans-serif; }
+html[lang="ko"] .date-unit { display: none; }
+#language-settings label { display: flex; align-items: center; gap: 8px; }
+#language { font: inherit; color: #173a1d; background: #f2f7d8; padding: 4px; }

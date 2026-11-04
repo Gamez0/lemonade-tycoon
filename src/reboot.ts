@@ -1,3 +1,4 @@
+import { tr, localize, locale, setLocale } from "./game/presentation/localization";
 import { supplyPacks } from "./game/content/supply-packs";
 import { withInventoryCosts } from "./game/simulation/inventory-costs";
 import { newsForDay, locationConditions } from "./game/content/day-conditions";
@@ -97,7 +98,7 @@ let pendingRestore = Promise.resolve();
 let pendingCompany = Promise.resolve();
 let menuOpen = true;
 type DisplaySettings = { mode: "windowed" | "fullscreen"; width: number; height: number; sizes: { width: number; height: number }[]; screen: { width: number; height: number }; scale: number; warning: string };
-const desktopApp = (window as Window & { desktopApp?: { quit(): Promise<void>; diagnostics(): Promise<unknown>; display(): Promise<DisplaySettings>; setDisplay(value: { mode: string; width: number; height: number }): Promise<DisplaySettings> } }).desktopApp;
+const desktopApp = (window as Window & { desktopApp?: { setLanguage?(value: string): Promise<void>; quit(): Promise<void>; diagnostics(): Promise<unknown>; display(): Promise<DisplaySettings>; setDisplay(value: { mode: string; width: number; height: number }): Promise<DisplaySettings> } }).desktopApp;
 const desktopSave = (window as Window & { desktopSave?: AsyncSaveStorage & { onFlush(handler: (request?: boolean) => Promise<void>): void } }).desktopSave;
 const companies = new CompanyBook(desktopSave ?? {
     getItem: async key => localStorage.getItem(key),
@@ -139,9 +140,12 @@ for (const type of ["click", "change", "input", "keydown"]) app.addEventListener
 function element<T extends HTMLElement = HTMLElement>(id: string): T {
     return document.getElementById(id) as T;
 }
+const messageSources = new Map<string, string>();
 function text(id: string, value: string): void {
+    messageSources.set(id, value);
     const target = element(id);
-    if (target.textContent !== value) target.textContent = value;
+    const displayed = tr(value);
+    if (target.textContent !== displayed) target.textContent = displayed;
 }
 function persist(): void {
     if (state.phase === "selling" || saveBlocked) return;
@@ -183,6 +187,7 @@ function showPage(page: Page): void {
     render();
 }
 function rows(id: string, values: [string, string][]): void {
+    values = values.map(([label, value]) => [tr(label), tr(value)]);
     const target = element(id);
     const children = target.children;
     if (children.length === values.length * 2 && values.every(([label, value], i) =>
@@ -676,9 +681,9 @@ function render(): void {
         closed = state.phase === "results" || ended;
     app.dataset.mode = gameMode ?? "career";
     const date = careerDate(state.day);
-    text("year", String(date.year));
-    text("month", String(date.month));
-    text("day", String(date.day).padStart(2, "0"));
+    text("year", String(date.year) + (locale() === "ko" ? "년" : ""));
+    text("month", String(date.month) + (locale() === "ko" ? "월" : ""));
+    text("day", String(date.day).padStart(2, "0") + (locale() === "ko" ? "일" : ""));
     element("career-date").title = `Business day ${state.day}`;
     text("cash", money(state.cash));
     const weather = effectiveWeather(state);
@@ -702,7 +707,7 @@ function render(): void {
     if (state.weatherForecast) {
         const periods = state.business?.periods;
         const readings = periods?.actual ?? state.weatherForecast;
-        const labels = readings.map((entry, index) => `${index + 1}: ${entry.label} ${climateLocation === "mall" ? 20 : entry.temperature}\u00b0C`);
+        const labels = readings.map((entry, index) => `${index + 1}: ${tr(entry.label)} ${climateLocation === "mall" ? 20 : entry.temperature}\u00b0C`);
         text("weather-advice", periods ? `Period ${state.business!.activePeriod! + 1} / 3` + (climateLocation === "mall" ? " - indoors 20\u00b0C" : "")
             : labels.join(" / "));
     }
@@ -886,6 +891,8 @@ function render(): void {
     if (!selling) renderReport();
     if (ended) text("goal", "30-day challenge complete.");
     scene.refresh();
+    localize(app);
+    element<HTMLSelectElement>("language").value = locale();
     if (menuOpen) menu.render();
 }
 async function restore(): Promise<void> {
@@ -1053,3 +1060,11 @@ pendingRestore = restore().then(async () => {
     try { await readCompanies(); menu.show(saveBlocked ? "Existing save is protected. Import a compatible backup." : ""); }
     catch (error) { menu.show(error instanceof Error ? error.message : "Company list could not be restored."); }
 });
+
+const syncNativeLanguage = () => { void desktopApp?.setLanguage?.(locale()).catch(() => {}); };
+window.addEventListener("lemonade-language-change", () => {
+    for (const [id, source] of messageSources) text(id, source);
+    render(); menu.render(); syncNativeLanguage();
+});
+syncNativeLanguage();
+element<HTMLSelectElement>("language").addEventListener("change", event => setLocale((event.target as HTMLSelectElement).value));
