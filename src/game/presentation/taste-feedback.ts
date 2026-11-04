@@ -1,4 +1,5 @@
 import type { TasteComplaint } from "../simulation/game";
+import { tr } from "./localization";
 
 const reactions: Record<TasteComplaint, string> = {
     "too-weak": "Too watery!", "too-warm": "Too warm!", "too-sour": "Too sour!", "too-sweet": "Too sweet!",
@@ -11,4 +12,4 @@ const advice: Record<TasteComplaint, string> = {
 };
 export const tasteReaction = (complaints: readonly TasteComplaint[], satisfaction: number | null): string =>
     complaints.length ? reactions[complaints[0]] : satisfaction !== null && satisfaction < 70 ? ":(" : ":)";
-export const tasteAdvice = (complaints: readonly TasteComplaint[]): string => complaints.map(reason => advice[reason]).join(" ");
+export const tasteAdvice = (complaints: readonly TasteComplaint[]): string => complaints.map(reason => tr(advice[reason])).join(" ");

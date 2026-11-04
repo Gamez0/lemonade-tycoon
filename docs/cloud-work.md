@@ -1,5 +1,21 @@
 # Cloud development handoff — 2026-10-05
 
+## Composed Korean guidance — 2026-11-04 KST / #300
+
+UI-only alpha27 exploration completed12days/3locations,307cups,$392.25revenue,
+cash40->301.25 with paid day3/day8 resumes and final day13 relaunch. No injected
+cash/state/test clock; no page errors. It reproduced untranslated compound recipe
+hints after overnight ice loss and partly English report counts/taste advice.
+See reviews/composed-korean-guidance.md and its original UI screenshots. Tool
+selector mistakes are preserved separately, not treated as product failures.
+
+Translate independent hint/report/advice fragments before joining. English
+strings, rules, RNG and schema14 stay unchanged. Local125 model/storage tests,
+15 release/typecheck/lint and6focused browser tests pass, including all four taste
+complaints, multiple complaints, actual next-day ice loss, both language
+directions, identical English output and save bytes. Clean Windows/current-head
+CI remain required. Human acceptance gates stay open; no public release.
+
 ## Recipe learning guidance — 2026-11-04 KST / #294
 
 Preparation drops the predicted taste percentage while retaining cooling,
