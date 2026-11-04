@@ -28,11 +28,11 @@ A separate bold font increased the Windows CI private-memory measurements past
 the unchanged256MiB budget and is intentionally not shipped.
 
 The primary face contains Latin/symbols and common interface
-syllables (154,980bytes in this revision). Twenty-two disjoint512-codepoint Hangul
+syllables (sizes recorded in the manifest). Twenty-two disjoint512-codepoint Hangul
 blocks cover every remaining modern syllable. Generated CSS unicode ranges load
 only the fragments needed for visible text, including uncommon company names.
 All24 artifacts are shipped offline and required by archive/build audits.
-The total2,827,700bytes retains all11,172 modern syllables; coverage is not reduced
+The complete fragment set retains all11,172 modern syllables; coverage is not reduced
 to translated UI strings. The generator checks the union and required Jamo
 features. Run the same command with --check to verify byte-for-byte reproduction
 without changing outputs.

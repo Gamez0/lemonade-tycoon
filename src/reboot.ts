@@ -690,8 +690,14 @@ function render(): void {
     element("career-date").title = `Business day ${state.day}`;
     text("cash", money(state.cash));
     const weather = effectiveWeather(state);
-    text("weather", weather.temperature + "°C");
+    const climateLocation = prep ? state.pendingLocation ?? state.location : state.location;
+    const forecastRange = prep && !state.business ? state.weatherForecast : undefined;
+    const temperatures = forecastRange?.map(entry => climateLocation === "mall" ? 20 : entry.temperature);
+    const low = temperatures ? Math.min(...temperatures) : weather.temperature;
+    const high = temperatures ? Math.max(...temperatures) : weather.temperature;
+    text("weather", low === high ? low + "°C" : `${low}–${high}°C`);
     const weatherArt = element("weather-art");
+    weatherArt.hidden = Boolean(forecastRange);
     if (weatherArt.dataset.weather !== weather.label) {
         weatherArt.innerHTML = icon(
             weather.label === "Sunny" ? "sunny" : weather.label === "Cloudy" ? "cloudy" : "rainy",
@@ -700,8 +706,7 @@ function render(): void {
     }
     element("weather-art").setAttribute("aria-label", weather.label);
     element("weather-art").setAttribute("role", "img");
-    text("weather-label", selling ? "Current weather" : closed ? "Today's weather" : "Weather forecast");
-    const climateLocation = prep ? state.pendingLocation ?? state.location : state.location;
+    text("weather-label", selling ? "Current weather" : closed ? "Today's weather" : state.business ? "Saved opening weather" : "Weather forecast");
     text("weather-advice", climateLocation === "mall" && (!state.business || (state.business.conditions || state.business.periods))
         ? `${weather.label} outside · indoors 20\u00b0C`
         : state.business && !state.business.conditions && !state.business.periods
@@ -709,11 +714,19 @@ function render(): void {
             : `${weather.label} · ${prep ? "steady all day" : LOCATIONS[state.location].street}`);
     if (state.weatherForecast) {
         const periods = state.business?.periods;
-        const readings = periods?.actual ?? state.weatherForecast;
-        const labels = readings.map((entry, index) => `${index + 1}: ${tr(entry.label)} ${climateLocation === "mall" ? 20 : entry.temperature}\u00b0C`);
+        state.weatherForecast.forEach((entry, index) => {
+            const target = element(`forecast-period-${index}`);
+            if (target.dataset.weather !== entry.label) {
+                target.innerHTML = icon(entry.label === "Sunny" ? "sunny" : entry.label === "Cloudy" ? "cloudy" : "rainy");
+                target.querySelector("svg")?.setAttribute("aria-hidden", "true");
+                target.dataset.weather = entry.label;
+            }
+            target.setAttribute("aria-label", tr(`Forecast period ${index + 1}: ${entry.label}, ${entry.temperature}°C`));
+        });
         text("weather-advice", periods ? `Period ${state.business!.activePeriod! + 1} / 3` + (climateLocation === "mall" ? " - indoors 20\u00b0C" : "")
-            : labels.join(" / "));
+            : climateLocation === "mall" ? "Indoors 20°C; icons show the outside forecast." : "Forecast; actual weather may change.");
     }
+    element("forecast-periods").hidden = !state.weatherForecast;
     app.dataset.weather = weather.label.toLowerCase();
     text(
         "forecast-news",

@@ -20,8 +20,8 @@ its small native preference is separate from both company saves and the browser
 language preference. Native persistence failure leaves the session functional.
 
 Offline fonts are renamed static Noto Sans KR fragments. All11,172 modern Hangul
-syllables and conjoining Jamo are retained across24 shipped files. A154,980-byte
-primary face contains common UI syllables and Latin/symbols; a separate319,988-byte face retains Jamo shaping;
+syllables and conjoining Jamo are retained across24 shipped files. A common
+primary face contains common UI syllables and Latin/symbols; a separate face retains Jamo shaping;
 22 disjoint fallback blocks cover the remaining syllables. CSS unicode ranges
 load uncommon company-name characters on demand. The upstream OFL is unchanged.
 All fragments, source hashes and ranges are recorded in art/fonts/noto-sans-kr.json
