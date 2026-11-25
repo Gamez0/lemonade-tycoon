@@ -2,10 +2,13 @@ name: Android web spike
 on:
   push:
     branches: [tycoon-base/android-spike]
+  pull_request:
+    branches: [main]
 permissions:
   contents: read
 jobs:
   web-payload:
+    if: github.event_name == 'push' || github.head_ref == 'tycoon-base/android-spike'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
