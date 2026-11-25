@@ -1,0 +1,33 @@
+name: Android web spike
+on:
+  push:
+    branches: [tycoon-base/android-spike]
+permissions:
+  contents: read
+jobs:
+  web-payload:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npx vite build --config vite/config.android-spike.mjs
+      - name: Check payload boundaries
+        run: |
+          test -s android-web-dist/index.html
+          test -s android-web-dist/licenses/OFL-Oswald.txt
+          test -s android-web-dist/licenses/OFL-NotoSansKR.txt
+          test ! -e android-web-dist/legacy.html
+          test ! -e desktop-dist
+          du -sh android-web-dist
+      - uses: actions/upload-artifact@v7
+        with:
+          name: android-web-payload
+          path: android-web-dist/
+          if-no-files-found: error
+          retention-days: 7
