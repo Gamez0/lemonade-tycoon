@@ -1,0 +1,20 @@
+{
+  "run_id": "tyc-20261126T090420Z-worker",
+  "started_at": "2026-11-26T09:04:20Z",
+  "ended_at": "2026-11-26T09:04:53.000Z",
+  "role": "lead/worker",
+  "task_id": "V-010/OPS-P0-3",
+  "outcome": "progress",
+  "validation": "pending",
+  "work": "Confirmed CI smoke step and zero ops branch runs; wrote native packaging acceptance gates; observed verifier failure from scheduler; updated Space",
+  "evidence": [
+    "https://github.com/Gamez0/lemonade-tycoon/actions/runs/45775681350",
+    "https://github.com/Gamez0/lemonade-tycoon/commit/bc7b7bba12015d7b81320d8c38db2c346d93fbb8"
+  ],
+  "blockers": [
+    "Independent rerun failed, scheduler ID a21bbfe2-bfd4-8321-94ed-116dd425bfeb; no ledger entry reported",
+    "Native build not implemented",
+    "Context separation unconfirmed"
+  ],
+  "next_task": "Inspect native files and implement isolated debug APK; independent V-010 recheck"
+}
