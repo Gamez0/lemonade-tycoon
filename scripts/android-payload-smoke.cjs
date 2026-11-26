@@ -30,8 +30,16 @@ const mime = { '.html':'text/html', '.js':'text/javascript', '.css':'text/css', 
         page.on('requestfailed', req => failures.push(req.url() + ': ' + req.failure()?.errorText));
         page.on('response', res => { if (res.status() >= 400) failures.push(res.status() + ' ' + res.url()); });
         const url = 'http://127.0.0.1:' + server.address().port + prefix;
+        const external = [];
+        await page.route('**/*', async route => {
+            const target = new URL(route.request().url());
+            if (['http:', 'https:'].includes(target.protocol) && target.origin !== new URL(url).origin) {
+                external.push(target.href);
+                await route.abort('internetdisconnected');
+            } else await route.continue();
+        });
         await page.goto(url);
-        const enter = () => page.locator('#menu-continue:enabled, #menu-inspect:not([hidden]):enabled').first().click({timeout:30000});
+        const enter = () => page.locator('#menu-continue:enabled, #menu-inspect:not([hidden]):enabled').first().tap({timeout:30000});
         await enter();
         await page.locator('canvas').waitFor({state:'visible',timeout:30000});
         await page.locator('#cash').waitFor({state:'visible',timeout:30000});
@@ -39,10 +47,10 @@ const mime = { '.html':'text/html', '.js':'text/javascript', '.css':'text/css', 
         const key = 'lemonade-tycoon.reboot.save';
         await page.waitForFunction(k => !!localStorage.getItem(k),key);
         const initialSave = await page.evaluate(k => localStorage.getItem(k),key);
-        await page.locator('[data-page="supplies"]').click();
-        await page.locator('[data-supply="lemon"]').click();
-        await page.locator('[data-bundle="0"][data-delta="1"]').click();
-        await page.locator('#buy-order').click();
+        await page.locator('[data-page="supplies"]').tap();
+        await page.locator('[data-supply="lemon"]').tap();
+        await page.locator('[data-bundle="0"][data-delta="1"]').tap();
+        await page.locator('#buy-order').tap();
         await page.waitForFunction(({k,old}) => localStorage.getItem(k) !== old && !!localStorage.getItem(k),{k:key,old:initialSave});
         const saved = await page.evaluate(k => localStorage.getItem(k),key);
         const cash = await page.locator('#cash').textContent();
@@ -53,8 +61,9 @@ const mime = { '.html':'text/html', '.js':'text/javascript', '.css':'text/css', 
         assert.equal(await page.evaluate(k => localStorage.getItem(k),key),saved,'save must survive reload');
         assert.equal(await page.locator('#cash').textContent(),cash,'cash must survive reload');
         await page.screenshot({path:'android-smoke.png',fullPage:true});
+        assert.deepEqual(external,[], 'payload must not depend on external HTTP(S) requests');
         assert.deepEqual(failures,[]);
-        console.log('Android web payload smoke passed: nested path, mobile canvas, purchase/save/reload, no observed errors');
+        console.log('Android web payload smoke passed: nested path, mobile touch, local-only network, purchase/save/reload, no observed errors');
     } finally {
         await browser?.close();
         await new Promise(resolve => server.close(resolve));
