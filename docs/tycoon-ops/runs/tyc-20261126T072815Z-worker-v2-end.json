@@ -1,0 +1,24 @@
+{
+  "run_id": "tyc-20261126T072815Z-worker-v2",
+  "automation_run_id": null,
+  "scheduled_for": null,
+  "started_at": "2026-11-26T07:28:15Z",
+  "ended_at": null,
+  "role": "lead/worker",
+  "task_id": "OPS-P0-1,V-010",
+  "work": "Paused old worker after two no-progress runs; created replacement task and invoked inline; read shared source; moved operational writes to ops-ledger; implemented nested-path mobile smoke with purchase/save reload checks and CI screenshot; updated shared page.",
+  "evidence": [
+    "https://github.com/Gamez0/lemonade-tycoon/commit/b36366f292524d1510558d32e157e35fb6b58244",
+    "https://github.com/Gamez0/lemonade-tycoon/commit/33c65f3d21d0f066de4542af746468ffdd4965fb",
+    "https://github.com/Gamez0/lemonade-tycoon/commit/d3dbd3223f3e171896ba16f359a68081e81ad252",
+    "https://github.com/Gamez0/lemonade-tycoon/actions/runs/45775681350",
+    "https://chatgpt.com/space/page_bc7e802a0800819180c4e32293635ed8"
+  ],
+  "validation": "pending",
+  "blockers": [
+    "Current-head CI in progress; scheduled worker run not yet observed; replacement and verifier share returned conversation_id, so context isolation not yet proven; exact end time unavailable"
+  ],
+  "next_task": "Check CI result and fix if required; independent re-review and new scheduled worker log; C-00",
+  "outcome": "progress",
+  "review_of": "V-010"
+}
