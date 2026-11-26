@@ -31,23 +31,24 @@ const mime = { '.html':'text/html', '.js':'text/javascript', '.css':'text/css', 
         page.on('response', res => { if (res.status() >= 400) failures.push(res.status() + ' ' + res.url()); });
         const url = 'http://127.0.0.1:' + server.address().port + prefix;
         await page.goto(url);
+        const enter = () => page.locator('#menu-continue:enabled, #menu-inspect:not([hidden]):enabled').first().click({timeout:30000});
+        await enter();
         await page.locator('canvas').waitFor({state:'visible',timeout:30000});
-        // The shipped app may present a start menu; the same browser fixture
-        // auto-starts the game. Use its actual DOM when present.
-        if (!await page.locator('#cash').isVisible()) {
-            const start = page.getByRole('button',{name:/^(new business|new game|start|continue)$/i}).first();
-            if (await start.isVisible()) await start.click();
-        }
         await page.locator('#cash').waitFor({state:'visible',timeout:30000});
+        const initialCash = await page.locator('#cash').textContent();
+        const key = 'lemonade-tycoon.reboot.save';
+        await page.waitForFunction(k => !!localStorage.getItem(k),key);
+        const initialSave = await page.evaluate(k => localStorage.getItem(k),key);
         await page.locator('[data-page="supplies"]').click();
         await page.locator('[data-supply="lemon"]').click();
         await page.locator('[data-bundle="0"][data-delta="1"]').click();
         await page.locator('#buy-order').click();
-        const key = 'lemonade-tycoon.reboot.save';
-        await page.waitForFunction(k => !!localStorage.getItem(k),key);
+        await page.waitForFunction(({k,old}) => localStorage.getItem(k) !== old && !!localStorage.getItem(k),{k:key,old:initialSave});
         const saved = await page.evaluate(k => localStorage.getItem(k),key);
         const cash = await page.locator('#cash').textContent();
+        assert.notEqual(cash,initialCash,'purchase must change cash');
         await page.reload();
+        await enter();
         await page.locator('#cash').waitFor({state:'visible',timeout:30000});
         assert.equal(await page.evaluate(k => localStorage.getItem(k),key),saved,'save must survive reload');
         assert.equal(await page.locator('#cash').textContent(),cash,'cash must survive reload');
