@@ -28,6 +28,15 @@ jobs:
           test ! -e android-web-dist/legacy.html
           test ! -e desktop-dist
           du -sh android-web-dist
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/android-payload-smoke.cjs
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: android-smoke-evidence
+          path: android-smoke.png
+          if-no-files-found: ignore
+          retention-days: 7
       - uses: actions/upload-artifact@v7
         with:
           name: android-web-payload
