@@ -1,0 +1,13 @@
+{
+  "run_id": "tyc-20261126T072815Z-worker-v2",
+  "role": "lead/worker",
+  "started_at": "2026-11-26T07:28:15Z",
+  "ended_at": null,
+  "task_id": "OPS-P0-1,V-010",
+  "status": "in_progress",
+  "automation_run_id": null,
+  "scheduled_for": null,
+  "work": "Manual run_now inline; read Space and source ledger",
+  "evidence": [],
+  "next_task": "Implement Android artifact smoke; isolate operations commits"
+}
