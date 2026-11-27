@@ -1,1 +1,1 @@
-{"version":0,"mode":"isolated-test","tasks":[{"id":"probe-a","priority":0,"state":"READY"},{"id":"probe-b","priority":1,"state":"READY"}]}
+{"version":1,"mode":"isolated-test","tasks":[{"id":"probe-a","priority":0,"state":"RUNNING","epoch":1,"lease":{"owner":"fixture-worker","until":200,"epoch":1}},{"id":"probe-b","priority":1,"state":"READY"}]}
