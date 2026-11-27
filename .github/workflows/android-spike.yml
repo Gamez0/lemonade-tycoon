@@ -3,12 +3,12 @@ on:
   push:
     branches: [tycoon-base/android-spike]
   pull_request:
-    branches: [main]
+    branches: [main, tycoon-base/android-spike]
 permissions:
   contents: read
 jobs:
   web-payload:
-    if: github.event_name == 'push' || github.head_ref == 'tycoon-base/android-spike'
+    if: github.event_name == 'push' || github.head_ref == 'tycoon-base/android-spike' || (github.base_ref == 'tycoon-base/android-spike' && startsWith(github.head_ref, 'tycoon-base/work/'))
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
