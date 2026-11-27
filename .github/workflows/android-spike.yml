@@ -1,0 +1,45 @@
+name: Android web spike
+on:
+  push:
+    branches: [tycoon-base/android-spike]
+  pull_request:
+    branches: [main, tycoon-base/android-spike]
+permissions:
+  contents: read
+jobs:
+  web-payload:
+    if: github.event_name == 'push' || github.head_ref == 'tycoon-base/android-spike' || (github.base_ref == 'tycoon-base/android-spike' && startsWith(github.head_ref, 'tycoon-base/work/'))
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npx vite build --config vite/config.android-spike.mjs
+      - name: Check payload boundaries
+        run: |
+          test -s android-web-dist/index.html
+          test -s android-web-dist/licenses/OFL-Oswald.txt
+          test -s android-web-dist/licenses/OFL-NotoSansKR.txt
+          test ! -e android-web-dist/legacy.html
+          test ! -e desktop-dist
+          du -sh android-web-dist
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/android-payload-smoke.cjs
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: android-smoke-evidence
+          path: android-smoke.png
+          if-no-files-found: ignore
+          retention-days: 7
+      - uses: actions/upload-artifact@v7
+        with:
+          name: android-web-payload
+          path: android-web-dist/
+          if-no-files-found: error
+          retention-days: 7
