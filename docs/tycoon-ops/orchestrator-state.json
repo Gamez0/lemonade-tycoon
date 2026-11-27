@@ -1,0 +1,36 @@
+{
+  "version": 0,
+  "mode": "shadow",
+  "tasks": [
+    {
+      "id": "V-010-touch-recheck",
+      "priority": 1,
+      "state": "READY_REVIEW",
+      "source_sha": "201e17600fb5188432dc2591314554ff3fe0754e",
+      "requirements_ref": "docs/tycoon-ops/reviews/V-010-20261126-recheck.md",
+      "author": "legacy-worker",
+      "epoch": 0
+    },
+    {
+      "id": "V-006-C-00-paper",
+      "priority": 2,
+      "state": "READY_REVIEW",
+      "source_sha": "e1efab6e0b87265356522a6b5a361573741a6d8d",
+      "requirements_ref": "docs/tycoon-ops/C-00-paper-playtest.md",
+      "author": "legacy-worker",
+      "epoch": 0
+    },
+    {
+      "id": "OPS-05",
+      "priority": 0,
+      "state": "READY",
+      "epoch": 0
+    },
+    {
+      "id": "OPS-06",
+      "priority": 0,
+      "state": "READY",
+      "epoch": 0
+    }
+  ]
+}
