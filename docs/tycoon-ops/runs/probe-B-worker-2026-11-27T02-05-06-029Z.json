@@ -1,0 +1,13 @@
+{
+  "run_id": "236b24e1-deb8-8321-b25c-9c2e766d2dba",
+  "role": "worker",
+  "task_id": "INC-01",
+  "started_at": "2026-11-27T02:05:06.029Z",
+  "ended_at": "2026-11-27T02:05:08.275Z",
+  "source_sha": "889da05cc7ccb51cec4fc2b609fe2bfe95a527c5",
+  "outcome": "progress",
+  "evidence": [
+    "https://github.com/Gamez0/lemonade-tycoon/blob/tycoon-base/ops-ledger/docs/tycoon-ops/checkpoint.json"
+  ],
+  "next_task": "Verify receipt independently and advance checkpoint"
+}
