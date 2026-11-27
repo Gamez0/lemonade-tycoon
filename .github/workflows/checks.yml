@@ -1,7 +1,7 @@
 name: Reboot checks
 on:
     push:
-        branches: [main]
+        branches: [main, tycoon-base/android-spike]
     pull_request:
     workflow_dispatch:
 concurrency:
