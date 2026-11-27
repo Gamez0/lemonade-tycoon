@@ -18,6 +18,16 @@
       "ready_at": "2026-11-26T08:00:00Z",
       "priority": 2,
       "recheck": false
+    },
+    {
+      "id": "OPS-CI-308",
+      "status": "READY",
+      "source_sha": "b825d9941426447ecd9b873329255bac6c45a44f",
+      "pr": 308,
+      "requirements_ref": "docs/android-integration-ci.md",
+      "ready_at": "2026-11-27T03:01:59Z",
+      "priority": 0,
+      "recheck": false
     }
   ]
 }
