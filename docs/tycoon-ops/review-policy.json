@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "mode": "scheduled-worker-and-reviewer",
+  "integration_base": "tycoon-base/android-spike",
+  "feature_branch_prefix": "tycoon-base/work/",
+  "protected_targets": [
+    "main",
+    "tycoon-base/ops-ledger"
+  ],
+  "legacy_pr_exclusions": [
+    307
+  ],
+  "worker": {
+    "may_open_pr": true,
+    "may_merge": false,
+    "continue_other_work": true
+  },
+  "reviewer": {
+    "may_merge": true,
+    "requires": [
+      "distinct execution context evidenced",
+      "immutable head SHA reviewed",
+      "all required CI successful for current head",
+      "PR non-draft and mergeable",
+      "base is integration_base",
+      "no release/deploy or unapproved C-00 decision",
+      "head SHA unchanged at merge"
+    ],
+    "on_fail": "persist actionable rework item keyed by task and reviewed SHA; link PR and evidence",
+    "on_unproven_independence": "technical review only; no merge",
+    "on_pass": "merge with expected head SHA; verify merged state and record commit"
+  },
+  "schedule": "existing hourly worker at :00 and reviewer at :30; consume ready queue regardless of worker progress",
+  "dynamic_dispatch": "deferred, not mandatory for current architecture"
+}
