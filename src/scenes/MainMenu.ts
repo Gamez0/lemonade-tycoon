@@ -1,5 +1,4 @@
 import { Scene, GameObjects } from "phaser";
-import { PreparationScene } from "./preparation-scene";
 
 // Define the MainMenu class that extends Phaser's Scene class
 export class MainMenu extends Scene {
@@ -15,9 +14,6 @@ export class MainMenu extends Scene {
 
     // Create method to set up the scene's content
     create() {
-        const preparationScene = new PreparationScene("preparation");
-        this.scene.add("preparation", preparationScene);
-
         // background color is #18ae31
         this.cameras.main.setBackgroundColor("#18ae31");
 
@@ -39,7 +35,7 @@ export class MainMenu extends Scene {
             .setInteractive({ useHandCursor: true });
 
         this.startButton.on("pointerdown", () => {
-            this.scene.start("preparation");
+            this.scene.start("PreparationScene");
             this.startButton.disableInteractive();
         });
     }
