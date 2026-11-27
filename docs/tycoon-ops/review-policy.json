@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "mode": "scheduled-worker-and-reviewer",
   "integration_base": "tycoon-base/android-spike",
   "feature_branch_prefix": "tycoon-base/work/",
@@ -28,8 +28,32 @@
     ],
     "on_fail": "persist actionable rework item keyed by task and reviewed SHA; link PR and evidence",
     "on_unproven_independence": "technical review only; no merge",
-    "on_pass": "merge with expected head SHA; verify merged state and record commit"
+    "on_pass": "merge with expected head SHA; verify merged state and record commit",
+    "post_merge": "Verify actual integration push SHA Android and Reboot jobs; deploy must be skipped. Pause further merges on failure or missing required checks; register isolated corrective or revert PR. Never force push.",
+    "context_evidence": "Separate scheduler conversation IDs observed; not sufficient alone to establish input isolation. Require artifact-first review evidence."
   },
   "schedule": "existing hourly worker at :00 and reviewer at :30; consume ready queue regardless of worker progress",
-  "dynamic_dispatch": "deferred, not mandatory for current architecture"
+  "dynamic_dispatch": "deferred, not mandatory for current architecture",
+  "execution": {
+    "target_minutes": 30,
+    "minimum_minutes": null,
+    "success": "Durable verified output and no eligible unblocked work abandoned without evidenced runtime limit",
+    "stop_reasons": [
+      "no_eligible_work",
+      "all_remaining_work_blocked",
+      "runtime_limit"
+    ],
+    "required_receipt": [
+      "run_id",
+      "role",
+      "started_at",
+      "ended_at",
+      "completed_artifacts",
+      "remaining_eligible_ids",
+      "blocked_ids_and_reasons",
+      "stop_reason"
+    ],
+    "failure": "Missing receipt, unsupported stop reason, or eligible work abandoned without evidenced runtime limit",
+    "recovery": "After two distinct failures register alternative recovery action; do not merely report again"
+  }
 }
