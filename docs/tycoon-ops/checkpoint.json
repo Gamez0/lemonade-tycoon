@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "phase": "probe-B",
+  "worker_next": "read this file, create receipt then read receipt",
+  "reviewer_next": "verify receipt from raw GitHub; reconcile previous worker scheduler result",
+  "next_product": "native Android debug APK isolated spike",
+  "attempt_limit": 2,
+  "approval": "C-00 direction pending",
+  "independence": "unproven",
+  "prior_worker_run": "8edbda40-ec70-8321-bc82-bfde15bf3fda"
+}
