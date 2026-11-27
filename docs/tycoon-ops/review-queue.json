@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "id": "V-010-touch-recheck",
+      "status": "READY",
+      "source_sha": "201e17600fb5188432dc2591314554ff3fe0754e",
+      "requirements_ref": "docs/tycoon-ops/reviews/V-010-20261126-recheck.md",
+      "ready_at": "2026-11-26T10:02:27Z",
+      "priority": 1,
+      "recheck": true
+    },
+    {
+      "id": "V-006-C-00-paper",
+      "status": "READY",
+      "source_sha": "e1efab6e0b87265356522a6b5a361573741a6d8d",
+      "requirements_ref": "docs/tycoon-ops/C-00-paper-playtest.md",
+      "ready_at": "2026-11-26T08:00:00Z",
+      "priority": 2,
+      "recheck": false
+    }
+  ]
+}
