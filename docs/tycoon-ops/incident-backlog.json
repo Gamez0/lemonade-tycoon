@@ -31,7 +31,7 @@
       "priority": 1,
       "status": "OPEN",
       "title": "Review queue enforcement and duplicate claims",
-      "next": "Verify queue selection in actual scheduled run and compare-and-swap claim",
+      "next": "CAS probe passed on real GitHub (41c5c316); integrate orchestrator-driver.mjs with durable shadow state and run end-to-end recovery test",
       "acceptance": "No duplicate accepted SHA and expired claim recoverable"
     },
     {
@@ -47,8 +47,16 @@
       "priority": 0,
       "status": "OPEN",
       "title": "Continuous productive work window",
-      "next": "Measure actual run duration and completed checkpoints; test alternative executor if short exits recur",
+      "next": "Driver committed d5696b2; test integrated execution and actual 30-minute window with available executor; no idle waiting",
       "acceptance": "30-minute productive window or documented genuine work exhaustion; no artificial waiting"
+    },
+    {
+      "id": "OPS-07",
+      "priority": 0,
+      "status": "OPEN",
+      "title": "Integrate and validate orchestration driver",
+      "next": "Test orchestrator.mjs + orchestrator-driver.mjs against isolated GitHub shadow store using real CAS, then verify separate executor availability. Existing automation fallback remains enabled.",
+      "acceptance": "Real persistent claim/settle/recover sequence, conflict retry, event-driven isolated reviewer dispatch and repeated productive runs"
     }
   ],
   "observations": [
