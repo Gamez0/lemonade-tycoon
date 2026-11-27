@@ -1,0 +1,44 @@
+{
+  "version": 2,
+  "processed": [
+    "4d9bba0d-d91c-8321-83e2-b709b23dcc7e",
+    "0bde5a96-2ffc-832c-a34b-9fc514bfe111"
+  ],
+  "tasks": [
+    {
+      "id": "recover-4d9bba0d-d91c-8321-83e2-b709b23dcc7e",
+      "role": "worker",
+      "state": "READY",
+      "priority": 0,
+      "source_run": "4d9bba0d-d91c-8321-83e2-b709b23dcc7e",
+      "action": "RECONCILE_EXISTING_ARTIFACTS_THEN_RESUME",
+      "reason": "missing verified terminal receipt",
+      "attempts": 0
+    },
+    {
+      "id": "recover-0bde5a96-2ffc-832c-a34b-9fc514bfe111",
+      "role": "reviewer",
+      "state": "READY",
+      "priority": 0,
+      "source_run": "0bde5a96-2ffc-832c-a34b-9fc514bfe111",
+      "action": "RECONCILE_EXISTING_ARTIFACTS_THEN_RESUME",
+      "reason": "missing verified terminal receipt",
+      "attempts": 0
+    }
+  ],
+  "observations": [
+    {
+      "role": "worker",
+      "run": "4d9bba0d-d91c-8321-83e2-b709b23dcc7e",
+      "context": "6b08f2b4-84d8-83ee-aee6-c9d131dab832",
+      "receipt_filename_matches": 0
+    },
+    {
+      "role": "reviewer",
+      "run": "0bde5a96-2ffc-832c-a34b-9fc514bfe111",
+      "context": "6b08ec2c-98b0-83ee-9314-6e06d6444be8",
+      "receipt_filename_matches": 0
+    }
+  ],
+  "verification_scope": "run-ID filename lookup only; reconcile other legacy receipts before redoing work"
+}
