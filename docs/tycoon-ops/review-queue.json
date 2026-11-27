@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "items": [
     {
       "id": "V-010-touch-recheck",
@@ -21,13 +21,24 @@
     },
     {
       "id": "OPS-CI-308",
-      "status": "READY",
+      "status": "CHANGES_REQUESTED",
       "source_sha": "b825d9941426447ecd9b873329255bac6c45a44f",
       "pr": 308,
       "requirements_ref": "docs/android-integration-ci.md",
       "ready_at": "2026-11-27T03:01:59Z",
       "priority": 0,
-      "recheck": false
+      "recheck": false,
+      "review": {
+        "kind": "manual-technical",
+        "head_sha": "b825d9941426447ecd9b873329255bac6c45a44f",
+        "ci_runs": [
+          45931782664,
+          45931782726,
+          45931782748
+        ],
+        "reason": "Acceptance document omits failed post-merge recovery and exact-SHA/non-skipped checks; add explicit no-deploy and recovery steps. This is a documentation-only rework exercise, not an independent approval.",
+        "rework_id": "OPS-CI-308-rework-1"
+      }
     }
   ]
 }
