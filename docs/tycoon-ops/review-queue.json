@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "items": [
     {
       "id": "V-010-touch-recheck",
@@ -22,7 +22,7 @@
     {
       "id": "OPS-CI-308",
       "status": "READY",
-      "source_sha": "b825d9941426447ecd9b873329255bac6c45a44f",
+      "source_sha": "68b2f3bf29e7224bcbe8f68bf7ca1b0de4ffa0cb",
       "pr": 308,
       "requirements_ref": "docs/android-integration-ci.md",
       "ready_at": "2026-11-27T03:51:57.095Z",
@@ -43,7 +43,11 @@
             "rework_id": "OPS-CI-308-rework-1"
           }
         }
-      ]
+      ],
+      "head_sync": {
+        "expected": "68b2f3bf29e7224bcbe8f68bf7ca1b0de4ffa0cb",
+        "observed": "68b2f3bf29e7224bcbe8f68bf7ca1b0de4ffa0cb"
+      }
     }
   ]
 }
