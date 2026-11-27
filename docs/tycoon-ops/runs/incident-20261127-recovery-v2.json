@@ -1,0 +1,17 @@
+{
+  "run_id": "incident-20261127-recovery-v2",
+  "role": "ops-manual",
+  "task_id": "INC-02",
+  "started_at": null,
+  "ended_at": "2026-11-27T01:26:27.872Z",
+  "outcome": "progress",
+  "evidence": [
+    "https://github.com/Gamez0/lemonade-tycoon/commit/0337548b4566cb50ec46efbf7d33b798db7addd9"
+  ],
+  "validation": "8 assertions passed in manual JS environment; stored source readback matched",
+  "blockers": [
+    "No scheduled probe observed yet",
+    "No atomic execution lock or independent scheduler"
+  ],
+  "next_task": "Observe scheduled probe B; reviewer reconcile actual receipts"
+}
